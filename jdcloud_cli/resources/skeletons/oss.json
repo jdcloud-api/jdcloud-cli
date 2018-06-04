@@ -1,0 +1,17 @@
+{
+    "list-buckets":{
+        "regionId":""
+    },
+    "put-bucket":{
+        "regionId":"",
+        "bucketname":""
+    },
+    "delete-bucket":{
+        "regionId":"",
+        "bucketname":""
+    },
+    "head-bucket":{
+        "regionId":"",
+        "bucketname":""
+    }
+}

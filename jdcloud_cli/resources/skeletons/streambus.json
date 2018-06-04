@@ -1,0 +1,22 @@
+{
+    "get-topic-list":{
+        "keyword":"",
+        "regionId":""
+    },
+    "add-topic":{
+        "topicModel":{
+            "topic":"",
+            "target":"",
+            "parameterList":""
+        },
+        "regionId":""
+    },
+    "update-topic":{
+        "topicModel":{
+            "topic":"",
+            "target":"",
+            "parameterList":""
+        },
+        "regionId":""
+    }
+}
