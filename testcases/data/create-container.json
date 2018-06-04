@@ -1,0 +1,32 @@
+{
+    "maxCount": 1,
+    "regionId": "cn-north-1",
+    "containerSpec":
+    {
+        "instanceType": "g.s1.micro",
+        "az": "cn-north-1b",
+        "name": "cli-test",
+        "image": "library/httpd",
+        "command": ["/bin/bash"],
+        "tty": true,
+        "rootVolume":
+        {
+            "category": "cloud",
+            "cloudDiskSpec":
+            {
+                "az": "cn-north-1b",
+                "name": "testaa",
+                "diskType": "ssd",
+                "diskSizeGB": 20
+            }
+        },
+        "primaryNetworkInterface":
+        {
+            "networkInterface":
+            {
+                "subnetId": "subnet-ejs1bir2b2",
+                "az": "cn-north-1b"
+            }
+        }
+    }
+}
