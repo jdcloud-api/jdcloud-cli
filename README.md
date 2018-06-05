@@ -34,7 +34,7 @@
 |2018.06.04|0.1.0|1.1.1|
 
 
-## 安装方法：
+## CLI安装方法：
 ### Linux && Mac
 pip安装：
 `pip install jdcloud_cli`
@@ -52,3 +52,15 @@ source ~/.bashrc
 
 ### Windows
 开发验证中，即将发布。
+
+## CLI使用方法
+### 配置鉴权信息
+jdc configure -h
+
+### 执行产品命令
+jdc [options] command sub-command [--parameters values]
+
+例如：
+jdc vm describe-instances
+
+目前仅bash中支持自动完成，输入两次tab键，可提示辅助信息。
