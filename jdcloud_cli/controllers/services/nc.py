@@ -477,8 +477,8 @@ class NcController(BaseController):
             (['--container-id'], dict(help='(string) container id', dest='containerId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。字符串方式举例：--input-json \'{"field":"value"}\';文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
         ],
-        help='为容器创建一个执行环境',
-        description='为容器创建一个执行环境. 示例: jdc nc exec-create --container-id xxx'
+        help=""" 为容器创建一个执行环境 """,
+        description=""" 为容器创建一个执行环境. 示例: jdc nc exec-create --container-id xxx """
     )
     def exec_create(self):
         client_factory = ClientFactory('nc')
@@ -498,8 +498,8 @@ class NcController(BaseController):
             (['--exec-id'], dict(help='(string) exec id', dest='execId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。字符串方式举例：--input-json \'{"field":"value"}\';文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
         ],
-        help='在容器中执行命令',
-        description='在容器中执行命令. 示例: jdc nc exec-start --container-id xxx --exec-id xxx'
+        help=""" 在容器中执行命令 """,
+        description=""" 在容器中执行命令. 示例: jdc nc exec-start --container-id xxx --exec-id xxx """
     )
     def exec_start(self):
         exec_start(self.app, self.app.pargs.regionId, self.app.pargs.containerId, self.app.pargs.execId)
@@ -510,8 +510,8 @@ class NcController(BaseController):
             (['--container-id'], dict(help='(string) container id', dest='containerId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。字符串方式举例：--input-json \'{"field":"value"}\';文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
         ],
-        help='绑定输入输出到容器',
-        description='绑定输入输出到容器。 示例: jdc nc attach --container-id xxx'
+        help=""" 绑定输入输出到容器 """,
+        description=""" 绑定输入输出到容器。 示例: jdc nc attach --container-id xxx """
     )
     def attach(self):
         attach(self.app, self.app.pargs.regionId, self.app.pargs.containerId)

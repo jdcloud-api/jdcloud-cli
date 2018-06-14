@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from argparse import RawTextHelpFormatter
 from cement.ext.ext_argparse import ArgparseController
 from jdcloud_cli.version import VERSION
 
@@ -25,3 +26,4 @@ class BaseController(ArgparseController):
             (['--output'], dict(help='output format', choices=['json'], default='json')),
             (['-v', '--version'], dict(action='version', version=VERSION)),
         ]
+        argument_formatter = RawTextHelpFormatter

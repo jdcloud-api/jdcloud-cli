@@ -326,8 +326,8 @@ class VmController(BaseController):
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。字符串方式举例：--input-json \'{"field":"value"}\';文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
         ],
-        help=""" "删除单个实例"; "主机状态必须为停止状态、同时主机没有未完成的任务才可删除"; "包年包月未到期的主机不能删除"; "如果主机中挂载了数据盘，并且设置了AutoDelete属性为True，那么数据盘会随主机一起删除";  """,
-        description=""" "删除单个实例"; "主机状态必须为停止状态、同时主机没有未完成的任务才可删除"; "包年包月未到期的主机不能删除"; "如果主机中挂载了数据盘，并且设置了AutoDelete属性为True，那么数据盘会随主机一起删除"; 。
+        help=""" "删除单个实例"; "主机状态必须为停止状态、同时主机没有未完成的任务才可删除"; "包年包月未到期的主机不能删除"; "如果主机中挂载了数据盘，并且设置了AutoDelete属性为true，那么数据盘会随主机一起删除";  """,
+        description=""" "删除单个实例"; "主机状态必须为停止状态、同时主机没有未完成的任务才可删除"; "包年包月未到期的主机不能删除"; "如果主机中挂载了数据盘，并且设置了AutoDelete属性为true，那么数据盘会随主机一起删除"; 。
             示例: jdc vm delete-instance  --instance-id xxx
         """,
     )
