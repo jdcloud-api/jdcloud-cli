@@ -51,7 +51,19 @@ source ~/.bashrc
 
 
 ### Windows
-开发验证中，即将发布。
+git 2.17
+pip安装：
+`pip install jdcloud_cli`
+
+源码安装（不依赖pip）：
+`python setup.py install`
+
+安装后执行以下脚本，打开自动完成功能：
+```
+echo 'eval "$(register-python-argcomplete jdc)"' >> .bashrc
+echo 'export PYTHONIOENCODING=UTF-8' >> .bashrc
+source ~/.bashrc
+```
 
 ## CLI使用方法
 ### 配置鉴权信息
