@@ -44,7 +44,7 @@ def attach(app, region_id, container_id):
         h, w = web_socket.get_win_size()
         resize_tty(h, w, app, region_id, container_id)
 
-    signal.signal(signal.SIGWINCH, handle_signal)
+    web_socket.reg_winch_handler(handle_signal)
 
     profile_manager = ProfileManager()
     cli_config = profile_manager.load_current_profile()

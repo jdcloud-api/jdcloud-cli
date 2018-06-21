@@ -29,6 +29,9 @@ from .websocket_base import WebsocketBase
 
 class WebsocketGnu(WebsocketBase):
 
+    def reg_winch_handler(self, handler):
+        signal.signal(signal.SIGWINCH, handler)
+
     def get_win_size(self):
         s = struct.pack('HHHH', 0, 0, 0, 0)
         t = fcntl.ioctl(sys.stdout.fileno(), termios.TIOCGWINSZ, s)

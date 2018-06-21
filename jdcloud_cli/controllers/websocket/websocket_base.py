@@ -12,6 +12,10 @@ class WebsocketBase(object):
     def invoke_shell(self, url, header):
         pass
 
+    @abc.abstractmethod
+    def reg_winch_handler(self, handler):
+        pass
+
 
 def websocket_instance():
     if os.name != 'nt':
