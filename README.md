@@ -32,10 +32,11 @@
 |发布日期|京东云CLI|京东云Python SDK|
 |---|---|---|
 |2018.06.04|0.1.0|1.1.1|
+|2018.06.23|0.2.0|1.1.1|
 
 
 ## CLI安装方法：
-### Linux && Mac
+### Linux & Mac
 pip安装：
 `pip install jdcloud_cli`
 
@@ -51,23 +52,30 @@ source ~/.bashrc
 
 
 ### Windows
-git 2.17
+京东云CLI在Windows上运行依赖Git 2.9.0以上版本，建议使用最新版本。
+
+下载地址为：https://git-scm.com/download/win
+  
+请注意：安装时模拟终端选项要选择“Use MinTTY (the default terminal of MSYS2)”。
+
 pip安装：
 `pip install jdcloud_cli`
 
 源码安装（不依赖pip）：
 `python setup.py install`
 
-安装后执行以下脚本，打开自动完成功能：
+安装后在git bash中执行以下脚本，打开自动完成功能：
 ```
-echo 'eval "$(register-python-argcomplete jdc)"' >> .bashrc
-echo 'export PYTHONIOENCODING=UTF-8' >> .bashrc
+curl https://raw.githubusercontent.com/jdcloud-api/jdcloud-cli/master/jdcloud_cli/resources/jdc.rc > ~/jdc.rc
+echo 'source ~/jdc.rc' >> ~/.bashrc
+echo 'export PYTHONIOENCODING="UTF-8"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
 ## CLI使用方法
 ### 配置鉴权信息
-jdc configure -h
+jdc configure add --access-key your-ak --secret-key your-sk
+说明：access-key和secret-key可以从京东云控制台申请开通。默认为华北区域。
 
 ### 执行产品命令
 jdc [options] command sub-command [--parameters values]
@@ -75,4 +83,12 @@ jdc [options] command sub-command [--parameters values]
 例如：
 jdc vm describe-instances
 
-目前仅bash中支持自动完成，输入两次tab键，可提示辅助信息。
+目前支持Linux、Mac、Windows三种平台的Bash中的自动完成功能，输入两次tab键，可提示辅助信息。
+
+
+## 已知问题
+Windows平台中，容器交互命令为exprimental阶段。在命令前需要增加winpty前缀，如：
+
+`winpty jdc nc attach --container-id c-abcdefg`
+
+建议使用Linux 或 Mac平台。
