@@ -21,7 +21,7 @@ from jdcloud_cli.config import ProfileManager
 from jdcloud_cli.const import WEBSOCKET_SCHEME, METHOD_GET
 from jdcloud_cli.logger import get_logger
 from jdcloud_cli.controllers.websocket.resize_tty_request import resize_tty
-from jdcloud_cli.controllers.websocket.websocket_util import get_win_size, invoke_shell
+from jdcloud_cli.controllers.websocket.websocket_base import web_socket
 
 
 class ExecStartRequest(object):
@@ -36,15 +36,15 @@ class ExecStartRequest(object):
     def invoke_shell(self, credential):
         singer = Signer(get_logger(False))
         singer.sign(self.__method, 'nc', self.__region_id, self.__url, self.__headers, '', credential, '')
-        invoke_shell(self.__url, self.__headers)
+        web_socket.invoke_shell(self.__url, self.__headers)
 
 
 def exec_start(app, region_id, container_id, exec_id):
     def handle_signal(signum, frame):
-        h, w = get_win_size()
+        h, w = web_socket.get_win_size()
         resize_tty(h, w, app, region_id, container_id, exec_id)
 
-    signal.signal(signal.SIGWINCH, handle_signal)
+    web_socket.reg_winch_handler(handle_signal)
 
     profile_manager = ProfileManager()
     cli_config = profile_manager.load_current_profile()
@@ -52,5 +52,5 @@ def exec_start(app, region_id, container_id, exec_id):
     request = ExecStartRequest(WEBSOCKET_SCHEME, cli_config.endpoint, METHOD_GET, region_id, container_id, exec_id)
     request.invoke_shell(credential)
 
-    h_o, w_o = get_win_size()
+    h_o, w_o = web_socket.get_win_size()
     resize_tty(h_o, w_o, app, region_id, container_id, exec_id)

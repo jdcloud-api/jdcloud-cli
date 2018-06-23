@@ -15,6 +15,7 @@
 # limitations under the License.
 
 import yaml
+import sys
 from jdcloud_cli.inputjson_parser import get_input_json_parser
 from jdcloud_cli.const import REGION_ID
 from jdcloud_cli.config import ProfileManager
@@ -24,8 +25,11 @@ def collect_user_args(app):
     params_dict = _get_input_args(app.pargs.__dict__)
     if params_dict.get('input_json') is not None:
         parser = get_input_json_parser(app.pargs.input_json)
-        params_dict.update(parser.get_param_obj())
+        input_dict = parser.get_param_obj()
+        if input_dict is None:
+            return None
 
+        params_dict.update(input_dict)
     _append_region_id(params_dict)
     return params_dict
 
@@ -42,10 +46,14 @@ def _get_input_args(pargs_dict):
             continue
 
         value = pargs_dict[key]
-        if isinstance(value, str):
-            result[key] = _parse_json(value)
-        else:
-            result[key] = pargs_dict[key]
+        try:
+            if isinstance(value, str):
+                result[key] = _parse_json(value)
+            else:
+                result[key] = pargs_dict[key]
+        except Exception:
+            print 'Parameter %s is invalid!' % key
+            sys.exit(1)
     return result
 
 

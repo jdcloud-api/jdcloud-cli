@@ -16,6 +16,7 @@
 
 import abc
 import yaml
+import sys
 
 
 class InputJsonParser(object):
@@ -34,7 +35,11 @@ class JsonStringParser(InputJsonParser):
         super(JsonStringParser, self).__init__(input_json)
 
     def get_param_obj(self):
-        return yaml.load(self.input_json)
+        try:
+            return yaml.load(self.input_json)
+        except yaml.YAMLError:
+            print 'Json is invalid!'
+            sys.exit(1)
 
 
 class JsonFileParser(InputJsonParser):
@@ -44,9 +49,16 @@ class JsonFileParser(InputJsonParser):
 
     def get_param_obj(self):
         file_path = self.input_json.replace('file://', '')
-        with open(file_path) as f:
-            content = f.read()
-        return yaml.load(content)
+        try:
+            with open(file_path) as f:
+                content = f.read()
+            return yaml.load(content)
+        except IOError:
+            print 'File is not accessible!'
+            sys.exit(1)
+        except yaml.YAMLError:
+            print 'Json is invalid!'
+            sys.exit(1)
 
 
 def get_input_json_parser(input_json):
