@@ -75,6 +75,7 @@ source ~/.bashrc
 ## CLI使用方法
 ### 配置鉴权信息
 jdc configure add --access-key your-ak --secret-key your-sk
+
 说明：access-key和secret-key可以从京东云控制台申请开通。默认为华北区域。
 
 ### 执行产品命令
