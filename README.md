@@ -85,6 +85,12 @@ jdc vm describe-instances
 
 目前支持Linux、Mac、Windows三种平台的Bash中的自动完成功能，输入两次tab键，可提示辅助信息。
 
+创建资源时，json串的获取可以使用各产品线子命令下的 generate-skeleton 获取，如：
+           
+`jdc vm generate-skeleton --api create-instances`
+
+更多帮助信息及OpenAPI官方文档，请见：
+https://www.jdcloud.com/help/faq?act=3
 
 ## 已知问题
 Windows平台中，容器交互命令为exprimental阶段。在命令前需要增加winpty前缀，如：
