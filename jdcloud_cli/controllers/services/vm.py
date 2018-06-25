@@ -299,9 +299,9 @@ class VmController(BaseController):
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一台或多台指定配置的实例 ''',
+        help=''' 创建一台或多台指定配置的实例<a href="https://www.jdcloud.com/help/detail/3383/isCatalog/1">参数详细说明</a> ''',
         description='''
-            创建一台或多台指定配置的实例。
+            创建一台或多台指定配置的实例<a href="https://www.jdcloud.com/help/detail/3383/isCatalog/1">参数详细说明</a>。
 
             示例: jdc vm create-instances  --instance-spec {"":""}
         ''',
@@ -581,7 +581,7 @@ class VmController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
             (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId', required=True)),
-            (['--device-name'], dict(help="""(string) 逻辑挂载点[vdb,vdc,vdd,vde,vdf,vdg,vdh] """, dest='deviceName', required=True)),
+            (['--device-name'], dict(help="""(string) 逻辑挂载点[vdb,vdc,vdd,vde,vdf,vdg,vdh] """, dest='deviceName', required=False)),
             (['--auto-delete'], dict(help="""(bool) 当删除主机时，是否自动关联删除此硬盘，默认False，只支持按配置计费 """, dest='autoDelete', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
         ],
@@ -590,7 +590,7 @@ class VmController(BaseController):
         description='''
             云主机挂载硬盘，主机和云盘没有未完成的任务时才可挂载，一个主机上最多可挂载4块数据盘。
 
-            示例: jdc vm attach-disk  --instance-id xxx --disk-id xxx --device-name xxx
+            示例: jdc vm attach-disk  --instance-id xxx --disk-id xxx
         ''',
     )
     def attach_disk(self):

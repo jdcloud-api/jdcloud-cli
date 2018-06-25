@@ -25,8 +25,8 @@ from jdcloud_sdk.services.mongodb.client.MongodbClient import MongodbClient
 from jdcloud_sdk.services.mps.client.MpsClient import MpsClient
 from jdcloud_sdk.services.streambus.client.StreambusClient import StreambusClient
 from jdcloud_sdk.services.ipanti.client.IpantiClient import IpantiClient
-from jdcloud_sdk.services.rds.client.RdsClient import RdsClient
 from jdcloud_sdk.services.redis.client.RedisClient import RedisClient
+from jdcloud_sdk.services.rds.client.RdsClient import RdsClient
 from jdcloud_sdk.services.monitor.client.MonitorClient import MonitorClient
 from jdcloud_sdk.services.vpc.client.VpcClient import VpcClient
 from jdcloud_sdk.services.xdata.client.XdataClient import XdataClient
@@ -50,8 +50,8 @@ class ClientFactory(object):
             'mps': MpsClient,
             'streambus': StreambusClient,
             'ipanti': IpantiClient,
-            'rds': RdsClient,
             'redis': RedisClient,
+            'rds': RdsClient,
             'monitor': MonitorClient,
             'vpc': VpcClient,
             'xdata': XdataClient,
@@ -66,7 +66,7 @@ class ClientFactory(object):
 
         logger = get_logger(app.pargs.debug)
 
-        config = Config(cli_config.endpoint, cli_config.scheme)
+        config = Config(cli_config.endpoint, cli_config.scheme, int(cli_config.timeout))
         credential = Credential(cli_config.access_key, cli_config.secret_key)
         if self.__service not in client_map:
             return None

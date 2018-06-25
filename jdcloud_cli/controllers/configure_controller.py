@@ -34,12 +34,13 @@ class ConfigureController(BaseController):
             (['--region-id'], dict(help='region id', default='cn-north-1', dest='region_id', required=False)),
             (['--endpoint'], dict(help='api gateway endpoint', default='www.jdcloud-api.com', required=False)),
             (['--scheme'], dict(help='http scheme', default='https', required=False)),
+            (['--timeout'], dict(help='request timeout', type=int, default=20, required=False)),
             (['--profile'], dict(help='profile name', default='default', required=False)),
         ],
         help='配置CLI运行环境，包括 access key, secret key 和区域等信息',
         description='配置CLI运行环境，包括 access key, secret key 和区域等信息。'
                     '示例：jdc configure add --profile test --access-key xxx --secret-key xxx --region-id cn-north-1 '
-                    '--endpoint www.jdcloud-api.com --scheme https'
+                    '--endpoint www.jdcloud-api.com --scheme https --timeout 20'
     )
     def add(self):
         access_key = self.app.pargs.access_key
@@ -47,9 +48,11 @@ class ConfigureController(BaseController):
         region_id = self.app.pargs.region_id
         endpoint = self.app.pargs.endpoint
         scheme = self.app.pargs.scheme
+        timeout = self.app.pargs.timeout
         profile = self.app.pargs.profile
         profile_manager = ProfileManager()
-        result, msg = profile_manager.add_profile(profile, Config(access_key, secret_key, region_id, endpoint, scheme))
+        result, msg = profile_manager.add_profile(profile,
+                                                  Config(access_key, secret_key, region_id, endpoint, scheme, timeout))
         if result:
             print 'Configure successfully!'
         else:
