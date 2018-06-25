@@ -22,16 +22,18 @@ CONF_SK = 'secret_key'
 CONF_REGION = 'region_id'
 CONF_ENDPOINT = 'endpoint'
 CONF_SCHEME = 'scheme'
+CONF_TIMEOUT = 'timeout'
 
 
 class Config(object):
 
-    def __init__(self, access_key, secret_key, region_id, endpoint, scheme):
+    def __init__(self, access_key, secret_key, region_id, endpoint, scheme, timeout):
         self.access_key = access_key
         self.secret_key = secret_key
         self.region_id = region_id
         self.endpoint = endpoint
         self.scheme = scheme
+        self.timeout = timeout
 
 
 class ProfileManager(object):
@@ -61,7 +63,8 @@ class ProfileManager(object):
         region_id = str(self.__parser.get(self.__current_profile_name, CONF_REGION))
         endpoint = str(self.__parser.get(self.__current_profile_name, CONF_ENDPOINT))
         scheme = str(self.__parser.get(self.__current_profile_name, CONF_SCHEME))
-        return Config(access_key, secret_key, region_id, endpoint, scheme)
+        timeout = str(self.__parser.get(self.__current_profile_name, CONF_TIMEOUT))
+        return Config(access_key, secret_key, region_id, endpoint, scheme, timeout)
 
     def get_all_profiles(self):
         result = dict()
@@ -86,9 +89,9 @@ class ProfileManager(object):
         self.__parser.add_section(profile)
 
         # use enums for the fields order
-        for key in [CONF_AK, CONF_SK, CONF_REGION, CONF_ENDPOINT, CONF_SCHEME]:
+        for key in [CONF_AK, CONF_SK, CONF_REGION, CONF_ENDPOINT, CONF_SCHEME, CONF_TIMEOUT]:
             value = config.__dict__[key]
-            self.__parser.set(profile, key, value)
+            self.__parser.set(profile, key, str(value))
 
         return self.__write_config_file()
 

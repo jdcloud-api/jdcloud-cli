@@ -67,6 +67,7 @@
                 "networkInterface":{
                     "subnetId":"",
                     "az":"",
+                    "networkInterfaceName":"",
                     "primaryIpAddress":"",
                     "secondaryIpAddresses":"",
                     "secondaryIpCount":"",

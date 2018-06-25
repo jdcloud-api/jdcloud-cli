@@ -26,8 +26,8 @@ from jdcloud_cli.controllers.services.mongodb import MongodbController
 from jdcloud_cli.controllers.services.mps import MpsController
 from jdcloud_cli.controllers.services.streambus import StreambusController
 from jdcloud_cli.controllers.services.ipanti import IpantiController
-from jdcloud_cli.controllers.services.rds import RdsController
 from jdcloud_cli.controllers.services.redis import RedisController
+from jdcloud_cli.controllers.services.rds import RdsController
 from jdcloud_cli.controllers.services.monitor import MonitorController
 from jdcloud_cli.controllers.services.vpc import VpcController
 from jdcloud_cli.controllers.services.xdata import XdataController
@@ -53,8 +53,8 @@ def main():
         app.handler.register(MpsController)
         app.handler.register(StreambusController)
         app.handler.register(IpantiController)
-        app.handler.register(RdsController)
         app.handler.register(RedisController)
+        app.handler.register(RdsController)
         app.handler.register(MonitorController)
         app.handler.register(VpcController)
         app.handler.register(XdataController)

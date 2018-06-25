@@ -177,7 +177,7 @@ class VmTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_attach_disk(self):
-        cmd = """python ../../main.py vm attach-disk  --instance-id 'xxx' --disk-id 'xxx' --device-name 'xxx'"""
+        cmd = """python ../../main.py vm attach-disk  --instance-id 'xxx' --disk-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
