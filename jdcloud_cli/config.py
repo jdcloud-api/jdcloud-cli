@@ -63,7 +63,8 @@ class ProfileManager(object):
         region_id = str(self.__parser.get(self.__current_profile_name, CONF_REGION))
         endpoint = str(self.__parser.get(self.__current_profile_name, CONF_ENDPOINT))
         scheme = str(self.__parser.get(self.__current_profile_name, CONF_SCHEME))
-        timeout = str(self.__parser.get(self.__current_profile_name, CONF_TIMEOUT))
+        timeout = self.__parser.get(self.__current_profile_name, CONF_TIMEOUT) \
+            if CONF_TIMEOUT in self.__parser.items(self.__current_profile_name,) else 20
         return Config(access_key, secret_key, region_id, endpoint, scheme, timeout)
 
     def get_all_profiles(self):
