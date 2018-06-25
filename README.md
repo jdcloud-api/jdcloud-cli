@@ -38,7 +38,7 @@
 ## CLI安装方法：
 ### Linux & Mac
 pip安装：
-`pip install jdcloud_cli`
+`pip install -U jdcloud_cli`
 
 源码安装（不依赖pip）：
 `python setup.py install`
