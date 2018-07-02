@@ -60,7 +60,7 @@ source ~/.bashrc
 请注意：安装时模拟终端选项要选择“Use MinTTY (the default terminal of MSYS2)”。
 
 pip安装：
-`pip install jdcloud_cli`
+`pip install -U jdcloud_cli`
 
 源码安装（不依赖pip）：
 `python setup.py install`
