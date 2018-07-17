@@ -25,47 +25,42 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class MpsController(BaseController):
+class BaseantiController(BaseController):
     class Meta:
-        label = 'mps'
-        help = '使用该子命令操作mps相关资源'
+        label = 'baseanti'
+        help = '使用该子命令操作baseanti相关资源'
         description = '''
-        mps cli 子命令，可以使用该子命令操作mps相关资源。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/385/isCatalog/0
+        baseanti cli 子命令，可以使用该子命令操作baseanti相关资源。
+        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/412/isCatalog/0
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) region id """, dest='regionId', required=False)),
-            (['--status'], dict(help="""(string) task 状态 (PENDING, RUNNING, SUCCESS, FAILED) """, dest='status', required=False)),
-            (['--begin'], dict(help="""(string) 开始时间 时间格式(GMT): yyyy-MM-dd'T'HH:mm:ss.SSS'Z' """, dest='begin', required=False)),
-            (['--end'], dict(help="""(string) 结束时间 时间格式(GMT): yyyy-MM-dd'T'HH:mm:ss.SSS'Z' """, dest='end', required=False)),
-            (['--marker'], dict(help="""(string) 查询标记 """, dest='marker', required=False)),
-            (['--limit'], dict(help="""(int) 查询记录数 [1, 1000] """, dest='limit', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询截图任务 ''',
+        help=''' 查询区域下的公网Ip资源列表 ''',
         description='''
-            查询截图任务。
+            查询区域下的公网Ip资源列表。
 
-            示例: jdc mps list-thumbnail-task 
+            示例: jdc baseanti describe-ip-resources 
         ''',
     )
-    def list_thumbnail_task(self):
-        client_factory = ClientFactory('mps')
+    def describe_ip_resources(self):
+        client_factory = ClientFactory('baseanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mps.apis.ListThumbnailTaskRequest import ListThumbnailTaskRequest
+            from jdcloud_sdk.services.baseanti.apis.DescribeIpResourcesRequest import DescribeIpResourcesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ListThumbnailTaskRequest(params_dict, headers)
+            req = DescribeIpResourcesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -75,37 +70,30 @@ class MpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) region id """, dest='regionId', required=False)),
-            (['--task-id'], dict(help="""(string) 任务ID (readonly) """, dest='taskID', required=False)),
-            (['--status'], dict(help="""(string) 状态 (SUCCESS, ERROR, PENDDING, RUNNING) (readonly) """, dest='status', required=False)),
-            (['--error-code'], dict(help="""(int) 错误码 (readonly) """, dest='errorCode', required=False)),
-            (['--created-time'], dict(help="""(string) 任务创建时间 时间格式(GMT): yyyy-MM-dd’T’HH:mm:ss.SSS’Z’  (readonly) """, dest='createdTime', required=False)),
-            (['--last-updated-time'], dict(help="""(string) 任务创建时间 时间格式(GMT): yyyy-MM-dd’T’HH:mm:ss.SSS’Z’  (readonly) """, dest='lastUpdatedTime', required=False)),
-            (['--source'], dict(help="""(thumbnailTaskSource) NA """, dest='source', required=True)),
-            (['--target'], dict(help="""(thumbnailTaskTarget) NA """, dest='target', required=True)),
-            (['--rule'], dict(help="""(thumbnailTaskRule) NA """, dest='rule', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--ip'], dict(help="""(string) 公网ip """, dest='ip', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建截图任务 ''',
+        help=''' 查询公网Ip基本信息 ''',
         description='''
-            创建截图任务。
+            查询公网Ip基本信息。
 
-            示例: jdc mps create-thumbnail-task  --source {"":""} --target {"":""}
+            示例: jdc baseanti describe-ip-resource-info  --ip xxx
         ''',
     )
-    def create_thumbnail_task(self):
-        client_factory = ClientFactory('mps')
+    def describe_ip_resource_info(self):
+        client_factory = ClientFactory('baseanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mps.apis.CreateThumbnailTaskRequest import CreateThumbnailTaskRequest
+            from jdcloud_sdk.services.baseanti.apis.DescribeIpResourceInfoRequest import DescribeIpResourceInfoRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateThumbnailTaskRequest(params_dict, headers)
+            req = DescribeIpResourceInfoRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -115,30 +103,31 @@ class MpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) region id """, dest='regionId', required=False)),
-            (['--task-id'], dict(help="""(string) task id """, dest='taskId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--ip'], dict(help="""(string) 公网ip """, dest='ip', required=True)),
+            (['--clean-threshold-spec'], dict(help="""(cleanThresholdSpec) cc参数 """, dest='cleanThresholdSpec', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取截图任务 ''',
+        help=''' 设置公网Ip的清洗阈值 ''',
         description='''
-            获取截图任务。
+            设置公网Ip的清洗阈值。
 
-            示例: jdc mps get-thumbnail-task  --task-id xxx
+            示例: jdc baseanti set-clean-threshold  --ip xxx --clean-threshold-spec {"":""}
         ''',
     )
-    def get_thumbnail_task(self):
-        client_factory = ClientFactory('mps')
+    def set_clean_threshold(self):
+        client_factory = ClientFactory('baseanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mps.apis.GetThumbnailTaskRequest import GetThumbnailTaskRequest
+            from jdcloud_sdk.services.baseanti.apis.SetCleanThresholdRequest import SetCleanThresholdRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetThumbnailTaskRequest(params_dict, headers)
+            req = SetCleanThresholdRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -148,29 +137,32 @@ class MpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) region id """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--ip'], dict(help="""(string) 公网ip """, dest='ip', required=True)),
+            (['--start'], dict(help="""(int) 限制查询的开始范围 """, dest='start', required=False)),
+            (['--limit'], dict(help="""(int) 限制查询的记录数 """, dest='limit', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取截图通知 ''',
+        help=''' 查询公网Ip的防护明细 ''',
         description='''
-            获取截图通知。
+            查询公网Ip的防护明细。
 
-            示例: jdc mps get-notification 
+            示例: jdc baseanti describe-ip-resource-protect-info  --ip xxx
         ''',
     )
-    def get_notification(self):
-        client_factory = ClientFactory('mps')
+    def describe_ip_resource_protect_info(self):
+        client_factory = ClientFactory('baseanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mps.apis.GetNotificationRequest import GetNotificationRequest
+            from jdcloud_sdk.services.baseanti.apis.DescribeIpResourceProtectInfoRequest import DescribeIpResourceProtectInfoRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetNotificationRequest(params_dict, headers)
+            req = DescribeIpResourceProtectInfoRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -180,34 +172,31 @@ class MpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) region id """, dest='regionId', required=False)),
-            (['--enabled'], dict(help="""(bool) 是否启用通知 """, dest='enabled', required=True)),
-            (['--endpoint'], dict(help="""(string) 通知endpoint, 当前支持http://和https:// """, dest='endpoint', required=False)),
-            (['--events'], dict(help="""(array: string) 触发通知的事件集合 (mpsTranscodeComplete, mpsThumbnailComplete) """, dest='events', required=False)),
-            (['--notify-strategy'], dict(help="""(string) 重试策略, BACKOFF_RETRY: 退避重试策略, 重试 3 次, 每次重试的间隔时间是 10秒 到 20秒 之间的随机值; EXPONENTIAL_DECAY_RETRY: 指数衰减重试, 重试 176 次, 每次重试的间隔时间指数递增至 512秒, 总计重试时间为1天; 每次重试的具体间隔为: 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 512 ... 512 秒(共167个512) """, dest='notifyStrategy', required=False)),
-            (['--notify-content-format'], dict(help="""(string) 描述了向 Endpoint 推送的消息格式, JSON: 包含消息正文和消息属性, SIMPLIFIED: 消息体即用户发布的消息, 不包含任何属性信息 """, dest='notifyContentFormat', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--ip'], dict(help="""(string) 公网ip """, dest='ip', required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 设置媒体处理通知, 在设置Notification时会对endpoint进行校验, 设置时会对endpoint发一条SubscriptionConfirmation(x-jdcloud-message-type头)的通知, 要求把Message内容进行base64编码返回给系统(body)进行校验 ''',
+        help=''' 查询公网Ip的监控流量 ''',
         description='''
-            设置媒体处理通知, 在设置Notification时会对endpoint进行校验, 设置时会对endpoint发一条SubscriptionConfirmation(x-jdcloud-message-type头)的通知, 要求把Message内容进行base64编码返回给系统(body)进行校验。
+            查询公网Ip的监控流量。
 
-            示例: jdc mps set-notification  --enabled true
+            示例: jdc baseanti describe-ip-resource-flow  --ip xxx
         ''',
     )
-    def set_notification(self):
-        client_factory = ClientFactory('mps')
+    def describe_ip_resource_flow(self):
+        client_factory = ClientFactory('baseanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mps.apis.SetNotificationRequest import SetNotificationRequest
+            from jdcloud_sdk.services.baseanti.apis.DescribeIpResourceFlowRequest import DescribeIpResourceFlowRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = SetNotificationRequest(params_dict, headers)
+            req = DescribeIpResourceFlowRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -217,7 +206,7 @@ class MpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['list-thumbnail-task','create-thumbnail-task','get-thumbnail-task','get-notification','set-notification',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-ip-resources','describe-ip-resource-info','set-clean-threshold','describe-ip-resource-protect-info','describe-ip-resource-flow',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -227,5 +216,5 @@ class MpsController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('mps', self.app.pargs.api)
+        skeleton = Skeleton('baseanti', self.app.pargs.api)
         skeleton.show()

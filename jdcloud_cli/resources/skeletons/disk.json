@@ -2,6 +2,10 @@
     "describe-disks":{
         "pageNumber":"",
         "pageSize":"",
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
         "filters":[{
             "name":"",
             "operator":"",

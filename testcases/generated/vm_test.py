@@ -59,6 +59,15 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_image_constraints_batch(self):
+        cmd = """python ../../main.py vm describe-image-constraints-batch """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_share_image(self):
         cmd = """python ../../main.py vm share-image  --image-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -79,6 +88,15 @@ class VmTest(unittest.TestCase):
 
     def test_describe_image_members(self):
         cmd = """python ../../main.py vm describe-image-members  --image-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_image_attribute(self):
+        cmd = """python ../../main.py vm modify-image-attribute  --image-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -115,6 +133,15 @@ class VmTest(unittest.TestCase):
 
     def test_delete_instance(self):
         cmd = """python ../../main.py vm delete-instance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_status(self):
+        cmd = """python ../../main.py vm describe-instance-status """
         with os.popen(cmd) as f:
             content = f.read()
 

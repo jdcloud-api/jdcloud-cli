@@ -25,43 +25,43 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class StreambusController(BaseController):
+class JmrController(BaseController):
     class Meta:
-        label = 'streambus'
-        help = '使用该子命令操作streambus相关资源'
+        label = 'jmr'
+        help = '使用该子命令操作jmr相关资源'
         description = '''
-        streambus cli 子命令，可以使用该子命令操作streambus相关资源。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/390/isCatalog/0
+        jmr cli 子命令，可以使用该子命令操作jmr相关资源。
+        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/413/isCatalog/0
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--keyword'], dict(help="""(string) NA """, dest='keyword', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-model'], dict(help="""(clusterModel) NA """, dest='clusterModel', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询topic ''',
+        help=''' 创建新集群 ''',
         description='''
-            查询topic。
+            创建新集群。
 
-            示例: jdc streambus get-topic-list 
+            示例: jdc jmr create-cluster-in-new-network  --cluster-model {"":""}
         ''',
     )
-    def get_topic_list(self):
-        client_factory = ClientFactory('streambus')
+    def create_cluster_in_new_network(self):
+        client_factory = ClientFactory('jmr')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.GetTopicListRequest import GetTopicListRequest
+            from jdcloud_sdk.services.jmr.apis.CreateClusterInNewNetworkRequest import CreateClusterInNewNetworkRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetTopicListRequest(params_dict, headers)
+            req = CreateClusterInNewNetworkRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -71,30 +71,30 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--topic-model'], dict(help="""(addTopic) NA """, dest='topicModel', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--id'], dict(help="""(string) 集群ID；由八位字符组成 """, dest='id', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建topic ''',
+        help=''' 查询集群详情 ''',
         description='''
-            创建topic。
+            查询集群详情。
 
-            示例: jdc streambus add-topic  --topic-model {"":""}
+            示例: jdc jmr show-cluster-details  --id xxx
         ''',
     )
-    def add_topic(self):
-        client_factory = ClientFactory('streambus')
+    def show_cluster_details(self):
+        client_factory = ClientFactory('jmr')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.AddTopicRequest import AddTopicRequest
+            from jdcloud_sdk.services.jmr.apis.ShowClusterDetailsRequest import ShowClusterDetailsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddTopicRequest(params_dict, headers)
+            req = ShowClusterDetailsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -104,30 +104,30 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--topic-model'], dict(help="""(addTopic) NA """, dest='topicModel', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--id'], dict(help="""(string) 集群ID；由八位字符组成 """, dest='id', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 更新topic ''',
+        help=''' 释放集群 ''',
         description='''
-            更新topic。
+            释放集群。
 
-            示例: jdc streambus update-topic  --topic-model {"":""}
+            示例: jdc jmr release-cluster  --id xxx
         ''',
     )
-    def update_topic(self):
-        client_factory = ClientFactory('streambus')
+    def release_cluster(self):
+        client_factory = ClientFactory('jmr')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.UpdateTopicRequest import UpdateTopicRequest
+            from jdcloud_sdk.services.jmr.apis.ReleaseClusterRequest import ReleaseClusterRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateTopicRequest(params_dict, headers)
+            req = ReleaseClusterRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -137,7 +137,7 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-topic-list','add-topic','update-topic',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['create-cluster-in-new-network','show-cluster-details','release-cluster',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -147,5 +147,5 @@ class StreambusController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('streambus', self.app.pargs.api)
+        skeleton = Skeleton('jmr', self.app.pargs.api)
         skeleton.show()

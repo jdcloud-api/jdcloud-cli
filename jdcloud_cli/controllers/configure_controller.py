@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from argparse import RawTextHelpFormatter
+from getpass import getpass
 from cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.config import Config, ProfileManager
@@ -29,18 +31,21 @@ class ConfigureController(BaseController):
 
     @expose(
         arguments=[
-            (['--access-key'], dict(help='access key', dest='access_key', required=True)),
-            (['--secret-key'], dict(help='secret key', dest='secret_key', required=True)),
+            (['--access-key'], dict(help='access key', dest='access_key', required=False)),
+            (['--secret-key'], dict(help='secret key', dest='secret_key', required=False)),
             (['--region-id'], dict(help='region id', default='cn-north-1', dest='region_id', required=False)),
             (['--endpoint'], dict(help='api gateway endpoint', default='www.jdcloud-api.com', required=False)),
             (['--scheme'], dict(help='http scheme', default='https', required=False)),
             (['--timeout'], dict(help='request timeout', type=int, default=20, required=False)),
             (['--profile'], dict(help='profile name', default='default', required=False)),
         ],
+        formatter_class=RawTextHelpFormatter,
         help='配置CLI运行环境，包括 access key, secret key 和区域等信息',
-        description='配置CLI运行环境，包括 access key, secret key 和区域等信息。'
-                    '示例：jdc configure add --profile test --access-key xxx --secret-key xxx --region-id cn-north-1 '
-                    '--endpoint www.jdcloud-api.com --scheme https --timeout 20'
+        description='''
+        配置CLI运行环境，包括 access key, secret key 和区域等信息。新增后即设置为当前配置。
+        其中 access key 和 secret key 为必选参数。同时支持非选项的密码输入方式。
+        示例：jdc configure add --profile test --access-key xxx --secret-key xxx
+        '''
     )
     def add(self):
         access_key = self.app.pargs.access_key
@@ -50,10 +55,26 @@ class ConfigureController(BaseController):
         scheme = self.app.pargs.scheme
         timeout = self.app.pargs.timeout
         profile = self.app.pargs.profile
+
+        if access_key is None:
+            access_key = raw_input("Please input your access-key:")
+
+        if access_key == '':
+            print 'access-key is required.'
+            exit(1)
+
+        if secret_key is None:
+            secret_key = getpass("Please input your secret-key:")
+
+        if secret_key == '':
+            print 'secret-key is required.'
+            exit(1)
+
         profile_manager = ProfileManager()
         result, msg = profile_manager.add_profile(profile,
                                                   Config(access_key, secret_key, region_id, endpoint, scheme, timeout))
         if result:
+            profile_manager.set_current_profile(profile)
             print 'Configure successfully!'
         else:
             print msg
@@ -62,8 +83,12 @@ class ConfigureController(BaseController):
         arguments=[
             (['--profile'], dict(help='配置组名称', required=True)),
         ],
+        formatter_class=RawTextHelpFormatter,
         help='删除某个配置组',
-        description='删除某个配置组。示例：jdc configure delete --profile test'
+        description='''
+        删除某个配置组。
+        示例：jdc configure delete --profile test
+        '''
     )
     def delete(self):
         profile_manager = ProfileManager()
@@ -77,8 +102,12 @@ class ConfigureController(BaseController):
         arguments=[
             (['--profile'], dict(help='配置组名称', required=True)),
         ],
+        formatter_class=RawTextHelpFormatter,
         help='切换到某个配置组',
-        description='切换到某个配置组。示例：jdc configure use --profile default'
+        description='''
+        切换到某个配置组。
+        示例：jdc configure use --profile default
+        '''
     )
     def use(self):
         profile_manager = ProfileManager()
@@ -89,8 +118,12 @@ class ConfigureController(BaseController):
             print msg
 
     @expose(
+        formatter_class=RawTextHelpFormatter,
         help='显示当前配置组',
-        description='显示当前配置组。示例：jdc configure show-current'
+        description='''
+        显示当前配置组。
+        示例：jdc configure show-current
+        '''
     )
     def show_current(self):
         profile_manager = ProfileManager()
@@ -98,8 +131,12 @@ class ConfigureController(BaseController):
         self._print_profiles(profiles)
 
     @expose(
+        formatter_class=RawTextHelpFormatter,
         help='显示所有配置组',
-        description='显示所有配置组。示例：jdc configure show-all'
+        description='''
+        显示所有配置组。
+        示例：jdc configure show-all
+        '''
     )
     def show_all(self):
         profile_manager = ProfileManager()

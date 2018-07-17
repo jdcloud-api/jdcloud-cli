@@ -86,6 +86,24 @@ class IamTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_get_session_token(self):
+        cmd = """python ../../main.py iam get-session-token  --get-session-token-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_verify_session_token(self):
+        cmd = """python ../../main.py iam verify-session-token  --verify-session-token-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_create_subuser(self):
         cmd = """python ../../main.py iam create-subuser  --create-sub-user-info '{"":""}'"""
         with os.popen(cmd) as f:

@@ -20,7 +20,7 @@ from argparse import RawTextHelpFormatter
 from cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.client_factory import ClientFactory
-from jdcloud_cli.parameter_builder import collect_user_args
+from jdcloud_cli.parameter_builder import collect_user_args, collect_user_headers
 from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
@@ -47,6 +47,7 @@ class MonitorController(BaseController):
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', required=False)),
             (['--page-size'], dict(help="""(int) ，默认为20；取值范围[1, 100] """, dest='pageSize', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询监控规则 ''',
@@ -65,7 +66,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.DescribeAlarmsRequest import DescribeAlarmsRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeAlarmsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeAlarmsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -79,6 +81,7 @@ class MonitorController(BaseController):
             (['--client-token'], dict(help="""(string) 幂等性校验参数，最长32位，值不变则返回值不会变 """, dest='clientToken', required=True)),
             (['--create-alarm-spec'], dict(help="""(createAlarmSpec) NA """, dest='createAlarmSpec', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建报警规则，可以为某一个实例创建报警规则，也可以为多个实例同时创建报警规则。 ''',
@@ -97,7 +100,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.CreateAlarmRequest import CreateAlarmRequest
             params_dict = collect_user_args(self.app)
-            req = CreateAlarmRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateAlarmRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -110,6 +114,7 @@ class MonitorController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId', required=False)),
             (['--ids'], dict(help="""(string) 待删除的规则id，用"|"间隔 """, dest='ids', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 批量删除规则 ''',
@@ -128,7 +133,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.DeleteAlarmsRequest import DeleteAlarmsRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteAlarmsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteAlarmsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -141,6 +147,7 @@ class MonitorController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId', required=False)),
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询规则详情 ''',
@@ -159,7 +166,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.DescribeAlarmsByIDRequest import DescribeAlarmsByIDRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeAlarmsByIDRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeAlarmsByIDRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -183,6 +191,7 @@ class MonitorController(BaseController):
             (['--threshold'], dict(help="""(float) 阈值 """, dest='threshold', required=True)),
             (['--times'], dict(help="""(int) 连续多少次后报警，可选值:1,2,3,5 """, dest='times', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 修改已创建的报警规则 ''',
@@ -201,7 +210,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.UpdateAlarmRequest import UpdateAlarmRequest
             params_dict = collect_user_args(self.app)
-            req = UpdateAlarmRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = UpdateAlarmRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -214,6 +224,7 @@ class MonitorController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId', required=False)),
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 启用报警规则，当客户的报警规则处于停止状态时，可以使用此接口启用报警规则。 ''',
@@ -232,7 +243,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.EnableAlarmRequest import EnableAlarmRequest
             params_dict = collect_user_args(self.app)
-            req = EnableAlarmRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = EnableAlarmRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -245,6 +257,7 @@ class MonitorController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId', required=False)),
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 禁用报警规则。报警规则禁用后，将停止探测实例的监控项数据。 ''',
@@ -263,7 +276,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.DisableAlarmRequest import DisableAlarmRequest
             params_dict = collect_user_args(self.app)
-            req = DisableAlarmRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DisableAlarmRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -282,6 +296,7 @@ class MonitorController(BaseController):
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', required=False)),
             (['--page-size'], dict(help="""(int) ，默认为20；取值范围[1, 100] """, dest='pageSize', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询报警历史 ''',
@@ -300,7 +315,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.DescribeAlarmHistoryRequest import DescribeAlarmHistoryRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeAlarmHistoryRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeAlarmHistoryRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -312,6 +328,7 @@ class MonitorController(BaseController):
         arguments=[
             (['--service-code'], dict(help="""(string) 资源的类型 ： ; vm-->云主机; disk-->云硬盘; ip-->公网ip; balance-->负载均衡; database-->云数据库mysql版本; cdn-->京东CDN; redis-->redis云缓存; mongodb-->mongoDB云缓存; storage-->云存储; sqlserver-->云数据库sqlserver版 ; nativecontainer-->容器;  """, dest='serviceCode', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 根据产品线查询可用监控项列表 ''',
@@ -330,7 +347,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.DescribeMetricsRequest import DescribeMetricsRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeMetricsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeMetricsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -342,6 +360,7 @@ class MonitorController(BaseController):
         arguments=[
             (['--service-code'], dict(help="""(string) 资源的类型，默认为空，展示所有项目; vm-->云主机; disk-->云硬盘; ip-->公网ip; balance-->负载均衡; database-->云数据库mysql版本; cdn-->京东CDN; redis-->redis云缓存; mongodb-->mongoDB云缓存; storage-->云存储; sqlserver-->云数据库sqlserver版 ; nativecontainer-->容器;  """, dest='serviceCode', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询可用创建监控规则的指标列表 ''',
@@ -360,7 +379,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.DescribeMetricsForCreateAlarmRequest import DescribeMetricsForCreateAlarmRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeMetricsForCreateAlarmRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeMetricsForCreateAlarmRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -379,6 +399,7 @@ class MonitorController(BaseController):
             (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval 与 endTime 至少填一项 """, dest='timeInterval', required=False)),
             (['--tags'], dict(help="""(array: tags) 自定义标签 """, dest='tags', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查看某资源的监控数据 ''',
@@ -397,7 +418,8 @@ class MonitorController(BaseController):
         try:
             from jdcloud_sdk.services.monitor.apis.DescribeMetricDataRequest import DescribeMetricDataRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeMetricDataRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeMetricDataRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:

@@ -20,7 +20,7 @@ from argparse import RawTextHelpFormatter
 from cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.client_factory import ClientFactory
-from jdcloud_cli.parameter_builder import collect_user_args
+from jdcloud_cli.parameter_builder import collect_user_args, collect_user_headers
 from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
@@ -40,9 +40,10 @@ class VpcController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,500] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) elasticIpIds - elasticip id数组条件; elasticIpAddress - eip的IP地址 ; chargeStatus	- eip的费用支付状态,normal(正常状态) or overdue(预付费已到期) or arrear(欠费状态);  """, dest='filters', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
+            (['--filters'], dict(help="""(array: filter) elasticIpIds - elasticip id数组条件，支持多个; elasticIpAddress - eip的IP地址，支持单个; chargeStatus	- eip的费用支付状态,normal(正常状态) or overdue(预付费已到期) or arrear(欠费状态)，支持单个;  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询弹性ip列表 ''',
@@ -61,7 +62,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DescribeElasticIpsRequest import DescribeElasticIpsRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeElasticIpsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeElasticIpsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -76,6 +78,7 @@ class VpcController(BaseController):
             (['--elastic-ip-address'], dict(help="""(string) 指定弹性ip地址进行创建，当申请创建多个弹性ip时，必须为空 """, dest='elasticIpAddress', required=False)),
             (['--elastic-ip-spec'], dict(help="""(elasticIpSpec) 弹性ip规格 """, dest='elasticIpSpec', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建一个或者多个弹性Ip ''',
@@ -94,7 +97,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.CreateElasticIpsRequest import CreateElasticIpsRequest
             params_dict = collect_user_args(self.app)
-            req = CreateElasticIpsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateElasticIpsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -107,6 +111,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--elastic-ip-id'], dict(help="""(string) ElasticIp ID """, dest='elasticIpId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' ElasticIp资源信息详情 ''',
@@ -125,7 +130,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DescribeElasticIpRequest import DescribeElasticIpRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeElasticIpRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeElasticIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -138,6 +144,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--elastic-ip-id'], dict(help="""(string) ElasticIp ID """, dest='elasticIpId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 删除弹性Ip ''',
@@ -156,7 +163,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DeleteElasticIpRequest import DeleteElasticIpRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteElasticIpRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteElasticIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -172,6 +180,7 @@ class VpcController(BaseController):
             (['--private-ip-address'], dict(help="""(string) 绑定弹性Ip到指定的privateIp """, dest='privateIpAddress', required=False)),
             (['--elastic-ip-address'], dict(help="""(string) 绑定的弹性Ip地址 """, dest='elasticIpAddress', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 给网卡绑定弹性Ip接口 ''',
@@ -190,7 +199,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.AssociateElasticIpRequest import AssociateElasticIpRequest
             params_dict = collect_user_args(self.app)
-            req = AssociateElasticIpRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = AssociateElasticIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -205,6 +215,7 @@ class VpcController(BaseController):
             (['--elastic-ip-id'], dict(help="""(string) 指定解绑的弹性Ip Id """, dest='elasticIpId', required=False)),
             (['--elastic-ip-address'], dict(help="""(string) 指定解绑的弹性Ip地址 """, dest='elasticIpAddress', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 给网卡解绑弹性Ip接口 ''',
@@ -223,7 +234,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DisassociateElasticIpRequest import DisassociateElasticIpRequest
             params_dict = collect_user_args(self.app)
-            req = DisassociateElasticIpRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DisassociateElasticIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -239,6 +251,7 @@ class VpcController(BaseController):
             (['--secondary-ips'], dict(help="""(array: string) 指定分配的secondaryIp地址 """, dest='secondaryIps', required=False)),
             (['--secondary-ip-count'], dict(help="""(int) 指定自动分配的secondaryIp个数 """, dest='secondaryIpCount', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 给网卡分配secondaryIp接口 ''',
@@ -257,7 +270,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.AssignSecondaryIpsRequest import AssignSecondaryIpsRequest
             params_dict = collect_user_args(self.app)
-            req = AssignSecondaryIpsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = AssignSecondaryIpsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -271,6 +285,7 @@ class VpcController(BaseController):
             (['--network-interface-id'], dict(help="""(string) networkInterface ID """, dest='networkInterfaceId', required=True)),
             (['--secondary-ips'], dict(help="""(array: string) 指定删除的secondaryIp地址 """, dest='secondaryIps', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 给网卡删除secondaryIp接口 ''',
@@ -289,7 +304,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.UnassignSecondaryIpsRequest import UnassignSecondaryIpsRequest
             params_dict = collect_user_args(self.app)
-            req = UnassignSecondaryIpsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = UnassignSecondaryIpsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -301,9 +317,10 @@ class VpcController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,500] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) networkSecurityGroupIds - 安全组ID列表，支持多个; networkSecurityGroupNames - 安全组名称列表，支持多个; vpcId	- 安全组所属vpc Id;  """, dest='filters', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
+            (['--filters'], dict(help="""(array: filter) networkSecurityGroupIds - 安全组ID列表，支持多个; networkSecurityGroupNames - 安全组名称列表，支持多个; vpcId	- 安全组所属vpc Id，支持单个;  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询安全组列表 ''',
@@ -322,7 +339,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DescribeNetworkSecurityGroupsRequest import DescribeNetworkSecurityGroupsRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeNetworkSecurityGroupsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeNetworkSecurityGroupsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -335,6 +353,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--network-security-group-id'], dict(help="""(string) NetworkSecurityGroup ID """, dest='networkSecurityGroupId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询安全组信息详情 ''',
@@ -353,7 +372,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DescribeNetworkSecurityGroupRequest import DescribeNetworkSecurityGroupRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeNetworkSecurityGroupRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeNetworkSecurityGroupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -365,9 +385,10 @@ class VpcController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,500] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) subnetIds - subnet ID列表，支持多个; subnetNames - subnet名称列表，支持多个; routeTableId	- 子网关联路由表Id; aclId - 子网关联acl Id; vpcId - 子网所属VPC Id;  """, dest='filters', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
+            (['--filters'], dict(help="""(array: filter) subnetIds - subnet ID列表，支持多个; subnetNames - subnet名称列表，支持多个; routeTableId	- 子网关联路由表Id，支持单个; aclId - 子网关联acl Id，支持单个; vpcId - 子网所属VPC Id，支持单个;  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询子网列表 ''',
@@ -386,7 +407,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DescribeSubnetsRequest import DescribeSubnetsRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeSubnetsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeSubnetsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -399,6 +421,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--subnet-id'], dict(help="""(string) Subnet ID """, dest='subnetId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询子网信息详情 ''',
@@ -417,7 +440,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DescribeSubnetRequest import DescribeSubnetRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeSubnetRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeSubnetRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -429,9 +453,10 @@ class VpcController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,500] """, dest='pageSize', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
             (['--filters'], dict(help="""(array: filter) vpcIds - vpc ID列表，支持多个; vpcNames - vpc名称列表,支持多个;  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询私有网络列表 ''',
@@ -450,7 +475,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DescribeVpcsRequest import DescribeVpcsRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeVpcsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeVpcsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -463,6 +489,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--vpc-id'], dict(help="""(string) Vpc ID """, dest='vpcId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询Vpc信息详情 ''',
@@ -481,7 +508,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DescribeVpcRequest import DescribeVpcRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeVpcRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeVpcRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -493,9 +521,10 @@ class VpcController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,500] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) vpcPeeringIds - vpcPeering ID，支持多个; vpcPeeringNames - vpcPeering名称列表，支持多个; vpcId	- vpcPeering本端Vpc Id; remoteVpcId - vpcPeering对端Vpc Id;  """, dest='filters', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
+            (['--filters'], dict(help="""(array: filter) vpcPeeringIds - vpcPeering ID，支持多个; vpcPeeringNames - vpcPeering名称列表，支持多个; vpcId	- vpcPeering本端Vpc Id，支持单个; remoteVpcId - vpcPeering对端Vpc Id，支持单个;  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询VpcPeering资源列表 ''',
@@ -514,7 +543,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DescribeVpcPeeringsRequest import DescribeVpcPeeringsRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeVpcPeeringsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeVpcPeeringsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -530,6 +560,7 @@ class VpcController(BaseController):
             (['--remote-vpc-id'], dict(help="""(string) VpcPeering对端Vpc的Id """, dest='remoteVpcId', required=True)),
             (['--description'], dict(help="""(string) VpcPeering 描述，取值范围：0-256个中文、英文大小写的字母、数字和下划线分隔符 """, dest='description', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建VpcPeering接口 ''',
@@ -548,7 +579,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.CreateVpcPeeringRequest import CreateVpcPeeringRequest
             params_dict = collect_user_args(self.app)
-            req = CreateVpcPeeringRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateVpcPeeringRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -561,6 +593,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--vpc-peering-id'], dict(help="""(string) vpcPeeringId ID """, dest='vpcPeeringId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询VpcPeering资源详情 ''',
@@ -579,7 +612,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DescribeVpcPeeringRequest import DescribeVpcPeeringRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeVpcPeeringRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeVpcPeeringRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -594,6 +628,7 @@ class VpcController(BaseController):
             (['--vpc-peering-name'], dict(help="""(string) VpcPeering的名字,不为空。名称取值范围：1-32个中文、英文大小写的字母、数字和下划线分隔符 """, dest='vpcPeeringName', required=False)),
             (['--description'], dict(help="""(string) VpcPeering 描述，取值范围：0-256个中文、英文大小写的字母、数字和下划线分隔符 """, dest='description', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 修改VpcPeering接口 ''',
@@ -612,7 +647,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.ModifyVpcPeeringRequest import ModifyVpcPeeringRequest
             params_dict = collect_user_args(self.app)
-            req = ModifyVpcPeeringRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ModifyVpcPeeringRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -625,6 +661,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--vpc-peering-id'], dict(help="""(string) vpcPeeringId ID """, dest='vpcPeeringId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 删除VpcPeering接口 ''',
@@ -643,7 +680,8 @@ class VpcController(BaseController):
         try:
             from jdcloud_sdk.services.vpc.apis.DeleteVpcPeeringRequest import DeleteVpcPeeringRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteVpcPeeringRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteVpcPeeringRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:

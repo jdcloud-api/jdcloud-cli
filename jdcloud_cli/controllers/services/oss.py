@@ -20,7 +20,7 @@ from argparse import RawTextHelpFormatter
 from cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.client_factory import ClientFactory
-from jdcloud_cli.parameter_builder import collect_user_args
+from jdcloud_cli.parameter_builder import collect_user_args, collect_user_headers
 from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
@@ -40,6 +40,7 @@ class OssController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 列出当前用户的所有bucket;  ''',
@@ -58,7 +59,8 @@ class OssController(BaseController):
         try:
             from jdcloud_sdk.services.oss.apis.ListBucketsRequest import ListBucketsRequest
             params_dict = collect_user_args(self.app)
-            req = ListBucketsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ListBucketsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -71,6 +73,7 @@ class OssController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId', required=False)),
             (['--bucketname'], dict(help="""(string) bucket名字，例如：test-bucket """, dest='bucketname', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建bucket;  ''',
@@ -89,7 +92,8 @@ class OssController(BaseController):
         try:
             from jdcloud_sdk.services.oss.apis.PutBucketRequest import PutBucketRequest
             params_dict = collect_user_args(self.app)
-            req = PutBucketRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = PutBucketRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -102,6 +106,7 @@ class OssController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId', required=False)),
             (['--bucketname'], dict(help="""(string) bucket名字，例如：test-bucket """, dest='bucketname', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 删除一个bucket;  ''',
@@ -120,7 +125,8 @@ class OssController(BaseController):
         try:
             from jdcloud_sdk.services.oss.apis.DeleteBucketRequest import DeleteBucketRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteBucketRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteBucketRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -133,6 +139,7 @@ class OssController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId', required=False)),
             (['--bucketname'], dict(help="""(string) bucket名字，例如：test-bucket """, dest='bucketname', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询bucket是否存在;  ''',
@@ -151,7 +158,8 @@ class OssController(BaseController):
         try:
             from jdcloud_sdk.services.oss.apis.HeadBucketRequest import HeadBucketRequest
             params_dict = collect_user_args(self.app)
-            req = HeadBucketRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = HeadBucketRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
