@@ -1,0 +1,34 @@
+{
+    "create-cluster-in-new-network":{
+        "clusterModel":{
+            "name":"",
+            "password":"",
+            "version":"",
+            "payType":"",
+            "masterNodeNumber":"",
+            "masterNodeDiskType":"",
+            "masterNodeDiskVolume":"",
+            "masterInstanceType":"",
+            "slaveNodeNumber":"",
+            "slaveNodeDiskType":"",
+            "slaveNodeDiskVolume":"",
+            "coreInstanceType":"",
+            "dataCenter":"",
+            "softwareList":"",
+            "jssFlag":"",
+            "haFlag":"",
+            "vpcId":"",
+            "vpcSubnetId":"",
+            "bandwidth":""
+        },
+        "regionId":""
+    },
+    "show-cluster-details":{
+        "id":"",
+        "regionId":""
+    },
+    "release-cluster":{
+        "regionId":"",
+        "id":""
+    }
+}

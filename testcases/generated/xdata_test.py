@@ -68,6 +68,87 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_execute_ras_query(self):
+        cmd = """python ../../main.py xdata execute-ras-query  --sql 'xxx' --user-name 'xxx' --instance-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_execute_py_spark_query(self):
+        cmd = """python ../../main.py xdata execute-py-spark-query  --script 'xxx' --user-name 'xxx' --instance-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_ras_query_state(self):
+        cmd = """python ../../main.py xdata get-ras-query-state  --user-name 'xxx' --query-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_py_spark_execute_state(self):
+        cmd = """python ../../main.py xdata get-py-spark-execute-state  --user-name 'xxx' --query-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_ras_query_log(self):
+        cmd = """python ../../main.py xdata get-ras-query-log  --user-name 'xxx' --query-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_ras_query_result(self):
+        cmd = """python ../../main.py xdata get-ras-query-result  --user-name 'xxx' --query-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_py_spark_execute_result(self):
+        cmd = """python ../../main.py xdata get-py-spark-execute-result  --user-name 'xxx' --query-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_cancel_ras_query(self):
+        cmd = """python ../../main.py xdata cancel-ras-query  --user-name 'xxx' --query-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_cancel_py_spark_job(self):
+        cmd = """python ../../main.py xdata cancel-py-spark-job  --user-name 'xxx' --query-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_list_table_info(self):
         cmd = """python ../../main.py xdata list-table-info  --instance-name 'xxx' --database-name 'xxx'"""
         with os.popen(cmd) as f:

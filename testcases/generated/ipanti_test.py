@@ -23,6 +23,60 @@ import json
 
 class IpantiTest(unittest.TestCase):
 
+    def test_describe_ddos_attack_logs(self):
+        cmd = """python ../../main.py ipanti describe-ddos-attack-logs  --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_cc_attack_logs(self):
+        cmd = """python ../../main.py ipanti describe-cc-attack-logs  --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_cc_attack_log_details(self):
+        cmd = """python ../../main.py ipanti describe-cc-attack-log-details  --start-time 'xxx' --end-time 'xxx' --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_ddos_graph(self):
+        cmd = """python ../../main.py ipanti ddos-graph  --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_fwd_graph(self):
+        cmd = """python ../../main.py ipanti fwd-graph  --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_cc_graph(self):
+        cmd = """python ../../main.py ipanti cc-graph  --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_forward_rules(self):
         cmd = """python ../../main.py ipanti describe-forward-rules  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -61,6 +115,24 @@ class IpantiTest(unittest.TestCase):
 
     def test_delete_forward_rule(self):
         cmd = """python ../../main.py ipanti delete-forward-rule  --instance-id 'xxx' --forward-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_switch_forward_rule_protect(self):
+        cmd = """python ../../main.py ipanti switch-forward-rule-protect  --instance-id 'xxx' --forward-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_switch_forward_rule_origin(self):
+        cmd = """python ../../main.py ipanti switch-forward-rule-origin  --instance-id 'xxx' --forward-rule-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -212,6 +284,51 @@ class IpantiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_enable_cc_observer_mode(self):
+        cmd = """python ../../main.py ipanti enable-cc-observer-mode  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_cc_observer_mode(self):
+        cmd = """python ../../main.py ipanti disable-cc-observer-mode  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_cc_ip_limit(self):
+        cmd = """python ../../main.py ipanti enable-cc-ip-limit  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_cc_ip_limit(self):
+        cmd = """python ../../main.py ipanti disable-cc-ip-limit  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_cc_ip_limit(self):
+        cmd = """python ../../main.py ipanti set-cc-ip-limit  --instance-id 'xxx' --c-cspec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_web_rules(self):
         cmd = """python ../../main.py ipanti describe-web-rules  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -250,6 +367,42 @@ class IpantiTest(unittest.TestCase):
 
     def test_delete_web_rule(self):
         cmd = """python ../../main.py ipanti delete-web-rule  --instance-id 'xxx' --web-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_switch_web_rule_protect(self):
+        cmd = """python ../../main.py ipanti switch-web-rule-protect  --instance-id 'xxx' --web-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_switch_web_rule_origin(self):
+        cmd = """python ../../main.py ipanti switch-web-rule-origin  --instance-id 'xxx' --web-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_web_rule_cc(self):
+        cmd = """python ../../main.py ipanti enable-web-rule-cc  --instance-id 'xxx' --web-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_web_rule_cc(self):
+        cmd = """python ../../main.py ipanti disable-web-rule-cc  --instance-id 'xxx' --web-rule-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

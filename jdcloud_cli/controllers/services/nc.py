@@ -23,7 +23,7 @@ from jdcloud_cli.controllers.websocket.exec_start_request import exec_start
 from jdcloud_cli.controllers.websocket.attach_request import attach
 from jdcloud_cli.controllers.websocket.exec_create_request import ExecCreateRequest
 from jdcloud_cli.client_factory import ClientFactory
-from jdcloud_cli.parameter_builder import collect_user_args
+from jdcloud_cli.parameter_builder import collect_user_args, collect_user_headers
 from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
@@ -46,6 +46,7 @@ class NcController(BaseController):
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
             (['--filters'], dict(help="""(array: filter) containerId - 实例ID，精确匹配，支持多个; privateIpAddress - 主网卡IP地址，模糊匹配，支持单个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 容器状态，精确匹配，支持多个; name - 实例名称，模糊匹配，支持单个; subnetId - 镜像ID，模糊匹配，支持单个;  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询容器列表 ''',
@@ -64,7 +65,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.DescribeContainersRequest import DescribeContainersRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeContainersRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeContainersRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -78,6 +80,7 @@ class NcController(BaseController):
             (['--container-spec'], dict(help="""(containerSpec) 创建容器规格 """, dest='containerSpec', required=False)),
             (['--max-count'], dict(help="""(int) 购买实例数量；取值范围：[1,100] """, dest='maxCount', required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建一台或多台指定配置的实例 ''',
@@ -96,7 +99,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.CreateContainersRequest import CreateContainersRequest
             params_dict = collect_user_args(self.app)
-            req = CreateContainersRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateContainersRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -109,6 +113,7 @@ class NcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询容器详情 ''',
@@ -127,7 +132,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.DescribeContainerRequest import DescribeContainerRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeContainerRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeContainerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -140,6 +146,7 @@ class NcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 删除单个实例 ''',
@@ -158,7 +165,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.DeleteContainerRequest import DeleteContainerRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteContainerRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteContainerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -171,6 +179,7 @@ class NcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 启动单个实例 ''',
@@ -189,7 +198,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.StartContainerRequest import StartContainerRequest
             params_dict = collect_user_args(self.app)
-            req = StartContainerRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = StartContainerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -202,6 +212,7 @@ class NcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 停止单个实例 ''',
@@ -220,7 +231,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.StopContainerRequest import StopContainerRequest
             params_dict = collect_user_args(self.app)
-            req = StopContainerRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = StopContainerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -235,6 +247,7 @@ class NcController(BaseController):
             (['--name'], dict(help="""(string) 容器名称 """, dest='name', required=False)),
             (['--description'], dict(help="""(string) 容器描述；和description必须要指定一个 """, dest='description', required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 修改容器属性 ''',
@@ -253,7 +266,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.ModifyContainerAttributeRequest import ModifyContainerAttributeRequest
             params_dict = collect_user_args(self.app)
-            req = ModifyContainerAttributeRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ModifyContainerAttributeRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -267,6 +281,7 @@ class NcController(BaseController):
             (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
             (['--elastic-ip-id'], dict(help="""(string) 弹性IP ID """, dest='elasticIpId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 容器绑定公网IP 绑定的是主网卡、主内网IP对应的弹性IP ''',
@@ -285,7 +300,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.AssociateElasticIpRequest import AssociateElasticIpRequest
             params_dict = collect_user_args(self.app)
-            req = AssociateElasticIpRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = AssociateElasticIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -299,6 +315,7 @@ class NcController(BaseController):
             (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
             (['--elastic-ip-id'], dict(help="""(string) 弹性IP ID """, dest='elasticIpId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 容器解绑公网IP 解绑的是主网卡、主内网IP对应的弹性IP ''',
@@ -317,7 +334,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.DisassociateElasticIpRequest import DisassociateElasticIpRequest
             params_dict = collect_user_args(self.app)
-            req = DisassociateElasticIpRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DisassociateElasticIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -333,6 +351,7 @@ class NcController(BaseController):
             (['--since-seconds'], dict(help="""(int) NA """, dest='sinceSeconds', required=False)),
             (['--limit-bytes'], dict(help="""(int) NA """, dest='limitBytes', required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询容器日志 ''',
@@ -351,7 +370,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.GetLogsRequest import GetLogsRequest
             params_dict = collect_user_args(self.app)
-            req = GetLogsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = GetLogsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -364,6 +384,7 @@ class NcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--resource-type'], dict(help="""(string) 资源类型  container：用户能创建的容器的配额  secret：用户能创建的secret的配额 """, dest='resourceType', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询资源的配额 ''',
@@ -382,7 +403,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.DescribeQuotaRequest import DescribeQuotaRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeQuotaRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeQuotaRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -397,6 +419,7 @@ class NcController(BaseController):
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
             (['--filters'], dict(help="""(array: filter) name - secret名称，支持模糊搜索;  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询secret列表 ''',
@@ -415,7 +438,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.DescribeSecretsRequest import DescribeSecretsRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeSecretsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeSecretsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -430,6 +454,7 @@ class NcController(BaseController):
             (['--secret-type'], dict(help="""(string) 私密数据的类型，目前仅支持如下类型：docker-registry：用来和docker registry认证的类型 """, dest='secretType', required=True)),
             (['--data'], dict(help="""(dockerRegistryData) 机密的数据 """, dest='data', required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建 secret ''',
@@ -448,7 +473,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.CreateSecretRequest import CreateSecretRequest
             params_dict = collect_user_args(self.app)
-            req = CreateSecretRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -461,6 +487,7 @@ class NcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--name'], dict(help="""(string) Secret Name """, dest='name', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询 secret 详情 ''',
@@ -479,7 +506,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.DescribeSecretRequest import DescribeSecretRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeSecretRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -492,6 +520,7 @@ class NcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--name'], dict(help="""(string) Secret Name """, dest='name', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 删除 secret ''',
@@ -510,7 +539,8 @@ class NcController(BaseController):
         try:
             from jdcloud_sdk.services.nc.apis.DeleteSecretRequest import DeleteSecretRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteSecretRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:

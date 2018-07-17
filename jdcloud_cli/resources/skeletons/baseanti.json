@@ -1,0 +1,28 @@
+{
+    "describe-ip-resources":{
+        "regionId":""
+    },
+    "describe-ip-resource-info":{
+        "regionId":"",
+        "ip":""
+    },
+    "set-clean-threshold":{
+        "cleanThresholdSpec":{
+            "cleanThresholdBps":"",
+            "cleanThresholdPps":""
+        },
+        "regionId":"",
+        "ip":""
+    },
+    "describe-ip-resource-protect-info":{
+        "start":"",
+        "limit":"",
+        "regionId":"",
+        "ip":""
+    },
+    "describe-ip-resource-flow":{
+        "endTime":"",
+        "regionId":"",
+        "ip":""
+    }
+}

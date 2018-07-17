@@ -1,4 +1,48 @@
 {
+    "describe-ddos-attack-logs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "regionId":""
+    },
+    "describe-cc-attack-logs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "regionId":""
+    },
+    "describe-cc-attack-log-details":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "instanceId":"",
+        "subDomain":[""],
+        "regionId":""
+    },
+    "ddos-graph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "regionId":""
+    },
+    "fwd-graph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "regionId":""
+    },
+    "cc-graph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "subDomain":[""],
+        "regionId":""
+    },
     "describe-forward-rules":{
         "pageNumber":"",
         "pageSize":"",
@@ -11,7 +55,8 @@
             "port":"",
             "algorithm":"",
             "originType":"",
-            "originAddr":"",
+            "originAddr":[""],
+            "onlineAddr":"",
             "originDomain":"",
             "originPort":""
         },
@@ -29,7 +74,8 @@
             "port":"",
             "algorithm":"",
             "originType":"",
-            "originAddr":"",
+            "originAddr":[""],
+            "onlineAddr":"",
             "originDomain":"",
             "originPort":""
         },
@@ -38,6 +84,16 @@
         "forwardRuleId":""
     },
     "delete-forward-rule":{
+        "regionId":"",
+        "instanceId":"",
+        "forwardRuleId":""
+    },
+    "switch-forward-rule-protect":{
+        "regionId":"",
+        "instanceId":"",
+        "forwardRuleId":""
+    },
+    "switch-forward-rule-origin":{
         "regionId":"",
         "instanceId":"",
         "forwardRuleId":""
@@ -57,7 +113,8 @@
             "carrier":"",
             "bp":"",
             "ep":"",
-            "bw":""
+            "bw":"",
+            "returnUrl":""
         },
         "regionId":""
     },
@@ -69,7 +126,10 @@
         "cCSpec":{
             "ccProtectMode":"",
             "ccThreshold":"",
-            "ccSpeedLimit":""
+            "hostQps":"",
+            "hostUrlQps":"",
+            "ipHostQps":"",
+            "ipHostUrlQps":""
         },
         "regionId":"",
         "instanceId":""
@@ -126,6 +186,30 @@
         "regionId":"",
         "instanceId":""
     },
+    "enable-cc-observer-mode":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "disable-cc-observer-mode":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "enable-cc-ip-limit":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "disable-cc-ip-limit":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "set-cc-ip-limit":{
+        "cCSpec":{
+            "ccSpeedLimit":"",
+            "ccSpeedPeriod":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
     "describe-web-rules":{
         "pageNumber":"",
         "pageSize":"",
@@ -137,10 +221,17 @@
             "domain":"",
             "protocol":"",
             "port":"",
+            "httpsPort":"",
             "originType":"",
-            "originAddr":"",
+            "originAddr":[""],
+            "onlineAddr":"",
+            "originDomain":"",
             "httpsCertContent":"",
-            "httpsRsaKey":""
+            "httpsRsaKey":"",
+            "algorithm":"",
+            "forceJump":"",
+            "customPortStatus":"",
+            "httpOrigin":""
         },
         "regionId":"",
         "instanceId":""
@@ -155,10 +246,17 @@
             "domain":"",
             "protocol":"",
             "port":"",
+            "httpsPort":"",
             "originType":"",
-            "originAddr":"",
+            "originAddr":[""],
+            "onlineAddr":"",
+            "originDomain":"",
             "httpsCertContent":"",
-            "httpsRsaKey":""
+            "httpsRsaKey":"",
+            "algorithm":"",
+            "forceJump":"",
+            "customPortStatus":"",
+            "httpOrigin":""
         },
         "regionId":"",
         "instanceId":"",
@@ -169,4 +267,24 @@
         "instanceId":"",
         "webRuleId":""
     },
+    "switch-web-rule-protect":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "switch-web-rule-origin":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "enable-web-rule-cc":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "disable-web-rule-cc":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    }
 }

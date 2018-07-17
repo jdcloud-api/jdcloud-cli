@@ -46,7 +46,6 @@ class ConfigTest(unittest.TestCase):
 
     def test_normal_flow(self):
         self._add_test_profile('Configure successfully')
-        self._use_profile('test', 'Configure successfully')
         self._show_current_profile()
         self._show_all_profiles()
         self._use_profile('default', 'Configure successfully')
@@ -55,6 +54,7 @@ class ConfigTest(unittest.TestCase):
     def test_add_test_profile_repeatedly(self):
         self._add_test_profile('Configure successfully')
         self._add_test_profile('Profile test has existed')
+        self._use_profile('default', 'Configure successfully')
         self._delete_profile('test', 'Configure successfully')
 
     def test_can_not_delete_current_profile(self):

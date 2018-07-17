@@ -22,6 +22,61 @@
     "list-instance-info":{
         "regionId":""
     },
+    "execute-ras-query":{
+        "databaseName":"",
+        "sql":"",
+        "userName":"",
+        "queueName":"",
+        "source":"",
+        "callBackURL":"",
+        "instanceName":"",
+        "instanceOwnerName":"",
+        "isExplain":"",
+        "regionId":""
+    },
+    "execute-py-spark-query":{
+        "script":"",
+        "userName":"",
+        "instanceName":"",
+        "instanceOwnerName":"",
+        "scriptType":"",
+        "regionId":""
+    },
+    "get-ras-query-state":{
+        "userName":"",
+        "queryId":"",
+        "regionId":""
+    },
+    "get-py-spark-execute-state":{
+        "userName":"",
+        "queryId":"",
+        "regionId":""
+    },
+    "get-ras-query-log":{
+        "userName":"",
+        "queryId":"",
+        "regionId":""
+    },
+    "get-ras-query-result":{
+        "userName":"",
+        "queryId":"",
+        "regionId":""
+    },
+    "get-py-spark-execute-result":{
+        "userName":"",
+        "queryId":"",
+        "regionId":""
+    },
+    "cancel-ras-query":{
+        "userName":"",
+        "queryId":"",
+        "regionId":""
+    },
+    "cancel-py-spark-job":{
+        "userName":"",
+        "queryId":"",
+        "regionId":""
+    },
     "list-table-info":{
         "instanceName":"",
         "databaseName":"",

@@ -20,7 +20,7 @@ from argparse import RawTextHelpFormatter
 from cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.client_factory import ClientFactory
-from jdcloud_cli.parameter_builder import collect_user_args
+from jdcloud_cli.parameter_builder import collect_user_args, collect_user_headers
 from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
@@ -44,6 +44,7 @@ class MongodbController(BaseController):
             (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; instanceName - 实例名称, 模糊匹配; instanceStatus - mongodb状态，精确匹配，支持多个.RUNNING：运行, ERROR：错误 ,BUILDING：创建中, DELETING：删除中, RESTORING：恢复中, RESIZING：变配中;  """, dest='filters', required=False)),
             (['--sorts'], dict(help="""(array: sort) createTime - 创建时间,asc（正序），desc（倒序）;  """, dest='sorts', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询实例信息 ''',
@@ -62,7 +63,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.DescribeInstancesRequest import DescribeInstancesRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeInstancesRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeInstancesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -76,6 +78,7 @@ class MongodbController(BaseController):
             (['--instance-spec'], dict(help="""(dBInstanceSpec) 实例规格 """, dest='instanceSpec', required=True)),
             (['--charge-spec'], dict(help="""(chargeSpec) 付费方式 """, dest='chargeSpec', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建实例 ''',
@@ -94,7 +97,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.CreateInstanceRequest import CreateInstanceRequest
             params_dict = collect_user_args(self.app)
-            req = CreateInstanceRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateInstanceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -107,6 +111,7 @@ class MongodbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 删除实例 ''',
@@ -125,7 +130,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.DeleteInstanceRequest import DeleteInstanceRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteInstanceRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteInstanceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -139,6 +145,7 @@ class MongodbController(BaseController):
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
             (['--account-password'], dict(help="""(string) 新密码，必须包含且只支持字母及数字，不少于8字符不超过16字符。 """, dest='accountPassword', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 重置密码 ''',
@@ -157,7 +164,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.ResetPasswordRequest import ResetPasswordRequest
             params_dict = collect_user_args(self.app)
-            req = ResetPasswordRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ResetPasswordRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -172,6 +180,7 @@ class MongodbController(BaseController):
             (['--instance-class'], dict(help="""(string) 实例规格，包年包月不允许小于当前规格。 """, dest='instanceClass', required=True)),
             (['--instance-storage-gb'], dict(help="""(int) 存储空间，包年包月不允许小于当前规格。 """, dest='instanceStorageGB', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 变更实例规格 ''',
@@ -190,7 +199,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.ModifyInstanceSpecRequest import ModifyInstanceSpecRequest
             params_dict = collect_user_args(self.app)
-            req = ModifyInstanceSpecRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ModifyInstanceSpecRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -204,6 +214,7 @@ class MongodbController(BaseController):
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
             (['--instance-name'], dict(help="""(string) 新的实例名称，只支持数字、字母、英文下划线、中文，且不少于2字符不超过32字符。 """, dest='instanceName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 修改实例名称 ''',
@@ -222,7 +233,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.ModifyInstanceNameRequest import ModifyInstanceNameRequest
             params_dict = collect_user_args(self.app)
-            req = ModifyInstanceNameRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ModifyInstanceNameRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -235,6 +247,7 @@ class MongodbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 获取备份策略 ''',
@@ -253,7 +266,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.DescribeBackupPolicyRequest import DescribeBackupPolicyRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeBackupPolicyRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeBackupPolicyRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -267,6 +281,7 @@ class MongodbController(BaseController):
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
             (['--preferred-backup-time'], dict(help="""(string) 备份时间，格式：HH:mmZ- HH:mmZ，只允许间隔时间为1小时的整点. """, dest='preferredBackupTime', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 修改备份策略 ''',
@@ -285,7 +300,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.ModifyBackupPolicyRequest import ModifyBackupPolicyRequest
             params_dict = collect_user_args(self.app)
-            req = ModifyBackupPolicyRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ModifyBackupPolicyRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -299,6 +315,7 @@ class MongodbController(BaseController):
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
             (['--backup-id'], dict(help="""(string) 备份ID """, dest='backupId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 数据恢复 ''',
@@ -317,7 +334,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.RestoreInstanceRequest import RestoreInstanceRequest
             params_dict = collect_user_args(self.app)
-            req = RestoreInstanceRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = RestoreInstanceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -332,6 +350,7 @@ class MongodbController(BaseController):
             (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', required=False)),
             (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; backupId - 备份ID, 精确匹配;  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查看备份 ''',
@@ -350,7 +369,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.DescribeBackupsRequest import DescribeBackupsRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeBackupsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeBackupsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -364,6 +384,7 @@ class MongodbController(BaseController):
             (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
             (['--backup-name'], dict(help="""(string) 备份名称 """, dest='backupName', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建备份 ''',
@@ -382,7 +403,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.CreateBackupRequest import CreateBackupRequest
             params_dict = collect_user_args(self.app)
-            req = CreateBackupRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateBackupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -395,6 +417,7 @@ class MongodbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 删除备份 ''',
@@ -413,7 +436,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.DeleteBackupRequest import DeleteBackupRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteBackupRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteBackupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -426,6 +450,7 @@ class MongodbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 获取备份下载链接 ''',
@@ -444,7 +469,8 @@ class MongodbController(BaseController):
         try:
             from jdcloud_sdk.services.mongodb.apis.BackupDownloadURLRequest import BackupDownloadURLRequest
             params_dict = collect_user_args(self.app)
-            req = BackupDownloadURLRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = BackupDownloadURLRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:

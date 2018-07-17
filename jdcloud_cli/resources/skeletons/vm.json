@@ -17,6 +17,10 @@
         "regionId":"",
         "imageId":""
     },
+    "describe-image-constraints-batch":{
+        "ids":[""],
+        "regionId":""
+    },
     "share-image":{
         "pins":[""],
         "regionId":"",
@@ -28,6 +32,12 @@
         "imageId":""
     },
     "describe-image-members":{
+        "regionId":"",
+        "imageId":""
+    },
+    "modify-image-attribute":{
+        "name":"",
+        "description":"",
         "regionId":"",
         "imageId":""
     },
@@ -113,6 +123,16 @@
     "delete-instance":{
         "regionId":"",
         "instanceId":""
+    },
+    "describe-instance-status":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
     },
     "stop-instance":{
         "regionId":"",

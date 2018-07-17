@@ -20,7 +20,7 @@ from argparse import RawTextHelpFormatter
 from cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.client_factory import ClientFactory
-from jdcloud_cli.parameter_builder import collect_user_args
+from jdcloud_cli.parameter_builder import collect_user_args, collect_user_headers
 from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
@@ -43,6 +43,7 @@ class RdsController(BaseController):
             (['--account-name'], dict(help="""(string) 用户名 """, dest='accountName', required=True)),
             (['--account-password'], dict(help="""(string) 用户密码 """, dest='accountPassword', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建数据库账户 ''',
@@ -61,7 +62,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.CreateAccountRequest import CreateAccountRequest
             params_dict = collect_user_args(self.app)
-            req = CreateAccountRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateAccountRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -75,6 +77,7 @@ class RdsController(BaseController):
             (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
             (['--account-name'], dict(help="""(string) 账户名 """, dest='accountName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 删除数据库账户 ''',
@@ -93,7 +96,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.DeleteAccountRequest import DeleteAccountRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteAccountRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteAccountRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -108,6 +112,7 @@ class RdsController(BaseController):
             (['--account-name'], dict(help="""(string) 账户名 """, dest='accountName', required=True)),
             (['--account-privileges'], dict(help="""(array: accountPrivilege) 账号的访问权限 """, dest='accountPrivileges', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 数据库账号授权 ''',
@@ -126,7 +131,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.GrantPrivilegeRequest import GrantPrivilegeRequest
             params_dict = collect_user_args(self.app)
-            req = GrantPrivilegeRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = GrantPrivilegeRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -141,6 +147,7 @@ class RdsController(BaseController):
             (['--account-name'], dict(help="""(string) 账户名 """, dest='accountName', required=True)),
             (['--account-password'], dict(help="""(string) 新密码 """, dest='accountPassword', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 数据库账号重置密码 ''',
@@ -159,7 +166,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.ResetPasswordRequest import ResetPasswordRequest
             params_dict = collect_user_args(self.app)
-            req = ResetPasswordRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ResetPasswordRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -179,6 +187,7 @@ class RdsController(BaseController):
             (['--page-number'], dict(help="""(int) 显示数据的页码，取值范围：[1,1000)，页码超过总页数时，显示最后一页，用于查询列表的接口 """, dest='pageNumber', required=True)),
             (['--page-size'], dict(help="""(int) 每页显示的数据条数，取值范围：10/20/30/50/100 """, dest='pageSize', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 获取备份信息 ''',
@@ -197,7 +206,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.DescribeBackupsRequest import DescribeBackupsRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeBackupsRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeBackupsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -211,6 +221,7 @@ class RdsController(BaseController):
             (['--instance-id'], dict(help="""(string) 集群ID """, dest='instanceId', required=False)),
             (['--backup-spec'], dict(help="""(backupSpec) 备份规格 """, dest='backupSpec', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建备份 ''',
@@ -229,7 +240,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.CreateBackupRequest import CreateBackupRequest
             params_dict = collect_user_args(self.app)
-            req = CreateBackupRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateBackupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -244,6 +256,7 @@ class RdsController(BaseController):
             (['--file-name'], dict(help="""(string) MySQL：无需此参数；SQL Server：指定该备份中需要获取下载链接的文件名称，SQL Server必须输入该参数 """, dest='fileName', required=False)),
             (['--url-expiration-second'], dict(help="""(string) 指定下载链接的有效时间，单位秒,缺省为86400秒（即24小时） 取值范围：1-864000 """, dest='urlExpirationSecond', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 获取备份下载链接 ''',
@@ -262,7 +275,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.DescribeBackupDownloadURLRequest import DescribeBackupDownloadURLRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeBackupDownloadURLRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeBackupDownloadURLRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -277,6 +291,7 @@ class RdsController(BaseController):
             (['--db-name'], dict(help="""(string) 数据库名称 """, dest='dbName', required=True)),
             (['--character-set-name'], dict(help="""(string) 字符集名称,mysql字符集包括：utf8；SQL Server字符集包括：Chinese_PRC_CI_AS、Chinese_PRC_CS_AS、SQL_Latin1_General_CP1_CI_AS、SQL_Latin1_General_CP1_CS_AS、Chinese_PRC_BIN """, dest='characterSetName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建数据库 ''',
@@ -295,7 +310,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.CreateDatabaseRequest import CreateDatabaseRequest
             params_dict = collect_user_args(self.app)
-            req = CreateDatabaseRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateDatabaseRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -309,6 +325,7 @@ class RdsController(BaseController):
             (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
             (['--db-name'], dict(help="""(string) 库名称 """, dest='dbName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 删除数据库 ''',
@@ -327,7 +344,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.DeleteDatabaseRequest import DeleteDatabaseRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteDatabaseRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteDatabaseRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -343,6 +361,7 @@ class RdsController(BaseController):
             (['--backup-id'], dict(help="""(string) 备份ID """, dest='backupId', required=True)),
             (['--backup-file-name'], dict(help="""(string) 指定该备份中用于恢复数据库的文件名称 """, dest='backupFileName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 从云数据库SQL Server备份中恢复单个数据库 ''',
@@ -361,7 +380,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.RestoreDatabaseFromBackupRequest import RestoreDatabaseFromBackupRequest
             params_dict = collect_user_args(self.app)
-            req = RestoreDatabaseFromBackupRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = RestoreDatabaseFromBackupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -377,6 +397,7 @@ class RdsController(BaseController):
             (['--shared-file-gid'], dict(help="""(string) 共享文件的全局ID，可从上传文件查询接口describeImportFiles获取；如果该文件不是共享文件，则全局ID为空 """, dest='sharedFileGid', required=False)),
             (['--file-name'], dict(help="""(string) 用户在单库上云中上传的文件名称 """, dest='fileName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 从用户上传的备份文件中恢复SQL Server数据库 ''',
@@ -395,7 +416,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.RestoreDatabaseFromFileRequest import RestoreDatabaseFromFileRequest
             params_dict = collect_user_args(self.app)
-            req = RestoreDatabaseFromFileRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = RestoreDatabaseFromFileRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -408,6 +430,7 @@ class RdsController(BaseController):
             (['--region-id'], dict(help="""(string) 区域编码 """, dest='regionId', required=False)),
             (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 获取单库上云文件列表 ''',
@@ -426,7 +449,8 @@ class RdsController(BaseController):
         try:
             from jdcloud_sdk.services.rds.apis.DescribeImportFilesRequest import DescribeImportFilesRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeImportFilesRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeImportFilesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:

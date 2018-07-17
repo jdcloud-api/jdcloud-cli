@@ -20,7 +20,7 @@ from argparse import RawTextHelpFormatter
 from cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.client_factory import ClientFactory
-from jdcloud_cli.parameter_builder import collect_user_args
+from jdcloud_cli.parameter_builder import collect_user_args, collect_user_headers
 from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
@@ -44,6 +44,7 @@ class RedisController(BaseController):
             (['--filters'], dict(help="""(array: filter) cacheInstanceId -实例Id，精确匹配，支持多个; cacheInstanceName - 实例名称，模糊匹配，支持单个; cacheInstanceStatus - redis状态，精确匹配，支持多个(running：运行，error：错误，creating：创建中，changing：变配中，deleting：删除中);  """, dest='filters', required=False)),
             (['--sorts'], dict(help="""(array: sort) createTime - 创建时间(asc：正序，desc：倒序);  """, dest='sorts', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询缓存Redis实例列表 ''',
@@ -62,7 +63,8 @@ class RedisController(BaseController):
         try:
             from jdcloud_sdk.services.redis.apis.DescribeCacheInstancesRequest import DescribeCacheInstancesRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeCacheInstancesRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeCacheInstancesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -76,6 +78,7 @@ class RedisController(BaseController):
             (['--cache-instance'], dict(help="""(cacheInstanceSpec) NA """, dest='cacheInstance', required=True)),
             (['--charge'], dict(help="""(chargeSpec) NA """, dest='charge', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 创建一个指定配置的缓存Redis实例 ''',
@@ -94,7 +97,8 @@ class RedisController(BaseController):
         try:
             from jdcloud_sdk.services.redis.apis.CreateCacheInstanceRequest import CreateCacheInstanceRequest
             params_dict = collect_user_args(self.app)
-            req = CreateCacheInstanceRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = CreateCacheInstanceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -107,6 +111,7 @@ class RedisController(BaseController):
             (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前缓存Redis有华北、华南、华东区域，对应Region ID为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId', required=False)),
             (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID """, dest='cacheInstanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询缓存Redis实例详情 ''',
@@ -125,7 +130,8 @@ class RedisController(BaseController):
         try:
             from jdcloud_sdk.services.redis.apis.DescribeCacheInstanceRequest import DescribeCacheInstanceRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeCacheInstanceRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeCacheInstanceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -140,6 +146,7 @@ class RedisController(BaseController):
             (['--cache-instance-name'], dict(help="""(string) 缓存Redis实例资源名称 """, dest='cacheInstanceName', required=False)),
             (['--cache-instance-description'], dict(help="""(string) 缓存Redis实例资源描述 """, dest='cacheInstanceDescription', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 修改缓存Redis实例的资源名称、描述，二者至少选一 ''',
@@ -158,7 +165,8 @@ class RedisController(BaseController):
         try:
             from jdcloud_sdk.services.redis.apis.ModifyCacheInstanceAttributeRequest import ModifyCacheInstanceAttributeRequest
             params_dict = collect_user_args(self.app)
-            req = ModifyCacheInstanceAttributeRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ModifyCacheInstanceAttributeRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -171,6 +179,7 @@ class RedisController(BaseController):
             (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前缓存Redis有华北、华南、华东区域，对应Region ID为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId', required=False)),
             (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID """, dest='cacheInstanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 删除单个缓存Redis实例 ''',
@@ -189,7 +198,8 @@ class RedisController(BaseController):
         try:
             from jdcloud_sdk.services.redis.apis.DeleteCacheInstanceRequest import DeleteCacheInstanceRequest
             params_dict = collect_user_args(self.app)
-            req = DeleteCacheInstanceRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DeleteCacheInstanceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -203,6 +213,7 @@ class RedisController(BaseController):
             (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID """, dest='cacheInstanceId', required=True)),
             (['--cache-instance-class'], dict(help="""(string) 变更后的缓存Redis<a href="https://www.jdcloud.com/help/detail/411/isCatalog/1">实例规格代码</a> """, dest='cacheInstanceClass', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 变更缓存Redis实例配置 ''',
@@ -221,7 +232,8 @@ class RedisController(BaseController):
         try:
             from jdcloud_sdk.services.redis.apis.ModifyCacheInstanceClassRequest import ModifyCacheInstanceClassRequest
             params_dict = collect_user_args(self.app)
-            req = ModifyCacheInstanceClassRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ModifyCacheInstanceClassRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -235,6 +247,7 @@ class RedisController(BaseController):
             (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID """, dest='cacheInstanceId', required=True)),
             (['--password'], dict(help="""(string) 密码，必须包含且只支持字母及数字，不少于8字符不超过16字符 """, dest='password', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 重置缓存Redis实例密码 ''',
@@ -253,7 +266,8 @@ class RedisController(BaseController):
         try:
             from jdcloud_sdk.services.redis.apis.ResetCacheInstancePasswordRequest import ResetCacheInstancePasswordRequest
             params_dict = collect_user_args(self.app)
-            req = ResetCacheInstancePasswordRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = ResetCacheInstancePasswordRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -265,6 +279,7 @@ class RedisController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询某区域下的实例规格列表 ''',
@@ -283,7 +298,8 @@ class RedisController(BaseController):
         try:
             from jdcloud_sdk.services.redis.apis.DescribeInstanceClassRequest import DescribeInstanceClassRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeInstanceClassRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeInstanceClassRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -295,6 +311,7 @@ class RedisController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前缓存Redis有华北、华南、华东区域，对应Region ID为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 查询账户配额信息 ''',
@@ -313,7 +330,8 @@ class RedisController(BaseController):
         try:
             from jdcloud_sdk.services.redis.apis.DescribeUserQuotaRequest import DescribeUserQuotaRequest
             params_dict = collect_user_args(self.app)
-            req = DescribeUserQuotaRequest(params_dict)
+            headers = collect_user_headers(self.app)
+            req = DescribeUserQuotaRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:

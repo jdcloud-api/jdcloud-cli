@@ -34,11 +34,27 @@ def collect_user_args(app):
     return params_dict
 
 
+def collect_user_headers(app):
+    headers = app.pargs.headers
+    if headers is None:
+        return None
+
+    try:
+        obj = yaml.load(headers)
+        if not isinstance(obj, dict):
+            raise yaml.YAMLError
+    except yaml.YAMLError:
+        print 'user headers is not dict'
+        exit(1)
+
+    return obj
+
+
 def _get_input_args(pargs_dict):
     result = dict()
 
     for key in pargs_dict.keys():
-        if key.startswith('_') or key in ['suppress_output', 'debug', 'output', 'skeleton']:
+        if key.startswith('_') or key in ['suppress_output', 'debug', 'output', 'skeleton', 'headers']:
             continue
 
         dispatch = pargs_dict['__dispatch__'].replace('_', '-')
