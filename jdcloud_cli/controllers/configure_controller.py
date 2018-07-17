@@ -43,8 +43,13 @@ class ConfigureController(BaseController):
         help='配置CLI运行环境，包括 access key, secret key 和区域等信息',
         description='''
         配置CLI运行环境，包括 access key, secret key 和区域等信息。新增后即设置为当前配置。
-        其中 access key 和 secret key 为必选参数。同时支持非选项的密码输入方式。
+        其中 access key 和 secret key 为必选参数。
         示例：jdc configure add --profile test --access-key xxx --secret-key xxx
+        
+        同时支持密码输入方式。
+        示例：jdc configure add --profile test[Enter]
+        Please input your access-key:
+        Please input your secret-key:
         '''
     )
     def add(self):

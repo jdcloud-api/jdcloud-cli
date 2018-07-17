@@ -6,7 +6,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http:#www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -70,7 +70,7 @@ class ClientFactory(object):
 
         logger = get_logger(app.pargs.debug)
 
-        config = Config(cli_config.endpoint, cli_config.scheme)
+        config = Config(cli_config.endpoint, cli_config.scheme, int(cli_config.timeout))
         credential = Credential(cli_config.access_key, cli_config.secret_key)
         if self.__service not in client_map:
             return None
