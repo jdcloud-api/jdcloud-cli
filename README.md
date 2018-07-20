@@ -76,21 +76,25 @@ source ~/.bashrc
 
 ## CLI使用方法
 ### 配置鉴权信息
-jdc configure add --access-key your-ak --secret-key your-sk
+`jdc configure add --access-key your-ak --secret-key your-sk`
 
 说明：access-key和secret-key可以从京东云控制台申请开通。默认为华北区域。
 
 ### 执行产品命令
-jdc [options] command sub-command [--parameters values]
+`jdc [options] command sub-command [--parameters values]`
 
 例如：
-jdc vm describe-instances
+
+`jdc vm describe-instances`
 
 目前支持Linux、Mac、Windows三种平台的Bash中的自动完成功能，输入两次tab键，可提示辅助信息。
-
 创建资源时，json串的获取可以使用各产品线子命令下的 generate-skeleton 获取，如：
-           
+
 `jdc vm generate-skeleton --api create-instances`
+
+如果需要设置额外的header，例如要调用开启了MFA操作保护的接口，需要传递x-jdcloud-security-token，则按照如下方式：
+
+`jdc nc delete-container --headers '{"x-jdcloud-security-token":"xxx"}' --container-id xxxxx`
 
 更多帮助信息及OpenAPI官方文档，请见：
 https://www.jdcloud.com/help/faq?act=3
