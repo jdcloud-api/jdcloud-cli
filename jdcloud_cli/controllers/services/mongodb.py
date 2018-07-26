@@ -6,7 +6,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http:#www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,6 +35,141 @@ class MongodbController(BaseController):
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; backupId - 备份ID, 精确匹配;  """, dest='filters', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看备份 ''',
+        description='''
+            查看备份。
+
+            示例: jdc mongodb describe-backups 
+        ''',
+    )
+    def describe_backups(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.DescribeBackupsRequest import DescribeBackupsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeBackupsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
+            (['--backup-name'], dict(help="""(string) 备份名称 """, dest='backupName', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建备份 ''',
+        description='''
+            创建备份。
+
+            示例: jdc mongodb create-backup  --instance-id xxx
+        ''',
+    )
+    def create_backup(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.CreateBackupRequest import CreateBackupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateBackupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除备份 ''',
+        description='''
+            删除备份。
+
+            示例: jdc mongodb delete-backup  --backup-id xxx
+        ''',
+    )
+    def delete_backup(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.DeleteBackupRequest import DeleteBackupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteBackupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取备份下载链接 ''',
+        description='''
+            获取备份下载链接。
+
+            示例: jdc mongodb backup-download-url  --backup-id xxx
+        ''',
+    )
+    def backup_download_url(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.BackupDownloadURLRequest import BackupDownloadURLRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = BackupDownloadURLRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
 
     @expose(
         arguments=[
@@ -345,142 +480,7 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; backupId - 备份ID, 精确匹配;  """, dest='filters', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查看备份 ''',
-        description='''
-            查看备份。
-
-            示例: jdc mongodb describe-backups 
-        ''',
-    )
-    def describe_backups(self):
-        client_factory = ClientFactory('mongodb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.mongodb.apis.DescribeBackupsRequest import DescribeBackupsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeBackupsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--backup-name'], dict(help="""(string) 备份名称 """, dest='backupName', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建备份 ''',
-        description='''
-            创建备份。
-
-            示例: jdc mongodb create-backup  --instance-id xxx
-        ''',
-    )
-    def create_backup(self):
-        client_factory = ClientFactory('mongodb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.mongodb.apis.CreateBackupRequest import CreateBackupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateBackupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除备份 ''',
-        description='''
-            删除备份。
-
-            示例: jdc mongodb delete-backup  --backup-id xxx
-        ''',
-    )
-    def delete_backup(self):
-        client_factory = ClientFactory('mongodb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.mongodb.apis.DeleteBackupRequest import DeleteBackupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteBackupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 获取备份下载链接 ''',
-        description='''
-            获取备份下载链接。
-
-            示例: jdc mongodb backup-download-url  --backup-id xxx
-        ''',
-    )
-    def backup_download_url(self):
-        client_factory = ClientFactory('mongodb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.mongodb.apis.BackupDownloadURLRequest import BackupDownloadURLRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = BackupDownloadURLRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-instances','create-instance','delete-instance','reset-password','modify-instance-spec','modify-instance-name','describe-backup-policy','modify-backup-policy','restore-instance','describe-backups','create-backup','delete-backup','backup-download-url',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-backups','create-backup','delete-backup','backup-download-url','describe-instances','create-instance','delete-instance','reset-password','modify-instance-spec','modify-instance-name','describe-backup-policy','modify-backup-policy','restore-instance',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

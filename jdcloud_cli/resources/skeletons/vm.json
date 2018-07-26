@@ -1,45 +1,19 @@
 {
-    "describe-image":{
-        "regionId":"",
-        "imageId":""
-    },
-    "delete-image":{
-        "regionId":"",
-        "imageId":""
-    },
-    "describe-images":{
-        "imageSource":"",
-        "platform":"",
-        "ids":[""],
+    "describe-quotas":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "regionId":""
     },
-    "describe-image-constraints":{
-        "regionId":"",
-        "imageId":""
-    },
-    "describe-image-constraints-batch":{
-        "ids":[""],
+    "describe-instance-types":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "regionId":""
-    },
-    "share-image":{
-        "pins":[""],
-        "regionId":"",
-        "imageId":""
-    },
-    "un-share-image":{
-        "pins":[""],
-        "regionId":"",
-        "imageId":""
-    },
-    "describe-image-members":{
-        "regionId":"",
-        "imageId":""
-    },
-    "modify-image-attribute":{
-        "name":"",
-        "description":"",
-        "regionId":"",
-        "imageId":""
     },
     "describe-instances":{
         "pageNumber":"",
@@ -221,20 +195,46 @@
         "regionId":"",
         "instanceId":""
     },
-    "describe-instance-types":{
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
+    "describe-image":{
+        "regionId":"",
+        "imageId":""
+    },
+    "delete-image":{
+        "regionId":"",
+        "imageId":""
+    },
+    "describe-images":{
+        "imageSource":"",
+        "platform":"",
+        "ids":[""],
         "regionId":""
     },
-    "describe-quotas":{
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
+    "describe-image-constraints":{
+        "regionId":"",
+        "imageId":""
+    },
+    "describe-image-constraints-batch":{
+        "ids":[""],
         "regionId":""
+    },
+    "share-image":{
+        "pins":[""],
+        "regionId":"",
+        "imageId":""
+    },
+    "un-share-image":{
+        "pins":[""],
+        "regionId":"",
+        "imageId":""
+    },
+    "describe-image-members":{
+        "regionId":"",
+        "imageId":""
+    },
+    "modify-image-attribute":{
+        "name":"",
+        "description":"",
+        "regionId":"",
+        "imageId":""
     }
 }

@@ -21,10 +21,10 @@ import os
 import json
 
 
-class XdataTest(unittest.TestCase):
+class ClouddnsserviceTest(unittest.TestCase):
 
-    def test_execute_ras_query(self):
-        cmd = """python ../../main.py xdata execute-ras-query  --sql 'xxx' --user-name 'xxx' --instance-name 'xxx'"""
+    def test_get_domains(self):
+        cmd = """python ../../main.py clouddnsservice get-domains  --page-number '5' --page-size '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_execute_py_spark_query(self):
-        cmd = """python ../../main.py xdata execute-py-spark-query  --script 'xxx' --user-name 'xxx' --instance-name 'xxx'"""
+    def test_add_domain(self):
+        cmd = """python ../../main.py clouddnsservice add-domain  --pack-id '5' --domain-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_ras_query_state(self):
-        cmd = """python ../../main.py xdata get-ras-query-state  --user-name 'xxx' --query-id 'xxx'"""
+    def test_del_domain(self):
+        cmd = """python ../../main.py clouddnsservice del-domain  --domain-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_py_spark_execute_state(self):
-        cmd = """python ../../main.py xdata get-py-spark-execute-state  --user-name 'xxx' --query-id 'xxx'"""
+    def test_update_domain(self):
+        cmd = """python ../../main.py clouddnsservice update-domain  --domain-name 'xxx' --id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -59,8 +59,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_ras_query_log(self):
-        cmd = """python ../../main.py xdata get-ras-query-log  --user-name 'xxx' --query-id 'xxx'"""
+    def test_get_domain_statistics(self):
+        cmd = """python ../../main.py clouddnsservice get-domain-statistics  --domain-id 'xxx' --action 'xxx' --domain-name 'xxx' --start 'xxx' --end 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -68,8 +68,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_ras_query_result(self):
-        cmd = """python ../../main.py xdata get-ras-query-result  --user-name 'xxx' --query-id 'xxx'"""
+    def test_get_monitor(self):
+        cmd = """python ../../main.py clouddnsservice get-monitor  --domain-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -77,8 +77,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_py_spark_execute_result(self):
-        cmd = """python ../../main.py xdata get-py-spark-execute-result  --user-name 'xxx' --query-id 'xxx'"""
+    def test_add_monitor(self):
+        cmd = """python ../../main.py clouddnsservice add-monitor  --domain-id 'xxx' --sub-domain-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,8 +86,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_cancel_ras_query(self):
-        cmd = """python ../../main.py xdata cancel-ras-query  --user-name 'xxx' --query-id 'xxx'"""
+    def test_get_targets(self):
+        cmd = """python ../../main.py clouddnsservice get-targets  --domain-id 'xxx' --sub-domain-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -95,8 +95,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_cancel_py_spark_job(self):
-        cmd = """python ../../main.py xdata cancel-py-spark-job  --user-name 'xxx' --query-id 'xxx'"""
+    def test_add_monitor_target(self):
+        cmd = """python ../../main.py clouddnsservice add-monitor-target  --domain-id 'xxx' --sub-domain-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -104,8 +104,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_list_database_info(self):
-        cmd = """python ../../main.py xdata list-database-info  --instance-name 'xxx'"""
+    def test_operate_monitor(self):
+        cmd = """python ../../main.py clouddnsservice operate-monitor  --domain-id 'xxx' --action 'xxx' --ids '[5]'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -113,8 +113,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_database_info(self):
-        cmd = """python ../../main.py xdata get-database-info  --database-name 'xxx' --instance-name 'xxx'"""
+    def test_update_monitor(self):
+        cmd = """python ../../main.py clouddnsservice update-monitor  --domain-id 'xxx' --update-monitor '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -122,8 +122,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_database(self):
-        cmd = """python ../../main.py xdata create-database  --database-name 'xxx' --instance-name 'xxx'"""
+    def test_get_monitor_alarm_info(self):
+        cmd = """python ../../main.py clouddnsservice get-monitor-alarm-info  --domain-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -131,8 +131,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_database(self):
-        cmd = """python ../../main.py xdata delete-database  --database-name 'xxx' --instance-name 'xxx'"""
+    def test_search_rr(self):
+        cmd = """python ../../main.py clouddnsservice search-rr  --domain-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -140,8 +140,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_list_instance_info(self):
-        cmd = """python ../../main.py xdata list-instance-info """
+    def test_get_view_tree(self):
+        cmd = """python ../../main.py clouddnsservice get-view-tree  --domain-id 'xxx' --pack-id '5' --view-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -149,8 +149,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_list_table_info(self):
-        cmd = """python ../../main.py xdata list-table-info  --instance-name 'xxx' --database-name 'xxx'"""
+    def test_add_rr(self):
+        cmd = """python ../../main.py clouddnsservice add-rr  --domain-id 'xxx' --req '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -158,8 +158,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_table(self):
-        cmd = """python ../../main.py xdata create-table  --instance-name 'xxx' --db-model-dbtable '{"":""}'"""
+    def test_update_rr(self):
+        cmd = """python ../../main.py clouddnsservice update-rr  --domain-id 'xxx' --req '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -167,17 +167,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_table_info(self):
-        cmd = """python ../../main.py xdata get-table-info  --table-name 'xxx' --instance-name 'xxx' --database-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_table(self):
-        cmd = """python ../../main.py xdata delete-table  --table-name 'xxx' --instance-name 'xxx' --database-name 'xxx'"""
+    def test_operate_rr(self):
+        cmd = """python ../../main.py clouddnsservice operate-rr  --domain-id 'xxx' --ids '[5]' --action 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -6,7 +6,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http:#www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,42 @@ import json
 
 
 class MongodbTest(unittest.TestCase):
+
+    def test_describe_backups(self):
+        cmd = """python ../../main.py mongodb describe-backups """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_backup(self):
+        cmd = """python ../../main.py mongodb create-backup  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_backup(self):
+        cmd = """python ../../main.py mongodb delete-backup  --backup-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_backup_download_url(self):
+        cmd = """python ../../main.py mongodb backup-download-url  --backup-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
 
     def test_describe_instances(self):
         cmd = """python ../../main.py mongodb describe-instances """
@@ -97,42 +133,6 @@ class MongodbTest(unittest.TestCase):
 
     def test_restore_instance(self):
         cmd = """python ../../main.py mongodb restore-instance  --instance-id 'xxx' --backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_backups(self):
-        cmd = """python ../../main.py mongodb describe-backups """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_backup(self):
-        cmd = """python ../../main.py mongodb create-backup  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_backup(self):
-        cmd = """python ../../main.py mongodb delete-backup  --backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_backup_download_url(self):
-        cmd = """python ../../main.py mongodb backup-download-url  --backup-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -6,7 +6,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http:#www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,8 +23,8 @@ import json
 
 class VpcTest(unittest.TestCase):
 
-    def test_describe_elastic_ips(self):
-        cmd = """python ../../main.py vpc describe-elastic-ips """
+    def test_describe_network_interfaces(self):
+        cmd = """python ../../main.py vpc describe-network-interfaces """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_elastic_ips(self):
-        cmd = """python ../../main.py vpc create-elastic-ips  --max-count '5' --elastic-ip-spec '{"":""}'"""
+    def test_create_network_interface(self):
+        cmd = """python ../../main.py vpc create-network-interface  --subnet-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_elastic_ip(self):
-        cmd = """python ../../main.py vpc describe-elastic-ip  --elastic-ip-id 'xxx'"""
+    def test_describe_network_interface(self):
+        cmd = """python ../../main.py vpc describe-network-interface  --network-interface-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,17 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_elastic_ip(self):
-        cmd = """python ../../main.py vpc delete-elastic-ip  --elastic-ip-id 'xxx'"""
+    def test_modify_network_interface(self):
+        cmd = """python ../../main.py vpc modify-network-interface  --network-interface-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_network_interface(self):
+        cmd = """python ../../main.py vpc delete-network-interface  --network-interface-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -95,24 +104,6 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_network_security_groups(self):
-        cmd = """python ../../main.py vpc describe-network-security-groups """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_network_security_group(self):
-        cmd = """python ../../main.py vpc describe-network-security-group  --network-security-group-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_subnets(self):
         cmd = """python ../../main.py vpc describe-subnets """
         with os.popen(cmd) as f:
@@ -131,8 +122,8 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_vpcs(self):
-        cmd = """python ../../main.py vpc describe-vpcs """
+    def test_describe_network_security_groups(self):
+        cmd = """python ../../main.py vpc describe-network-security-groups """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -140,8 +131,98 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_vpc(self):
-        cmd = """python ../../main.py vpc describe-vpc  --vpc-id 'xxx'"""
+    def test_create_network_security_group(self):
+        cmd = """python ../../main.py vpc create-network-security-group  --vpc-id 'xxx' --network-security-group-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_network_security_group(self):
+        cmd = """python ../../main.py vpc describe-network-security-group  --network-security-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_network_security_group(self):
+        cmd = """python ../../main.py vpc modify-network-security-group  --network-security-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_network_security_group(self):
+        cmd = """python ../../main.py vpc delete-network-security-group  --network-security-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_network_security_group_rules(self):
+        cmd = """python ../../main.py vpc add-network-security-group-rules  --network-security-group-id 'xxx' --network-security-group-rule-specs '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_remove_network_security_group_rules(self):
+        cmd = """python ../../main.py vpc remove-network-security-group-rules  --network-security-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_network_security_group_rules(self):
+        cmd = """python ../../main.py vpc modify-network-security-group-rules  --network-security-group-id 'xxx' --modify-security-group-rule-specs '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_elastic_ips(self):
+        cmd = """python ../../main.py vpc describe-elastic-ips """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_elastic_ips(self):
+        cmd = """python ../../main.py vpc create-elastic-ips  --max-count '5' --elastic-ip-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_elastic_ip(self):
+        cmd = """python ../../main.py vpc describe-elastic-ip  --elastic-ip-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_elastic_ip(self):
+        cmd = """python ../../main.py vpc delete-elastic-ip  --elastic-ip-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -187,6 +268,24 @@ class VpcTest(unittest.TestCase):
 
     def test_delete_vpc_peering(self):
         cmd = """python ../../main.py vpc delete-vpc-peering  --vpc-peering-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_vpcs(self):
+        cmd = """python ../../main.py vpc describe-vpcs """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_vpc(self):
+        cmd = """python ../../main.py vpc describe-vpc  --vpc-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

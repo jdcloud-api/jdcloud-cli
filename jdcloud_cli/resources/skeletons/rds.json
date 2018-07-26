@@ -1,30 +1,4 @@
 {
-    "create-account":{
-        "accountName":"",
-        "accountPassword":"",
-        "regionId":"",
-        "instanceId":""
-    },
-    "delete-account":{
-        "regionId":"",
-        "instanceId":"",
-        "accountName":""
-    },
-    "grant-privilege":{
-        "accountPrivileges":[{
-            "dbName":"",
-            "privilege":""
-        }],
-        "regionId":"",
-        "instanceId":"",
-        "accountName":""
-    },
-    "reset-password":{
-        "accountPassword":"",
-        "regionId":"",
-        "instanceId":"",
-        "accountName":""
-    },
     "describe-backups":{
         "instanceId":"",
         "auto":"",
@@ -44,11 +18,117 @@
         },
         "regionId":""
     },
+    "delete-backup":{
+        "regionId":"",
+        "backupId":""
+    },
     "describe-backup-download-url":{
         "fileName":"",
         "urlExpirationSecond":"",
         "regionId":"",
         "backupId":""
+    },
+    "describe-error-logs":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-audit":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-audit":{
+        "enabled":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "delete-audit":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "get-audit-options":{
+        "name":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-audit":{
+        "add":"",
+        "drop":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "get-audit-files":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "get-audit-download-url":{
+        "fileName":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-import-files":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "get-upload-key":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "set-import-file-shared":{
+        "shared":"",
+        "regionId":"",
+        "instanceId":"",
+        "fileName":""
+    },
+    "describe-instances":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "create-instance":{
+        "instanceSpec":{
+            "instanceName":"",
+            "engine":"",
+            "engineVersion":"",
+            "instanceClass":"",
+            "instanceStorageGB":"",
+            "azId":"",
+            "vpcId":"",
+            "subnetId":"",
+            "chargeSpec":{
+                "chargeMode":"",
+                "chargeUnit":"",
+                "chargeDuration":""
+            }
+        },
+        "regionId":""
+    },
+    "describe-instance-attributes":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "delete-instance":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "set-instance-name":{
+        "instanceName":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "failover-instance":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "reboot-instance":{
+        "rebootMaster":"",
+        "rebootSlave":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-databases":{
+        "dbName":"",
+        "regionId":"",
+        "instanceId":""
     },
     "create-database":{
         "dbName":"",
@@ -75,7 +155,55 @@
         "instanceId":"",
         "dbName":""
     },
-    "describe-import-files":{
+    "restore-database-from-oss":{
+        "ossURL":"",
+        "regionId":"",
+        "instanceId":"",
+        "dbName":""
+    },
+    "describe-accounts":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-account":{
+        "accountName":"",
+        "accountPassword":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "delete-account":{
+        "regionId":"",
+        "instanceId":"",
+        "accountName":""
+    },
+    "grant-privilege":{
+        "accountPrivileges":[{
+            "dbName":"",
+            "privilege":""
+        }],
+        "regionId":"",
+        "instanceId":"",
+        "accountName":""
+    },
+    "reset-password":{
+        "accountPassword":"",
+        "regionId":"",
+        "instanceId":"",
+        "accountName":""
+    },
+    "describe-index-performance":{
+        "queryType":"",
+        "db":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-query-performance":{
+        "queryType":"",
+        "threshold":"",
+        "pageNumber":"",
+        "pageSize":"",
         "regionId":"",
         "instanceId":""
     }

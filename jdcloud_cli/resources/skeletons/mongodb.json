@@ -1,4 +1,27 @@
 {
+    "describe-backups":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-backup":{
+        "instanceId":"",
+        "backupName":"",
+        "regionId":""
+    },
+    "delete-backup":{
+        "regionId":"",
+        "backupId":""
+    },
+    "backup-download-url":{
+        "regionId":"",
+        "backupId":""
+    },
     "describe-instances":{
         "pageNumber":"",
         "pageSize":"",
@@ -67,28 +90,5 @@
         "backupId":"",
         "regionId":"",
         "instanceId":""
-    },
-    "describe-backups":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-backup":{
-        "instanceId":"",
-        "backupName":"",
-        "regionId":""
-    },
-    "delete-backup":{
-        "regionId":"",
-        "backupId":""
-    },
-    "backup-download-url":{
-        "regionId":"",
-        "backupId":""
     }
 }
