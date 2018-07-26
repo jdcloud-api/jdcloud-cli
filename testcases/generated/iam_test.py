@@ -6,7 +6,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http:#www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,24 @@ import json
 
 
 class IamTest(unittest.TestCase):
+
+    def test_get_session_token(self):
+        cmd = """python ../../main.py iam get-session-token  --get-session-token-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_verify_session_token(self):
+        cmd = """python ../../main.py iam verify-session-token  --verify-session-token-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
 
     def test_create_permission(self):
         cmd = """python ../../main.py iam create-permission  --create-permission-info '{"":""}'"""
@@ -79,24 +97,6 @@ class IamTest(unittest.TestCase):
 
     def test_remove_permission_of_sub_user(self):
         cmd = """python ../../main.py iam remove-permission-of-sub-user  --permission-id '5' --sub-user 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_session_token(self):
-        cmd = """python ../../main.py iam get-session-token  --get-session-token-info '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_verify_session_token(self):
-        cmd = """python ../../main.py iam verify-session-token  --verify-session-token-info '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

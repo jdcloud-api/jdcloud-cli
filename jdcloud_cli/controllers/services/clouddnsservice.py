@@ -25,51 +25,45 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class XdataController(BaseController):
+class ClouddnsserviceController(BaseController):
     class Meta:
-        label = 'xdata'
-        help = '使用该子命令操作xdata相关资源'
+        label = 'clouddnsservice'
+        help = '使用该子命令操作clouddnsservice相关资源'
         description = '''
-        xdata cli 子命令，可以使用该子命令操作xdata相关资源。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/389/isCatalog/0
+        clouddnsservice cli 子命令，可以使用该子命令操作clouddnsservice相关资源。
+        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/421/isCatalog/0
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName', required=False)),
-            (['--sql'], dict(help="""(string) sql脚本 """, dest='sql', required=True)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--queue-name'], dict(help="""(string) 队列名称 """, dest='queueName', required=False)),
-            (['--source'], dict(help="""(string) 资源名称 """, dest='source', required=False)),
-            (['--call-back-url'], dict(help="""(string) 回调地址名称 """, dest='callBackURL', required=False)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--instance-owner-name'], dict(help="""(string) 实例拥有者名称 """, dest='instanceOwnerName', required=False)),
-            (['--is-explain'], dict(help="""(string) 是否需要解释 """, dest='isExplain', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--page-number'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageNumber', required=True)),
+            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', required=True)),
+            (['--domain-name'], dict(help="""(string) 关键字，按照”%domainName%”模式搜索主域名 """, dest='domainName', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 执行Spark SQL ''',
+        help=''' 查询用户名下的主域名列表 ''',
         description='''
-            执行Spark SQL。
+            查询用户名下的主域名列表。
 
-            示例: jdc xdata execute-ras-query  --sql xxx --user-name xxx --instance-name xxx
+            示例: jdc clouddnsservice get-domains  --page-number 0 --page-size 0
         ''',
     )
-    def execute_ras_query(self):
-        client_factory = ClientFactory('xdata')
+    def get_domains(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.ExecuteRasQueryRequest import ExecuteRasQueryRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainsRequest import GetDomainsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ExecuteRasQueryRequest(params_dict, headers)
+            req = GetDomainsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -79,34 +73,36 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--script'], dict(help="""(string) PySpark脚本 """, dest='script', required=True)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--instance-owner-name'], dict(help="""(string) 实例拥有者名称 """, dest='instanceOwnerName', required=False)),
-            (['--script-type'], dict(help="""(string) 脚本类型名称 """, dest='scriptType', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--pack-id'], dict(help="""(int) 套餐类型, 0免费 ,1企业版, 2高级版 """, dest='packId', required=True)),
+            (['--domain-name'], dict(help="""(string) 域名 """, dest='domainName', required=True)),
+            (['--domain-id'], dict(help="""(int) 域名ID，升级高级版必填 """, dest='domainId', required=False)),
+            (['--buy-type'], dict(help="""(int) 1新购买、2升级，高级版必填 """, dest='buyType', required=False)),
+            (['--time-span'], dict(help="""(int) 1-3 ，时长，高级版必填 """, dest='timeSpan', required=False)),
+            (['--time-unit'], dict(help="""(int) 时间单位，高级版必填 """, dest='timeUnit', required=False)),
+            (['--billing-type'], dict(help="""(int) 计费类型，高级版必填 """, dest='billingType', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 执行PySpark脚本 ''',
+        help=''' 添加主域名 ''',
         description='''
-            执行PySpark脚本。
+            添加主域名。
 
-            示例: jdc xdata execute-py-spark-query  --script xxx --user-name xxx --instance-name xxx
+            示例: jdc clouddnsservice add-domain  --pack-id 0 --domain-name xxx
         ''',
     )
-    def execute_py_spark_query(self):
-        client_factory = ClientFactory('xdata')
+    def add_domain(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.ExecutePySparkQueryRequest import ExecutePySparkQueryRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.AddDomainRequest import AddDomainRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ExecutePySparkQueryRequest(params_dict, headers)
+            req = AddDomainRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -116,31 +112,30 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id名称 """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取查询状态 ''',
+        help=''' 删除主域名 ''',
         description='''
-            获取查询状态。
+            删除主域名。
 
-            示例: jdc xdata get-ras-query-state  --user-name xxx --query-id xxx
+            示例: jdc clouddnsservice del-domain  --domain-id 0
         ''',
     )
-    def get_ras_query_state(self):
-        client_factory = ClientFactory('xdata')
+    def del_domain(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.GetRasQueryStateRequest import GetRasQueryStateRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.DelDomainRequest import DelDomainRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetRasQueryStateRequest(params_dict, headers)
+            req = DelDomainRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -150,31 +145,31 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-name'], dict(help="""(string) 域名 """, dest='domainName', required=True)),
+            (['--id'], dict(help="""(int) 域名ID """, dest='id', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取PySpark脚本的执行状态 ''',
+        help=''' 修改主域名 ''',
         description='''
-            获取PySpark脚本的执行状态。
+            修改主域名。
 
-            示例: jdc xdata get-py-spark-execute-state  --user-name xxx --query-id xxx
+            示例: jdc clouddnsservice update-domain  --domain-name xxx --id 0
         ''',
     )
-    def get_py_spark_execute_state(self):
-        client_factory = ClientFactory('xdata')
+    def update_domain(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.GetPySparkExecuteStateRequest import GetPySparkExecuteStateRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.UpdateDomainRequest import UpdateDomainRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetPySparkExecuteStateRequest(params_dict, headers)
+            req = UpdateDomainRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -184,31 +179,34 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--action'], dict(help="""(string) 查询动作，"query"查询流量，"resolve"解析流量 """, dest='action', required=True)),
+            (['--domain-name'], dict(help="""(string) 域名 """, dest='domainName', required=True)),
+            (['--start'], dict(help="""(string) 起始时间, UTC时间例如2017-11-10T23:00:00Z """, dest='start', required=True)),
+            (['--end'], dict(help="""(string) 终止时间, UTC时间例如2017-11-10T23:00:00Z """, dest='end', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取查询日志 ''',
+        help=''' 查看域名的查询流量 ''',
         description='''
-            获取查询日志。
+            查看域名的查询流量。
 
-            示例: jdc xdata get-ras-query-log  --user-name xxx --query-id xxx
+            示例: jdc clouddnsservice get-domain-statistics  --domain-id xxx --action xxx --domain-name xxx --start xxx --end xxx
         ''',
     )
-    def get_ras_query_log(self):
-        client_factory = ClientFactory('xdata')
+    def get_domain_statistics(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.GetRasQueryLogRequest import GetRasQueryLogRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainStatisticsRequest import GetDomainStatisticsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetRasQueryLogRequest(params_dict, headers)
+            req = GetDomainStatisticsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -218,31 +216,33 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--page-index'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageIndex', required=False)),
+            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', required=False)),
+            (['--search-value'], dict(help="""(string) 查询的值 """, dest='searchValue', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取查询的结果 ''',
+        help=''' 查看主域名的监控项的配置以及状态 ''',
         description='''
-            获取查询的结果。
+            查看主域名的监控项的配置以及状态。
 
-            示例: jdc xdata get-ras-query-result  --user-name xxx --query-id xxx
+            示例: jdc clouddnsservice get-monitor  --domain-id xxx
         ''',
     )
-    def get_ras_query_result(self):
-        client_factory = ClientFactory('xdata')
+    def get_monitor(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.GetRasQueryResultRequest import GetRasQueryResultRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.GetMonitorRequest import GetMonitorRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetRasQueryResultRequest(params_dict, headers)
+            req = GetMonitorRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -252,31 +252,31 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取PySpark执行的结果 ''',
+        help=''' 添加子域名的监控项，采用默认配置 ''',
         description='''
-            获取PySpark执行的结果。
+            添加子域名的监控项，采用默认配置。
 
-            示例: jdc xdata get-py-spark-execute-result  --user-name xxx --query-id xxx
+            示例: jdc clouddnsservice add-monitor  --domain-id xxx --sub-domain-name xxx
         ''',
     )
-    def get_py_spark_execute_result(self):
-        client_factory = ClientFactory('xdata')
+    def add_monitor(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.GetPySparkExecuteResultRequest import GetPySparkExecuteResultRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.AddMonitorRequest import AddMonitorRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetPySparkExecuteResultRequest(params_dict, headers)
+            req = AddMonitorRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -286,31 +286,31 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 终止查询 ''',
+        help=''' 查询子域名的可用监控对象 ''',
         description='''
-            终止查询。
+            查询子域名的可用监控对象。
 
-            示例: jdc xdata cancel-ras-query  --user-name xxx --query-id xxx
+            示例: jdc clouddnsservice get-targets  --domain-id xxx --sub-domain-name xxx
         ''',
     )
-    def cancel_ras_query(self):
-        client_factory = ClientFactory('xdata')
+    def get_targets(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.CancelRasQueryRequest import CancelRasQueryRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.GetTargetsRequest import GetTargetsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CancelRasQueryRequest(params_dict, headers)
+            req = GetTargetsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -320,31 +320,32 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName', required=True)),
+            (['--targets'], dict(help="""(array: string) 子域名可用监控对象的数组 """, dest='targets', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 终止PySpark任务 ''',
+        help=''' 添加子域名的某些特定监控对象为监控项 ''',
         description='''
-            终止PySpark任务。
+            添加子域名的某些特定监控对象为监控项。
 
-            示例: jdc xdata cancel-py-spark-job  --user-name xxx --query-id xxx
+            示例: jdc clouddnsservice add-monitor-target  --domain-id xxx --sub-domain-name xxx
         ''',
     )
-    def cancel_py_spark_job(self):
-        client_factory = ClientFactory('xdata')
+    def add_monitor_target(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.CancelPySparkJobRequest import CancelPySparkJobRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.AddMonitorTargetRequest import AddMonitorTargetRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CancelPySparkJobRequest(params_dict, headers)
+            req = AddMonitorTargetRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -354,30 +355,33 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--action'], dict(help="""(string) 删除del, 暂停stop, 开启start, 手动恢复recover，手动切换switch """, dest='action', required=True)),
+            (['--ids'], dict(help="""(array: int) 监控项ID """, dest='ids', required=True)),
+            (['--switch-target'], dict(help="""(string) 监控项的主机值, 手动切换时必填 """, dest='switchTarget', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询数据库列表 ''',
+        help=''' 监控项的操作，包括：删除，暂停，启动, 手动恢复, 手动切换 ''',
         description='''
-            查询数据库列表。
+            监控项的操作，包括：删除，暂停，启动, 手动恢复, 手动切换。
 
-            示例: jdc xdata list-database-info  --instance-name xxx
+            示例: jdc clouddnsservice operate-monitor  --domain-id xxx --action xxx --ids [0]
         ''',
     )
-    def list_database_info(self):
-        client_factory = ClientFactory('xdata')
+    def operate_monitor(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.ListDatabaseInfoRequest import ListDatabaseInfoRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.OperateMonitorRequest import OperateMonitorRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ListDatabaseInfoRequest(params_dict, headers)
+            req = OperateMonitorRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -387,31 +391,31 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--update-monitor'], dict(help="""(updateMonitor) 监控项设置信息 """, dest='updateMonitor', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询数据库详情 ''',
+        help=''' 域名的监控项修改 ''',
         description='''
-            查询数据库详情。
+            域名的监控项修改。
 
-            示例: jdc xdata get-database-info  --database-name xxx --instance-name xxx
+            示例: jdc clouddnsservice update-monitor  --domain-id xxx --update-monitor {"":""}
         ''',
     )
-    def get_database_info(self):
-        client_factory = ClientFactory('xdata')
+    def update_monitor(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.GetDatabaseInfoRequest import GetDatabaseInfoRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.UpdateMonitorRequest import UpdateMonitorRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetDatabaseInfoRequest(params_dict, headers)
+            req = UpdateMonitorRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -421,32 +425,33 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--description'], dict(help="""(string) 描述信息 """, dest='description', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--page-index'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageIndex', required=False)),
+            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', required=False)),
+            (['--search-value'], dict(help="""(string) 关键字 """, dest='searchValue', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据库 ''',
+        help=''' 主域名的监控项的报警信息 ''',
         description='''
-            创建数据库。
+            主域名的监控项的报警信息。
 
-            示例: jdc xdata create-database  --database-name xxx --instance-name xxx
+            示例: jdc clouddnsservice get-monitor-alarm-info  --domain-id xxx
         ''',
     )
-    def create_database(self):
-        client_factory = ClientFactory('xdata')
+    def get_monitor_alarm_info(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.CreateDatabaseRequest import CreateDatabaseRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.GetMonitorAlarmInfoRequest import GetMonitorAlarmInfoRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateDatabaseRequest(params_dict, headers)
+            req = GetMonitorAlarmInfoRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -456,31 +461,30 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据库 ''',
+        help=''' 查询某个主域名的解析记录 ''',
         description='''
-            删除数据库。
+            查询某个主域名的解析记录。
 
-            示例: jdc xdata delete-database  --database-name xxx --instance-name xxx
+            示例: jdc clouddnsservice search-rr  --domain-id xxx
         ''',
     )
-    def delete_database(self):
-        client_factory = ClientFactory('xdata')
+    def search_rr(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.DeleteDatabaseRequest import DeleteDatabaseRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.SearchRRRequest import SearchRRRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteDatabaseRequest(params_dict, headers)
+            req = SearchRRRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -490,29 +494,33 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--load-mode'], dict(help="""(int) 展示方式 """, dest='loadMode', required=False)),
+            (['--pack-id'], dict(help="""(int) 套餐ID """, dest='packId', required=True)),
+            (['--view-id'], dict(help="""(int) view ID，默认为0 """, dest='viewId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询实例列表 ''',
+        help=''' 查询DNS所有解析线路 ''',
         description='''
-            查询实例列表。
+            查询DNS所有解析线路。
 
-            示例: jdc xdata list-instance-info 
+            示例: jdc clouddnsservice get-view-tree  --domain-id xxx --pack-id 0 --view-id 0
         ''',
     )
-    def list_instance_info(self):
-        client_factory = ClientFactory('xdata')
+    def get_view_tree(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.ListInstanceInfoRequest import ListInstanceInfoRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.GetViewTreeRequest import GetViewTreeRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ListInstanceInfoRequest(params_dict, headers)
+            req = GetViewTreeRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -522,31 +530,31 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--req'], dict(help="""(addRR) RR参数 """, dest='req', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询指定数据库下所有数据表 ''',
+        help=''' 添加域名解析 ''',
         description='''
-            查询指定数据库下所有数据表。
+            添加域名解析。
 
-            示例: jdc xdata list-table-info  --instance-name xxx --database-name xxx
+            示例: jdc clouddnsservice add-rr  --domain-id xxx --req {"":""}
         ''',
     )
-    def list_table_info(self):
-        client_factory = ClientFactory('xdata')
+    def add_rr(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.ListTableInfoRequest import ListTableInfoRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.AddRRRequest import AddRRRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ListTableInfoRequest(params_dict, headers)
+            req = AddRRRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -556,31 +564,31 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--db-model-dbtable'], dict(help="""(dwTableDesc) 数据表描述 """, dest='dbModelDBTable', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--req'], dict(help="""(updateRR) updateRR参数 """, dest='req', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据表 ''',
+        help=''' 修改主域名的某个解析记录 ''',
         description='''
-            创建数据表。
+            修改主域名的某个解析记录。
 
-            示例: jdc xdata create-table  --instance-name xxx --db-model-dbtable {"":""}
+            示例: jdc clouddnsservice update-rr  --domain-id xxx --req {"":""}
         ''',
     )
-    def create_table(self):
-        client_factory = ClientFactory('xdata')
+    def update_rr(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.CreateTableRequest import CreateTableRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.UpdateRRRequest import UpdateRRRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateTableRequest(params_dict, headers)
+            req = UpdateRRRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -590,32 +598,32 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--table-name'], dict(help="""(string) 数据表名 """, dest='tableName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--ids'], dict(help="""(array: int) 需要操作的解析记录ID """, dest='ids', required=True)),
+            (['--action'], dict(help="""(string) 操作类型，on/off/del，分别是启用、停用、删除解析记录 """, dest='action', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询数据表信息 ''',
+        help=''' 启用、停用、删除主域名下的解析记录 ''',
         description='''
-            查询数据表信息。
+            启用、停用、删除主域名下的解析记录。
 
-            示例: jdc xdata get-table-info  --table-name xxx --instance-name xxx --database-name xxx
+            示例: jdc clouddnsservice operate-rr  --domain-id xxx --ids [0] --action xxx
         ''',
     )
-    def get_table_info(self):
-        client_factory = ClientFactory('xdata')
+    def operate_rr(self):
+        client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.GetTableInfoRequest import GetTableInfoRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.OperateRRRequest import OperateRRRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetTableInfoRequest(params_dict, headers)
+            req = OperateRRRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -625,42 +633,7 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--table-name'], dict(help="""(string) 数据表名 """, dest='tableName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据表 ''',
-        description='''
-            删除数据表。
-
-            示例: jdc xdata delete-table  --table-name xxx --instance-name xxx --database-name xxx
-        ''',
-    )
-    def delete_table(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.DeleteTableRequest import DeleteTableRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteTableRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['execute-ras-query','execute-py-spark-query','get-ras-query-state','get-py-spark-execute-state','get-ras-query-log','get-ras-query-result','get-py-spark-execute-result','cancel-ras-query','cancel-py-spark-job','list-database-info','get-database-info','create-database','delete-database','list-instance-info','list-table-info','create-table','get-table-info','delete-table',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['get-domains','add-domain','del-domain','update-domain','get-domain-statistics','get-monitor','add-monitor','get-targets','add-monitor-target','operate-monitor','update-monitor','get-monitor-alarm-info','search-rr','get-view-tree','add-rr','update-rr','operate-rr',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -670,5 +643,5 @@ class XdataController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('xdata', self.app.pargs.api)
+        skeleton = Skeleton('clouddnsservice', self.app.pargs.api)
         skeleton.show()

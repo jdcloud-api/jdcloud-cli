@@ -1,4 +1,8 @@
 {
+    "describe-quota":{
+        "resourceType":"",
+        "regionId":""
+    },
     "describe-containers":{
         "pageNumber":"",
         "pageSize":"",
@@ -124,10 +128,6 @@
         "limitBytes":"",
         "regionId":"",
         "containerId":""
-    },
-    "describe-quota":{
-        "resourceType":"",
-        "regionId":""
     },
     "describe-secrets":{
         "pageNumber":"",

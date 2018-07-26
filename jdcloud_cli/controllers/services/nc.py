@@ -6,7 +6,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http:#www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,6 +38,39 @@ class NcController(BaseController):
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--resource-type'], dict(help="""(string) 资源类型  container：用户能创建的容器的配额  secret：用户能创建的secret的配额 """, dest='resourceType', required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询资源的配额 ''',
+        description='''
+            查询资源的配额
+
+            示例: jdc nc describe-quota  --resource-type xxx
+        ''',
+    )
+    def describe_quota(self):
+        client_factory = ClientFactory('nc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.nc.apis.DescribeQuotaRequest import DescribeQuotaRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeQuotaRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
 
     @expose(
         arguments=[
@@ -382,39 +415,6 @@ class NcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--resource-type'], dict(help="""(string) 资源类型  container：用户能创建的容器的配额  secret：用户能创建的secret的配额 """, dest='resourceType', required=True)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询资源的配额 ''',
-        description='''
-            查询资源的配额
-
-            示例: jdc nc describe-quota  --resource-type xxx
-        ''',
-    )
-    def describe_quota(self):
-        client_factory = ClientFactory('nc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.nc.apis.DescribeQuotaRequest import DescribeQuotaRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeQuotaRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
             (['--filters'], dict(help="""(array: filter) name - secret名称，支持模糊搜索;  """, dest='filters', required=False)),
@@ -612,7 +612,7 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-containers','create-containers','describe-container','delete-container','start-container','stop-container','modify-container-attribute','associate-elastic-ip','disassociate-elastic-ip','get-logs','describe-quota','describe-secrets','create-secret','describe-secret','delete-secret',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-quota','describe-containers','create-containers','describe-container','delete-container','start-container','stop-container','modify-container-attribute','associate-elastic-ip','disassociate-elastic-ip','get-logs','describe-secrets','create-secret','describe-secret','delete-secret',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -1,27 +1,4 @@
 {
-    "list-database-info":{
-        "instanceName":"",
-        "regionId":""
-    },
-    "get-database-info":{
-        "instanceName":"",
-        "regionId":"",
-        "databaseName":""
-    },
-    "create-database":{
-        "instanceName":"",
-        "description":"",
-        "regionId":"",
-        "databaseName":""
-    },
-    "delete-database":{
-        "instanceName":"",
-        "regionId":"",
-        "databaseName":""
-    },
-    "list-instance-info":{
-        "regionId":""
-    },
     "execute-ras-query":{
         "databaseName":"",
         "sql":"",
@@ -75,6 +52,29 @@
     "cancel-py-spark-job":{
         "userName":"",
         "queryId":"",
+        "regionId":""
+    },
+    "list-database-info":{
+        "instanceName":"",
+        "regionId":""
+    },
+    "get-database-info":{
+        "instanceName":"",
+        "regionId":"",
+        "databaseName":""
+    },
+    "create-database":{
+        "instanceName":"",
+        "description":"",
+        "regionId":"",
+        "databaseName":""
+    },
+    "delete-database":{
+        "instanceName":"",
+        "regionId":"",
+        "databaseName":""
+    },
+    "list-instance-info":{
         "regionId":""
     },
     "list-table-info":{

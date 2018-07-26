@@ -1,4 +1,23 @@
 {
+    "describe-metrics":{
+        "serviceCode":""
+    },
+    "describe-metrics-for-create-alarm":{
+        "serviceCode":""
+    },
+    "describe-metric-data":{
+        "serviceCode":"",
+        "resourceId":"",
+        "startTime":"",
+        "endTime":"",
+        "timeInterval":"",
+        "tags":[{
+            "name":"",
+            "value":""
+        }],
+        "regionId":"",
+        "metric":""
+    },
     "describe-alarms":{
         "serviceCode":"",
         "resourceId":"",
@@ -67,24 +86,5 @@
         "pageNumber":"",
         "pageSize":"",
         "regionId":""
-    },
-    "describe-metrics":{
-        "serviceCode":""
-    },
-    "describe-metrics-for-create-alarm":{
-        "serviceCode":""
-    },
-    "describe-metric-data":{
-        "serviceCode":"",
-        "resourceId":"",
-        "startTime":"",
-        "endTime":"",
-        "timeInterval":"",
-        "tags":[{
-            "name":"",
-            "value":""
-        }],
-        "regionId":"",
-        "metric":""
-    },
+    }
 }

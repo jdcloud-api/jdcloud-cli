@@ -1,4 +1,19 @@
 {
+    "get-session-token":{
+        "getSessionTokenInfo":{
+            "type":"",
+            "code":"",
+            "businessAction":"",
+            "durationSeconds":""
+        },
+        "regionId":""
+    },
+    "verify-session-token":{
+        "verifySessionTokenInfo":{
+            "businessAction":""
+        },
+        "regionId":""
+    },
     "create-permission":{
         "createPermissionInfo":{
             "name":"",
@@ -44,21 +59,6 @@
         "regionId":"",
         "permissionId":"",
         "subUser":""
-    },
-    "get-session-token":{
-        "getSessionTokenInfo":{
-            "type":"",
-            "code":"",
-            "businessAction":"",
-            "durationSeconds":""
-        },
-        "regionId":""
-    },
-    "verify-session-token":{
-        "verifySessionTokenInfo":{
-            "businessAction":""
-        },
-        "regionId":""
     },
     "create-subuser":{
         "createSubUserInfo":{

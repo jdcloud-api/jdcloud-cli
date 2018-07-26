@@ -21,10 +21,10 @@ import os
 import json
 
 
-class StreambusTest(unittest.TestCase):
+class SopTest(unittest.TestCase):
 
-    def test_get_topic_list(self):
-        cmd = """python ../../main.py streambus get-topic-list """
+    def test_get_security_token(self):
+        cmd = """python ../../main.py sop get-security-token  --get-security-token-info '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,17 +32,8 @@ class StreambusTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_add_topic(self):
-        cmd = """python ../../main.py streambus add-topic  --topic-model '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_topic(self):
-        cmd = """python ../../main.py streambus update-topic  --topic-model '{"":""}'"""
+    def test_get_sensitive_op_setting(self):
+        cmd = """python ../../main.py sop get-sensitive-op-setting  --action 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
