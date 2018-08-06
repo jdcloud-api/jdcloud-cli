@@ -38,109 +38,6 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--service-code'], dict(help="""(string) 资源的类型 ： ; vm-->云主机; disk-->云硬盘; ip-->公网ip; balance-->负载均衡; database-->云数据库mysql版本; cdn-->京东CDN; redis-->redis云缓存; mongodb-->mongoDB云缓存; storage-->云存储; sqlserver-->云数据库sqlserver版 ; nativecontainer-->容器;  """, dest='serviceCode', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 根据产品线查询可用监控项列表 ''',
-        description='''
-            根据产品线查询可用监控项列表。
-
-            示例: jdc monitor describe-metrics  --service-code xxx
-        ''',
-    )
-    def describe_metrics(self):
-        client_factory = ClientFactory('monitor')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.monitor.apis.DescribeMetricsRequest import DescribeMetricsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeMetricsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--service-code'], dict(help="""(string) 资源的类型，默认为空，展示所有项目; vm-->云主机; disk-->云硬盘; ip-->公网ip; balance-->负载均衡; database-->云数据库mysql版本; cdn-->京东CDN; redis-->redis云缓存; mongodb-->mongoDB云缓存; storage-->云存储; sqlserver-->云数据库sqlserver版 ; nativecontainer-->容器;  """, dest='serviceCode', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询可用创建监控规则的指标列表 ''',
-        description='''
-            查询可用创建监控规则的指标列表。
-
-            示例: jdc monitor describe-metrics-for-create-alarm 
-        ''',
-    )
-    def describe_metrics_for_create_alarm(self):
-        client_factory = ClientFactory('monitor')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.monitor.apis.DescribeMetricsForCreateAlarmRequest import DescribeMetricsForCreateAlarmRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeMetricsForCreateAlarmRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId', required=False)),
-            (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric', required=True)),
-            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode', required=True)),
-            (['--resource-id'], dict(help="""(string) 资源的uuid """, dest='resourceId', required=True)),
-            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ（默认为当前时间，早于30d时，将被重置为30d） """, dest='startTime', required=False)),
-            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime', required=False)),
-            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval 与 endTime 至少填一项 """, dest='timeInterval', required=False)),
-            (['--tags'], dict(help="""(array: tagFilter) 自定义标签 """, dest='tags', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查看某资源的监控数据 ''',
-        description='''
-            查看某资源的监控数据。
-
-            示例: jdc monitor describe-metric-data  --metric xxx --service-code xxx --resource-id xxx
-        ''',
-    )
-    def describe_metric_data(self):
-        client_factory = ClientFactory('monitor')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.monitor.apis.DescribeMetricDataRequest import DescribeMetricDataRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeMetricDataRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId', required=False)),
             (['--service-code'], dict(help="""(string) 产品名称 """, dest='serviceCode', required=False)),
             (['--resource-id'], dict(help="""(string) 资源Id """, dest='resourceId', required=False)),
@@ -429,6 +326,109 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
+            (['--service-code'], dict(help="""(string) 资源的类型 ： ; vm-->云主机; disk-->云硬盘; ip-->公网ip; balance-->负载均衡; database-->云数据库mysql版本; cdn-->京东CDN; redis-->redis云缓存; mongodb-->mongoDB云缓存; storage-->云存储; sqlserver-->云数据库sqlserver版 ; nativecontainer-->容器;  """, dest='serviceCode', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据产品线查询可用监控项列表 ''',
+        description='''
+            根据产品线查询可用监控项列表。
+
+            示例: jdc monitor describe-metrics  --service-code xxx
+        ''',
+    )
+    def describe_metrics(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.DescribeMetricsRequest import DescribeMetricsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeMetricsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--service-code'], dict(help="""(string) 资源的类型，默认为空，展示所有项目; vm-->云主机; disk-->云硬盘; ip-->公网ip; balance-->负载均衡; database-->云数据库mysql版本; cdn-->京东CDN; redis-->redis云缓存; mongodb-->mongoDB云缓存; storage-->云存储; sqlserver-->云数据库sqlserver版 ; nativecontainer-->容器;  """, dest='serviceCode', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可用创建监控规则的指标列表 ''',
+        description='''
+            查询可用创建监控规则的指标列表。
+
+            示例: jdc monitor describe-metrics-for-create-alarm 
+        ''',
+    )
+    def describe_metrics_for_create_alarm(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.DescribeMetricsForCreateAlarmRequest import DescribeMetricsForCreateAlarmRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeMetricsForCreateAlarmRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId', required=False)),
+            (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric', required=True)),
+            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode', required=True)),
+            (['--resource-id'], dict(help="""(string) 资源的uuid """, dest='resourceId', required=True)),
+            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ（默认为当前时间，早于30d时，将被重置为30d） """, dest='startTime', required=False)),
+            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime', required=False)),
+            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval 与 endTime 至少填一项 """, dest='timeInterval', required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) 自定义标签 """, dest='tags', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看某资源的监控数据 ''',
+        description='''
+            查看某资源的监控数据。
+
+            示例: jdc monitor describe-metric-data  --metric xxx --service-code xxx --resource-id xxx
+        ''',
+    )
+    def describe_metric_data(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.DescribeMetricDataRequest import DescribeMetricDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeMetricDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
             (['--metric-data-list'], dict(help="""(array: metricDataCm) 数据参数 """, dest='metricDataList', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -461,7 +461,7 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-metrics','describe-metrics-for-create-alarm','describe-metric-data','describe-alarms','create-alarm','delete-alarms','describe-alarms-by-id','update-alarm','enable-alarm','disable-alarm','describe-alarm-history','put-metric-data',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-alarms','create-alarm','delete-alarms','describe-alarms-by-id','update-alarm','enable-alarm','disable-alarm','describe-alarm-history','describe-metrics','describe-metrics-for-create-alarm','describe-metric-data','put-metric-data',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

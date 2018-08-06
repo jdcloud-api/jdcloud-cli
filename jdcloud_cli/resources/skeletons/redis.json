@@ -1,7 +1,4 @@
 {
-    "describe-user-quota":{
-        "regionId":""
-    },
     "describe-cache-instances":{
         "pageNumber":"",
         "pageSize":"",
@@ -63,4 +60,7 @@
     "describe-instance-class":{
         "regionId":""
     },
+    "describe-user-quota":{
+        "regionId":""
+    }
 }

@@ -1,4 +1,52 @@
 {
+    "get-topic-list":{
+        "keyword":"",
+        "regionId":""
+    },
+    "describe-topic":{
+        "name":"",
+        "regionId":""
+    },
+    "add-topic":{
+        "topicModel":{
+            "topic":{
+                "archived":"",
+                "lifecycle":"",
+                "name":"",
+                "shardNum":"",
+                "remark":""
+            },
+            "target":{
+                "name":"",
+                "recordSize":"",
+                "cycle":""
+            },
+            "parameterList":[""]
+        },
+        "regionId":""
+    },
+    "update-topic":{
+        "topicModel":{
+            "topic":{
+                "archived":"",
+                "lifecycle":"",
+                "name":"",
+                "shardNum":"",
+                "remark":""
+            },
+            "target":{
+                "name":"",
+                "recordSize":"",
+                "cycle":""
+            },
+            "parameterList":[""]
+        },
+        "regionId":""
+    },
+    "delete-topic":{
+        "name":"",
+        "regionId":""
+    },
     "get-consumer-group-list":{
         "topicId":"",
         "regionId":""
@@ -16,58 +64,6 @@
     "delete-consumer-group":{
         "topicId":"",
         "consumerGroupId":"",
-        "regionId":""
-    },
-    "get-topic-list":{
-        "keyword":"",
-        "regionId":""
-    },
-    "describe-topic":{
-        "name":"",
-        "regionId":""
-    },
-    "add-topic":{
-        "topicModel":{
-            "topic":{
-                "id":"",
-                "archived":"",
-                "lifecycle":"",
-                "partitionNum":"",
-                "name":"",
-                "shardNum":"",
-                "remark":""
-            },
-            "target":{
-                "name":"",
-                "recordSize":"",
-                "cycle":""
-            },
-            "parameterList":[""]
-        },
-        "regionId":""
-    },
-    "update-topic":{
-        "topicModel":{
-            "topic":{
-                "id":"",
-                "archived":"",
-                "lifecycle":"",
-                "partitionNum":"",
-                "name":"",
-                "shardNum":"",
-                "remark":""
-            },
-            "target":{
-                "name":"",
-                "recordSize":"",
-                "cycle":""
-            },
-            "parameterList":[""]
-        },
-        "regionId":""
-    },
-    "delete-topic":{
-        "name":"",
         "regionId":""
     }
 }

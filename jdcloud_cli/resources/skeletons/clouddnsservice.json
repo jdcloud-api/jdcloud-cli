@@ -38,6 +38,57 @@
         "regionId":"",
         "domainId":""
     },
+    "search-rr":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "domainId":""
+    },
+    "get-view-tree":{
+        "loadMode":"",
+        "packId":"",
+        "viewId":"",
+        "regionId":"",
+        "domainId":""
+    },
+    "add-rr":{
+        "req":{
+            "hostRecord":"",
+            "hostValue":"",
+            "jcloudRes":"",
+            "mxPriority":"",
+            "port":"",
+            "ttl":"",
+            "type":"",
+            "weight":"",
+            "viewValue":""
+        },
+        "regionId":"",
+        "domainId":""
+    },
+    "update-rr":{
+        "req":{
+            "domainName":"",
+            "id":"",
+            "hostRecord":"",
+            "hostValue":"",
+            "jcloudRes":"",
+            "mxPriority":"",
+            "port":"",
+            "ttl":"",
+            "type":"",
+            "weight":"",
+            "viewValue":""
+        },
+        "regionId":"",
+        "domainId":""
+    },
+    "operate-rr":{
+        "ids":[""],
+        "action":"",
+        "regionId":"",
+        "domainId":""
+    },
     "get-monitor":{
         "pageIndex":"",
         "pageSize":"",
@@ -93,55 +144,6 @@
         "pageIndex":"",
         "pageSize":"",
         "searchValue":"",
-        "regionId":"",
-        "domainId":""
-    },
-    "search-rr":{
-        "regionId":"",
-        "domainId":""
-    },
-    "get-view-tree":{
-        "loadMode":"",
-        "packId":"",
-        "viewId":"",
-        "regionId":"",
-        "domainId":""
-    },
-    "add-rr":{
-        "req":{
-            "hostRecord":"",
-            "hostValue":"",
-            "jcloudRes":"",
-            "mxPriority":"",
-            "port":"",
-            "ttl":"",
-            "type":"",
-            "weight":"",
-            "viewValue":""
-        },
-        "regionId":"",
-        "domainId":""
-    },
-    "update-rr":{
-        "req":{
-            "domainName":"",
-            "id":"",
-            "hostRecord":"",
-            "hostValue":"",
-            "jcloudRes":"",
-            "mxPriority":"",
-            "port":"",
-            "ttl":"",
-            "type":"",
-            "weight":"",
-            "viewValue":""
-        },
-        "regionId":"",
-        "domainId":""
-    },
-    "operate-rr":{
-        "ids":[""],
-        "action":"",
         "regionId":"",
         "domainId":""
     }

@@ -1,8 +1,35 @@
 {
-    "disassociate-route-table":{
-        "subnetId":"",
+    "describe-elastic-ips":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-elastic-ips":{
+        "maxCount":"",
+        "elasticIpAddress":"",
+        "elasticIpSpec":{
+            "bandwidthMbps":"",
+            "provider":"",
+            "chargeSpec":{
+                "chargeMode":"",
+                "chargeUnit":"",
+                "chargeDuration":""
+            }
+        },
+        "regionId":""
+    },
+    "describe-elastic-ip":{
         "regionId":"",
-        "routeTableId":""
+        "elasticIpId":""
+    },
+    "delete-elastic-ip":{
+        "regionId":"",
+        "elasticIpId":""
     },
     "describe-network-interfaces":{
         "pageNumber":"",
@@ -66,20 +93,6 @@
         "regionId":"",
         "networkInterfaceId":""
     },
-    "describe-subnets":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "describe-subnet":{
-        "regionId":"",
-        "subnetId":""
-    },
     "describe-network-security-groups":{
         "pageNumber":"",
         "pageSize":"",
@@ -139,7 +152,7 @@
         "regionId":"",
         "networkSecurityGroupId":""
     },
-    "describe-elastic-ips":{
+    "describe-subnets":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
@@ -149,27 +162,23 @@
         }],
         "regionId":""
     },
-    "create-elastic-ips":{
-        "maxCount":"",
-        "elasticIpAddress":"",
-        "elasticIpSpec":{
-            "bandwidthMbps":"",
-            "provider":"",
-            "chargeSpec":{
-                "chargeMode":"",
-                "chargeUnit":"",
-                "chargeDuration":""
-            }
-        },
+    "describe-subnet":{
+        "regionId":"",
+        "subnetId":""
+    },
+    "describe-vpcs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "regionId":""
     },
-    "describe-elastic-ip":{
+    "describe-vpc":{
         "regionId":"",
-        "elasticIpId":""
-    },
-    "delete-elastic-ip":{
-        "regionId":"",
-        "elasticIpId":""
+        "vpcId":""
     },
     "describe-vpc-peerings":{
         "pageNumber":"",
@@ -201,19 +210,5 @@
     "delete-vpc-peering":{
         "regionId":"",
         "vpcPeeringId":""
-    },
-    "describe-vpcs":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "describe-vpc":{
-        "regionId":"",
-        "vpcId":""
-    },
+    }
 }

@@ -39,38 +39,6 @@ class RedisController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前缓存Redis有华北、华南、华东区域，对应Region ID为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询账户配额信息 ''',
-        description='''
-            查询账户配额信息。
-
-            示例: jdc redis describe-user-quota 
-        ''',
-    )
-    def describe_user_quota(self):
-        client_factory = ClientFactory('redis')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.redis.apis.DescribeUserQuotaRequest import DescribeUserQuotaRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeUserQuotaRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前缓存Redis有华北、华南、华东区域，对应Region ID为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId', required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
             (['--filters'], dict(help="""(array: filter) cacheInstanceId -实例Id，精确匹配，支持多个; cacheInstanceName - 实例名称，模糊匹配，支持单个; cacheInstanceStatus - redis状态，精确匹配，支持多个(running：运行，error：错误，creating：创建中，changing：变配中，deleting：删除中);  """, dest='filters', required=False)),
@@ -341,7 +309,39 @@ class RedisController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-user-quota','describe-cache-instances','create-cache-instance','describe-cache-instance','modify-cache-instance-attribute','delete-cache-instance','modify-cache-instance-class','reset-cache-instance-password','describe-instance-class',], required=True)),
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前缓存Redis有华北、华南、华东区域，对应Region ID为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询账户配额信息 ''',
+        description='''
+            查询账户配额信息。
+
+            示例: jdc redis describe-user-quota 
+        ''',
+    )
+    def describe_user_quota(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.DescribeUserQuotaRequest import DescribeUserQuotaRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeUserQuotaRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-cache-instances','create-cache-instance','describe-cache-instance','modify-cache-instance-attribute','delete-cache-instance','modify-cache-instance-class','reset-cache-instance-password','describe-instance-class','describe-user-quota',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
