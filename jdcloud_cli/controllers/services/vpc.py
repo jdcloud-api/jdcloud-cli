@@ -39,6 +39,40 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId', required=True)),
+            (['--subnet-id'], dict(help="""(string) 路由表要解绑的子网ID，解绑后子网绑定默认路由表 """, dest='subnetId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 给路由表解绑子网接口 ''',
+        description='''
+            给路由表解绑子网接口。
+
+            示例: jdc vpc disassociate-route-table  --route-table-id xxx --subnet-id xxx
+        ''',
+    )
+    def disassociate_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DisassociateRouteTableRequest import DisassociateRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisassociateRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
             (['--filters'], dict(help="""(array: filter) networkInterfaceIds - 弹性网卡ID列表，支持多个; networkInterfaceNames - 弹性网卡名称列表，支持多个; vpcId - 弹性网卡所属vpc Id，支持单个; subnetId	- 弹性网卡所属子网Id，支持单个; role - 网卡角色，取值范围：Primary（主网卡）、Secondary（辅助网卡），支持单个;  """, dest='filters', required=False)),
@@ -1074,7 +1108,7 @@ class VpcController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-network-interfaces','create-network-interface','describe-network-interface','modify-network-interface','delete-network-interface','associate-elastic-ip','disassociate-elastic-ip','assign-secondary-ips','unassign-secondary-ips','describe-subnets','describe-subnet','describe-network-security-groups','create-network-security-group','describe-network-security-group','modify-network-security-group','delete-network-security-group','add-network-security-group-rules','remove-network-security-group-rules','modify-network-security-group-rules','describe-elastic-ips','create-elastic-ips','describe-elastic-ip','delete-elastic-ip','describe-vpc-peerings','create-vpc-peering','describe-vpc-peering','modify-vpc-peering','delete-vpc-peering','describe-vpcs','describe-vpc',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['disassociate-route-table','describe-network-interfaces','create-network-interface','describe-network-interface','modify-network-interface','delete-network-interface','associate-elastic-ip','disassociate-elastic-ip','assign-secondary-ips','unassign-secondary-ips','describe-subnets','describe-subnet','describe-network-security-groups','create-network-security-group','describe-network-security-group','modify-network-security-group','delete-network-security-group','add-network-security-group-rules','remove-network-security-group-rules','modify-network-security-group-rules','describe-elastic-ips','create-elastic-ips','describe-elastic-ip','delete-elastic-ip','describe-vpc-peerings','create-vpc-peering','describe-vpc-peering','modify-vpc-peering','delete-vpc-peering','describe-vpcs','describe-vpc',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

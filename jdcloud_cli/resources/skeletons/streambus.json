@@ -1,22 +1,73 @@
 {
+    "get-consumer-group-list":{
+        "topicId":"",
+        "regionId":""
+    },
+    "create-consumer-group":{
+        "consumerGroupStr":{
+            "id":"",
+            "name":"",
+            "createdTime":"",
+            "delete":"",
+            "topicId":""
+        },
+        "regionId":""
+    },
+    "delete-consumer-group":{
+        "topicId":"",
+        "consumerGroupId":"",
+        "regionId":""
+    },
     "get-topic-list":{
         "keyword":"",
         "regionId":""
     },
+    "describe-topic":{
+        "name":"",
+        "regionId":""
+    },
     "add-topic":{
         "topicModel":{
-            "topic":"",
-            "target":"",
-            "parameterList":""
+            "topic":{
+                "id":"",
+                "archived":"",
+                "lifecycle":"",
+                "partitionNum":"",
+                "name":"",
+                "shardNum":"",
+                "remark":""
+            },
+            "target":{
+                "name":"",
+                "recordSize":"",
+                "cycle":""
+            },
+            "parameterList":[""]
         },
         "regionId":""
     },
     "update-topic":{
         "topicModel":{
-            "topic":"",
-            "target":"",
-            "parameterList":""
+            "topic":{
+                "id":"",
+                "archived":"",
+                "lifecycle":"",
+                "partitionNum":"",
+                "name":"",
+                "shardNum":"",
+                "remark":""
+            },
+            "target":{
+                "name":"",
+                "recordSize":"",
+                "cycle":""
+            },
+            "parameterList":[""]
         },
+        "regionId":""
+    },
+    "delete-topic":{
+        "name":"",
         "regionId":""
     }
 }

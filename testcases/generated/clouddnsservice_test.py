@@ -59,8 +59,17 @@ class ClouddnsserviceTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_domain_statistics(self):
-        cmd = """python ../../main.py clouddnsservice get-domain-statistics  --domain-id 'xxx' --action 'xxx' --domain-name 'xxx' --start 'xxx' --end 'xxx'"""
+    def test_get_domain_query_count(self):
+        cmd = """python ../../main.py clouddnsservice get-domain-query-count  --domain-id 'xxx' --domain-name 'xxx' --start 'xxx' --end 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_domain_query_traffic(self):
+        cmd = """python ../../main.py clouddnsservice get-domain-query-traffic  --domain-id 'xxx' --domain-name 'xxx' --start 'xxx' --end 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

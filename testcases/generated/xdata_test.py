@@ -140,6 +140,258 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_set_permission(self):
+        cmd = """python ../../main.py xdata set-permission  --user-name 'xxx' --path-name 'xxx' --permission 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_initialize_user_root_hdfs_path_not_exist(self):
+        cmd = """python ../../main.py xdata initialize-user-root-hdfs-path-not-exist  --user-name 'xxx' --path-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_new_folder(self):
+        cmd = """python ../../main.py xdata create-new-folder  --user-name 'xxx' --path-name 'xxx' --description 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_file_status(self):
+        cmd = """python ../../main.py xdata get-file-status  --user-name 'xxx' --path-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_hdfs_root_path(self):
+        cmd = """python ../../main.py xdata get-hdfs-root-path  --user-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_file(self):
+        cmd = """python ../../main.py xdata create-file  --user-name 'xxx' --file-path 'xxx' --file-content 'xxx' --over-write 'true'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_is_exist(self):
+        cmd = """python ../../main.py xdata is-exist  --user-name 'xxx' --file-path 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_file_and_folders(self):
+        cmd = """python ../../main.py xdata list-file-and-folders  --user-name 'xxx' --path-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_udf_file_and_folders(self):
+        cmd = """python ../../main.py xdata list-udf-file-and-folders  --user-name 'xxx' --instance-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_files_and_folders(self):
+        cmd = """python ../../main.py xdata list-files-and-folders  --user-name 'xxx' --path-name 'xxx' --pattern 'xxx' --instance-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_file_and_folders_optional(self):
+        cmd = """python ../../main.py xdata list-file-and-folders-optional  --user-name 'xxx' --hide-owner-folder-files 'true' --hide-acl-folder-files 'true' --hide-no-permission-folder-files 'true' --path-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_file_or_folder(self):
+        cmd = """python ../../main.py xdata delete-file-or-folder  --user-name 'xxx' --path-name 'xxx' --recursive 'true'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_file_cat(self):
+        cmd = """python ../../main.py xdata file-cat  --user-name 'xxx' --file-path 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_rename_file(self):
+        cmd = """python ../../main.py xdata rename-file  --user-name 'xxx' --parent-path 'xxx' --old-name 'xxx' --new-name 'xxx' --label 'xxx' --description 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_acl_status(self):
+        cmd = """python ../../main.py xdata get-acl-status  --user-name 'xxx' --path-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_owner(self):
+        cmd = """python ../../main.py xdata set-owner  --user-name 'xxx' --path-name 'xxx' --owner-name 'xxx' --group 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_acl(self):
+        cmd = """python ../../main.py xdata set-acl  --user-name 'xxx' --path-name 'xxx' --acl-entry-list-json-str 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_remove_acl(self):
+        cmd = """python ../../main.py xdata remove-acl  --user-name 'xxx' --path-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_acl_entries(self):
+        cmd = """python ../../main.py xdata modify-acl-entries  --user-name 'xxx' --path-name 'xxx' --acl-entry-list-json-str 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_remove_acl_entries(self):
+        cmd = """python ../../main.py xdata remove-acl-entries  --user-name 'xxx' --path-name 'xxx' --acl-entry-list-json-str 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_remove_default_acl(self):
+        cmd = """python ../../main.py xdata remove-default-acl  --user-name 'xxx' --path-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_xattr(self):
+        cmd = """python ../../main.py xdata set-xattr  --user-name 'xxx' --path-name 'xxx' --key-name 'xxx' --value 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_xattr(self):
+        cmd = """python ../../main.py xdata get-xattr  --user-name 'xxx' --path-name 'xxx' --key-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_xattrs(self):
+        cmd = """python ../../main.py xdata get-xattrs  --user-name 'xxx' --path-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_remove_xattr(self):
+        cmd = """python ../../main.py xdata remove-xattr  --user-name 'xxx' --path-name 'xxx' --key-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_files_count(self):
+        cmd = """python ../../main.py xdata get-files-count  --user-name 'xxx' --path-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_permission_by_ugo(self):
+        cmd = """python ../../main.py xdata set-permission-by-ugo  --user-name 'xxx' --path-name 'xxx' --useraction 'xxx' --groupaction 'xxx' --otheraction 'xxx' --sticky-bit 'true'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_content_summary(self):
+        cmd = """python ../../main.py xdata get-content-summary  --user-name 'xxx' --path-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_list_instance_info(self):
         cmd = """python ../../main.py xdata list-instance-info """
         with os.popen(cmd) as f:

@@ -186,9 +186,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取SQL Server 错误日志及下载信息，目前仅SQL Server支持 ''',
+        help=''' 获取SQL Server 错误日志及下载信息</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            获取SQL Server 错误日志及下载信息，目前仅SQL Server支持。
+            获取SQL Server 错误日志及下载信息</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds describe-error-logs  --instance-id xxx
         ''',
@@ -219,9 +219,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看开启的审计选项，目前仅支持SQL Server ''',
+        help=''' 查看开启的审计选项</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            查看开启的审计选项，目前仅支持SQL Server。
+            查看开启的审计选项</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds describe-audit  --instance-id xxx
         ''',
@@ -253,9 +253,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 开启数据库审计，目前仅支持SQL Server ''',
+        help=''' 开启数据库审计</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            开启数据库审计，目前仅支持SQL Server。
+            开启数据库审计</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds create-audit  --instance-id xxx --enabled xxx
         ''',
@@ -286,9 +286,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 清除/关闭 数据库审计，目前仅支持SQL Server ''',
+        help=''' 清除/关闭 数据库审计</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            清除/关闭 数据库审计，目前仅支持SQL Server。
+            清除/关闭 数据库审计</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds delete-audit  --instance-id xxx
         ''',
@@ -320,9 +320,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取审计所有选项及推荐的选项，目前仅支持SQL Server ''',
+        help=''' 获取审计所有选项及推荐的选项</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            获取审计所有选项及推荐的选项，目前仅支持SQL Server。
+            获取审计所有选项及推荐的选项</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds get-audit-options  --instance-id xxx --name xxx
         ''',
@@ -355,9 +355,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改当前审计选项，目前仅支持SQL Server ''',
+        help=''' 修改当前审计选项</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            修改当前审计选项，目前仅支持SQL Server。
+            修改当前审计选项</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds modify-audit  --instance-id xxx
         ''',
@@ -388,9 +388,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看审计文件列表，目前仅支持SQL Server ''',
+        help=''' 查看审计文件列表</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            查看审计文件列表，目前仅支持SQL Server。
+            查看审计文件列表</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds get-audit-files  --instance-id xxx
         ''',
@@ -422,9 +422,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取某个审计文件的下载链接，目前仅支持SQL Server ''',
+        help=''' 获取某个审计文件的下载链接</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            获取某个审计文件的下载链接，目前仅支持SQL Server。
+            获取某个审计文件的下载链接</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds get-audit-download-url  --instance-id xxx --file-name xxx
         ''',
@@ -557,9 +557,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询RDS实例列表 ''',
+        help=''' 查询RDS实例列表</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            查询RDS实例列表。
+            查询RDS实例列表</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds describe-instances 
         ''',
@@ -590,9 +590,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据库集群实例 ''',
+        help=''' 创建数据库集群实例</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            创建数据库集群实例。
+            创建数据库集群实例</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds create-instance  --instance-spec {"":""}
         ''',
@@ -623,9 +623,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询RDS实例详细信息 ''',
+        help=''' 查询RDS实例详细信息</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            查询RDS实例详细信息。
+            查询RDS实例详细信息</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds describe-instance-attributes  --instance-id xxx
         ''',
@@ -656,9 +656,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据库集群实例，以及目前支持删除Mysql只读实例 ''',
+        help=''' 删除数据库集群实例及Mysql只读实例</br>- SQL Server：支持</br>- MySQL：支持 [MFA enabled] ''',
         description='''
-            删除数据库集群实例，以及目前支持删除Mysql只读实例。
+            删除数据库集群实例及Mysql只读实例</br>- SQL Server：支持</br>- MySQL：支持 [MFA enabled]。
 
             示例: jdc rds delete-instance  --instance-id xxx
         ''',
@@ -690,9 +690,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改RDS实例名称，目前仅支持SQL Server ''',
+        help=''' 修改RDS实例名称</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            修改RDS实例名称，目前仅支持SQL Server。
+            修改RDS实例名称</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds set-instance-name  --instance-id xxx --instance-name xxx
         ''',
@@ -723,9 +723,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' RDS实例主备切换，目前仅支持SQL Server ''',
+        help=''' RDS实例主备切换</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            RDS实例主备切换，目前仅支持SQL Server。
+            RDS实例主备切换</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds failover-instance  --instance-id xxx
         ''',
@@ -752,15 +752,15 @@ class RdsController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--reboot-master'], dict(help="""(bool) 是否重启主节点。 - 仅SQL Server 支持该参数 """, dest='rebootMaster', required=False)),
-            (['--reboot-slave'], dict(help="""(bool) 是否重启从节点。 - 仅SQL Server 支持该参数 """, dest='rebootSlave', required=False)),
+            (['--reboot-master'], dict(help="""(bool) 是否重启主节点。</br>- SQL Server：支持</br>- MySQL：暂不支持 """, dest='rebootMaster', required=False)),
+            (['--reboot-slave'], dict(help="""(bool) 是否重启从节点。</br>- SQL Server：支持</br>- MySQL：暂不支持 """, dest='rebootSlave', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 重启RDS实例，目前仅支持SQL Server ''',
+        help=''' 重启RDS实例</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            重启RDS实例，目前仅支持SQL Server。
+            重启RDS实例</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds reboot-instance  --instance-id xxx
         ''',
@@ -861,9 +861,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据库 ''',
+        help=''' 删除数据库 [MFA enabled] ''',
         description='''
-            删除数据库。
+            删除数据库 [MFA enabled]。
 
             示例: jdc rds delete-database  --instance-id xxx --db-name xxx
         ''',
@@ -1177,9 +1177,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 索引性能统计，目前仅支持SQL Server ''',
+        help=''' 索引性能统计</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            索引性能统计，目前仅支持SQL Server。
+            索引性能统计</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds describe-index-performance  --instance-id xxx --query-type xxx
         ''',
@@ -1214,9 +1214,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询性能统计，目前仅支持SQL Server ''',
+        help=''' 查询性能统计</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
         description='''
-            查询性能统计，目前仅支持SQL Server。
+            查询性能统计</br>- SQL Server：支持</br>- MySQL：暂不支持。
 
             示例: jdc rds describe-query-performance  --instance-id xxx --query-type xxx
         ''',

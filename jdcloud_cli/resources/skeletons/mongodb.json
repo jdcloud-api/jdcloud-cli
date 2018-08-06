@@ -22,6 +22,16 @@
         "regionId":"",
         "backupId":""
     },
+    "describe-security-ips":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-security-ips":{
+        "modifyMode":"",
+        "securityIps":"",
+        "regionId":"",
+        "instanceId":""
+    },
     "describe-instances":{
         "pageNumber":"",
         "pageSize":"",
@@ -90,5 +100,11 @@
         "backupId":"",
         "regionId":"",
         "instanceId":""
-    }
+    },
+    "describe-flavors":{
+        "regionId":""
+    },
+    "describe-available-zones":{
+        "regionId":""
+    },
 }

@@ -18,10 +18,6 @@
     "describe-instances":{
         "pageNumber":"",
         "pageSize":"",
-        "tags":[{
-            "key":"",
-            "values":""
-        }],
         "filters":[{
             "name":"",
             "operator":"",
@@ -31,6 +27,8 @@
     },
     "create-instances":{
         "instanceSpec":{
+            "agId":"",
+            "instanceTemplateId":"",
             "az":"",
             "instanceType":"",
             "imageId":"",
@@ -88,6 +86,7 @@
             "description":""
         },
         "maxCount":"",
+        "clientToken":"",
         "regionId":""
     },
     "describe-instance":{
@@ -117,6 +116,25 @@
         "instanceId":""
     },
     "reboot-instance":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "attach-network-interface":{
+        "networkInterfaceId":"",
+        "autoDelete":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "detach-network-interface":{
+        "networkInterfaceId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-instance-network-attribute":{
+        "networks":[{
+            "networkInterfaceId":"",
+            "autoDelete":""
+        }],
         "regionId":"",
         "instanceId":""
     },
@@ -168,6 +186,14 @@
         "regionId":"",
         "instanceId":""
     },
+    "modify-instance-disk-attribute":{
+        "dataDisks":[{
+            "diskId":"",
+            "autoDelete":""
+        }],
+        "regionId":"",
+        "instanceId":""
+    },
     "modify-instance-attribute":{
         "name":"",
         "description":"",
@@ -207,6 +233,10 @@
         "imageSource":"",
         "platform":"",
         "ids":[""],
+        "rootDeviceType":"",
+        "status":"",
+        "pageNumber":"",
+        "pageSize":"",
         "regionId":""
     },
     "describe-image-constraints":{
@@ -230,6 +260,11 @@
     "describe-image-members":{
         "regionId":"",
         "imageId":""
+    },
+    "copy-images":{
+        "sourceImageIds":[""],
+        "destinationRegion":"",
+        "regionId":""
     },
     "modify-image-attribute":{
         "name":"",

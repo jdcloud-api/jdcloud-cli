@@ -113,6 +113,33 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_attach_network_interface(self):
+        cmd = """python ../../main.py vm attach-network-interface  --instance-id 'xxx' --network-interface-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_detach_network_interface(self):
+        cmd = """python ../../main.py vm detach-network-interface  --instance-id 'xxx' --network-interface-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_instance_network_attribute(self):
+        cmd = """python ../../main.py vm modify-instance-network-attribute  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_associate_elastic_ip(self):
         cmd = """python ../../main.py vm associate-elastic-ip  --instance-id 'xxx' --elastic-ip-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -151,6 +178,15 @@ class VmTest(unittest.TestCase):
 
     def test_detach_disk(self):
         cmd = """python ../../main.py vm detach-disk  --instance-id 'xxx' --disk-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_instance_disk_attribute(self):
+        cmd = """python ../../main.py vm modify-instance-disk-attribute  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -268,6 +304,15 @@ class VmTest(unittest.TestCase):
 
     def test_describe_image_members(self):
         cmd = """python ../../main.py vm describe-image-members  --image-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_copy_images(self):
+        cmd = """python ../../main.py vm copy-images  --destination-region 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

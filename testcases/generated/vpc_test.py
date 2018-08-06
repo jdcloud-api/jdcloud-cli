@@ -23,6 +23,15 @@ import json
 
 class VpcTest(unittest.TestCase):
 
+    def test_disassociate_route_table(self):
+        cmd = """python ../../main.py vpc disassociate-route-table  --route-table-id 'xxx' --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_network_interfaces(self):
         cmd = """python ../../main.py vpc describe-network-interfaces """
         with os.popen(cmd) as f:

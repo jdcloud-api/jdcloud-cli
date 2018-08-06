@@ -1,0 +1,10 @@
+{
+    "describe-quotas":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    }
+}

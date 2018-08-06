@@ -21,10 +21,10 @@ import os
 import json
 
 
-class MongodbTest(unittest.TestCase):
+class StreamcomputerTest(unittest.TestCase):
 
-    def test_describe_backups(self):
-        cmd = """python ../../main.py mongodb describe-backups """
+    def test_describe_job(self):
+        cmd = """python ../../main.py streamcomputer describe-job  --job-id '5' --namespace-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_backup(self):
-        cmd = """python ../../main.py mongodb create-backup  --instance-id 'xxx'"""
+    def test_add_or_update_job(self):
+        cmd = """python ../../main.py streamcomputer add-or-update-job  --job-str '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_backup(self):
-        cmd = """python ../../main.py mongodb delete-backup  --backup-id 'xxx'"""
+    def test_delete_job(self):
+        cmd = """python ../../main.py streamcomputer delete-job  --namespace-id 'xxx' --job-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_backup_download_url(self):
-        cmd = """python ../../main.py mongodb backup-download-url  --backup-id 'xxx'"""
+    def test_get_job_list(self):
+        cmd = """python ../../main.py streamcomputer get-job-list  --namespace-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -59,8 +59,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_security_ips(self):
-        cmd = """python ../../main.py mongodb describe-security-ips  --instance-id 'xxx'"""
+    def test_start_job(self):
+        cmd = """python ../../main.py streamcomputer start-job  --namespace-id 'xxx' --job-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -68,8 +68,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_modify_security_ips(self):
-        cmd = """python ../../main.py mongodb modify-security-ips  --instance-id 'xxx' --modify-mode 'xxx' --security-ips 'xxx'"""
+    def test_stop_job(self):
+        cmd = """python ../../main.py streamcomputer stop-job  --namespace-id 'xxx' --job-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -77,8 +77,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_instances(self):
-        cmd = """python ../../main.py mongodb describe-instances """
+    def test_query_namespaces(self):
+        cmd = """python ../../main.py streamcomputer query-namespaces """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,8 +86,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_instance(self):
-        cmd = """python ../../main.py mongodb create-instance  --instance-spec '{"":""}'"""
+    def test_query_namespace_detail(self):
+        cmd = """python ../../main.py streamcomputer query-namespace-detail  --namespace-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -95,8 +95,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_instance(self):
-        cmd = """python ../../main.py mongodb delete-instance  --instance-id 'xxx'"""
+    def test_create_namespace(self):
+        cmd = """python ../../main.py streamcomputer create-namespace  --namespace-str '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -104,8 +104,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_reset_password(self):
-        cmd = """python ../../main.py mongodb reset-password  --instance-id 'xxx' --account-password 'xxx'"""
+    def test_update_namespace(self):
+        cmd = """python ../../main.py streamcomputer update-namespace  --namespace-str '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -113,8 +113,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_modify_instance_spec(self):
-        cmd = """python ../../main.py mongodb modify-instance-spec  --instance-id 'xxx' --instance-class 'xxx' --instance-storage-gb '5'"""
+    def test_delete_namespace(self):
+        cmd = """python ../../main.py streamcomputer delete-namespace  --namespace-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -122,8 +122,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_modify_instance_name(self):
-        cmd = """python ../../main.py mongodb modify-instance-name  --instance-id 'xxx' --instance-name 'xxx'"""
+    def test_describe_storage(self):
+        cmd = """python ../../main.py streamcomputer describe-storage  --storage-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -131,8 +131,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_backup_policy(self):
-        cmd = """python ../../main.py mongodb describe-backup-policy  --instance-id 'xxx'"""
+    def test_add_or_update_storage(self):
+        cmd = """python ../../main.py streamcomputer add-or-update-storage  --storage-str '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -140,8 +140,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_modify_backup_policy(self):
-        cmd = """python ../../main.py mongodb modify-backup-policy  --instance-id 'xxx' --preferred-backup-time 'xxx'"""
+    def test_delete_storage(self):
+        cmd = """python ../../main.py streamcomputer delete-storage  --storage-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -149,26 +149,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_restore_instance(self):
-        cmd = """python ../../main.py mongodb restore-instance  --instance-id 'xxx' --backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_flavors(self):
-        cmd = """python ../../main.py mongodb describe-flavors """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_available_zones(self):
-        cmd = """python ../../main.py mongodb describe-available-zones """
+    def test_get_storage_list(self):
+        cmd = """python ../../main.py streamcomputer get-storage-list  --storage-type 'xxx' --namespace-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

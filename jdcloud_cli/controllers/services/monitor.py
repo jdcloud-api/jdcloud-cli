@@ -109,7 +109,7 @@ class MonitorController(BaseController):
             (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ（默认为当前时间，早于30d时，将被重置为30d） """, dest='startTime', required=False)),
             (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime', required=False)),
             (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval 与 endTime 至少填一项 """, dest='timeInterval', required=False)),
-            (['--tags'], dict(help="""(array: tags) 自定义标签 """, dest='tags', required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) 自定义标签 """, dest='tags', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -147,8 +147,8 @@ class MonitorController(BaseController):
             (['--status'], dict(help="""(int) 规则报警状态, 1：正常, 2：报警，4：数据不足 """, dest='status', required=False)),
             (['--is-alarming'], dict(help="""(int) 是否为正在报警的规则，0为忽略，1为是，与 status 同时只能生效一个,isAlarming 优先生效 """, dest='isAlarming', required=False)),
             (['--enabled'], dict(help="""(int) 规则状态：1为启用，0为禁用 """, dest='enabled', required=False)),
-            (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) ，默认为20；取值范围[1, 100] """, dest='pageSize', required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -220,9 +220,9 @@ class MonitorController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 批量删除规则 ''',
+        help=''' 批量删除已创建的报警规则 ''',
         description='''
-            批量删除规则。
+            批量删除已创建的报警规则。
 
             示例: jdc monitor delete-alarms  --ids xxx
         ''',
@@ -396,8 +396,8 @@ class MonitorController(BaseController):
             (['--resource-id'], dict(help="""(string) 资源Id """, dest='resourceId', required=False)),
             (['--start-time'], dict(help="""(string) 查询数据开始时间，默认24小时前，可以输入long型时间，也可以输入yyyy-MM-dd'T'HH:mm:ssZ类型时间 """, dest='startTime', required=True)),
             (['--end-time'], dict(help="""(string) 查询数据结束时间，默认当前时间，可以输入long型时间，也可以输入yyyy-MM-dd'T'HH:mm:ssZ类型时间 """, dest='endTime', required=True)),
-            (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) ，默认为20；取值范围[1, 100] """, dest='pageSize', required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -429,7 +429,39 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-metrics','describe-metrics-for-create-alarm','describe-metric-data','describe-alarms','create-alarm','delete-alarms','describe-alarms-by-id','update-alarm','enable-alarm','disable-alarm','describe-alarm-history',], required=True)),
+            (['--metric-data-list'], dict(help="""(array: metricDataCm) 数据参数 """, dest='metricDataList', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 自定义监控数据上报接口 ''',
+        description='''
+            自定义监控数据上报接口。
+
+            示例: jdc monitor put-metric-data 
+        ''',
+    )
+    def put_metric_data(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.PutMetricDataRequest import PutMetricDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = PutMetricDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-metrics','describe-metrics-for-create-alarm','describe-metric-data','describe-alarms','create-alarm','delete-alarms','describe-alarms-by-id','update-alarm','enable-alarm','disable-alarm','describe-alarm-history','put-metric-data',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
