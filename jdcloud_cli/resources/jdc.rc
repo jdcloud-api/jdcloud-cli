@@ -27,7 +27,7 @@ _jdc_complete()
     # SETUP THE BASE LEVEL
     if [ $COMP_CWORD -eq 1 ]; then
         COMPREPLY=( $(compgen \
-                      -W "--debug -v --version -h --help configure rds clouddnsservice vpc monitor xdata ipanti redis oss jmr streambus mps disk iam sop nc vm baseanti mongodb " \
+                      -W "--debug -v --version -h --help configure rds jke streamcomputer ipanti redis oss jmr iam sop baseanti mongodb clouddnsservice vpc monitor xdata streambus mps disk nc vm " \
                       -- $cur) )
 
 
@@ -41,24 +41,14 @@ _jdc_complete()
                     -W "-v --version -h --help generate-skeleton describe-backups create-backup delete-backup describe-backup-download-url describe-error-logs describe-audit create-audit delete-audit get-audit-options modify-audit get-audit-files get-audit-download-url describe-import-files get-upload-key set-import-file-shared describe-instances create-instance describe-instance-attributes delete-instance set-instance-name failover-instance reboot-instance describe-databases create-database delete-database restore-database-from-backup restore-database-from-file restore-database-from-oss describe-accounts create-account delete-account grant-privilege reset-password describe-index-performance describe-query-performance " -- $cur) )
                 ;;
 
-            "clouddnsservice")
+            "jke")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton get-domains add-domain del-domain update-domain get-domain-statistics get-monitor add-monitor get-targets add-monitor-target operate-monitor update-monitor get-monitor-alarm-info search-rr get-view-tree add-rr update-rr operate-rr " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-quotas " -- $cur) )
                 ;;
 
-            "vpc")
+            "streamcomputer")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-network-interfaces create-network-interface describe-network-interface modify-network-interface delete-network-interface associate-elastic-ip disassociate-elastic-ip assign-secondary-ips unassign-secondary-ips describe-subnets describe-subnet describe-network-security-groups create-network-security-group describe-network-security-group modify-network-security-group delete-network-security-group add-network-security-group-rules remove-network-security-group-rules modify-network-security-group-rules describe-elastic-ips create-elastic-ips describe-elastic-ip delete-elastic-ip describe-vpc-peerings create-vpc-peering describe-vpc-peering modify-vpc-peering delete-vpc-peering describe-vpcs describe-vpc " -- $cur) )
-                ;;
-
-            "monitor")
-                COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-metrics describe-metrics-for-create-alarm describe-metric-data describe-alarms create-alarm delete-alarms describe-alarms-by-id update-alarm enable-alarm disable-alarm describe-alarm-history " -- $cur) )
-                ;;
-
-            "xdata")
-                COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton execute-ras-query execute-py-spark-query get-ras-query-state get-py-spark-execute-state get-ras-query-log get-ras-query-result get-py-spark-execute-result cancel-ras-query cancel-py-spark-job list-database-info get-database-info create-database delete-database list-instance-info list-table-info create-table get-table-info delete-table " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-job add-or-update-job delete-job get-job-list start-job stop-job query-namespaces query-namespace-detail create-namespace update-namespace delete-namespace describe-storage add-or-update-storage delete-storage get-storage-list " -- $cur) )
                 ;;
 
             "ipanti")
@@ -78,12 +68,52 @@ _jdc_complete()
 
             "jmr")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton create-cluster-in-new-network show-cluster-details release-cluster " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton get-job-type-list get-job-list is-valid-job-name create-job delete-job create-and-excute-job execute-job get-task-list delete-hdfs-file get-cluster-job-count get-cluster-cron-job-count get-cron-job-list is-valid-plan-name create-cron-job get-cron-job-detail modify-cron-job pause-cron-job resume-cron-job delete-cron-job get-cron-job-task-list get-cron-job-task-list-by-job-id run-cron-job-once get-last-cron-job-task query-executing-job-list create-cluster-in-new-network show-cluster-details release-cluster get-key get-property-value get-hardware-stack get-instance-list idata-cluster get-software-info get-software-and-version-info get-jmr-version-list calculate-cluster-price get-avaliable-num query-server-quota query-vpcs query-vpc-subnets delete-cluster query-floating-ip validate-user renew-billing-order validate-name get-access-keys cluster-expansion calculate-expansion-price get-cluster-detail-info monitor-service-list monitor-details get-first-server-vnc-url " -- $cur) )
+                ;;
+
+            "iam")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton create-permission describe-permission-detail update-permission describe-permissions describe-sub-user-permissions add-permissions-to-sub-user remove-permission-of-sub-user create-subuser describe-user-access-keys create-user-access-key enabled-user-access-key disabled-user-access-key delete-user-access-key describe-contact-person describe-contact-persons describe-contact-group describe-contact-groups describe-contact-group-persons-new describe-gray-user " -- $cur) )
+                ;;
+
+            "sop")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton get-security-token get-sensitive-op-setting " -- $cur) )
+                ;;
+
+            "baseanti")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton describe-ip-resources describe-ip-resource-info set-clean-threshold describe-ip-resource-protect-info describe-ip-resource-flow " -- $cur) )
+                ;;
+
+            "mongodb")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton describe-backups create-backup delete-backup backup-download-url describe-security-ips modify-security-ips describe-instances create-instance delete-instance reset-password modify-instance-spec modify-instance-name describe-backup-policy modify-backup-policy restore-instance describe-flavors describe-available-zones " -- $cur) )
+                ;;
+
+            "clouddnsservice")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton get-domains add-domain del-domain update-domain get-domain-query-count get-domain-query-traffic get-monitor add-monitor get-targets add-monitor-target operate-monitor update-monitor get-monitor-alarm-info search-rr get-view-tree add-rr update-rr operate-rr " -- $cur) )
+                ;;
+
+            "vpc")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton disassociate-route-table describe-network-interfaces create-network-interface describe-network-interface modify-network-interface delete-network-interface associate-elastic-ip disassociate-elastic-ip assign-secondary-ips unassign-secondary-ips describe-subnets describe-subnet describe-network-security-groups create-network-security-group describe-network-security-group modify-network-security-group delete-network-security-group add-network-security-group-rules remove-network-security-group-rules modify-network-security-group-rules describe-elastic-ips create-elastic-ips describe-elastic-ip delete-elastic-ip describe-vpc-peerings create-vpc-peering describe-vpc-peering modify-vpc-peering delete-vpc-peering describe-vpcs describe-vpc " -- $cur) )
+                ;;
+
+            "monitor")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton describe-metrics describe-metrics-for-create-alarm describe-metric-data describe-alarms create-alarm delete-alarms describe-alarms-by-id update-alarm enable-alarm disable-alarm describe-alarm-history put-metric-data " -- $cur) )
+                ;;
+
+            "xdata")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton execute-ras-query execute-py-spark-query get-ras-query-state get-py-spark-execute-state get-ras-query-log get-ras-query-result get-py-spark-execute-result cancel-ras-query cancel-py-spark-job list-database-info get-database-info create-database delete-database set-permission initialize-user-root-hdfs-path-not-exist create-new-folder get-file-status get-hdfs-root-path create-file is-exist list-file-and-folders list-udf-file-and-folders list-files-and-folders list-file-and-folders-optional delete-file-or-folder file-cat rename-file get-acl-status set-owner set-acl remove-acl modify-acl-entries remove-acl-entries remove-default-acl set-xattr get-xattr get-xattrs remove-xattr get-files-count set-permission-by-ugo get-content-summary list-instance-info list-table-info create-table get-table-info delete-table " -- $cur) )
                 ;;
 
             "streambus")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton get-topic-list add-topic update-topic " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton get-consumer-group-list create-consumer-group delete-consumer-group get-topic-list describe-topic add-topic update-topic delete-topic " -- $cur) )
                 ;;
 
             "mps")
@@ -96,16 +126,6 @@ _jdc_complete()
                     -W "-v --version -h --help generate-skeleton describe-snapshots create-snapshot describe-snapshot modify-snp-attribute delete-snapshot describe-disks create-disks describe-disk modify-disk-attribute delete-disk restore-disk extend-disk " -- $cur) )
                 ;;
 
-            "iam")
-                COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton get-session-token verify-session-token create-permission describe-permission-detail update-permission describe-permissions describe-sub-user-permissions add-permissions-to-sub-user remove-permission-of-sub-user create-subuser describe-user-access-keys create-user-access-key enabled-user-access-key disabled-user-access-key delete-user-access-key " -- $cur) )
-                ;;
-
-            "sop")
-                COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton get-security-token get-sensitive-op-setting " -- $cur) )
-                ;;
-
             "nc")
                 COMPREPLY=( $(compgen \
                     -W "-v --version -h --help generate-skeleton describe-quota describe-containers create-containers describe-container delete-container start-container stop-container modify-container-attribute associate-elastic-ip disassociate-elastic-ip get-logs describe-secrets create-secret describe-secret delete-secret " -- $cur) )
@@ -113,17 +133,7 @@ _jdc_complete()
 
             "vm")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-quotas describe-instance-types describe-instances create-instances describe-instance delete-instance describe-instance-status stop-instance start-instance reboot-instance associate-elastic-ip disassociate-elastic-ip create-image attach-disk detach-disk modify-instance-attribute modify-instance-password describe-instance-vnc-url resize-instance rebuild-instance describe-image delete-image describe-images describe-image-constraints describe-image-constraints-batch share-image un-share-image describe-image-members modify-image-attribute " -- $cur) )
-                ;;
-
-            "baseanti")
-                COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-ip-resources describe-ip-resource-info set-clean-threshold describe-ip-resource-protect-info describe-ip-resource-flow " -- $cur) )
-                ;;
-
-            "mongodb")
-                COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-backups create-backup delete-backup backup-download-url describe-instances create-instance delete-instance reset-password modify-instance-spec modify-instance-name describe-backup-policy modify-backup-policy restore-instance " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-quotas describe-instance-types describe-instances create-instances describe-instance delete-instance describe-instance-status stop-instance start-instance reboot-instance attach-network-interface detach-network-interface modify-instance-network-attribute associate-elastic-ip disassociate-elastic-ip create-image attach-disk detach-disk modify-instance-disk-attribute modify-instance-attribute modify-instance-password describe-instance-vnc-url resize-instance rebuild-instance describe-image delete-image describe-images describe-image-constraints describe-image-constraints-batch share-image un-share-image describe-image-members copy-images modify-image-attribute " -- $cur) )
                 ;;
 
 
@@ -289,76 +299,12 @@ _jdc_complete()
                 esac
                 ;;
 
-	        "clouddnsservice")
+	        "jke")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
-                    "get-domains")
+                    "describe-quotas")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --domain-name " -- $cur) )
-                        ;;
-                    "add-domain")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --pack-id --domain-name --domain-id --buy-type --time-span --time-unit --billing-type " -- $cur) )
-                        ;;
-                    "del-domain")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id " -- $cur) )
-                        ;;
-                    "update-domain")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-name --id " -- $cur) )
-                        ;;
-                    "get-domain-statistics")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --action --domain-name --start --end " -- $cur) )
-                        ;;
-                    "get-monitor")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --page-index --page-size --search-value " -- $cur) )
-                        ;;
-                    "add-monitor")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --sub-domain-name " -- $cur) )
-                        ;;
-                    "get-targets")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --sub-domain-name " -- $cur) )
-                        ;;
-                    "add-monitor-target")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --sub-domain-name --targets " -- $cur) )
-                        ;;
-                    "operate-monitor")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --action --ids --switch-target " -- $cur) )
-                        ;;
-                    "update-monitor")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --update-monitor " -- $cur) )
-                        ;;
-                    "get-monitor-alarm-info")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --page-index --page-size --search-value " -- $cur) )
-                        ;;
-                    "search-rr")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id " -- $cur) )
-                        ;;
-                    "get-view-tree")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --load-mode --pack-id --view-id " -- $cur) )
-                        ;;
-                    "add-rr")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --req " -- $cur) )
-                        ;;
-                    "update-rr")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --req " -- $cur) )
-                        ;;
-                    "operate-rr")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --domain-id --ids --action " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --filters " -- $cur) )
                         ;;
 
                     "generate-skeleton")
@@ -367,264 +313,68 @@ _jdc_complete()
                 esac
                 ;;
 
-	        "vpc")
+	        "streamcomputer")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
-                    "describe-network-interfaces")
+                    "describe-job")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --job-id --namespace-id " -- $cur) )
                         ;;
-                    "create-network-interface")
+                    "add-or-update-job")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --subnet-id --az --network-interface-name --primary-ip-address --secondary-ip-addresses --secondary-ip-count --security-groups --sanity-check --description " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --job-str " -- $cur) )
                         ;;
-                    "describe-network-interface")
+                    "delete-job")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-interface-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --namespace-id --job-id " -- $cur) )
                         ;;
-                    "modify-network-interface")
+                    "get-job-list")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-interface-id --network-interface-name --description --security-groups " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --namespace-id " -- $cur) )
                         ;;
-                    "delete-network-interface")
+                    "start-job")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-interface-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --namespace-id --job-id " -- $cur) )
                         ;;
-                    "associate-elastic-ip")
+                    "stop-job")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-interface-id --elastic-ip-id --private-ip-address --elastic-ip-address " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --namespace-id --job-id " -- $cur) )
                         ;;
-                    "disassociate-elastic-ip")
+                    "query-namespaces")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-interface-id --elastic-ip-id --elastic-ip-address " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --keyword " -- $cur) )
                         ;;
-                    "assign-secondary-ips")
+                    "query-namespace-detail")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-interface-id --force --secondary-ips --secondary-ip-count " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --namespace-id " -- $cur) )
                         ;;
-                    "unassign-secondary-ips")
+                    "create-namespace")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-interface-id --secondary-ips " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --namespace-str " -- $cur) )
                         ;;
-                    "describe-subnets")
+                    "update-namespace")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --namespace-str " -- $cur) )
                         ;;
-                    "describe-subnet")
+                    "delete-namespace")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --subnet-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --namespace-id " -- $cur) )
                         ;;
-                    "describe-network-security-groups")
+                    "describe-storage")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --storage-id " -- $cur) )
                         ;;
-                    "create-network-security-group")
+                    "add-or-update-storage")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --vpc-id --network-security-group-name --description " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --storage-str " -- $cur) )
                         ;;
-                    "describe-network-security-group")
+                    "delete-storage")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-security-group-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --storage-id " -- $cur) )
                         ;;
-                    "modify-network-security-group")
+                    "get-storage-list")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-security-group-id --network-security-group-name --description " -- $cur) )
-                        ;;
-                    "delete-network-security-group")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-security-group-id " -- $cur) )
-                        ;;
-                    "add-network-security-group-rules")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-security-group-id --network-security-group-rule-specs " -- $cur) )
-                        ;;
-                    "remove-network-security-group-rules")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-security-group-id --rule-ids " -- $cur) )
-                        ;;
-                    "modify-network-security-group-rules")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --network-security-group-id --modify-security-group-rule-specs " -- $cur) )
-                        ;;
-                    "describe-elastic-ips")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
-                        ;;
-                    "create-elastic-ips")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --max-count --elastic-ip-address --elastic-ip-spec " -- $cur) )
-                        ;;
-                    "describe-elastic-ip")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --elastic-ip-id " -- $cur) )
-                        ;;
-                    "delete-elastic-ip")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --elastic-ip-id " -- $cur) )
-                        ;;
-                    "describe-vpc-peerings")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
-                        ;;
-                    "create-vpc-peering")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --vpc-peering-name --vpc-id --remote-vpc-id --description " -- $cur) )
-                        ;;
-                    "describe-vpc-peering")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --vpc-peering-id " -- $cur) )
-                        ;;
-                    "modify-vpc-peering")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --vpc-peering-id --vpc-peering-name --description " -- $cur) )
-                        ;;
-                    "delete-vpc-peering")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --vpc-peering-id " -- $cur) )
-                        ;;
-                    "describe-vpcs")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
-                        ;;
-                    "describe-vpc")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --vpc-id " -- $cur) )
-                        ;;
-
-                    "generate-skeleton")
-                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
-                        ;;
-                esac
-                ;;
-
-	        "monitor")
-                case "$prev" in
-                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
-                    "describe-metrics")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --service-code " -- $cur) )
-                        ;;
-                    "describe-metrics-for-create-alarm")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --service-code " -- $cur) )
-                        ;;
-                    "describe-metric-data")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --metric --service-code --resource-id --start-time --end-time --time-interval --tags " -- $cur) )
-                        ;;
-                    "describe-alarms")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --service-code --resource-id --status --is-alarming --enabled --page-number --page-size " -- $cur) )
-                        ;;
-                    "create-alarm")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --client-token --create-alarm-spec " -- $cur) )
-                        ;;
-                    "delete-alarms")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --ids " -- $cur) )
-                        ;;
-                    "describe-alarms-by-id")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --alarm-id " -- $cur) )
-                        ;;
-                    "update-alarm")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --alarm-id --calculation --contact-groups --contact-persons --down-sample --metric --notice-period --operation --period --service-code --threshold --times " -- $cur) )
-                        ;;
-                    "enable-alarm")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --alarm-id " -- $cur) )
-                        ;;
-                    "disable-alarm")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --alarm-id " -- $cur) )
-                        ;;
-                    "describe-alarm-history")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --id --service-code --resource-id --start-time --end-time --page-number --page-size " -- $cur) )
-                        ;;
-
-                    "generate-skeleton")
-                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
-                        ;;
-                esac
-                ;;
-
-	        "xdata")
-                case "$prev" in
-                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
-                    "execute-ras-query")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --database-name --sql --user-name --queue-name --source --call-back-url --instance-name --instance-owner-name --is-explain " -- $cur) )
-                        ;;
-                    "execute-py-spark-query")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --script --user-name --instance-name --instance-owner-name --script-type " -- $cur) )
-                        ;;
-                    "get-ras-query-state")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
-                        ;;
-                    "get-py-spark-execute-state")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
-                        ;;
-                    "get-ras-query-log")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
-                        ;;
-                    "get-ras-query-result")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
-                        ;;
-                    "get-py-spark-execute-result")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
-                        ;;
-                    "cancel-ras-query")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
-                        ;;
-                    "cancel-py-spark-job")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
-                        ;;
-                    "list-database-info")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-name " -- $cur) )
-                        ;;
-                    "get-database-info")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --database-name --instance-name " -- $cur) )
-                        ;;
-                    "create-database")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --database-name --instance-name --description " -- $cur) )
-                        ;;
-                    "delete-database")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --database-name --instance-name " -- $cur) )
-                        ;;
-                    "list-instance-info")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id " -- $cur) )
-                        ;;
-                    "list-table-info")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-name --database-name " -- $cur) )
-                        ;;
-                    "create-table")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-name --db-model-dbtable " -- $cur) )
-                        ;;
-                    "get-table-info")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --table-name --instance-name --database-name " -- $cur) )
-                        ;;
-                    "delete-table")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --table-name --instance-name --database-name " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --storage-type --namespace-id " -- $cur) )
                         ;;
 
                     "generate-skeleton")
@@ -890,6 +640,102 @@ _jdc_complete()
 	        "jmr")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "get-job-type-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-id " -- $cur) )
+                        ;;
+                    "get-job-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --jmr-job-view-model --select-params " -- $cur) )
+                        ;;
+                    "is-valid-job-name")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --jmr-job-view-model " -- $cur) )
+                        ;;
+                    "create-job")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --jmr-job-view-model " -- $cur) )
+                        ;;
+                    "delete-job")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --job-id " -- $cur) )
+                        ;;
+                    "create-and-excute-job")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --jmr-job-view-model " -- $cur) )
+                        ;;
+                    "execute-job")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --job-id " -- $cur) )
+                        ;;
+                    "get-task-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --job-id --status --order-by --page-num --page-size " -- $cur) )
+                        ;;
+                    "delete-hdfs-file")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-id --file-path " -- $cur) )
+                        ;;
+                    "get-cluster-job-count")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-id --file-path " -- $cur) )
+                        ;;
+                    "get-cluster-cron-job-count")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-id " -- $cur) )
+                        ;;
+                    "get-cron-job-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --plan-status --plan-name --plan-type --order-by --page-num --page-size " -- $cur) )
+                        ;;
+                    "is-valid-plan-name")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --plan-name --plan-id " -- $cur) )
+                        ;;
+                    "create-cron-job")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --jmr-plan-view-model --time --month --week --day --hour --minute " -- $cur) )
+                        ;;
+                    "get-cron-job-detail")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --plan-id --page-num --page-size " -- $cur) )
+                        ;;
+                    "modify-cron-job")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --jmr-plan-view-model --time --month --week --day --hour --minute " -- $cur) )
+                        ;;
+                    "pause-cron-job")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --plan-id " -- $cur) )
+                        ;;
+                    "resume-cron-job")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --plan-id " -- $cur) )
+                        ;;
+                    "delete-cron-job")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --plan-id " -- $cur) )
+                        ;;
+                    "get-cron-job-task-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --plan-id --status --order-by --page-num --page-size " -- $cur) )
+                        ;;
+                    "get-cron-job-task-list-by-job-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --job-id --plan-id --status --order-by --page-num --page-size " -- $cur) )
+                        ;;
+                    "run-cron-job-once")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --plan-id " -- $cur) )
+                        ;;
+                    "get-last-cron-job-task")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --plan-id --job-id " -- $cur) )
+                        ;;
+                    "query-executing-job-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
                     "create-cluster-in-new-network")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --cluster-model " -- $cur) )
@@ -902,6 +748,786 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --id " -- $cur) )
                         ;;
+                    "get-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "get-property-value")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "get-hardware-stack")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "get-instance-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "idata-cluster")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "get-software-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --ver " -- $cur) )
+                        ;;
+                    "get-software-and-version-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --ver " -- $cur) )
+                        ;;
+                    "get-jmr-version-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "calculate-cluster-price")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-list-view-model " -- $cur) )
+                        ;;
+                    "get-avaliable-num")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "query-server-quota")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "query-vpcs")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "query-vpc-subnets")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --vpc-id " -- $cur) )
+                        ;;
+                    "delete-cluster")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --record-id " -- $cur) )
+                        ;;
+                    "query-floating-ip")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --record-id " -- $cur) )
+                        ;;
+                    "validate-user")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "renew-billing-order")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-id --type " -- $cur) )
+                        ;;
+                    "validate-name")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --name " -- $cur) )
+                        ;;
+                    "get-access-keys")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "cluster-expansion")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-id --expansion-num " -- $cur) )
+                        ;;
+                    "calculate-expansion-price")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-expansion " -- $cur) )
+                        ;;
+                    "get-cluster-detail-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-id " -- $cur) )
+                        ;;
+                    "monitor-service-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-id " -- $cur) )
+                        ;;
+                    "monitor-details")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-id --service " -- $cur) )
+                        ;;
+                    "get-first-server-vnc-url")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cluster-id " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "iam")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "create-permission")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --create-permission-info " -- $cur) )
+                        ;;
+                    "describe-permission-detail")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --permission-id " -- $cur) )
+                        ;;
+                    "update-permission")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --permission-id --update-permission-info " -- $cur) )
+                        ;;
+                    "describe-permissions")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --keyword --query-type " -- $cur) )
+                        ;;
+                    "describe-sub-user-permissions")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --sub-user --page-number --page-size " -- $cur) )
+                        ;;
+                    "add-permissions-to-sub-user")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --sub-user --add-permissions-info " -- $cur) )
+                        ;;
+                    "remove-permission-of-sub-user")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --permission-id --sub-user " -- $cur) )
+                        ;;
+                    "create-subuser")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --create-sub-user-info " -- $cur) )
+                        ;;
+                    "describe-user-access-keys")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-user-access-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "enabled-user-access-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --access-key " -- $cur) )
+                        ;;
+                    "disabled-user-access-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --access-key " -- $cur) )
+                        ;;
+                    "delete-user-access-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --access-key " -- $cur) )
+                        ;;
+                    "describe-contact-person")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --pin --person-id " -- $cur) )
+                        ;;
+                    "describe-contact-persons")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --pin " -- $cur) )
+                        ;;
+                    "describe-contact-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --pin --group-id " -- $cur) )
+                        ;;
+                    "describe-contact-groups")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --pin " -- $cur) )
+                        ;;
+                    "describe-contact-group-persons-new")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --pin --group-id " -- $cur) )
+                        ;;
+                    "describe-gray-user")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --pin --service-code " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "sop")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "get-security-token")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --get-security-token-info " -- $cur) )
+                        ;;
+                    "get-sensitive-op-setting")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --action " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "baseanti")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "describe-ip-resources")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "describe-ip-resource-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --ip " -- $cur) )
+                        ;;
+                    "set-clean-threshold")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --ip --clean-threshold-spec " -- $cur) )
+                        ;;
+                    "describe-ip-resource-protect-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --ip --start --limit " -- $cur) )
+                        ;;
+                    "describe-ip-resource-flow")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --ip --end-time " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "mongodb")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "describe-backups")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "create-backup")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --backup-name " -- $cur) )
+                        ;;
+                    "delete-backup")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --backup-id " -- $cur) )
+                        ;;
+                    "backup-download-url")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --backup-id " -- $cur) )
+                        ;;
+                    "describe-security-ips")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
+                        ;;
+                    "modify-security-ips")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --modify-mode --security-ips " -- $cur) )
+                        ;;
+                    "describe-instances")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters --sorts " -- $cur) )
+                        ;;
+                    "create-instance")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-spec --charge-spec " -- $cur) )
+                        ;;
+                    "delete-instance")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
+                        ;;
+                    "reset-password")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --account-password " -- $cur) )
+                        ;;
+                    "modify-instance-spec")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --instance-class --instance-storage-gb " -- $cur) )
+                        ;;
+                    "modify-instance-name")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --instance-name " -- $cur) )
+                        ;;
+                    "describe-backup-policy")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
+                        ;;
+                    "modify-backup-policy")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --preferred-backup-time " -- $cur) )
+                        ;;
+                    "restore-instance")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --backup-id " -- $cur) )
+                        ;;
+                    "describe-flavors")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "describe-available-zones")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "clouddnsservice")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "get-domains")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --domain-name " -- $cur) )
+                        ;;
+                    "add-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --pack-id --domain-name --domain-id --buy-type --time-span --time-unit --billing-type " -- $cur) )
+                        ;;
+                    "del-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id " -- $cur) )
+                        ;;
+                    "update-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-name --id " -- $cur) )
+                        ;;
+                    "get-domain-query-count")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --domain-name --start --end " -- $cur) )
+                        ;;
+                    "get-domain-query-traffic")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --domain-name --start --end " -- $cur) )
+                        ;;
+                    "get-monitor")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --page-index --page-size --search-value " -- $cur) )
+                        ;;
+                    "add-monitor")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --sub-domain-name " -- $cur) )
+                        ;;
+                    "get-targets")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --sub-domain-name " -- $cur) )
+                        ;;
+                    "add-monitor-target")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --sub-domain-name --targets " -- $cur) )
+                        ;;
+                    "operate-monitor")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --action --ids --switch-target " -- $cur) )
+                        ;;
+                    "update-monitor")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --update-monitor " -- $cur) )
+                        ;;
+                    "get-monitor-alarm-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --page-index --page-size --search-value " -- $cur) )
+                        ;;
+                    "search-rr")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id " -- $cur) )
+                        ;;
+                    "get-view-tree")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --load-mode --pack-id --view-id " -- $cur) )
+                        ;;
+                    "add-rr")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --req " -- $cur) )
+                        ;;
+                    "update-rr")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --req " -- $cur) )
+                        ;;
+                    "operate-rr")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-id --ids --action " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "vpc")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "disassociate-route-table")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --route-table-id --subnet-id " -- $cur) )
+                        ;;
+                    "describe-network-interfaces")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "create-network-interface")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --subnet-id --az --network-interface-name --primary-ip-address --secondary-ip-addresses --secondary-ip-count --security-groups --sanity-check --description " -- $cur) )
+                        ;;
+                    "describe-network-interface")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-interface-id " -- $cur) )
+                        ;;
+                    "modify-network-interface")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-interface-id --network-interface-name --description --security-groups " -- $cur) )
+                        ;;
+                    "delete-network-interface")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-interface-id " -- $cur) )
+                        ;;
+                    "associate-elastic-ip")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-interface-id --elastic-ip-id --private-ip-address --elastic-ip-address " -- $cur) )
+                        ;;
+                    "disassociate-elastic-ip")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-interface-id --elastic-ip-id --elastic-ip-address " -- $cur) )
+                        ;;
+                    "assign-secondary-ips")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-interface-id --force --secondary-ips --secondary-ip-count " -- $cur) )
+                        ;;
+                    "unassign-secondary-ips")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-interface-id --secondary-ips " -- $cur) )
+                        ;;
+                    "describe-subnets")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "describe-subnet")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --subnet-id " -- $cur) )
+                        ;;
+                    "describe-network-security-groups")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "create-network-security-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --vpc-id --network-security-group-name --description " -- $cur) )
+                        ;;
+                    "describe-network-security-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-security-group-id " -- $cur) )
+                        ;;
+                    "modify-network-security-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-security-group-id --network-security-group-name --description " -- $cur) )
+                        ;;
+                    "delete-network-security-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-security-group-id " -- $cur) )
+                        ;;
+                    "add-network-security-group-rules")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-security-group-id --network-security-group-rule-specs " -- $cur) )
+                        ;;
+                    "remove-network-security-group-rules")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-security-group-id --rule-ids " -- $cur) )
+                        ;;
+                    "modify-network-security-group-rules")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --network-security-group-id --modify-security-group-rule-specs " -- $cur) )
+                        ;;
+                    "describe-elastic-ips")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "create-elastic-ips")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --max-count --elastic-ip-address --elastic-ip-spec " -- $cur) )
+                        ;;
+                    "describe-elastic-ip")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --elastic-ip-id " -- $cur) )
+                        ;;
+                    "delete-elastic-ip")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --elastic-ip-id " -- $cur) )
+                        ;;
+                    "describe-vpc-peerings")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "create-vpc-peering")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --vpc-peering-name --vpc-id --remote-vpc-id --description " -- $cur) )
+                        ;;
+                    "describe-vpc-peering")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --vpc-peering-id " -- $cur) )
+                        ;;
+                    "modify-vpc-peering")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --vpc-peering-id --vpc-peering-name --description " -- $cur) )
+                        ;;
+                    "delete-vpc-peering")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --vpc-peering-id " -- $cur) )
+                        ;;
+                    "describe-vpcs")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "describe-vpc")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --vpc-id " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "monitor")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "describe-metrics")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --service-code " -- $cur) )
+                        ;;
+                    "describe-metrics-for-create-alarm")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --service-code " -- $cur) )
+                        ;;
+                    "describe-metric-data")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --metric --service-code --resource-id --start-time --end-time --time-interval --tags " -- $cur) )
+                        ;;
+                    "describe-alarms")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --service-code --resource-id --status --is-alarming --enabled --page-number --page-size " -- $cur) )
+                        ;;
+                    "create-alarm")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --client-token --create-alarm-spec " -- $cur) )
+                        ;;
+                    "delete-alarms")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --ids " -- $cur) )
+                        ;;
+                    "describe-alarms-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --alarm-id " -- $cur) )
+                        ;;
+                    "update-alarm")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --alarm-id --calculation --contact-groups --contact-persons --down-sample --metric --notice-period --operation --period --service-code --threshold --times " -- $cur) )
+                        ;;
+                    "enable-alarm")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --alarm-id " -- $cur) )
+                        ;;
+                    "disable-alarm")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --alarm-id " -- $cur) )
+                        ;;
+                    "describe-alarm-history")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id --service-code --resource-id --start-time --end-time --page-number --page-size " -- $cur) )
+                        ;;
+                    "put-metric-data")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --metric-data-list " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "xdata")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "execute-ras-query")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --database-name --sql --user-name --queue-name --source --call-back-url --instance-name --instance-owner-name --is-explain " -- $cur) )
+                        ;;
+                    "execute-py-spark-query")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --script --user-name --instance-name --instance-owner-name --script-type " -- $cur) )
+                        ;;
+                    "get-ras-query-state")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
+                        ;;
+                    "get-py-spark-execute-state")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
+                        ;;
+                    "get-ras-query-log")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
+                        ;;
+                    "get-ras-query-result")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
+                        ;;
+                    "get-py-spark-execute-result")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
+                        ;;
+                    "cancel-ras-query")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
+                        ;;
+                    "cancel-py-spark-job")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --query-id " -- $cur) )
+                        ;;
+                    "list-database-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-name " -- $cur) )
+                        ;;
+                    "get-database-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --database-name --instance-name " -- $cur) )
+                        ;;
+                    "create-database")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --database-name --instance-name --description " -- $cur) )
+                        ;;
+                    "delete-database")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --database-name --instance-name " -- $cur) )
+                        ;;
+                    "set-permission")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --permission " -- $cur) )
+                        ;;
+                    "initialize-user-root-hdfs-path-not-exist")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name " -- $cur) )
+                        ;;
+                    "create-new-folder")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --description " -- $cur) )
+                        ;;
+                    "get-file-status")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name " -- $cur) )
+                        ;;
+                    "get-hdfs-root-path")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name " -- $cur) )
+                        ;;
+                    "create-file")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --file-path --file-content --over-write " -- $cur) )
+                        ;;
+                    "is-exist")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --file-path " -- $cur) )
+                        ;;
+                    "list-file-and-folders")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name " -- $cur) )
+                        ;;
+                    "list-udf-file-and-folders")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --instance-name " -- $cur) )
+                        ;;
+                    "list-files-and-folders")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --pattern --instance-name " -- $cur) )
+                        ;;
+                    "list-file-and-folders-optional")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --hide-owner-folder-files --hide-acl-folder-files --hide-no-permission-folder-files --path-name " -- $cur) )
+                        ;;
+                    "delete-file-or-folder")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --recursive " -- $cur) )
+                        ;;
+                    "file-cat")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --file-path " -- $cur) )
+                        ;;
+                    "rename-file")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --parent-path --old-name --new-name --label --description " -- $cur) )
+                        ;;
+                    "get-acl-status")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name " -- $cur) )
+                        ;;
+                    "set-owner")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --owner-name --group " -- $cur) )
+                        ;;
+                    "set-acl")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --acl-entry-list-json-str " -- $cur) )
+                        ;;
+                    "remove-acl")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name " -- $cur) )
+                        ;;
+                    "modify-acl-entries")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --acl-entry-list-json-str " -- $cur) )
+                        ;;
+                    "remove-acl-entries")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --acl-entry-list-json-str " -- $cur) )
+                        ;;
+                    "remove-default-acl")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name " -- $cur) )
+                        ;;
+                    "set-xattr")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --key-name --value " -- $cur) )
+                        ;;
+                    "get-xattr")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --key-name " -- $cur) )
+                        ;;
+                    "get-xattrs")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name " -- $cur) )
+                        ;;
+                    "remove-xattr")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --key-name " -- $cur) )
+                        ;;
+                    "get-files-count")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name " -- $cur) )
+                        ;;
+                    "set-permission-by-ugo")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name --useraction --groupaction --otheraction --sticky-bit " -- $cur) )
+                        ;;
+                    "get-content-summary")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --user-name --path-name " -- $cur) )
+                        ;;
+                    "list-instance-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "list-table-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-name --database-name " -- $cur) )
+                        ;;
+                    "create-table")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-name --db-model-dbtable " -- $cur) )
+                        ;;
+                    "get-table-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --table-name --instance-name --database-name " -- $cur) )
+                        ;;
+                    "delete-table")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --table-name --instance-name --database-name " -- $cur) )
+                        ;;
 
                     "generate-skeleton")
                         COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
@@ -912,9 +1538,25 @@ _jdc_complete()
 	        "streambus")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "get-consumer-group-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --topic-id " -- $cur) )
+                        ;;
+                    "create-consumer-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --consumer-group-str " -- $cur) )
+                        ;;
+                    "delete-consumer-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --topic-id --consumer-group-id " -- $cur) )
+                        ;;
                     "get-topic-list")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --keyword " -- $cur) )
+                        ;;
+                    "describe-topic")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --name " -- $cur) )
                         ;;
                     "add-topic")
                         COMPREPLY=( $(compgen \
@@ -923,6 +1565,10 @@ _jdc_complete()
                     "update-topic")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --topic-model " -- $cur) )
+                        ;;
+                    "delete-topic")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --name " -- $cur) )
                         ;;
 
                     "generate-skeleton")
@@ -1019,94 +1665,6 @@ _jdc_complete()
                 esac
                 ;;
 
-	        "iam")
-                case "$prev" in
-                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
-                    "get-session-token")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --get-session-token-info " -- $cur) )
-                        ;;
-                    "verify-session-token")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --verify-session-token-info " -- $cur) )
-                        ;;
-                    "create-permission")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --create-permission-info " -- $cur) )
-                        ;;
-                    "describe-permission-detail")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --permission-id " -- $cur) )
-                        ;;
-                    "update-permission")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --permission-id --update-permission-info " -- $cur) )
-                        ;;
-                    "describe-permissions")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --keyword --query-type " -- $cur) )
-                        ;;
-                    "describe-sub-user-permissions")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --sub-user --page-number --page-size " -- $cur) )
-                        ;;
-                    "add-permissions-to-sub-user")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --sub-user --add-permissions-info " -- $cur) )
-                        ;;
-                    "remove-permission-of-sub-user")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --permission-id --sub-user " -- $cur) )
-                        ;;
-                    "create-subuser")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --create-sub-user-info " -- $cur) )
-                        ;;
-                    "describe-user-access-keys")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id " -- $cur) )
-                        ;;
-                    "create-user-access-key")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id " -- $cur) )
-                        ;;
-                    "enabled-user-access-key")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --access-key " -- $cur) )
-                        ;;
-                    "disabled-user-access-key")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --access-key " -- $cur) )
-                        ;;
-                    "delete-user-access-key")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --access-key " -- $cur) )
-                        ;;
-
-                    "generate-skeleton")
-                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
-                        ;;
-                esac
-                ;;
-
-	        "sop")
-                case "$prev" in
-                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
-                    "get-security-token")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --get-security-token-info " -- $cur) )
-                        ;;
-                    "get-sensitive-op-setting")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --action " -- $cur) )
-                        ;;
-
-                    "generate-skeleton")
-                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
-                        ;;
-                esac
-                ;;
-
 	        "nc")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
@@ -1190,11 +1748,11 @@ _jdc_complete()
                         ;;
                     "describe-instances")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --tags --filters " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
                         ;;
                     "create-instances")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-spec --max-count " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --instance-spec --max-count --client-token " -- $cur) )
                         ;;
                     "describe-instance")
                         COMPREPLY=( $(compgen \
@@ -1220,6 +1778,18 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
                         ;;
+                    "attach-network-interface")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --network-interface-id --auto-delete " -- $cur) )
+                        ;;
+                    "detach-network-interface")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --network-interface-id " -- $cur) )
+                        ;;
+                    "modify-instance-network-attribute")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --networks " -- $cur) )
+                        ;;
                     "associate-elastic-ip")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --elastic-ip-id " -- $cur) )
@@ -1239,6 +1809,10 @@ _jdc_complete()
                     "detach-disk")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --disk-id --force " -- $cur) )
+                        ;;
+                    "modify-instance-disk-attribute")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --data-disks " -- $cur) )
                         ;;
                     "modify-instance-attribute")
                         COMPREPLY=( $(compgen \
@@ -1270,7 +1844,7 @@ _jdc_complete()
                         ;;
                     "describe-images")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --image-source --platform --ids " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --image-source --platform --ids --root-device-type --status --page-number --page-size " -- $cur) )
                         ;;
                     "describe-image-constraints")
                         COMPREPLY=( $(compgen \
@@ -1292,101 +1866,13 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --image-id " -- $cur) )
                         ;;
+                    "copy-images")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --source-image-ids --destination-region " -- $cur) )
+                        ;;
                     "modify-image-attribute")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --image-id --name --description " -- $cur) )
-                        ;;
-
-                    "generate-skeleton")
-                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
-                        ;;
-                esac
-                ;;
-
-	        "baseanti")
-                case "$prev" in
-                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
-                    "describe-ip-resources")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id " -- $cur) )
-                        ;;
-                    "describe-ip-resource-info")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --ip " -- $cur) )
-                        ;;
-                    "set-clean-threshold")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --ip --clean-threshold-spec " -- $cur) )
-                        ;;
-                    "describe-ip-resource-protect-info")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --ip --start --limit " -- $cur) )
-                        ;;
-                    "describe-ip-resource-flow")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --ip --end-time " -- $cur) )
-                        ;;
-
-                    "generate-skeleton")
-                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
-                        ;;
-                esac
-                ;;
-
-	        "mongodb")
-                case "$prev" in
-                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
-                    "describe-backups")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
-                        ;;
-                    "create-backup")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id --backup-name " -- $cur) )
-                        ;;
-                    "delete-backup")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --backup-id " -- $cur) )
-                        ;;
-                    "backup-download-url")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --backup-id " -- $cur) )
-                        ;;
-                    "describe-instances")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters --sorts " -- $cur) )
-                        ;;
-                    "create-instance")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-spec --charge-spec " -- $cur) )
-                        ;;
-                    "delete-instance")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
-                        ;;
-                    "reset-password")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id --account-password " -- $cur) )
-                        ;;
-                    "modify-instance-spec")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id --instance-class --instance-storage-gb " -- $cur) )
-                        ;;
-                    "modify-instance-name")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id --instance-name " -- $cur) )
-                        ;;
-                    "describe-backup-policy")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
-                        ;;
-                    "modify-backup-policy")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id --preferred-backup-time " -- $cur) )
-                        ;;
-                    "restore-instance")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id --backup-id " -- $cur) )
                         ;;
 
                     "generate-skeleton")

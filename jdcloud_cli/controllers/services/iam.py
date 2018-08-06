@@ -39,72 +39,6 @@ class IamController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--get-session-token-info'], dict(help="""(getSessionTokenInfo) 获取sessionToken参数 """, dest='getSessionTokenInfo', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 获取SessionToken ''',
-        description='''
-            获取SessionToken。
-
-            示例: jdc iam get-session-token  --get-session-token-info {"":""}
-        ''',
-    )
-    def get_session_token(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.GetSessionTokenRequest import GetSessionTokenRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetSessionTokenRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--verify-session-token-info'], dict(help="""(verifySessionTokenInfo) 验证sessionToken参数 """, dest='verifySessionTokenInfo', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 验证SessionToken有效性 ''',
-        description='''
-            验证SessionToken有效性。
-
-            示例: jdc iam verify-session-token  --verify-session-token-info {"":""}
-        ''',
-    )
-    def verify_session_token(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.VerifySessionTokenRequest import VerifySessionTokenRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = VerifySessionTokenRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--create-permission-info'], dict(help="""(createPermissionInfo) 权限信息 """, dest='createPermissionInfo', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -539,7 +473,209 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-session-token','verify-session-token','create-permission','describe-permission-detail','update-permission','describe-permissions','describe-sub-user-permissions','add-permissions-to-sub-user','remove-permission-of-sub-user','create-subuser','describe-user-access-keys','create-user-access-key','enabled-user-access-key','disabled-user-access-key','delete-user-access-key',], required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--pin'], dict(help="""(string) 用户pin """, dest='pin', required=True)),
+            (['--person-id'], dict(help="""(int) 用户id """, dest='personId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取联系人 ''',
+        description='''
+            获取联系人。
+
+            示例: jdc iam describe-contact-person  --pin xxx --person-id 0
+        ''',
+    )
+    def describe_contact_person(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DescribeContactPersonRequest import DescribeContactPersonRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeContactPersonRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--pin'], dict(help="""(string) 用户pin """, dest='pin', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取联系人列表 ''',
+        description='''
+            获取联系人列表。
+
+            示例: jdc iam describe-contact-persons  --pin xxx
+        ''',
+    )
+    def describe_contact_persons(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DescribeContactPersonsRequest import DescribeContactPersonsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeContactPersonsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--pin'], dict(help="""(string) 用户pin """, dest='pin', required=True)),
+            (['--group-id'], dict(help="""(int) 联系人组id """, dest='groupId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取联系人组 ''',
+        description='''
+            获取联系人组。
+
+            示例: jdc iam describe-contact-group  --pin xxx --group-id 0
+        ''',
+    )
+    def describe_contact_group(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DescribeContactGroupRequest import DescribeContactGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeContactGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--pin'], dict(help="""(string) 用户pin """, dest='pin', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取联系人组列表 ''',
+        description='''
+            获取联系人组列表。
+
+            示例: jdc iam describe-contact-groups  --pin xxx
+        ''',
+    )
+    def describe_contact_groups(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DescribeContactGroupsRequest import DescribeContactGroupsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeContactGroupsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--pin'], dict(help="""(string) 用户pin """, dest='pin', required=True)),
+            (['--group-id'], dict(help="""(int) 联系人组id """, dest='groupId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取联系人及组 ''',
+        description='''
+            获取联系人及组。
+
+            示例: jdc iam describe-contact-group-persons-new  --pin xxx --group-id 0
+        ''',
+    )
+    def describe_contact_group_persons_new(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DescribeContactGroupPersonsNewRequest import DescribeContactGroupPersonsNewRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeContactGroupPersonsNewRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--pin'], dict(help="""(string) 用户pin """, dest='pin', required=True)),
+            (['--service-code'], dict(help="""(string) 具体产品 """, dest='serviceCode', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 灰度产品线校验 ''',
+        description='''
+            灰度产品线校验。
+
+            示例: jdc iam describe-gray-user  --pin xxx --service-code xxx
+        ''',
+    )
+    def describe_gray_user(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DescribeGrayUserRequest import DescribeGrayUserRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeGrayUserRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['create-permission','describe-permission-detail','update-permission','describe-permissions','describe-sub-user-permissions','add-permissions-to-sub-user','remove-permission-of-sub-user','create-subuser','describe-user-access-keys','create-user-access-key','enabled-user-access-key','disabled-user-access-key','delete-user-access-key','describe-contact-person','describe-contact-persons','describe-contact-group','describe-contact-groups','describe-contact-group-persons-new','describe-gray-user',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

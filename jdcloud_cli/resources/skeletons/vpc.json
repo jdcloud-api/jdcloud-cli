@@ -1,4 +1,9 @@
 {
+    "disassociate-route-table":{
+        "subnetId":"",
+        "regionId":"",
+        "routeTableId":""
+    },
     "describe-network-interfaces":{
         "pageNumber":"",
         "pageSize":"",
@@ -210,5 +215,5 @@
     "describe-vpc":{
         "regionId":"",
         "vpcId":""
-    }
+    },
 }

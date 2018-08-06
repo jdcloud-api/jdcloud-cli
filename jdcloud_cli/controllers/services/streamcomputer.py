@@ -25,13 +25,13 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class MongodbController(BaseController):
+class StreamcomputerController(BaseController):
     class Meta:
-        label = 'mongodb'
-        help = '使用该子命令操作mongodb相关资源'
+        label = 'streamcomputer'
+        help = '使用该子命令操作streamcomputer相关资源'
         description = '''
-        mongodb cli 子命令，可以使用该子命令操作mongodb相关资源。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/383/isCatalog/0
+        streamcomputer cli 子命令，可以使用该子命令操作streamcomputer相关资源。
+        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/424/isCatalog/0
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
@@ -39,31 +39,30 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; backupId - 备份ID, 精确匹配;  """, dest='filters', required=False)),
+            (['--job-id'], dict(help="""(int) NA """, dest='jobId', required=True)),
+            (['--namespace-id'], dict(help="""(int) NA """, dest='namespaceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看备份 ''',
+        help=''' 查询指定作业详情 ''',
         description='''
-            查看备份。
+            查询指定作业详情。
 
-            示例: jdc mongodb describe-backups 
+            示例: jdc streamcomputer describe-job  --job-id 0 --namespace-id 0
         ''',
     )
-    def describe_backups(self):
-        client_factory = ClientFactory('mongodb')
+    def describe_job(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.DescribeBackupsRequest import DescribeBackupsRequest
+            from jdcloud_sdk.services.streamcomputer.apis.DescribeJobRequest import DescribeJobRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeBackupsRequest(params_dict, headers)
+            req = DescribeJobRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -74,30 +73,29 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--backup-name'], dict(help="""(string) 备份名称 """, dest='backupName', required=False)),
+            (['--job-str'], dict(help="""(jobStr) 创建作业的详情 """, dest='jobStr', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建备份 ''',
+        help=''' 添加或者更新job ''',
         description='''
-            创建备份。
+            添加或者更新job。
 
-            示例: jdc mongodb create-backup  --instance-id xxx
+            示例: jdc streamcomputer add-or-update-job  --job-str {"":""}
         ''',
     )
-    def create_backup(self):
-        client_factory = ClientFactory('mongodb')
+    def add_or_update_job(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.CreateBackupRequest import CreateBackupRequest
+            from jdcloud_sdk.services.streamcomputer.apis.AddOrUpdateJobRequest import AddOrUpdateJobRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateBackupRequest(params_dict, headers)
+            req = AddOrUpdateJobRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -108,29 +106,30 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId', required=True)),
+            (['--namespace-id'], dict(help="""(string) NA """, dest='namespaceId', required=True)),
+            (['--job-id'], dict(help="""(int) NA """, dest='jobId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除备份 ''',
+        help=''' 删除作业 ''',
         description='''
-            删除备份。
+            删除作业。
 
-            示例: jdc mongodb delete-backup  --backup-id xxx
+            示例: jdc streamcomputer delete-job  --namespace-id xxx --job-id 0
         ''',
     )
-    def delete_backup(self):
-        client_factory = ClientFactory('mongodb')
+    def delete_job(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.DeleteBackupRequest import DeleteBackupRequest
+            from jdcloud_sdk.services.streamcomputer.apis.DeleteJobRequest import DeleteJobRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteBackupRequest(params_dict, headers)
+            req = DeleteJobRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -141,29 +140,29 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId', required=True)),
+            (['--namespace-id'], dict(help="""(string) NA """, dest='namespaceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取备份下载链接 ''',
+        help=''' 查询指定应用下的所有job ''',
         description='''
-            获取备份下载链接。
+            查询指定应用下的所有job。
 
-            示例: jdc mongodb backup-download-url  --backup-id xxx
+            示例: jdc streamcomputer get-job-list  --namespace-id xxx
         ''',
     )
-    def backup_download_url(self):
-        client_factory = ClientFactory('mongodb')
+    def get_job_list(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.BackupDownloadURLRequest import BackupDownloadURLRequest
+            from jdcloud_sdk.services.streamcomputer.apis.GetJobListRequest import GetJobListRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = BackupDownloadURLRequest(params_dict, headers)
+            req = GetJobListRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -174,29 +173,30 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--namespace-id'], dict(help="""(string) NA """, dest='namespaceId', required=True)),
+            (['--job-id'], dict(help="""(int) NA """, dest='jobId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询实例访问白名单 ''',
+        help=''' 运行job ''',
         description='''
-            查询实例访问白名单。
+            运行job。
 
-            示例: jdc mongodb describe-security-ips  --instance-id xxx
+            示例: jdc streamcomputer start-job  --namespace-id xxx --job-id 0
         ''',
     )
-    def describe_security_ips(self):
-        client_factory = ClientFactory('mongodb')
+    def start_job(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.DescribeSecurityIpsRequest import DescribeSecurityIpsRequest
+            from jdcloud_sdk.services.streamcomputer.apis.StartJobRequest import StartJobRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeSecurityIpsRequest(params_dict, headers)
+            req = StartJobRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -207,31 +207,30 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--modify-mode'], dict(help="""(string) 修改方式,Add 增加白名单,Delete 删除白名单. """, dest='modifyMode', required=True)),
-            (['--security-ips'], dict(help="""(string) IP白名单分组下的IP列表，最多45个以逗号隔开，格式如下：0.0.0.0/0，10.23.12.24（IP），或者10.23.12.24/24（CIDR模式，无类域间路由，/24表示了地址中前缀的长度，范围[1，32]）。 """, dest='securityIps', required=True)),
+            (['--namespace-id'], dict(help="""(string) NA """, dest='namespaceId', required=True)),
+            (['--job-id'], dict(help="""(int) NA """, dest='jobId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改实例访问白名单 ''',
+        help=''' 停止作业运行job ''',
         description='''
-            修改实例访问白名单。
+            停止作业运行job。
 
-            示例: jdc mongodb modify-security-ips  --instance-id xxx --modify-mode xxx --security-ips xxx
+            示例: jdc streamcomputer stop-job  --namespace-id xxx --job-id 0
         ''',
     )
-    def modify_security_ips(self):
-        client_factory = ClientFactory('mongodb')
+    def stop_job(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.ModifySecurityIpsRequest import ModifySecurityIpsRequest
+            from jdcloud_sdk.services.streamcomputer.apis.StopJobRequest import StopJobRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ModifySecurityIpsRequest(params_dict, headers)
+            req = StopJobRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -242,32 +241,29 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; instanceName - 实例名称, 模糊匹配; instanceStatus - mongodb状态，精确匹配，支持多个.RUNNING：运行, ERROR：错误 ,BUILDING：创建中, DELETING：删除中, RESTORING：恢复中, RESIZING：变配中;  """, dest='filters', required=False)),
-            (['--sorts'], dict(help="""(array: sort) createTime - 创建时间,asc（正序），desc（倒序）;  """, dest='sorts', required=False)),
+            (['--keyword'], dict(help="""(string) NA """, dest='keyword', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询实例信息 ''',
+        help=''' 查询租户下的应用列表 ''',
         description='''
-            查询实例信息。
+            查询租户下的应用列表。
 
-            示例: jdc mongodb describe-instances 
+            示例: jdc streamcomputer query-namespaces 
         ''',
     )
-    def describe_instances(self):
-        client_factory = ClientFactory('mongodb')
+    def query_namespaces(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.DescribeInstancesRequest import DescribeInstancesRequest
+            from jdcloud_sdk.services.streamcomputer.apis.QueryNamespacesRequest import QueryNamespacesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeInstancesRequest(params_dict, headers)
+            req = QueryNamespacesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -278,30 +274,29 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-spec'], dict(help="""(dBInstanceSpec) 实例规格 """, dest='instanceSpec', required=True)),
-            (['--charge-spec'], dict(help="""(chargeSpec) 付费方式 """, dest='chargeSpec', required=False)),
+            (['--namespace-id'], dict(help="""(int) NA """, dest='namespaceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建实例 ''',
+        help=''' 查询某个应用详情 ''',
         description='''
-            创建实例。
+            查询某个应用详情。
 
-            示例: jdc mongodb create-instance  --instance-spec {"":""}
+            示例: jdc streamcomputer query-namespace-detail  --namespace-id 0
         ''',
     )
-    def create_instance(self):
-        client_factory = ClientFactory('mongodb')
+    def query_namespace_detail(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.CreateInstanceRequest import CreateInstanceRequest
+            from jdcloud_sdk.services.streamcomputer.apis.QueryNamespaceDetailRequest import QueryNamespaceDetailRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateInstanceRequest(params_dict, headers)
+            req = QueryNamespaceDetailRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -312,29 +307,29 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--namespace-str'], dict(help="""(namespace) NA """, dest='namespaceStr', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除实例 ''',
+        help=''' 创建namespace ''',
         description='''
-            删除实例。
+            创建namespace。
 
-            示例: jdc mongodb delete-instance  --instance-id xxx
+            示例: jdc streamcomputer create-namespace  --namespace-str {"":""}
         ''',
     )
-    def delete_instance(self):
-        client_factory = ClientFactory('mongodb')
+    def create_namespace(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.DeleteInstanceRequest import DeleteInstanceRequest
+            from jdcloud_sdk.services.streamcomputer.apis.CreateNamespaceRequest import CreateNamespaceRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteInstanceRequest(params_dict, headers)
+            req = CreateNamespaceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -345,30 +340,29 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--account-password'], dict(help="""(string) 新密码，必须包含且只支持字母及数字，不少于8字符不超过16字符。 """, dest='accountPassword', required=True)),
+            (['--namespace-str'], dict(help="""(namespace) NA """, dest='namespaceStr', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 重置密码 ''',
+        help=''' 更新namespace ''',
         description='''
-            重置密码。
+            更新namespace。
 
-            示例: jdc mongodb reset-password  --instance-id xxx --account-password xxx
+            示例: jdc streamcomputer update-namespace  --namespace-str {"":""}
         ''',
     )
-    def reset_password(self):
-        client_factory = ClientFactory('mongodb')
+    def update_namespace(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.ResetPasswordRequest import ResetPasswordRequest
+            from jdcloud_sdk.services.streamcomputer.apis.UpdateNamespaceRequest import UpdateNamespaceRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ResetPasswordRequest(params_dict, headers)
+            req = UpdateNamespaceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -379,31 +373,29 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--instance-class'], dict(help="""(string) 实例规格，包年包月不允许小于当前规格。 """, dest='instanceClass', required=True)),
-            (['--instance-storage-gb'], dict(help="""(int) 存储空间，包年包月不允许小于当前规格。 """, dest='instanceStorageGB', required=True)),
+            (['--namespace-id'], dict(help="""(int) NA """, dest='namespaceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 变更实例规格 ''',
+        help=''' 删除namespace,如果旗下关联有其他资源，不允许删除 ''',
         description='''
-            变更实例规格。
+            删除namespace,如果旗下关联有其他资源，不允许删除。
 
-            示例: jdc mongodb modify-instance-spec  --instance-id xxx --instance-class xxx --instance-storage-gb 0
+            示例: jdc streamcomputer delete-namespace  --namespace-id 0
         ''',
     )
-    def modify_instance_spec(self):
-        client_factory = ClientFactory('mongodb')
+    def delete_namespace(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.ModifyInstanceSpecRequest import ModifyInstanceSpecRequest
+            from jdcloud_sdk.services.streamcomputer.apis.DeleteNamespaceRequest import DeleteNamespaceRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ModifyInstanceSpecRequest(params_dict, headers)
+            req = DeleteNamespaceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -414,30 +406,29 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--instance-name'], dict(help="""(string) 新的实例名称，只支持数字、字母、英文下划线、中文，且不少于2字符不超过32字符。 """, dest='instanceName', required=True)),
+            (['--storage-id'], dict(help="""(int) storageId """, dest='storageId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改实例名称 ''',
+        help=''' 查询指定输入 ''',
         description='''
-            修改实例名称。
+            查询指定输入。
 
-            示例: jdc mongodb modify-instance-name  --instance-id xxx --instance-name xxx
+            示例: jdc streamcomputer describe-storage  --storage-id 0
         ''',
     )
-    def modify_instance_name(self):
-        client_factory = ClientFactory('mongodb')
+    def describe_storage(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.ModifyInstanceNameRequest import ModifyInstanceNameRequest
+            from jdcloud_sdk.services.streamcomputer.apis.DescribeStorageRequest import DescribeStorageRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ModifyInstanceNameRequest(params_dict, headers)
+            req = DescribeStorageRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -448,29 +439,29 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--storage-str'], dict(help="""(storage) 创建或者更新storage的详情 """, dest='storageStr', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取备份策略 ''',
+        help=''' 创建或者更新storage ''',
         description='''
-            获取备份策略。
+            创建或者更新storage。
 
-            示例: jdc mongodb describe-backup-policy  --instance-id xxx
+            示例: jdc streamcomputer add-or-update-storage  --storage-str {"":""}
         ''',
     )
-    def describe_backup_policy(self):
-        client_factory = ClientFactory('mongodb')
+    def add_or_update_storage(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.DescribeBackupPolicyRequest import DescribeBackupPolicyRequest
+            from jdcloud_sdk.services.streamcomputer.apis.AddOrUpdateStorageRequest import AddOrUpdateStorageRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeBackupPolicyRequest(params_dict, headers)
+            req = AddOrUpdateStorageRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -481,30 +472,29 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--preferred-backup-time'], dict(help="""(string) 备份时间，格式：HH:mmZ- HH:mmZ，只允许间隔时间为1小时的整点. """, dest='preferredBackupTime', required=True)),
+            (['--storage-id'], dict(help="""(int) storageId """, dest='storageId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改备份策略 ''',
+        help=''' 删除指定输入 ''',
         description='''
-            修改备份策略。
+            删除指定输入。
 
-            示例: jdc mongodb modify-backup-policy  --instance-id xxx --preferred-backup-time xxx
+            示例: jdc streamcomputer delete-storage  --storage-id 0
         ''',
     )
-    def modify_backup_policy(self):
-        client_factory = ClientFactory('mongodb')
+    def delete_storage(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.ModifyBackupPolicyRequest import ModifyBackupPolicyRequest
+            from jdcloud_sdk.services.streamcomputer.apis.DeleteStorageRequest import DeleteStorageRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ModifyBackupPolicyRequest(params_dict, headers)
+            req = DeleteStorageRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -515,30 +505,30 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--backup-id'], dict(help="""(string) 备份ID """, dest='backupId', required=True)),
+            (['--storage-type'], dict(help="""(string) storage类型 """, dest='storageType', required=True)),
+            (['--namespace-id'], dict(help="""(string) namespaceId """, dest='namespaceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 数据恢复 ''',
+        help=''' 创建或者更新storage ''',
         description='''
-            数据恢复。
+            创建或者更新storage。
 
-            示例: jdc mongodb restore-instance  --instance-id xxx --backup-id xxx
+            示例: jdc streamcomputer get-storage-list  --storage-type xxx --namespace-id xxx
         ''',
     )
-    def restore_instance(self):
-        client_factory = ClientFactory('mongodb')
+    def get_storage_list(self):
+        client_factory = ClientFactory('streamcomputer')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.mongodb.apis.RestoreInstanceRequest import RestoreInstanceRequest
+            from jdcloud_sdk.services.streamcomputer.apis.GetStorageListRequest import GetStorageListRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = RestoreInstanceRequest(params_dict, headers)
+            req = GetStorageListRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -548,71 +538,7 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 获取规格 ''',
-        description='''
-            获取规格。
-
-            示例: jdc mongodb describe-flavors 
-        ''',
-    )
-    def describe_flavors(self):
-        client_factory = ClientFactory('mongodb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.mongodb.apis.DescribeFlavorsRequest import DescribeFlavorsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeFlavorsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 获取可用区 ''',
-        description='''
-            获取可用区。
-
-            示例: jdc mongodb describe-available-zones 
-        ''',
-    )
-    def describe_available_zones(self):
-        client_factory = ClientFactory('mongodb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.mongodb.apis.DescribeAvailableZonesRequest import DescribeAvailableZonesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAvailableZonesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-backups','create-backup','delete-backup','backup-download-url','describe-security-ips','modify-security-ips','describe-instances','create-instance','delete-instance','reset-password','modify-instance-spec','modify-instance-name','describe-backup-policy','modify-backup-policy','restore-instance','describe-flavors','describe-available-zones',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-job','add-or-update-job','delete-job','get-job-list','start-job','stop-job','query-namespaces','query-namespace-detail','create-namespace','update-namespace','delete-namespace','describe-storage','add-or-update-storage','delete-storage','get-storage-list',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -622,5 +548,5 @@ class MongodbController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('mongodb', self.app.pargs.api)
+        skeleton = Skeleton('streamcomputer', self.app.pargs.api)
         skeleton.show()

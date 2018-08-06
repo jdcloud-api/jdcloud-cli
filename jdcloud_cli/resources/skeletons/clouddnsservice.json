@@ -24,8 +24,14 @@
         "id":"",
         "regionId":""
     },
-    "get-domain-statistics":{
-        "action":"",
+    "get-domain-query-count":{
+        "domainName":"",
+        "start":"",
+        "end":"",
+        "regionId":"",
+        "domainId":""
+    },
+    "get-domain-query-traffic":{
         "domainName":"",
         "start":"",
         "end":"",

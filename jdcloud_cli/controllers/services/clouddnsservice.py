@@ -181,7 +181,42 @@ class ClouddnsserviceController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
-            (['--action'], dict(help="""(string) 查询动作，"query"查询流量，"resolve"解析流量 """, dest='action', required=True)),
+            (['--domain-name'], dict(help="""(string) 域名 """, dest='domainName', required=True)),
+            (['--start'], dict(help="""(string) 起始时间, UTC时间例如2017-11-10T23:00:00Z """, dest='start', required=True)),
+            (['--end'], dict(help="""(string) 终止时间, UTC时间例如2017-11-10T23:00:00Z """, dest='end', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看域名的解析次数 ''',
+        description='''
+            查看域名的解析次数。
+
+            示例: jdc clouddnsservice get-domain-query-count  --domain-id xxx --domain-name xxx --start xxx --end xxx
+        ''',
+    )
+    def get_domain_query_count(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainQueryCountRequest import GetDomainQueryCountRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDomainQueryCountRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--domain-name'], dict(help="""(string) 域名 """, dest='domainName', required=True)),
             (['--start'], dict(help="""(string) 起始时间, UTC时间例如2017-11-10T23:00:00Z """, dest='start', required=True)),
             (['--end'], dict(help="""(string) 终止时间, UTC时间例如2017-11-10T23:00:00Z """, dest='end', required=True)),
@@ -193,20 +228,20 @@ class ClouddnsserviceController(BaseController):
         description='''
             查看域名的查询流量。
 
-            示例: jdc clouddnsservice get-domain-statistics  --domain-id xxx --action xxx --domain-name xxx --start xxx --end xxx
+            示例: jdc clouddnsservice get-domain-query-traffic  --domain-id xxx --domain-name xxx --start xxx --end xxx
         ''',
     )
-    def get_domain_statistics(self):
+    def get_domain_query_traffic(self):
         client_factory = ClientFactory('clouddnsservice')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainStatisticsRequest import GetDomainStatisticsRequest
+            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainQueryTrafficRequest import GetDomainQueryTrafficRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetDomainStatisticsRequest(params_dict, headers)
+            req = GetDomainQueryTrafficRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -633,7 +668,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-domains','add-domain','del-domain','update-domain','get-domain-statistics','get-monitor','add-monitor','get-targets','add-monitor-target','operate-monitor','update-monitor','get-monitor-alarm-info','search-rr','get-view-tree','add-rr','update-rr','operate-rr',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['get-domains','add-domain','del-domain','update-domain','get-domain-query-count','get-domain-query-traffic','get-monitor','add-monitor','get-targets','add-monitor-target','operate-monitor','update-monitor','get-monitor-alarm-info','search-rr','get-view-tree','add-rr','update-rr','operate-rr',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

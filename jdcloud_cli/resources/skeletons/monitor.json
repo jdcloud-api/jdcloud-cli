@@ -12,8 +12,8 @@
         "endTime":"",
         "timeInterval":"",
         "tags":[{
-            "name":"",
-            "value":""
+            "key":"",
+            "values":""
         }],
         "regionId":"",
         "metric":""
@@ -86,5 +86,15 @@
         "pageNumber":"",
         "pageSize":"",
         "regionId":""
+    },
+    "put-metric-data":{
+        "metricDataList":[{
+            "namespace":"",
+            "metric":"",
+            "dimensions":"",
+            "timestamp":"",
+            "type":"",
+            "values":""
+        }]
     }
 }

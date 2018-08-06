@@ -1,19 +1,4 @@
 {
-    "get-session-token":{
-        "getSessionTokenInfo":{
-            "type":"",
-            "code":"",
-            "businessAction":"",
-            "durationSeconds":""
-        },
-        "regionId":""
-    },
-    "verify-session-token":{
-        "verifySessionTokenInfo":{
-            "businessAction":""
-        },
-        "regionId":""
-    },
     "create-permission":{
         "createPermissionInfo":{
             "name":"",
@@ -90,4 +75,32 @@
         "regionId":"",
         "accessKey":""
     },
+    "describe-contact-person":{
+        "pin":"",
+        "personId":"",
+        "regionId":""
+    },
+    "describe-contact-persons":{
+        "pin":"",
+        "regionId":""
+    },
+    "describe-contact-group":{
+        "pin":"",
+        "groupId":"",
+        "regionId":""
+    },
+    "describe-contact-groups":{
+        "pin":"",
+        "regionId":""
+    },
+    "describe-contact-group-persons-new":{
+        "pin":"",
+        "groupId":"",
+        "regionId":""
+    },
+    "describe-gray-user":{
+        "pin":"",
+        "serviceCode":"",
+        "regionId":""
+    }
 }
