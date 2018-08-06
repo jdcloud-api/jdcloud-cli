@@ -39,6 +39,174 @@ class XdataController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询数据库列表 ''',
+        description='''
+            查询数据库列表。
+
+            示例: jdc xdata list-database-info  --instance-name xxx
+        ''',
+    )
+    def list_database_info(self):
+        client_factory = ClientFactory('xdata')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.xdata.apis.ListDatabaseInfoRequest import ListDatabaseInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListDatabaseInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询数据库详情 ''',
+        description='''
+            查询数据库详情。
+
+            示例: jdc xdata get-database-info  --database-name xxx --instance-name xxx
+        ''',
+    )
+    def get_database_info(self):
+        client_factory = ClientFactory('xdata')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.xdata.apis.GetDatabaseInfoRequest import GetDatabaseInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDatabaseInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
+            (['--description'], dict(help="""(string) 描述信息 """, dest='description', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建数据库 ''',
+        description='''
+            创建数据库。
+
+            示例: jdc xdata create-database  --database-name xxx --instance-name xxx
+        ''',
+    )
+    def create_database(self):
+        client_factory = ClientFactory('xdata')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.xdata.apis.CreateDatabaseRequest import CreateDatabaseRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateDatabaseRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除数据库 ''',
+        description='''
+            删除数据库。
+
+            示例: jdc xdata delete-database  --database-name xxx --instance-name xxx
+        ''',
+    )
+    def delete_database(self):
+        client_factory = ClientFactory('xdata')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.xdata.apis.DeleteDatabaseRequest import DeleteDatabaseRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteDatabaseRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询实例列表 ''',
+        description='''
+            查询实例列表。
+
+            示例: jdc xdata list-instance-info 
+        ''',
+    )
+    def list_instance_info(self):
+        client_factory = ClientFactory('xdata')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.xdata.apis.ListInstanceInfoRequest import ListInstanceInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListInstanceInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
             (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName', required=False)),
             (['--sql'], dict(help="""(string) sql脚本 """, dest='sql', required=True)),
             (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
@@ -356,1152 +524,6 @@ class XdataController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
             (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询数据库列表 ''',
-        description='''
-            查询数据库列表。
-
-            示例: jdc xdata list-database-info  --instance-name xxx
-        ''',
-    )
-    def list_database_info(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.ListDatabaseInfoRequest import ListDatabaseInfoRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ListDatabaseInfoRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询数据库详情 ''',
-        description='''
-            查询数据库详情。
-
-            示例: jdc xdata get-database-info  --database-name xxx --instance-name xxx
-        ''',
-    )
-    def get_database_info(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.GetDatabaseInfoRequest import GetDatabaseInfoRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetDatabaseInfoRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--description'], dict(help="""(string) 描述信息 """, dest='description', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据库 ''',
-        description='''
-            创建数据库。
-
-            示例: jdc xdata create-database  --database-name xxx --instance-name xxx
-        ''',
-    )
-    def create_database(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.CreateDatabaseRequest import CreateDatabaseRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateDatabaseRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据库 ''',
-        description='''
-            删除数据库。
-
-            示例: jdc xdata delete-database  --database-name xxx --instance-name xxx
-        ''',
-    )
-    def delete_database(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.DeleteDatabaseRequest import DeleteDatabaseRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteDatabaseRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--permission'], dict(help="""(string) NA """, dest='permission', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata set-permission  --user-name xxx --path-name xxx --permission xxx
-        ''',
-    )
-    def set_permission(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.SetPermissionRequest import SetPermissionRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetPermissionRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata initialize-user-root-hdfs-path-not-exist  --user-name xxx --path-name xxx
-        ''',
-    )
-    def initialize_user_root_hdfs_path_not_exist(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.InitializeUserRootHdfsPathNotExistRequest import InitializeUserRootHdfsPathNotExistRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = InitializeUserRootHdfsPathNotExistRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--description'], dict(help="""(string) NA """, dest='description', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata create-new-folder  --user-name xxx --path-name xxx --description xxx
-        ''',
-    )
-    def create_new_folder(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.CreateNewFolderRequest import CreateNewFolderRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateNewFolderRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata get-file-status  --user-name xxx --path-name xxx
-        ''',
-    )
-    def get_file_status(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.GetFileStatusRequest import GetFileStatusRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetFileStatusRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata get-hdfs-root-path  --user-name xxx
-        ''',
-    )
-    def get_hdfs_root_path(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.GetHdfsRootPathRequest import GetHdfsRootPathRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetHdfsRootPathRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--file-path'], dict(help="""(string) NA """, dest='filePath', required=True)),
-            (['--file-content'], dict(help="""(string) NA """, dest='fileContent', required=True)),
-            (['--over-write'], dict(help="""(bool) NA """, dest='overWrite', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata create-file  --user-name xxx --file-path xxx --file-content xxx --over-write true
-        ''',
-    )
-    def create_file(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.CreateFileRequest import CreateFileRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateFileRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--file-path'], dict(help="""(string) NA """, dest='filePath', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata is-exist  --user-name xxx --file-path xxx
-        ''',
-    )
-    def is_exist(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.IsExistRequest import IsExistRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = IsExistRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata list-file-and-folders  --user-name xxx --path-name xxx
-        ''',
-    )
-    def list_file_and_folders(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.ListFileAndFoldersRequest import ListFileAndFoldersRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ListFileAndFoldersRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--instance-name'], dict(help="""(string) NA """, dest='instanceName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata list-udf-file-and-folders  --user-name xxx --instance-name xxx
-        ''',
-    )
-    def list_udf_file_and_folders(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.ListUdfFileAndFoldersRequest import ListUdfFileAndFoldersRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ListUdfFileAndFoldersRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--pattern'], dict(help="""(string) NA """, dest='pattern', required=True)),
-            (['--instance-name'], dict(help="""(string) NA """, dest='instanceName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata list-files-and-folders  --user-name xxx --path-name xxx --pattern xxx --instance-name xxx
-        ''',
-    )
-    def list_files_and_folders(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.ListFilesAndFoldersRequest import ListFilesAndFoldersRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ListFilesAndFoldersRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--hide-owner-folder-files'], dict(help="""(bool) NA """, dest='hideOwnerFolderFiles', required=True)),
-            (['--hide-acl-folder-files'], dict(help="""(bool) NA """, dest='hideAclFolderFiles', required=True)),
-            (['--hide-no-permission-folder-files'], dict(help="""(bool) NA """, dest='hideNoPermissionFolderFiles', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata list-file-and-folders-optional  --user-name xxx --hide-owner-folder-files true --hide-acl-folder-files true --hide-no-permission-folder-files true --path-name xxx
-        ''',
-    )
-    def list_file_and_folders_optional(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.ListFileAndFoldersOptionalRequest import ListFileAndFoldersOptionalRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ListFileAndFoldersOptionalRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--recursive'], dict(help="""(bool) NA """, dest='recursive', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata delete-file-or-folder  --user-name xxx --path-name xxx --recursive true
-        ''',
-    )
-    def delete_file_or_folder(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.DeleteFileOrFolderRequest import DeleteFileOrFolderRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteFileOrFolderRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--file-path'], dict(help="""(string) NA """, dest='filePath', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata file-cat  --user-name xxx --file-path xxx
-        ''',
-    )
-    def file_cat(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.FileCatRequest import FileCatRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = FileCatRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--parent-path'], dict(help="""(string) NA """, dest='parentPath', required=True)),
-            (['--old-name'], dict(help="""(string) NA """, dest='oldName', required=True)),
-            (['--new-name'], dict(help="""(string) NA """, dest='newName', required=True)),
-            (['--label'], dict(help="""(string) NA """, dest='label', required=True)),
-            (['--description'], dict(help="""(string) NA """, dest='description', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata rename-file  --user-name xxx --parent-path xxx --old-name xxx --new-name xxx --label xxx --description xxx
-        ''',
-    )
-    def rename_file(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.RenameFileRequest import RenameFileRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = RenameFileRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata get-acl-status  --user-name xxx --path-name xxx
-        ''',
-    )
-    def get_acl_status(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.GetAclStatusRequest import GetAclStatusRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetAclStatusRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--owner-name'], dict(help="""(string) NA """, dest='ownerName', required=True)),
-            (['--group'], dict(help="""(string) NA """, dest='group', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata set-owner  --user-name xxx --path-name xxx --owner-name xxx --group xxx
-        ''',
-    )
-    def set_owner(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.SetOwnerRequest import SetOwnerRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetOwnerRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--acl-entry-list-json-str'], dict(help="""(string) NA """, dest='aclEntryListJsonStr', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata set-acl  --user-name xxx --path-name xxx --acl-entry-list-json-str xxx
-        ''',
-    )
-    def set_acl(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.SetAclRequest import SetAclRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetAclRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata remove-acl  --user-name xxx --path-name xxx
-        ''',
-    )
-    def remove_acl(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.RemoveAclRequest import RemoveAclRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = RemoveAclRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--acl-entry-list-json-str'], dict(help="""(string) NA """, dest='aclEntryListJsonStr', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata modify-acl-entries  --user-name xxx --path-name xxx --acl-entry-list-json-str xxx
-        ''',
-    )
-    def modify_acl_entries(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.ModifyAclEntriesRequest import ModifyAclEntriesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyAclEntriesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--acl-entry-list-json-str'], dict(help="""(string) NA """, dest='aclEntryListJsonStr', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata remove-acl-entries  --user-name xxx --path-name xxx --acl-entry-list-json-str xxx
-        ''',
-    )
-    def remove_acl_entries(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.RemoveAclEntriesRequest import RemoveAclEntriesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = RemoveAclEntriesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata remove-default-acl  --user-name xxx --path-name xxx
-        ''',
-    )
-    def remove_default_acl(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.RemoveDefaultAclRequest import RemoveDefaultAclRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = RemoveDefaultAclRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--key-name'], dict(help="""(string) NA """, dest='keyName', required=True)),
-            (['--value'], dict(help="""(string) NA """, dest='value', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata set-xattr  --user-name xxx --path-name xxx --key-name xxx --value xxx
-        ''',
-    )
-    def set_xattr(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.SetXAttrRequest import SetXAttrRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetXAttrRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--key-name'], dict(help="""(string) NA """, dest='keyName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata get-xattr  --user-name xxx --path-name xxx --key-name xxx
-        ''',
-    )
-    def get_xattr(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.GetXAttrRequest import GetXAttrRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetXAttrRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata get-xattrs  --user-name xxx --path-name xxx
-        ''',
-    )
-    def get_xattrs(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.GetXAttrsRequest import GetXAttrsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetXAttrsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--key-name'], dict(help="""(string) NA """, dest='keyName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata remove-xattr  --user-name xxx --path-name xxx --key-name xxx
-        ''',
-    )
-    def remove_xattr(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.RemoveXAttrRequest import RemoveXAttrRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = RemoveXAttrRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata get-files-count  --user-name xxx --path-name xxx
-        ''',
-    )
-    def get_files_count(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.GetFilesCountRequest import GetFilesCountRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetFilesCountRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--useraction'], dict(help="""(string) NA """, dest='useraction', required=True)),
-            (['--groupaction'], dict(help="""(string) NA """, dest='groupaction', required=True)),
-            (['--otheraction'], dict(help="""(string) NA """, dest='otheraction', required=True)),
-            (['--sticky-bit'], dict(help="""(bool) NA """, dest='stickyBit', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata set-permission-by-ugo  --user-name xxx --path-name xxx --useraction xxx --groupaction xxx --otheraction xxx --sticky-bit true
-        ''',
-    )
-    def set_permission_by_ugo(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.SetPermissionByUGORequest import SetPermissionByUGORequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetPermissionByUGORequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) NA """, dest='userName', required=True)),
-            (['--path-name'], dict(help="""(string) NA """, dest='pathName', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' null ''',
-        description='''
-            null。
-
-            示例: jdc xdata get-content-summary  --user-name xxx --path-name xxx
-        ''',
-    )
-    def get_content_summary(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.GetContentSummaryRequest import GetContentSummaryRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetContentSummaryRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询实例列表 ''',
-        description='''
-            查询实例列表。
-
-            示例: jdc xdata list-instance-info 
-        ''',
-    )
-    def list_instance_info(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.ListInstanceInfoRequest import ListInstanceInfoRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ListInstanceInfoRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
             (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -1638,7 +660,7 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['execute-ras-query','execute-py-spark-query','get-ras-query-state','get-py-spark-execute-state','get-ras-query-log','get-ras-query-result','get-py-spark-execute-result','cancel-ras-query','cancel-py-spark-job','list-database-info','get-database-info','create-database','delete-database','set-permission','initialize-user-root-hdfs-path-not-exist','create-new-folder','get-file-status','get-hdfs-root-path','create-file','is-exist','list-file-and-folders','list-udf-file-and-folders','list-files-and-folders','list-file-and-folders-optional','delete-file-or-folder','file-cat','rename-file','get-acl-status','set-owner','set-acl','remove-acl','modify-acl-entries','remove-acl-entries','remove-default-acl','set-xattr','get-xattr','get-xattrs','remove-xattr','get-files-count','set-permission-by-ugo','get-content-summary','list-instance-info','list-table-info','create-table','get-table-info','delete-table',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['list-database-info','get-database-info','create-database','delete-database','list-instance-info','execute-ras-query','execute-py-spark-query','get-ras-query-state','get-py-spark-execute-state','get-ras-query-log','get-ras-query-result','get-py-spark-execute-result','cancel-ras-query','cancel-py-spark-job','list-table-info','create-table','get-table-info','delete-table',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

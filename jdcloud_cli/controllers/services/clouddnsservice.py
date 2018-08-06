@@ -253,6 +253,180 @@ class ClouddnsserviceController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--page-number'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageNumber', required=False)),
+            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数, 默认为10 """, dest='pageSize', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询某个主域名的解析记录 ''',
+        description='''
+            查询某个主域名的解析记录。
+
+            示例: jdc clouddnsservice search-rr  --domain-id xxx
+        ''',
+    )
+    def search_rr(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.SearchRRRequest import SearchRRRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SearchRRRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--load-mode'], dict(help="""(int) 展示方式 """, dest='loadMode', required=False)),
+            (['--pack-id'], dict(help="""(int) 套餐ID """, dest='packId', required=True)),
+            (['--view-id'], dict(help="""(int) view ID，默认为0 """, dest='viewId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询DNS所有解析线路 ''',
+        description='''
+            查询DNS所有解析线路。
+
+            示例: jdc clouddnsservice get-view-tree  --domain-id xxx --pack-id 0 --view-id 0
+        ''',
+    )
+    def get_view_tree(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.GetViewTreeRequest import GetViewTreeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetViewTreeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--req'], dict(help="""(addRR) RR参数 """, dest='req', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加域名解析 ''',
+        description='''
+            添加域名解析。
+
+            示例: jdc clouddnsservice add-rr  --domain-id xxx --req {"":""}
+        ''',
+    )
+    def add_rr(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.AddRRRequest import AddRRRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddRRRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--req'], dict(help="""(updateRR) updateRR参数 """, dest='req', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改主域名的某个解析记录 ''',
+        description='''
+            修改主域名的某个解析记录。
+
+            示例: jdc clouddnsservice update-rr  --domain-id xxx --req {"":""}
+        ''',
+    )
+    def update_rr(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.UpdateRRRequest import UpdateRRRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateRRRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
+            (['--ids'], dict(help="""(array: int) 需要操作的解析记录ID """, dest='ids', required=True)),
+            (['--action'], dict(help="""(string) 操作类型，on/off/del，分别是启用、停用、删除解析记录 """, dest='action', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启用、停用、删除主域名下的解析记录 ''',
+        description='''
+            启用、停用、删除主域名下的解析记录。
+
+            示例: jdc clouddnsservice operate-rr  --domain-id xxx --ids [0] --action xxx
+        ''',
+    )
+    def operate_rr(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.OperateRRRequest import OperateRRRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = OperateRRRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--page-index'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageIndex', required=False)),
             (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', required=False)),
             (['--search-value'], dict(help="""(string) 查询的值 """, dest='searchValue', required=False)),
@@ -496,179 +670,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询某个主域名的解析记录 ''',
-        description='''
-            查询某个主域名的解析记录。
-
-            示例: jdc clouddnsservice search-rr  --domain-id xxx
-        ''',
-    )
-    def search_rr(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.SearchRRRequest import SearchRRRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SearchRRRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
-            (['--load-mode'], dict(help="""(int) 展示方式 """, dest='loadMode', required=False)),
-            (['--pack-id'], dict(help="""(int) 套餐ID """, dest='packId', required=True)),
-            (['--view-id'], dict(help="""(int) view ID，默认为0 """, dest='viewId', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询DNS所有解析线路 ''',
-        description='''
-            查询DNS所有解析线路。
-
-            示例: jdc clouddnsservice get-view-tree  --domain-id xxx --pack-id 0 --view-id 0
-        ''',
-    )
-    def get_view_tree(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetViewTreeRequest import GetViewTreeRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetViewTreeRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
-            (['--req'], dict(help="""(addRR) RR参数 """, dest='req', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 添加域名解析 ''',
-        description='''
-            添加域名解析。
-
-            示例: jdc clouddnsservice add-rr  --domain-id xxx --req {"":""}
-        ''',
-    )
-    def add_rr(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.AddRRRequest import AddRRRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = AddRRRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
-            (['--req'], dict(help="""(updateRR) updateRR参数 """, dest='req', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改主域名的某个解析记录 ''',
-        description='''
-            修改主域名的某个解析记录。
-
-            示例: jdc clouddnsservice update-rr  --domain-id xxx --req {"":""}
-        ''',
-    )
-    def update_rr(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.UpdateRRRequest import UpdateRRRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateRRRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
-            (['--ids'], dict(help="""(array: int) 需要操作的解析记录ID """, dest='ids', required=True)),
-            (['--action'], dict(help="""(string) 操作类型，on/off/del，分别是启用、停用、删除解析记录 """, dest='action', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 启用、停用、删除主域名下的解析记录 ''',
-        description='''
-            启用、停用、删除主域名下的解析记录。
-
-            示例: jdc clouddnsservice operate-rr  --domain-id xxx --ids [0] --action xxx
-        ''',
-    )
-    def operate_rr(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.OperateRRRequest import OperateRRRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = OperateRRRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-domains','add-domain','del-domain','update-domain','get-domain-query-count','get-domain-query-traffic','get-monitor','add-monitor','get-targets','add-monitor-target','operate-monitor','update-monitor','get-monitor-alarm-info','search-rr','get-view-tree','add-rr','update-rr','operate-rr',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['get-domains','add-domain','del-domain','update-domain','get-domain-query-count','get-domain-query-traffic','search-rr','get-view-tree','add-rr','update-rr','operate-rr','get-monitor','add-monitor','get-targets','add-monitor-target','operate-monitor','update-monitor','get-monitor-alarm-info',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

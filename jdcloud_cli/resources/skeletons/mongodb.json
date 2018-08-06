@@ -1,37 +1,4 @@
 {
-    "describe-backups":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-backup":{
-        "instanceId":"",
-        "backupName":"",
-        "regionId":""
-    },
-    "delete-backup":{
-        "regionId":"",
-        "backupId":""
-    },
-    "backup-download-url":{
-        "regionId":"",
-        "backupId":""
-    },
-    "describe-security-ips":{
-        "regionId":"",
-        "instanceId":""
-    },
-    "modify-security-ips":{
-        "modifyMode":"",
-        "securityIps":"",
-        "regionId":"",
-        "instanceId":""
-    },
     "describe-instances":{
         "pageNumber":"",
         "pageSize":"",
@@ -101,10 +68,27 @@
         "regionId":"",
         "instanceId":""
     },
-    "describe-flavors":{
+    "describe-backups":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "regionId":""
     },
-    "describe-available-zones":{
+    "create-backup":{
+        "instanceId":"",
+        "backupName":"",
         "regionId":""
     },
+    "delete-backup":{
+        "regionId":"",
+        "backupId":""
+    },
+    "backup-download-url":{
+        "regionId":"",
+        "backupId":""
+    }
 }

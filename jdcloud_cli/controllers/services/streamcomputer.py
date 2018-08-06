@@ -112,9 +112,9 @@ class StreamcomputerController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除作业 ''',
+        help=''' 删除job ''',
         description='''
-            删除作业。
+            删除job。
 
             示例: jdc streamcomputer delete-job  --namespace-id xxx --job-id 0
         ''',
@@ -378,9 +378,9 @@ class StreamcomputerController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除namespace,如果旗下关联有其他资源，不允许删除 ''',
+        help=''' 删除namespace ''',
         description='''
-            删除namespace,如果旗下关联有其他资源，不允许删除。
+            删除namespace。
 
             示例: jdc streamcomputer delete-namespace  --namespace-id 0
         ''',

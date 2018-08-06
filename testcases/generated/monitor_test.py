@@ -23,33 +23,6 @@ import json
 
 class MonitorTest(unittest.TestCase):
 
-    def test_describe_metrics(self):
-        cmd = """python ../../main.py monitor describe-metrics  --service-code 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_metrics_for_create_alarm(self):
-        cmd = """python ../../main.py monitor describe-metrics-for-create-alarm """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_metric_data(self):
-        cmd = """python ../../main.py monitor describe-metric-data  --metric 'xxx' --service-code 'xxx' --resource-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_alarms(self):
         cmd = """python ../../main.py monitor describe-alarms """
         with os.popen(cmd) as f:
@@ -115,6 +88,33 @@ class MonitorTest(unittest.TestCase):
 
     def test_describe_alarm_history(self):
         cmd = """python ../../main.py monitor describe-alarm-history  --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_metrics(self):
+        cmd = """python ../../main.py monitor describe-metrics  --service-code 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_metrics_for_create_alarm(self):
+        cmd = """python ../../main.py monitor describe-metrics-for-create-alarm """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_metric_data(self):
+        cmd = """python ../../main.py monitor describe-metric-data  --metric 'xxx' --service-code 'xxx' --resource-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

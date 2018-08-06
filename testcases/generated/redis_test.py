@@ -23,15 +23,6 @@ import json
 
 class RedisTest(unittest.TestCase):
 
-    def test_describe_user_quota(self):
-        cmd = """python ../../main.py redis describe-user-quota """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_cache_instances(self):
         cmd = """python ../../main.py redis describe-cache-instances """
         with os.popen(cmd) as f:
@@ -97,6 +88,15 @@ class RedisTest(unittest.TestCase):
 
     def test_describe_instance_class(self):
         cmd = """python ../../main.py redis describe-instance-class """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_user_quota(self):
+        cmd = """python ../../main.py redis describe-user-quota """
         with os.popen(cmd) as f:
             content = f.read()
 

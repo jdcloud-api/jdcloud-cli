@@ -18,26 +18,26 @@
 
 from jdcloud_sdk.core.config import Config
 from jdcloud_sdk.core.credential import Credential
-from jdcloud_sdk.services.rds.client.RdsClient import RdsClient
-from jdcloud_sdk.services.jke.client.JkeClient import JkeClient
-from jdcloud_sdk.services.streamcomputer.client.StreamcomputerClient import StreamcomputerClient
-from jdcloud_sdk.services.ipanti.client.IpantiClient import IpantiClient
-from jdcloud_sdk.services.redis.client.RedisClient import RedisClient
-from jdcloud_sdk.services.oss.client.OssClient import OssClient
-from jdcloud_sdk.services.jmr.client.JmrClient import JmrClient
-from jdcloud_sdk.services.iam.client.IamClient import IamClient
-from jdcloud_sdk.services.sop.client.SopClient import SopClient
-from jdcloud_sdk.services.baseanti.client.BaseantiClient import BaseantiClient
-from jdcloud_sdk.services.mongodb.client.MongodbClient import MongodbClient
-from jdcloud_sdk.services.clouddnsservice.client.ClouddnsserviceClient import ClouddnsserviceClient
-from jdcloud_sdk.services.vpc.client.VpcClient import VpcClient
-from jdcloud_sdk.services.monitor.client.MonitorClient import MonitorClient
-from jdcloud_sdk.services.xdata.client.XdataClient import XdataClient
-from jdcloud_sdk.services.streambus.client.StreambusClient import StreambusClient
-from jdcloud_sdk.services.mps.client.MpsClient import MpsClient
-from jdcloud_sdk.services.disk.client.DiskClient import DiskClient
-from jdcloud_sdk.services.nc.client.NcClient import NcClient
 from jdcloud_sdk.services.vm.client.VmClient import VmClient
+from jdcloud_sdk.services.redis.client.RedisClient import RedisClient
+from jdcloud_sdk.services.rds.client.RdsClient import RdsClient
+from jdcloud_sdk.services.monitor.client.MonitorClient import MonitorClient
+from jdcloud_sdk.services.iam.client.IamClient import IamClient
+from jdcloud_sdk.services.disk.client.DiskClient import DiskClient
+from jdcloud_sdk.services.mongodb.client.MongodbClient import MongodbClient
+from jdcloud_sdk.services.vpc.client.VpcClient import VpcClient
+from jdcloud_sdk.services.sop.client.SopClient import SopClient
+from jdcloud_sdk.services.xdata.client.XdataClient import XdataClient
+from jdcloud_sdk.services.nc.client.NcClient import NcClient
+from jdcloud_sdk.services.clouddnsservice.client.ClouddnsserviceClient import ClouddnsserviceClient
+from jdcloud_sdk.services.mps.client.MpsClient import MpsClient
+from jdcloud_sdk.services.jmr.client.JmrClient import JmrClient
+from jdcloud_sdk.services.streambus.client.StreambusClient import StreambusClient
+from jdcloud_sdk.services.oss.client.OssClient import OssClient
+from jdcloud_sdk.services.baseanti.client.BaseantiClient import BaseantiClient
+from jdcloud_sdk.services.streamcomputer.client.StreamcomputerClient import StreamcomputerClient
+from jdcloud_sdk.services.jke.client.JkeClient import JkeClient
+from jdcloud_sdk.services.ipanti.client.IpantiClient import IpantiClient
 from jdcloud_cli.config import ProfileManager
 from jdcloud_cli.logger import get_logger
 
@@ -49,26 +49,26 @@ class ClientFactory(object):
 
     def get(self, app):
         client_map = {
-            'rds': RdsClient,
-            'jke': JkeClient,
-            'streamcomputer': StreamcomputerClient,
-            'ipanti': IpantiClient,
-            'redis': RedisClient,
-            'oss': OssClient,
-            'jmr': JmrClient,
-            'iam': IamClient,
-            'sop': SopClient,
-            'baseanti': BaseantiClient,
-            'mongodb': MongodbClient,
-            'clouddnsservice': ClouddnsserviceClient,
-            'vpc': VpcClient,
-            'monitor': MonitorClient,
-            'xdata': XdataClient,
-            'streambus': StreambusClient,
-            'mps': MpsClient,
-            'disk': DiskClient,
-            'nc': NcClient,
             'vm': VmClient,
+            'redis': RedisClient,
+            'rds': RdsClient,
+            'monitor': MonitorClient,
+            'iam': IamClient,
+            'disk': DiskClient,
+            'mongodb': MongodbClient,
+            'vpc': VpcClient,
+            'sop': SopClient,
+            'xdata': XdataClient,
+            'nc': NcClient,
+            'clouddnsservice': ClouddnsserviceClient,
+            'mps': MpsClient,
+            'jmr': JmrClient,
+            'streambus': StreambusClient,
+            'oss': OssClient,
+            'baseanti': BaseantiClient,
+            'streamcomputer': StreamcomputerClient,
+            'jke': JkeClient,
+            'ipanti': IpantiClient,
         }
 
         profile_manager = ProfileManager()

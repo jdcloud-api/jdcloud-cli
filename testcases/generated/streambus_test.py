@@ -23,33 +23,6 @@ import json
 
 class StreambusTest(unittest.TestCase):
 
-    def test_get_consumer_group_list(self):
-        cmd = """python ../../main.py streambus get-consumer-group-list  --topic-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_consumer_group(self):
-        cmd = """python ../../main.py streambus create-consumer-group """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_consumer_group(self):
-        cmd = """python ../../main.py streambus delete-consumer-group  --topic-id '5' --consumer-group-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_get_topic_list(self):
         cmd = """python ../../main.py streambus get-topic-list """
         with os.popen(cmd) as f:
@@ -88,6 +61,33 @@ class StreambusTest(unittest.TestCase):
 
     def test_delete_topic(self):
         cmd = """python ../../main.py streambus delete-topic  --name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_consumer_group_list(self):
+        cmd = """python ../../main.py streambus get-consumer-group-list  --topic-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_consumer_group(self):
+        cmd = """python ../../main.py streambus create-consumer-group """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_consumer_group(self):
+        cmd = """python ../../main.py streambus delete-consumer-group  --topic-id '5' --consumer-group-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 

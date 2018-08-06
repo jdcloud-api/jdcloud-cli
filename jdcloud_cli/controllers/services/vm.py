@@ -39,29 +39,29 @@ class VmController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--filters'], dict(help="""(array: filter) resourceTypes - 资源类型，支持多个[instance，keypair，image，instanceTemplate];  """, dest='filters', required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询配额，支持：云主机、镜像、密钥、模板;  ''',
+        help=''' 查询镜像详情。;  ''',
         description='''
-            查询配额，支持：云主机、镜像、密钥、模板; 。
+            查询镜像详情。; 。
 
-            示例: jdc vm describe-quotas 
+            示例: jdc vm describe-image  --image-id xxx
         ''',
     )
-    def describe_quotas(self):
+    def describe_image(self):
         client_factory = ClientFactory('vm')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vm.apis.DescribeQuotasRequest import DescribeQuotasRequest
+            from jdcloud_sdk.services.vm.apis.DescribeImageRequest import DescribeImageRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeQuotasRequest(params_dict, headers)
+            req = DescribeImageRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -72,29 +72,304 @@ class VmController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceTypes - 规格类型，精确匹配，支持多个; az - 可用区，精确匹配，支持多个;  """, dest='filters', required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询规格类型信息列表;  ''',
+        help=''' 删除一个私有镜像，只允许操作您的个人私有镜像。;  ''',
         description='''
-            查询规格类型信息列表; 。
+            删除一个私有镜像，只允许操作您的个人私有镜像。; 。
 
-            示例: jdc vm describe-instance-types 
+            示例: jdc vm delete-image  --image-id xxx
         ''',
     )
-    def describe_instance_types(self):
+    def delete_image(self):
         client_factory = ClientFactory('vm')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vm.apis.DescribeInstanceTypesRequest import DescribeInstanceTypesRequest
+            from jdcloud_sdk.services.vm.apis.DeleteImageRequest import DeleteImageRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeInstanceTypesRequest(params_dict, headers)
+            req = DeleteImageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--image-source'], dict(help="""(string) 镜像来源，如果没有指定ids参数，此参数必传；取值范围：public、shared、thirdparty、private """, dest='imageSource', required=False)),
+            (['--platform'], dict(help="""(string) 操作系统平台，取值范围：Windows Server、CentOS、Ubuntu """, dest='platform', required=False)),
+            (['--ids'], dict(help="""(array: string) 镜像ID列表，如果指定了此参数，其它参数可为空 """, dest='ids', required=False)),
+            (['--root-device-type'], dict(help="""(string) 镜像支持的系统盘类型，[localDisk,cloudDisk] """, dest='rootDeviceType', required=False)),
+            (['--status'], dict(help="""(string) <a href="https://www.jdcloud.com/help/detail/3871/isCatalog/1">参考镜像状态</a> """, dest='status', required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询镜像信息列表。<br>; 通过此接口可以查询到京东云官方镜像、第三方镜像、私有镜像、或其他用户共享给您的镜像。<br>; 此接口支持分页查询，默认每页20条。;  ''',
+        description='''
+            查询镜像信息列表。<br>; 通过此接口可以查询到京东云官方镜像、第三方镜像、私有镜像、或其他用户共享给您的镜像。<br>; 此接口支持分页查询，默认每页20条。; 。
+
+            示例: jdc vm describe-images 
+        ''',
+    )
+    def describe_images(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.DescribeImagesRequest import DescribeImagesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeImagesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询镜像的规格类型限制。<br>; 通过此接口可以查看镜像不支持的规格类型。只有官方镜像、第三方镜像有规格类型的限制，个人的私有镜像没有此限制。;  ''',
+        description='''
+            查询镜像的规格类型限制。<br>; 通过此接口可以查看镜像不支持的规格类型。只有官方镜像、第三方镜像有规格类型的限制，个人的私有镜像没有此限制。; 。
+
+            示例: jdc vm describe-image-constraints  --image-id xxx
+        ''',
+    )
+    def describe_image_constraints(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.DescribeImageConstraintsRequest import DescribeImageConstraintsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeImageConstraintsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--ids'], dict(help="""(array: string) 镜像ID列表 """, dest='ids', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 批量查询镜像的规格类型限制。<br>; 通过此接口可以查看镜像不支持的规格类型。只有官方镜像、第三方镜像有规格类型的限制，个人的私有镜像没有此限制。;  ''',
+        description='''
+            批量查询镜像的规格类型限制。<br>; 通过此接口可以查看镜像不支持的规格类型。只有官方镜像、第三方镜像有规格类型的限制，个人的私有镜像没有此限制。; 。
+
+            示例: jdc vm describe-image-constraints-batch 
+        ''',
+    )
+    def describe_image_constraints_batch(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.DescribeImageConstraintsBatchRequest import DescribeImageConstraintsBatchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeImageConstraintsBatchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--pins'], dict(help="""(array: string) 需要共享的帐户 """, dest='pins', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 共享镜像，只允许操作您的个人私有镜像，单个镜像最多可共享给20个京东云帐户。<br>; 打包镜像目前不支持共享。;  ''',
+        description='''
+            共享镜像，只允许操作您的个人私有镜像，单个镜像最多可共享给20个京东云帐户。<br>; 打包镜像目前不支持共享。; 。
+
+            示例: jdc vm share-image  --image-id xxx
+        ''',
+    )
+    def share_image(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.ShareImageRequest import ShareImageRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ShareImageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--pins'], dict(help="""(array: string) 需要取消的帐户 """, dest='pins', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 取消共享镜像，只允许操作您的个人私有镜像。;  ''',
+        description='''
+            取消共享镜像，只允许操作您的个人私有镜像。; 。
+
+            示例: jdc vm un-share-image  --image-id xxx
+        ''',
+    )
+    def un_share_image(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.UnShareImageRequest import UnShareImageRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UnShareImageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询镜像共享帐户列表，只允许操作您的个人私有镜像。;  ''',
+        description='''
+            查询镜像共享帐户列表，只允许操作您的个人私有镜像。; 。
+
+            示例: jdc vm describe-image-members  --image-id xxx
+        ''',
+    )
+    def describe_image_members(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.DescribeImageMembersRequest import DescribeImageMembersRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeImageMembersRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--source-image-ids'], dict(help="""(array: string) 源镜像ID """, dest='sourceImageIds', required=False)),
+            (['--destination-region'], dict(help="""(string) 目标区域 """, dest='destinationRegion', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 镜像跨区复制，将私有镜像复制到其它地域下，只允许操作您的个人私有镜像。<br>; 只支持cloudDisk云盘系统盘类型的镜像。;  ''',
+        description='''
+            镜像跨区复制，将私有镜像复制到其它地域下，只允许操作您的个人私有镜像。<br>; 只支持cloudDisk云盘系统盘类型的镜像。; 。
+
+            示例: jdc vm copy-images  --destination-region xxx
+        ''',
+    )
+    def copy_images(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.CopyImagesRequest import CopyImagesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CopyImagesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--name'], dict(help="""(string) 名称，<a href="https://www.jdcloud.com/help/detail/3870/isCatalog/1">参考公共参数规范</a>。 """, dest='name', required=False)),
+            (['--description'], dict(help="""(string) 描述，<a href="https://www.jdcloud.com/help/detail/3870/isCatalog/1">参考公共参数规范</a>。 """, dest='description', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改镜像信息，包括名称、描述；只允许操作您的个人私有镜像。;  ''',
+        description='''
+            修改镜像信息，包括名称、描述；只允许操作您的个人私有镜像。; 。
+
+            示例: jdc vm modify-image-attribute  --image-id xxx
+        ''',
+    )
+    def modify_image_attribute(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.ModifyImageAttributeRequest import ModifyImageAttributeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyImageAttributeRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -859,29 +1134,29 @@ class VmController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--filters'], dict(help="""(array: filter) instanceTypes - 规格类型，精确匹配，支持多个; az - 可用区，精确匹配，支持多个;  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询镜像详情。;  ''',
+        help=''' 查询规格类型信息列表;  ''',
         description='''
-            查询镜像详情。; 。
+            查询规格类型信息列表; 。
 
-            示例: jdc vm describe-image  --image-id xxx
+            示例: jdc vm describe-instance-types 
         ''',
     )
-    def describe_image(self):
+    def describe_instance_types(self):
         client_factory = ClientFactory('vm')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vm.apis.DescribeImageRequest import DescribeImageRequest
+            from jdcloud_sdk.services.vm.apis.DescribeInstanceTypesRequest import DescribeInstanceTypesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeImageRequest(params_dict, headers)
+            req = DescribeInstanceTypesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -892,29 +1167,29 @@ class VmController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--filters'], dict(help="""(array: filter) resourceTypes - 资源类型，支持多个[instance，keypair，image，instanceTemplate];  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除一个私有镜像，只允许操作您的个人私有镜像。;  ''',
+        help=''' 查询配额，支持：云主机、镜像、密钥、模板;  ''',
         description='''
-            删除一个私有镜像，只允许操作您的个人私有镜像。; 。
+            查询配额，支持：云主机、镜像、密钥、模板; 。
 
-            示例: jdc vm delete-image  --image-id xxx
+            示例: jdc vm describe-quotas 
         ''',
     )
-    def delete_image(self):
+    def describe_quotas(self):
         client_factory = ClientFactory('vm')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vm.apis.DeleteImageRequest import DeleteImageRequest
+            from jdcloud_sdk.services.vm.apis.DescribeQuotasRequest import DescribeQuotasRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteImageRequest(params_dict, headers)
+            req = DescribeQuotasRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -924,282 +1199,7 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-source'], dict(help="""(string) 镜像来源，如果没有指定ids参数，此参数必传；取值范围：public、shared、thirdparty、private """, dest='imageSource', required=False)),
-            (['--platform'], dict(help="""(string) 操作系统平台，取值范围：Windows Server、CentOS、Ubuntu """, dest='platform', required=False)),
-            (['--ids'], dict(help="""(array: string) 镜像ID列表，如果指定了此参数，其它参数可为空 """, dest='ids', required=False)),
-            (['--root-device-type'], dict(help="""(string) 镜像支持的系统盘类型，[localDisk,cloudDisk] """, dest='rootDeviceType', required=False)),
-            (['--status'], dict(help="""(string) <a href="https://www.jdcloud.com/help/detail/3871/isCatalog/1">参考镜像状态</a> """, dest='status', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询镜像信息列表。<br>; 通过此接口可以查询到京东云官方镜像、第三方镜像、私有镜像、或其他用户共享给您的镜像。<br>; 此接口支持分页查询，默认每页20条。;  ''',
-        description='''
-            查询镜像信息列表。<br>; 通过此接口可以查询到京东云官方镜像、第三方镜像、私有镜像、或其他用户共享给您的镜像。<br>; 此接口支持分页查询，默认每页20条。; 。
-
-            示例: jdc vm describe-images 
-        ''',
-    )
-    def describe_images(self):
-        client_factory = ClientFactory('vm')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vm.apis.DescribeImagesRequest import DescribeImagesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeImagesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询镜像的规格类型限制。<br>; 通过此接口可以查看镜像不支持的规格类型。只有官方镜像、第三方镜像有规格类型的限制，个人的私有镜像没有此限制。;  ''',
-        description='''
-            查询镜像的规格类型限制。<br>; 通过此接口可以查看镜像不支持的规格类型。只有官方镜像、第三方镜像有规格类型的限制，个人的私有镜像没有此限制。; 。
-
-            示例: jdc vm describe-image-constraints  --image-id xxx
-        ''',
-    )
-    def describe_image_constraints(self):
-        client_factory = ClientFactory('vm')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vm.apis.DescribeImageConstraintsRequest import DescribeImageConstraintsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeImageConstraintsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--ids'], dict(help="""(array: string) 镜像ID列表 """, dest='ids', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 批量查询镜像的规格类型限制。<br>; 通过此接口可以查看镜像不支持的规格类型。只有官方镜像、第三方镜像有规格类型的限制，个人的私有镜像没有此限制。;  ''',
-        description='''
-            批量查询镜像的规格类型限制。<br>; 通过此接口可以查看镜像不支持的规格类型。只有官方镜像、第三方镜像有规格类型的限制，个人的私有镜像没有此限制。; 。
-
-            示例: jdc vm describe-image-constraints-batch 
-        ''',
-    )
-    def describe_image_constraints_batch(self):
-        client_factory = ClientFactory('vm')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vm.apis.DescribeImageConstraintsBatchRequest import DescribeImageConstraintsBatchRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeImageConstraintsBatchRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
-            (['--pins'], dict(help="""(array: string) 需要共享的帐户 """, dest='pins', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 共享镜像，只允许操作您的个人私有镜像，单个镜像最多可共享给20个京东云帐户。<br>; 打包镜像目前不支持共享。;  ''',
-        description='''
-            共享镜像，只允许操作您的个人私有镜像，单个镜像最多可共享给20个京东云帐户。<br>; 打包镜像目前不支持共享。; 。
-
-            示例: jdc vm share-image  --image-id xxx
-        ''',
-    )
-    def share_image(self):
-        client_factory = ClientFactory('vm')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vm.apis.ShareImageRequest import ShareImageRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ShareImageRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
-            (['--pins'], dict(help="""(array: string) 需要取消的帐户 """, dest='pins', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 取消共享镜像，只允许操作您的个人私有镜像。;  ''',
-        description='''
-            取消共享镜像，只允许操作您的个人私有镜像。; 。
-
-            示例: jdc vm un-share-image  --image-id xxx
-        ''',
-    )
-    def un_share_image(self):
-        client_factory = ClientFactory('vm')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vm.apis.UnShareImageRequest import UnShareImageRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UnShareImageRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询镜像共享帐户列表，只允许操作您的个人私有镜像。;  ''',
-        description='''
-            查询镜像共享帐户列表，只允许操作您的个人私有镜像。; 。
-
-            示例: jdc vm describe-image-members  --image-id xxx
-        ''',
-    )
-    def describe_image_members(self):
-        client_factory = ClientFactory('vm')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vm.apis.DescribeImageMembersRequest import DescribeImageMembersRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeImageMembersRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--source-image-ids'], dict(help="""(array: string) 源镜像ID """, dest='sourceImageIds', required=False)),
-            (['--destination-region'], dict(help="""(string) 目标区域 """, dest='destinationRegion', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 镜像跨区复制，将私有镜像复制到其它地域下，只允许操作您的个人私有镜像。<br>; 只支持cloudDisk云盘系统盘类型的镜像。;  ''',
-        description='''
-            镜像跨区复制，将私有镜像复制到其它地域下，只允许操作您的个人私有镜像。<br>; 只支持cloudDisk云盘系统盘类型的镜像。; 。
-
-            示例: jdc vm copy-images  --destination-region xxx
-        ''',
-    )
-    def copy_images(self):
-        client_factory = ClientFactory('vm')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vm.apis.CopyImagesRequest import CopyImagesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CopyImagesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
-            (['--name'], dict(help="""(string) 名称，<a href="https://www.jdcloud.com/help/detail/3870/isCatalog/1">参考公共参数规范</a>。 """, dest='name', required=False)),
-            (['--description'], dict(help="""(string) 描述，<a href="https://www.jdcloud.com/help/detail/3870/isCatalog/1">参考公共参数规范</a>。 """, dest='description', required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改镜像信息，包括名称、描述；只允许操作您的个人私有镜像。;  ''',
-        description='''
-            修改镜像信息，包括名称、描述；只允许操作您的个人私有镜像。; 。
-
-            示例: jdc vm modify-image-attribute  --image-id xxx
-        ''',
-    )
-    def modify_image_attribute(self):
-        client_factory = ClientFactory('vm')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vm.apis.ModifyImageAttributeRequest import ModifyImageAttributeRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyImageAttributeRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-quotas','describe-instance-types','describe-instances','create-instances','describe-instance','delete-instance','describe-instance-status','stop-instance','start-instance','reboot-instance','attach-network-interface','detach-network-interface','modify-instance-network-attribute','associate-elastic-ip','disassociate-elastic-ip','create-image','attach-disk','detach-disk','modify-instance-disk-attribute','modify-instance-attribute','modify-instance-password','describe-instance-vnc-url','resize-instance','rebuild-instance','describe-image','delete-image','describe-images','describe-image-constraints','describe-image-constraints-batch','share-image','un-share-image','describe-image-members','copy-images','modify-image-attribute',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-image','delete-image','describe-images','describe-image-constraints','describe-image-constraints-batch','share-image','un-share-image','describe-image-members','copy-images','modify-image-attribute','describe-instances','create-instances','describe-instance','delete-instance','describe-instance-status','stop-instance','start-instance','reboot-instance','attach-network-interface','detach-network-interface','modify-instance-network-attribute','associate-elastic-ip','disassociate-elastic-ip','create-image','attach-disk','detach-disk','modify-instance-disk-attribute','modify-instance-attribute','modify-instance-password','describe-instance-vnc-url','resize-instance','rebuild-instance','describe-instance-types','describe-quotas',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

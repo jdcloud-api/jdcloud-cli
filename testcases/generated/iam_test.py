@@ -86,6 +86,24 @@ class IamTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_get_session_token(self):
+        cmd = """python ../../main.py iam get-session-token  --get-session-token-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_verify_session_token(self):
+        cmd = """python ../../main.py iam verify-session-token  --verify-session-token-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_create_subuser(self):
         cmd = """python ../../main.py iam create-subuser  --create-sub-user-info '{"":""}'"""
         with os.popen(cmd) as f:
@@ -133,60 +151,6 @@ class IamTest(unittest.TestCase):
 
     def test_delete_user_access_key(self):
         cmd = """python ../../main.py iam delete-user-access-key  --access-key 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_contact_person(self):
-        cmd = """python ../../main.py iam describe-contact-person  --pin 'xxx' --person-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_contact_persons(self):
-        cmd = """python ../../main.py iam describe-contact-persons  --pin 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_contact_group(self):
-        cmd = """python ../../main.py iam describe-contact-group  --pin 'xxx' --group-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_contact_groups(self):
-        cmd = """python ../../main.py iam describe-contact-groups  --pin 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_contact_group_persons_new(self):
-        cmd = """python ../../main.py iam describe-contact-group-persons-new  --pin 'xxx' --group-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_gray_user(self):
-        cmd = """python ../../main.py iam describe-gray-user  --pin 'xxx' --service-code 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
