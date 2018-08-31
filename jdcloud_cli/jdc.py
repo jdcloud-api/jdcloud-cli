@@ -24,7 +24,9 @@ from jdcloud_cli.controllers.services.redis import RedisController
 from jdcloud_cli.controllers.services.rds import RdsController
 from jdcloud_cli.controllers.services.monitor import MonitorController
 from jdcloud_cli.controllers.services.iam import IamController
+from jdcloud_cli.controllers.services.cps import CpsController
 from jdcloud_cli.controllers.services.disk import DiskController
+from jdcloud_cli.controllers.services.datastar import DatastarController
 from jdcloud_cli.controllers.services.mongodb import MongodbController
 from jdcloud_cli.controllers.services.vpc import VpcController
 from jdcloud_cli.controllers.services.sop import SopController
@@ -57,7 +59,9 @@ def main():
         app.handler.register(RdsController)
         app.handler.register(MonitorController)
         app.handler.register(IamController)
+        app.handler.register(CpsController)
         app.handler.register(DiskController)
+        app.handler.register(DatastarController)
         app.handler.register(MongodbController)
         app.handler.register(VpcController)
         app.handler.register(SopController)

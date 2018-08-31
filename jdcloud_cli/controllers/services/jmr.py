@@ -77,9 +77,9 @@ class JmrController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询集群详情 ''',
+        help=''' 根据clusterId查询对应集群详情 ''',
         description='''
-            查询集群详情。
+            根据clusterId查询对应集群详情。
 
             示例: jdc jmr show-cluster-details  --id xxx
         ''',
@@ -110,9 +110,9 @@ class JmrController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 释放集群 ''',
+        help=''' 释放指定clusterId对应集群 ''',
         description='''
-            释放集群。
+            释放指定clusterId对应集群。
 
             示例: jdc jmr release-cluster  --id xxx
         ''',
@@ -137,7 +137,1940 @@ class JmrController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['create-cluster-in-new-network','show-cluster-details','release-cluster',], required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取用户appKey和secretKey ''',
+        description='''
+            获取用户appKey和secretKey。
+
+            示例: jdc jmr get-key 
+        ''',
+    )
+    def get_key(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetKeyRequest import GetKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 软件配置信息列表 ''',
+        description='''
+            软件配置信息列表。
+
+            示例: jdc jmr get-property-value 
+        ''',
+    )
+    def get_property_value(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetPropertyValueRequest import GetPropertyValueRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetPropertyValueRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 硬件配置信息列表 ''',
+        description='''
+            硬件配置信息列表。
+
+            示例: jdc jmr get-hardware-stack 
+        ''',
+    )
+    def get_hardware_stack(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetHardwareStackRequest import GetHardwareStackRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetHardwareStackRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取主机规格列表(过滤掉低内存的规格, 低于4核全部去掉。) ''',
+        description='''
+            获取主机规格列表(过滤掉低内存的规格, 低于4核全部去掉。)。
+
+            示例: jdc jmr get-instance-list 
+        ''',
+    )
+    def get_instance_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetInstanceListRequest import GetInstanceListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetInstanceListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--id'], dict(help="""(string) 集群ID；由八位字符组成 """, dest='id', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询用户指定clusterId对应的集群列表及相关服务的一些信息 ''',
+        description='''
+            查询用户指定clusterId对应的集群列表及相关服务的一些信息。
+
+            示例: jdc jmr idata-cluster  --id xxx
+        ''',
+    )
+    def idata_cluster(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.IdataClusterRequest import IdataClusterRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = IdataClusterRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--ver'], dict(help="""(string) JMR软件版本号 """, dest='ver', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取对应版本的软件清单信息 ''',
+        description='''
+            获取对应版本的软件清单信息。
+
+            示例: jdc jmr get-software-info  --ver xxx
+        ''',
+    )
+    def get_software_info(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetSoftwareInfoRequest import GetSoftwareInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetSoftwareInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--ver'], dict(help="""(string) JMR软件版本号 """, dest='ver', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取指定JMR版本对应软件清单以及版本信息 ''',
+        description='''
+            获取指定JMR版本对应软件清单以及版本信息。
+
+            示例: jdc jmr get-software-and-version-info  --ver xxx
+        ''',
+    )
+    def get_software_and_version_info(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetSoftwareAndVersionInfoRequest import GetSoftwareAndVersionInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetSoftwareAndVersionInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 返回目前的JMR版本列表 ''',
+        description='''
+            返回目前的JMR版本列表。
+
+            示例: jdc jmr get-jmr-version-list 
+        ''',
+    )
+    def get_jmr_version_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetJmrVersionListRequest import GetJmrVersionListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetJmrVersionListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-list-view-model'], dict(help="""(clusterListViewModel) 集群信息视图，除userName、dataCenter外均需要传入 """, dest='clusterListViewModel', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 计算对应规格属性的集群价格 ''',
+        description='''
+            计算对应规格属性的集群价格。
+
+            示例: jdc jmr calculate-cluster-price  --cluster-list-view-model {"":""}
+        ''',
+    )
+    def calculate_cluster_price(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.CalculateClusterPriceRequest import CalculateClusterPriceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CalculateClusterPriceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取当前用户剩余可创建资源数 ''',
+        description='''
+            获取当前用户剩余可创建资源数。
+
+            示例: jdc jmr get-avaliable-num 
+        ''',
+    )
+    def get_avaliable_num(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetAvaliableNumRequest import GetAvaliableNumRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetAvaliableNumRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询server的剩余配额 ''',
+        description='''
+            查询server的剩余配额。
+
+            示例: jdc jmr query-server-quota 
+        ''',
+    )
+    def query_server_quota(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.QueryServerQuotaRequest import QueryServerQuotaRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryServerQuotaRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取vpc集合 ''',
+        description='''
+            获取vpc集合。
+
+            示例: jdc jmr query-vpcs 
+        ''',
+    )
+    def query_vpcs(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.QueryVpcsRequest import QueryVpcsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryVpcsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--vpc-id'], dict(help="""(string) NA """, dest='vpcId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询Vpc子网集合 ''',
+        description='''
+            查询Vpc子网集合。
+
+            示例: jdc jmr query-vpc-subnets  --vpc-id xxx
+        ''',
+    )
+    def query_vpc_subnets(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.QueryVpcSubnetsRequest import QueryVpcSubnetsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryVpcSubnetsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--record-id'], dict(help="""(string) 删除集群在数据库中的主键ID """, dest='recordId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 对指定集群执行逻辑删除 ''',
+        description='''
+            对指定集群执行逻辑删除。
+
+            示例: jdc jmr delete-cluster  --record-id xxx
+        ''',
+    )
+    def delete_cluster(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.DeleteClusterRequest import DeleteClusterRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteClusterRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--record-id'], dict(help="""(string) 即集群的clusterId """, dest='recordId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询集群随机码（八位） ''',
+        description='''
+            查询集群随机码（八位）。
+
+            示例: jdc jmr query-floating-ip  --record-id xxx
+        ''',
+    )
+    def query_floating_ip(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.QueryFloatingIpRequest import QueryFloatingIpRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryFloatingIpRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 对登陆的用户名进行校验 ''',
+        description='''
+            对登陆的用户名进行校验。
+
+            示例: jdc jmr validate-user 
+        ''',
+    )
+    def validate_user(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.ValidateUserRequest import ValidateUserRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ValidateUserRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) 续费集群clusterId """, dest='clusterId', required=True)),
+            (['--type'], dict(help="""(int) "必传参数，计费类型";       "* 1:按配置";       "* 601-609：包年包月1一个月到9个月";       "* 610:包年包月一年";       "* 620:包年包月两年";  """, dest='type', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 对指定集群按照指定的续费方式进行续费 ''',
+        description='''
+            对指定集群按照指定的续费方式进行续费。
+
+            示例: jdc jmr renew-billing-order  --cluster-id xxx --type 0
+        ''',
+    )
+    def renew_billing_order(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.RenewBillingOrderRequest import RenewBillingOrderRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RenewBillingOrderRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--name'], dict(help="""(string) NA """, dest='name', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 验证输入的集群名称是否重复 ''',
+        description='''
+            验证输入的集群名称是否重复。
+
+            示例: jdc jmr validate-name  --name xxx
+        ''',
+    )
+    def validate_name(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.ValidateNameRequest import ValidateNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ValidateNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据userpin获取accessKey和accessKeySecret ''',
+        description='''
+            根据userpin获取accessKey和accessKeySecret。
+
+            示例: jdc jmr get-access-keys 
+        ''',
+    )
+    def get_access_keys(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetAccessKeysRequest import GetAccessKeysRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetAccessKeysRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) 需要扩容的集群ID """, dest='clusterId', required=True)),
+            (['--expansion-num'], dict(help="""(int) 扩容的数量 """, dest='expansionNum', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 对指定集群扩容指定数量的实例 ''',
+        description='''
+            对指定集群扩容指定数量的实例。
+
+            示例: jdc jmr cluster-expansion  --cluster-id xxx --expansion-num 0
+        ''',
+    )
+    def cluster_expansion(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.ClusterExpansionRequest import ClusterExpansionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ClusterExpansionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) NA """, dest='clusterId', required=True)),
+            (['--expansion-num'], dict(help="""(int) NA """, dest='expansionNum', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 计算集群扩容数量的价格 ''',
+        description='''
+            计算集群扩容数量的价格。
+
+            示例: jdc jmr calculate-expansion-price  --cluster-id xxx --expansion-num 0
+        ''',
+    )
+    def calculate_expansion_price(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.CalculateExpansionPriceRequest import CalculateExpansionPriceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CalculateExpansionPriceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) 需要扩容的集群ID """, dest='clusterId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 集群扩容时，显示集群详情 ''',
+        description='''
+            集群扩容时，显示集群详情。
+
+            示例: jdc jmr get-cluster-detail-info  --cluster-id xxx
+        ''',
+    )
+    def get_cluster_detail_info(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetClusterDetailInfoRequest import GetClusterDetailInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetClusterDetailInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群Id """, dest='clusterId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 当前监控的集群下对应的所有服务列表 ''',
+        description='''
+            当前监控的集群下对应的所有服务列表。
+
+            示例: jdc jmr monitor-service-list  --cluster-id xxx
+        ''',
+    )
+    def monitor_service_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.MonitorServiceListRequest import MonitorServiceListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = MonitorServiceListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群ID """, dest='clusterId', required=True)),
+            (['--service'], dict(help="""(string) 服务名称，如HADOOP """, dest='service', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 服务存活状态监控明细数据 ''',
+        description='''
+            服务存活状态监控明细数据。
+
+            示例: jdc jmr monitor-details  --cluster-id xxx --service xxx
+        ''',
+    )
+    def monitor_details(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.MonitorDetailsRequest import MonitorDetailsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = MonitorDetailsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群Id """, dest='clusterId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 通过clusterId得到远程连接集群主节点的VNC URL ''',
+        description='''
+            通过clusterId得到远程连接集群主节点的VNC URL。
+
+            示例: jdc jmr get-first-server-vnc-url  --cluster-id xxx
+        ''',
+    )
+    def get_first_server_vnc_url(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetFirstServerVncUrlRequest import GetFirstServerVncUrlRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetFirstServerVncUrlRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群Id """, dest='clusterId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取指定集群下的作业类型列表 ''',
+        description='''
+            获取指定集群下的作业类型列表。
+
+            示例: jdc jmr get-job-type-list  --cluster-id xxx
+        ''',
+    )
+    def get_job_type_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetJobTypeListRequest import GetJobTypeListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetJobTypeListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--jmr-job-view-model'], dict(help="""(jmrJobViewModel) "需要传入字段: clusterId、az"; "可选字段: jobName、jobType、clusterName";  """, dest='jmrJobViewModel', required=True)),
+            (['--select-params'], dict(help="""(selectParams) NA """, dest='selectParams', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取指定集群下的作业列表 ''',
+        description='''
+            获取指定集群下的作业列表。
+
+            示例: jdc jmr get-job-list  --jmr-job-view-model {"":""}
+        ''',
+    )
+    def get_job_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetJobListRequest import GetJobListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetJobListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--job-id'], dict(help="""(string) 作为作业名校验依据 """, dest='jobId', required=True)),
+            (['--job-name'], dict(help="""(string) 待校验的作业名 """, dest='jobName', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 校验作业名称是否有效 ''',
+        description='''
+            校验作业名称是否有效。
+
+            示例: jdc jmr is-valid-job-name  --job-id xxx --job-name xxx
+        ''',
+    )
+    def is_valid_job_name(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.IsValidJobNameRequest import IsValidJobNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = IsValidJobNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--jmr-job-view-model'], dict(help="""(jmrJobViewModel) 需要传入clusterId、jobName、jobType、location、jobArgs、retryTimes、isSendMsg """, dest='jmrJobViewModel', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 按照传入的参数信息创建作业 ''',
+        description='''
+            按照传入的参数信息创建作业。
+
+            示例: jdc jmr create-job  --jmr-job-view-model {"":""}
+        ''',
+    )
+    def create_job(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.CreateJobRequest import CreateJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--jmr-job-view-model'], dict(help="""(jmrJobViewModel) 需要传入clusterId、jobName、jobType、location、jobArgs、retryTimes、isSendMsg """, dest='jmrJobViewModel', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 按照传入的参数信息修改对应作业信息 ''',
+        description='''
+            按照传入的参数信息修改对应作业信息。
+
+            示例: jdc jmr modify-job  --jmr-job-view-model {"":""}
+        ''',
+    )
+    def modify_job(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.ModifyJobRequest import ModifyJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--job-id'], dict(help="""(string) 需要删除的作业Id """, dest='jobId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除jobId指定作业 ''',
+        description='''
+            删除jobId指定作业。
+
+            示例: jdc jmr delete-job  --job-id xxx
+        ''',
+    )
+    def delete_job(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.DeleteJobRequest import DeleteJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--jmr-job-view-model'], dict(help="""(jmrJobViewModel) 需要传入clusterId、jobName、jobType、location、jobArgs、retryTimes、isSendMsg """, dest='jmrJobViewModel', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 在集群下创建作业并执行 ''',
+        description='''
+            在集群下创建作业并执行。
+
+            示例: jdc jmr create-and-excute-job  --jmr-job-view-model {"":""}
+        ''',
+    )
+    def create_and_excute_job(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.CreateAndExcuteJobRequest import CreateAndExcuteJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateAndExcuteJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--jmr-task-view-model'], dict(help="""(jmrTaskViewModel) "需要传入参数: jobId、planId、workflowId、workflowInstanceId";  """, dest='jmrTaskViewModel', required=True)),
+            (['--cluster-id'], dict(help="""(string) 集群ID """, dest='clusterId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 执行指定作业 ''',
+        description='''
+            执行指定作业。
+
+            示例: jdc jmr execute-job  --jmr-task-view-model {"":""} --cluster-id xxx
+        ''',
+    )
+    def execute_job(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.ExecuteJobRequest import ExecuteJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ExecuteJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--job-id'], dict(help="""(string) 需要查看的作业的Id """, dest='jobId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看指定jobId对应的作业明细 ''',
+        description='''
+            查看指定jobId对应的作业明细。
+
+            示例: jdc jmr show-job-details  --job-id xxx
+        ''',
+    )
+    def show_job_details(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.ShowJobDetailsRequest import ShowJobDetailsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ShowJobDetailsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--job-id'], dict(help="""(string) 需要查询的jobId """, dest='jobId', required=True)),
+            (['--select-params'], dict(help="""(selectParams) NA """, dest='selectParams', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取某一作业的运行记录 ''',
+        description='''
+            获取某一作业的运行记录。
+
+            示例: jdc jmr get-task-list  --job-id xxx
+        ''',
+    )
+    def get_task_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetTaskListRequest import GetTaskListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTaskListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群ID """, dest='clusterId', required=True)),
+            (['--file-path'], dict(help="""(string) 要删除的文件路径 """, dest='filePath', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除指定集群的对应路径下的hdfs文件 ''',
+        description='''
+            删除指定集群的对应路径下的hdfs文件。
+
+            示例: jdc jmr delete-hdfs-file  --cluster-id xxx --file-path xxx
+        ''',
+    )
+    def delete_hdfs_file(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.DeleteHdfsFileRequest import DeleteHdfsFileRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteHdfsFileRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群ID """, dest='clusterId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取集群的作业数 ''',
+        description='''
+            获取集群的作业数。
+
+            示例: jdc jmr get-cluster-job-count  --cluster-id xxx
+        ''',
+    )
+    def get_cluster_job_count(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetClusterJobCountRequest import GetClusterJobCountRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetClusterJobCountRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群的Id """, dest='clusterId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取集群的部署作业数 ''',
+        description='''
+            获取集群的部署作业数。
+
+            示例: jdc jmr get-cluster-cron-job-count  --cluster-id xxx
+        ''',
+    )
+    def get_cluster_cron_job_count(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetClusterCronJobCountRequest import GetClusterCronJobCountRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetClusterCronJobCountRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--jmr-plan-view-model'], dict(help="""(jmrPlanViewModel) 需要传入的字段： az、planName、planType、planStatus """, dest='jmrPlanViewModel', required=True)),
+            (['--select-params'], dict(help="""(selectParams) 搜索条件的可选参数 """, dest='selectParams', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取执行计划列表 ''',
+        description='''
+            获取执行计划列表。
+
+            示例: jdc jmr get-cron-job-list  --jmr-plan-view-model {"":""}
+        ''',
+    )
+    def get_cron_job_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetCronJobListRequest import GetCronJobListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetCronJobListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--plan-id'], dict(help="""(string) 作为校验的依据 """, dest='planId', required=True)),
+            (['--plan-name'], dict(help="""(string) 校验的计划名称 """, dest='planName', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 校验执行计划名称是否可用 ''',
+        description='''
+            校验执行计划名称是否可用。
+
+            示例: jdc jmr is-valid-plan-name  --plan-id xxx --plan-name xxx
+        ''',
+    )
+    def is_valid_plan_name(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.IsValidPlanNameRequest import IsValidPlanNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = IsValidPlanNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--jmr-plan-view-model'], dict(help="""(jmrPlanViewModel) 需要新建或更新的调度配置 """, dest='jmrPlanViewModel', required=True)),
+            (['--time'], dict(help="""(string) 按照Cron格式的时间参数,占位time """, dest='time', required=True)),
+            (['--month'], dict(help="""(string) 按照Cron格式的时间参数,占位month """, dest='month', required=True)),
+            (['--week'], dict(help="""(string) 按照Cron格式的时间参数,占位week """, dest='week', required=True)),
+            (['--day'], dict(help="""(string) 按照Cron格式的时间参数,占位day """, dest='day', required=True)),
+            (['--hour'], dict(help="""(string) 按照Cron格式的时间参数,占位hour """, dest='hour', required=True)),
+            (['--minute'], dict(help="""(string) 按照Cron格式的时间参数,占位minute """, dest='minute', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 新建或更新调度配置 ''',
+        description='''
+            新建或更新调度配置。
+
+            示例: jdc jmr create-cron-job  --jmr-plan-view-model {"":""} --time xxx --month xxx --week xxx --day xxx --hour xxx --minute xxx
+        ''',
+    )
+    def create_cron_job(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.CreateCronJobRequest import CreateCronJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateCronJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--plan-id'], dict(help="""(string) 执行计划的Id """, dest='planId', required=True)),
+            (['--select-params'], dict(help="""(selectParams) NA """, dest='selectParams', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取定时任务详情 ''',
+        description='''
+            获取定时任务详情。
+
+            示例: jdc jmr get-cron-job-detail  --plan-id xxx
+        ''',
+    )
+    def get_cron_job_detail(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetCronJobDetailRequest import GetCronJobDetailRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetCronJobDetailRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--jmr-plan-view-model'], dict(help="""(jmrPlanViewModel) "需要传入字段: planId、jobIds、planName、planType、failurePolicy";  """, dest='jmrPlanViewModel', required=True)),
+            (['--time'], dict(help="""(string) 按照Cron格式的时间参数,占位time """, dest='time', required=True)),
+            (['--month'], dict(help="""(string) 按照Cron格式的时间参数,占位month """, dest='month', required=True)),
+            (['--week'], dict(help="""(string) 按照Cron格式的时间参数,占位week """, dest='week', required=True)),
+            (['--day'], dict(help="""(string) 按照Cron格式的时间参数,占位day """, dest='day', required=True)),
+            (['--hour'], dict(help="""(string) 按照Cron格式的时间参数,占位hour """, dest='hour', required=True)),
+            (['--minute'], dict(help="""(string) 按照Cron格式的时间参数,占位minute """, dest='minute', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改部署作业的执行计划 ''',
+        description='''
+            修改部署作业的执行计划。
+
+            示例: jdc jmr modify-cron-job  --jmr-plan-view-model {"":""} --time xxx --month xxx --week xxx --day xxx --hour xxx --minute xxx
+        ''',
+    )
+    def modify_cron_job(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.ModifyCronJobRequest import ModifyCronJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyCronJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--plan-id'], dict(help="""(string) 暂停的任务ID """, dest='planId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 暂停作业的某一定时任务 ''',
+        description='''
+            暂停作业的某一定时任务。
+
+            示例: jdc jmr pause-cron-job  --plan-id xxx
+        ''',
+    )
+    def pause_cron_job(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.PauseCronJobRequest import PauseCronJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = PauseCronJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--plan-id'], dict(help="""(string) 需要恢复的任务ID """, dest='planId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 恢复作业的某一定时任务 ''',
+        description='''
+            恢复作业的某一定时任务。
+
+            示例: jdc jmr resume-cron-job  --plan-id xxx
+        ''',
+    )
+    def resume_cron_job(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.ResumeCronJobRequest import ResumeCronJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ResumeCronJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--plan-id'], dict(help="""(string) 需要删除的任务ID """, dest='planId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除作业的某一定时任务 ''',
+        description='''
+            删除作业的某一定时任务。
+
+            示例: jdc jmr delete-cron-job  --plan-id xxx
+        ''',
+    )
+    def delete_cron_job(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.DeleteCronJobRequest import DeleteCronJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteCronJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--plan-id'], dict(help="""(int) long型，任务ID """, dest='planId', required=True)),
+            (['--select-params'], dict(help="""(selectParams) NA """, dest='selectParams', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取作业的某一定时任务的运行记录 ''',
+        description='''
+            获取作业的某一定时任务的运行记录。
+
+            示例: jdc jmr get-cron-job-task-list  --plan-id 5
+        ''',
+    )
+    def get_cron_job_task_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetCronJobTaskListRequest import GetCronJobTaskListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetCronJobTaskListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--job-id'], dict(help="""(string) 作业ID """, dest='jobId', required=True)),
+            (['--plan-id'], dict(help="""(string) 定时任务ID """, dest='planId', required=True)),
+            (['--select-params'], dict(help="""(selectParams) 搜索条件，可选参数 """, dest='selectParams', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询某一执行计划的某一个job的运行记录 ''',
+        description='''
+            查询某一执行计划的某一个job的运行记录。
+
+            示例: jdc jmr get-cron-job-task-list-by-job-id  --job-id xxx --plan-id xxx
+        ''',
+    )
+    def get_cron_job_task_list_by_job_id(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetCronJobTaskListByJobIdRequest import GetCronJobTaskListByJobIdRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetCronJobTaskListByJobIdRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--plan-id'], dict(help="""(int) NA """, dest='planId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 立即执行某一定时任务 ''',
+        description='''
+            立即执行某一定时任务。
+
+            示例: jdc jmr run-cron-job-once  --plan-id 5
+        ''',
+    )
+    def run_cron_job_once(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.RunCronJobOnceRequest import RunCronJobOnceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RunCronJobOnceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--job-id'], dict(help="""(string) 作业ID """, dest='jobId', required=True)),
+            (['--plan-id'], dict(help="""(string) 定时任务ID，必传 """, dest='planId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取定时任务的某个作业的最后一次运行记录 ''',
+        description='''
+            获取定时任务的某个作业的最后一次运行记录。
+
+            示例: jdc jmr get-last-cron-job-task  --job-id xxx --plan-id xxx
+        ''',
+    )
+    def get_last_cron_job_task(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetLastCronJobTaskRequest import GetLastCronJobTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetLastCronJobTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取计划中的任务(已经添加到quartz调度器的任务) ''',
+        description='''
+            获取计划中的任务(已经添加到quartz调度器的任务)。
+
+            示例: jdc jmr query-executing-job-list 
+        ''',
+    )
+    def query_executing_job_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.QueryExecutingJobListRequest import QueryExecutingJobListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryExecutingJobListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--workflow-name'], dict(help="""(string) 工作流名称 """, dest='workflowName', required=True)),
+            (['--select-params'], dict(help="""(selectParams) NA """, dest='selectParams', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取工作流列表 ''',
+        description='''
+            获取工作流列表。
+
+            示例: jdc jmr get-work-flow-list  --workflow-name xxx
+        ''',
+    )
+    def get_work_flow_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetWorkFlowListRequest import GetWorkFlowListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetWorkFlowListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--workflow'], dict(help="""(emrWorkflow) NA """, dest='workflow', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 保存工作流的信息 ''',
+        description='''
+            保存工作流的信息。
+
+            示例: jdc jmr save-work-flow  --workflow {"":""}
+        ''',
+    )
+    def save_work_flow(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.SaveWorkFlowRequest import SaveWorkFlowRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SaveWorkFlowRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--workflow-id'], dict(help="""(string) 工作流ID """, dest='workflowId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除指定工作流 ''',
+        description='''
+            删除指定工作流。
+
+            示例: jdc jmr delete-work-flow  --workflow-id xxx
+        ''',
+    )
+    def delete_work_flow(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.DeleteWorkFlowRequest import DeleteWorkFlowRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteWorkFlowRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--workflow-id'], dict(help="""(string) 工作流ID """, dest='workflowId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 运行指定工作流 ''',
+        description='''
+            运行指定工作流。
+
+            示例: jdc jmr run-work-flow  --workflow-id xxx
+        ''',
+    )
+    def run_work_flow(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.RunWorkFlowRequest import RunWorkFlowRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RunWorkFlowRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--wf-instance-id'], dict(help="""(string) NA """, dest='wfInstanceId', required=True)),
+            (['--wf-id'], dict(help="""(string) NA """, dest='wfId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看指定工作流详情信息 ''',
+        description='''
+            查看指定工作流详情信息。
+
+            示例: jdc jmr wf-instance-detail  --wf-instance-id xxx --wf-id xxx
+        ''',
+    )
+    def wf_instance_detail(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.WfInstanceDetailRequest import WfInstanceDetailRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = WfInstanceDetailRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--select-params'], dict(help="""(selectParams) NA """, dest='selectParams', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取工作流运行记录列表 ''',
+        description='''
+            获取工作流运行记录列表。
+
+            示例: jdc jmr get-work-flow-tracker-list 
+        ''',
+    )
+    def get_work_flow_tracker_list(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.GetWorkFlowTrackerListRequest import GetWorkFlowTrackerListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetWorkFlowTrackerListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--tracker-id'], dict(help="""(string) NA """, dest='trackerId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除指定工作流对应的运行记录 ''',
+        description='''
+            删除指定工作流对应的运行记录。
+
+            示例: jdc jmr delete-work-flow-tracker  --tracker-id xxx
+        ''',
+    )
+    def delete_work_flow_tracker(self):
+        client_factory = ClientFactory('jmr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jmr.apis.DeleteWorkFlowTrackerRequest import DeleteWorkFlowTrackerRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteWorkFlowTrackerRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['create-cluster-in-new-network','show-cluster-details','release-cluster','get-key','get-property-value','get-hardware-stack','get-instance-list','idata-cluster','get-software-info','get-software-and-version-info','get-jmr-version-list','calculate-cluster-price','get-avaliable-num','query-server-quota','query-vpcs','query-vpc-subnets','delete-cluster','query-floating-ip','validate-user','renew-billing-order','validate-name','get-access-keys','cluster-expansion','calculate-expansion-price','get-cluster-detail-info','monitor-service-list','monitor-details','get-first-server-vnc-url','get-job-type-list','get-job-list','is-valid-job-name','create-job','modify-job','delete-job','create-and-excute-job','execute-job','show-job-details','get-task-list','delete-hdfs-file','get-cluster-job-count','get-cluster-cron-job-count','get-cron-job-list','is-valid-plan-name','create-cron-job','get-cron-job-detail','modify-cron-job','pause-cron-job','resume-cron-job','delete-cron-job','get-cron-job-task-list','get-cron-job-task-list-by-job-id','run-cron-job-once','get-last-cron-job-task','query-executing-job-list','get-work-flow-list','save-work-flow','delete-work-flow','run-work-flow','wf-instance-detail','get-work-flow-tracker-list','delete-work-flow-tracker',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

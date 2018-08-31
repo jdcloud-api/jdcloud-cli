@@ -18,7 +18,9 @@
             "deleted":"",
             "createTime":"",
             "updateTime":"",
-            "userName":""
+            "userName":"",
+            "sqlStatement":"",
+            "jobType":""
         },
         "regionId":""
     },

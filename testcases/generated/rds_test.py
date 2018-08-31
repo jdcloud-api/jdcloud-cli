@@ -293,6 +293,15 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_get_backup_policy(self):
+        cmd = """python ../../main.py rds get-backup-policy  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_set_instance_name(self):
         cmd = """python ../../main.py rds set-instance-name  --instance-id 'xxx' --instance-name 'xxx'"""
         with os.popen(cmd) as f:
@@ -320,6 +329,33 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_enable_internet_access(self):
+        cmd = """python ../../main.py rds enable-internet-access  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_internet_access(self):
+        cmd = """python ../../main.py rds disable-internet-access  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_restore_instance(self):
+        cmd = """python ../../main.py rds restore-instance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_index_performance(self):
         cmd = """python ../../main.py rds describe-index-performance  --instance-id 'xxx' --query-type 'xxx'"""
         with os.popen(cmd) as f:
@@ -331,6 +367,15 @@ class RdsTest(unittest.TestCase):
 
     def test_describe_query_performance(self):
         cmd = """python ../../main.py rds describe-query-performance  --instance-id 'xxx' --query-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_white_list(self):
+        cmd = """python ../../main.py rds describe-white-list  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -44,9 +44,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询数据库列表 ''',
+        help=''' 查询用户实例的所有数据库信息 ''',
         description='''
-            查询数据库列表。
+            查询用户实例的所有数据库信息。
 
             示例: jdc xdata list-database-info  --instance-name xxx
         ''',
@@ -78,9 +78,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询数据库详情 ''',
+        help=''' 查询用户实例的指定数据库信息 ''',
         description='''
-            查询数据库详情。
+            查询用户实例的指定数据库信息。
 
             示例: jdc xdata get-database-info  --database-name xxx --instance-name xxx
         ''',
@@ -108,14 +108,14 @@ class XdataController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
             (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
             (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--description'], dict(help="""(string) 描述信息 """, dest='description', required=False)),
+            (['--description'], dict(help="""(string) 数据库描述信息 """, dest='description', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据库 ''',
+        help=''' 创建属于用户实例的数据库 ''',
         description='''
-            创建数据库。
+            创建属于用户实例的数据库。
 
             示例: jdc xdata create-database  --database-name xxx --instance-name xxx
         ''',
@@ -147,9 +147,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据库 ''',
+        help=''' 删除用户实例的指定数据库 ''',
         description='''
-            删除数据库。
+            删除用户实例的指定数据库。
 
             示例: jdc xdata delete-database  --database-name xxx --instance-name xxx
         ''',
@@ -179,9 +179,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询实例列表 ''',
+        help=''' 查询用户所属的实例信息 ''',
         description='''
-            查询实例列表。
+            查询用户所属的实例信息。
 
             示例: jdc xdata list-instance-info 
         ''',
@@ -220,9 +220,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 执行Spark SQL ''',
+        help=''' 执行用户编写的Spark SQL脚本 ''',
         description='''
-            执行Spark SQL。
+            执行用户编写的Spark SQL脚本。
 
             示例: jdc xdata execute-ras-query  --sql xxx --user-name xxx --instance-name xxx
         ''',
@@ -257,9 +257,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 执行PySpark脚本 ''',
+        help=''' 执行用户编写的PySpark脚本 ''',
         description='''
-            执行PySpark脚本。
+            执行用户编写的PySpark脚本。
 
             示例: jdc xdata execute-py-spark-query  --script xxx --user-name xxx --instance-name xxx
         ''',
@@ -291,9 +291,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取查询状态 ''',
+        help=''' 获取用户Spark SQL脚本的查询状态 ''',
         description='''
-            获取查询状态。
+            获取用户Spark SQL脚本的查询状态。
 
             示例: jdc xdata get-ras-query-state  --user-name xxx --query-id xxx
         ''',
@@ -325,9 +325,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取PySpark脚本的执行状态 ''',
+        help=''' 获取用户PySpark脚本的执行状态 ''',
         description='''
-            获取PySpark脚本的执行状态。
+            获取用户PySpark脚本的执行状态。
 
             示例: jdc xdata get-py-spark-execute-state  --user-name xxx --query-id xxx
         ''',
@@ -359,9 +359,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取查询日志 ''',
+        help=''' 获取用户Spark SQL脚本的查询日志 ''',
         description='''
-            获取查询日志。
+            获取用户Spark SQL脚本的查询日志。
 
             示例: jdc xdata get-ras-query-log  --user-name xxx --query-id xxx
         ''',
@@ -393,9 +393,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取查询的结果 ''',
+        help=''' 获取用户Spark SQL脚本的查询结果 ''',
         description='''
-            获取查询的结果。
+            获取用户Spark SQL脚本的查询结果。
 
             示例: jdc xdata get-ras-query-result  --user-name xxx --query-id xxx
         ''',
@@ -427,9 +427,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取PySpark执行的结果 ''',
+        help=''' 获取用户PySpark脚本的执行结果 ''',
         description='''
-            获取PySpark执行的结果。
+            获取用户PySpark脚本的执行结果。
 
             示例: jdc xdata get-py-spark-execute-result  --user-name xxx --query-id xxx
         ''',
@@ -461,9 +461,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 终止查询 ''',
+        help=''' 终止用户Spark SQL脚本查询 ''',
         description='''
-            终止查询。
+            终止用户Spark SQL脚本查询。
 
             示例: jdc xdata cancel-ras-query  --user-name xxx --query-id xxx
         ''',
@@ -495,9 +495,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 终止PySpark任务 ''',
+        help=''' 终止用户PySpark脚本任务 ''',
         description='''
-            终止PySpark任务。
+            终止用户PySpark脚本任务。
 
             示例: jdc xdata cancel-py-spark-job  --user-name xxx --query-id xxx
         ''',
@@ -529,9 +529,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询指定数据库下所有数据表 ''',
+        help=''' 查询用户实例指定数据库下的所有数据表信息 ''',
         description='''
-            查询指定数据库下所有数据表。
+            查询用户实例指定数据库下的所有数据表信息。
 
             示例: jdc xdata list-table-info  --instance-name xxx --database-name xxx
         ''',
@@ -558,14 +558,14 @@ class XdataController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
             (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--db-model-dbtable'], dict(help="""(dwTableDesc) 数据表描述 """, dest='dbModelDBTable', required=True)),
+            (['--db-model-dbtable'], dict(help="""(dwTableDesc) 数据表描述信息 """, dest='dbModelDBTable', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据表 ''',
+        help=''' 创建用户实例的数据表 ''',
         description='''
-            创建数据表。
+            创建用户实例的数据表。
 
             示例: jdc xdata create-table  --instance-name xxx --db-model-dbtable {"":""}
         ''',
@@ -598,9 +598,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询数据表信息 ''',
+        help=''' 查询用户实例的指定数据表信息 ''',
         description='''
-            查询数据表信息。
+            查询用户实例的指定数据表信息。
 
             示例: jdc xdata get-table-info  --table-name xxx --instance-name xxx --database-name xxx
         ''',
@@ -633,9 +633,9 @@ class XdataController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据表 ''',
+        help=''' 删除用户实例的指定数据表 ''',
         description='''
-            删除数据表。
+            删除用户实例的指定数据表。
 
             示例: jdc xdata delete-table  --table-name xxx --instance-name xxx --database-name xxx
         ''',
