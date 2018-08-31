@@ -767,6 +767,40 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId', required=True)),
+            (['--subnet-id'], dict(help="""(string) 路由表要解绑的子网ID，解绑后子网绑定默认路由表 """, dest='subnetId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 给路由表解绑子网接口 ''',
+        description='''
+            给路由表解绑子网接口。
+
+            示例: jdc vpc disassociate-route-table  --route-table-id xxx --subnet-id xxx
+        ''',
+    )
+    def disassociate_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DisassociateRouteTableRequest import DisassociateRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisassociateRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
             (['--filters'], dict(help="""(array: filter) subnetIds - subnet ID列表，支持多个; subnetNames - subnet名称列表，支持多个; routeTableId	- 子网关联路由表Id，支持单个; aclId - 子网关联acl Id，支持单个; vpcId - 子网所属VPC Id，支持单个;  """, dest='filters', required=False)),
@@ -870,6 +904,41 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--vpc-name'], dict(help="""(string) 私有网络名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='vpcName', required=True)),
+            (['--address-prefix'], dict(help="""(string) 如果为空，则不限制网段，如果不为空，10.0.0.0/8、172.16.0.0/12和192.168.0.0/16及它们包含的子网，且子网掩码长度为16-28之间 """, dest='addressPrefix', required=False)),
+            (['--description'], dict(help="""(string) vpc描述，允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建私有网络 ''',
+        description='''
+            创建私有网络。
+
+            示例: jdc vpc create-vpc  --vpc-name xxx
+        ''',
+    )
+    def create_vpc(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.CreateVpcRequest import CreateVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--vpc-id'], dict(help="""(string) Vpc ID """, dest='vpcId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -893,6 +962,39 @@ class VpcController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--vpc-id'], dict(help="""(string) Vpc ID """, dest='vpcId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除私有网络 ''',
+        description='''
+            删除私有网络。
+
+            示例: jdc vpc delete-vpc  --vpc-id xxx
+        ''',
+    )
+    def delete_vpc(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DeleteVpcRequest import DeleteVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteVpcRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1074,7 +1176,7 @@ class VpcController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-elastic-ips','create-elastic-ips','describe-elastic-ip','delete-elastic-ip','describe-network-interfaces','create-network-interface','describe-network-interface','modify-network-interface','delete-network-interface','associate-elastic-ip','disassociate-elastic-ip','assign-secondary-ips','unassign-secondary-ips','describe-network-security-groups','create-network-security-group','describe-network-security-group','modify-network-security-group','delete-network-security-group','add-network-security-group-rules','remove-network-security-group-rules','modify-network-security-group-rules','describe-subnets','describe-subnet','describe-vpcs','describe-vpc','describe-vpc-peerings','create-vpc-peering','describe-vpc-peering','modify-vpc-peering','delete-vpc-peering',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-elastic-ips','create-elastic-ips','describe-elastic-ip','delete-elastic-ip','describe-network-interfaces','create-network-interface','describe-network-interface','modify-network-interface','delete-network-interface','associate-elastic-ip','disassociate-elastic-ip','assign-secondary-ips','unassign-secondary-ips','describe-network-security-groups','create-network-security-group','describe-network-security-group','modify-network-security-group','delete-network-security-group','add-network-security-group-rules','remove-network-security-group-rules','modify-network-security-group-rules','disassociate-route-table','describe-subnets','describe-subnet','describe-vpcs','create-vpc','describe-vpc','delete-vpc','describe-vpc-peerings','create-vpc-peering','describe-vpc-peering','modify-vpc-peering','delete-vpc-peering',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

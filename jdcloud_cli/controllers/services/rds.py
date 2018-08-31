@@ -44,9 +44,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看实例下所有账号信息</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 查看实例下所有账号信息</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            查看实例下所有账号信息</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            查看实例下所有账号信息</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds describe-accounts  --instance-id xxx
         ''',
@@ -79,9 +79,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据库账户</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 创建数据库账户</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            创建数据库账户</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            创建数据库账户</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds create-account  --instance-id xxx --account-name xxx --account-password xxx
         ''',
@@ -113,9 +113,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据库账户</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 删除数据库账户</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            删除数据库账户</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            删除数据库账户</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds delete-account  --instance-id xxx --account-name xxx
         ''',
@@ -183,9 +183,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 数据库账号重置密码</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 数据库账号重置密码</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            数据库账号重置密码</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            数据库账号重置密码</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds reset-password  --instance-id xxx --account-name xxx --account-password xxx
         ''',
@@ -526,9 +526,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除备份</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 删除备份</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            删除备份</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            删除备份</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds delete-backup  --backup-id xxx
         ''',
@@ -590,14 +590,14 @@ class RdsController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 区域代码 """, dest='regionId', required=False)),
             (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--db-name'], dict(help="""(string) 数据库名称 """, dest='dbName', required=False)),
+            (['--db-name'], dict(help="""(string) 数据库名称</br>- SQL Server：支持</br>- MySQL：暂不支持 """, dest='dbName', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看数据库列表</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 查看数据库列表</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            查看数据库列表</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            查看数据库列表</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds describe-databases  --instance-id xxx
         ''',
@@ -630,9 +630,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据库</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 创建数据库</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            创建数据库</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            创建数据库</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds create-database  --instance-id xxx --db-name xxx --character-set-name xxx
         ''',
@@ -664,9 +664,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据库 [MFA enabled] ''',
+        help=''' 删除数据库</br>- SQL Server：支持</br>- MySQL：支持 [MFA enabled] ''',
         description='''
-            删除数据库 [MFA enabled]。
+            删除数据库</br>- SQL Server：支持</br>- MySQL：支持 [MFA enabled]。
 
             示例: jdc rds delete-database  --instance-id xxx --db-name xxx
         ''',
@@ -1067,6 +1067,39 @@ class RdsController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看RDS实例备份策略</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        description='''
+            查看RDS实例备份策略</br>- SQL Server：支持</br>- MySQL：暂不支持。
+
+            示例: jdc rds get-backup-policy  --instance-id xxx
+        ''',
+    )
+    def get_backup_policy(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.GetBackupPolicyRequest import GetBackupPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetBackupPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
             (['--instance-name'], dict(help="""(string) 实例名称，名称支持中文、数字、小写字母及英文下划线“_”，且不少于2字符不超过32字符 """, dest='instanceName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -1140,9 +1173,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 重启RDS实例</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 重启RDS实例</br>- SQL Server：支持</br>- MySQL：支持 ''',
         description='''
-            重启RDS实例</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            重启RDS实例</br>- SQL Server：支持</br>- MySQL：支持。
 
             示例: jdc rds reboot-instance  --instance-id xxx
         ''',
@@ -1158,6 +1191,106 @@ class RdsController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = RebootInstanceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 开启RDS实例的外网访问，用户可以通过internet访问RDS实例</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        description='''
+            开启RDS实例的外网访问，用户可以通过internet访问RDS实例</br>- SQL Server：支持</br>- MySQL：支持。
+
+            示例: jdc rds enable-internet-access  --instance-id xxx
+        ''',
+    )
+    def enable_internet_access(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.EnableInternetAccessRequest import EnableInternetAccessRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableInternetAccessRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 关闭RDS实例的外网访问，用户无法通过Internet访问RDS，但可以通过内网域名访问</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        description='''
+            关闭RDS实例的外网访问，用户无法通过Internet访问RDS，但可以通过内网域名访问</br>- SQL Server：支持</br>- MySQL：支持。
+
+            示例: jdc rds disable-internet-access  --instance-id xxx
+        ''',
+    )
+    def disable_internet_access(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DisableInternetAccessRequest import DisableInternetAccessRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableInternetAccessRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--backup-id'], dict(help="""(string) 用于恢复的备份Id，仅限于本实例生成的备份 """, dest='backupId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 使用实例的全量备份覆盖恢复当前实例</br>- SQL Server：不支持</br>- MySQL：支持 ''',
+        description='''
+            使用实例的全量备份覆盖恢复当前实例</br>- SQL Server：不支持</br>- MySQL：支持。
+
+            示例: jdc rds restore-instance  --instance-id xxx
+        ''',
+    )
+    def restore_instance(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.RestoreInstanceRequest import RestoreInstanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RestoreInstanceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1241,7 +1374,40 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-accounts','create-account','delete-account','grant-privilege','reset-password','describe-audit','create-audit','delete-audit','get-audit-options','modify-audit','get-audit-files','get-audit-download-url','describe-backups','create-backup','delete-backup','describe-backup-download-url','describe-databases','create-database','delete-database','restore-database-from-backup','restore-database-from-file','restore-database-from-oss','describe-error-logs','describe-import-files','get-upload-key','set-import-file-shared','describe-instances','create-instance','describe-instance-attributes','delete-instance','set-instance-name','failover-instance','reboot-instance','describe-index-performance','describe-query-performance',], required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看RDS实例当前白名单</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        description='''
+            查看RDS实例当前白名单</br>- SQL Server：支持</br>- MySQL：支持。
+
+            示例: jdc rds describe-white-list  --instance-id xxx
+        ''',
+    )
+    def describe_white_list(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DescribeWhiteListRequest import DescribeWhiteListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeWhiteListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-accounts','create-account','delete-account','grant-privilege','reset-password','describe-audit','create-audit','delete-audit','get-audit-options','modify-audit','get-audit-files','get-audit-download-url','describe-backups','create-backup','delete-backup','describe-backup-download-url','describe-databases','create-database','delete-database','restore-database-from-backup','restore-database-from-file','restore-database-from-oss','describe-error-logs','describe-import-files','get-upload-key','set-import-file-shared','describe-instances','create-instance','describe-instance-attributes','delete-instance','get-backup-policy','set-instance-name','failover-instance','reboot-instance','enable-internet-access','disable-internet-access','restore-instance','describe-index-performance','describe-query-performance','describe-white-list',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

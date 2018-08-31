@@ -38,10 +38,10 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageNumber', required=True)),
-            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', required=True)),
-            (['--domain-name'], dict(help="""(string) 关键字，按照”%domainName%”模式搜索主域名 """, dest='domainName', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
+            (['--page-number'], dict(help="""(int) 分页查询时查询的每页的序号，起始值为1，默认为1 """, dest='pageNumber', required=True)),
+            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数，默认为10 """, dest='pageSize', required=True)),
+            (['--domain-name'], dict(help="""(string) 关键字，按照”%domainName%”模式匹配主域名 """, dest='domainName', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -73,14 +73,14 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--pack-id'], dict(help="""(int) 套餐类型, 0免费 ,1企业版, 2高级版 """, dest='packId', required=True)),
-            (['--domain-name'], dict(help="""(string) 域名 """, dest='domainName', required=True)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
+            (['--pack-id'], dict(help="""(int) 域名的套餐类型, 0->免费 ,1->企业版, 2->高级版 """, dest='packId', required=True)),
+            (['--domain-name'], dict(help="""(string) 要添加的域名 """, dest='domainName', required=True)),
             (['--domain-id'], dict(help="""(int) 域名ID，升级高级版必填 """, dest='domainId', required=False)),
-            (['--buy-type'], dict(help="""(int) 1新购买、2升级，高级版必填 """, dest='buyType', required=False)),
-            (['--time-span'], dict(help="""(int) 1-3 ，时长，高级版必填 """, dest='timeSpan', required=False)),
-            (['--time-unit'], dict(help="""(int) 时间单位，高级版必填 """, dest='timeUnit', required=False)),
-            (['--billing-type'], dict(help="""(int) 计费类型，高级版必填 """, dest='billingType', required=False)),
+            (['--buy-type'], dict(help="""(int) 1->新购买、2->升级，收费套餐的域名必填 """, dest='buyType', required=False)),
+            (['--time-span'], dict(help="""(int) 1，2，3 ，时长，收费套餐的域名必填 """, dest='timeSpan', required=False)),
+            (['--time-unit'], dict(help="""(int) 时间单位，收费套餐的域名必填 """, dest='timeUnit', required=False)),
+            (['--billing-type'], dict(help="""(int) 计费类型，收费套餐的域名必填 """, dest='billingType', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -112,8 +112,8 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', required=True)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
+            (['--domain-id'], dict(help="""(int) 需要删除的域名ID """, dest='domainId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -145,9 +145,9 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--domain-name'], dict(help="""(string) 域名 """, dest='domainName', required=True)),
-            (['--id'], dict(help="""(int) 域名ID """, dest='id', required=True)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
+            (['--domain-name'], dict(help="""(string) 需要修改的域名 """, dest='domainName', required=True)),
+            (['--id'], dict(help="""(int) 需要修改的域名ID """, dest='id', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -179,9 +179,9 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
-            (['--domain-name'], dict(help="""(string) 域名 """, dest='domainName', required=True)),
+            (['--domain-name'], dict(help="""(string) 查询的域名 """, dest='domainName', required=True)),
             (['--start'], dict(help="""(string) 起始时间, UTC时间例如2017-11-10T23:00:00Z """, dest='start', required=True)),
             (['--end'], dict(help="""(string) 终止时间, UTC时间例如2017-11-10T23:00:00Z """, dest='end', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -215,7 +215,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--domain-name'], dict(help="""(string) 域名 """, dest='domainName', required=True)),
             (['--start'], dict(help="""(string) 起始时间, UTC时间例如2017-11-10T23:00:00Z """, dest='start', required=True)),
@@ -251,7 +251,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--page-number'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageNumber', required=False)),
             (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数, 默认为10 """, dest='pageSize', required=False)),
@@ -259,9 +259,9 @@ class ClouddnsserviceController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询某个主域名的解析记录 ''',
+        help=''' 查询主域名的解析记录 ''',
         description='''
-            查询某个主域名的解析记录。
+            查询主域名的解析记录。
 
             示例: jdc clouddnsservice search-rr  --domain-id xxx
         ''',
@@ -286,7 +286,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--load-mode'], dict(help="""(int) 展示方式 """, dest='loadMode', required=False)),
             (['--pack-id'], dict(help="""(int) 套餐ID """, dest='packId', required=True)),
@@ -295,9 +295,9 @@ class ClouddnsserviceController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询DNS所有解析线路 ''',
+        help=''' 查询云解析所有的基础解析线路 ''',
         description='''
-            查询DNS所有解析线路。
+            查询云解析所有的基础解析线路。
 
             示例: jdc clouddnsservice get-view-tree  --domain-id xxx --pack-id 0 --view-id 0
         ''',
@@ -322,16 +322,16 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--req'], dict(help="""(addRR) RR参数 """, dest='req', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加域名解析 ''',
+        help=''' 添加域名的解析记录 ''',
         description='''
-            添加域名解析。
+            添加域名的解析记录。
 
             示例: jdc clouddnsservice add-rr  --domain-id xxx --req {"":""}
         ''',
@@ -356,7 +356,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--req'], dict(help="""(updateRR) updateRR参数 """, dest='req', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -390,10 +390,10 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--ids'], dict(help="""(array: int) 需要操作的解析记录ID """, dest='ids', required=True)),
-            (['--action'], dict(help="""(string) 操作类型，on/off/del，分别是启用、停用、删除解析记录 """, dest='action', required=True)),
+            (['--action'], dict(help="""(string) 操作类型，on->启用 off->停用 del->删除 """, dest='action', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -425,7 +425,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--page-index'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageIndex', required=False)),
             (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', required=False)),
@@ -461,16 +461,16 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加子域名的监控项，采用默认配置 ''',
+        help=''' 添加子域名的监控项，默认把子域名的所有监控项都添加上监控 ''',
         description='''
-            添加子域名的监控项，采用默认配置。
+            添加子域名的监控项，默认把子域名的所有监控项都添加上监控。
 
             示例: jdc clouddnsservice add-monitor  --domain-id xxx --sub-domain-name xxx
         ''',
@@ -495,7 +495,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -529,7 +529,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName', required=True)),
             (['--targets'], dict(help="""(array: string) 子域名可用监控对象的数组 """, dest='targets', required=False)),
@@ -564,7 +564,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--action'], dict(help="""(string) 删除del, 暂停stop, 开启start, 手动恢复recover，手动切换switch """, dest='action', required=True)),
             (['--ids'], dict(help="""(array: int) 监控项ID """, dest='ids', required=True)),
@@ -573,9 +573,9 @@ class ClouddnsserviceController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 监控项的操作，包括：删除，暂停，启动, 手动恢复, 手动切换 ''',
+        help=''' 监控项的操作集合，包括：删除，暂停，启动, 手动恢复, 手动切换 ''',
         description='''
-            监控项的操作，包括：删除，暂停，启动, 手动恢复, 手动切换。
+            监控项的操作集合，包括：删除，暂停，启动, 手动恢复, 手动切换。
 
             示例: jdc clouddnsservice operate-monitor  --domain-id xxx --action xxx --ids [0]
         ''',
@@ -600,7 +600,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--update-monitor'], dict(help="""(updateMonitor) 监控项设置信息 """, dest='updateMonitor', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -634,7 +634,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId', required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID """, dest='domainId', required=True)),
             (['--page-index'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageIndex', required=False)),
             (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', required=False)),

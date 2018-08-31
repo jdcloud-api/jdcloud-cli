@@ -25,7 +25,9 @@
             "vpcId":"",
             "subnetId":"",
             "password":"",
-            "backupId":""
+            "backupId":"",
+            "originDBInstanceId":"",
+            "restoreTime":""
         },
         "chargeSpec":{
             "chargeMode":"",
@@ -68,6 +70,12 @@
         "regionId":"",
         "instanceId":""
     },
+    "describe-flavors":{
+        "regionId":""
+    },
+    "describe-available-zones":{
+        "regionId":""
+    },
     "describe-backups":{
         "pageNumber":"",
         "pageSize":"",
@@ -90,5 +98,15 @@
     "backup-download-url":{
         "regionId":"",
         "backupId":""
+    },
+    "describe-security-ips":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-security-ips":{
+        "modifyMode":"",
+        "securityIps":"",
+        "regionId":"",
+        "instanceId":""
     }
 }

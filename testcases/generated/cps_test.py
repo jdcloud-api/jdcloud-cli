@@ -21,10 +21,136 @@ import os
 import json
 
 
-class MongodbTest(unittest.TestCase):
+class CpsTest(unittest.TestCase):
+
+    def test_describe_os(self):
+        cmd = """python ../../main.py cps describe-os  --device-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_software(self):
+        cmd = """python ../../main.py cps describe-software  --os-type-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_name(self):
+        cmd = """python ../../main.py cps describe-instance-name  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_instance(self):
+        cmd = """python ../../main.py cps modify-instance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_device_types(self):
+        cmd = """python ../../main.py cps describe-device-types """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_device_raids(self):
+        cmd = """python ../../main.py cps describe-device-raids  --device-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_raid(self):
+        cmd = """python ../../main.py cps describe-instance-raid  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_status(self):
+        cmd = """python ../../main.py cps describe-instance-status  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_restart_instance(self):
+        cmd = """python ../../main.py cps restart-instance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_stop_instance(self):
+        cmd = """python ../../main.py cps stop-instance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_start_instance(self):
+        cmd = """python ../../main.py cps start-instance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_reinstall_instance(self):
+        cmd = """python ../../main.py cps reinstall-instance  --instance-id 'xxx' --instance-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_bandwidth(self):
+        cmd = """python ../../main.py cps modify-bandwidth  --instance-id 'xxx' --bandwidth '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance(self):
+        cmd = """python ../../main.py cps describe-instance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
 
     def test_describe_instances(self):
-        cmd = """python ../../main.py mongodb describe-instances """
+        cmd = """python ../../main.py cps describe-instances """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +158,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_instance(self):
-        cmd = """python ../../main.py mongodb create-instance  --instance-spec '{"":""}'"""
+    def test_create_instances(self):
+        cmd = """python ../../main.py cps create-instances  --instance-spec '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +167,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_instance(self):
-        cmd = """python ../../main.py mongodb delete-instance  --instance-id 'xxx'"""
+    def test_describe_regiones(self):
+        cmd = """python ../../main.py cps describe-regiones """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,125 +176,8 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_reset_password(self):
-        cmd = """python ../../main.py mongodb reset-password  --instance-id 'xxx' --account-password 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_modify_instance_spec(self):
-        cmd = """python ../../main.py mongodb modify-instance-spec  --instance-id 'xxx' --instance-class 'xxx' --instance-storage-gb '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_modify_instance_name(self):
-        cmd = """python ../../main.py mongodb modify-instance-name  --instance-id 'xxx' --instance-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_backup_policy(self):
-        cmd = """python ../../main.py mongodb describe-backup-policy  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_modify_backup_policy(self):
-        cmd = """python ../../main.py mongodb modify-backup-policy  --instance-id 'xxx' --preferred-backup-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_restore_instance(self):
-        cmd = """python ../../main.py mongodb restore-instance  --instance-id 'xxx' --backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_flavors(self):
-        cmd = """python ../../main.py mongodb describe-flavors """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_available_zones(self):
-        cmd = """python ../../main.py mongodb describe-available-zones """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_backups(self):
-        cmd = """python ../../main.py mongodb describe-backups """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_backup(self):
-        cmd = """python ../../main.py mongodb create-backup  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_backup(self):
-        cmd = """python ../../main.py mongodb delete-backup  --backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_backup_download_url(self):
-        cmd = """python ../../main.py mongodb backup-download-url  --backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_security_ips(self):
-        cmd = """python ../../main.py mongodb describe-security-ips  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_modify_security_ips(self):
-        cmd = """python ../../main.py mongodb modify-security-ips  --instance-id 'xxx' --modify-mode 'xxx' --security-ips 'xxx'"""
+    def test_describe_subnet(self):
+        cmd = """python ../../main.py cps describe-subnet  --az 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

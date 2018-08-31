@@ -38,15 +38,15 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
             (['--keyword'], dict(help="""(string) NA """, dest='keyword', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询topic ''',
+        help=''' 查询topic列表，返回topic的集合 ''',
         description='''
-            查询topic。
+            查询topic列表，返回topic的集合。
 
             示例: jdc streambus get-topic-list 
         ''',
@@ -71,15 +71,15 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
             (['--name'], dict(help="""(string) NA """, dest='name', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看指定主题 ''',
+        help=''' 查询指定主题,如果已归档会返回归档信息 ''',
         description='''
-            查看指定主题。
+            查询指定主题,如果已归档会返回归档信息。
 
             示例: jdc streambus describe-topic  --name xxx
         ''',
@@ -104,15 +104,15 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--topic-model'], dict(help="""(addTopic) NA """, dest='topicModel', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--topic-model'], dict(help="""(topicModel) 示例：{"topicModel":{"topic":{"archived":0,"id":"","name":"create","remark":"备注","shardNum":1,"partitionNum":2,"lifecycle":3}}} """, dest='topicModel', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建topic ''',
+        help=''' 创建topic时，topicModel中只需要传topic参数，另外两个参数可为空 ''',
         description='''
-            创建topic。
+            创建topic时，topicModel中只需要传topic参数，另外两个参数可为空。
 
             示例: jdc streambus add-topic  --topic-model {"":""}
         ''',
@@ -137,15 +137,15 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--topic-model'], dict(help="""(addTopic) NA """, dest='topicModel', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--topic-model'], dict(help="""(topicModel) 当更新主题时只需要修改topicModel中的topic中的属性即可；创建归档需要指定target以及归档的目的地(mysql,京东云 Elasticsearch,对象存储,数据计算服务)参数 """, dest='topicModel', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 更新topic ''',
+        help=''' 此接口可以用来更新主题，创建归档，修改归档，删除归档，传入不同的参数可以实现不同的功能。修改归档只需要修改相应归档的参数，删除归档只需要把归档参数置为空即可 ''',
         description='''
-            更新topic。
+            此接口可以用来更新主题，创建归档，修改归档，删除归档，传入不同的参数可以实现不同的功能。修改归档只需要修改相应归档的参数，删除归档只需要把归档参数置为空即可。
 
             示例: jdc streambus update-topic  --topic-model {"":""}
         ''',
@@ -170,7 +170,7 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
             (['--name'], dict(help="""(string) NA """, dest='name', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),

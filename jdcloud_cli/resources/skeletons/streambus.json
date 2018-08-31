@@ -10,8 +10,10 @@
     "add-topic":{
         "topicModel":{
             "topic":{
+                "id":"",
                 "archived":"",
                 "lifecycle":"",
+                "partitionNum":"",
                 "name":"",
                 "shardNum":"",
                 "remark":""
@@ -28,8 +30,10 @@
     "update-topic":{
         "topicModel":{
             "topic":{
+                "id":"",
                 "archived":"",
                 "lifecycle":"",
+                "partitionNum":"",
                 "name":"",
                 "shardNum":"",
                 "remark":""

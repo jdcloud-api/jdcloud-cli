@@ -212,6 +212,15 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_disassociate_route_table(self):
+        cmd = """python ../../main.py vpc disassociate-route-table  --route-table-id 'xxx' --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_subnets(self):
         cmd = """python ../../main.py vpc describe-subnets """
         with os.popen(cmd) as f:
@@ -239,8 +248,26 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_create_vpc(self):
+        cmd = """python ../../main.py vpc create-vpc  --vpc-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_vpc(self):
         cmd = """python ../../main.py vpc describe-vpc  --vpc-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_vpc(self):
+        cmd = """python ../../main.py vpc delete-vpc  --vpc-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

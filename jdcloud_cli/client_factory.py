@@ -23,7 +23,9 @@ from jdcloud_sdk.services.redis.client.RedisClient import RedisClient
 from jdcloud_sdk.services.rds.client.RdsClient import RdsClient
 from jdcloud_sdk.services.monitor.client.MonitorClient import MonitorClient
 from jdcloud_sdk.services.iam.client.IamClient import IamClient
+from jdcloud_sdk.services.cps.client.CpsClient import CpsClient
 from jdcloud_sdk.services.disk.client.DiskClient import DiskClient
+from jdcloud_sdk.services.datastar.client.DatastarClient import DatastarClient
 from jdcloud_sdk.services.mongodb.client.MongodbClient import MongodbClient
 from jdcloud_sdk.services.vpc.client.VpcClient import VpcClient
 from jdcloud_sdk.services.sop.client.SopClient import SopClient
@@ -54,7 +56,9 @@ class ClientFactory(object):
             'rds': RdsClient,
             'monitor': MonitorClient,
             'iam': IamClient,
+            'cps': CpsClient,
             'disk': DiskClient,
+            'datastar': DatastarClient,
             'mongodb': MongodbClient,
             'vpc': VpcClient,
             'sop': SopClient,

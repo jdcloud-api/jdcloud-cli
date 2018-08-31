@@ -152,6 +152,11 @@
         "regionId":"",
         "networkSecurityGroupId":""
     },
+    "disassociate-route-table":{
+        "subnetId":"",
+        "regionId":"",
+        "routeTableId":""
+    },
     "describe-subnets":{
         "pageNumber":"",
         "pageSize":"",
@@ -176,7 +181,17 @@
         }],
         "regionId":""
     },
+    "create-vpc":{
+        "vpcName":"",
+        "addressPrefix":"",
+        "description":"",
+        "regionId":""
+    },
     "describe-vpc":{
+        "regionId":"",
+        "vpcId":""
+    },
+    "delete-vpc":{
         "regionId":"",
         "vpcId":""
     },

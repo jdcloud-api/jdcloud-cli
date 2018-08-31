@@ -176,6 +176,10 @@
         "regionId":"",
         "instanceId":""
     },
+    "get-backup-policy":{
+        "regionId":"",
+        "instanceId":""
+    },
     "set-instance-name":{
         "instanceName":"",
         "regionId":"",
@@ -188,6 +192,19 @@
     "reboot-instance":{
         "rebootMaster":"",
         "rebootSlave":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "enable-internet-access":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "disable-internet-access":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "restore-instance":{
+        "backupId":"",
         "regionId":"",
         "instanceId":""
     },
@@ -204,6 +221,10 @@
         "threshold":"",
         "pageNumber":"",
         "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-white-list":{
         "regionId":"",
         "instanceId":""
     }

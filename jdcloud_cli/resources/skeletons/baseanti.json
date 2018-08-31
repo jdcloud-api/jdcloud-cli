@@ -1,5 +1,6 @@
 {
     "describe-ip-resources":{
+        "ip":"",
         "regionId":""
     },
     "describe-ip-resource-info":{
