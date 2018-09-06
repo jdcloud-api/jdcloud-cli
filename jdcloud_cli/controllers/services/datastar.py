@@ -39,6 +39,41 @@ class DatastarController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--id'], dict(help="""(string) deviceId，mobile等,多个id英文逗号分隔 """, dest='id', required=True)),
+            (['--type'], dict(help="""(string) 数据类型 """, dest='type', required=True)),
+            (['--label-code'], dict(help="""(string) 画像标签编号,多个画像标签英文逗号分隔 """, dest='labelCode', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据deviceId查询对应用户的画像信息 ''',
+        description='''
+            根据deviceId查询对应用户的画像信息。
+
+            示例: jdc datastar get-profile  --id xxx --type xxx --label-code xxx
+        ''',
+    )
+    def get_profile(self):
+        client_factory = ClientFactory('datastar')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.datastar.apis.GetProfileRequest import GetProfileRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetProfileRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
             (['--device-ids'], dict(help="""(string) MD5（deviceId），多个MD5（deviceId）用英文逗号进行分割，注：MD5结果小写 """, dest='deviceIds', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -71,7 +106,7 @@ class DatastarController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-package-id',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['get-profile','get-package-id',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -142,6 +142,16 @@
         }],
         "regionId":""
     },
+    "describe-instance-private-ip-address":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
     "stop-instance":{
         "regionId":"",
         "instanceId":""

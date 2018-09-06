@@ -30,6 +30,7 @@ from jdcloud_sdk.services.mongodb.client.MongodbClient import MongodbClient
 from jdcloud_sdk.services.vpc.client.VpcClient import VpcClient
 from jdcloud_sdk.services.sop.client.SopClient import SopClient
 from jdcloud_sdk.services.xdata.client.XdataClient import XdataClient
+from jdcloud_sdk.services.cr.client.CrClient import CrClient
 from jdcloud_sdk.services.nc.client.NcClient import NcClient
 from jdcloud_sdk.services.clouddnsservice.client.ClouddnsserviceClient import ClouddnsserviceClient
 from jdcloud_sdk.services.mps.client.MpsClient import MpsClient
@@ -63,6 +64,7 @@ class ClientFactory(object):
             'vpc': VpcClient,
             'sop': SopClient,
             'xdata': XdataClient,
+            'cr': CrClient,
             'nc': NcClient,
             'clouddnsservice': ClouddnsserviceClient,
             'mps': MpsClient,

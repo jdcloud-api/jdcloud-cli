@@ -1,4 +1,10 @@
 {
+    "get-profile":{
+        "id":"",
+        "type":"",
+        "labelCode":"",
+        "regionId":""
+    },
     "get-package-id":{
         "deviceIds":"",
         "regionId":""

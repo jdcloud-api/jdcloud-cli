@@ -177,6 +177,347 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
+            (['--filters'], dict(help="""(array: filter) NA """, dest='filters', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询Acl列表 ''',
+        description='''
+            查询Acl列表。
+
+            示例: jdc vpc describe-network-acls 
+        ''',
+    )
+    def describe_network_acls(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeNetworkAclsRequest import DescribeNetworkAclsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeNetworkAclsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--vpc-id'], dict(help="""(string) 私有网络id """, dest='vpcId', required=True)),
+            (['--network-acl-name'], dict(help="""(string) networkAcl名称 """, dest='networkAclName', required=True)),
+            (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建networkAcl接口 ''',
+        description='''
+            创建networkAcl接口。
+
+            示例: jdc vpc create-network-acl  --vpc-id xxx --network-acl-name xxx
+        ''',
+    )
+    def create_network_acl(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.CreateNetworkAclRequest import CreateNetworkAclRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateNetworkAclRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询networkAcl资源详情 ''',
+        description='''
+            查询networkAcl资源详情。
+
+            示例: jdc vpc describe-network-acl  --network-acl-id xxx
+        ''',
+    )
+    def describe_network_acl(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeNetworkAclRequest import DescribeNetworkAclRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeNetworkAclRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId', required=True)),
+            (['--network-acl-name'], dict(help="""(string) networkAcl名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='networkAclName', required=False)),
+            (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改networkAcl接口 ''',
+        description='''
+            修改networkAcl接口。
+
+            示例: jdc vpc modify-network-acl  --network-acl-id xxx
+        ''',
+    )
+    def modify_network_acl(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifyNetworkAclRequest import ModifyNetworkAclRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyNetworkAclRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除networkAcl接口 ''',
+        description='''
+            删除networkAcl接口。
+
+            示例: jdc vpc delete-network-acl  --network-acl-id xxx
+        ''',
+    )
+    def delete_network_acl(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DeleteNetworkAclRequest import DeleteNetworkAclRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteNetworkAclRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId', required=True)),
+            (['--subnet-ids'], dict(help="""(array: string) 修改networkAcl属性 """, dest='subnetIds', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 给子网绑定networkAcl接口 ''',
+        description='''
+            给子网绑定networkAcl接口。
+
+            示例: jdc vpc associate-network-acl  --network-acl-id xxx
+        ''',
+    )
+    def associate_network_acl(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.AssociateNetworkAclRequest import AssociateNetworkAclRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AssociateNetworkAclRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId', required=True)),
+            (['--subnet-id'], dict(help="""(string) networkAcl要解绑的子网ID """, dest='subnetId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 给子网解绑NetworkAcl接口 ''',
+        description='''
+            给子网解绑NetworkAcl接口。
+
+            示例: jdc vpc disassociate-network-acl  --network-acl-id xxx --subnet-id xxx
+        ''',
+    )
+    def disassociate_network_acl(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DisassociateNetworkAclRequest import DisassociateNetworkAclRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisassociateNetworkAclRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId', required=True)),
+            (['--network-acl-rule-specs'], dict(help="""(array: addNetworkAclRuleSpec) networkAcl规则列表 """, dest='networkAclRuleSpecs', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加networkAcl规则接口 ''',
+        description='''
+            添加networkAcl规则接口。
+
+            示例: jdc vpc add-network-acl-rules  --network-acl-id xxx --network-acl-rule-specs [{"":""}]
+        ''',
+    )
+    def add_network_acl_rules(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.AddNetworkAclRulesRequest import AddNetworkAclRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddNetworkAclRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId', required=True)),
+            (['--rule-ids'], dict(help="""(array: string) 修改networkAcl属性 """, dest='ruleIds', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 移除networkAcl规则 ''',
+        description='''
+            移除networkAcl规则。
+
+            示例: jdc vpc remove-network-acl-rules  --network-acl-id xxx
+        ''',
+    )
+    def remove_network_acl_rules(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.RemoveNetworkAclRulesRequest import RemoveNetworkAclRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RemoveNetworkAclRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId', required=True)),
+            (['--modify-network-acl-rule-specs'], dict(help="""(array: modifyNetworkAclRuleSpec) networkAcl规则列表 """, dest='modifyNetworkAclRuleSpecs', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改networkAcl接口 ''',
+        description='''
+            修改networkAcl接口。
+
+            示例: jdc vpc modify-network-acl-rules  --network-acl-id xxx --modify-network-acl-rule-specs [{"":""}]
+        ''',
+    )
+    def modify_network_acl_rules(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifyNetworkAclRulesRequest import ModifyNetworkAclRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyNetworkAclRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
             (['--filters'], dict(help="""(array: filter) networkInterfaceIds - 弹性网卡ID列表，支持多个; networkInterfaceNames - 弹性网卡名称列表，支持多个; vpcId - 弹性网卡所属vpc Id，支持单个; subnetId	- 弹性网卡所属子网Id，支持单个; role - 网卡角色，取值范围：Primary（主网卡）、Secondary（辅助网卡），支持单个;  """, dest='filters', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -767,6 +1108,347 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--type'], dict(help="""(string) 资源类型，取值范围：vpc、elastic_ip、subnet、security_group、vpcpeering、network_interface（配额只统计辅助网卡） """, dest='type', required=True)),
+            (['--parent-resource-id'], dict(help="""(string) type为vpc、elastic_ip、network_interface不设置, type为subnet、security_group、vpcpeering设置为vpcId """, dest='parentResourceId', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询配额信息 ''',
+        description='''
+            查询配额信息。
+
+            示例: jdc vpc describe-quota  --type xxx
+        ''',
+    )
+    def describe_quota(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeQuotaRequest import DescribeQuotaRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeQuotaRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
+            (['--filters'], dict(help="""(array: filter) routeTableIds - 路由表ID列表，支持多个; routeTableNames - 路由表名称列表，支持多个; vpcId	- 路由表所属vpc Id，支持单个;  """, dest='filters', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询路由表列表 ''',
+        description='''
+            查询路由表列表。
+
+            示例: jdc vpc describe-route-tables 
+        ''',
+    )
+    def describe_route_tables(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeRouteTablesRequest import DescribeRouteTablesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeRouteTablesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--vpc-id'], dict(help="""(string) 路由表所属的私有网络ID """, dest='vpcId', required=True)),
+            (['--route-table-name'], dict(help="""(string) 路由表名称，只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='routeTableName', required=True)),
+            (['--description'], dict(help="""(string) 描述,​ 允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建路由表 ''',
+        description='''
+            创建路由表。
+
+            示例: jdc vpc create-route-table  --vpc-id xxx --route-table-name xxx
+        ''',
+    )
+    def create_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.CreateRouteTableRequest import CreateRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询路由表信息详情 ''',
+        description='''
+            查询路由表信息详情。
+
+            示例: jdc vpc describe-route-table  --route-table-id xxx
+        ''',
+    )
+    def describe_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeRouteTableRequest import DescribeRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId', required=True)),
+            (['--route-table-name'], dict(help="""(string) 路由表的名字。名称取值范围：1-32个中文、英文大小写的字母、数字和下划线分隔符 """, dest='routeTableName', required=False)),
+            (['--description'], dict(help="""(string) 路由表的描述，取值范围：0-256个UTF-8编码下的全部字符 """, dest='description', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改路由表属性 ''',
+        description='''
+            修改路由表属性。
+
+            示例: jdc vpc modify-route-table  --route-table-id xxx
+        ''',
+    )
+    def modify_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifyRouteTableRequest import ModifyRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除路由表 ''',
+        description='''
+            删除路由表。
+
+            示例: jdc vpc delete-route-table  --route-table-id xxx
+        ''',
+    )
+    def delete_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DeleteRouteTableRequest import DeleteRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId', required=True)),
+            (['--route-table-rule-specs'], dict(help="""(array: addRouteTableRules) 安全组规则信息 """, dest='routeTableRuleSpecs', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加路由表规则 ''',
+        description='''
+            添加路由表规则。
+
+            示例: jdc vpc add-route-table-rules  --route-table-id xxx --route-table-rule-specs [{"":""}]
+        ''',
+    )
+    def add_route_table_rules(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.AddRouteTableRulesRequest import AddRouteTableRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddRouteTableRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId', required=True)),
+            (['--rule-ids'], dict(help="""(array: string) 路由表规则Id列表 """, dest='ruleIds', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 移除路由表规则 ''',
+        description='''
+            移除路由表规则。
+
+            示例: jdc vpc remove-route-table-rules  --route-table-id xxx
+        ''',
+    )
+    def remove_route_table_rules(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.RemoveRouteTableRulesRequest import RemoveRouteTableRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RemoveRouteTableRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId', required=True)),
+            (['--modify-route-table-rule-specs'], dict(help="""(array: modifyRouteTableRules) 路由表规则信息 """, dest='modifyRouteTableRuleSpecs', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改路由表规则 ''',
+        description='''
+            修改路由表规则。
+
+            示例: jdc vpc modify-route-table-rules  --route-table-id xxx --modify-route-table-rule-specs [{"":""}]
+        ''',
+    )
+    def modify_route_table_rules(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifyRouteTableRulesRequest import ModifyRouteTableRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyRouteTableRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId', required=True)),
+            (['--subnet-ids'], dict(help="""(array: string) 路由表要绑定的子网ID列表, subnet已被其他路由表绑定时，自动解绑。 """, dest='subnetIds', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 路由表绑定子网接口 ''',
+        description='''
+            路由表绑定子网接口。
+
+            示例: jdc vpc associate-route-table  --route-table-id xxx
+        ''',
+    )
+    def associate_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.AssociateRouteTableRequest import AssociateRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AssociateRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId', required=True)),
             (['--subnet-id'], dict(help="""(string) 路由表要解绑的子网ID，解绑后子网绑定默认路由表 """, dest='subnetId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -836,6 +1518,43 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--vpc-id'], dict(help="""(string) 子网所属vpc的Id """, dest='vpcId', required=True)),
+            (['--subnet-name'], dict(help="""(string) 子网名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='subnetName', required=True)),
+            (['--address-prefix'], dict(help="""(string) 子网网段，vpc内子网网段不能重叠，cidr的取值范围：10.0.0.0/8、172.16.0.0/12和192.168.0.0/16及它们包含的子网，且子网掩码长度为16-28之间，如果vpc含有cidr，则必须为vpc所在cidr的子网 """, dest='addressPrefix', required=True)),
+            (['--route-table-id'], dict(help="""(string) 子网关联的路由表Id, 默认为vpc的默认路由表 """, dest='routeTableId', required=False)),
+            (['--description'], dict(help="""(string) 子网描述信息,允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建子网 ''',
+        description='''
+            创建子网。
+
+            示例: jdc vpc create-subnet  --vpc-id xxx --subnet-name xxx --address-prefix xxx
+        ''',
+    )
+    def create_subnet(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.CreateSubnetRequest import CreateSubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateSubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--subnet-id'], dict(help="""(string) Subnet ID """, dest='subnetId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -859,6 +1578,74 @@ class VpcController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeSubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--subnet-id'], dict(help="""(string) Subnet ID """, dest='subnetId', required=True)),
+            (['--subnet-name'], dict(help="""(string) 子网名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='subnetName', required=False)),
+            (['--description'], dict(help="""(string) 子网描述信息，允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改子网接口 ''',
+        description='''
+            修改子网接口。
+
+            示例: jdc vpc modify-subnet  --subnet-id xxx
+        ''',
+    )
+    def modify_subnet(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifySubnetRequest import ModifySubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifySubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--subnet-id'], dict(help="""(string) Subnet ID """, dest='subnetId', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除子网 ''',
+        description='''
+            删除子网。
+
+            示例: jdc vpc delete-subnet  --subnet-id xxx
+        ''',
+    )
+    def delete_subnet(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DeleteSubnetRequest import DeleteSubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSubnetRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -962,6 +1749,41 @@ class VpcController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--vpc-id'], dict(help="""(string) Vpc ID """, dest='vpcId', required=True)),
+            (['--vpc-name'], dict(help="""(string) 私有网络名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='vpcName', required=False)),
+            (['--description'], dict(help="""(string) vpc描述，允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改私有网络接口 ''',
+        description='''
+            修改私有网络接口。
+
+            示例: jdc vpc modify-vpc  --vpc-id xxx
+        ''',
+    )
+    def modify_vpc(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifyVpcRequest import ModifyVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyVpcRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1176,7 +1998,7 @@ class VpcController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-elastic-ips','create-elastic-ips','describe-elastic-ip','delete-elastic-ip','describe-network-interfaces','create-network-interface','describe-network-interface','modify-network-interface','delete-network-interface','associate-elastic-ip','disassociate-elastic-ip','assign-secondary-ips','unassign-secondary-ips','describe-network-security-groups','create-network-security-group','describe-network-security-group','modify-network-security-group','delete-network-security-group','add-network-security-group-rules','remove-network-security-group-rules','modify-network-security-group-rules','disassociate-route-table','describe-subnets','describe-subnet','describe-vpcs','create-vpc','describe-vpc','delete-vpc','describe-vpc-peerings','create-vpc-peering','describe-vpc-peering','modify-vpc-peering','delete-vpc-peering',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-elastic-ips','create-elastic-ips','describe-elastic-ip','delete-elastic-ip','describe-network-acls','create-network-acl','describe-network-acl','modify-network-acl','delete-network-acl','associate-network-acl','disassociate-network-acl','add-network-acl-rules','remove-network-acl-rules','modify-network-acl-rules','describe-network-interfaces','create-network-interface','describe-network-interface','modify-network-interface','delete-network-interface','associate-elastic-ip','disassociate-elastic-ip','assign-secondary-ips','unassign-secondary-ips','describe-network-security-groups','create-network-security-group','describe-network-security-group','modify-network-security-group','delete-network-security-group','add-network-security-group-rules','remove-network-security-group-rules','modify-network-security-group-rules','describe-quota','describe-route-tables','create-route-table','describe-route-table','modify-route-table','delete-route-table','add-route-table-rules','remove-route-table-rules','modify-route-table-rules','associate-route-table','disassociate-route-table','describe-subnets','create-subnet','describe-subnet','modify-subnet','delete-subnet','describe-vpcs','create-vpc','describe-vpc','modify-vpc','delete-vpc','describe-vpc-peerings','create-vpc-peering','describe-vpc-peering','modify-vpc-peering','delete-vpc-peering',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

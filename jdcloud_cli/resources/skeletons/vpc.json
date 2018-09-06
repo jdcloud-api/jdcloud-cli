@@ -31,6 +31,79 @@
         "regionId":"",
         "elasticIpId":""
     },
+    "describe-network-acls":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-network-acl":{
+        "vpcId":"",
+        "networkAclName":"",
+        "description":"",
+        "regionId":""
+    },
+    "describe-network-acl":{
+        "regionId":"",
+        "networkAclId":""
+    },
+    "modify-network-acl":{
+        "networkAclName":"",
+        "description":"",
+        "regionId":"",
+        "networkAclId":""
+    },
+    "delete-network-acl":{
+        "regionId":"",
+        "networkAclId":""
+    },
+    "associate-network-acl":{
+        "subnetIds":[""],
+        "regionId":"",
+        "networkAclId":""
+    },
+    "disassociate-network-acl":{
+        "subnetId":"",
+        "regionId":"",
+        "networkAclId":""
+    },
+    "add-network-acl-rules":{
+        "networkAclRuleSpecs":[{
+            "protocol":"",
+            "fromPort":"",
+            "toPort":"",
+            "direction":"",
+            "addressPrefix":"",
+            "ruleAction":"",
+            "priority":"",
+            "description":""
+        }],
+        "regionId":"",
+        "networkAclId":""
+    },
+    "remove-network-acl-rules":{
+        "ruleIds":[""],
+        "regionId":"",
+        "networkAclId":""
+    },
+    "modify-network-acl-rules":{
+        "modifyNetworkAclRuleSpecs":[{
+            "ruleId":"",
+            "protocol":"",
+            "fromPort":"",
+            "toPort":"",
+            "addressPrefix":"",
+            "ruleAction":"",
+            "priority":"",
+            "description":""
+        }],
+        "regionId":"",
+        "networkAclId":""
+    },
     "describe-network-interfaces":{
         "pageNumber":"",
         "pageSize":"",
@@ -152,6 +225,72 @@
         "regionId":"",
         "networkSecurityGroupId":""
     },
+    "describe-quota":{
+        "type":"",
+        "parentResourceId":"",
+        "regionId":""
+    },
+    "describe-route-tables":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-route-table":{
+        "vpcId":"",
+        "routeTableName":"",
+        "description":"",
+        "regionId":""
+    },
+    "describe-route-table":{
+        "regionId":"",
+        "routeTableId":""
+    },
+    "modify-route-table":{
+        "routeTableName":"",
+        "description":"",
+        "regionId":"",
+        "routeTableId":""
+    },
+    "delete-route-table":{
+        "regionId":"",
+        "routeTableId":""
+    },
+    "add-route-table-rules":{
+        "routeTableRuleSpecs":[{
+            "nextHopType":"",
+            "nextHopId":"",
+            "addressPrefix":"",
+            "priority":""
+        }],
+        "regionId":"",
+        "routeTableId":""
+    },
+    "remove-route-table-rules":{
+        "ruleIds":[""],
+        "regionId":"",
+        "routeTableId":""
+    },
+    "modify-route-table-rules":{
+        "modifyRouteTableRuleSpecs":[{
+            "ruleId":"",
+            "priority":"",
+            "nextHopType":"",
+            "nextHopId":"",
+            "addressPrefix":""
+        }],
+        "regionId":"",
+        "routeTableId":""
+    },
+    "associate-route-table":{
+        "subnetIds":[""],
+        "regionId":"",
+        "routeTableId":""
+    },
     "disassociate-route-table":{
         "subnetId":"",
         "regionId":"",
@@ -167,7 +306,25 @@
         }],
         "regionId":""
     },
+    "create-subnet":{
+        "vpcId":"",
+        "subnetName":"",
+        "addressPrefix":"",
+        "routeTableId":"",
+        "description":"",
+        "regionId":""
+    },
     "describe-subnet":{
+        "regionId":"",
+        "subnetId":""
+    },
+    "modify-subnet":{
+        "subnetName":"",
+        "description":"",
+        "regionId":"",
+        "subnetId":""
+    },
+    "delete-subnet":{
         "regionId":"",
         "subnetId":""
     },
@@ -188,6 +345,12 @@
         "regionId":""
     },
     "describe-vpc":{
+        "regionId":"",
+        "vpcId":""
+    },
+    "modify-vpc":{
+        "vpcName":"",
+        "description":"",
         "regionId":"",
         "vpcId":""
     },

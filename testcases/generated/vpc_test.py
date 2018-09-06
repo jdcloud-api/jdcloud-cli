@@ -59,6 +59,96 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_network_acls(self):
+        cmd = """python ../../main.py vpc describe-network-acls """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_network_acl(self):
+        cmd = """python ../../main.py vpc create-network-acl  --vpc-id 'xxx' --network-acl-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_network_acl(self):
+        cmd = """python ../../main.py vpc describe-network-acl  --network-acl-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_network_acl(self):
+        cmd = """python ../../main.py vpc modify-network-acl  --network-acl-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_network_acl(self):
+        cmd = """python ../../main.py vpc delete-network-acl  --network-acl-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_associate_network_acl(self):
+        cmd = """python ../../main.py vpc associate-network-acl  --network-acl-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disassociate_network_acl(self):
+        cmd = """python ../../main.py vpc disassociate-network-acl  --network-acl-id 'xxx' --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_network_acl_rules(self):
+        cmd = """python ../../main.py vpc add-network-acl-rules  --network-acl-id 'xxx' --network-acl-rule-specs '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_remove_network_acl_rules(self):
+        cmd = """python ../../main.py vpc remove-network-acl-rules  --network-acl-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_network_acl_rules(self):
+        cmd = """python ../../main.py vpc modify-network-acl-rules  --network-acl-id 'xxx' --modify-network-acl-rule-specs '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_network_interfaces(self):
         cmd = """python ../../main.py vpc describe-network-interfaces """
         with os.popen(cmd) as f:
@@ -212,6 +302,96 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_quota(self):
+        cmd = """python ../../main.py vpc describe-quota  --type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_route_tables(self):
+        cmd = """python ../../main.py vpc describe-route-tables """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_route_table(self):
+        cmd = """python ../../main.py vpc create-route-table  --vpc-id 'xxx' --route-table-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_route_table(self):
+        cmd = """python ../../main.py vpc describe-route-table  --route-table-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_route_table(self):
+        cmd = """python ../../main.py vpc modify-route-table  --route-table-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_route_table(self):
+        cmd = """python ../../main.py vpc delete-route-table  --route-table-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_route_table_rules(self):
+        cmd = """python ../../main.py vpc add-route-table-rules  --route-table-id 'xxx' --route-table-rule-specs '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_remove_route_table_rules(self):
+        cmd = """python ../../main.py vpc remove-route-table-rules  --route-table-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_route_table_rules(self):
+        cmd = """python ../../main.py vpc modify-route-table-rules  --route-table-id 'xxx' --modify-route-table-rule-specs '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_associate_route_table(self):
+        cmd = """python ../../main.py vpc associate-route-table  --route-table-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_disassociate_route_table(self):
         cmd = """python ../../main.py vpc disassociate-route-table  --route-table-id 'xxx' --subnet-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -230,8 +410,35 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_create_subnet(self):
+        cmd = """python ../../main.py vpc create-subnet  --vpc-id 'xxx' --subnet-name 'xxx' --address-prefix 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_subnet(self):
         cmd = """python ../../main.py vpc describe-subnet  --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_subnet(self):
+        cmd = """python ../../main.py vpc modify-subnet  --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_subnet(self):
+        cmd = """python ../../main.py vpc delete-subnet  --subnet-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -259,6 +466,15 @@ class VpcTest(unittest.TestCase):
 
     def test_describe_vpc(self):
         cmd = """python ../../main.py vpc describe-vpc  --vpc-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_vpc(self):
+        cmd = """python ../../main.py vpc modify-vpc  --vpc-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
