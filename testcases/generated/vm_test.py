@@ -158,6 +158,15 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_instance_private_ip_address(self):
+        cmd = """python ../../main.py vm describe-instance-private-ip-address """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_stop_instance(self):
         cmd = """python ../../main.py vm stop-instance  --instance-id 'xxx'"""
         with os.popen(cmd) as f:

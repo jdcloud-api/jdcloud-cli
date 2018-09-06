@@ -38,15 +38,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看实例下所有账号信息</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 查看某个RDS实例下所有账号信息，包括账号名称、对各个数据库的访问权限信息等 ''',
         description='''
-            查看实例下所有账号信息</br>- SQL Server：支持</br>- MySQL：支持。
+            查看某个RDS实例下所有账号信息，包括账号名称、对各个数据库的访问权限信息等。
 
             示例: jdc rds describe-accounts  --instance-id xxx
         ''',
@@ -71,17 +71,17 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--account-name'], dict(help="""(string) 用户名 """, dest='accountName', required=True)),
-            (['--account-password'], dict(help="""(string) 用户密码 """, dest='accountPassword', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--account-name'], dict(help="""(string) 账号名，在同一个RDS实例中，账号名不能重复。账号名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='accountName', required=True)),
+            (['--account-password'], dict(help="""(string) 密码,密码的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='accountPassword', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据库账户</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 创建数据库账号，用户可以使用客户端，应用程序等通过该账号和密码登录RDS数据库实例。<br>为便于管理和恢复，RDS对账号进行了限制，数据库账号只能通过控制台或者OpenAPI进行创建、删除账号以及对账号授权等，用户不能通过SQL语句对账号进行相关操作。 ''',
         description='''
-            创建数据库账户</br>- SQL Server：支持</br>- MySQL：支持。
+            创建数据库账号，用户可以使用客户端，应用程序等通过该账号和密码登录RDS数据库实例。<br>为便于管理和恢复，RDS对账号进行了限制，数据库账号只能通过控制台或者OpenAPI进行创建、删除账号以及对账号授权等，用户不能通过SQL语句对账号进行相关操作。。
 
             示例: jdc rds create-account  --instance-id xxx --account-name xxx --account-password xxx
         ''',
@@ -106,16 +106,16 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--account-name'], dict(help="""(string) 账户名 """, dest='accountName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--account-name'], dict(help="""(string) 账号名，在同一个实例中账号名不能重复 """, dest='accountName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据库账户</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 删除数据库账号，账号删除后不可恢复，用户无法再使用该账号登录RDS实例 ''',
         description='''
-            删除数据库账户</br>- SQL Server：支持</br>- MySQL：支持。
+            删除数据库账号，账号删除后不可恢复，用户无法再使用该账号登录RDS实例。
 
             示例: jdc rds delete-account  --instance-id xxx --account-name xxx
         ''',
@@ -140,17 +140,17 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--account-name'], dict(help="""(string) 账户名 """, dest='accountName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--account-name'], dict(help="""(string) 账号名，在同一个实例中账号名不能重复 """, dest='accountName', required=True)),
             (['--account-privileges'], dict(help="""(array: accountPrivilege) 账号的访问权限 """, dest='accountPrivileges', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 数据库账号授权</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 授予账号的数据库访问权限，即该账号对数据库拥有什么权限。一个账号可以对多个数据库具有访问权限。<br>为便于管理，RDS对权限进行了归类，目前提供以下两种权限<br>- ro：只读权限，用户只能读取数据库中的数据，不能进行创建、插入、删除、更改等操作。<br>- rw：读写权限，用户可以对数据库进行增删改查等操作 ''',
         description='''
-            数据库账号授权</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            授予账号的数据库访问权限，即该账号对数据库拥有什么权限。一个账号可以对多个数据库具有访问权限。<br>为便于管理，RDS对权限进行了归类，目前提供以下两种权限<br>- ro：只读权限，用户只能读取数据库中的数据，不能进行创建、插入、删除、更改等操作。<br>- rw：读写权限，用户可以对数据库进行增删改查等操作。
 
             示例: jdc rds grant-privilege  --instance-id xxx --account-name xxx --account-privileges [{"":""}]
         ''',
@@ -175,17 +175,52 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--account-name'], dict(help="""(string) 账户名 """, dest='accountName', required=True)),
-            (['--account-password'], dict(help="""(string) 新密码 """, dest='accountPassword', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--account-name'], dict(help="""(string) 账号名，在同一个实例中账号名不能重复 """, dest='accountName', required=True)),
+            (['--db-names'], dict(help="""(array: string) 需要取消授权的数据库的名称。权限取消后，该账号将不能访问此数据库 """, dest='dbNames', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 数据库账号重置密码</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 取消该账号对某个数据库的所有权限。权限取消后，该账号将不能访问此数据库。取消账号对某个数据库的访问权限，不影响该账号对其他数据库的访问权限<br>- 仅支持MySQL ''',
         description='''
-            数据库账号重置密码</br>- SQL Server：支持</br>- MySQL：支持。
+            取消该账号对某个数据库的所有权限。权限取消后，该账号将不能访问此数据库。取消账号对某个数据库的访问权限，不影响该账号对其他数据库的访问权限<br>- 仅支持MySQL。
+
+            示例: jdc rds revoke-privilege  --instance-id xxx --account-name xxx
+        ''',
+    )
+    def revoke_privilege(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.RevokePrivilegeRequest import RevokePrivilegeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RevokePrivilegeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--account-name'], dict(help="""(string) 账号名，在同一个实例中账号名不能重复 """, dest='accountName', required=True)),
+            (['--account-password'], dict(help="""(string) 新密码，密码的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='accountPassword', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 重置数据库账号密码。如果用户忘记账号的密码，可以使用该接口重置指定账号密码。密码重置后，以前的密码将无法使用，必须使用重置后的新密码登录或连接数据库实例。 ''',
+        description='''
+            重置数据库账号密码。如果用户忘记账号的密码，可以使用该接口重置指定账号密码。密码重置后，以前的密码将无法使用，必须使用重置后的新密码登录或连接数据库实例。。
 
             示例: jdc rds reset-password  --instance-id xxx --account-name xxx --account-password xxx
         ''',
@@ -210,15 +245,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看开启的审计选项</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 查看当前实例已开启的审计选项。如当前实例未开启审计，则返回空<br>- 仅支持SQL Server ''',
         description='''
-            查看开启的审计选项</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            查看当前实例已开启的审计选项。如当前实例未开启审计，则返回空<br>- 仅支持SQL Server。
 
             示例: jdc rds describe-audit  --instance-id xxx
         ''',
@@ -243,16 +278,16 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--enabled'], dict(help="""(string) 要开启的审计选项，各个选项之间用英文逗号或空格进行分割，例如：DATABASE_OBJECT_ACCESS_GROUP,ACKUP_RESTORE_GROUP """, dest='enabled', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--enabled'], dict(help="""(string) 要开启的审计选项，各个选项之间用英文逗号或空格进行分割，例如：DATABASE_OBJECT_ACCESS_GROUP,ACKUP_RESTORE_GROU等<br>各个数据库版本支持的审计选项可以通过接口[getAuditOptions](./getAuditOptions.md)获得，各个审计项的具体含义可以参看微软的官方文档 """, dest='enabled', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 开启数据库审计</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 开启SQL Server的数据库审计功能，目前支持实例级的数据库审计。用户可以根据需要开启、关闭审计、自定义审计策略，并下载审计文件。审计文件为原生的SQL Server审计文件，缺省保存6个月。<br>- 仅支持SQL Server ''',
         description='''
-            开启数据库审计</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            开启SQL Server的数据库审计功能，目前支持实例级的数据库审计。用户可以根据需要开启、关闭审计、自定义审计策略，并下载审计文件。审计文件为原生的SQL Server审计文件，缺省保存6个月。<br>- 仅支持SQL Server。
 
             示例: jdc rds create-audit  --instance-id xxx --enabled xxx
         ''',
@@ -277,15 +312,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 清除/关闭 数据库审计</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 关闭数据库审计。关闭数据库审计后，以前生成的审计结果文件并不会被立即删除。审计结果文件会过期后由系统自动删除，过期时间缺省为6个月<br>- 仅支持SQL Server ''',
         description='''
-            清除/关闭 数据库审计</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            关闭数据库审计。关闭数据库审计后，以前生成的审计结果文件并不会被立即删除。审计结果文件会过期后由系统自动删除，过期时间缺省为6个月<br>- 仅支持SQL Server。
 
             示例: jdc rds delete-audit  --instance-id xxx
         ''',
@@ -310,16 +345,16 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--name'], dict(help="""(string) 审计选项类别，大小写敏感 """, dest='name', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--name'], dict(help="""(string) 审计选项类别，**大小写敏感**，目前支持两种类型：<br>（1）AuditOptions开头：在disalbed参数中返回SQL Server各个版本支持的所有选项，支持的名称为<br>AuditOptions2008R2<br>AuditOptions2012<br>AuditOptions2014<br>AuditOptions2016<br>例如输入参数为"AuditOptions2016"，则在disabled字段中返回SQL Server 2016 版本所支持的所有的审计选项<br>（2）AuditDefault开头：京东云建议的默认选项,在enabled参数中返回建议开启的选项，在disabled参数中返回不开启的选项，支持的名称为：<br>AuditDefault2008R2<br>AuditDefault2012<br>AuditDefault2014<br>AuditDefault2016<br>例如输入参数为"AuditDefault2016"，则在enabled字段返回SQL Server 2016 版本中京东云建议开启的审计选项，在disabled字段中返回建议不开启的选项 """, dest='name', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取审计所有选项及推荐的选项</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 获取当前系统所支持的各种数据库版本的审计选项及相应的推荐选项<br>- 仅支持SQL Server ''',
         description='''
-            获取审计所有选项及推荐的选项</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            获取当前系统所支持的各种数据库版本的审计选项及相应的推荐选项<br>- 仅支持SQL Server。
 
             示例: jdc rds get-audit-options  --instance-id xxx --name xxx
         ''',
@@ -344,17 +379,17 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--add'], dict(help="""(string) 增加审计项，多个审计项之间用英文逗号，分号或空格分隔，例如DATABASE_OBJECT_ACCESS_GROUP,ACKUP_RESTORE_GROUP """, dest='add', required=False)),
-            (['--drop'], dict(help="""(string) 删除审计项，多个审计项之间用英文逗号，分号或空格分隔，例如DATABASE_OBJECT_ACCESS_GROUP,ACKUP_RESTORE_GROUP如删除了所有审计项，则审计自动关闭 """, dest='drop', required=False)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--add'], dict(help="""(string) 在原有审计项基础上，增加新的审计项，多个审计项之间用英文逗号，分号或空格分隔，例如DATABASE_OBJECT_ACCESS_GROUP,ACKUP_RESTORE_GROUP """, dest='add', required=False)),
+            (['--drop'], dict(help="""(string) 删除审计项，多个审计项之间用英文逗号，分号或空格分隔，例如DATABASE_OBJECT_ACCESS_GROUP,ACKUP_RESTORE_GROUP<br>如删除了所有审计项，则审计自动关闭 """, dest='drop', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改当前审计选项</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 修改当前的审计选项。当前已有审计选项可以通过describeAudit获得，支持的全部选项可以通过getAuditOptions获得。<br>- 仅支持SQL Server ''',
         description='''
-            修改当前审计选项</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            修改当前的审计选项。当前已有审计选项可以通过describeAudit获得，支持的全部选项可以通过getAuditOptions获得。<br>- 仅支持SQL Server。
 
             示例: jdc rds modify-audit  --instance-id xxx
         ''',
@@ -379,15 +414,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看审计文件列表</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 获取当前实例下的所有审计结果文件的列表<br>- 仅支持SQL Server ''',
         description='''
-            查看审计文件列表</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            获取当前实例下的所有审计结果文件的列表<br>- 仅支持SQL Server。
 
             示例: jdc rds get-audit-files  --instance-id xxx
         ''',
@@ -412,16 +447,16 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--file-name'], dict(help="""(string) 审计文件名 """, dest='fileName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取某个审计文件的下载链接</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 获取某个审计文件的下载链接，同时支持内链和外链，链接的有效时间为24小时<br>- 仅支持SQL Server ''',
         description='''
-            获取某个审计文件的下载链接</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            获取某个审计文件的下载链接，同时支持内链和外链，链接的有效时间为24小时<br>- 仅支持SQL Server。
 
             示例: jdc rds get-audit-download-url  --instance-id xxx --file-name xxx
         ''',
@@ -446,22 +481,22 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--auto'], dict(help="""(int) 查询备份类型，0为手动备份，1为自动备份，不传表示全部. </br><strong>- 测试参数，后续可能被其他参数取代</strong> """, dest='auto', required=False)),
-            (['--backup-type-filter'], dict(help="""(string) 返回backupType等于指定值的备份列表。full为全量备份，diff为增量备份</br><strong>- 测试参数，后续可能被其他参数取代</strong> """, dest='backupTypeFilter', required=False)),
-            (['--db-name-filter'], dict(help="""(string) 返回dbName等于指定值的备份列表，不传或为空返回全部</br><strong>- 测试参数，后续可能被其他参数取代</strong> """, dest='dbNameFilter', required=False)),
-            (['--backup-time-range-start-filter'], dict(help="""(string) 返回备份开始时间大于该时间的备份列表，格式为：YYYY-MM-DD HH:mm:ss</br><strong>- 测试参数，后续可能被其他参数取代</strong> """, dest='backupTimeRangeStartFilter', required=False)),
-            (['--backup-time-range-end-filter'], dict(help="""(string) 返回备份开始时间小于等于该时间的备份列表，格式为：YYYY-MM-DD HH:mm:ss</br><strong>- 测试参数，后续可能被其他参数取代</strong> """, dest='backupTimeRangeEndFilter', required=False)),
-            (['--page-number'], dict(help="""(int) 显示数据的页码，取值范围：[1,1000)，页码超过总页数时，显示最后一页，用于查询列表的接口 """, dest='pageNumber', required=True)),
-            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为10，取值范围：[1,100]，只能为10的倍数 """, dest='pageSize', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS实例ID，唯一标识一个实例 """, dest='instanceId', required=True)),
+            (['--auto'], dict(help="""(int) 查询备份类型，0为手动备份，1为自动备份，不传表示全部. <br>**- 测试参数，仅支持SQL Server，后续可能被其他参数取代** """, dest='auto', required=False)),
+            (['--backup-type-filter'], dict(help="""(string) 返回backupType等于指定值的备份列表。full为全量备份，diff为增量备份<br>**- 测试参数，仅支持SQL Server，后续可能被其他参数取代** """, dest='backupTypeFilter', required=False)),
+            (['--db-name-filter'], dict(help="""(string) 返回dbName等于指定值的备份列表，不传或为空返回全部<br>**- 测试参数，仅支持SQL Server，后续可能被其他参数取代** """, dest='dbNameFilter', required=False)),
+            (['--backup-time-range-start-filter'], dict(help="""(string) 返回备份开始时间大于该时间的备份列表<br>**- 测试参数，仅支持SQL Server，后续可能被其他参数取代** """, dest='backupTimeRangeStartFilter', required=False)),
+            (['--backup-time-range-end-filter'], dict(help="""(string) 返回备份开始时间小于等于该时间的备份列表<br>**- 测试参数，仅支持SQL Server，后续可能被其他参数取代** """, dest='backupTimeRangeEndFilter', required=False)),
+            (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[-1,∞)。pageNumber为-1时，返回所有数据页码；超过总页数时，显示最后一页。 """, dest='pageNumber', required=True)),
+            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为10，取值范围：10、20、30、50、100 """, dest='pageSize', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取备份信息</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 查看该RDS实例下所有备份的详细信息，返回的备份列表按照备份开始时间（backupStartTime）降序排列。 ''',
         description='''
-            获取备份信息</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            查看该RDS实例下所有备份的详细信息，返回的备份列表按照备份开始时间（backupStartTime）降序排列。。
 
             示例: jdc rds describe-backups  --instance-id xxx --page-number 0 --page-size 0
         ''',
@@ -486,16 +521,16 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 集群ID """, dest='instanceId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS实例ID，唯一标识一个实例 """, dest='instanceId', required=False)),
             (['--backup-spec'], dict(help="""(backupSpec) 备份规格 """, dest='backupSpec', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建备份</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 创建一个RDS实例全量备份，可以对整个实例或者部分数据库（仅SQL Server支持）进行全量备份。同一时间点，只能有一个正在运行的备份任务 ''',
         description='''
-            创建备份</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            创建一个RDS实例全量备份，可以对整个实例或者部分数据库（仅SQL Server支持）进行全量备份。同一时间点，只能有一个正在运行的备份任务。
 
             示例: jdc rds create-backup 
         ''',
@@ -520,15 +555,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域代码 """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
             (['--backup-id'], dict(help="""(string) 备份ID """, dest='backupId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除备份</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 删除RDS实例备份，仅允许删除用户生成的备份，系统自动备份不允许删除。 ''',
         description='''
-            删除备份</br>- SQL Server：支持</br>- MySQL：支持。
+            删除RDS实例备份，仅允许删除用户生成的备份，系统自动备份不允许删除。。
 
             示例: jdc rds delete-backup  --backup-id xxx
         ''',
@@ -553,17 +588,17 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域代码 """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
             (['--backup-id'], dict(help="""(string) 备份ID """, dest='backupId', required=True)),
-            (['--file-name'], dict(help="""(string) SQL Server：指定该备份中需要获取下载链接的文件名称，SQL Server必须输入该参数</br>MySQL：无需此参数； """, dest='fileName', required=False)),
-            (['--url-expiration-second'], dict(help="""(string) 指定下载链接的有效时间，单位秒,缺省为86400秒（即24小时） 取值范围：1-864000 """, dest='urlExpirationSecond', required=False)),
+            (['--file-name'], dict(help="""(string) 文件名称<br>- MySQL：不支持该参数<br>- SQL Server：必须输入该参数，指定该备份中需要获取下载链接的文件名称。备份中的文件名（不包括后缀）即为备份的数据库名。例如文件名为my_test_db.bak，表示该文件是my_test_db数据库的备份 """, dest='fileName', required=False)),
+            (['--url-expiration-second'], dict(help="""(string) 指定下载链接的过期时间，单位秒,缺省为86400秒，即24小时。<br>- MySQL：不支持该参数，只能是默认值<br>- SQL Server：支持 """, dest='urlExpirationSecond', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取备份下载链接</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 获取整个备份或备份中单个文件的下载链接。<br>- 当输入参数中有文件名时，获取该文件的下载链接。<br>- 输入参数中无文件名时，获取整个备份的下载链接。<br>由于备份机制的差异，使用该接口下载备份时，SQL Server必须输入文件名，每个文件逐一下载，不支持下载整个备份。SQL Server备份中的文件名（不包括后缀）即为备份的数据库名。例如文件名为my_test_db.bak，表示该文件是my_test_db数据库的备份。<br>MySQL可下载整个备份集，但不支持单个文件的下载。<br>- 仅支持SQL Server ''',
         description='''
-            获取备份下载链接</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            获取整个备份或备份中单个文件的下载链接。<br>- 当输入参数中有文件名时，获取该文件的下载链接。<br>- 输入参数中无文件名时，获取整个备份的下载链接。<br>由于备份机制的差异，使用该接口下载备份时，SQL Server必须输入文件名，每个文件逐一下载，不支持下载整个备份。SQL Server备份中的文件名（不包括后缀）即为备份的数据库名。例如文件名为my_test_db.bak，表示该文件是my_test_db数据库的备份。<br>MySQL可下载整个备份集，但不支持单个文件的下载。<br>- 仅支持SQL Server。
 
             示例: jdc rds describe-backup-download-url  --backup-id xxx
         ''',
@@ -588,16 +623,16 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 区域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--db-name'], dict(help="""(string) 数据库名称</br>- SQL Server：支持</br>- MySQL：暂不支持 """, dest='dbName', required=False)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--db-name'], dict(help="""(string) 数据库名。如果不指定数据库名，则返回所有数据库列表<br>- **MySQL：不支持该字段**<br>- **SQL Server：支持该字段** """, dest='dbName', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看数据库列表</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 获取当前实例的所有数据库详细信息的列表 ''',
         description='''
-            查看数据库列表</br>- SQL Server：支持</br>- MySQL：支持。
+            获取当前实例的所有数据库详细信息的列表。
 
             示例: jdc rds describe-databases  --instance-id xxx
         ''',
@@ -622,17 +657,17 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 区域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--db-name'], dict(help="""(string) 数据库名称 """, dest='dbName', required=True)),
-            (['--character-set-name'], dict(help="""(string) 字符集名称</br><strong>mysql字符集支持：</strong></br>- utf8；</br><strong>SQL Server字符集支持：</strong></br>- Chinese_PRC_CI_AS</br>- Chinese_PRC_CS_AS</br>- SQL_Latin1_General_CP1_CI_AS</br>- SQL_Latin1_General_CP1_CS_AS</br>- Chinese_PRC_BIN """, dest='characterSetName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--db-name'], dict(help="""(string) 数据库名，数据库名称的限制请参考[帮助中心文档](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='dbName', required=True)),
+            (['--character-set-name'], dict(help="""(string) 数据库的字符集名，当前支持的字符集请查看[枚举参数定义](../Enum-Definitions/Enum-Definitions.md) """, dest='characterSetName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据库</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 创建一个数据库。 为了实例的管理和数据恢复，RDS对用户权限进行了限制，用户仅能通过控制台或本接口创建数据库 ''',
         description='''
-            创建数据库</br>- SQL Server：支持</br>- MySQL：支持。
+            创建一个数据库。 为了实例的管理和数据恢复，RDS对用户权限进行了限制，用户仅能通过控制台或本接口创建数据库。
 
             示例: jdc rds create-database  --instance-id xxx --db-name xxx --character-set-name xxx
         ''',
@@ -657,16 +692,16 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 区域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--db-name'], dict(help="""(string) 库名称 """, dest='dbName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据库</br>- SQL Server：支持</br>- MySQL：支持 [MFA enabled] ''',
+        help=''' 从RDS实例中删除数据库。为便于管理和数据恢复，RDS对用户权限进行了控制，用户仅能通过控制台或本接口删除数据库 [MFA enabled] ''',
         description='''
-            删除数据库</br>- SQL Server：支持</br>- MySQL：支持 [MFA enabled]。
+            从RDS实例中删除数据库。为便于管理和数据恢复，RDS对用户权限进行了控制，用户仅能通过控制台或本接口删除数据库 [MFA enabled]。
 
             示例: jdc rds delete-database  --instance-id xxx --db-name xxx
         ''',
@@ -691,18 +726,18 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 区域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--db-name'], dict(help="""(string) 库名称 """, dest='dbName', required=True)),
-            (['--backup-id'], dict(help="""(string) 备份ID """, dest='backupId', required=True)),
-            (['--backup-file-name'], dict(help="""(string) 指定该备份中用于恢复数据库的文件名称 """, dest='backupFileName', required=True)),
+            (['--backup-id'], dict(help="""(string) 备份ID，可从备份查询接口describeBackups获取 """, dest='backupId', required=True)),
+            (['--backup-file-name'], dict(help="""(string) 指定该备份中用于恢复数据库的文件名称。通常情况下文件名（不包括后缀）即为备份的数据库名。例如文件名为my_test_db.bak，表示该文件是my_test_db数据库的备份 """, dest='backupFileName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 从云数据库SQL Server备份中恢复单个数据库</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 从备份中恢复单个数据库，支持从其他实例（但必须是同一个账号下的实例）备份中恢复。例如可以从生产环境的数据库实例的备份恢复到测试环境的数据库中。<br>- 仅支持SQL Server ''',
         description='''
-            从云数据库SQL Server备份中恢复单个数据库</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            从备份中恢复单个数据库，支持从其他实例（但必须是同一个账号下的实例）备份中恢复。例如可以从生产环境的数据库实例的备份恢复到测试环境的数据库中。<br>- 仅支持SQL Server。
 
             示例: jdc rds restore-database-from-backup  --instance-id xxx --db-name xxx --backup-id xxx --backup-file-name xxx
         ''',
@@ -727,18 +762,18 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 区域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--db-name'], dict(help="""(string) 库名称 """, dest='dbName', required=True)),
-            (['--shared-file-gid'], dict(help="""(string) 共享文件的全局ID，可从上传文件查询接口describeImportFiles获取；如果该文件不是共享文件，则全局ID为空 """, dest='sharedFileGid', required=False)),
-            (['--file-name'], dict(help="""(string) 用户在单库上云中上传的文件名称 """, dest='fileName', required=True)),
+            (['--shared-file-gid'], dict(help="""(string) 共享文件的全局ID，可从上传文件查询接口[describeImportFiles](../import/describeImportFiles.md)获取；如果该文件不是共享文件，则不用输入该参数 """, dest='sharedFileGid', required=False)),
+            (['--file-name'], dict(help="""(string) 用户上传的备份文件名称（包括文件后缀名），例如mydb1.bak """, dest='fileName', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 从用户上传的备份文件中恢复SQL Server数据库</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 从用户通过单库上云工具上传到云上的备份文件中恢复单个数据库<br>- 仅支持SQL Server ''',
         description='''
-            从用户上传的备份文件中恢复SQL Server数据库</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            从用户通过单库上云工具上传到云上的备份文件中恢复单个数据库<br>- 仅支持SQL Server。
 
             示例: jdc rds restore-database-from-file  --instance-id xxx --db-name xxx --file-name xxx
         ''',
@@ -763,17 +798,17 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 区域代码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--db-name'], dict(help="""(string) 库名称 """, dest='dbName', required=True)),
-            (['--oss-url'], dict(help="""(string) 用户在单库上云中上传的文件地址 """, dest='ossURL', required=True)),
+            (['--oss-url'], dict(help="""(string) 用户上传到对象存储OSS上的备份文件的内链 """, dest='ossURL', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 从OSS恢复SQL Server数据库</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 从上传到OSS的备份文件中恢复单个数据库<br>- 仅支持SQL Server ''',
         description='''
-            从OSS恢复SQL Server数据库</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            从上传到OSS的备份文件中恢复单个数据库<br>- 仅支持SQL Server。
 
             示例: jdc rds restore-database-from-oss  --instance-id xxx --db-name xxx --oss-url xxx
         ''',
@@ -798,15 +833,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取SQL Server 错误日志及下载信息</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 获取SQL Server 错误日志及下载信息<br>- 仅支持SQL Server ''',
         description='''
-            获取SQL Server 错误日志及下载信息</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            获取SQL Server 错误日志及下载信息<br>- 仅支持SQL Server。
 
             示例: jdc rds describe-error-logs  --instance-id xxx
         ''',
@@ -831,15 +866,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 区域编码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取单库上云文件列表</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 获取用户通过单库上云工具上传到该实例上的文件列表<br>- 仅支持SQL Server ''',
         description='''
-            获取单库上云文件列表</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            获取用户通过单库上云工具上传到该实例上的文件列表<br>- 仅支持SQL Server。
 
             示例: jdc rds describe-import-files  --instance-id xxx
         ''',
@@ -864,15 +899,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 区域编码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取上传导入文件的需要的Key</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 获取单库上云工具上传文件的需要的Key。单库上云工具需要正确的key值方能连接到京东云<br>- 仅支持SQL Server ''',
         description='''
-            获取上传导入文件的需要的Key</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            获取单库上云工具上传文件的需要的Key。单库上云工具需要正确的key值方能连接到京东云<br>- 仅支持SQL Server。
 
             示例: jdc rds get-upload-key  --instance-id xxx
         ''',
@@ -897,17 +932,17 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 区域编码 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--file-name'], dict(help="""(string) 单库上云文件名 """, dest='fileName', required=True)),
-            (['--shared'], dict(help="""(string) 文件是否共享，不区分大小写，true:共享;false:不共享 """, dest='shared', required=True)),
+            (['--shared'], dict(help="""(string) 文件是否共享<br>true:共享<br>false:不共享 """, dest='shared', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 设置上传文件是否共享给该用户的其他实例</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 设置或取消上传文件是否共享给同一账号下的其他实例。缺省情况下，文件仅在上传的实例上可见并可导入，其他实例不可见不可导入。如果需要该文件在其他实例上也可导入，可将此文件设置为共享<br>- 仅支持SQL Server ''',
         description='''
-            设置上传文件是否共享给该用户的其他实例</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            设置或取消上传文件是否共享给同一账号下的其他实例。缺省情况下，文件仅在上传的实例上可见并可导入，其他实例不可见不可导入。如果需要该文件在其他实例上也可导入，可将此文件设置为共享<br>- 仅支持SQL Server。
 
             示例: jdc rds set-import-file-shared  --instance-id xxx --file-name xxx --shared xxx
         ''',
@@ -932,16 +967,16 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 显示数据的页码，取值范围：[1,1000)，页码超过总页数时，显示最后一页，用于查询列表的接口 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 每页显示的数据条数，取值范围：10/20/30/50/100 """, dest='pageSize', required=False)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[-1,∞)。pageNumber为-1时，返回所有数据页码；超过总页数时，显示最后一页; """, dest='pageNumber', required=False)),
+            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为100，取值范围：[10,100]，用于查询列表的接口 """, dest='pageSize', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询RDS实例列表</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 获取当前账号下所有RDS实例及MySQL只读实例的概要信息，例如实例类型，版本，计费信息等 ''',
         description='''
-            查询RDS实例列表</br>- SQL Server：支持</br>- MySQL：支持。
+            获取当前账号下所有RDS实例及MySQL只读实例的概要信息，例如实例类型，版本，计费信息等。
 
             示例: jdc rds describe-instances 
         ''',
@@ -966,15 +1001,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
             (['--instance-spec'], dict(help="""(dBInstanceSpec) 新建实例规格 """, dest='instanceSpec', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建数据库集群实例</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 创建一个RDS实例，用户可以使用相应的数据库客户端或者应用程序通过域名和端口链接到该RDS实例上，进行操作。 ''',
         description='''
-            创建数据库集群实例</br>- SQL Server：支持</br>- MySQL：支持。
+            创建一个RDS实例，用户可以使用相应的数据库客户端或者应用程序通过域名和端口链接到该RDS实例上，进行操作。。
 
             示例: jdc rds create-instance  --instance-spec {"":""}
         ''',
@@ -999,15 +1034,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询RDS实例详细信息</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 查询RDS实例（MySQL、SQL Server等）的详细信息以及MySQL只读实例详细信息 ''',
         description='''
-            查询RDS实例详细信息</br>- SQL Server：支持</br>- MySQL：支持。
+            查询RDS实例（MySQL、SQL Server等）的详细信息以及MySQL只读实例详细信息。
 
             示例: jdc rds describe-instance-attributes  --instance-id xxx
         ''',
@@ -1032,15 +1067,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据库集群实例及Mysql只读实例</br>- SQL Server：支持</br>- MySQL：支持 [MFA enabled] ''',
+        help=''' 删除一个RDS实例或者MySQL的只读实例。删除MySQL主实例时，会同时将对应的MySQL只读实例也删除 [MFA enabled] ''',
         description='''
-            删除数据库集群实例及Mysql只读实例</br>- SQL Server：支持</br>- MySQL：支持 [MFA enabled]。
+            删除一个RDS实例或者MySQL的只读实例。删除MySQL主实例时，会同时将对应的MySQL只读实例也删除 [MFA enabled]。
 
             示例: jdc rds delete-instance  --instance-id xxx
         ''',
@@ -1065,15 +1100,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看RDS实例备份策略</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 查看RDS实例备份策略。根据数据库类型的不同，支持的备份策略也略有差异，具体请看返回参数中的详细说明 ''',
         description='''
-            查看RDS实例备份策略</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            查看RDS实例备份策略。根据数据库类型的不同，支持的备份策略也略有差异，具体请看返回参数中的详细说明。
 
             示例: jdc rds get-backup-policy  --instance-id xxx
         ''',
@@ -1098,16 +1133,50 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称，名称支持中文、数字、小写字母及英文下划线“_”，且不少于2字符不超过32字符 """, dest='instanceName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--start-window'], dict(help="""(string) 自动备份开始时间窗口,例如：00:00-01:00，表示0点到1点开始进行数据库自动备份，备份完成时间则跟实例大小有关，不一定在这个时间范围中<br>SQL Server:范围00:00-23:59，时间范围差不得小于30分钟。<br>MySQL,只能是以下取值:<br>00:00-01:00<br>01:00-02:00<br>......<br>23:00-24:00 """, dest='startWindow', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改RDS实例名称</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 修改RDS实例备份策略，目前仅支持用户修改“自动备份开始时间窗口”这个参数，其他参数暂不开放修改 ''',
         description='''
-            修改RDS实例名称</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            修改RDS实例备份策略，目前仅支持用户修改“自动备份开始时间窗口”这个参数，其他参数暂不开放修改。
+
+            示例: jdc rds set-backup-policy  --instance-id xxx
+        ''',
+    )
+    def set_backup_policy(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.SetBackupPolicyRequest import SetBackupPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetBackupPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称，名称支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='instanceName', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改实例名称，可支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md)<br>- 仅支持SQL Server ''',
+        description='''
+            修改实例名称，可支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md)<br>- 仅支持SQL Server。
 
             示例: jdc rds set-instance-name  --instance-id xxx --instance-name xxx
         ''',
@@ -1132,15 +1201,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' RDS实例主备切换</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 对RDS实例进行主备切换。<br>注意：如果实例正在进行备份，那么主备切换将会终止备份操作。可以查看备份策略中的备份开始时间确认是否有备份正在运行。如果确实需要在实例备份时进行主备切换，建议切换完成 后，手工进行一次实例的全备<br>对于SQL Server，主备切换后30分钟内，不支持按时间点恢复/创建，例如在10:05分用户进行了主备切换，那么10:05 ~ 10:35这个时间段不能进行按时间点恢复/创建。<br>- 仅支持SQL Server ''',
         description='''
-            RDS实例主备切换</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            对RDS实例进行主备切换。<br>注意：如果实例正在进行备份，那么主备切换将会终止备份操作。可以查看备份策略中的备份开始时间确认是否有备份正在运行。如果确实需要在实例备份时进行主备切换，建议切换完成 后，手工进行一次实例的全备<br>对于SQL Server，主备切换后30分钟内，不支持按时间点恢复/创建，例如在10:05分用户进行了主备切换，那么10:05 ~ 10:35这个时间段不能进行按时间点恢复/创建。<br>- 仅支持SQL Server。
 
             示例: jdc rds failover-instance  --instance-id xxx
         ''',
@@ -1165,17 +1234,17 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--reboot-master'], dict(help="""(bool) 是否重启主节点。</br>- SQL Server：支持</br>- MySQL：暂不支持 """, dest='rebootMaster', required=False)),
-            (['--reboot-slave'], dict(help="""(bool) 是否重启从节点。</br>- SQL Server：支持</br>- MySQL：暂不支持 """, dest='rebootSlave', required=False)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--reboot-master'], dict(help="""(bool) 是否重启主节点。<br> - 仅SQL Server 支持该参数 """, dest='rebootMaster', required=False)),
+            (['--reboot-slave'], dict(help="""(bool) 是否重启备节点。<br> - 仅SQL Server 支持该参数 """, dest='rebootSlave', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 重启RDS实例</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 重启RDS实例，例如修改了一些配置参数后，需要重启实例才能生效。可以结合主备切换的功能，轮流重启备机，降低对业务的影响<br>**注意：如果实例正在进行备份，那么重启主实例将会终止备份操作。** 可以查看备份策略中的备份开始时间确认是否有备份正在运行。如果确实需要在实例备份时重启主实例，建议重启后，手工进行一次实例的全备。 ''',
         description='''
-            重启RDS实例</br>- SQL Server：支持</br>- MySQL：支持。
+            重启RDS实例，例如修改了一些配置参数后，需要重启实例才能生效。可以结合主备切换的功能，轮流重启备机，降低对业务的影响<br>**注意：如果实例正在进行备份，那么重启主实例将会终止备份操作。** 可以查看备份策略中的备份开始时间确认是否有备份正在运行。如果确实需要在实例备份时重启主实例，建议重启后，手工进行一次实例的全备。。
 
             示例: jdc rds reboot-instance  --instance-id xxx
         ''',
@@ -1200,15 +1269,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 开启RDS实例的外网访问，用户可以通过internet访问RDS实例</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 开启RDS实例的外网访问功能。开启后，用户可以通过internet访问RDS实例 ''',
         description='''
-            开启RDS实例的外网访问，用户可以通过internet访问RDS实例</br>- SQL Server：支持</br>- MySQL：支持。
+            开启RDS实例的外网访问功能。开启后，用户可以通过internet访问RDS实例。
 
             示例: jdc rds enable-internet-access  --instance-id xxx
         ''',
@@ -1233,15 +1302,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 关闭RDS实例的外网访问，用户无法通过Internet访问RDS，但可以通过内网域名访问</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 关闭RDS实例的外网访问功能。关闭后，用户无法通过Internet访问RDS，但可以在京东云内网通过内网域名访问 ''',
         description='''
-            关闭RDS实例的外网访问，用户无法通过Internet访问RDS，但可以通过内网域名访问</br>- SQL Server：支持</br>- MySQL：支持。
+            关闭RDS实例的外网访问功能。关闭后，用户无法通过Internet访问RDS，但可以在京东云内网通过内网域名访问。
 
             示例: jdc rds disable-internet-access  --instance-id xxx
         ''',
@@ -1266,16 +1335,16 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--backup-id'], dict(help="""(string) 用于恢复的备份Id，仅限于本实例生成的备份 """, dest='backupId', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 使用实例的全量备份覆盖恢复当前实例</br>- SQL Server：不支持</br>- MySQL：支持 ''',
+        help=''' 使用实例的全量备份覆盖恢复当前实例<br>- 仅支持MySQL ''',
         description='''
-            使用实例的全量备份覆盖恢复当前实例</br>- SQL Server：不支持</br>- MySQL：支持。
+            使用实例的全量备份覆盖恢复当前实例<br>- 仅支持MySQL。
 
             示例: jdc rds restore-instance  --instance-id xxx
         ''',
@@ -1300,19 +1369,124 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--query-type'], dict(help="""(string) 查询类型，不同的查询类型按照相应的字段从高到低返回结果。支持如下类型：Missing：缺失索引Size：索引大小，单位KBUpdates：索引更新次数Scans：表扫描次数Used：最少使用 """, dest='queryType', required=True)),
-            (['--db'], dict(help="""(string) 需要查询的数据库名，多个数据库名之间用英文逗号分隔，默认所有数据库 """, dest='db', required=False)),
-            (['--page-number'], dict(help="""(int) 显示数据的页码，取值范围：[1,1000)，页码超过总页数时，显示最后一页，用于查询列表的接口 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为50，取值范围：[1,100]，只能为10的倍数 """, dest='pageSize', required=False)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--backup-id'], dict(help="""(string) 备份ID """, dest='backupId', required=True)),
+            (['--engine'], dict(help="""(string) 标识是创建什么类型的实例，例如MySQL，SQL Server等,具体可参见文档[枚举参数定义](../Enum-Definitions/Enum-Definitions.md)<br>**注意：备份来源实例的engine和要创建的实例的engine必须一致** """, dest='engine', required=True)),
+            (['--instance-spec'], dict(help="""(restoredNewDBInstanceSpec) 新建实例规格 """, dest='instanceSpec', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 索引性能统计</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 根据源实例全量备份创建一个新实例，新实例的数据跟源实例在创建备份时的数据状态一样。<br>例如根据源实例A的一个全量备份“mybak”新建一个实例B，该备份是在“‘2018-8-18 03:23:54”创建的。那么新建实例B的数据状态跟实例A‘2018-8-18 03:23:54’的状态一致<br>- 仅支持MySQL ''',
         description='''
-            索引性能统计</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            根据源实例全量备份创建一个新实例，新实例的数据跟源实例在创建备份时的数据状态一样。<br>例如根据源实例A的一个全量备份“mybak”新建一个实例B，该备份是在“‘2018-8-18 03:23:54”创建的。那么新建实例B的数据状态跟实例A‘2018-8-18 03:23:54’的状态一致<br>- 仅支持MySQL。
+
+            示例: jdc rds create-instance-from-backup  --backup-id xxx --engine xxx --instance-spec {"":""}
+        ''',
+    )
+    def create_instance_from_backup(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.CreateInstanceFromBackupRequest import CreateInstanceFromBackupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateInstanceFromBackupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--new-instance-class'], dict(help="""(string) 扩容后实例规格 """, dest='newInstanceClass', required=True)),
+            (['--new-instance-storage-gb'], dict(help="""(int) 扩容后实例磁盘大小 """, dest='newInstanceStorageGB', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 实例扩容，支持升级实例的CPU，内存及磁盘。目前暂不支持实例降配<br>- 仅支持MySQL ''',
+        description='''
+            实例扩容，支持升级实例的CPU，内存及磁盘。目前暂不支持实例降配<br>- 仅支持MySQL。
+
+            示例: jdc rds modify-instance-spec  --instance-id xxx --new-instance-class xxx --new-instance-storage-gb 0
+        ''',
+    )
+    def modify_instance_spec(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.ModifyInstanceSpecRequest import ModifyInstanceSpecRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyInstanceSpecRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--restore-time'], dict(help="""(string) 根据源实例的哪个时间点创建新实例 """, dest='restoreTime', required=True)),
+            (['--instance-spec'], dict(help="""(restoredNewDBInstanceSpec) 新建实例规格 """, dest='instanceSpec', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据源实例备份创建一个新实例，并通过追加日志的方式，将新实例的数据恢复到跟源实例指定时间点的数据状态一样。<br>例如根据实例A在“2018-06-18 23:00:00”时间点创建一个实例B，就是新建一个实例B，该实例B的数据跟实例A在“2018-06-18 23:00:00”这个时间点的数据完全一致。<br>对于SQL Server，主备切换后30分钟内，不支持按时间点恢复/创建，例如在10:05分用户进行了主备切换，那么10:05 ~ 10:35这个时间段不能进行按时间点恢复/创建。<br>- 仅支持MySQL ''',
+        description='''
+            根据源实例备份创建一个新实例，并通过追加日志的方式，将新实例的数据恢复到跟源实例指定时间点的数据状态一样。<br>例如根据实例A在“2018-06-18 23:00:00”时间点创建一个实例B，就是新建一个实例B，该实例B的数据跟实例A在“2018-06-18 23:00:00”这个时间点的数据完全一致。<br>对于SQL Server，主备切换后30分钟内，不支持按时间点恢复/创建，例如在10:05分用户进行了主备切换，那么10:05 ~ 10:35这个时间段不能进行按时间点恢复/创建。<br>- 仅支持MySQL。
+
+            示例: jdc rds create-instance-by-time  --instance-id xxx --restore-time xxx --instance-spec {"":""}
+        ''',
+    )
+    def create_instance_by_time(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.CreateInstanceByTimeRequest import CreateInstanceByTimeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateInstanceByTimeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--query-type'], dict(help="""(string) 查询类型，不同的查询类型按照相应的字段从高到低返回结果。<br>支持如下类型：<br>Missing：缺失索引<br>Size：索引大小，单位KB<br>Updates：索引更新次数<br>Scans：表扫描次数<br>Used：最少使用<br> """, dest='queryType', required=True)),
+            (['--db'], dict(help="""(string) 需要查询的数据库名，多个数据库名之间用英文逗号分隔，默认所有数据库 """, dest='db', required=False)),
+            (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[-1,1000)。pageNumber为-1时，返回所有数据页码；超过总页数时，显示最后一页。 """, dest='pageNumber', required=False)),
+            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为50，取值范围：[1,100]，只能为10的倍数，用于查询列表的接口 """, dest='pageSize', required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据用户定义的查询条件，获取索引性能的统计信息，并提供缺失索引及索引创建建议。用户可以根据这些信息查找与索引相关的性能瓶颈，并进行优化。<br>- 仅支持SQL Server ''',
+        description='''
+            根据用户定义的查询条件，获取索引性能的统计信息，并提供缺失索引及索引创建建议。用户可以根据这些信息查找与索引相关的性能瓶颈，并进行优化。<br>- 仅支持SQL Server。
 
             示例: jdc rds describe-index-performance  --instance-id xxx --query-type xxx
         ''',
@@ -1337,19 +1511,19 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--query-type'], dict(help="""(string) 查询类型，不同的查询类型按照相应的字段从高到低返回结果。支持如下类型：ExecutionCount：执行次数LastRows：上次返回行数ElapsedTime：平均执行时间CPUTime：平均CPU时间LogicalReads：平均逻辑读LogicalWrites：平均逻辑写PhysicalReads：平均物理读 """, dest='queryType', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--query-type'], dict(help="""(string) 查询类型，不同的查询类型按照相应的字段从高到低返回结果。<br>支持如下类型：<br>ExecutionCount：执行次数<br>LastRows：上次返回行数<br>ElapsedTime：平均执行时间<br>CPUTime：平均CPU时间<br>LogicalReads：平均逻辑读<br>LogicalWrites：平均逻辑写<br>PhysicalReads：平均物理读<br> """, dest='queryType', required=True)),
             (['--threshold'], dict(help="""(int) 只返回查询条件大于等于threshold的记录，默认为0 """, dest='threshold', required=False)),
-            (['--page-number'], dict(help="""(int) 显示数据的页码，取值范围：[1,1000)，页码超过总页数时，显示最后一页，用于查询列表的接口 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为50，取值范围：[1,100]，只能为10的倍数 """, dest='pageSize', required=False)),
+            (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[-1,1000]。pageNumber为-1时，返回所有数据页码；超过总页数时，显示最后一页。 """, dest='pageNumber', required=False)),
+            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为50，取值范围：[1,100]，只能为10的倍数，用于查询列表的接口 """, dest='pageSize', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询性能统计</br>- SQL Server：支持</br>- MySQL：暂不支持 ''',
+        help=''' 根据用户定义的查询条件，获取SQL执行的性能统计信息，例如慢SQL等。用户可以根据这些信息查找与SQL执行相关的性能瓶颈，并进行优化。<br>- 仅支持SQL Server ''',
         description='''
-            查询性能统计</br>- SQL Server：支持</br>- MySQL：暂不支持。
+            根据用户定义的查询条件，获取SQL执行的性能统计信息，例如慢SQL等。用户可以根据这些信息查找与SQL执行相关的性能瓶颈，并进行优化。<br>- 仅支持SQL Server。
 
             示例: jdc rds describe-query-performance  --instance-id xxx --query-type xxx
         ''',
@@ -1374,15 +1548,15 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看RDS实例当前白名单</br>- SQL Server：支持</br>- MySQL：支持 ''',
+        help=''' 查看RDS实例当前白名单。白名单是允许访问当前实例的IP/IP段列表，缺省情况下，白名单对本VPC开放。如果用户开启了外网访问的功能，还需要对外网的IP配置白名单。 ''',
         description='''
-            查看RDS实例当前白名单</br>- SQL Server：支持</br>- MySQL：支持。
+            查看RDS实例当前白名单。白名单是允许访问当前实例的IP/IP段列表，缺省情况下，白名单对本VPC开放。如果用户开启了外网访问的功能，还需要对外网的IP配置白名单。。
 
             示例: jdc rds describe-white-list  --instance-id xxx
         ''',
@@ -1407,7 +1581,41 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-accounts','create-account','delete-account','grant-privilege','reset-password','describe-audit','create-audit','delete-audit','get-audit-options','modify-audit','get-audit-files','get-audit-download-url','describe-backups','create-backup','delete-backup','describe-backup-download-url','describe-databases','create-database','delete-database','restore-database-from-backup','restore-database-from-file','restore-database-from-oss','describe-error-logs','describe-import-files','get-upload-key','set-import-file-shared','describe-instances','create-instance','describe-instance-attributes','delete-instance','get-backup-policy','set-instance-name','failover-instance','reboot-instance','enable-internet-access','disable-internet-access','restore-instance','describe-index-performance','describe-query-performance','describe-white-list',], required=True)),
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId', required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId', required=True)),
+            (['--ips'], dict(help="""(string) IP或IP段，不同的IP/IP段之间用英文逗号分隔，例如0.0.0.0/0,192.168.0.10 """, dest='ips', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改允许访问实例的IP白名单。白名单是允许访问当前实例的IP/IP段列表，缺省情况下，白名单对本VPC开放。如果用户开启了外网访问的功能，还需要对外网的IP配置白名单。 ''',
+        description='''
+            修改允许访问实例的IP白名单。白名单是允许访问当前实例的IP/IP段列表，缺省情况下，白名单对本VPC开放。如果用户开启了外网访问的功能，还需要对外网的IP配置白名单。。
+
+            示例: jdc rds modify-white-list  --instance-id xxx --ips xxx
+        ''',
+    )
+    def modify_white_list(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.ModifyWhiteListRequest import ModifyWhiteListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyWhiteListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-accounts','create-account','delete-account','grant-privilege','revoke-privilege','reset-password','describe-audit','create-audit','delete-audit','get-audit-options','modify-audit','get-audit-files','get-audit-download-url','describe-backups','create-backup','delete-backup','describe-backup-download-url','describe-databases','create-database','delete-database','restore-database-from-backup','restore-database-from-file','restore-database-from-oss','describe-error-logs','describe-import-files','get-upload-key','set-import-file-shared','describe-instances','create-instance','describe-instance-attributes','delete-instance','get-backup-policy','set-backup-policy','set-instance-name','failover-instance','reboot-instance','enable-internet-access','disable-internet-access','restore-instance','create-instance-from-backup','modify-instance-spec','create-instance-by-time','describe-index-performance','describe-query-performance','describe-white-list','modify-white-list',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

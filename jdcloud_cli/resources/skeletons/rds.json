@@ -23,6 +23,12 @@
         "instanceId":"",
         "accountName":""
     },
+    "revoke-privilege":{
+        "dbNames":[""],
+        "regionId":"",
+        "instanceId":"",
+        "accountName":""
+    },
     "reset-password":{
         "accountPassword":"",
         "regionId":"",
@@ -180,6 +186,11 @@
         "regionId":"",
         "instanceId":""
     },
+    "set-backup-policy":{
+        "startWindow":"",
+        "regionId":"",
+        "instanceId":""
+    },
     "set-instance-name":{
         "instanceName":"",
         "regionId":"",
@@ -208,6 +219,48 @@
         "regionId":"",
         "instanceId":""
     },
+    "create-instance-from-backup":{
+        "backupId":"",
+        "engine":"",
+        "instanceSpec":{
+            "instanceName":"",
+            "instanceClass":"",
+            "instanceStorageGB":"",
+            "azId":"",
+            "vpcId":"",
+            "subnetId":"",
+            "chargeSpec":{
+                "chargeMode":"",
+                "chargeUnit":"",
+                "chargeDuration":""
+            }
+        },
+        "regionId":""
+    },
+    "modify-instance-spec":{
+        "newInstanceClass":"",
+        "newInstanceStorageGB":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-instance-by-time":{
+        "restoreTime":"",
+        "instanceSpec":{
+            "instanceName":"",
+            "instanceClass":"",
+            "instanceStorageGB":"",
+            "azId":"",
+            "vpcId":"",
+            "subnetId":"",
+            "chargeSpec":{
+                "chargeMode":"",
+                "chargeUnit":"",
+                "chargeDuration":""
+            }
+        },
+        "regionId":"",
+        "instanceId":""
+    },
     "describe-index-performance":{
         "queryType":"",
         "db":"",
@@ -225,6 +278,11 @@
         "instanceId":""
     },
     "describe-white-list":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-white-list":{
+        "ips":"",
         "regionId":"",
         "instanceId":""
     }

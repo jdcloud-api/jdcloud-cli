@@ -31,6 +31,7 @@ from jdcloud_cli.controllers.services.mongodb import MongodbController
 from jdcloud_cli.controllers.services.vpc import VpcController
 from jdcloud_cli.controllers.services.sop import SopController
 from jdcloud_cli.controllers.services.xdata import XdataController
+from jdcloud_cli.controllers.services.cr import CrController
 from jdcloud_cli.controllers.services.nc import NcController
 from jdcloud_cli.controllers.services.clouddnsservice import ClouddnsserviceController
 from jdcloud_cli.controllers.services.mps import MpsController
@@ -66,6 +67,7 @@ def main():
         app.handler.register(VpcController)
         app.handler.register(SopController)
         app.handler.register(XdataController)
+        app.handler.register(CrController)
         app.handler.register(NcController)
         app.handler.register(ClouddnsserviceController)
         app.handler.register(MpsController)

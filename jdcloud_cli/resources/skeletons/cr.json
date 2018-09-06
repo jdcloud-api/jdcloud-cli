@@ -1,0 +1,36 @@
+{
+    "get-authorization-token":{
+        "expiredAfterHours":"",
+        "regionId":"",
+        "registryName":""
+    },
+    "describe-images":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "describe-quotas":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-registry":{
+        "registryName":"",
+        "description":"",
+        "regionId":""
+    },
+    "create-repository":{
+        "repositoryName":"",
+        "description":"",
+        "regionId":"",
+        "registryName":""
+    },
+}

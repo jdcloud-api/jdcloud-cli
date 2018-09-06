@@ -59,6 +59,15 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_revoke_privilege(self):
+        cmd = """python ../../main.py rds revoke-privilege  --instance-id 'xxx' --account-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_reset_password(self):
         cmd = """python ../../main.py rds reset-password  --instance-id 'xxx' --account-name 'xxx' --account-password 'xxx'"""
         with os.popen(cmd) as f:
@@ -302,6 +311,15 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_set_backup_policy(self):
+        cmd = """python ../../main.py rds set-backup-policy  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_set_instance_name(self):
         cmd = """python ../../main.py rds set-instance-name  --instance-id 'xxx' --instance-name 'xxx'"""
         with os.popen(cmd) as f:
@@ -356,6 +374,33 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_create_instance_from_backup(self):
+        cmd = """python ../../main.py rds create-instance-from-backup  --backup-id 'xxx' --engine 'xxx' --instance-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_instance_spec(self):
+        cmd = """python ../../main.py rds modify-instance-spec  --instance-id 'xxx' --new-instance-class 'xxx' --new-instance-storage-gb '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_instance_by_time(self):
+        cmd = """python ../../main.py rds create-instance-by-time  --instance-id 'xxx' --restore-time 'xxx' --instance-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_index_performance(self):
         cmd = """python ../../main.py rds describe-index-performance  --instance-id 'xxx' --query-type 'xxx'"""
         with os.popen(cmd) as f:
@@ -376,6 +421,15 @@ class RdsTest(unittest.TestCase):
 
     def test_describe_white_list(self):
         cmd = """python ../../main.py rds describe-white-list  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_white_list(self):
+        cmd = """python ../../main.py rds modify-white-list  --instance-id 'xxx' --ips 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
