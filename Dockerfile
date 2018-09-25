@@ -11,7 +11,7 @@ RUN apk -v --update add \
 	ca-certificates \
 	py-setuptools \
         && \
-    pip install jdcloud_cli
+    pip install -U jdcloud_cli
 RUN update-ca-certificates
 RUN wget -q -c  -O kubectl https://storage.googleapis.com/kubernetes-release/release/v1.8.12/bin/linux/amd64/kubectl \
 && chmod +x kubectl \
