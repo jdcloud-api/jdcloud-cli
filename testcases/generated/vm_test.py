@@ -329,6 +329,42 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_keypairs(self):
+        cmd = """python ../../main.py vm describe-keypairs """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_keypair(self):
+        cmd = """python ../../main.py vm create-keypair  --key-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_import_keypair(self):
+        cmd = """python ../../main.py vm import-keypair  --key-name 'xxx' --public-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_keypair(self):
+        cmd = """python ../../main.py vm delete-keypair  --key-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_quotas(self):
         cmd = """python ../../main.py vm describe-quotas """
         with os.popen(cmd) as f:
