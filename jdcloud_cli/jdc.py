@@ -35,7 +35,6 @@ from jdcloud_cli.controllers.services.cr import CrController
 from jdcloud_cli.controllers.services.nc import NcController
 from jdcloud_cli.controllers.services.clouddnsservice import ClouddnsserviceController
 from jdcloud_cli.controllers.services.mps import MpsController
-from jdcloud_cli.controllers.services.jmr import JmrController
 from jdcloud_cli.controllers.services.streambus import StreambusController
 from jdcloud_cli.controllers.services.oss import OssController
 from jdcloud_cli.controllers.services.baseanti import BaseantiController
@@ -71,7 +70,6 @@ def main():
         app.handler.register(NcController)
         app.handler.register(ClouddnsserviceController)
         app.handler.register(MpsController)
-        app.handler.register(JmrController)
         app.handler.register(StreambusController)
         app.handler.register(OssController)
         app.handler.register(BaseantiController)

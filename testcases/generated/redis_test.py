@@ -78,7 +78,7 @@ class RedisTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_reset_cache_instance_password(self):
-        cmd = """python ../../main.py redis reset-cache-instance-password  --cache-instance-id 'xxx' --password 'xxx'"""
+        cmd = """python ../../main.py redis reset-cache-instance-password  --cache-instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

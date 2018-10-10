@@ -27,6 +27,10 @@
         "description":"",
         "regionId":""
     },
+    "check-registry-name":{
+        "registryName":"",
+        "regionId":""
+    },
     "create-repository":{
         "repositoryName":"",
         "description":"",

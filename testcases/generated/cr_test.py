@@ -51,7 +51,16 @@ class CrTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_registry(self):
-        cmd = """python ../../main.py cr create-registry """
+        cmd = """python ../../main.py cr create-registry  --registry-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_check_registry_name(self):
+        cmd = """python ../../main.py cr check-registry-name  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -60,7 +69,7 @@ class CrTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_repository(self):
-        cmd = """python ../../main.py cr create-repository  --registry-name 'xxx'"""
+        cmd = """python ../../main.py cr create-repository  --registry-name 'xxx' --repository-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

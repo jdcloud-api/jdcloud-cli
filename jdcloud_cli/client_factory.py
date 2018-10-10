@@ -34,7 +34,6 @@ from jdcloud_sdk.services.cr.client.CrClient import CrClient
 from jdcloud_sdk.services.nc.client.NcClient import NcClient
 from jdcloud_sdk.services.clouddnsservice.client.ClouddnsserviceClient import ClouddnsserviceClient
 from jdcloud_sdk.services.mps.client.MpsClient import MpsClient
-from jdcloud_sdk.services.jmr.client.JmrClient import JmrClient
 from jdcloud_sdk.services.streambus.client.StreambusClient import StreambusClient
 from jdcloud_sdk.services.oss.client.OssClient import OssClient
 from jdcloud_sdk.services.baseanti.client.BaseantiClient import BaseantiClient
@@ -68,7 +67,6 @@ class ClientFactory(object):
             'nc': NcClient,
             'clouddnsservice': ClouddnsserviceClient,
             'mps': MpsClient,
-            'jmr': JmrClient,
             'streambus': StreambusClient,
             'oss': OssClient,
             'baseanti': BaseantiClient,

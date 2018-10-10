@@ -22,7 +22,7 @@ from setuptools import setup, find_packages
 from jdcloud_cli.version import VERSION
 
 install_requires = ['websocket-client', 'jmespath>=0.6.1,<=0.7.1', 'configparser', 'requests',
-                    'argcomplete', 'argparse', 'jdcloud_sdk==1.2.13', 'pyyaml']
+                    'argcomplete', 'argparse', 'jdcloud_sdk==1.2.16', 'pyyaml', 'jinja2']
 
 
 setup(
@@ -32,7 +32,7 @@ setup(
     author='JDCloud API Gateway Team',
     url='https://github.com/jdcloud-api/jdcloud-cli',
     packages=find_packages(),
-    package_data={'jdcloud_cli': ['resources/skeletons/*']},
+    package_data={'jdcloud_cli': ['resources/skeletons/*', 'resources/jke/*']},
     platforms=['unix', 'linux', 'osx', 'win64'],
     install_requires=install_requires,
     entry_points={

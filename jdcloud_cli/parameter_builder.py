@@ -23,6 +23,7 @@ from jdcloud_cli.config import ProfileManager
 
 def collect_user_args(app):
     params_dict = _get_input_args(app.pargs.__dict__)
+
     if params_dict.get('input_json') is not None:
         parser = get_input_json_parser(app.pargs.input_json)
         input_dict = parser.get_param_obj()
@@ -63,7 +64,7 @@ def _get_input_args(pargs_dict):
 
         value = pargs_dict[key]
         try:
-            if isinstance(value, str):
+            if isinstance(value, str) and (value.startswith('{') or value.startswith('[')):
                 result[key] = _parse_json(value)
             else:
                 result[key] = pargs_dict[key]
