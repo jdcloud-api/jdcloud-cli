@@ -141,7 +141,7 @@ class CrController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--registry-name'], dict(help="""(string) 用户定义的registry名称。<br> DNS兼容registry名称规则如下：;  <br> 不可为空，且不能超过32字符 <br> 以小写字母开始和结尾，支持使用小写字母、数字、中划线(-);  """, dest='registryName', required=False)),
+            (['--registry-name'], dict(help="""(string) 用户定义的registry名称。<br> DNS兼容registry名称规则如下：;  <br> 不可为空，且不能超过32字符 <br> 以小写字母开始和结尾，支持使用小写字母、数字、中划线(-);  """, dest='registryName', required=True)),
             (['--description'], dict(help="""(string) 注册表描述，<a href="https://www.jdcloud.com/help/detail/3870/isCatalog/1">参考公共参数规范</a>。;  """, dest='description', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -151,7 +151,7 @@ class CrController(BaseController):
         description='''
             通过参数创建注册表。; 。
 
-            示例: jdc cr create-registry 
+            示例: jdc cr create-registry  --registry-name xxx
         ''',
     )
     def create_registry(self):
@@ -175,8 +175,41 @@ class CrController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--registry-name'], dict(help="""(string) 待验证的注册表名。 """, dest='registryName', required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询指定注册表名称是否已经存在以及是否符合命名规范。;  ''',
+        description='''
+            查询指定注册表名称是否已经存在以及是否符合命名规范。; 。
+
+            示例: jdc cr check-registry-name  --registry-name xxx
+        ''',
+    )
+    def check_registry_name(self):
+        client_factory = ClientFactory('cr')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cr.apis.CheckRegistryNameRequest import CheckRegistryNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CheckRegistryNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
             (['--registry-name'], dict(help="""(string) 注册表名称 """, dest='registryName', required=True)),
-            (['--repository-name'], dict(help="""(string) 镜像仓库名称。; 可以专有模式如默认命名空间nginx-web-app；或者和命名空间一起将多个仓库聚集在一起如 project-a/nginx-web-app。;  """, dest='repositoryName', required=False)),
+            (['--repository-name'], dict(help="""(string) 镜像仓库名称。; 可以专有模式如默认命名空间nginx-web-app；或者和命名空间一起将多个仓库聚集在一起如 project-a/nginx-web-app。;  """, dest='repositoryName', required=True)),
             (['--description'], dict(help="""(string) 注册表描述，<a href="https://www.jdcloud.com/help/detail/3870/isCatalog/1">参考公共参数规范</a>。;  """, dest='description', required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -186,7 +219,7 @@ class CrController(BaseController):
         description='''
             通过参数创建镜像仓库。; 仓库名称可以分解为多个路径名，每个名称必须至少包含一个小写字母数字，考虑URL规范。; 支持包含段划线或者下划线进行分割，但不允许点'.'，多个路径名之间通过("/")连接，总长度不超过256个字符，当前只支持二级目录。; 。
 
-            示例: jdc cr create-repository  --registry-name xxx
+            示例: jdc cr create-repository  --registry-name xxx --repository-name xxx
         ''',
     )
     def create_repository(self):
@@ -209,7 +242,7 @@ class CrController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-authorization-token','describe-images','describe-quotas','create-registry','create-repository',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['get-authorization-token','describe-images','describe-quotas','create-registry','check-registry-name','create-repository',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -21,7 +21,11 @@ class Printer(object):
 
     @staticmethod
     def print_result(resp):
-        print json.dumps(resp.__dict__, cls=ErrorEncoder, indent=4, ensure_ascii=False)
+        print json.dumps(resp.__dict__, cls=ErrorEncoder, indent=4, ensure_ascii=False).encode("utf8")
+
+    @staticmethod
+    def print_text(info):
+        print info
 
 
 class ErrorEncoder(json.JSONEncoder):

@@ -274,12 +274,36 @@
         }],
         "regionId":""
     },
+    "describe-keypairs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-keypair":{
+        "keyName":"",
+        "regionId":""
+    },
+    "import-keypair":{
+        "keyName":"",
+        "publicKey":"",
+        "regionId":""
+    },
+    "delete-keypair":{
+        "regionId":"",
+        "keyName":""
+    },
     "describe-quotas":{
         "filters":[{
             "name":"",
             "operator":"",
             "values":""
         }],
+        "imageId":"",
         "regionId":""
     }
 }
