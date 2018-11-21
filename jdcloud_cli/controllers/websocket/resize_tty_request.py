@@ -21,22 +21,27 @@ from jdcloud_cli.printer import Printer
 
 class ResizeTtyRequest(JDCloudRequest):
 
-    def __init__(self, parameters, header=None, version="v1"):
-        super(ResizeTtyRequest, self).__init__('/regions/{regionId}/containers/{containerId}:resizeTTY',
-                                               'POST', header, version)
+    def __init__(self, service, parameters, header=None, version="v1"):
+        url_map = {'pod': '/regions/{regionId}/pods/{podId}/containers/{containerId}:resizeTTY',
+                   'nc': '/regions/{regionId}/containers/{containerId}:resizeTTY'}
+        super(ResizeTtyRequest, self).__init__(url_map[service], 'POST', header, version)
         self.parameters = parameters
 
 
-def resize_tty(h, w, app, region_id, container_id, exec_id=None):
+def resize_tty(h, w, app, service, region_id, container_id, exec_id=None, pod_id=None):
     params = {'height': h, 'width': w, 'regionId': region_id, 'containerId': container_id}
+
     if exec_id is not None:
         params.update({'execId': exec_id})
 
-    client_factory = ClientFactory('nc')
+    if pod_id is not None:
+        params.update({'podId': pod_id})
+
+    client_factory = ClientFactory(service)
     client = client_factory.get(app)
     if client is None:
         return
 
-    req = ResizeTtyRequest(params)
+    req = ResizeTtyRequest(service, params)
     resp = client.send(req)
     Printer.print_result(resp)

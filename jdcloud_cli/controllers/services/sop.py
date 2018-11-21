@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class SopController(BaseController):
     class Meta:
         label = 'sop'
-        help = '使用该子命令操作sop相关资源'
+        help = '敏感操作保护'
         description = '''
-        sop cli 子命令，可以使用该子命令操作sop相关资源。
+        sop cli 子命令，敏感操作保护(SOP)相关接口。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/420/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,8 +38,8 @@ class SopController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--get-security-token-info'], dict(help="""(getSecurityTokenInfo) 获取SecurityToken参数 """, dest='getSecurityTokenInfo', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--get-security-token-info'], dict(help="""(getSecurityTokenInfo) 获取SecurityToken参数 """, dest='getSecurityTokenInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -71,8 +71,8 @@ class SopController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--action'], dict(help="""(string) 操作action serviceName:actionName """, dest='action', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--action'], dict(help="""(string) 操作action serviceName:actionName """, dest='action',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

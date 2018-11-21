@@ -32,8 +32,35 @@ class CrTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_authorization_tokens(self):
+        cmd = """python ../../main.py cr describe-authorization-tokens  --registry-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_release_authorization_token(self):
+        cmd = """python ../../main.py cr release-authorization-token  --registry-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_images(self):
         cmd = """python ../../main.py cr describe-images """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_image(self):
+        cmd = """python ../../main.py cr delete-image  --registry-name 'xxx' --repository-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +77,35 @@ class CrTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_registries(self):
+        cmd = """python ../../main.py cr describe-registries """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_create_registry(self):
         cmd = """python ../../main.py cr create-registry  --registry-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_registry(self):
+        cmd = """python ../../main.py cr describe-registry  --registry-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_registry(self):
+        cmd = """python ../../main.py cr delete-registry  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -70,6 +124,33 @@ class CrTest(unittest.TestCase):
 
     def test_create_repository(self):
         cmd = """python ../../main.py cr create-repository  --registry-name 'xxx' --repository-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_repositories(self):
+        cmd = """python ../../main.py cr describe-repositories """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_repository(self):
+        cmd = """python ../../main.py cr delete-repository  --registry-name 'xxx' --repository-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_check_repository_name(self):
+        cmd = """python ../../main.py cr check-repository-name  --registry-name 'xxx' --repository-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

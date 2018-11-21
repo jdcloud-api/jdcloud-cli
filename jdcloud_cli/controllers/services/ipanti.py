@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class IpantiController(BaseController):
     class Meta:
         label = 'ipanti'
-        help = '使用该子命令操作ipanti相关资源'
+        help = '京东云IP高防相关接口'
         description = '''
-        ipanti cli 子命令，可以使用该子命令操作ipanti相关资源。
+        ipanti cli 子命令，京东云IP高防相关接口。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/381/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,12 +38,12 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime', required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime', required=True)),
-            (['--instance-id'], dict(help="""(array: string) 高防实例id """, dest='instanceId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: string) 高防实例id """, dest='instanceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -75,12 +75,12 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime', required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime', required=True)),
-            (['--instance-id'], dict(help="""(array: string) 高防实例id """, dest='instanceId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: string) 高防实例id """, dest='instanceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -112,13 +112,13 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime', required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime', required=True)),
-            (['--instance-id'], dict(help="""(string) 高防实例id """, dest='instanceId', required=True)),
-            (['--sub-domain'], dict(help="""(array: string) 子域名 """, dest='subDomain', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(string) 高防实例id """, dest='instanceId',  required=True)),
+            (['--sub-domain'], dict(help="""(array: string) 子域名 """, dest='subDomain',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -150,10 +150,10 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime', required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime', required=True)),
-            (['--instance-id'], dict(help="""(array: string) 高防实例id，可以传0个或多个 """, dest='instanceId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: string) 高防实例id，可以传0个或多个 """, dest='instanceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -185,10 +185,10 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime', required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime', required=True)),
-            (['--instance-id'], dict(help="""(array: string) 高防实例id，可以传0个或多个 """, dest='instanceId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: string) 高防实例id，可以传0个或多个 """, dest='instanceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -220,11 +220,11 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime', required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime', required=True)),
-            (['--instance-id'], dict(help="""(array: string) 高防实例id，可以传0个或多个 """, dest='instanceId', required=False)),
-            (['--sub-domain'], dict(help="""(array: string) 规则域名，可以传0个或多个 """, dest='subDomain', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: string) 高防实例id，可以传0个或多个 """, dest='instanceId',  required=False)),
+            (['--sub-domain'], dict(help="""(array: string) 规则域名，可以传0个或多个 """, dest='subDomain',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -256,10 +256,10 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -291,9 +291,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--forward-rule-spec'], dict(help="""(forwardRuleSpec) 非网站类规则参数 """, dest='forwardRuleSpec', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--forward-rule-spec'], dict(help="""(forwardRuleSpec) 非网站类规则参数 """, dest='forwardRuleSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -325,9 +325,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -359,10 +359,10 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId', required=True)),
-            (['--forward-rule-spec'], dict(help="""(forwardRuleSpec) 非网站类规则参数 """, dest='forwardRuleSpec', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId',  required=True)),
+            (['--forward-rule-spec'], dict(help="""(forwardRuleSpec) 非网站类规则参数 """, dest='forwardRuleSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -394,9 +394,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -428,9 +428,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -462,9 +462,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -496,10 +496,10 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--name'], dict(help="""(string) 实例名称，可模糊匹配 """, dest='name', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--name'], dict(help="""(string) 实例名称，可模糊匹配 """, dest='name',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -531,8 +531,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-spec'], dict(help="""(instanceSpec) 实例规格参数 """, dest='instanceSpec', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-spec'], dict(help="""(instanceSpec) 实例规格参数 """, dest='instanceSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -564,8 +564,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -597,9 +597,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--c-cspec'], dict(help="""(cCSpec) cc参数 """, dest='cCSpec', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--c-cspec'], dict(help="""(cCSpec) cc参数 """, dest='cCSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -631,8 +631,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -664,8 +664,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -697,9 +697,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--url-white-list'], dict(help="""(array: string) 网站类规则参数 """, dest='urlWhiteList', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--url-white-list'], dict(help="""(array: string) 网站类规则参数 """, dest='urlWhiteList',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -731,8 +731,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -764,8 +764,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -797,9 +797,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--name'], dict(help="""(string) 新的实例名称 """, dest='name', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--name'], dict(help="""(string) 新的实例名称 """, dest='name',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -831,9 +831,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--ip-black-list'], dict(help="""(array: string) ip黑名单列表 """, dest='ipBlackList', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--ip-black-list'], dict(help="""(array: string) ip黑名单列表 """, dest='ipBlackList',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -865,8 +865,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -898,8 +898,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -931,9 +931,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--ip-white-list'], dict(help="""(array: string) ip白名单列表 """, dest='ipWhiteList', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--ip-white-list'], dict(help="""(array: string) ip白名单列表 """, dest='ipWhiteList',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -965,8 +965,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -998,8 +998,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1031,8 +1031,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1064,8 +1064,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1097,8 +1097,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1130,8 +1130,8 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1163,9 +1163,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--c-cspec'], dict(help="""(ccIpLimitSpec) cc参数 """, dest='cCSpec', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--c-cspec'], dict(help="""(ccIpLimitSpec) cc参数 """, dest='cCSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1197,10 +1197,10 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1232,9 +1232,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--web-rule-spec'], dict(help="""(webRuleSpec) 网站类规则参数 """, dest='webRuleSpec', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--web-rule-spec'], dict(help="""(webRuleSpec) 网站类规则参数 """, dest='webRuleSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1266,9 +1266,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1300,10 +1300,10 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId', required=True)),
-            (['--web-rule-spec'], dict(help="""(webRuleSpec) 网站类规则参数 """, dest='webRuleSpec', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
+            (['--web-rule-spec'], dict(help="""(webRuleSpec) 网站类规则参数 """, dest='webRuleSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1335,9 +1335,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1369,9 +1369,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1403,9 +1403,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1437,9 +1437,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1471,9 +1471,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId', required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

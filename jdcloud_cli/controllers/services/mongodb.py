@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class MongodbController(BaseController):
     class Meta:
         label = 'mongodb'
-        help = '使用该子命令操作mongodb相关资源'
+        help = '京东云数据库MongoDB接口'
         description = '''
-        mongodb cli 子命令，可以使用该子命令操作mongodb相关资源。
+        mongodb cli 子命令，数据库MongoDB相关接口。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/383/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,11 +38,11 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; instanceName - 实例名称, 模糊匹配; instanceStatus - mongodb状态，精确匹配，支持多个.RUNNING：运行, ERROR：错误 ,BUILDING：创建中, DELETING：删除中, RESTORING：恢复中, RESIZING：变配中; chargeMode - 计费类型，精确匹配;  """, dest='filters', required=False)),
-            (['--sorts'], dict(help="""(array: sort) createTime - 创建时间,asc（正序），desc（倒序）;  """, dest='sorts', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; instanceName - 实例名称, 模糊匹配; instanceStatus - mongodb状态，精确匹配，支持多个.RUNNING：运行, ERROR：错误 ,BUILDING：创建中, DELETING：删除中, RESTORING：恢复中, RESIZING：变配中; chargeMode - 计费类型，精确匹配;  """, dest='filters',  required=False)),
+            (['--sorts'], dict(help="""(array: sort) createTime - 创建时间,asc（正序），desc（倒序）;  """, dest='sorts',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -74,9 +74,9 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-spec'], dict(help="""(dBInstanceSpec) 实例规格 """, dest='instanceSpec', required=True)),
-            (['--charge-spec'], dict(help="""(chargeSpec) 付费方式 """, dest='chargeSpec', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-spec'], dict(help="""(dBInstanceSpec) 实例规格 """, dest='instanceSpec',  required=True)),
+            (['--charge-spec'], dict(help="""(chargeSpec) 付费方式 """, dest='chargeSpec',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -108,8 +108,8 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -141,9 +141,9 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--account-password'], dict(help="""(string) 新密码，必须包含且只支持字母及数字，不少于8字符不超过16字符。 """, dest='accountPassword', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--account-password'], dict(help="""(string) 新密码，必须包含且只支持字母及数字，不少于8字符不超过16字符。 """, dest='accountPassword',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -175,10 +175,10 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--instance-class'], dict(help="""(string) 实例规格，包年包月不允许小于当前规格。 """, dest='instanceClass', required=True)),
-            (['--instance-storage-gb'], dict(help="""(int) 存储空间，包年包月不允许小于当前规格。 """, dest='instanceStorageGB', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--instance-class'], dict(help="""(string) 实例规格，包年包月不允许小于当前规格。 """, dest='instanceClass',  required=True)),
+            (['--instance-storage-gb'], dict(help="""(int) 存储空间，包年包月不允许小于当前规格。 """, dest='instanceStorageGB', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -210,9 +210,9 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--instance-name'], dict(help="""(string) 新的实例名称，只支持数字、字母、英文下划线、中文，且不少于2字符不超过32字符。 """, dest='instanceName', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--instance-name'], dict(help="""(string) 新的实例名称，只支持数字、字母、英文下划线、中文，且不少于2字符不超过32字符。 """, dest='instanceName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -244,8 +244,8 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -277,9 +277,9 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--preferred-backup-time'], dict(help="""(string) 备份时间，格式：HH:mmZ- HH:mmZ，只允许间隔时间为1小时的整点. """, dest='preferredBackupTime', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--preferred-backup-time'], dict(help="""(string) 备份时间，格式：HH:mmZ- HH:mmZ，只允许间隔时间为1小时的整点. """, dest='preferredBackupTime',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -311,9 +311,9 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--backup-id'], dict(help="""(string) 备份ID """, dest='backupId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--backup-id'], dict(help="""(string) 备份ID """, dest='backupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -345,7 +345,7 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -377,7 +377,7 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -409,10 +409,10 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; backupId - 备份ID, 精确匹配;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; backupId - 备份ID, 精确匹配;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -444,9 +444,9 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId', required=True)),
-            (['--backup-name'], dict(help="""(string) 备份名称 """, dest='backupName', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId',  required=True)),
+            (['--backup-name'], dict(help="""(string) 备份名称 """, dest='backupName',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -478,8 +478,8 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -511,8 +511,8 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--backup-id'], dict(help="""(string) backup ID """, dest='backupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -544,8 +544,8 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -577,10 +577,10 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId', required=True)),
-            (['--modify-mode'], dict(help="""(string) 修改方式,Add 增加白名单,Delete 删除白名单. """, dest='modifyMode', required=True)),
-            (['--security-ips'], dict(help="""(string) IP白名单分组下的IP列表，最多45个以逗号隔开，格式如下：0.0.0.0/0，10.23.12.24（IP），或者10.23.12.24/24（CIDR模式，无类域间路由，/24表示了地址中前缀的长度，范围[1，32]）。 """, dest='securityIps', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--modify-mode'], dict(help="""(string) 修改方式,Add 增加白名单,Delete 删除白名单. """, dest='modifyMode',  required=True)),
+            (['--security-ips'], dict(help="""(string) IP白名单分组下的IP列表，最多45个以逗号隔开，格式如下：0.0.0.0/0，10.23.12.24（IP），或者10.23.12.24/24（CIDR模式，无类域间路由，/24表示了地址中前缀的长度，范围[1，32]）。 """, dest='securityIps',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

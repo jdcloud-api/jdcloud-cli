@@ -1,34 +1,52 @@
 {
-    "describe-alarms":{
-        "serviceCode":"",
-        "resourceId":"",
-        "status":"",
-        "isAlarming":"",
-        "enabled":"",
+    "describe-alarm-contacts":{
         "pageNumber":"",
         "pageSize":"",
+        "referenceType":"",
+        "regionId":"",
+        "alarmId":""
+    },
+    "describe-alarm-history":{
+        "pageNumber":"",
+        "pageSize":"",
+        "serviceCode":"",
+        "resourceId":"",
+        "alarmId":"",
+        "alarming":"",
+        "startTime":"",
+        "endTime":"",
+        "filters":[{
+            "Name":"",
+            "Values":""
+        }],
+        "regionId":""
+    },
+    "describe-alarms":{
+        "pageNumber":"",
+        "pageSize":"",
+        "serviceCode":"",
+        "resourceID":"",
+        "ruleType":"",
+        "status":"",
+        "enabled":"",
+        "isAlarming":"",
+        "alarmId":"",
+        "filters":[{
+            "Name":"",
+            "Values":""
+        }],
         "regionId":""
     },
     "create-alarm":{
-        "clientToken":"",
-        "createAlarmSpec":{
-            "calculation":"",
-            "contactGroups":"",
-            "contactPersons":"",
-            "downSample":"",
-            "metric":"",
-            "noticePeriod":"",
-            "operation":"",
-            "period":"",
-            "resourceIds":"",
-            "serviceCode":"",
-            "threshold":"",
-            "times":""
-        },
-        "regionId":""
-    },
-    "delete-alarms":{
-        "ids":"",
+        "contactGroups":[""],
+        "contactPersons":[""],
+        "downSample":"",
+        "metric":"",
+        "noticePeriod":"",
+        "resourceIds":[""],
+        "serviceCode":"",
+        "threshold":"",
+        "times":"",
         "regionId":""
     },
     "describe-alarms-by-id":{
@@ -36,21 +54,32 @@
         "alarmId":""
     },
     "update-alarm":{
-        "calculation":"",
-        "contactGroups":[""],
-        "contactPersons":[""],
-        "downSample":"",
-        "metric":"",
-        "noticePeriod":"",
-        "operation":"",
-        "period":"",
-        "serviceCode":"",
-        "threshold":"",
-        "times":"",
-        "regionId":"",
-        "alarmId":""
-    },
-    "enable-alarm":{
+        "contacts":[{
+            "referenceId":"",
+            "referenceType":""
+        }],
+        "rule":{
+            "autoScalingPolicyId":"",
+            "calculateUnit":"",
+            "calculation":"",
+            "downSample":"",
+            "metric":"",
+            "noticeLevel":{
+                "custom":"",
+                "levels":""
+            },
+            "noticePeriod":"",
+            "operation":"",
+            "period":"",
+            "ruleType":"",
+            "tags":"",
+            "threshold":"",
+            "times":""
+        },
+        "webHookContent":"",
+        "webHookProtocol":"",
+        "webHookSecret":"",
+        "webHookUrl":"",
         "regionId":"",
         "alarmId":""
     },
@@ -58,21 +87,29 @@
         "regionId":"",
         "alarmId":""
     },
-    "describe-alarm-history":{
-        "id":"",
-        "serviceCode":"",
-        "resourceId":"",
-        "startTime":"",
-        "endTime":"",
-        "pageNumber":"",
-        "pageSize":"",
-        "regionId":""
+    "enable-alarm":{
+        "regionId":"",
+        "alarmId":""
     },
     "describe-metrics":{
         "serviceCode":""
     },
     "describe-metrics-for-create-alarm":{
         "serviceCode":""
+    },
+    "last-downsample":{
+        "serviceCode":"",
+        "resourceId":"",
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
+        "startTime":"",
+        "endTime":"",
+        "timeInterval":"",
+        "aggrType":"",
+        "regionId":"",
+        "metric":""
     },
     "describe-metric-data":{
         "serviceCode":"",
@@ -84,6 +121,7 @@
             "key":"",
             "values":""
         }],
+        "groupBy":"",
         "regionId":"",
         "metric":""
     },
@@ -96,5 +134,5 @@
             "type":"",
             "values":""
         }]
-    }
+    },
 }

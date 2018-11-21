@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class XdataController(BaseController):
     class Meta:
         label = 'xdata'
-        help = '使用该子命令操作xdata相关资源'
+        help = '数据计算服务API'
         description = '''
-        xdata cli 子命令，可以使用该子命令操作xdata相关资源。
+        xdata cli 子命令，数据计算服务相关API。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/389/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,8 +38,8 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -71,9 +71,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName',  required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -105,10 +105,10 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--description'], dict(help="""(string) 数据库描述信息 """, dest='description', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName',  required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--description'], dict(help="""(string) 数据库描述信息 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -140,9 +140,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName',  required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -174,7 +174,7 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -206,16 +206,16 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName', required=False)),
-            (['--sql'], dict(help="""(string) sql脚本 """, dest='sql', required=True)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--queue-name'], dict(help="""(string) 队列名称 """, dest='queueName', required=False)),
-            (['--source'], dict(help="""(string) 资源名称 """, dest='source', required=False)),
-            (['--call-back-url'], dict(help="""(string) 回调地址名称 """, dest='callBackURL', required=False)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--instance-owner-name'], dict(help="""(string) 实例拥有者名称 """, dest='instanceOwnerName', required=False)),
-            (['--is-explain'], dict(help="""(string) 是否需要解释 """, dest='isExplain', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=False)),
+            (['--sql'], dict(help="""(string) sql脚本 """, dest='sql',  required=True)),
+            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
+            (['--queue-name'], dict(help="""(string) 队列名称 """, dest='queueName',  required=False)),
+            (['--source'], dict(help="""(string) 资源名称 """, dest='source',  required=False)),
+            (['--call-back-url'], dict(help="""(string) 回调地址名称 """, dest='callBackURL',  required=False)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--instance-owner-name'], dict(help="""(string) 实例拥有者名称 """, dest='instanceOwnerName',  required=False)),
+            (['--is-explain'], dict(help="""(string) 是否需要解释 """, dest='isExplain',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -247,12 +247,12 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--script'], dict(help="""(string) PySpark脚本 """, dest='script', required=True)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--instance-owner-name'], dict(help="""(string) 实例拥有者名称 """, dest='instanceOwnerName', required=False)),
-            (['--script-type'], dict(help="""(string) 脚本类型名称 """, dest='scriptType', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--script'], dict(help="""(string) PySpark脚本 """, dest='script',  required=True)),
+            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--instance-owner-name'], dict(help="""(string) 实例拥有者名称 """, dest='instanceOwnerName',  required=False)),
+            (['--script-type'], dict(help="""(string) 脚本类型名称 """, dest='scriptType',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -284,9 +284,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id名称 """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
+            (['--query-id'], dict(help="""(string) 查询id名称 """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -318,9 +318,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
+            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -352,9 +352,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
+            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -386,9 +386,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
+            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -420,9 +420,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
+            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -454,9 +454,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
+            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -488,9 +488,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName', required=True)),
-            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
+            (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -522,9 +522,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -556,9 +556,9 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--db-model-dbtable'], dict(help="""(dwTableDesc) 数据表描述信息 """, dest='dbModelDBTable', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--db-model-dbtable'], dict(help="""(dwTableDesc) 数据表描述信息 """, dest='dbModelDBTable',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -590,10 +590,10 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--table-name'], dict(help="""(string) 数据表名 """, dest='tableName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--table-name'], dict(help="""(string) 数据表名 """, dest='tableName',  required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -625,10 +625,10 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--table-name'], dict(help="""(string) 数据表名 """, dest='tableName', required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName', required=True)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--table-name'], dict(help="""(string) 数据表名 """, dest='tableName',  required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

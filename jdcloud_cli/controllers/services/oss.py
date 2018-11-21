@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class OssController(BaseController):
     class Meta:
         label = 'oss'
-        help = '使用该子命令操作oss相关资源'
+        help = '云存储API'
         description = '''
-        oss cli 子命令，可以使用该子命令操作oss相关资源。
+        oss cli 子命令，云存储API，主要包含查询Bucket列表，创建Bucket, 删除Bucket，查询Bucket是否存在, 更多API见：https://www.jdcloud.com/help/detail/1901/isCatalog/1。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/386/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,7 +38,7 @@ class OssController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -70,8 +70,8 @@ class OssController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId', required=False)),
-            (['--bucketname'], dict(help="""(string) bucket名字，例如：test-bucket """, dest='bucketname', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId',  required=False)),
+            (['--bucketname'], dict(help="""(string) bucket名字，例如：test-bucket """, dest='bucketname',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -103,8 +103,8 @@ class OssController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId', required=False)),
-            (['--bucketname'], dict(help="""(string) bucket名字，例如：test-bucket """, dest='bucketname', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId',  required=False)),
+            (['--bucketname'], dict(help="""(string) bucket名字，例如：test-bucket """, dest='bucketname',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -136,8 +136,8 @@ class OssController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId', required=False)),
-            (['--bucketname'], dict(help="""(string) bucket名字，例如：test-bucket """, dest='bucketname', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID，例如：cn-north-1 """, dest='regionId',  required=False)),
+            (['--bucketname'], dict(help="""(string) bucket名字，例如：test-bucket """, dest='bucketname',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
