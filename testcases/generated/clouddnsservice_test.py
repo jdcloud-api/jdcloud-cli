@@ -23,6 +23,15 @@ import json
 
 class ClouddnsserviceTest(unittest.TestCase):
 
+    def test_get_action_log(self):
+        cmd = """python ../../main.py clouddnsservice get-action-log  --page-number '5' --page-size '5' --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_get_domains(self):
         cmd = """python ../../main.py clouddnsservice get-domains  --page-number '5' --page-size '5'"""
         with os.popen(cmd) as f:
@@ -115,6 +124,60 @@ class ClouddnsserviceTest(unittest.TestCase):
 
     def test_operate_rr(self):
         cmd = """python ../../main.py clouddnsservice operate-rr  --domain-id 'xxx' --ids '[5]' --action 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_user_view(self):
+        cmd = """python ../../main.py clouddnsservice add-user-view  --req '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_del_user_view(self):
+        cmd = """python ../../main.py clouddnsservice del-user-view  --req '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_user_view(self):
+        cmd = """python ../../main.py clouddnsservice get-user-view  --domain-id '5' --view-id '5' --page-number '5' --page-size '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_user_view_ip(self):
+        cmd = """python ../../main.py clouddnsservice add-user-view-ip  --req '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_del_user_view_ip(self):
+        cmd = """python ../../main.py clouddnsservice del-user-view-ip  --req '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_user_view_ip(self):
+        cmd = """python ../../main.py clouddnsservice get-user-view-ip  --domain-id '5' --view-id '5' --page-number '5' --page-size '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 

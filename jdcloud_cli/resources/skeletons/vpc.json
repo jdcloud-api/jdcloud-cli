@@ -388,5 +388,5 @@
     "delete-vpc-peering":{
         "regionId":"",
         "vpcPeeringId":""
-    }
+    },
 }

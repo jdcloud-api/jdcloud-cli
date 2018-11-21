@@ -4,6 +4,23 @@
         "regionId":"",
         "registryName":""
     },
+    "describe-authorization-tokens":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "registryName":""
+    },
+    "release-authorization-token":{
+        "authorizationToken":"",
+        "forceAll":"",
+        "regionId":"",
+        "registryName":""
+    },
     "describe-images":{
         "filters":[{
             "name":"",
@@ -14,6 +31,14 @@
         "pageSize":"",
         "regionId":""
     },
+    "delete-image":{
+        "imageDigest":"",
+        "imageTag":"",
+        "imageTagStatus":"",
+        "regionId":"",
+        "registryName":"",
+        "repositoryName":""
+    },
     "describe-quotas":{
         "filters":[{
             "name":"",
@@ -22,10 +47,21 @@
         }],
         "regionId":""
     },
+    "describe-registries":{
+        "regionId":""
+    },
     "create-registry":{
         "registryName":"",
         "description":"",
         "regionId":""
+    },
+    "describe-registry":{
+        "regionId":"",
+        "registryName":""
+    },
+    "delete-registry":{
+        "regionId":"",
+        "registryName":""
     },
     "check-registry-name":{
         "registryName":"",
@@ -36,5 +72,25 @@
         "description":"",
         "regionId":"",
         "registryName":""
+    },
+    "describe-repositories":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "delete-repository":{
+        "regionId":"",
+        "registryName":"",
+        "repositoryName":""
+    },
+    "check-repository-name":{
+        "registryName":"",
+        "repositoryName":"",
+        "regionId":""
     },
 }

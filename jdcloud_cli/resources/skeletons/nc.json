@@ -157,5 +157,5 @@
     "delete-secret":{
         "regionId":"",
         "name":""
-    }
+    },
 }

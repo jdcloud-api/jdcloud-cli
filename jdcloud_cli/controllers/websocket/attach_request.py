@@ -26,31 +26,33 @@ from jdcloud_cli.controllers.websocket.websocket_base import web_socket
 
 class AttachRequest(object):
 
-    def __init__(self, scheme, endpoint, method, region_id, container_id):
-        self.__url = '%s://%s/v1/regions/%s/containers/%s:attach' % \
-                     (scheme, endpoint, region_id, container_id)
+    def __init__(self, service, scheme, endpoint, method, region_id, container_id, pod_id=None):
+        url_map = {'pod': '%s://%s/v1/regions/%s/pods/%s/containers/%s:attach' % (scheme, endpoint, region_id, pod_id, container_id),
+                   'nc': '%s://%s/v1/regions/%s/containers/%s:attach' % (scheme, endpoint, region_id, container_id)}
+        self.__url = url_map[service]
         self.__method = method
         self.__headers = {'content-type': 'application/json'}
         self.__region_id = region_id
+        self.__service = service
 
     def invoke_shell(self, credential):
         singer = Signer(get_logger(False))
-        singer.sign(self.__method, 'nc', self.__region_id, self.__url, self.__headers, '', credential, '')
+        singer.sign(self.__method, self.__service, self.__region_id, self.__url, self.__headers, '', credential, '')
         web_socket.invoke_shell(self.__url, self.__headers)
 
 
-def attach(app, region_id, container_id):
+def attach(app, service, region_id, container_id, pod_id=None):
     def handle_signal(signum, frame):
         h, w = web_socket.get_win_size()
-        resize_tty(h, w, app, region_id, container_id)
+        resize_tty(h, w, app, service, region_id, container_id, pod_id=pod_id)
 
     web_socket.reg_winch_handler(handle_signal)
 
     profile_manager = ProfileManager()
     cli_config = profile_manager.load_current_profile()
     credential = Credential(cli_config.access_key, cli_config.secret_key)
-    request = AttachRequest(WEBSOCKET_SCHEME, cli_config.endpoint, METHOD_GET, region_id, container_id)
+    request = AttachRequest(service, WEBSOCKET_SCHEME, cli_config.endpoint, METHOD_GET, region_id, container_id, pod_id=pod_id)
     request.invoke_shell(credential)
 
     h_o, w_o = web_socket.get_win_size()
-    resize_tty(h_o, w_o, app, region_id, container_id)
+    resize_tty(h_o, w_o, app, service, region_id, container_id, pod_id=pod_id)

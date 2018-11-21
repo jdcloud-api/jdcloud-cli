@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class BaseantiController(BaseController):
     class Meta:
         label = 'baseanti'
-        help = '使用该子命令操作baseanti相关资源'
+        help = '京东云DDoS基础防护相关接口'
         description = '''
-        baseanti cli 子命令，可以使用该子命令操作baseanti相关资源。
+        baseanti cli 子命令，京东云DDoS基础防护相关接口。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/412/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,8 +38,8 @@ class BaseantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--ip'], dict(help="""(string) IP模糊匹配 """, dest='ip', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--ip'], dict(help="""(string) IP模糊匹配 """, dest='ip',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -71,8 +71,8 @@ class BaseantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--ip'], dict(help="""(string) 公网ip """, dest='ip', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--ip'], dict(help="""(string) 公网ip """, dest='ip',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -104,9 +104,9 @@ class BaseantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--ip'], dict(help="""(string) 公网ip """, dest='ip', required=True)),
-            (['--clean-threshold-spec'], dict(help="""(cleanThresholdSpec) cc参数 """, dest='cleanThresholdSpec', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--ip'], dict(help="""(string) 公网ip """, dest='ip',  required=True)),
+            (['--clean-threshold-spec'], dict(help="""(cleanThresholdSpec) cc参数 """, dest='cleanThresholdSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -138,10 +138,10 @@ class BaseantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--ip'], dict(help="""(string) 公网ip """, dest='ip', required=True)),
-            (['--start'], dict(help="""(int) 限制查询的开始范围 """, dest='start', required=False)),
-            (['--limit'], dict(help="""(int) 限制查询的记录数 """, dest='limit', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--ip'], dict(help="""(string) 公网ip """, dest='ip',  required=True)),
+            (['--start'], dict(help="""(int) 限制查询的开始范围 """, dest='start', type=int, required=False)),
+            (['--limit'], dict(help="""(int) 限制查询的记录数 """, dest='limit', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -173,9 +173,9 @@ class BaseantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--ip'], dict(help="""(string) 公网ip """, dest='ip', required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--ip'], dict(help="""(string) 公网ip """, dest='ip',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

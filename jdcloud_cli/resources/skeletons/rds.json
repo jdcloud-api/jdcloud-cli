@@ -48,7 +48,7 @@
         "regionId":"",
         "instanceId":""
     },
-    "get-audit-options":{
+    "describe-audit-options":{
         "name":"",
         "regionId":"",
         "instanceId":""
@@ -59,11 +59,11 @@
         "regionId":"",
         "instanceId":""
     },
-    "get-audit-files":{
+    "describe-audit-files":{
         "regionId":"",
         "instanceId":""
     },
-    "get-audit-download-url":{
+    "describe-audit-download-url":{
         "fileName":"",
         "regionId":"",
         "instanceId":""
@@ -96,6 +96,19 @@
         "urlExpirationSecond":"",
         "regionId":"",
         "backupId":""
+    },
+    "describe-binlogs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-binlog-download-url":{
+        "regionId":"",
+        "instanceId":"",
+        "binlogBackupId":""
     },
     "describe-databases":{
         "dbName":"",
@@ -182,16 +195,16 @@
         "regionId":"",
         "instanceId":""
     },
-    "get-backup-policy":{
+    "describe-backup-policy":{
         "regionId":"",
         "instanceId":""
     },
-    "set-backup-policy":{
+    "modify-backup-policy":{
         "startWindow":"",
         "regionId":"",
         "instanceId":""
     },
-    "set-instance-name":{
+    "modify-instance-name":{
         "instanceName":"",
         "regionId":"",
         "instanceId":""
@@ -261,6 +274,11 @@
         "regionId":"",
         "instanceId":""
     },
+    "modify-connection-mode":{
+        "connectionMode":"",
+        "regionId":"",
+        "instanceId":""
+    },
     "describe-index-performance":{
         "queryType":"",
         "db":"",
@@ -277,6 +295,24 @@
         "regionId":"",
         "instanceId":""
     },
+    "describe-slow-log-attributes":{
+        "startTime":"",
+        "endTime":"",
+        "dbName":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-slow-logs":{
+        "startTime":"",
+        "endTime":"",
+        "dbName":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
     "describe-white-list":{
         "regionId":"",
         "instanceId":""
@@ -285,5 +321,5 @@
         "ips":"",
         "regionId":"",
         "instanceId":""
-    }
+    },
 }

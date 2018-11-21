@@ -104,8 +104,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_audit_options(self):
-        cmd = """python ../../main.py rds get-audit-options  --instance-id 'xxx' --name 'xxx'"""
+    def test_describe_audit_options(self):
+        cmd = """python ../../main.py rds describe-audit-options  --instance-id 'xxx' --name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -122,8 +122,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_audit_files(self):
-        cmd = """python ../../main.py rds get-audit-files  --instance-id 'xxx'"""
+    def test_describe_audit_files(self):
+        cmd = """python ../../main.py rds describe-audit-files  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -131,8 +131,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_audit_download_url(self):
-        cmd = """python ../../main.py rds get-audit-download-url  --instance-id 'xxx' --file-name 'xxx'"""
+    def test_describe_audit_download_url(self):
+        cmd = """python ../../main.py rds describe-audit-download-url  --instance-id 'xxx' --file-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -169,6 +169,24 @@ class RdsTest(unittest.TestCase):
 
     def test_describe_backup_download_url(self):
         cmd = """python ../../main.py rds describe-backup-download-url  --backup-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_binlogs(self):
+        cmd = """python ../../main.py rds describe-binlogs  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_binlog_download_url(self):
+        cmd = """python ../../main.py rds describe-binlog-download-url  --instance-id 'xxx' --binlog-backup-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -302,8 +320,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_backup_policy(self):
-        cmd = """python ../../main.py rds get-backup-policy  --instance-id 'xxx'"""
+    def test_describe_backup_policy(self):
+        cmd = """python ../../main.py rds describe-backup-policy  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -311,8 +329,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_set_backup_policy(self):
-        cmd = """python ../../main.py rds set-backup-policy  --instance-id 'xxx'"""
+    def test_modify_backup_policy(self):
+        cmd = """python ../../main.py rds modify-backup-policy  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -320,8 +338,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_set_instance_name(self):
-        cmd = """python ../../main.py rds set-instance-name  --instance-id 'xxx' --instance-name 'xxx'"""
+    def test_modify_instance_name(self):
+        cmd = """python ../../main.py rds modify-instance-name  --instance-id 'xxx' --instance-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -401,6 +419,15 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_modify_connection_mode(self):
+        cmd = """python ../../main.py rds modify-connection-mode  --instance-id 'xxx' --connection-mode 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_index_performance(self):
         cmd = """python ../../main.py rds describe-index-performance  --instance-id 'xxx' --query-type 'xxx'"""
         with os.popen(cmd) as f:
@@ -412,6 +439,24 @@ class RdsTest(unittest.TestCase):
 
     def test_describe_query_performance(self):
         cmd = """python ../../main.py rds describe-query-performance  --instance-id 'xxx' --query-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_slow_log_attributes(self):
+        cmd = """python ../../main.py rds describe-slow-log-attributes  --instance-id 'xxx' --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print content
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_slow_logs(self):
+        cmd = """python ../../main.py rds describe-slow-logs  --instance-id 'xxx' --start-time 'xxx' --end-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

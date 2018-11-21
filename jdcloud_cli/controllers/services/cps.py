@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class CpsController(BaseController):
     class Meta:
         label = 'cps'
-        help = '使用该子命令操作cps相关资源'
+        help = '云物理服务器'
         description = '''
-        cps cli 子命令，可以使用该子命令操作cps相关资源。
+        cps cli 子命令，云物理服务器相关接口。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/432/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,8 +38,8 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--device-type'], dict(help="""(string) 实例类型，可调用接口（describeDeviceTypes）获取指定地域的实例类型，例如：cps.c.normal """, dest='deviceType', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--device-type'], dict(help="""(string) 实例类型，可调用接口（describeDeviceTypes）获取指定地域的实例类型，例如：cps.c.normal """, dest='deviceType',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -71,8 +71,8 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--os-type-id'], dict(help="""(string) 操作系统系统类型ID，调用接口（describeOS）获取云物理服务器支持的操作系统 """, dest='osTypeId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--os-type-id'], dict(help="""(string) 操作系统系统类型ID，调用接口（describeOS）获取云物理服务器支持的操作系统 """, dest='osTypeId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -104,8 +104,8 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -137,10 +137,10 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId', required=True)),
-            (['--name'], dict(help="""(string) 云物理服务器名称 """, dest='name', required=False)),
-            (['--description'], dict(help="""(string) 云物理服务器描述 """, dest='description', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--name'], dict(help="""(string) 云物理服务器名称 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 云物理服务器描述 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -172,7 +172,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -204,9 +204,9 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--device-type'], dict(help="""(string) 实例类型，可调用（describeDeviceTypes）接口获取指定地域的实例类型，例如：cps.c.normal """, dest='deviceType', required=True)),
-            (['--volume-type'], dict(help="""(string) 磁盘类型，取值范围：system、data """, dest='volumeType', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--device-type'], dict(help="""(string) 实例类型，可调用（describeDeviceTypes）接口获取指定地域的实例类型，例如：cps.c.normal """, dest='deviceType',  required=True)),
+            (['--volume-type'], dict(help="""(string) 磁盘类型，取值范围：system、data """, dest='volumeType',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -238,8 +238,8 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -271,8 +271,8 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -304,9 +304,9 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId', required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -338,9 +338,9 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId', required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -372,9 +372,9 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId', required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -406,10 +406,10 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId', required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken', required=False)),
-            (['--instance-spec'], dict(help="""(reinstallInstanceSpec) 云物理服务器配置 """, dest='instanceSpec', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--instance-spec'], dict(help="""(reinstallInstanceSpec) 云物理服务器配置 """, dest='instanceSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -441,10 +441,10 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId', required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken', required=False)),
-            (['--bandwidth'], dict(help="""(int) 外网带宽，单位Mbps，取值范围[1,200] """, dest='bandwidth', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--bandwidth'], dict(help="""(int) 外网带宽，单位Mbps，取值范围[1,200] """, dest='bandwidth', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -476,8 +476,8 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -509,15 +509,15 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--az'], dict(help="""(string) 可用区，精确匹配 """, dest='az', required=False)),
-            (['--name'], dict(help="""(string) 云物理服务器名称，支持模糊匹配 """, dest='name', required=False)),
-            (['--network-type'], dict(help="""(string) 网络类型，精确匹配，目前只支持basic """, dest='networkType', required=False)),
-            (['--device-type'], dict(help="""(string) 实例类型，精确匹配，调用接口（describeDeviceTypes）获取实例类型 """, dest='deviceType', required=False)),
-            (['--status'], dict(help="""(string) 云物理服务器状态，参考云物理服务器状态 """, dest='status', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 云物理服务器ID，精确匹配，支持多个;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--az'], dict(help="""(string) 可用区，精确匹配 """, dest='az',  required=False)),
+            (['--name'], dict(help="""(string) 云物理服务器名称，支持模糊匹配 """, dest='name',  required=False)),
+            (['--network-type'], dict(help="""(string) 网络类型，精确匹配，目前只支持basic """, dest='networkType',  required=False)),
+            (['--device-type'], dict(help="""(string) 实例类型，精确匹配，调用接口（describeDeviceTypes）获取实例类型 """, dest='deviceType',  required=False)),
+            (['--status'], dict(help="""(string) 云物理服务器状态，参考云物理服务器状态 """, dest='status',  required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 云物理服务器ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -549,9 +549,9 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken', required=False)),
-            (['--instance-spec'], dict(help="""(instanceSpec) 描述云物理服务器配置 """, dest='instanceSpec', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--instance-spec'], dict(help="""(instanceSpec) 描述云物理服务器配置 """, dest='instanceSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -614,8 +614,8 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId', required=False)),
-            (['--az'], dict(help="""(string) 可用区, 如cn-east-1a；可调用接口（describeRegiones）获取云物理服务器在该地域支持的可用区 """, dest='az', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--az'], dict(help="""(string) 可用区, 如cn-east-1a；可调用接口（describeRegiones）获取云物理服务器在该地域支持的可用区 """, dest='az',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

@@ -23,8 +23,8 @@ import json
 
 class DatastarTest(unittest.TestCase):
 
-    def test_get_profile(self):
-        cmd = """python ../../main.py datastar get-profile  --id 'xxx' --type 'xxx' --label-code 'xxx'"""
+    def test_get_package_id(self):
+        cmd = """python ../../main.py datastar get-package-id  --device-ids 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class DatastarTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_package_id(self):
-        cmd = """python ../../main.py datastar get-package-id  --device-ids 'xxx'"""
+    def test_get_large_screen_data(self):
+        cmd = """python ../../main.py datastar get-large-screen-data  --region 'xxx' --industry 'xxx' --start-date 'xxx' --end-date 'xxx' --first-index 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

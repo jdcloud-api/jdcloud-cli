@@ -87,5 +87,5 @@
     "delete-snapshot":{
         "regionId":"",
         "snapshotId":""
-    }
+    },
 }

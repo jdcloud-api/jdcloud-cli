@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class DiskController(BaseController):
     class Meta:
         label = 'disk'
-        help = '使用该子命令操作disk相关资源'
+        help = '云硬盘API'
         description = '''
-        disk cli 子命令，可以使用该子命令操作disk相关资源。
+        disk cli 子命令，云硬盘API包含云硬盘相关接口和快照相关接口。可提供批量创建云硬盘，删除云硬盘，制作云硬盘快照等功能。。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/377/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,11 +38,11 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
-            (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags', required=False)),
-            (['--filters'], dict(help="""(array: filter) diskId - 云硬盘ID，精确匹配，支持多个; diskType - 云硬盘类型，精确匹配，支持多个，取值为 ssd 或 premium-hdd; instanceId - 云硬盘所挂载主机的ID，精确匹配，支持多个; instanceType - 云硬盘所挂载主机的类型，精确匹配，支持多个; status - 可用区，精确匹配，支持多个; az - 云硬盘状态，精确匹配，支持多个; name - 云硬盘名称，模糊匹配，支持单个;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
+            (['--filters'], dict(help="""(array: filter) diskId - 云硬盘ID，精确匹配，支持多个; diskType - 云硬盘类型，精确匹配，支持多个，取值为 ssd 或 premium-hdd; instanceId - 云硬盘所挂载主机的ID，精确匹配，支持多个; instanceType - 云硬盘所挂载主机的类型，精确匹配，支持多个; status - 可用区，精确匹配，支持多个; az - 云硬盘状态，精确匹配，支持多个; name - 云硬盘名称，模糊匹配，支持单个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -74,10 +74,10 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--disk-spec'], dict(help="""(diskSpec) 创建云硬盘规格 """, dest='diskSpec', required=True)),
-            (['--max-count'], dict(help="""(int) 购买实例数量；取值范围：[1,100] """, dest='maxCount', required=True)),
-            (['--client-token'], dict(help="""(string) 幂等性校验参数 """, dest='clientToken', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--disk-spec'], dict(help="""(diskSpec) 创建云硬盘规格 """, dest='diskSpec',  required=True)),
+            (['--max-count'], dict(help="""(int) 购买实例数量；取值范围：[1,100] """, dest='maxCount', type=int, required=True)),
+            (['--client-token'], dict(help="""(string) 幂等性校验参数 """, dest='clientToken',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -109,8 +109,8 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -142,10 +142,10 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId', required=True)),
-            (['--name'], dict(help="""(string) 云硬盘名称 """, dest='name', required=False)),
-            (['--description'], dict(help="""(string) 云硬盘描述，name和description必须要指定一个 """, dest='description', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId',  required=True)),
+            (['--name'], dict(help="""(string) 云硬盘名称 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 云硬盘描述，name和description必须要指定一个 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -177,8 +177,8 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -210,9 +210,9 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId', required=True)),
-            (['--snapshot-id'], dict(help="""(string) 用于恢复云盘的快照ID """, dest='snapshotId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId',  required=True)),
+            (['--snapshot-id'], dict(help="""(string) 用于恢复云盘的快照ID """, dest='snapshotId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -244,9 +244,9 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId', required=True)),
-            (['--disk-size-gb'], dict(help="""(int) 扩容后的云硬盘大小，单位为GiB """, dest='diskSizeGB', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId',  required=True)),
+            (['--disk-size-gb'], dict(help="""(int) 扩容后的云硬盘大小，单位为GiB """, dest='diskSizeGB', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -278,10 +278,10 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) snapshotId - 云硬盘快照ID，支持多个; diskId - 生成快照的云硬盘ID，支持多个; status - 快照状态，精确匹配，支持多个,取值为 creating、available、in-use、deleting、error_create、error_delete; name - 快照名称，模糊匹配，支持单个;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) snapshotId - 云硬盘快照ID，支持多个; diskId - 生成快照的云硬盘ID，支持多个; status - 快照状态，精确匹配，支持多个,取值为 creating、available、in-use、deleting、error_create、error_delete; name - 快照名称，模糊匹配，支持单个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -313,9 +313,9 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--snapshot-spec'], dict(help="""(snapshotSpec) 创建快照规格 """, dest='snapshotSpec', required=True)),
-            (['--client-token'], dict(help="""(string) 幂等性校验参数 """, dest='clientToken', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--snapshot-spec'], dict(help="""(snapshotSpec) 创建快照规格 """, dest='snapshotSpec',  required=True)),
+            (['--client-token'], dict(help="""(string) 幂等性校验参数 """, dest='clientToken',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -347,8 +347,8 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--snapshot-id'], dict(help="""(string) 快照ID """, dest='snapshotId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--snapshot-id'], dict(help="""(string) 快照ID """, dest='snapshotId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -380,10 +380,10 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--snapshot-id'], dict(help="""(string) 快照ID """, dest='snapshotId', required=True)),
-            (['--name'], dict(help="""(string) 快照名称 """, dest='name', required=False)),
-            (['--description'], dict(help="""(string) 快照描述，name和description必须要指定一个 """, dest='description', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--snapshot-id'], dict(help="""(string) 快照ID """, dest='snapshotId',  required=True)),
+            (['--name'], dict(help="""(string) 快照名称 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 快照描述，name和description必须要指定一个 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -415,8 +415,8 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--snapshot-id'], dict(help="""(string) 快照ID """, dest='snapshotId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--snapshot-id'], dict(help="""(string) 快照ID """, dest='snapshotId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

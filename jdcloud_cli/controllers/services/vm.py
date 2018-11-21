@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class VmController(BaseController):
     class Meta:
         label = 'vm'
-        help = '使用该子命令操作vm相关资源'
+        help = '云主机'
         description = '''
-        vm cli 子命令，可以使用该子命令操作vm相关资源。
+        vm cli 子命令，云主机实例、镜像、实例规格、实例模板、配额相关的接口。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/376/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,8 +38,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -71,8 +71,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -104,14 +104,14 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-source'], dict(help="""(string) 镜像来源，如果没有指定ids参数，此参数必传；取值范围：public、shared、thirdparty、private """, dest='imageSource', required=False)),
-            (['--platform'], dict(help="""(string) 操作系统平台，取值范围：Windows Server、CentOS、Ubuntu """, dest='platform', required=False)),
-            (['--ids'], dict(help="""(array: string) 镜像ID列表，如果指定了此参数，其它参数可为空 """, dest='ids', required=False)),
-            (['--root-device-type'], dict(help="""(string) 镜像支持的系统盘类型，[localDisk,cloudDisk] """, dest='rootDeviceType', required=False)),
-            (['--status'], dict(help="""(string) <a href="http://docs.jdcloud.com/virtual-machines/api/image_status">参考镜像状态</a> """, dest='status', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--image-source'], dict(help="""(string) 镜像来源，如果没有指定ids参数，此参数必传；取值范围：public、shared、thirdparty、private """, dest='imageSource',  required=False)),
+            (['--platform'], dict(help="""(string) 操作系统平台，取值范围：Windows Server、CentOS、Ubuntu """, dest='platform',  required=False)),
+            (['--ids'], dict(help="""(array: string) 镜像ID列表，如果指定了此参数，其它参数可为空 """, dest='ids',  required=False)),
+            (['--root-device-type'], dict(help="""(string) 镜像支持的系统盘类型，[localDisk,cloudDisk] """, dest='rootDeviceType',  required=False)),
+            (['--status'], dict(help="""(string) <a href="http://docs.jdcloud.com/virtual-machines/api/image_status">参考镜像状态</a> """, dest='status',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -143,8 +143,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -176,8 +176,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--ids'], dict(help="""(array: string) 镜像ID列表 """, dest='ids', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--ids'], dict(help="""(array: string) 镜像ID列表 """, dest='ids',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -209,9 +209,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
-            (['--pins'], dict(help="""(array: string) 需要共享的帐户 """, dest='pins', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId',  required=True)),
+            (['--pins'], dict(help="""(array: string) 需要共享的帐户 """, dest='pins',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -243,9 +243,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
-            (['--pins'], dict(help="""(array: string) 需要取消的帐户 """, dest='pins', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId',  required=True)),
+            (['--pins'], dict(help="""(array: string) 需要取消的帐户 """, dest='pins',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -277,8 +277,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -310,9 +310,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--source-image-ids'], dict(help="""(array: string) 源镜像ID """, dest='sourceImageIds', required=False)),
-            (['--destination-region'], dict(help="""(string) 目标区域 """, dest='destinationRegion', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--source-image-ids'], dict(help="""(array: string) 源镜像ID """, dest='sourceImageIds',  required=False)),
+            (['--destination-region'], dict(help="""(string) 目标区域 """, dest='destinationRegion',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -344,10 +344,10 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId', required=True)),
-            (['--name'], dict(help="""(string) 名称，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='name', required=False)),
-            (['--description'], dict(help="""(string) 描述，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='description', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId',  required=True)),
+            (['--name'], dict(help="""(string) 名称，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 描述，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -379,10 +379,10 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个; agId - 使用可用组id，支持单个; faultDomain - 错误域，支持多个;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个; agId - 使用可用组id，支持单个; faultDomain - 错误域，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -414,10 +414,10 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-spec'], dict(help="""(instanceSpec) 描述云主机配置;  """, dest='instanceSpec', required=True)),
-            (['--max-count'], dict(help="""(int) 购买云主机的数量；取值范围：[1,100]，默认为1。;  """, dest='maxCount', required=False)),
-            (['--client-token'], dict(help="""(string) 用于保证请求的幂等性。由客户端生成，长度不能超过64个字符。;  """, dest='clientToken', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-spec'], dict(help="""(instanceSpec) 描述云主机配置;  """, dest='instanceSpec',  required=True)),
+            (['--max-count'], dict(help="""(int) 购买云主机的数量；取值范围：[1,100]，默认为1。;  """, dest='maxCount', type=int, required=False)),
+            (['--client-token'], dict(help="""(string) 用于保证请求的幂等性。由客户端生成，长度不能超过64个字符。;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -449,8 +449,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -482,8 +482,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -515,10 +515,10 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -550,10 +550,10 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -585,8 +585,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -618,8 +618,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -651,8 +651,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -684,10 +684,10 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--network-interface-id'], dict(help="""(string) 弹性网卡ID """, dest='networkInterfaceId', required=True)),
-            (['--auto-delete'], dict(help="""(bool) 随主机自动删除，默认为False """, dest='autoDelete', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--network-interface-id'], dict(help="""(string) 弹性网卡ID """, dest='networkInterfaceId',  required=True)),
+            (['--auto-delete'], dict(help="""(bool) 随主机自动删除，默认为False """, dest='autoDelete',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -719,9 +719,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--network-interface-id'], dict(help="""(string) 弹性网卡ID """, dest='networkInterfaceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--network-interface-id'], dict(help="""(string) 弹性网卡ID """, dest='networkInterfaceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -753,9 +753,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--networks'], dict(help="""(array: instanceNetworkAttribute) 弹性网卡列表 """, dest='networks', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--networks'], dict(help="""(array: instanceNetworkAttribute) 弹性网卡列表 """, dest='networks',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -787,9 +787,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--elastic-ip-id'], dict(help="""(string) 弹性公网IP的ID """, dest='elasticIpId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--elastic-ip-id'], dict(help="""(string) 弹性公网IP的ID """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -821,9 +821,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--elastic-ip-id'], dict(help="""(string) 弹性公网IP的ID """, dest='elasticIpId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--elastic-ip-id'], dict(help="""(string) 弹性公网IP的ID """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -855,11 +855,11 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--name'], dict(help="""(string) 镜像名称，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='name', required=True)),
-            (['--description'], dict(help="""(string) 镜像描述，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='description', required=True)),
-            (['--data-disks'], dict(help="""(array: instanceDiskAttachmentSpec) 数据盘列表，可以在实例已挂载数据盘的基础上，额外增加新的快照、空盘、或排除云主机中的数据盘。 """, dest='dataDisks', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--name'], dict(help="""(string) 镜像名称，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='name',  required=True)),
+            (['--description'], dict(help="""(string) 镜像描述，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='description',  required=True)),
+            (['--data-disks'], dict(help="""(array: instanceDiskAttachmentSpec) 数据盘列表，可以在实例已挂载数据盘的基础上，额外增加新的快照、空盘、或排除云主机中的数据盘。 """, dest='dataDisks',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -891,11 +891,11 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId', required=True)),
-            (['--device-name'], dict(help="""(string) 数据盘的逻辑挂载点[vda,vdb,vdc,vdd,vde,vdf,vdg,vdh,vdi]，挂载系统盘时vda必传 """, dest='deviceName', required=False)),
-            (['--auto-delete'], dict(help="""(bool) 自动随主机删除此云硬盘，默认为False。仅按配置计费云硬盘支持修改此参数，包年包月云硬盘默认为False且不可修改。如果是共享型云硬盘，此参数无效。 """, dest='autoDelete', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId',  required=True)),
+            (['--device-name'], dict(help="""(string) 数据盘的逻辑挂载点[vda,vdb,vdc,vdd,vde,vdf,vdg,vdh,vdi]，挂载系统盘时vda必传 """, dest='deviceName',  required=False)),
+            (['--auto-delete'], dict(help="""(bool) 自动随主机删除此云硬盘，默认为False。仅按配置计费云硬盘支持修改此参数，包年包月云硬盘默认为False且不可修改。如果是共享型云硬盘，此参数无效。 """, dest='autoDelete',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -927,10 +927,10 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId', required=True)),
-            (['--force'], dict(help="""(bool) 强制缷载，默认False。如果此参数传值为True，代表数据盘的IO会被强制断掉。 """, dest='force', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId',  required=True)),
+            (['--force'], dict(help="""(bool) 强制缷载，默认False。如果此参数传值为True，代表数据盘的IO会被强制断掉。 """, dest='force',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -962,9 +962,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--data-disks'], dict(help="""(array: instanceDiskAttribute) 云硬盘列表 """, dest='dataDisks', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--data-disks'], dict(help="""(array: instanceDiskAttribute) 云硬盘列表 """, dest='dataDisks',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -996,10 +996,10 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--name'], dict(help="""(string) 名称，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='name', required=False)),
-            (['--description'], dict(help="""(string) 描述，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='description', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--name'], dict(help="""(string) 名称，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 描述，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1031,9 +1031,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--password'], dict(help="""(string) 密码，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='password', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--password'], dict(help="""(string) 密码，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='password',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1065,8 +1065,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1098,9 +1098,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--instance-type'], dict(help="""(string) 实例规格，可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeinstancetypes">DescribeInstanceTypes</a>接口获得指定地域或可用区的规格信息。 """, dest='instanceType', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--instance-type'], dict(help="""(string) 实例规格，可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeinstancetypes">DescribeInstanceTypes</a>接口获得指定地域或可用区的规格信息。 """, dest='instanceType',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1132,11 +1132,11 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId', required=True)),
-            (['--password'], dict(help="""(string) 云主机密码，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='password', required=True)),
-            (['--image-id'], dict(help="""(string) 镜像ID。可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeimages">DescribeImages</a>接口获得指定地域的镜像信息。 """, dest='imageId', required=False)),
-            (['--key-names'], dict(help="""(array: string) 密钥对名称；当前只支持一个。仅Linux系统支持指定。 """, dest='keyNames', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--password'], dict(help="""(string) 云主机密码，<a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>。 """, dest='password',  required=True)),
+            (['--image-id'], dict(help="""(string) 镜像ID。可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeimages">DescribeImages</a>接口获得指定地域的镜像信息。 """, dest='imageId',  required=False)),
+            (['--key-names'], dict(help="""(array: string) 密钥对名称；当前只支持一个。仅Linux系统支持指定。 """, dest='keyNames',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1168,8 +1168,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceTypes - 实例规格，精确匹配，支持多个; az - 可用区，精确匹配，支持多个;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceTypes - 实例规格，精确匹配，支持多个; az - 可用区，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1201,10 +1201,10 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) keyNames - 密钥对名称，精确匹配，支持多个;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) keyNames - 密钥对名称，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1236,8 +1236,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--key-name'], dict(help="""(string) 密钥对名称，需要全局唯一。只允许数字、大小写字母、下划线“_”及中划线“-”，不超过32个字符。;  """, dest='keyName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--key-name'], dict(help="""(string) 密钥对名称，需要全局唯一。只允许数字、大小写字母、下划线“_”及中划线“-”，不超过32个字符。;  """, dest='keyName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1269,9 +1269,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--key-name'], dict(help="""(string) 密钥对名称，需要全局唯一。只允许数字、大小写字母、下划线“_”及中划线“-”，不超过32个字符。;  """, dest='keyName', required=True)),
-            (['--public-key'], dict(help="""(string) 密钥对的公钥部分 """, dest='publicKey', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--key-name'], dict(help="""(string) 密钥对名称，需要全局唯一。只允许数字、大小写字母、下划线“_”及中划线“-”，不超过32个字符。;  """, dest='keyName',  required=True)),
+            (['--public-key'], dict(help="""(string) 密钥对的公钥部分 """, dest='publicKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1303,8 +1303,8 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--key-name'], dict(help="""(string) 密钥名称 """, dest='keyName', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--key-name'], dict(help="""(string) 密钥名称 """, dest='keyName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1336,9 +1336,9 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--filters'], dict(help="""(array: filter) resourceTypes - 资源类型，支持多个[instance，keypair，image，instanceTemplate，imageShare];  """, dest='filters', required=False)),
-            (['--image-id'], dict(help="""(string) 私有镜像Id，查询镜像共享(imageShare)配额时，此参数必传 """, dest='imageId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--filters'], dict(help="""(array: filter) resourceTypes - 资源类型，支持多个[instance，keypair，image，instanceTemplate，imageShare];  """, dest='filters',  required=False)),
+            (['--image-id'], dict(help="""(string) 私有镜像Id，查询镜像共享(imageShare)配额时，此参数必传 """, dest='imageId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

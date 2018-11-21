@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class IamController(BaseController):
     class Meta:
         label = 'iam'
-        help = '使用该子命令操作iam相关资源'
+        help = 'IAM API'
         description = '''
-        iam cli 子命令，可以使用该子命令操作iam相关资源。
+        iam cli 子命令，IAM相关接口。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/387/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,8 +38,8 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--create-permission-info'], dict(help="""(createPermissionInfo) 权限信息 """, dest='createPermissionInfo', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--create-permission-info'], dict(help="""(createPermissionInfo) 权限信息 """, dest='createPermissionInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -71,8 +71,8 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--permission-id'], dict(help="""(int) 权限id """, dest='permissionId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--permission-id'], dict(help="""(int) 权限id """, dest='permissionId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -104,9 +104,9 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--permission-id'], dict(help="""(int) 权限id """, dest='permissionId', required=True)),
-            (['--update-permission-info'], dict(help="""(updatePermissionInfo) 权限信息 """, dest='updatePermissionInfo', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--permission-id'], dict(help="""(int) 权限id """, dest='permissionId', type=int, required=True)),
+            (['--update-permission-info'], dict(help="""(updatePermissionInfo) 权限信息 """, dest='updatePermissionInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -138,11 +138,11 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', required=True)),
-            (['--page-size'], dict(help="""(int) 每页显示数目 """, dest='pageSize', required=True)),
-            (['--keyword'], dict(help="""(string) 关键字 """, dest='keyword', required=False)),
-            (['--query-type'], dict(help="""(int) 权限类型,0-全部，1-系统权限，2-自定义权限 """, dest='queryType', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=True)),
+            (['--page-size'], dict(help="""(int) 每页显示数目 """, dest='pageSize', type=int, required=True)),
+            (['--keyword'], dict(help="""(string) 关键字 """, dest='keyword',  required=False)),
+            (['--query-type'], dict(help="""(int) 权限类型,0-全部，1-系统权限，2-自定义权限 """, dest='queryType', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -174,10 +174,10 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--sub-user'], dict(help="""(string) 子用户用户名 """, dest='subUser', required=True)),
-            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', required=True)),
-            (['--page-size'], dict(help="""(int) 每页显示数目 """, dest='pageSize', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--sub-user'], dict(help="""(string) 子用户用户名 """, dest='subUser',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=True)),
+            (['--page-size'], dict(help="""(int) 每页显示数目 """, dest='pageSize', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -209,9 +209,9 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--sub-user'], dict(help="""(string) 子用户用户名 """, dest='subUser', required=True)),
-            (['--add-permissions-info'], dict(help="""(addPermissionsInfo) 权限信息 """, dest='addPermissionsInfo', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--sub-user'], dict(help="""(string) 子用户用户名 """, dest='subUser',  required=True)),
+            (['--add-permissions-info'], dict(help="""(addPermissionsInfo) 权限信息 """, dest='addPermissionsInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -243,9 +243,9 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--permission-id'], dict(help="""(int) 权限id """, dest='permissionId', required=True)),
-            (['--sub-user'], dict(help="""(string) 子用户用户名 """, dest='subUser', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--permission-id'], dict(help="""(int) 权限id """, dest='permissionId', type=int, required=True)),
+            (['--sub-user'], dict(help="""(string) 子用户用户名 """, dest='subUser',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -277,8 +277,8 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--get-session-token-info'], dict(help="""(getSessionTokenInfo) 获取sessionToken参数 """, dest='getSessionTokenInfo', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--get-session-token-info'], dict(help="""(getSessionTokenInfo) 获取sessionToken参数 """, dest='getSessionTokenInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -310,8 +310,8 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--verify-session-token-info'], dict(help="""(verifySessionTokenInfo) 验证sessionToken参数 """, dest='verifySessionTokenInfo', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--verify-session-token-info'], dict(help="""(verifySessionTokenInfo) 验证sessionToken参数 """, dest='verifySessionTokenInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -343,8 +343,8 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--create-sub-user-info'], dict(help="""(createSubUserInfo) 子账号信息 """, dest='createSubUserInfo', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--create-sub-user-info'], dict(help="""(createSubUserInfo) 子账号信息 """, dest='createSubUserInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -376,7 +376,7 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -408,7 +408,7 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -440,8 +440,8 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -473,8 +473,8 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -506,8 +506,8 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

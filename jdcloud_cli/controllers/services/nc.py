@@ -26,14 +26,15 @@ from jdcloud_cli.client_factory import ClientFactory
 from jdcloud_cli.parameter_builder import collect_user_args, collect_user_headers
 from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
+from jdcloud_cli.config import ProfileManager
 
 
 class NcController(BaseController):
     class Meta:
         label = 'nc'
-        help = '使用该子命令操作nc相关资源'
+        help = '原生容器'
         description = '''
-        nc cli 子命令，可以使用该子命令操作nc相关资源。
+        nc cli 子命令，原生容器相关接口。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/378/isCatalog/0
         '''
         stacked_on = 'base'
@@ -41,17 +42,17 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) containerId - 实例ID，精确匹配，支持多个; privateIpAddress - 主网卡IP地址，模糊匹配，支持单个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 容器状态，精确匹配，支持多个; name - 实例名称，模糊匹配，支持单个; subnetId - 镜像ID，模糊匹配，支持单个;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) containerId - 实例ID，精确匹配，支持多个; privateIpAddress - 主网卡IP地址，模糊匹配，支持单个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 容器状态，精确匹配，支持多个; name - 实例名称，模糊匹配，支持单个; subnetId - 镜像ID，模糊匹配，支持单个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询容器列表 ''',
+        help=''' 批量查询原生容器的详细信息<br>; 此接口支持分页查询，默认每页20条。;  ''',
         description='''
-            查询容器列表
+            批量查询原生容器的详细信息<br>; 此接口支持分页查询，默认每页20条。; 
 
             示例: jdc nc describe-containers 
         ''',
@@ -76,16 +77,16 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--container-spec'], dict(help="""(containerSpec) 创建容器规格 """, dest='containerSpec', required=False)),
-            (['--max-count'], dict(help="""(int) 购买实例数量；取值范围：[1,100] """, dest='maxCount', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--container-spec'], dict(help="""(containerSpec) 创建容器规格 """, dest='containerSpec',  required=False)),
+            (['--max-count'], dict(help="""(int) 购买实例数量；取值范围：[1,100] """, dest='maxCount', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一台或多台指定配置的实例 ''',
+        help=''' 创建一台或多台指定配置容器。; - 创建容器需要通过实名认证; - 镜像;     - 容器的镜像通过镜像名称来确定;     - nginx:tag 或 mysql/mysql-server:tag 这样命名的镜像表示 docker hub 官方镜像;     - container-registry/image:tag 这样命名的镜像表示私有仓储的镜像;     - 私有仓储必须兼容 docker registry 认证机制，并通过 secret 来保存机密信息; - hostname 规范;     - 支持两种方式：以标签方式书写或以完整主机名方式书写;     - 标签规范;         - 0-9，a-z(不分大小写)和 -（减号），其他的都是无效的字符串;         - 不能以减号开始，也不能以减号结尾;         - 最小1个字符，最大63个字符;     - 完整的主机名由一系列标签与点连接组成;         - 标签与标签之间使用“.”(点)进行连接;         - 不能以“.”(点)开始，也不能以“.”(点)结尾;         - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符; - 网络配置;     - 指定主网卡配置信息;         - 必须指定一个子网;         - 一台云主机创建时必须指定一个安全组，至多指定 5 个安全组;         - 可以指定 elasticIp 规格来约束创建的弹性 IP，带宽取值范围 [1-200]Mbps，步进 1Mbps;         - 可以指定网卡的主 IP(primaryIpAddress)，该 IP 需要在子网 IP 范围内且未被占用，指定子网 IP 时 maxCount 只能为1;         - 安全组 securityGroup 需与子网 Subnet 在同一个私有网络 VPC 内;         - 主网卡 deviceIndex 设置为 1; - 存储;     - volume 分为 root volume 和 data volume，root volume 的挂载目录是 /，data volume 的挂载目录可以随意指定;     - volume 的底层存储介质当前只支持 cloud 类别，也就是云硬盘;     - 系统盘;         - 云硬盘类型可以选择 ssd、premium-hdd;         - 磁盘大小;             - ssd：范围 [10, 100]GB，步长为 10G;             - premium-hdd：范围 [20, 1000]GB，步长为 10G;         - 自动删除;             - 云盘默认跟随容器实例自动删除，如果是包年包月的数据盘或共享型数据盘，此参数不生效;         - 可以选择已存在的云硬盘;     - 数据盘;         - 云硬盘类型可以选择 ssd、premium-hdd;         - 磁盘大小;             - ssd：范围[20,1000]GB，步长为10G;             - premium-hdd：范围[20,3000]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;         - 单个容器最多可以挂载 7 个 data volume; - 计费;   - 弹性IP的计费模式，如果选择按用量类型可以单独设置，其它计费模式都以主机为准;   - 云硬盘的计费模式以主机为准; - 容器日志;     - 默认在本地分配10MB的存储空间，自动 rotate; - 其他;     - 创建完成后，容器状态为running;     - maxCount 为最大努力，不保证一定能达到 maxCount;  ''',
         description='''
-            创建一台或多台指定配置的实例
+            创建一台或多台指定配置容器。; - 创建容器需要通过实名认证; - 镜像;     - 容器的镜像通过镜像名称来确定;     - nginx:tag 或 mysql/mysql-server:tag 这样命名的镜像表示 docker hub 官方镜像;     - container-registry/image:tag 这样命名的镜像表示私有仓储的镜像;     - 私有仓储必须兼容 docker registry 认证机制，并通过 secret 来保存机密信息; - hostname 规范;     - 支持两种方式：以标签方式书写或以完整主机名方式书写;     - 标签规范;         - 0-9，a-z(不分大小写)和 -（减号），其他的都是无效的字符串;         - 不能以减号开始，也不能以减号结尾;         - 最小1个字符，最大63个字符;     - 完整的主机名由一系列标签与点连接组成;         - 标签与标签之间使用“.”(点)进行连接;         - 不能以“.”(点)开始，也不能以“.”(点)结尾;         - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符; - 网络配置;     - 指定主网卡配置信息;         - 必须指定一个子网;         - 一台云主机创建时必须指定一个安全组，至多指定 5 个安全组;         - 可以指定 elasticIp 规格来约束创建的弹性 IP，带宽取值范围 [1-200]Mbps，步进 1Mbps;         - 可以指定网卡的主 IP(primaryIpAddress)，该 IP 需要在子网 IP 范围内且未被占用，指定子网 IP 时 maxCount 只能为1;         - 安全组 securityGroup 需与子网 Subnet 在同一个私有网络 VPC 内;         - 主网卡 deviceIndex 设置为 1; - 存储;     - volume 分为 root volume 和 data volume，root volume 的挂载目录是 /，data volume 的挂载目录可以随意指定;     - volume 的底层存储介质当前只支持 cloud 类别，也就是云硬盘;     - 系统盘;         - 云硬盘类型可以选择 ssd、premium-hdd;         - 磁盘大小;             - ssd：范围 [10, 100]GB，步长为 10G;             - premium-hdd：范围 [20, 1000]GB，步长为 10G;         - 自动删除;             - 云盘默认跟随容器实例自动删除，如果是包年包月的数据盘或共享型数据盘，此参数不生效;         - 可以选择已存在的云硬盘;     - 数据盘;         - 云硬盘类型可以选择 ssd、premium-hdd;         - 磁盘大小;             - ssd：范围[20,1000]GB，步长为10G;             - premium-hdd：范围[20,3000]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;         - 单个容器最多可以挂载 7 个 data volume; - 计费;   - 弹性IP的计费模式，如果选择按用量类型可以单独设置，其它计费模式都以主机为准;   - 云硬盘的计费模式以主机为准; - 容器日志;     - 默认在本地分配10MB的存储空间，自动 rotate; - 其他;     - 创建完成后，容器状态为running;     - maxCount 为最大努力，不保证一定能达到 maxCount; 
 
             示例: jdc nc create-containers 
         ''',
@@ -110,15 +111,15 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询容器详情 ''',
+        help=''' 查询一台原生容器的详细信息;  ''',
         description='''
-            查询容器详情
+            查询一台原生容器的详细信息; 
 
             示例: jdc nc describe-container  --container-id xxx
         ''',
@@ -143,15 +144,15 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除单个实例 ''',
+        help=''' 容器状态必须为 stopped、running 或 error状态。 <br>; 按量付费的实例，如不主动删除将一直运行，不再使用的实例，可通过本接口主动停用。<br>; 只能支持主动删除按量计费类型的实例。包年包月过期的容器也可以删除，其它的情况还请发工单系统。计费状态异常的容器无法删除。;  ''',
         description='''
-            删除单个实例
+            容器状态必须为 stopped、running 或 error状态。 <br>; 按量付费的实例，如不主动删除将一直运行，不再使用的实例，可通过本接口主动停用。<br>; 只能支持主动删除按量计费类型的实例。包年包月过期的容器也可以删除，其它的情况还请发工单系统。计费状态异常的容器无法删除。; 
 
             示例: jdc nc delete-container  --container-id xxx
         ''',
@@ -176,15 +177,15 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 启动单个实例 ''',
+        help=''' 启动处于关闭状态的单个容器，处在任务执行中的容器无法启动。<br>; 容器实例或其绑定的云盘已欠费时，容器将无法正常启动。<br>;  ''',
         description='''
-            启动单个实例
+            启动处于关闭状态的单个容器，处在任务执行中的容器无法启动。<br>; 容器实例或其绑定的云盘已欠费时，容器将无法正常启动。<br>; 
 
             示例: jdc nc start-container  --container-id xxx
         ''',
@@ -209,15 +210,15 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 停止单个实例 ''',
+        help=''' 停止处于运行状态的单个实例，处于任务执行中的容器无法启动。;  ''',
         description='''
-            停止单个实例
+            停止处于运行状态的单个实例，处于任务执行中的容器无法启动。; 
 
             示例: jdc nc stop-container  --container-id xxx
         ''',
@@ -242,17 +243,17 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
-            (['--name'], dict(help="""(string) 容器名称 """, dest='name', required=False)),
-            (['--description'], dict(help="""(string) 容器描述；和description必须要指定一个 """, dest='description', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId',  required=True)),
+            (['--name'], dict(help="""(string) 容器名称 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 容器描述；和description必须要指定一个 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改容器属性 ''',
+        help=''' 修改容器的 名称 和 描述。;  ''',
         description='''
-            修改容器属性
+            修改容器的 名称 和 描述。; 
 
             示例: jdc nc modify-container-attribute  --container-id xxx
         ''',
@@ -277,16 +278,16 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
-            (['--elastic-ip-id'], dict(help="""(string) 弹性IP ID """, dest='elasticIpId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId',  required=True)),
+            (['--elastic-ip-id'], dict(help="""(string) 弹性IP ID """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 容器绑定公网IP 绑定的是主网卡、主内网IP对应的弹性IP ''',
+        help=''' 容器绑定弹性公网 IP，绑定的是主网卡、主内网IP对应的弹性IP. <br>; 一台云主机只能绑定一个弹性公网 IP(主网卡)，若主网卡已存在弹性公网IP，会返回错误。<br>; 如果是黑名单中的用户，会返回错误。;  ''',
         description='''
-            容器绑定公网IP 绑定的是主网卡、主内网IP对应的弹性IP
+            容器绑定弹性公网 IP，绑定的是主网卡、主内网IP对应的弹性IP. <br>; 一台云主机只能绑定一个弹性公网 IP(主网卡)，若主网卡已存在弹性公网IP，会返回错误。<br>; 如果是黑名单中的用户，会返回错误。; 
 
             示例: jdc nc associate-elastic-ip  --container-id xxx --elastic-ip-id xxx
         ''',
@@ -311,16 +312,16 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
-            (['--elastic-ip-id'], dict(help="""(string) 弹性IP ID """, dest='elasticIpId', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId',  required=True)),
+            (['--elastic-ip-id'], dict(help="""(string) 弹性IP ID """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 容器解绑公网IP 解绑的是主网卡、主内网IP对应的弹性IP ''',
+        help=''' 容器解绑公网 IP，解绑的是主网卡、主内网 IP 对应的弹性 IP.;  ''',
         description='''
-            容器解绑公网IP 解绑的是主网卡、主内网IP对应的弹性IP
+            容器解绑公网 IP，解绑的是主网卡、主内网 IP 对应的弹性 IP.; 
 
             示例: jdc nc disassociate-elastic-ip  --container-id xxx --elastic-ip-id xxx
         ''',
@@ -345,18 +346,18 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId', required=True)),
-            (['--tail-lines'], dict(help="""(int) NA """, dest='tailLines', required=False)),
-            (['--since-seconds'], dict(help="""(int) NA """, dest='sinceSeconds', required=False)),
-            (['--limit-bytes'], dict(help="""(int) NA """, dest='limitBytes', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--container-id'], dict(help="""(string) Container ID """, dest='containerId',  required=True)),
+            (['--tail-lines'], dict(help="""(int) 返回日志文件中倒数 tailLines 行，如不指定，默认从容器启动时或 sinceSeconds 指定的时间读取。;  """, dest='tailLines', type=int, required=False)),
+            (['--since-seconds'], dict(help="""(int) 返回相对于当前时间之前sinceSeconds之内的日志。;  """, dest='sinceSeconds', type=int, required=False)),
+            (['--limit-bytes'], dict(help="""(int) 限制返回的日志文件内容字节数，取值范围 [1-4]KB，最大 4KB.;  """, dest='limitBytes', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询容器日志 ''',
+        help=''' 查询单个容器日志;  ''',
         description='''
-            查询容器日志
+            查询单个容器日志; 
 
             示例: jdc nc get-logs  --container-id xxx
         ''',
@@ -381,15 +382,15 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--resource-type'], dict(help="""(string) 资源类型  container：用户能创建的容器的配额  secret：用户能创建的secret的配额 """, dest='resourceType', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--resource-type'], dict(help="""(string) resourceType - 资源类型，支持 [container, pod, secret];  """, dest='resourceType',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询资源的配额 ''',
+        help=''' 查询资源的配额，支持：原生容器 pod 和 secret.;  ''',
         description='''
-            查询资源的配额
+            查询资源的配额，支持：原生容器 pod 和 secret.; 
 
             示例: jdc nc describe-quota  --resource-type xxx
         ''',
@@ -414,17 +415,17 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', required=False)),
-            (['--filters'], dict(help="""(array: filter) name - secret名称，支持模糊搜索;  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) name - secret名称，支持模糊搜索;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询secret列表 ''',
+        help=''' 查询 secret 列表。<br> ; 此接口支持分页查询，默认每页20条。;  ''',
         description='''
-            查询secret列表
+            查询 secret 列表。<br> ; 此接口支持分页查询，默认每页20条。; 
 
             示例: jdc nc describe-secrets 
         ''',
@@ -449,17 +450,17 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--name'], dict(help="""(string) 机密数据名称，不能重复 """, dest='name', required=True)),
-            (['--secret-type'], dict(help="""(string) 私密数据的类型，目前仅支持如下类型：docker-registry：用来和docker registry认证的类型 """, dest='secretType', required=True)),
-            (['--data'], dict(help="""(dockerRegistryData) 机密的数据 """, dest='data', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) 机密数据名称，不能重复;  """, dest='name',  required=True)),
+            (['--secret-type'], dict(help="""(string) 机密数据的类型，目前仅支持：docker-registry 类型，用来和docker registry认证的类型。;  """, dest='secretType',  required=True)),
+            (['--data'], dict(help="""(dockerRegistryData) 机密的数据。<br>; key 的有效字符包括字母、数字、-、_和.； <br>; value 是 Base64 编码的字符串，不能包含换行符（在 linux 下使用 base64 -w 0选项），每个value长度上限为4KB，整个data的长度不能超过256KB; <br>; 必须包含server、username、password 字段，email 字段是可选的。<br>;  """, dest='data',  required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建 secret ''',
+        help=''' 创建一个 secret，用于存放镜像仓库机密相关信息。;  ''',
         description='''
-            创建 secret
+            创建一个 secret，用于存放镜像仓库机密相关信息。; 
 
             示例: jdc nc create-secret  --name xxx --secret-type xxx
         ''',
@@ -484,15 +485,15 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--name'], dict(help="""(string) Secret Name """, dest='name', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) Secret Name """, dest='name',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询 secret 详情 ''',
+        help=''' 查询单个 secret 详情;  ''',
         description='''
-            查询 secret 详情
+            查询单个 secret 详情; 
 
             示例: jdc nc describe-secret  --name xxx
         ''',
@@ -517,15 +518,15 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--name'], dict(help="""(string) Secret Name """, dest='name', required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) Secret Name """, dest='name',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除 secret ''',
+        help=''' 删除单个 secret;  ''',
         description='''
-            删除 secret
+            删除单个 secret; 
 
             示例: jdc nc delete-secret  --name xxx
         ''',
@@ -552,7 +553,7 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help='(string) region id', dest='regionId', default='cn-north-1', required=False)),
+            (['--region-id'], dict(help='(string) region id', dest='regionId', choices=['cn-north-1', 'cn-east-1', 'cn-east-2', 'cn-south-1'], required=False)),
             (['--container-id'], dict(help='(string) container id', dest='containerId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
         ],
@@ -577,7 +578,7 @@ class NcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help='(string) region id', dest='regionId', default='cn-north-1', required=False)),
+            (['--region-id'], dict(help='(string) region id', dest='regionId', choices=['cn-north-1', 'cn-east-1', 'cn-east-2', 'cn-south-1'], required=False)),
             (['--container-id'], dict(help='(string) container id', dest='containerId', required=True)),
             (['--exec-id'], dict(help='(string) exec id', dest='execId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -591,11 +592,13 @@ class NcController(BaseController):
         '''
     )
     def exec_start(self):
-        exec_start(self.app, self.app.pargs.regionId, self.app.pargs.containerId, self.app.pargs.execId)
+        profile_region_id = ProfileManager().load_current_profile().region_id
+        region_id = self.app.pargs.regionId if self.app.pargs.regionId else profile_region_id
+        exec_start(self.app, 'nc', region_id, self.app.pargs.containerId, self.app.pargs.execId)
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help='(string) region id', dest='regionId', default='cn-north-1', required=False)),
+            (['--region-id'], dict(help='(string) region id', dest='regionId', choices=['cn-north-1', 'cn-east-1', 'cn-east-2', 'cn-south-1'], required=False)),
             (['--container-id'], dict(help='(string) container id', dest='containerId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
         ],
@@ -608,7 +611,9 @@ class NcController(BaseController):
         '''
     )
     def attach(self):
-        attach(self.app, self.app.pargs.regionId, self.app.pargs.containerId)
+        profile_region_id = ProfileManager().load_current_profile().region_id
+        region_id = self.app.pargs.regionId if self.app.pargs.regionId else profile_region_id
+        attach(self.app, 'nc', region_id, self.app.pargs.containerId)
 
     @expose(
         arguments=[

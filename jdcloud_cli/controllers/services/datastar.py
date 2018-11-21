@@ -28,9 +28,9 @@ from jdcloud_cli.skeleton import Skeleton
 class DatastarController(BaseController):
     class Meta:
         label = 'datastar'
-        help = '使用该子命令操作datastar相关资源'
+        help = '知客相关API'
         description = '''
-        datastar cli 子命令，可以使用该子命令操作datastar相关资源。
+        datastar cli 子命令，知客相关API。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/438/isCatalog/0
         '''
         stacked_on = 'base'
@@ -38,50 +38,15 @@ class DatastarController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--id'], dict(help="""(string) deviceId，mobile等,多个id英文逗号分隔 """, dest='id', required=True)),
-            (['--type'], dict(help="""(string) 数据类型 """, dest='type', required=True)),
-            (['--label-code'], dict(help="""(string) 画像标签编号,多个画像标签英文逗号分隔 """, dest='labelCode', required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--device-ids'], dict(help="""(string) MD5（deviceId），多个MD5（deviceId）用英文逗号进行分割，注：MD5结果小写 """, dest='deviceIds',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 根据deviceId查询对应用户的画像信息 ''',
+        help=''' 根据设备ID获取是否有匹配的人群包 ''',
         description='''
-            根据deviceId查询对应用户的画像信息。
-
-            示例: jdc datastar get-profile  --id xxx --type xxx --label-code xxx
-        ''',
-    )
-    def get_profile(self):
-        client_factory = ClientFactory('datastar')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.datastar.apis.GetProfileRequest import GetProfileRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetProfileRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
-        except Exception as e:
-            print e.message
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId', required=False)),
-            (['--device-ids'], dict(help="""(string) MD5（deviceId），多个MD5（deviceId）用英文逗号进行分割，注：MD5结果小写 """, dest='deviceIds', required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 根据设备ID查询人群包ID ''',
-        description='''
-            根据设备ID查询人群包ID。
+            根据设备ID获取是否有匹配的人群包。
 
             示例: jdc datastar get-package-id  --device-ids xxx
         ''',
@@ -106,7 +71,45 @@ class DatastarController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-profile','get-package-id',], required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--region'], dict(help="""(string) 查询区域，比如某某省或某某市（可选区域以最终授权为准） """, dest='region',  required=True)),
+            (['--industry'], dict(help="""(string) 查询行业，比如某个水果或者农作物（可选行业以最终授权为准） """, dest='industry',  required=True)),
+            (['--start-date'], dict(help="""(string) 查询起始时间，格式如下：yyyy-MM-dd """, dest='startDate',  required=True)),
+            (['--end-date'], dict(help="""(string) 查询结束时间，格式如下：yyyy-MM-dd """, dest='endDate',  required=True)),
+            (['--first-index'], dict(help="""(string) 数据对应的第一级分析指标（可选一级指标以最终授权为准） """, dest='firstIndex',  required=True)),
+            (['--second-index'], dict(help="""(string) 数据对应的第二级分析指标，如不填写，则默认把一级指标下的所有二级指标都查询出来（可选二级指标以最终授权为准） """, dest='secondIndex',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据区域、行业、一级指标、二级指标、起始时间等条件查询数据 ''',
+        description='''
+            根据区域、行业、一级指标、二级指标、起始时间等条件查询数据。
+
+            示例: jdc datastar get-large-screen-data  --region xxx --industry xxx --start-date xxx --end-date xxx --first-index xxx
+        ''',
+    )
+    def get_large_screen_data(self):
+        client_factory = ClientFactory('datastar')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.datastar.apis.GetLargeScreenDataRequest import GetLargeScreenDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetLargeScreenDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print '{"error":"This api is not supported, please use the newer version"}'
+        except Exception as e:
+            print e.message
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['get-package-id','get-large-screen-data',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

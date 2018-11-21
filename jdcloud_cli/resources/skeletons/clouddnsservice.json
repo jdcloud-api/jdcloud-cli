@@ -1,4 +1,14 @@
 {
+    "get-action-log":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "keyWord":"",
+        "success":"",
+        "type":"",
+        "regionId":""
+    },
     "get-domains":{
         "pageNumber":"",
         "pageSize":"",
@@ -89,6 +99,58 @@
         "regionId":"",
         "domainId":""
     },
+    "add-user-view":{
+        "req":{
+            "domainId":"",
+            "domainName":"",
+            "viewName":"",
+            "ipRanges":""
+        },
+        "regionId":""
+    },
+    "del-user-view":{
+        "req":{
+            "domainId":"",
+            "domainName":"",
+            "viewName":"",
+            "viewId":""
+        },
+        "regionId":""
+    },
+    "get-user-view":{
+        "domainId":"",
+        "viewId":"",
+        "viewName":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "add-user-view-ip":{
+        "req":{
+            "domainId":"",
+            "viewId":"",
+            "viewName":"",
+            "ipRanges":""
+        },
+        "regionId":""
+    },
+    "del-user-view-ip":{
+        "req":{
+            "domainId":"",
+            "viewId":"",
+            "viewName":"",
+            "ipRanges":""
+        },
+        "regionId":""
+    },
+    "get-user-view-ip":{
+        "domainId":"",
+        "viewId":"",
+        "viewName":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
     "get-monitor":{
         "pageIndex":"",
         "pageSize":"",
@@ -146,5 +208,5 @@
         "searchValue":"",
         "regionId":"",
         "domainId":""
-    }
+    },
 }

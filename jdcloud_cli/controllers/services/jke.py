@@ -30,9 +30,9 @@ from jdcloud_cli.skeleton import Skeleton
 class JkeController(BaseController):
     class Meta:
         label = 'jke'
-        help = '使用该子命令操作jke相关资源'
+        help = 'jke'
         description = '''
-        jke cli 子命令，可以使用该子命令操作jke相关资源。
+        jke cli 子命令，k8s 集群服务相关接口。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/423/isCatalog/0
         '''
         stacked_on = 'base'
@@ -40,8 +40,8 @@ class JkeController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId', required=False)),
-            (['--filters'], dict(help="""(array: filter) resourceTypes - 资源类型，暂时只支持[kubernetes];  """, dest='filters', required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--filters'], dict(help="""(array: filter) resourceTypes - 资源类型，暂时只支持[kubernetes];  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -88,7 +88,7 @@ class JkeController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId', required=False)),
+            (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId', choices=['cn-north-1', 'cn-east-1', 'cn-east-2', 'cn-south-1'], required=False)),
             (['--cluster-id'], dict(help="""(string) 集群 ID """, dest='clusterId', required=True)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
