@@ -35,6 +35,7 @@ from jdcloud_cli.controllers.services.cps import CpsController
 from jdcloud_cli.controllers.services.datastar import DatastarController
 from jdcloud_cli.controllers.services.vpc import VpcController
 from jdcloud_cli.controllers.services.sop import SopController
+from jdcloud_cli.controllers.services.iothub import IothubController
 from jdcloud_cli.controllers.services.xdata import XdataController
 from jdcloud_cli.controllers.services.cr import CrController
 from jdcloud_cli.controllers.services.nc import NcController
@@ -70,6 +71,7 @@ def main():
         app.handler.register(DatastarController)
         app.handler.register(VpcController)
         app.handler.register(SopController)
+        app.handler.register(IothubController)
         app.handler.register(XdataController)
         app.handler.register(CrController)
         app.handler.register(NcController)

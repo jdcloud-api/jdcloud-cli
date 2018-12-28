@@ -27,7 +27,7 @@ _jdc_complete()
     # SETUP THE BASE LEVEL
     if [ $COMP_CWORD -eq 1 ]; then
         COMPREPLY=( $(compgen \
-                      -W "--debug -v --version -h --help configure vm iam disk mongodb mps streambus baseanti jke ipanti rds redis monitor cps datastar vpc sop xdata cr nc clouddnsservice oss streamcomputer " \
+                      -W "--debug -v --version -h --help configure vm iam disk mongodb mps streambus baseanti jke ipanti rds redis monitor cps datastar vpc sop iothub xdata cr nc clouddnsservice oss streamcomputer " \
                       -- $cur) )
 
 
@@ -83,7 +83,7 @@ _jdc_complete()
 
             "rds")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-accounts create-account delete-account grant-privilege revoke-privilege reset-password describe-audit create-audit delete-audit describe-audit-options modify-audit describe-audit-files describe-audit-download-url enable-audit disable-audit describe-audit-result describe-backups create-backup delete-backup describe-backup-download-url describe-backup-synchronicities create-backup-synchronicity delete-backup-synchronicity describe-binlogs describe-binlog-download-url describe-databases create-database delete-database restore-database-from-backup restore-database-from-file restore-database-from-oss describe-error-logs describe-import-files get-upload-key set-import-file-shared describe-instances create-instance describe-instance-attributes delete-instance describe-backup-policy modify-backup-policy modify-instance-name failover-instance reboot-instance enable-internet-access disable-internet-access restore-instance create-instance-from-backup modify-instance-spec create-instance-by-time modify-connection-mode describe-index-performance describe-query-performance describe-slow-log-attributes describe-slow-logs describe-white-list modify-white-list " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-accounts create-account delete-account grant-privilege revoke-privilege reset-password describe-audit create-audit delete-audit describe-audit-options modify-audit describe-audit-files describe-audit-download-url enable-audit disable-audit describe-audit-result describe-azs describe-backups create-backup delete-backup describe-backup-download-url describe-backup-synchronicities create-backup-synchronicity delete-backup-synchronicity describe-binlogs describe-binlog-download-url clear-binlogs describe-databases create-database delete-database restore-database-from-backup restore-database-from-file restore-database-from-oss describe-error-logs describe-import-files get-upload-key set-import-file-shared delete-import-file describe-instances create-instance describe-instance-attributes delete-instance describe-backup-policy modify-backup-policy modify-instance-name failover-instance reboot-instance enable-internet-access disable-internet-access restore-instance create-instance-from-backup modify-instance-spec create-instance-by-time modify-connection-mode describe-latest-restore-time enable-intercept disable-intercept describe-parameters modify-parameters delete-parameter-group modify-parameter-group-attribute describe-index-performance describe-query-performance describe-slow-log-attributes describe-slow-logs describe-active-query-performance describe-white-list modify-white-list " -- $cur) )
                 ;;
 
             "redis")
@@ -114,6 +114,11 @@ _jdc_complete()
             "sop")
                 COMPREPLY=( $(compgen \
                     -W "-v --version -h --help generate-skeleton get-security-token get-sensitive-op-setting " -- $cur) )
+                ;;
+
+            "iothub")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton device-activate devices-enroll device-command device-state module-enroll module-state om-enroll " -- $cur) )
                 ;;
 
             "xdata")
@@ -458,7 +463,7 @@ _jdc_complete()
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
                     "describe-instances")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters --sorts " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters --tag-filters --sorts " -- $cur) )
                         ;;
                     "create-instance")
                         COMPREPLY=( $(compgen \
@@ -834,7 +839,7 @@ _jdc_complete()
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
                     "describe-accounts")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --instance-id --page-number --page-size " -- $cur) )
                         ;;
                     "create-account")
                         COMPREPLY=( $(compgen \
@@ -896,6 +901,10 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --start-time --end-time --db-name --account-name --page-number --page-size " -- $cur) )
                         ;;
+                    "describe-azs")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --engine " -- $cur) )
+                        ;;
                     "describe-backups")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --auto --backup-type-filter --db-name-filter --backup-time-range-start-filter --backup-time-range-end-filter --page-number --page-size " -- $cur) )
@@ -931,6 +940,10 @@ _jdc_complete()
                     "describe-binlog-download-url")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --binlog-backup-id " -- $cur) )
+                        ;;
+                    "clear-binlogs")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
                         ;;
                     "describe-databases")
                         COMPREPLY=( $(compgen \
@@ -972,9 +985,13 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --file-name --shared " -- $cur) )
                         ;;
+                    "delete-import-file")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --file-name --shared-file-gid " -- $cur) )
+                        ;;
                     "describe-instances")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --page-number --page-size " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters --tag-filters " -- $cur) )
                         ;;
                     "create-instance")
                         COMPREPLY=( $(compgen \
@@ -1036,6 +1053,34 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --connection-mode " -- $cur) )
                         ;;
+                    "describe-latest-restore-time")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
+                        ;;
+                    "enable-intercept")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
+                        ;;
+                    "disable-intercept")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
+                        ;;
+                    "describe-parameters")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
+                        ;;
+                    "modify-parameters")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --parameters " -- $cur) )
+                        ;;
+                    "delete-parameter-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --parameter-group-id " -- $cur) )
+                        ;;
+                    "modify-parameter-group-attribute")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --parameter-group-id --parameter-group-name --description " -- $cur) )
+                        ;;
                     "describe-index-performance")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --query-type --db --page-number --page-size " -- $cur) )
@@ -1051,6 +1096,10 @@ _jdc_complete()
                     "describe-slow-logs")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --start-time --end-time --db-name --page-number --page-size " -- $cur) )
+                        ;;
+                    "describe-active-query-performance")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --db --threshold --page-number --page-size " -- $cur) )
                         ;;
                     "describe-white-list")
                         COMPREPLY=( $(compgen \
@@ -1535,6 +1584,44 @@ _jdc_complete()
                     "get-sensitive-op-setting")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --action " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "iothub")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "device-activate")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --device-id " -- $cur) )
+                        ;;
+                    "devices-enroll")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --instance-id --device " -- $cur) )
+                        ;;
+                    "device-command")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --device-id --commands " -- $cur) )
+                        ;;
+                    "device-state")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --device-id --states " -- $cur) )
+                        ;;
+                    "module-enroll")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --module-name --instance-id --model-name --parent-device-name --name " -- $cur) )
+                        ;;
+                    "module-state")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --module-name --states " -- $cur) )
+                        ;;
+                    "om-enroll")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --om-name --instance-id --payload " -- $cur) )
                         ;;
 
                     "generate-skeleton")

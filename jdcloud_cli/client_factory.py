@@ -34,6 +34,7 @@ from jdcloud_sdk.services.cps.client.CpsClient import CpsClient
 from jdcloud_sdk.services.datastar.client.DatastarClient import DatastarClient
 from jdcloud_sdk.services.vpc.client.VpcClient import VpcClient
 from jdcloud_sdk.services.sop.client.SopClient import SopClient
+from jdcloud_sdk.services.iothub.client.IothubClient import IothubClient
 from jdcloud_sdk.services.xdata.client.XdataClient import XdataClient
 from jdcloud_sdk.services.cr.client.CrClient import CrClient
 from jdcloud_sdk.services.nc.client.NcClient import NcClient
@@ -67,6 +68,7 @@ class ClientFactory(object):
             'datastar': DatastarClient,
             'vpc': VpcClient,
             'sop': SopClient,
+            'iothub': IothubClient,
             'xdata': XdataClient,
             'cr': CrClient,
             'nc': NcClient,

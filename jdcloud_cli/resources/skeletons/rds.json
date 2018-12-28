@@ -1,5 +1,7 @@
 {
     "describe-accounts":{
+        "pageNumber":"",
+        "pageSize":"",
         "regionId":"",
         "instanceId":""
     },
@@ -86,6 +88,10 @@
         "regionId":"",
         "instanceId":""
     },
+    "describe-azs":{
+        "engine":"",
+        "regionId":""
+    },
     "describe-backups":{
         "instanceId":"",
         "auto":"",
@@ -142,6 +148,10 @@
         "instanceId":"",
         "binlogBackupId":""
     },
+    "clear-binlogs":{
+        "regionId":"",
+        "instanceId":""
+    },
     "describe-databases":{
         "dbName":"",
         "regionId":"",
@@ -196,9 +206,24 @@
         "instanceId":"",
         "fileName":""
     },
+    "delete-import-file":{
+        "sharedFileGid":"",
+        "regionId":"",
+        "instanceId":"",
+        "fileName":""
+    },
     "describe-instances":{
         "pageNumber":"",
         "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "tagFilters":[{
+            "key":"",
+            "values":""
+        }],
         "regionId":""
     },
     "create-instance":{
@@ -314,6 +339,40 @@
         "regionId":"",
         "instanceId":""
     },
+    "describe-latest-restore-time":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "enable-intercept":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "disable-intercept":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-parameters":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-parameters":{
+        "parameters":[{
+            "name":"",
+            "value":""
+        }],
+        "regionId":"",
+        "instanceId":""
+    },
+    "delete-parameter-group":{
+        "regionId":"",
+        "parameterGroupId":""
+    },
+    "modify-parameter-group-attribute":{
+        "parameterGroupName":"",
+        "description":"",
+        "regionId":"",
+        "parameterGroupId":""
+    },
     "describe-index-performance":{
         "queryType":"",
         "db":"",
@@ -343,6 +402,14 @@
         "startTime":"",
         "endTime":"",
         "dbName":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-active-query-performance":{
+        "db":"",
+        "threshold":"",
         "pageNumber":"",
         "pageSize":"",
         "regionId":"",
