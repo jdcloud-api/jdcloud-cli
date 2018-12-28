@@ -68,6 +68,24 @@
         "regionId":"",
         "instanceId":""
     },
+    "enable-audit":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "disable-audit":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-audit-result":{
+        "startTime":"",
+        "endTime":"",
+        "dbName":"",
+        "accountName":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
     "describe-backups":{
         "instanceId":"",
         "auto":"",
@@ -96,6 +114,20 @@
         "urlExpirationSecond":"",
         "regionId":"",
         "backupId":""
+    },
+    "describe-backup-synchronicities":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "create-backup-synchronicity":{
+        "instanceId":"",
+        "destRegion":"",
+        "regionId":""
+    },
+    "delete-backup-synchronicity":{
+        "regionId":"",
+        "serviceId":""
     },
     "describe-binlogs":{
         "pageNumber":"",
@@ -179,6 +211,7 @@
             "azId":"",
             "vpcId":"",
             "subnetId":"",
+            "parameterGroup":"",
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",
@@ -242,6 +275,7 @@
             "azId":"",
             "vpcId":"",
             "subnetId":"",
+            "parameterGroup":"",
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",
@@ -265,6 +299,7 @@
             "azId":"",
             "vpcId":"",
             "subnetId":"",
+            "parameterGroup":"",
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",

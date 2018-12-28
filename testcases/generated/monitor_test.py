@@ -23,21 +23,12 @@ import json
 
 class MonitorTest(unittest.TestCase):
 
-    def test_describe_alarm_contacts(self):
-        cmd = """python ../../main.py monitor describe-alarm-contacts  --alarm-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print content
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_alarm_history(self):
         cmd = """python ../../main.py monitor describe-alarm-history """
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -46,16 +37,16 @@ class MonitorTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
     def test_create_alarm(self):
-        cmd = """python ../../main.py monitor create-alarm  --metric 'xxx' --service-code 'xxx' --threshold '' --times '5'"""
+        cmd = """python ../../main.py monitor create-alarm  --client-token 'xxx' --create-alarm-spec '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -64,7 +55,7 @@ class MonitorTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -73,7 +64,16 @@ class MonitorTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_alarm_contacts(self):
+        cmd = """python ../../main.py monitor describe-alarm-contacts  --alarm-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -82,7 +82,7 @@ class MonitorTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -91,7 +91,34 @@ class MonitorTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_alarm_history_all_region(self):
+        cmd = """python ../../main.py monitor describe-alarm-history-all-region """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_alarms_cm(self):
+        cmd = """python ../../main.py monitor delete-alarms-cm  --ids 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_cm_metric_data_by_tag_spec(self):
+        cmd = """python ../../main.py monitor describe-cm-metric-data-by-tag-spec  --namespace 'xxx' --metric 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -100,7 +127,7 @@ class MonitorTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -109,7 +136,7 @@ class MonitorTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -118,7 +145,7 @@ class MonitorTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -127,7 +154,7 @@ class MonitorTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -136,7 +163,7 @@ class MonitorTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 

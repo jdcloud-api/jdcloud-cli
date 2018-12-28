@@ -6,7 +6,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http:#www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,14 +21,14 @@ from jdcloud_cli.printer import Printer
 
 class ResizeTtyRequest(JDCloudRequest):
 
-    def __init__(self, service, parameters, header=None, version="v1"):
+    def __init__(self, service, parameters, headers, version="v1"):
         url_map = {'pod': '/regions/{regionId}/pods/{podId}/containers/{containerId}:resizeTTY',
                    'nc': '/regions/{regionId}/containers/{containerId}:resizeTTY'}
-        super(ResizeTtyRequest, self).__init__(url_map[service], 'POST', header, version)
+        super(ResizeTtyRequest, self).__init__(url_map[service], 'POST', headers, version)
         self.parameters = parameters
 
 
-def resize_tty(h, w, app, service, region_id, container_id, exec_id=None, pod_id=None):
+def resize_tty(h, w, app, service, headers, region_id, container_id, exec_id=None, pod_id=None):
     params = {'height': h, 'width': w, 'regionId': region_id, 'containerId': container_id}
 
     if exec_id is not None:
@@ -42,6 +42,6 @@ def resize_tty(h, w, app, service, region_id, container_id, exec_id=None, pod_id
     if client is None:
         return
 
-    req = ResizeTtyRequest(service, params)
+    req = ResizeTtyRequest(service, params, headers)
     resp = client.send(req)
     Printer.print_result(resp)

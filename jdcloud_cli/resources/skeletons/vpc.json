@@ -27,6 +27,11 @@
         "regionId":"",
         "elasticIpId":""
     },
+    "modify-elastic-ip":{
+        "bandwidthMbps":"",
+        "regionId":"",
+        "elasticIpId":""
+    },
     "delete-elastic-ip":{
         "regionId":"",
         "elasticIpId":""

@@ -28,7 +28,7 @@ class RedisTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -37,7 +37,7 @@ class RedisTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -46,7 +46,7 @@ class RedisTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -55,7 +55,7 @@ class RedisTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -64,7 +64,7 @@ class RedisTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -73,7 +73,7 @@ class RedisTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -82,7 +82,7 @@ class RedisTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -91,7 +91,7 @@ class RedisTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -100,7 +100,7 @@ class RedisTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
