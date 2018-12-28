@@ -28,7 +28,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -37,7 +37,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -46,7 +46,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -55,7 +55,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -64,7 +64,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -73,7 +73,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -82,7 +82,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -91,7 +91,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -100,7 +100,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -109,7 +109,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -118,7 +118,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -127,7 +127,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -136,7 +136,43 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_audit(self):
+        cmd = """python ../../main.py rds enable-audit  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_audit(self):
+        cmd = """python ../../main.py rds disable-audit  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_audit_result(self):
+        cmd = """python ../../main.py rds describe-audit-result  --instance-id 'xxx' --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_azs(self):
+        cmd = """python ../../main.py rds describe-azs  --engine 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -145,7 +181,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -154,7 +190,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -163,7 +199,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -172,7 +208,34 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_backup_synchronicities(self):
+        cmd = """python ../../main.py rds describe-backup-synchronicities """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_backup_synchronicity(self):
+        cmd = """python ../../main.py rds create-backup-synchronicity  --instance-id 'xxx' --dest-region 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_backup_synchronicity(self):
+        cmd = """python ../../main.py rds delete-backup-synchronicity  --service-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -181,7 +244,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -190,7 +253,16 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_clear_binlogs(self):
+        cmd = """python ../../main.py rds clear-binlogs  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -199,7 +271,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -208,7 +280,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -217,7 +289,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -226,7 +298,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -235,7 +307,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -244,7 +316,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -253,7 +325,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -262,7 +334,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -271,7 +343,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -280,7 +352,16 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_import_file(self):
+        cmd = """python ../../main.py rds delete-import-file  --instance-id 'xxx' --file-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -289,7 +370,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -298,7 +379,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -307,7 +388,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -316,7 +397,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -325,7 +406,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -334,7 +415,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -343,7 +424,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -352,7 +433,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -361,7 +442,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -370,7 +451,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -379,7 +460,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -388,7 +469,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -397,7 +478,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -406,7 +487,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -415,7 +496,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -424,7 +505,70 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_latest_restore_time(self):
+        cmd = """python ../../main.py rds describe-latest-restore-time  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_intercept(self):
+        cmd = """python ../../main.py rds enable-intercept  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_intercept(self):
+        cmd = """python ../../main.py rds disable-intercept  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_parameters(self):
+        cmd = """python ../../main.py rds describe-parameters  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_parameters(self):
+        cmd = """python ../../main.py rds modify-parameters  --instance-id 'xxx' --parameters '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_parameter_group(self):
+        cmd = """python ../../main.py rds delete-parameter-group  --parameter-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_parameter_group_attribute(self):
+        cmd = """python ../../main.py rds modify-parameter-group-attribute  --parameter-group-id 'xxx' --parameter-group-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -433,7 +577,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -442,7 +586,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -451,7 +595,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -460,7 +604,16 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_active_query_performance(self):
+        cmd = """python ../../main.py rds describe-active-query-performance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -469,7 +622,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -478,7 +631,7 @@ class RdsTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 

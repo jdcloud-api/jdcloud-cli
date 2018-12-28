@@ -28,7 +28,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -37,7 +37,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -46,7 +46,16 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_elastic_ip(self):
+        cmd = """python ../../main.py vpc modify-elastic-ip  --elastic-ip-id 'xxx' --bandwidth-mbps '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -55,7 +64,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -64,7 +73,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -73,7 +82,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -82,7 +91,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -91,7 +100,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -100,7 +109,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -109,7 +118,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -118,7 +127,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -127,7 +136,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -136,7 +145,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -145,7 +154,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -154,7 +163,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -163,7 +172,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -172,7 +181,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -181,7 +190,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -190,7 +199,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -199,7 +208,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -208,7 +217,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -217,7 +226,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -226,7 +235,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -235,7 +244,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -244,7 +253,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -253,7 +262,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -262,7 +271,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -271,7 +280,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -280,7 +289,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -289,7 +298,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -298,7 +307,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -307,7 +316,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -316,7 +325,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -325,7 +334,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -334,7 +343,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -343,7 +352,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -352,7 +361,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -361,7 +370,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -370,7 +379,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -379,7 +388,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -388,7 +397,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -397,7 +406,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -406,7 +415,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -415,7 +424,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -424,7 +433,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -433,7 +442,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -442,7 +451,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -451,7 +460,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -460,7 +469,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -469,7 +478,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -478,7 +487,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -487,7 +496,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -496,7 +505,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -505,7 +514,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -514,7 +523,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -523,7 +532,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
@@ -532,7 +541,7 @@ class VpcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 

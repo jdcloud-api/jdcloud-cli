@@ -1,11 +1,4 @@
 {
-    "describe-alarm-contacts":{
-        "pageNumber":"",
-        "pageSize":"",
-        "referenceType":"",
-        "regionId":"",
-        "alarmId":""
-    },
     "describe-alarm-history":{
         "pageNumber":"",
         "pageSize":"",
@@ -38,15 +31,31 @@
         "regionId":""
     },
     "create-alarm":{
-        "contactGroups":[""],
-        "contactPersons":[""],
-        "downSample":"",
-        "metric":"",
-        "noticePeriod":"",
-        "resourceIds":[""],
-        "serviceCode":"",
-        "threshold":"",
-        "times":"",
+        "clientToken":"",
+        "createAlarmSpec":{
+            "calculateUnit":"",
+            "calculation":"",
+            "contactGroups":"",
+            "contactPersons":"",
+            "downSample":"",
+            "metric":"",
+            "noticeLevel":{
+                "custom":"",
+                "levels":""
+            },
+            "noticePeriod":"",
+            "operation":"",
+            "period":"",
+            "resourceIds":"",
+            "serviceCode":"",
+            "tags":"",
+            "threshold":"",
+            "times":"",
+            "webHookContent":"",
+            "webHookProtocol":"",
+            "webHookSecret":"",
+            "webHookUrl":""
+        },
         "regionId":""
     },
     "describe-alarms-by-id":{
@@ -83,6 +92,13 @@
         "regionId":"",
         "alarmId":""
     },
+    "describe-alarm-contacts":{
+        "pageNumber":"",
+        "pageSize":"",
+        "referenceType":"",
+        "regionId":"",
+        "alarmId":""
+    },
     "disable-alarm":{
         "regionId":"",
         "alarmId":""
@@ -90,6 +106,39 @@
     "enable-alarm":{
         "regionId":"",
         "alarmId":""
+    },
+    "describe-alarm-history-all-region":{
+        "pageNumber":"",
+        "pageSize":"",
+        "serviceCode":"",
+        "resourceId":"",
+        "alarmId":"",
+        "alarming":"",
+        "startTime":"",
+        "endTime":"",
+        "filters":[{
+            "Name":"",
+            "Values":""
+        }]
+    },
+    "delete-alarms-cm":{
+        "ids":"",
+        "regionId":""
+    },
+    "describe-cm-metric-data-by-tag-spec":{
+        "aggrType":"",
+        "downSampleType":"",
+        "startTime":"",
+        "endTime":"",
+        "timeInterval":"",
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
+        "groupBy":"",
+        "regionId":"",
+        "namespace":"",
+        "metric":""
     },
     "describe-metrics":{
         "serviceCode":""
@@ -108,12 +157,14 @@
         "endTime":"",
         "timeInterval":"",
         "aggrType":"",
+        "downAggrType":"",
         "regionId":"",
         "metric":""
     },
     "describe-metric-data":{
         "serviceCode":"",
         "resourceId":"",
+        "aggrType":"",
         "startTime":"",
         "endTime":"",
         "timeInterval":"",
@@ -132,7 +183,8 @@
             "dimensions":"",
             "timestamp":"",
             "type":"",
-            "values":""
+            "values":"",
+            "unit":""
         }]
     },
 }

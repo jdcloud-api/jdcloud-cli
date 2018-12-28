@@ -7,6 +7,10 @@
             "operator":"",
             "values":""
         }],
+        "tagFilters":[{
+            "key":"",
+            "values":""
+        }],
         "sorts":[{
             "name":"",
             "direction":""

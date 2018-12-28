@@ -1,8 +1,4 @@
 {
-    "get-package-id":{
-        "deviceIds":"",
-        "regionId":""
-    },
     "get-large-screen-data":{
         "region":"",
         "industry":"",

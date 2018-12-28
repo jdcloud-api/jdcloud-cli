@@ -42,6 +42,7 @@ class MongodbController(BaseController):
             (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; instanceName - 实例名称, 模糊匹配; instanceStatus - mongodb状态，精确匹配，支持多个.RUNNING：运行, ERROR：错误 ,BUILDING：创建中, DELETING：删除中, RESTORING：恢复中, RESIZING：变配中; chargeMode - 计费类型，精确匹配;  """, dest='filters',  required=False)),
+            (['--tag-filters'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tagFilters',  required=False)),
             (['--sorts'], dict(help="""(array: sort) createTime - 创建时间,asc（正序），desc（倒序）;  """, dest='sorts',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -68,9 +69,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -102,9 +103,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -135,9 +136,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -169,9 +170,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -204,9 +205,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -238,9 +239,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -271,9 +272,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -305,9 +306,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -339,9 +340,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -371,9 +372,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -403,9 +404,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -438,9 +439,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -472,9 +473,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -505,9 +506,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -538,9 +539,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -571,9 +572,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -606,9 +607,9 @@ class MongodbController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[

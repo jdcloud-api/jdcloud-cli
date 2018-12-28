@@ -28,7 +28,7 @@ from jdcloud_cli.skeleton import Skeleton
 class CrController(BaseController):
     class Meta:
         label = 'cr'
-        help = 'cr'
+        help = '容器镜像仓库'
         description = '''
         cr cli 子命令，容器镜像仓库服务。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/441/isCatalog/0
@@ -66,9 +66,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -102,9 +102,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -137,9 +137,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -172,9 +172,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -209,9 +209,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -242,9 +242,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -274,9 +274,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -308,9 +308,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -341,9 +341,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -374,9 +374,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -407,9 +407,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -442,9 +442,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -477,9 +477,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -511,9 +511,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -545,9 +545,9 @@ class CrController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[

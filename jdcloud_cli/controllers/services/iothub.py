@@ -25,43 +25,42 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class StreambusController(BaseController):
+class IothubController(BaseController):
     class Meta:
-        label = 'streambus'
-        help = 'JDCLOUD 流数据总线 API'
+        label = 'iothub'
+        help = 'JCLOUD IoT Hub API'
         description = '''
-        streambus cli 子命令，提供流数据总线topic操作的相关接口。。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/390/isCatalog/0
+        iothub cli 子命令，API related to IoT Hub。
+        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/xxx/isCatalog/0
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--keyword'], dict(help="""(string) NA """, dest='keyword',  required=False)),
+            (['--device-id'], dict(help="""(string) Device 唯一标识 """, dest='deviceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询topic列表，返回topic的集合 ''',
+        help=''' 激活一个设备，包括Edge、Dragon和普通设备;  ''',
         description='''
-            查询topic列表，返回topic的集合。
+            激活一个设备，包括Edge、Dragon和普通设备; 。
 
-            示例: jdc streambus get-topic-list 
+            示例: jdc iothub device-activate  --device-id xxx
         ''',
     )
-    def get_topic_list(self):
-        client_factory = ClientFactory('streambus')
+    def device_activate(self):
+        client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.GetTopicListRequest import GetTopicListRequest
+            from jdcloud_sdk.services.iothub.apis.DeviceActivateRequest import DeviceActivateRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetTopicListRequest(params_dict, headers)
+            req = DeviceActivateRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -71,30 +70,30 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) NA """, dest='name',  required=True)),
+            (['--instance-id'], dict(help="""(string) NA """, dest='instanceId',  required=False)),
+            (['--device'], dict(help="""(deviceEnrollVO) NA """, dest='device',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询指定主题,如果已归档会返回归档信息 ''',
+        help=''' 客户用该接口可以批量登记设备;  ''',
         description='''
-            查询指定主题,如果已归档会返回归档信息。
+            客户用该接口可以批量登记设备; 。
 
-            示例: jdc streambus describe-topic  --name xxx
+            示例: jdc iothub devices-enroll 
         ''',
     )
-    def describe_topic(self):
-        client_factory = ClientFactory('streambus')
+    def devices_enroll(self):
+        client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.DescribeTopicRequest import DescribeTopicRequest
+            from jdcloud_sdk.services.iothub.apis.DevicesEnrollRequest import DevicesEnrollRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeTopicRequest(params_dict, headers)
+            req = DevicesEnrollRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -104,30 +103,30 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--topic-model'], dict(help="""(topicModel) 示例：{"topicModel":{"topic":{"archived":0,"id":"","name":"create","remark":"备注","shardNum":1,"partitionNum":2,"lifecycle":3}}} """, dest='topicModel',  required=True)),
+            (['--device-id'], dict(help="""(string) Device 唯一标识 """, dest='deviceId',  required=True)),
+            (['--commands'], dict(help="""(deviceCommandVO) NA """, dest='commands',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建topic时，topicModel中只需要传topic参数，另外两个参数可为空 ''',
+        help=''' 客户用该接口可以对设备下发命令;  ''',
         description='''
-            创建topic时，topicModel中只需要传topic参数，另外两个参数可为空。
+            客户用该接口可以对设备下发命令; 。
 
-            示例: jdc streambus add-topic  --topic-model {"":""}
+            示例: jdc iothub device-command  --device-id xxx
         ''',
     )
-    def add_topic(self):
-        client_factory = ClientFactory('streambus')
+    def device_command(self):
+        client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.AddTopicRequest import AddTopicRequest
+            from jdcloud_sdk.services.iothub.apis.DeviceCommandRequest import DeviceCommandRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddTopicRequest(params_dict, headers)
+            req = DeviceCommandRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -137,30 +136,30 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--topic-model'], dict(help="""(topicModel) 当更新主题时只需要修改topicModel中的topic中的属性即可；创建归档需要指定target以及归档的目的地(mysql,京东云 Elasticsearch,对象存储,数据计算服务)参数 """, dest='topicModel',  required=True)),
+            (['--device-id'], dict(help="""(string) Device 唯一标识 """, dest='deviceId',  required=True)),
+            (['--states'], dict(help="""(string) NA """, dest='states',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 此接口可以用来更新主题，创建归档，修改归档，删除归档，传入不同的参数可以实现不同的功能。修改归档只需要修改相应归档的参数，删除归档只需要把归档参数置为空即可 ''',
+        help=''' 客户用该接口可以修改设备预期状态;  ''',
         description='''
-            此接口可以用来更新主题，创建归档，修改归档，删除归档，传入不同的参数可以实现不同的功能。修改归档只需要修改相应归档的参数，删除归档只需要把归档参数置为空即可。
+            客户用该接口可以修改设备预期状态; 。
 
-            示例: jdc streambus update-topic  --topic-model {"":""}
+            示例: jdc iothub device-state  --device-id xxx
         ''',
     )
-    def update_topic(self):
-        client_factory = ClientFactory('streambus')
+    def device_state(self):
+        client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.UpdateTopicRequest import UpdateTopicRequest
+            from jdcloud_sdk.services.iothub.apis.DeviceStateRequest import DeviceStateRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateTopicRequest(params_dict, headers)
+            req = DeviceStateRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -170,30 +169,33 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) NA """, dest='name',  required=True)),
+            (['--module-name'], dict(help="""(string) moduleName 唯一标识 """, dest='moduleName',  required=True)),
+            (['--instance-id'], dict(help="""(string) NA """, dest='instanceId',  required=False)),
+            (['--model-name'], dict(help="""(string) NA """, dest='modelName',  required=False)),
+            (['--parent-device-name'], dict(help="""(string) NA """, dest='parentDeviceName',  required=False)),
+            (['--name'], dict(help="""(string) NA """, dest='name',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除topic ''',
+        help=''' 客户用该接口可以登记模块;  ''',
         description='''
-            删除topic。
+            客户用该接口可以登记模块; 。
 
-            示例: jdc streambus delete-topic  --name xxx
+            示例: jdc iothub module-enroll  --module-name xxx
         ''',
     )
-    def delete_topic(self):
-        client_factory = ClientFactory('streambus')
+    def module_enroll(self):
+        client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.DeleteTopicRequest import DeleteTopicRequest
+            from jdcloud_sdk.services.iothub.apis.ModuleEnrollRequest import ModuleEnrollRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteTopicRequest(params_dict, headers)
+            req = ModuleEnrollRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -203,30 +205,30 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--topic-id'], dict(help="""(int) 主题id """, dest='topicId', type=int, required=True)),
+            (['--module-name'], dict(help="""(string) moduleName 唯一标识 """, dest='moduleName',  required=True)),
+            (['--states'], dict(help="""(string) NA """, dest='states',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看指定主题的所有消费组 ''',
+        help=''' 客户用该接口可以修改模块预期状态;  ''',
         description='''
-            查看指定主题的所有消费组。
+            客户用该接口可以修改模块预期状态; 。
 
-            示例: jdc streambus get-consumer-group-list  --topic-id 0
+            示例: jdc iothub module-state  --module-name xxx
         ''',
     )
-    def get_consumer_group_list(self):
-        client_factory = ClientFactory('streambus')
+    def module_state(self):
+        client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.GetConsumerGroupListRequest import GetConsumerGroupListRequest
+            from jdcloud_sdk.services.iothub.apis.ModuleStateRequest import ModuleStateRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetConsumerGroupListRequest(params_dict, headers)
+            req = ModuleStateRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -236,30 +238,31 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--consumer-group-str'], dict(help="""(consumerGroup) 消费组对象 """, dest='consumerGroupStr',  required=False)),
+            (['--om-name'], dict(help="""(string) 物模型唯一标识 """, dest='omName',  required=True)),
+            (['--instance-id'], dict(help="""(string) NA """, dest='instanceId',  required=False)),
+            (['--payload'], dict(help="""(string) NA """, dest='payload',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建consumerGroupName ''',
+        help=''' 物模型注册接口;  ''',
         description='''
-            创建consumerGroupName。
+            物模型注册接口; 。
 
-            示例: jdc streambus create-consumer-group 
+            示例: jdc iothub om-enroll  --om-name xxx
         ''',
     )
-    def create_consumer_group(self):
-        client_factory = ClientFactory('streambus')
+    def om_enroll(self):
+        client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.CreateConsumerGroupRequest import CreateConsumerGroupRequest
+            from jdcloud_sdk.services.iothub.apis.OmEnrollRequest import OmEnrollRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateConsumerGroupRequest(params_dict, headers)
+            req = OmEnrollRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -269,41 +272,7 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--topic-id'], dict(help="""(int) 主题ID """, dest='topicId', type=int, required=True)),
-            (['--consumer-group-id'], dict(help="""(int) 消费组ID """, dest='consumerGroupId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除consumerGroupName ''',
-        description='''
-            删除consumerGroupName。
-
-            示例: jdc streambus delete-consumer-group  --topic-id 0 --consumer-group-id 0
-        ''',
-    )
-    def delete_consumer_group(self):
-        client_factory = ClientFactory('streambus')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.streambus.apis.DeleteConsumerGroupRequest import DeleteConsumerGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteConsumerGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e.message)
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-topic-list','describe-topic','add-topic','update-topic','delete-topic','get-consumer-group-list','create-consumer-group','delete-consumer-group',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['device-activate','devices-enroll','device-command','device-state','module-enroll','module-state','om-enroll',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -313,5 +282,5 @@ class StreambusController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('streambus', self.app.pargs.api)
+        skeleton = Skeleton('iothub', self.app.pargs.api)
         skeleton.show()

@@ -67,9 +67,9 @@ class JkeController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -125,9 +125,9 @@ class JkeController(BaseController):
                 Printer.print_text('Generate cluster credential successfully.')
 
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e
+            print(e)
 
     def _build_credential_data(self, cluster):
         masterAuth = cluster['masterAuth']

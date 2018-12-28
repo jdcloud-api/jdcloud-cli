@@ -21,10 +21,10 @@ import os
 import json
 
 
-class BaseantiTest(unittest.TestCase):
+class IothubTest(unittest.TestCase):
 
-    def test_describe_ip_resources(self):
-        cmd = """python ../../main.py baseanti describe-ip-resources """
+    def test_device_activate(self):
+        cmd = """python ../../main.py iothub device-activate  --device-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class BaseantiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_ip_resource_info(self):
-        cmd = """python ../../main.py baseanti describe-ip-resource-info  --ip 'xxx'"""
+    def test_devices_enroll(self):
+        cmd = """python ../../main.py iothub devices-enroll """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class BaseantiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_set_clean_threshold(self):
-        cmd = """python ../../main.py baseanti set-clean-threshold  --ip 'xxx' --clean-threshold-spec '{"":""}'"""
+    def test_device_command(self):
+        cmd = """python ../../main.py iothub device-command  --device-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,8 @@ class BaseantiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_ip_resource_protect_info(self):
-        cmd = """python ../../main.py baseanti describe-ip-resource-protect-info  --ip 'xxx'"""
+    def test_device_state(self):
+        cmd = """python ../../main.py iothub device-state  --device-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -59,8 +59,26 @@ class BaseantiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_ip_resource_flow(self):
-        cmd = """python ../../main.py baseanti describe-ip-resource-flow  --ip 'xxx'"""
+    def test_module_enroll(self):
+        cmd = """python ../../main.py iothub module-enroll  --module-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_module_state(self):
+        cmd = """python ../../main.py iothub module-state  --module-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_om_enroll(self):
+        cmd = """python ../../main.py iothub om-enroll  --om-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

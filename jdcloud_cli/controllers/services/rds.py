@@ -30,7 +30,7 @@ class RdsController(BaseController):
         label = 'rds'
         help = '云数据库RDS'
         description = '''
-        rds cli 子命令，目前RDS OpenAPI支持云数据库SQL Server，可以通过OpenAPI实现数据库管理，账号管理，备份管理，单库上云等功能，后续将支持云数据库MySQL。
+        rds cli 子命令，目前RDS OpenAPI支持云数据库SQL Server、MySQL、PostgreSQL。
         OpenAPI文档地址为：https://www.jdcloud.com/help/detail/382/isCatalog/0
         '''
         stacked_on = 'base'
@@ -40,6 +40,8 @@ class RdsController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
+            (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[-1,∞)。pageNumber为-1时，返回所有数据页码；超过总页数时，显示最后一页; """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为100，取值范围：[10,100]，用于查询列表的接口 """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -65,9 +67,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -100,9 +102,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -134,9 +136,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -169,9 +171,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -183,9 +185,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 取消该账号对某个数据库的所有权限。权限取消后，该账号将不能访问此数据库。取消账号对某个数据库的访问权限，不影响该账号对其他数据库的访问权限<br>- 仅支持MySQL ''',
+        help=''' 取消该账号对某个数据库的所有权限。权限取消后，该账号将不能访问此数据库。取消账号对某个数据库的访问权限，不影响该账号对其他数据库的访问权限 ''',
         description='''
-            取消该账号对某个数据库的所有权限。权限取消后，该账号将不能访问此数据库。取消账号对某个数据库的访问权限，不影响该账号对其他数据库的访问权限<br>- 仅支持MySQL。
+            取消该账号对某个数据库的所有权限。权限取消后，该账号将不能访问此数据库。取消账号对某个数据库的访问权限，不影响该账号对其他数据库的访问权限。
 
             示例: jdc rds revoke-privilege  --instance-id xxx --account-name xxx
         ''',
@@ -204,9 +206,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -239,9 +241,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -272,9 +274,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -306,9 +308,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -339,9 +341,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -373,9 +375,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -408,9 +410,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -441,9 +443,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -475,9 +477,147 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 仅支持MySQL实例开启数据库审计 ''',
+        description='''
+            仅支持MySQL实例开启数据库审计。
+
+            示例: jdc rds enable-audit  --instance-id xxx
+        ''',
+    )
+    def enable_audit(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.EnableAuditRequest import EnableAuditRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableAuditRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 仅支持MySQL实例关闭数据库审计 ''',
+        description='''
+            仅支持MySQL实例关闭数据库审计。
+
+            示例: jdc rds disable-audit  --instance-id xxx
+        ''',
+    )
+    def disable_audit(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DisableAuditRequest import DisableAuditRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableAuditRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
+            (['--start-time'], dict(help="""(string) 查询开始时间，格式为：YYYY-MM-DD HH:mm:ss，开始时间不能早于当前时间30天 """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询截止时间，格式为：YYYY-MM-DD HH:mm:ss，开始时间到结束时间不能超过3天 """, dest='endTime',  required=True)),
+            (['--db-name'], dict(help="""(string) 数据库名 """, dest='dbName',  required=False)),
+            (['--account-name'], dict(help="""(string) 账号名 """, dest='accountName',  required=False)),
+            (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[-1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为10，取值范围：10、20、50 """, dest='pageSize', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 仅支持查看MySQL实例的审计内容 ''',
+        description='''
+            仅支持查看MySQL实例的审计内容。
+
+            示例: jdc rds describe-audit-result  --instance-id xxx --start-time xxx --end-time xxx
+        ''',
+    )
+    def describe_audit_result(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DescribeAuditResultRequest import DescribeAuditResultRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAuditResultRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--engine'], dict(help="""(string) RDS引擎类型，参见[枚举参数定义](../Enum-Definitions/Enum-Definitions.md) """, dest='engine',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看指定地域下各种RDS数据库支持的可用区，不同类型的RDS支持的可用区不一样 ''',
+        description='''
+            查看指定地域下各种RDS数据库支持的可用区，不同类型的RDS支持的可用区不一样。
+
+            示例: jdc rds describe-azs  --engine xxx
+        ''',
+    )
+    def describe_azs(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DescribeAzsRequest import DescribeAzsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAzsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
 
     @expose(
         arguments=[
@@ -515,9 +655,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -549,9 +689,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -582,9 +722,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -617,9 +757,110 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[1,∞)，页码超过总页数时，显示最后一页，用于查询列表的接口 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为10，取值范围：10、20、30、50、100 """, dest='pageSize', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询跨地域备份同步服务列表。 ''',
+        description='''
+            查询跨地域备份同步服务列表。。
+
+            示例: jdc rds describe-backup-synchronicities 
+        ''',
+    )
+    def describe_backup_synchronicities(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DescribeBackupSynchronicitiesRequest import DescribeBackupSynchronicitiesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeBackupSynchronicitiesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 源实例ID """, dest='instanceId',  required=True)),
+            (['--dest-region'], dict(help="""(string) 备份同步的目标地域 """, dest='destRegion',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建一个跨地域备份同步服务。 ''',
+        description='''
+            创建一个跨地域备份同步服务。。
+
+            示例: jdc rds create-backup-synchronicity  --instance-id xxx --dest-region xxx
+        ''',
+    )
+    def create_backup_synchronicity(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.CreateBackupSynchronicityRequest import CreateBackupSynchronicityRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateBackupSynchronicityRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--service-id'], dict(help="""(string) 跨地域备份同步服务ID """, dest='serviceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除一个跨地域备份同步服务。 ''',
+        description='''
+            删除一个跨地域备份同步服务。。
+
+            示例: jdc rds delete-backup-synchronicity  --service-id xxx
+        ''',
+    )
+    def delete_backup_synchronicity(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DeleteBackupSynchronicityRequest import DeleteBackupSynchronicityRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteBackupSynchronicityRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
 
     @expose(
         arguments=[
@@ -654,9 +895,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -688,9 +929,42 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 清理本地的binlog并释放空间。 系统只会清理已经备份到存储的binlog，不会影响MySQL实例的备份恢复<br>- 仅支持MySQL ''',
+        description='''
+            清理本地的binlog并释放空间。 系统只会清理已经备份到存储的binlog，不会影响MySQL实例的备份恢复<br>- 仅支持MySQL。
+
+            示例: jdc rds clear-binlogs  --instance-id xxx
+        ''',
+    )
+    def clear_binlogs(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.ClearBinlogsRequest import ClearBinlogsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ClearBinlogsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
 
     @expose(
         arguments=[
@@ -722,9 +996,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -757,9 +1031,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -791,9 +1065,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -827,9 +1101,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -863,16 +1137,16 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
             (['--db-name'], dict(help="""(string) 库名称 """, dest='dbName',  required=True)),
-            (['--oss-url'], dict(help="""(string) 用户上传到对象存储OSS上的备份文件的内链 """, dest='ossURL',  required=True)),
+            (['--oss-url'], dict(help="""(string) 用户上传到对象存储OSS上的备份文件的路径。<br>例如用户备份上传的bucket为db_backup，文件为test_server/db1.bak，那么ossULR为db_backup/test_server/db1.bak。<br>**授权说明**：需要授予账户ID：785455908940，对这个bucket的读取权限，具体步骤可以查看[文档](https://docs.jdcloud.com/cn/object-storage-service/set-bucket-policy-2)。 """, dest='ossURL',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -898,9 +1172,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -931,9 +1205,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -964,9 +1238,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -997,9 +1271,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1032,15 +1306,52 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
+            (['--file-name'], dict(help="""(string) 单库上云文件名 """, dest='fileName',  required=True)),
+            (['--shared-file-gid'], dict(help="""(string) 共享文件的全局ID，可从上传文件查询接口describeImportFiles中获取；如果该文件不是共享文件，则无须输入该字段 """, dest='sharedFileGid',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除用户通过单库上云工具上传的数据库备份文件<br>- 仅支持SQL Server ''',
+        description='''
+            删除用户通过单库上云工具上传的数据库备份文件<br>- 仅支持SQL Server。
+
+            示例: jdc rds delete-import-file  --instance-id xxx --file-name xxx
+        ''',
+    )
+    def delete_import_file(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DeleteImportFileRequest import DeleteImportFileRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteImportFileRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
 
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[-1,∞)。pageNumber为-1时，返回所有数据页码；超过总页数时，显示最后一页; """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为100，取值范围：[10,100]，用于查询列表的接口 """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) 过滤参数，多个过滤参数之间的关系为“与”(and); 支持以下属性的过滤：; instanceId, 支持operator选项：eq; instanceName, 支持operator选项：eq; engine, 支持operator选项：eq; engineVersion, 支持operator选项：eq; instanceStatus, 支持operator选项：eq; chargeMode, 支持operator选项：eq;  """, dest='filters',  required=False)),
+            (['--tag-filters'], dict(help="""(array: tagFilter) 资源标签 """, dest='tagFilters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1066,9 +1377,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1099,9 +1410,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1132,9 +1443,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1165,9 +1476,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1198,9 +1509,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1232,9 +1543,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1245,9 +1556,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改实例名称，可支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md)<br>- 仅支持SQL Server ''',
+        help=''' 修改实例名称，可支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) ''',
         description='''
-            修改实例名称，可支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md)<br>- 仅支持SQL Server。
+            修改实例名称，可支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md)。
 
             示例: jdc rds modify-instance-name  --instance-id xxx --instance-name xxx
         ''',
@@ -1266,9 +1577,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1299,9 +1610,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1334,9 +1645,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1367,9 +1678,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1400,9 +1711,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1434,9 +1745,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1448,9 +1759,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 根据源实例全量备份创建一个新实例，新实例的数据跟源实例在创建备份时的数据状态一样。<br>例如根据源实例A的一个全量备份“mybak”新建一个实例B，该备份是在“‘2018-8-18 03:23:54”创建的。那么新建实例B的数据状态跟实例A‘2018-8-18 03:23:54’的状态一致<br>- 仅支持MySQL ''',
+        help=''' 根据源实例全量备份创建一个新实例，新实例的数据跟源实例在创建备份时的数据状态一样。<br>例如根据源实例A的一个全量备份“mybak”新建一个实例B，该备份是在“‘2018-8-18 03:23:54”创建的。那么新建实例B的数据状态跟实例A‘2018-8-18 03:23:54’的状态一致 ''',
         description='''
-            根据源实例全量备份创建一个新实例，新实例的数据跟源实例在创建备份时的数据状态一样。<br>例如根据源实例A的一个全量备份“mybak”新建一个实例B，该备份是在“‘2018-8-18 03:23:54”创建的。那么新建实例B的数据状态跟实例A‘2018-8-18 03:23:54’的状态一致<br>- 仅支持MySQL。
+            根据源实例全量备份创建一个新实例，新实例的数据跟源实例在创建备份时的数据状态一样。<br>例如根据源实例A的一个全量备份“mybak”新建一个实例B，该备份是在“‘2018-8-18 03:23:54”创建的。那么新建实例B的数据状态跟实例A‘2018-8-18 03:23:54’的状态一致。
 
             示例: jdc rds create-instance-from-backup  --backup-id xxx --engine xxx --instance-spec {"":""}
         ''',
@@ -1469,9 +1780,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1504,9 +1815,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1518,9 +1829,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 根据源实例备份创建一个新实例，并通过追加日志的方式，将新实例的数据恢复到跟源实例指定时间点的数据状态一样。<br>例如根据实例A在“2018-06-18 23:00:00”时间点创建一个实例B，就是新建一个实例B，该实例B的数据跟实例A在“2018-06-18 23:00:00”这个时间点的数据完全一致。<br>对于SQL Server，主备切换后30分钟内，不支持按时间点恢复/创建，例如在10:05分用户进行了主备切换，那么10:05 ~ 10:35这个时间段不能进行按时间点恢复/创建。<br>- 仅支持MySQL ''',
+        help=''' 根据源实例备份创建一个新实例，并通过追加日志的方式，将新实例的数据恢复到跟源实例指定时间点的数据状态一样。<br>例如根据实例A在“2018-06-18 23:00:00”时间点创建一个实例B，就是新建一个实例B，该实例B的数据跟实例A在“2018-06-18 23:00:00”这个时间点的数据完全一致。<br>对于SQL Server，主备切换后30分钟内，不支持按时间点恢复/创建，例如在10:05分用户进行了主备切换，那么10:05 ~ 10:35这个时间段不能进行按时间点恢复/创建。 ''',
         description='''
-            根据源实例备份创建一个新实例，并通过追加日志的方式，将新实例的数据恢复到跟源实例指定时间点的数据状态一样。<br>例如根据实例A在“2018-06-18 23:00:00”时间点创建一个实例B，就是新建一个实例B，该实例B的数据跟实例A在“2018-06-18 23:00:00”这个时间点的数据完全一致。<br>对于SQL Server，主备切换后30分钟内，不支持按时间点恢复/创建，例如在10:05分用户进行了主备切换，那么10:05 ~ 10:35这个时间段不能进行按时间点恢复/创建。<br>- 仅支持MySQL。
+            根据源实例备份创建一个新实例，并通过追加日志的方式，将新实例的数据恢复到跟源实例指定时间点的数据状态一样。<br>例如根据实例A在“2018-06-18 23:00:00”时间点创建一个实例B，就是新建一个实例B，该实例B的数据跟实例A在“2018-06-18 23:00:00”这个时间点的数据完全一致。<br>对于SQL Server，主备切换后30分钟内，不支持按时间点恢复/创建，例如在10:05分用户进行了主备切换，那么10:05 ~ 10:35这个时间段不能进行按时间点恢复/创建。。
 
             示例: jdc rds create-instance-by-time  --instance-id xxx --restore-time xxx --instance-spec {"":""}
         ''',
@@ -1539,9 +1850,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1573,9 +1884,243 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取SQL Server实例按时间点恢复/创建时，可恢复到的最后的一个时间点<br>- 仅支持SQL Server ''',
+        description='''
+            获取SQL Server实例按时间点恢复/创建时，可恢复到的最后的一个时间点<br>- 仅支持SQL Server。
+
+            示例: jdc rds describe-latest-restore-time  --instance-id xxx
+        ''',
+    )
+    def describe_latest_restore_time(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DescribeLatestRestoreTimeRequest import DescribeLatestRestoreTimeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLatestRestoreTimeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 开启数据库的高安全模式<br>- 仅支持MySQL ''',
+        description='''
+            开启数据库的高安全模式<br>- 仅支持MySQL。
+
+            示例: jdc rds enable-intercept  --instance-id xxx
+        ''',
+    )
+    def enable_intercept(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.EnableInterceptRequest import EnableInterceptRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableInterceptRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 关闭数据库的高安全模式<br>- 仅支持MySQL ''',
+        description='''
+            关闭数据库的高安全模式<br>- 仅支持MySQL。
+
+            示例: jdc rds disable-intercept  --instance-id xxx
+        ''',
+    )
+    def disable_intercept(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DisableInterceptRequest import DisableInterceptRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableInterceptRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看SQL Server实例的配置参数<br>- 仅支持SQL Server ''',
+        description='''
+            查看SQL Server实例的配置参数<br>- 仅支持SQL Server。
+
+            示例: jdc rds describe-parameters  --instance-id xxx
+        ''',
+    )
+    def describe_parameters(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DescribeParametersRequest import DescribeParametersRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeParametersRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--parameters'], dict(help="""(array: parameter) 修改的实例参数 """, dest='parameters',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改SQL Server数实例的配置参数。 部分参数修改后，需要重启才能生效，具体可以参考微软的相关文档<br>- 仅支持SQL Server ''',
+        description='''
+            修改SQL Server数实例的配置参数。 部分参数修改后，需要重启才能生效，具体可以参考微软的相关文档<br>- 仅支持SQL Server。
+
+            示例: jdc rds modify-parameters  --instance-id xxx --parameters [{"":""}]
+        ''',
+    )
+    def modify_parameters(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.ModifyParametersRequest import ModifyParametersRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyParametersRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--parameter-group-id'], dict(help="""(string) Parameter Group ID """, dest='parameterGroupId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除参数组<br>- 仅支持MySQL ''',
+        description='''
+            删除参数组<br>- 仅支持MySQL。
+
+            示例: jdc rds delete-parameter-group  --parameter-group-id xxx
+        ''',
+    )
+    def delete_parameter_group(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DeleteParameterGroupRequest import DeleteParameterGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteParameterGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--parameter-group-id'], dict(help="""(string) Parameter Group ID """, dest='parameterGroupId',  required=True)),
+            (['--parameter-group-name'], dict(help="""(string) 参数组名称 """, dest='parameterGroupName',  required=True)),
+            (['--description'], dict(help="""(string) 参数组描述 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改参数组名称，描述<br>- 仅支持MySQL ''',
+        description='''
+            修改参数组名称，描述<br>- 仅支持MySQL。
+
+            示例: jdc rds modify-parameter-group-attribute  --parameter-group-id xxx --parameter-group-name xxx
+        ''',
+    )
+    def modify_parameter_group_attribute(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.ModifyParameterGroupAttributeRequest import ModifyParameterGroupAttributeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyParameterGroupAttributeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1610,9 +2155,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1647,9 +2192,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1664,9 +2209,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询MySQL实例的慢日志的详细信息。<br>- 仅支持SQL Server ''',
+        help=''' 查询MySQL实例的慢日志的详细信息。<br>- 仅支持MySQL ''',
         description='''
-            查询MySQL实例的慢日志的详细信息。<br>- 仅支持SQL Server。
+            查询MySQL实例的慢日志的详细信息。<br>- 仅支持MySQL。
 
             示例: jdc rds describe-slow-log-attributes  --instance-id xxx --start-time xxx --end-time xxx
         ''',
@@ -1685,9 +2230,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1702,9 +2247,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询MySQL实例的慢日志的概要信息。<br>- 仅支持SQL Server ''',
+        help=''' 查询MySQL实例的慢日志的概要信息。<br>- 仅支持MySQL ''',
         description='''
-            查询MySQL实例的慢日志的概要信息。<br>- 仅支持SQL Server。
+            查询MySQL实例的慢日志的概要信息。<br>- 仅支持MySQL。
 
             示例: jdc rds describe-slow-logs  --instance-id xxx --start-time xxx --end-time xxx
         ''',
@@ -1723,9 +2268,46 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
+            (['--db'], dict(help="""(string) 需要查询的数据库名，多个数据库名之间用英文逗号分隔，默认所有数据库 """, dest='db',  required=False)),
+            (['--threshold'], dict(help="""(int) 返回执行时间大于等于threshold的记录，默认10，单位秒 """, dest='threshold', type=int, required=False)),
+            (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[-1,1000)。pageNumber为-1时，返回所有数据页码；超过总页数时，显示最后一页。 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为50，取值范围：[1,100]，只能为10的倍数 """, dest='pageSize', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据用户定义的查询条件，获取正在执行中的SQL执行的性能信息。用户可以根据这些信息查找与SQL执行相关的性能瓶颈，并进行优化。<br>- 仅支持SQL Server ''',
+        description='''
+            根据用户定义的查询条件，获取正在执行中的SQL执行的性能信息。用户可以根据这些信息查找与SQL执行相关的性能瓶颈，并进行优化。<br>- 仅支持SQL Server。
+
+            示例: jdc rds describe-active-query-performance  --instance-id xxx
+        ''',
+    )
+    def describe_active_query_performance(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DescribeActiveQueryPerformanceRequest import DescribeActiveQueryPerformanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeActiveQueryPerformanceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1756,9 +2338,9 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -1790,13 +2372,13 @@ class RdsController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-accounts','create-account','delete-account','grant-privilege','revoke-privilege','reset-password','describe-audit','create-audit','delete-audit','describe-audit-options','modify-audit','describe-audit-files','describe-audit-download-url','describe-backups','create-backup','delete-backup','describe-backup-download-url','describe-binlogs','describe-binlog-download-url','describe-databases','create-database','delete-database','restore-database-from-backup','restore-database-from-file','restore-database-from-oss','describe-error-logs','describe-import-files','get-upload-key','set-import-file-shared','describe-instances','create-instance','describe-instance-attributes','delete-instance','describe-backup-policy','modify-backup-policy','modify-instance-name','failover-instance','reboot-instance','enable-internet-access','disable-internet-access','restore-instance','create-instance-from-backup','modify-instance-spec','create-instance-by-time','modify-connection-mode','describe-index-performance','describe-query-performance','describe-slow-log-attributes','describe-slow-logs','describe-white-list','modify-white-list',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-accounts','create-account','delete-account','grant-privilege','revoke-privilege','reset-password','describe-audit','create-audit','delete-audit','describe-audit-options','modify-audit','describe-audit-files','describe-audit-download-url','enable-audit','disable-audit','describe-audit-result','describe-azs','describe-backups','create-backup','delete-backup','describe-backup-download-url','describe-backup-synchronicities','create-backup-synchronicity','delete-backup-synchronicity','describe-binlogs','describe-binlog-download-url','clear-binlogs','describe-databases','create-database','delete-database','restore-database-from-backup','restore-database-from-file','restore-database-from-oss','describe-error-logs','describe-import-files','get-upload-key','set-import-file-shared','delete-import-file','describe-instances','create-instance','describe-instance-attributes','delete-instance','describe-backup-policy','modify-backup-policy','modify-instance-name','failover-instance','reboot-instance','enable-internet-access','disable-internet-access','restore-instance','create-instance-from-backup','modify-instance-spec','create-instance-by-time','modify-connection-mode','describe-latest-restore-time','enable-intercept','disable-intercept','describe-parameters','modify-parameters','delete-parameter-group','modify-parameter-group-attribute','describe-index-performance','describe-query-performance','describe-slow-log-attributes','describe-slow-logs','describe-active-query-performance','describe-white-list','modify-white-list',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

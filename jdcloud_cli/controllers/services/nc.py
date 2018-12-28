@@ -71,9 +71,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -105,9 +105,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -138,9 +138,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -171,9 +171,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -204,9 +204,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -237,9 +237,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -272,9 +272,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -306,9 +306,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -340,9 +340,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -376,9 +376,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -409,9 +409,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -444,9 +444,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -479,9 +479,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -512,9 +512,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
     @expose(
         arguments=[
@@ -545,9 +545,9 @@ class NcController(BaseController):
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
-            print '{"error":"This api is not supported, please use the newer version"}'
+            print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print e.message
+            print(e.message)
 
 
 
@@ -556,6 +556,7 @@ class NcController(BaseController):
             (['--region-id'], dict(help='(string) region id', dest='regionId', choices=['cn-north-1', 'cn-east-1', 'cn-east-2', 'cn-south-1'], required=False)),
             (['--container-id'], dict(help='(string) container id', dest='containerId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 为容器创建一个执行环境 ''',
@@ -572,7 +573,9 @@ class NcController(BaseController):
             return
 
         params_dict = collect_user_args(self.app)
-        req = ExecCreateRequest(params_dict)
+        headers = collect_user_headers(self.app)
+
+        req = ExecCreateRequest(params_dict, headers)
         resp = client.send(req)
         Printer.print_result(resp)
 
@@ -582,6 +585,7 @@ class NcController(BaseController):
             (['--container-id'], dict(help='(string) container id', dest='containerId', required=True)),
             (['--exec-id'], dict(help='(string) exec id', dest='execId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 在容器中执行命令 ''',
@@ -594,13 +598,15 @@ class NcController(BaseController):
     def exec_start(self):
         profile_region_id = ProfileManager().load_current_profile().region_id
         region_id = self.app.pargs.regionId if self.app.pargs.regionId else profile_region_id
-        exec_start(self.app, 'nc', region_id, self.app.pargs.containerId, self.app.pargs.execId)
+        headers = collect_user_headers(self.app)
+        exec_start(self.app, 'nc', headers, region_id, self.app.pargs.containerId, self.app.pargs.execId)
 
     @expose(
         arguments=[
             (['--region-id'], dict(help='(string) region id', dest='regionId', choices=['cn-north-1', 'cn-east-1', 'cn-east-2', 'cn-south-1'], required=False)),
             (['--container-id'], dict(help='(string) container id', dest='containerId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 绑定输入输出到容器 ''',
@@ -613,7 +619,8 @@ class NcController(BaseController):
     def attach(self):
         profile_region_id = ProfileManager().load_current_profile().region_id
         region_id = self.app.pargs.regionId if self.app.pargs.regionId else profile_region_id
-        attach(self.app, 'nc', region_id, self.app.pargs.containerId)
+        headers = collect_user_headers(self.app)
+        attach(self.app, 'nc', headers, region_id, self.app.pargs.containerId)
 
     @expose(
         arguments=[
@@ -630,3 +637,5 @@ class NcController(BaseController):
     def generate_skeleton(self):
         skeleton = Skeleton('nc', self.app.pargs.api)
         skeleton.show()
+
+

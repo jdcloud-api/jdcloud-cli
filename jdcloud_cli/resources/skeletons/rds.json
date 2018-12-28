@@ -1,5 +1,7 @@
 {
     "describe-accounts":{
+        "pageNumber":"",
+        "pageSize":"",
         "regionId":"",
         "instanceId":""
     },
@@ -68,6 +70,28 @@
         "regionId":"",
         "instanceId":""
     },
+    "enable-audit":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "disable-audit":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-audit-result":{
+        "startTime":"",
+        "endTime":"",
+        "dbName":"",
+        "accountName":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-azs":{
+        "engine":"",
+        "regionId":""
+    },
     "describe-backups":{
         "instanceId":"",
         "auto":"",
@@ -97,6 +121,20 @@
         "regionId":"",
         "backupId":""
     },
+    "describe-backup-synchronicities":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "create-backup-synchronicity":{
+        "instanceId":"",
+        "destRegion":"",
+        "regionId":""
+    },
+    "delete-backup-synchronicity":{
+        "regionId":"",
+        "serviceId":""
+    },
     "describe-binlogs":{
         "pageNumber":"",
         "pageSize":"",
@@ -109,6 +147,10 @@
         "regionId":"",
         "instanceId":"",
         "binlogBackupId":""
+    },
+    "clear-binlogs":{
+        "regionId":"",
+        "instanceId":""
     },
     "describe-databases":{
         "dbName":"",
@@ -164,9 +206,24 @@
         "instanceId":"",
         "fileName":""
     },
+    "delete-import-file":{
+        "sharedFileGid":"",
+        "regionId":"",
+        "instanceId":"",
+        "fileName":""
+    },
     "describe-instances":{
         "pageNumber":"",
         "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "tagFilters":[{
+            "key":"",
+            "values":""
+        }],
         "regionId":""
     },
     "create-instance":{
@@ -179,6 +236,7 @@
             "azId":"",
             "vpcId":"",
             "subnetId":"",
+            "parameterGroup":"",
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",
@@ -242,6 +300,7 @@
             "azId":"",
             "vpcId":"",
             "subnetId":"",
+            "parameterGroup":"",
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",
@@ -265,6 +324,7 @@
             "azId":"",
             "vpcId":"",
             "subnetId":"",
+            "parameterGroup":"",
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",
@@ -278,6 +338,40 @@
         "connectionMode":"",
         "regionId":"",
         "instanceId":""
+    },
+    "describe-latest-restore-time":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "enable-intercept":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "disable-intercept":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-parameters":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-parameters":{
+        "parameters":[{
+            "name":"",
+            "value":""
+        }],
+        "regionId":"",
+        "instanceId":""
+    },
+    "delete-parameter-group":{
+        "regionId":"",
+        "parameterGroupId":""
+    },
+    "modify-parameter-group-attribute":{
+        "parameterGroupName":"",
+        "description":"",
+        "regionId":"",
+        "parameterGroupId":""
     },
     "describe-index-performance":{
         "queryType":"",
@@ -308,6 +402,14 @@
         "startTime":"",
         "endTime":"",
         "dbName":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-active-query-performance":{
+        "db":"",
+        "threshold":"",
         "pageNumber":"",
         "pageSize":"",
         "regionId":"",
