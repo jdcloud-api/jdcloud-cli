@@ -35,7 +35,7 @@ class NcController(BaseController):
         help = '原生容器'
         description = '''
         nc cli 子命令，原生容器相关接口。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/378/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/native-container/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

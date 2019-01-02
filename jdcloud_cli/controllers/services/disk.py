@@ -31,7 +31,7 @@ class DiskController(BaseController):
         help = '云硬盘API'
         description = '''
         disk cli 子命令，云硬盘API包含云硬盘相关接口和快照相关接口。可提供批量创建云硬盘，删除云硬盘，制作云硬盘快照等功能。。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/377/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/cloud-disk-service/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

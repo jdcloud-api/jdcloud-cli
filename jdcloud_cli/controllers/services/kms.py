@@ -25,49 +25,43 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class ClouddnsserviceController(BaseController):
+class KmsController(BaseController):
     class Meta:
-        label = 'clouddnsservice'
-        help = '京东云解析OpenAPI接口'
+        label = 'kms'
+        help = 'JDCLOUD 密钥管理服务(Key Management Service) API'
         description = '''
-        clouddnsservice cli 子命令，京东云解析OpenAPI接口。
-        OpenAPI文档地址为：https://docs.jdcloud.com/cn/domain-name-service/api/overview
+        kms cli 子命令，基于硬件保护密钥的安全数据托管服务。
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/key-management-service/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 分页参数，页的序号，默认是1 """, dest='pageNumber', type=int, required=True)),
-            (['--page-size'], dict(help="""(int) 分页参数，每页含有的结果的数目，默认是10 """, dest='pageSize', type=int, required=True)),
-            (['--start-time'], dict(help="""(string) 记录的起始时间，格式：UTC时间例如2017-11-10T23:00:00Z """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 记录的终止时间，格式：UTC时间例如2017-11-10T23:00:00Z """, dest='endTime',  required=True)),
-            (['--key-word'], dict(help="""(string) 日志需要匹配的关键词 """, dest='keyWord',  required=False)),
-            (['--success'], dict(help="""(bool) 日志里面的结果是成功还是失败 """, dest='success',  required=False)),
-            (['--type'], dict(help="""(int) 日志的类型 """, dest='type', type=int, required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看用户在云解析服务下的操作记录 ''',
+        help=''' 获取密钥列表 ''',
         description='''
-            查看用户在云解析服务下的操作记录。
+            获取密钥列表。
 
-            示例: jdc clouddnsservice get-action-log  --page-number 0 --page-size 0 --start-time xxx --end-time xxx
+            示例: jdc kms describe-key-list 
         ''',
     )
-    def get_action_log(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def describe_key_list(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetActionLogRequest import GetActionLogRequest
+            from jdcloud_sdk.services.kms.apis.DescribeKeyListRequest import DescribeKeyListRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetActionLogRequest(params_dict, headers)
+            req = DescribeKeyListRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -77,32 +71,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 分页查询时查询的每页的序号，起始值为1，默认为1 """, dest='pageNumber', type=int, required=True)),
-            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数，默认为10 """, dest='pageSize', type=int, required=True)),
-            (['--domain-name'], dict(help="""(string) 关键字，按照”%domainName%”模式匹配主域名 """, dest='domainName',  required=False)),
+            (['--key-cfg'], dict(help="""(keyCfg) NA """, dest='keyCfg',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询用户名下的主域名列表。<br>    ; 请在调用域名相关的API之前，调用此API获取相关的domainId和domainName。;  ''',
+        help=''' 创建一个CMK（用户主密钥），默认为启用状态 ''',
         description='''
-            查询用户名下的主域名列表。<br>    ; 请在调用域名相关的API之前，调用此API获取相关的domainId和domainName。; 。
+            创建一个CMK（用户主密钥），默认为启用状态。
 
-            示例: jdc clouddnsservice get-domains  --page-number 0 --page-size 0
+            示例: jdc kms create-key  --key-cfg {"":""}
         ''',
     )
-    def get_domains(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def create_key(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainsRequest import GetDomainsRequest
+            from jdcloud_sdk.services.kms.apis.CreateKeyRequest import CreateKeyRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetDomainsRequest(params_dict, headers)
+            req = CreateKeyRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -112,36 +103,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--pack-id'], dict(help="""(int) 域名的套餐类型, 0->免费 ,1->企业版, 2->高级版 """, dest='packId', type=int, required=True)),
-            (['--domain-name'], dict(help="""(string) 要添加的域名 """, dest='domainName',  required=True)),
-            (['--domain-id'], dict(help="""(int) 域名ID，升级高级版必填 """, dest='domainId', type=int, required=False)),
-            (['--buy-type'], dict(help="""(int) 1->新购买、3->升级，收费套餐的域名必填 """, dest='buyType', type=int, required=False)),
-            (['--time-span'], dict(help="""(int) 1，2，3 ，时长，收费套餐的域名必填 """, dest='timeSpan', type=int, required=False)),
-            (['--time-unit'], dict(help="""(int) 时间单位，收费套餐的域名必填 """, dest='timeUnit', type=int, required=False)),
-            (['--billing-type'], dict(help="""(int) 计费类型，收费套餐的域名必填 """, dest='billingType', type=int, required=False)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加主域名 ''',
+        help=''' 获取密钥详情 ''',
         description='''
-            添加主域名。
+            获取密钥详情。
 
-            示例: jdc clouddnsservice add-domain  --pack-id 0 --domain-name xxx
+            示例: jdc kms describe-key  --key-id xxx
         ''',
     )
-    def add_domain(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def describe_key(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.AddDomainRequest import AddDomainRequest
+            from jdcloud_sdk.services.kms.apis.DescribeKeyRequest import DescribeKeyRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddDomainRequest(params_dict, headers)
+            req = DescribeKeyRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -151,30 +135,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(int) 需要删除的域名ID """, dest='domainId', type=int, required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--key-cfg'], dict(help="""(keyCfg) NA """, dest='keyCfg',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除主域名 ''',
+        help=''' 修改密钥配置，包括key的名称、用途、是否自动轮换和轮换周期等 ''',
         description='''
-            删除主域名。
+            修改密钥配置，包括key的名称、用途、是否自动轮换和轮换周期等。
 
-            示例: jdc clouddnsservice del-domain  --domain-id 0
+            示例: jdc kms update-key-description  --key-id xxx --key-cfg {"":""}
         ''',
     )
-    def del_domain(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def update_key_description(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.DelDomainRequest import DelDomainRequest
+            from jdcloud_sdk.services.kms.apis.UpdateKeyDescriptionRequest import UpdateKeyDescriptionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DelDomainRequest(params_dict, headers)
+            req = UpdateKeyDescriptionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -184,31 +168,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-name'], dict(help="""(string) 需要修改的域名 """, dest='domainName',  required=True)),
-            (['--id'], dict(help="""(int) 需要修改的域名ID """, dest='id', type=int, required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改主域名 ''',
+        help=''' 启用当前状态为`已禁用`的密钥 ''',
         description='''
-            修改主域名。
+            启用当前状态为`已禁用`的密钥。
 
-            示例: jdc clouddnsservice update-domain  --domain-name xxx --id 0
+            示例: jdc kms enable-key  --key-id xxx
         ''',
     )
-    def update_domain(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def enable_key(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.UpdateDomainRequest import UpdateDomainRequest
+            from jdcloud_sdk.services.kms.apis.EnableKeyRequest import EnableKeyRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateDomainRequest(params_dict, headers)
+            req = EnableKeyRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -218,33 +200,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--domain-name'], dict(help="""(string) 查询的域名 """, dest='domainName',  required=True)),
-            (['--start'], dict(help="""(string) 起始时间, UTC时间例如2017-11-10T23:00:00Z """, dest='start',  required=True)),
-            (['--end'], dict(help="""(string) 终止时间, UTC时间例如2017-11-10T23:00:00Z """, dest='end',  required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看域名的解析次数 ''',
+        help=''' 禁用当前状态为`已启用`的密钥 ''',
         description='''
-            查看域名的解析次数。
+            禁用当前状态为`已启用`的密钥。
 
-            示例: jdc clouddnsservice get-domain-query-count  --domain-id xxx --domain-name xxx --start xxx --end xxx
+            示例: jdc kms disable-key  --key-id xxx
         ''',
     )
-    def get_domain_query_count(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def disable_key(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainQueryCountRequest import GetDomainQueryCountRequest
+            from jdcloud_sdk.services.kms.apis.DisableKeyRequest import DisableKeyRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetDomainQueryCountRequest(params_dict, headers)
+            req = DisableKeyRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -254,33 +232,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--domain-name'], dict(help="""(string) 域名 """, dest='domainName',  required=True)),
-            (['--start'], dict(help="""(string) 起始时间, UTC时间例如2017-11-10T23:00:00Z """, dest='start',  required=True)),
-            (['--end'], dict(help="""(string) 终止时间, UTC时间例如2017-11-10T23:00:00Z """, dest='end',  required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--delay-days'], dict(help="""(int) 延迟删除时间，单位（天），默认为7天；支持时间范围：7~30天 """, dest='delayDays', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看域名的查询流量 ''',
+        help=''' 计划在以后的是个时间点删除密钥，默认为7天 ''',
         description='''
-            查看域名的查询流量。
+            计划在以后的是个时间点删除密钥，默认为7天。
 
-            示例: jdc clouddnsservice get-domain-query-traffic  --domain-id xxx --domain-name xxx --start xxx --end xxx
+            示例: jdc kms schedule-key-deletion  --key-id xxx
         ''',
     )
-    def get_domain_query_traffic(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def schedule_key_deletion(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainQueryTrafficRequest import GetDomainQueryTrafficRequest
+            from jdcloud_sdk.services.kms.apis.ScheduleKeyDeletionRequest import ScheduleKeyDeletionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetDomainQueryTrafficRequest(params_dict, headers)
+            req = ScheduleKeyDeletionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -290,32 +265,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--page-number'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数, 默认为10 """, dest='pageSize', type=int, required=False)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询主域名的解析记录。<br>; 在使用解析记录相关的接口之前，请调用此接口获取解析记录的列表。;  ''',
+        help=''' 取消删除密钥 ''',
         description='''
-            查询主域名的解析记录。<br>; 在使用解析记录相关的接口之前，请调用此接口获取解析记录的列表。; 。
+            取消删除密钥。
 
-            示例: jdc clouddnsservice search-rr  --domain-id xxx
+            示例: jdc kms cancel-key-deletion  --key-id xxx
         ''',
     )
-    def search_rr(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def cancel_key_deletion(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.SearchRRRequest import SearchRRRequest
+            from jdcloud_sdk.services.kms.apis.CancelKeyDeletionRequest import CancelKeyDeletionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = SearchRRRequest(params_dict, headers)
+            req = CancelKeyDeletionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -325,33 +297,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--load-mode'], dict(help="""(int) 展示方式，暂时不使用 """, dest='loadMode', type=int, required=False)),
-            (['--pack-id'], dict(help="""(int) 套餐ID，0->免费版 1->企业版 2->企业高级版 """, dest='packId', type=int, required=True)),
-            (['--view-id'], dict(help="""(int) view ID，默认为0 """, dest='viewId', type=int, required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询云解析所有的基础解析线路。<br>; 在使用解析线路的参数之前，请调用此接口获取解析线路的ID。;  ''',
+        help=''' 立即轮换密钥，自动轮换周期顺延 ''',
         description='''
-            查询云解析所有的基础解析线路。<br>; 在使用解析线路的参数之前，请调用此接口获取解析线路的ID。; 。
+            立即轮换密钥，自动轮换周期顺延。
 
-            示例: jdc clouddnsservice get-view-tree  --domain-id xxx --pack-id 0 --view-id 0
+            示例: jdc kms key-rotation  --key-id xxx
         ''',
     )
-    def get_view_tree(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def key_rotation(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetViewTreeRequest import GetViewTreeRequest
+            from jdcloud_sdk.services.kms.apis.KeyRotationRequest import KeyRotationRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetViewTreeRequest(params_dict, headers)
+            req = KeyRotationRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -361,31 +329,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--req'], dict(help="""(addRR) RR参数 """, dest='req',  required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--plaintext'], dict(help="""(string) 明文数据 Base64-encoded binary data object """, dest='plaintext',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加域名的解析记录 ''',
+        help=''' 使用密钥对数据进行加密 ''',
         description='''
-            添加域名的解析记录。
+            使用密钥对数据进行加密。
 
-            示例: jdc clouddnsservice add-rr  --domain-id xxx --req {"":""}
+            示例: jdc kms encrypt  --key-id xxx
         ''',
     )
-    def add_rr(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def encrypt(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.AddRRRequest import AddRRRequest
+            from jdcloud_sdk.services.kms.apis.EncryptRequest import EncryptRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddRRRequest(params_dict, headers)
+            req = EncryptRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -395,31 +362,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--req'], dict(help="""(updateRR) updateRR参数 """, dest='req',  required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--ciphertext-blob'], dict(help="""(string) 密文数据 Base64-encoded binary data object """, dest='ciphertextBlob',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改主域名的某个解析记录 ''',
+        help=''' 使用密钥对数据进行解密 ''',
         description='''
-            修改主域名的某个解析记录。
+            使用密钥对数据进行解密。
 
-            示例: jdc clouddnsservice update-rr  --domain-id xxx --req {"":""}
+            示例: jdc kms decrypt  --key-id xxx
         ''',
     )
-    def update_rr(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def decrypt(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.UpdateRRRequest import UpdateRRRequest
+            from jdcloud_sdk.services.kms.apis.DecryptRequest import DecryptRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateRRRequest(params_dict, headers)
+            req = DecryptRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -429,32 +395,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--ids'], dict(help="""(array: int) 需要操作的解析记录ID """, dest='ids', type=int, required=True)),
-            (['--action'], dict(help="""(string) 操作类型，on->启用 off->停用 del->删除 """, dest='action',  required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 启用、停用、删除主域名下的解析记录 ''',
+        help=''' 从KMS中获取一对数据密钥的明文/密文 ''',
         description='''
-            启用、停用、删除主域名下的解析记录。
+            从KMS中获取一对数据密钥的明文/密文。
 
-            示例: jdc clouddnsservice operate-rr  --domain-id xxx --ids [0] --action xxx
+            示例: jdc kms generate-data-key  --key-id xxx
         ''',
     )
-    def operate_rr(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def generate_data_key(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.OperateRRRequest import OperateRRRequest
+            from jdcloud_sdk.services.kms.apis.GenerateDataKeyRequest import GenerateDataKeyRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = OperateRRRequest(params_dict, headers)
+            req = GenerateDataKeyRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -464,30 +427,31 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--req'], dict(help="""(array: batchSetDNS) 需要设置的解析记录列表 """, dest='req',  required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 同一个主域名下，批量新增、更新导入解析记录<br>; 如果解析记录的ID为0，是新增解析记录，如果不为0，则是更新解析记录。;  ''',
+        help=''' 获取版本详情 ''',
         description='''
-            同一个主域名下，批量新增、更新导入解析记录<br>; 如果解析记录的ID为0，是新增解析记录，如果不为0，则是更新解析记录。; 。
+            获取版本详情。
 
-            示例: jdc clouddnsservice batch-set-dns-resolve  --req [{"":""}]
+            示例: jdc kms describe-key-detail  --key-id xxx
         ''',
     )
-    def batch_set_dns_resolve(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def describe_key_detail(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.BatchSetDnsResolveRequest import BatchSetDnsResolveRequest
+            from jdcloud_sdk.services.kms.apis.DescribeKeyDetailRequest import DescribeKeyDetailRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = BatchSetDnsResolveRequest(params_dict, headers)
+            req = DescribeKeyDetailRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -497,32 +461,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--id-weights'], dict(help="""(array: setlb) 要设置解析记录的权重参数列表 """, dest='idWeights',  required=True)),
-            (['--type'], dict(help="""(string) 这几条解析记录的类型。可以设置权重的类型有：A、AAAA、CNAME、JNAME """, dest='type',  required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--version'], dict(help="""(string) 密钥版本 """, dest='version',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 设置域名解析记录的负载均衡 ''',
+        help=''' 启用指定版本密钥 ''',
         description='''
-            设置域名解析记录的负载均衡。
+            启用指定版本密钥。
 
-            示例: jdc clouddnsservice set-lb  --domain-id xxx --id-weights [{"":""}] --type xxx
+            示例: jdc kms enable-key-version  --key-id xxx --version xxx
         ''',
     )
-    def set_lb(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def enable_key_version(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.SetLBRequest import SetLBRequest
+            from jdcloud_sdk.services.kms.apis.EnableKeyVersionRequest import EnableKeyVersionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = SetLBRequest(params_dict, headers)
+            req = EnableKeyVersionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -532,33 +494,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--type'], dict(help="""(string) 解析记录的类型。有权重的类型有：A、AAAA、CNAME、JNAME """, dest='type',  required=True)),
-            (['--page-number'], dict(help="""(int) 负载均衡记录分页展示的页数，默认为1 """, dest='pageNumber', type=int, required=True)),
-            (['--page-size'], dict(help="""(int) 负载均衡记录分页展示时每页的记录数，默认为10 """, dest='pageSize', type=int, required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--version'], dict(help="""(string) 密钥版本 """, dest='version',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看当前域名所有的有负载均衡的解析记录<br>; 这些解析记录分页展示的列表;  ''',
+        help=''' 禁用指定版本密钥 ''',
         description='''
-            查看当前域名所有的有负载均衡的解析记录<br>; 这些解析记录分页展示的列表; 。
+            禁用指定版本密钥。
 
-            示例: jdc clouddnsservice get-lb  --domain-id xxx --type xxx --page-number 0 --page-size 0
+            示例: jdc kms disable-key-version  --key-id xxx --version xxx
         ''',
     )
-    def get_lb(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def disable_key_version(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetLBRequest import GetLBRequest
+            from jdcloud_sdk.services.kms.apis.DisableKeyVersionRequest import DisableKeyVersionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetLBRequest(params_dict, headers)
+            req = DisableKeyVersionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -568,30 +527,31 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--req'], dict(help="""(addView) 添加自定义线路的参数 """, dest='req',  required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--version'], dict(help="""(string) 密钥版本 """, dest='version',  required=True)),
+            (['--delay-days'], dict(help="""(int) 延迟删除时间，单位（天），默认为7天；支持时间范围：7~30天 """, dest='delayDays', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加域名的自定义解析线路 ''',
+        help=''' 计划在以后的是个时间点删除指定版本密钥，默认为7天 ''',
         description='''
-            添加域名的自定义解析线路。
+            计划在以后的是个时间点删除指定版本密钥，默认为7天。
 
-            示例: jdc clouddnsservice add-user-view  --req {"":""}
+            示例: jdc kms schedule-key-version-deletion  --key-id xxx --version xxx
         ''',
     )
-    def add_user_view(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def schedule_key_version_deletion(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.AddUserViewRequest import AddUserViewRequest
+            from jdcloud_sdk.services.kms.apis.ScheduleKeyVersionDeletionRequest import ScheduleKeyVersionDeletionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddUserViewRequest(params_dict, headers)
+            req = ScheduleKeyVersionDeletionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -601,30 +561,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--req'], dict(help="""(delView) 删除自定义线路的参数 """, dest='req',  required=True)),
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--version'], dict(help="""(string) 密钥版本 """, dest='version',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除域名的自定义解析线路 ''',
+        help=''' 取消删除指定版本密钥 ''',
         description='''
-            删除域名的自定义解析线路。
+            取消删除指定版本密钥。
 
-            示例: jdc clouddnsservice del-user-view  --req {"":""}
+            示例: jdc kms cancel-key-version-deletion  --key-id xxx --version xxx
         ''',
     )
-    def del_user_view(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def cancel_key_version_deletion(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.DelUserViewRequest import DelUserViewRequest
+            from jdcloud_sdk.services.kms.apis.CancelKeyVersionDeletionRequest import CancelKeyVersionDeletionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DelUserViewRequest(params_dict, headers)
+            req = CancelKeyVersionDeletionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -634,34 +594,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(int) 主域名ID """, dest='domainId', type=int, required=True)),
-            (['--view-id'], dict(help="""(int) 自定义线路ID """, dest='viewId', type=int, required=True)),
-            (['--view-name'], dict(help="""(int) 自定义线路名称, 最多64个字符 """, dest='viewName', type=int, required=False)),
-            (['--page-number'], dict(help="""(int) 分页参数，页的序号 """, dest='pageNumber', type=int, required=True)),
-            (['--page-size'], dict(help="""(int) 分页参数，每页含有的结果的数目 """, dest='pageSize', type=int, required=True)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询域名的自定义解析线路 ''',
+        help=''' 获取机密列表 ''',
         description='''
-            查询域名的自定义解析线路。
+            获取机密列表。
 
-            示例: jdc clouddnsservice get-user-view  --domain-id 0 --view-id 0 --page-number 0 --page-size 0
+            示例: jdc kms describe-secret-list 
         ''',
     )
-    def get_user_view(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def describe_secret_list(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetUserViewRequest import GetUserViewRequest
+            from jdcloud_sdk.services.kms.apis.DescribeSecretListRequest import DescribeSecretListRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetUserViewRequest(params_dict, headers)
+            req = DescribeSecretListRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -671,30 +627,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--req'], dict(help="""(addViewIP) 添加域名的自定义解析线路的IP段的参数 """, dest='req',  required=True)),
+            (['--secret-cfg'], dict(help="""(secretCfg) NA """, dest='secretCfg',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加域名的自定义解析线路的IP段 ''',
+        help=''' 创建机密 ''',
         description='''
-            添加域名的自定义解析线路的IP段。
+            创建机密。
 
-            示例: jdc clouddnsservice add-user-view-ip  --req {"":""}
+            示例: jdc kms create-secret  --secret-cfg {"":""}
         ''',
     )
-    def add_user_view_ip(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def create_secret(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.AddUserViewIPRequest import AddUserViewIPRequest
+            from jdcloud_sdk.services.kms.apis.CreateSecretRequest import CreateSecretRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddUserViewIPRequest(params_dict, headers)
+            req = CreateSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -704,30 +659,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--req'], dict(help="""(delViewIP) 删除域名的自定义解析线路的IP段的参数 """, dest='req',  required=True)),
+            (['--secret-package'], dict(help="""(string) 密钥包的内容 """, dest='secretPackage',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除域名的自定义解析线路的IP段 ''',
+        help=''' 导入机密 ''',
         description='''
-            删除域名的自定义解析线路的IP段。
+            导入机密。
 
-            示例: jdc clouddnsservice del-user-view-ip  --req {"":""}
+            示例: jdc kms import-secret 
         ''',
     )
-    def del_user_view_ip(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def import_secret(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.DelUserViewIPRequest import DelUserViewIPRequest
+            from jdcloud_sdk.services.kms.apis.ImportSecretRequest import ImportSecretRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DelUserViewIPRequest(params_dict, headers)
+            req = ImportSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -737,34 +691,31 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(int) 主域名ID """, dest='domainId', type=int, required=True)),
-            (['--view-id'], dict(help="""(int) 自定义线路ID """, dest='viewId', type=int, required=True)),
-            (['--view-name'], dict(help="""(int) 自定义线路名称, 最多64个字符 """, dest='viewName', type=int, required=False)),
-            (['--page-number'], dict(help="""(int) 分页参数，页的序号, 默认为1 """, dest='pageNumber', type=int, required=True)),
-            (['--page-size'], dict(help="""(int) 分页参数，每页含有的结果的数目，默认为10 """, dest='pageSize', type=int, required=True)),
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询域名的自定义解析线路的IP段 ''',
+        help=''' 获取机密详情 ''',
         description='''
-            查询域名的自定义解析线路的IP段。
+            获取机密详情。
 
-            示例: jdc clouddnsservice get-user-view-ip  --domain-id 0 --view-id 0 --page-number 0 --page-size 0
+            示例: jdc kms describe-secret-version-list  --secret-id xxx
         ''',
     )
-    def get_user_view_ip(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def describe_secret_version_list(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetUserViewIPRequest import GetUserViewIPRequest
+            from jdcloud_sdk.services.kms.apis.DescribeSecretVersionListRequest import DescribeSecretVersionListRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetUserViewIPRequest(params_dict, headers)
+            req = DescribeSecretVersionListRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -774,33 +725,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--page-index'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageIndex', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', type=int, required=False)),
-            (['--search-value'], dict(help="""(string) 查询的值 """, dest='searchValue',  required=False)),
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
+            (['--secret-desc-cfg'], dict(help="""(secretDescCfg) NA """, dest='secretDescCfg',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看主域名的监控项的配置以及状态 ''',
+        help=''' 修改机密描述 ''',
         description='''
-            查看主域名的监控项的配置以及状态。
+            修改机密描述。
 
-            示例: jdc clouddnsservice get-monitor  --domain-id xxx
+            示例: jdc kms update-secret  --secret-id xxx --secret-desc-cfg {"":""}
         ''',
     )
-    def get_monitor(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def update_secret(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetMonitorRequest import GetMonitorRequest
+            from jdcloud_sdk.services.kms.apis.UpdateSecretRequest import UpdateSecretRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetMonitorRequest(params_dict, headers)
+            req = UpdateSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -810,31 +758,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName',  required=True)),
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加子域名的监控项，默认把子域名的所有监控项都添加上监控 ''',
+        help=''' 启用机密 ''',
         description='''
-            添加子域名的监控项，默认把子域名的所有监控项都添加上监控。
+            启用机密。
 
-            示例: jdc clouddnsservice add-monitor  --domain-id xxx --sub-domain-name xxx
+            示例: jdc kms enable-secret  --secret-id xxx
         ''',
     )
-    def add_monitor(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def enable_secret(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.AddMonitorRequest import AddMonitorRequest
+            from jdcloud_sdk.services.kms.apis.EnableSecretRequest import EnableSecretRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddMonitorRequest(params_dict, headers)
+            req = EnableSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -844,31 +790,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName',  required=True)),
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询子域名的可用监控对象 ''',
+        help=''' 禁用机密 ''',
         description='''
-            查询子域名的可用监控对象。
+            禁用机密。
 
-            示例: jdc clouddnsservice get-targets  --domain-id xxx --sub-domain-name xxx
+            示例: jdc kms disable-secret  --secret-id xxx
         ''',
     )
-    def get_targets(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def disable_secret(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetTargetsRequest import GetTargetsRequest
+            from jdcloud_sdk.services.kms.apis.DisableSecretRequest import DisableSecretRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetTargetsRequest(params_dict, headers)
+            req = DisableSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -878,32 +822,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName',  required=True)),
-            (['--targets'], dict(help="""(array: string) 子域名可用监控对象的数组 """, dest='targets',  required=False)),
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加子域名的某些特定监控对象为监控项 ''',
+        help=''' 删除机密 ''',
         description='''
-            添加子域名的某些特定监控对象为监控项。
+            删除机密。
 
-            示例: jdc clouddnsservice add-monitor-target  --domain-id xxx --sub-domain-name xxx
+            示例: jdc kms delete-secret  --secret-id xxx
         ''',
     )
-    def add_monitor_target(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def delete_secret(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.AddMonitorTargetRequest import AddMonitorTargetRequest
+            from jdcloud_sdk.services.kms.apis.DeleteSecretRequest import DeleteSecretRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddMonitorTargetRequest(params_dict, headers)
+            req = DeleteSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -913,33 +854,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--action'], dict(help="""(string) 删除del, 暂停stop, 开启start, 手动恢复recover，手动切换switch """, dest='action',  required=True)),
-            (['--ids'], dict(help="""(array: int) 监控项ID """, dest='ids', type=int, required=True)),
-            (['--switch-target'], dict(help="""(string) 监控项的主机值, 手动切换时必填 """, dest='switchTarget',  required=False)),
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
+            (['--secret-version-cfg'], dict(help="""(secretVersionCfg) NA """, dest='secretVersionCfg',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 监控项的操作集合，包括：删除，暂停，启动, 手动恢复, 手动切换 ''',
+        help=''' 创建机密新的版本，默认为已启用状态 ''',
         description='''
-            监控项的操作集合，包括：删除，暂停，启动, 手动恢复, 手动切换。
+            创建机密新的版本，默认为已启用状态。
 
-            示例: jdc clouddnsservice operate-monitor  --domain-id xxx --action xxx --ids [0]
+            示例: jdc kms create-secret-version  --secret-id xxx --secret-version-cfg {"":""}
         ''',
     )
-    def operate_monitor(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def create_secret_version(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.OperateMonitorRequest import OperateMonitorRequest
+            from jdcloud_sdk.services.kms.apis.CreateSecretVersionRequest import CreateSecretVersionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = OperateMonitorRequest(params_dict, headers)
+            req = CreateSecretVersionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -949,31 +887,29 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--update-monitor'], dict(help="""(updateMonitor) 监控项设置信息 """, dest='updateMonitor',  required=True)),
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 域名的监控项修改 ''',
+        help=''' 导出机密 ''',
         description='''
-            域名的监控项修改。
+            导出机密。
 
-            示例: jdc clouddnsservice update-monitor  --domain-id xxx --update-monitor {"":""}
+            示例: jdc kms export-secret  --secret-id xxx
         ''',
     )
-    def update_monitor(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def export_secret(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.UpdateMonitorRequest import UpdateMonitorRequest
+            from jdcloud_sdk.services.kms.apis.ExportSecretRequest import ExportSecretRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateMonitorRequest(params_dict, headers)
+            req = ExportSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -983,33 +919,30 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--page-index'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageIndex', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', type=int, required=False)),
-            (['--search-value'], dict(help="""(string) 关键字 """, dest='searchValue',  required=False)),
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
+            (['--version'], dict(help="""(string) 机密版本 """, dest='version',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 主域名的监控项的报警信息 ''',
+        help=''' 获取指定机密版本的详细信息 ''',
         description='''
-            主域名的监控项的报警信息。
+            获取指定机密版本的详细信息。
 
-            示例: jdc clouddnsservice get-monitor-alarm-info  --domain-id xxx
+            示例: jdc kms describe-secret-version-info  --secret-id xxx --version xxx
         ''',
     )
-    def get_monitor_alarm_info(self):
-        client_factory = ClientFactory('clouddnsservice')
+    def describe_secret_version_info(self):
+        client_factory = ClientFactory('kms')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetMonitorAlarmInfoRequest import GetMonitorAlarmInfoRequest
+            from jdcloud_sdk.services.kms.apis.DescribeSecretVersionInfoRequest import DescribeSecretVersionInfoRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetMonitorAlarmInfoRequest(params_dict, headers)
+            req = DescribeSecretVersionInfoRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1019,7 +952,140 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-action-log','get-domains','add-domain','del-domain','update-domain','get-domain-query-count','get-domain-query-traffic','search-rr','get-view-tree','add-rr','update-rr','operate-rr','batch-set-dns-resolve','set-lb','get-lb','add-user-view','del-user-view','get-user-view','add-user-view-ip','del-user-view-ip','get-user-view-ip','get-monitor','add-monitor','get-targets','add-monitor-target','operate-monitor','update-monitor','get-monitor-alarm-info',], required=True)),
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
+            (['--version'], dict(help="""(string) 机密版本 """, dest='version',  required=True)),
+            (['--secret-time-cfg'], dict(help="""(secretTimeCfg) NA """, dest='secretTimeCfg',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改机密指定版本配置 ''',
+        description='''
+            修改机密指定版本配置。
+
+            示例: jdc kms update-secret-version  --secret-id xxx --version xxx --secret-time-cfg {"":""}
+        ''',
+    )
+    def update_secret_version(self):
+        client_factory = ClientFactory('kms')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kms.apis.UpdateSecretVersionRequest import UpdateSecretVersionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateSecretVersionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
+            (['--version'], dict(help="""(string) 机密版本 """, dest='version',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启用指定版本机密 ''',
+        description='''
+            启用指定版本机密。
+
+            示例: jdc kms enable-secret-version  --secret-id xxx --version xxx
+        ''',
+    )
+    def enable_secret_version(self):
+        client_factory = ClientFactory('kms')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kms.apis.EnableSecretVersionRequest import EnableSecretVersionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableSecretVersionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
+            (['--version'], dict(help="""(string) 机密版本 """, dest='version',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 禁用指定版本机密 ''',
+        description='''
+            禁用指定版本机密。
+
+            示例: jdc kms disable-secret-version  --secret-id xxx --version xxx
+        ''',
+    )
+    def disable_secret_version(self):
+        client_factory = ClientFactory('kms')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kms.apis.DisableSecretVersionRequest import DisableSecretVersionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableSecretVersionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--secret-id'], dict(help="""(string) 机密ID """, dest='secretId',  required=True)),
+            (['--version'], dict(help="""(string) 机密版本 """, dest='version',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除指定版本机密 ''',
+        description='''
+            删除指定版本机密。
+
+            示例: jdc kms delete-secret-version  --secret-id xxx --version xxx
+        ''',
+    )
+    def delete_secret_version(self):
+        client_factory = ClientFactory('kms')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kms.apis.DeleteSecretVersionRequest import DeleteSecretVersionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSecretVersionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-key-list','create-key','describe-key','update-key-description','enable-key','disable-key','schedule-key-deletion','cancel-key-deletion','key-rotation','encrypt','decrypt','generate-data-key','describe-key-detail','enable-key-version','disable-key-version','schedule-key-version-deletion','cancel-key-version-deletion','describe-secret-list','create-secret','import-secret','describe-secret-version-list','update-secret','enable-secret','disable-secret','delete-secret','create-secret-version','export-secret','describe-secret-version-info','update-secret-version','enable-secret-version','disable-secret-version','delete-secret-version',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -1029,5 +1095,5 @@ class ClouddnsserviceController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('clouddnsservice', self.app.pargs.api)
+        skeleton = Skeleton('kms', self.app.pargs.api)
         skeleton.show()

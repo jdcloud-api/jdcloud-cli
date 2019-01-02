@@ -31,7 +31,7 @@ class VmController(BaseController):
         help = '云主机'
         description = '''
         vm cli 子命令，云主机实例、镜像、实例规格、实例模板、配额相关的接口。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/376/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/virtual-machines/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

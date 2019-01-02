@@ -27,7 +27,7 @@ _jdc_complete()
     # SETUP THE BASE LEVEL
     if [ $COMP_CWORD -eq 1 ]; then
         COMPREPLY=( $(compgen \
-                      -W "--debug -v --version -h --help configure vm iam disk mongodb mps streambus baseanti jke ipanti rds redis monitor cps datastar vpc sop iothub xdata cr nc clouddnsservice oss streamcomputer " \
+                      -W "--debug -v --version -h --help configure vm kms iam disk mongodb ias jdfusion function mps streambus baseanti jke live ipanti httpdns rds redis monitor cps datastar vpc sop iothub xdata cr nc cdn clouddnsservice oss streamcomputer ams " \
                       -- $cur) )
 
 
@@ -39,6 +39,11 @@ _jdc_complete()
             "vm")
                 COMPREPLY=( $(compgen \
                     -W "-v --version -h --help generate-skeleton describe-image delete-image describe-images describe-image-constraints describe-image-constraints-batch share-image un-share-image describe-image-members copy-images modify-image-attribute describe-instances create-instances describe-instance delete-instance describe-instance-status describe-instance-private-ip-address stop-instance start-instance reboot-instance attach-network-interface detach-network-interface modify-instance-network-attribute associate-elastic-ip disassociate-elastic-ip create-image attach-disk detach-disk modify-instance-disk-attribute modify-instance-attribute modify-instance-password describe-instance-vnc-url resize-instance rebuild-instance describe-instance-types describe-keypairs create-keypair import-keypair delete-keypair describe-quotas " -- $cur) )
+                ;;
+
+            "kms")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton describe-key-list create-key describe-key update-key-description enable-key disable-key schedule-key-deletion cancel-key-deletion key-rotation encrypt decrypt generate-data-key describe-key-detail enable-key-version disable-key-version schedule-key-version-deletion cancel-key-version-deletion describe-secret-list create-secret import-secret describe-secret-version-list update-secret enable-secret disable-secret delete-secret create-secret-version export-secret describe-secret-version-info update-secret-version enable-secret-version disable-secret-version delete-secret-version " -- $cur) )
                 ;;
 
             "iam")
@@ -54,6 +59,21 @@ _jdc_complete()
             "mongodb")
                 COMPREPLY=( $(compgen \
                     -W "-v --version -h --help generate-skeleton describe-instances create-instance delete-instance reset-password modify-instance-spec modify-instance-name describe-backup-policy modify-backup-policy restore-instance describe-flavors describe-available-zones describe-backups create-backup delete-backup backup-download-url describe-security-ips modify-security-ips " -- $cur) )
+                ;;
+
+            "ias")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton apps app-detail state create-app get-app update-app delete-app get-apps " -- $cur) )
+                ;;
+
+            "jdfusion")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton get-cloud-infos regist-cloud-info get-cloud-info-by-id unregist-cloud-info get-disks create-disk get-disk-by-id remove-disk-by-id attach-disk-to-vm-instance-by-disk-id detach-disk-to-vm-instance-by-disk-id get-task-info-history-by-id get-task-info-by-id get-vm-images get-vm-instances-by-id delete-vm-instance-by-id get-vm-instances create-vm-instance stop-vm-instance-by-id start-vm-instance-by-id reboot-vm-instance-by-id get-vm-instance-types get-vm-keypairs-by-name delete-vm-keypair-by-name get-vm-keypairs create-vm-keypair get-vpc-eips create-vpc-eip get-vpc-eip-by-id delete-vpc-eip-by-id associate-vpc-eip-by-id disassociate-vpc-eip-by-id create-vpc-lbhttp-listener get-vpc-network-interface-by-id delete-vpc-network-interface-by-id get-vpc-network-interfaces create-vpc-network-interface attach-vpc-network-interface-by-id detach-vpc-network-interface-by-id get-vpc-security-group-by-id delete-vpc-security-group-by-id get-vpc-security-groups create-vpc-security-group get-vpc-slb-by-id delete-vpc-slb-by-id get-vpc-slbs create-vpc-slb get-vpc-subnet-by-id delete-vpc-subnet-by-id get-vpc-subnets create-vpc-subnet get-vpc-by-id delete-vpc-by-id get-vpcs create-vpc get-vpc-vserver-groups create-vpc-vserver-group " -- $cur) )
+                ;;
+
+            "function")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton list-alias create-alias get-alias update-alias delete-alias list-function create-function get-function update-function delete-function test-invoke get-trigger list-trigger list-version create-version get-version delete-version " -- $cur) )
                 ;;
 
             "mps")
@@ -76,9 +96,19 @@ _jdc_complete()
                     -W "-v --version -h --help generate-skeleton describe-quotas " -- $cur) )
                 ;;
 
+            "live")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton describe-live-app add-live-app start-live-app stop-live-app delete-live-app add-live-domain start-live-domain stop-live-domain describe-live-domain-detail delete-live-domain describe-custom-live-stream-record-templates add-custom-live-stream-record-template add-live-stream-app-record add-live-stream-domain-record describe-custom-live-stream-record-config set-live-stream-record-notify-config delete-custom-live-stream-record-template delete-live-stream-app-record delete-live-stream-domain-record describe-live-stream-record-notify-config delete-live-stream-record-notify-config add-custom-live-stream-snapshot-template describe-custom-live-stream-snapshot-config describe-custom-live-stream-snapshot-templates add-live-stream-app-snapshot add-live-stream-domain-snapshot set-live-stream-snapshot-notify-config delete-custom-live-stream-snapshot-template delete-live-stream-app-snapshot delete-live-stream-domain-snapshot describe-live-stream-snapshot-notify-config delete-live-stream-snapshot-notify-config forbid-live-stream resume-live-stream set-live-stream-notify-config describe-live-stream-notify-config delete-live-stream-notify-config add-live-stream-domain-transcode add-live-stream-app-transcode add-custom-live-stream-transcode-template describe-custom-live-stream-transcodes describe-live-stream-transcode-config delete-live-stream-domain-transcode delete-live-stream-app-transcode describe-custom-live-stream-transcode delete-custom-live-stream-transcode-template add-custom-live-stream-watermark-template describe-custom-live-stream-watermark-templates add-live-stream-app-watermark add-live-stream-domain-watermark describe-custom-live-stream-watermark-config delete-custom-live-stream-watermark-template delete-live-stream-app-watermark delete-live-stream-domain-watermark " -- $cur) )
+                ;;
+
             "ipanti")
                 COMPREPLY=( $(compgen \
                     -W "-v --version -h --help generate-skeleton describe-ddos-attack-logs describe-cc-attack-logs describe-cc-attack-log-details ddos-graph fwd-graph cc-graph describe-forward-rules create-forward-rule describe-forward-rule modify-forward-rule delete-forward-rule switch-forward-rule-protect switch-forward-rule-origin describe-instances create-instance describe-instance modify-instance-cc enable-instance-cc disable-instance-cc modify-instance-url-white-list enable-instance-url-white-list disable-instance-url-white-list modify-instance-name modify-instance-ip-black-list enable-instance-ip-black-list disable-instance-ip-black-list modify-instance-ip-white-list enable-instance-ip-white-list disable-instance-ip-white-list enable-cc-observer-mode disable-cc-observer-mode enable-cc-ip-limit disable-cc-ip-limit set-cc-ip-limit describe-web-rules create-web-rule describe-web-rule modify-web-rule delete-web-rule switch-web-rule-protect switch-web-rule-origin enable-web-rule-cc disable-web-rule-cc " -- $cur) )
+                ;;
+
+            "httpdns")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton get-account-id create-account get-account-info operate-key get-domains add-domains del-domains " -- $cur) )
                 ;;
 
             "rds")
@@ -136,6 +166,11 @@ _jdc_complete()
                     -W "-v --version -h --help generate-skeleton describe-containers create-containers describe-container delete-container start-container stop-container modify-container-attribute associate-elastic-ip disassociate-elastic-ip get-logs describe-quota describe-secrets create-secret describe-secret delete-secret " -- $cur) )
                 ;;
 
+            "cdn")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton preview-certificate query-default-http-header-key query-ip-black-list set-ip-black-list operate-ip-black-list create-cache-rule update-cache-rule delete-cache-rule query-http-header set-http-header delete-http-header set-video-draft set-range set-ignore-query-string query-user-agent set-user-agent-config query-accesskey-config set-accesskey-config set-refer query-monitor set-monitor stop-monitor set-source operate-share-cache set-http-type query-domain-group-list query-domain-group-detail query-domains-not-in-group update-domain-group create-domain-group batch-delete-domain-group get-domain-list get-domain-detail create-domain delete-domain start-domain stop-domain query-oss-buckets batch-create query-domain-config set-live-domain-back-source set-live-domain-ip-black-list set-live-domain-refer operate-live-domain-ip-black-list set-live-domain-back-source-host set-live-domain-access-key set-protocol-convert create-live-domain query-live-domain-detail query-statistics-data query-statistics-data-group-by-area query-statistics-data-group-sum query-statistics-top-ip query-statistics-top-url " -- $cur) )
+                ;;
+
             "clouddnsservice")
                 COMPREPLY=( $(compgen \
                     -W "-v --version -h --help generate-skeleton get-action-log get-domains add-domain del-domain update-domain get-domain-query-count get-domain-query-traffic search-rr get-view-tree add-rr update-rr operate-rr batch-set-dns-resolve set-lb get-lb add-user-view del-user-view get-user-view add-user-view-ip del-user-view-ip get-user-view-ip get-monitor add-monitor get-targets add-monitor-target operate-monitor update-monitor get-monitor-alarm-info " -- $cur) )
@@ -149,6 +184,11 @@ _jdc_complete()
             "streamcomputer")
                 COMPREPLY=( $(compgen \
                     -W "-v --version -h --help generate-skeleton describe-job add-or-update-job delete-job get-job-list start-job stop-job query-namespaces query-namespace-detail create-namespace update-namespace delete-namespace describe-storage add-or-update-storage delete-storage get-storage-list " -- $cur) )
+                ;;
+
+            "ams")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton describe-streams-input describe-authenticate " -- $cur) )
                 ;;
 
 
@@ -322,6 +362,144 @@ _jdc_complete()
                     "describe-quotas")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --filters --image-id " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "kms")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "describe-key-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-number --page-size " -- $cur) )
+                        ;;
+                    "create-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-cfg " -- $cur) )
+                        ;;
+                    "describe-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id " -- $cur) )
+                        ;;
+                    "update-key-description")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id --key-cfg " -- $cur) )
+                        ;;
+                    "enable-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id " -- $cur) )
+                        ;;
+                    "disable-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id " -- $cur) )
+                        ;;
+                    "schedule-key-deletion")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id --delay-days " -- $cur) )
+                        ;;
+                    "cancel-key-deletion")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id " -- $cur) )
+                        ;;
+                    "key-rotation")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id " -- $cur) )
+                        ;;
+                    "encrypt")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id --plaintext " -- $cur) )
+                        ;;
+                    "decrypt")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id --ciphertext-blob " -- $cur) )
+                        ;;
+                    "generate-data-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id " -- $cur) )
+                        ;;
+                    "describe-key-detail")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id --page-number --page-size " -- $cur) )
+                        ;;
+                    "enable-key-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id --version " -- $cur) )
+                        ;;
+                    "disable-key-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id --version " -- $cur) )
+                        ;;
+                    "schedule-key-version-deletion")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id --version --delay-days " -- $cur) )
+                        ;;
+                    "cancel-key-version-deletion")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-id --version " -- $cur) )
+                        ;;
+                    "describe-secret-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-number --page-size " -- $cur) )
+                        ;;
+                    "create-secret")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-cfg " -- $cur) )
+                        ;;
+                    "import-secret")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-package " -- $cur) )
+                        ;;
+                    "describe-secret-version-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id --page-number --page-size " -- $cur) )
+                        ;;
+                    "update-secret")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id --secret-desc-cfg " -- $cur) )
+                        ;;
+                    "enable-secret")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id " -- $cur) )
+                        ;;
+                    "disable-secret")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id " -- $cur) )
+                        ;;
+                    "delete-secret")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id " -- $cur) )
+                        ;;
+                    "create-secret-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id --secret-version-cfg " -- $cur) )
+                        ;;
+                    "export-secret")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id " -- $cur) )
+                        ;;
+                    "describe-secret-version-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id --version " -- $cur) )
+                        ;;
+                    "update-secret-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id --version --secret-time-cfg " -- $cur) )
+                        ;;
+                    "enable-secret-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id --version " -- $cur) )
+                        ;;
+                    "disable-secret-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id --version " -- $cur) )
+                        ;;
+                    "delete-secret-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --secret-id --version " -- $cur) )
                         ;;
 
                     "generate-skeleton")
@@ -536,6 +714,360 @@ _jdc_complete()
                 esac
                 ;;
 
+	        "ias")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "apps")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --pin --app-name --client-id --multi-tenant --state --scope --start-time --end-time --account-type --page-index --page-size --offset " -- $cur) )
+                        ;;
+                    "app-detail")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --client-id " -- $cur) )
+                        ;;
+                    "state")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-app")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --client-name --token-endpoint-auth-method --grant-types --redirect-uris --client-uri --logo-uri --tos-uri --policy-uri --scope --jwks-uri --jwks --contacts --extension --access-token-validity-seconds --refresh-token-validity-seconds --multi-tenant --secret --user-type " -- $cur) )
+                        ;;
+                    "get-app")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --client-id " -- $cur) )
+                        ;;
+                    "update-app")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --client-id --client-name --token-endpoint-auth-method --grant-types --redirect-uris --client-uri --logo-uri --tos-uri --policy-uri --scope --jwks-uri --jwks --contacts --extension --access-token-validity-seconds --refresh-token-validity-seconds --multi-tenant --secret --user-type " -- $cur) )
+                        ;;
+                    "delete-app")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --client-id " -- $cur) )
+                        ;;
+                    "get-apps")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "jdfusion")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "get-cloud-infos")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --driver " -- $cur) )
+                        ;;
+                    "regist-cloud-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "get-cloud-info-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cloud-id " -- $cur) )
+                        ;;
+                    "unregist-cloud-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cloud-id " -- $cur) )
+                        ;;
+                    "get-disks")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-disk")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "get-disk-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "remove-disk-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "attach-disk-to-vm-instance-by-disk-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id --body " -- $cur) )
+                        ;;
+                    "detach-disk-to-vm-instance-by-disk-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id --body " -- $cur) )
+                        ;;
+                    "get-task-info-history-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --task " -- $cur) )
+                        ;;
+                    "get-task-info-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --task --file-name " -- $cur) )
+                        ;;
+                    "get-vm-images")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --image-source " -- $cur) )
+                        ;;
+                    "get-vm-instances-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "delete-vm-instance-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "get-vm-instances")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-vm-instance")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "stop-vm-instance-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "start-vm-instance-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "reboot-vm-instance-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "get-vm-instance-types")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "get-vm-keypairs-by-name")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --name " -- $cur) )
+                        ;;
+                    "delete-vm-keypair-by-name")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --name " -- $cur) )
+                        ;;
+                    "get-vm-keypairs")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-vm-keypair")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "get-vpc-eips")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-vpc-eip")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "get-vpc-eip-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "delete-vpc-eip-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "associate-vpc-eip-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id --body " -- $cur) )
+                        ;;
+                    "disassociate-vpc-eip-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id --body " -- $cur) )
+                        ;;
+                    "create-vpc-lbhttp-listener")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "get-vpc-network-interface-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "delete-vpc-network-interface-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "get-vpc-network-interfaces")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-vpc-network-interface")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "attach-vpc-network-interface-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id --body " -- $cur) )
+                        ;;
+                    "detach-vpc-network-interface-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id --body " -- $cur) )
+                        ;;
+                    "get-vpc-security-group-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "delete-vpc-security-group-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "get-vpc-security-groups")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-vpc-security-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "get-vpc-slb-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "delete-vpc-slb-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "get-vpc-slbs")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-vpc-slb")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "get-vpc-subnet-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "delete-vpc-subnet-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "get-vpc-subnets")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-vpc-subnet")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "get-vpc-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "delete-vpc-by-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --id " -- $cur) )
+                        ;;
+                    "get-vpcs")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-vpc")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+                    "get-vpc-vserver-groups")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --slbid " -- $cur) )
+                        ;;
+                    "create-vpc-vserver-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --body " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "function")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "list-alias")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name " -- $cur) )
+                        ;;
+                    "create-alias")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --alias-name --description --version " -- $cur) )
+                        ;;
+                    "get-alias")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --alias-name " -- $cur) )
+                        ;;
+                    "update-alias")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --alias-name --description --version " -- $cur) )
+                        ;;
+                    "delete-alias")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --alias-name " -- $cur) )
+                        ;;
+                    "list-function")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --filters " -- $cur) )
+                        ;;
+                    "create-function")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --name --description --entrance --memory --run-time --over-time --version --code --environment --log-set-id --log-topic-id --vpc-id --subnet-id " -- $cur) )
+                        ;;
+                    "get-function")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name " -- $cur) )
+                        ;;
+                    "update-function")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --description --entrance --memory --run-time --over-time --version --code --environment --log-set-id --log-topic-id --vpc-id --subnet-id " -- $cur) )
+                        ;;
+                    "delete-function")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name " -- $cur) )
+                        ;;
+                    "test-invoke")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --version-name --event " -- $cur) )
+                        ;;
+                    "get-trigger")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --version-name --trigger-id " -- $cur) )
+                        ;;
+                    "list-trigger")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --version-name " -- $cur) )
+                        ;;
+                    "list-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name " -- $cur) )
+                        ;;
+                    "create-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --description " -- $cur) )
+                        ;;
+                    "get-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --version-name " -- $cur) )
+                        ;;
+                    "delete-version")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --function-name --version-name " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
 	        "mps")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
@@ -644,6 +1176,232 @@ _jdc_complete()
                     "describe-quotas")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --filters " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "live")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "describe-live-app")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-num --page-size --filters " -- $cur) )
+                        ;;
+                    "add-live-app")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --app-name " -- $cur) )
+                        ;;
+                    "start-live-app")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --app-name " -- $cur) )
+                        ;;
+                    "stop-live-app")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --app-name " -- $cur) )
+                        ;;
+                    "delete-live-app")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --app-name " -- $cur) )
+                        ;;
+                    "add-live-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --play-domain --region " -- $cur) )
+                        ;;
+                    "start-live-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "stop-live-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "describe-live-domain-detail")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "delete-live-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "describe-custom-live-stream-record-templates")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-num --page-size --filters " -- $cur) )
+                        ;;
+                    "add-custom-live-stream-record-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --record-period --save-bucket --save-endpoint --record-file-type --template " -- $cur) )
+                        ;;
+                    "add-live-stream-app-record")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --app-name --publish-domain --template " -- $cur) )
+                        ;;
+                    "add-live-stream-domain-record")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template " -- $cur) )
+                        ;;
+                    "describe-custom-live-stream-record-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-num --page-size --filters " -- $cur) )
+                        ;;
+                    "set-live-stream-record-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --notify-url " -- $cur) )
+                        ;;
+                    "delete-custom-live-stream-record-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template " -- $cur) )
+                        ;;
+                    "delete-live-stream-app-record")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --app-name --template " -- $cur) )
+                        ;;
+                    "delete-live-stream-domain-record")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template " -- $cur) )
+                        ;;
+                    "describe-live-stream-record-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "delete-live-stream-record-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "add-custom-live-stream-snapshot-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --format --width --height --fill-type --snapshot-interval --save-mode --save-bucket --save-endpoint --template " -- $cur) )
+                        ;;
+                    "describe-custom-live-stream-snapshot-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-num --page-size --filters " -- $cur) )
+                        ;;
+                    "describe-custom-live-stream-snapshot-templates")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-num --page-size --filters " -- $cur) )
+                        ;;
+                    "add-live-stream-app-snapshot")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --app-name --publish-domain --template " -- $cur) )
+                        ;;
+                    "add-live-stream-domain-snapshot")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template " -- $cur) )
+                        ;;
+                    "set-live-stream-snapshot-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --notify-url " -- $cur) )
+                        ;;
+                    "delete-custom-live-stream-snapshot-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template " -- $cur) )
+                        ;;
+                    "delete-live-stream-app-snapshot")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --app-name --template " -- $cur) )
+                        ;;
+                    "delete-live-stream-domain-snapshot")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template " -- $cur) )
+                        ;;
+                    "describe-live-stream-snapshot-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "delete-live-stream-snapshot-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "forbid-live-stream")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --app-name --publish-domain --stream-name " -- $cur) )
+                        ;;
+                    "resume-live-stream")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --app-name --publish-domain --stream-name " -- $cur) )
+                        ;;
+                    "set-live-stream-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --notify-url " -- $cur) )
+                        ;;
+                    "describe-live-stream-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "delete-live-stream-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "add-live-stream-domain-transcode")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template " -- $cur) )
+                        ;;
+                    "add-live-stream-app-transcode")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template --app-name " -- $cur) )
+                        ;;
+                    "add-custom-live-stream-transcode-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --video-code-rate --video-frame-rate --width --height --template --audio-codec --audio-format --audio-sample-rate --audio-channel --audio-code-rate " -- $cur) )
+                        ;;
+                    "describe-custom-live-stream-transcodes")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-num --page-size --filters " -- $cur) )
+                        ;;
+                    "describe-live-stream-transcode-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-num --page-size --filters " -- $cur) )
+                        ;;
+                    "delete-live-stream-domain-transcode")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template " -- $cur) )
+                        ;;
+                    "delete-live-stream-app-transcode")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --app-name --template " -- $cur) )
+                        ;;
+                    "describe-custom-live-stream-transcode")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template " -- $cur) )
+                        ;;
+                    "delete-custom-live-stream-transcode-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template " -- $cur) )
+                        ;;
+                    "add-custom-live-stream-watermark-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --offset-x --offset-y --width --height --template --url " -- $cur) )
+                        ;;
+                    "describe-custom-live-stream-watermark-templates")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-num --page-size --filters " -- $cur) )
+                        ;;
+                    "add-live-stream-app-watermark")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --app-name --publish-domain --template " -- $cur) )
+                        ;;
+                    "add-live-stream-domain-watermark")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template " -- $cur) )
+                        ;;
+                    "describe-custom-live-stream-watermark-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-num --page-size --filters " -- $cur) )
+                        ;;
+                    "delete-custom-live-stream-watermark-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template " -- $cur) )
+                        ;;
+                    "delete-live-stream-app-watermark")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --app-name --template " -- $cur) )
+                        ;;
+                    "delete-live-stream-domain-watermark")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template " -- $cur) )
                         ;;
 
                     "generate-skeleton")
@@ -826,6 +1584,44 @@ _jdc_complete()
                     "disable-web-rule-cc")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --web-rule-id " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "httpdns")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "get-account-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "create-account")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "get-account-info")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id " -- $cur) )
+                        ;;
+                    "operate-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --action --key " -- $cur) )
+                        ;;
+                    "get-domains")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --page-index --page-size --domain-name " -- $cur) )
+                        ;;
+                    "add-domains")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-names " -- $cur) )
+                        ;;
+                    "del-domains")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --domain-names " -- $cur) )
                         ;;
 
                     "generate-skeleton")
@@ -1852,6 +2648,232 @@ _jdc_complete()
                 esac
                 ;;
 
+	        "cdn")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "preview-certificate")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --content " -- $cur) )
+                        ;;
+                    "query-default-http-header-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json " -- $cur) )
+                        ;;
+                    "query-ip-black-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "set-ip-black-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --ips " -- $cur) )
+                        ;;
+                    "operate-ip-black-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --status " -- $cur) )
+                        ;;
+                    "create-cache-rule")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --weight --ttl --contents --cache-type " -- $cur) )
+                        ;;
+                    "update-cache-rule")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --weight --ttl --contents --cache-type --config-id " -- $cur) )
+                        ;;
+                    "delete-cache-rule")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --config-id " -- $cur) )
+                        ;;
+                    "query-http-header")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "set-http-header")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --header-type --header-name --header-value " -- $cur) )
+                        ;;
+                    "delete-http-header")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --header-type --header-name " -- $cur) )
+                        ;;
+                    "set-video-draft")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --status " -- $cur) )
+                        ;;
+                    "set-range")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --status " -- $cur) )
+                        ;;
+                    "set-ignore-query-string")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --status " -- $cur) )
+                        ;;
+                    "query-user-agent")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "set-user-agent-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --user-agent-type --user-agent-list " -- $cur) )
+                        ;;
+                    "query-accesskey-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "set-accesskey-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --accesskey-type --accesskey-key --accesskey-keep " -- $cur) )
+                        ;;
+                    "set-refer")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --refer-type --refer-list --allow-no-refer-header --allow-null-refer-header " -- $cur) )
+                        ;;
+                    "query-monitor")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "set-monitor")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --cycle --monitor-path --http-request-header " -- $cur) )
+                        ;;
+                    "stop-monitor")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "set-source")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --source-type --back-source-type --ip-source --domain-source --oss-source --default-source-host " -- $cur) )
+                        ;;
+                    "operate-share-cache")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --status " -- $cur) )
+                        ;;
+                    "set-http-type")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --http-type --certificate --rsa-key --jump-type " -- $cur) )
+                        ;;
+                    "query-domain-group-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --share-cache --page-number --page-size --primary-domain --domain-group-name " -- $cur) )
+                        ;;
+                    "query-domain-group-detail")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --id " -- $cur) )
+                        ;;
+                    "query-domains-not-in-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json " -- $cur) )
+                        ;;
+                    "update-domain-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --id --domains --primary-domain --share-cache --domain-group-name " -- $cur) )
+                        ;;
+                    "create-domain-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --share-cache --primary-domain --domain-group-name --domains " -- $cur) )
+                        ;;
+                    "batch-delete-domain-group")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --ids " -- $cur) )
+                        ;;
+                    "get-domain-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --key-word --page-number --page-size --status --type " -- $cur) )
+                        ;;
+                    "get-domain-detail")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "create-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --source-type --cdn-type --back-source-type --daily-band-width --quaility --max-file-size --min-file-size --sum-file-size --avg-file-size --default-source-host --http-type --ip-source --domain-source --oss-source " -- $cur) )
+                        ;;
+                    "delete-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "start-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "stop-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "query-oss-buckets")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json " -- $cur) )
+                        ;;
+                    "batch-create")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domains --source-type --cdn-type --back-source-type --daily-band-width --quaility --max-file-size --min-file-size --sum-file-size --avg-file-size --default-source-host --http-type --ip-source --domain-source --oss-source " -- $cur) )
+                        ;;
+                    "query-domain-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "set-live-domain-back-source")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --source-type --back-source-type --default-source-host --domain-source --ip-source " -- $cur) )
+                        ;;
+                    "set-live-domain-ip-black-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --ips " -- $cur) )
+                        ;;
+                    "set-live-domain-refer")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --refer-type --refer-list --allow-no-refer-header --allow-null-refer-header " -- $cur) )
+                        ;;
+                    "operate-live-domain-ip-black-list")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --black-ips-enable " -- $cur) )
+                        ;;
+                    "set-live-domain-back-source-host")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --source-host " -- $cur) )
+                        ;;
+                    "set-live-domain-access-key")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --accesskey-type --accesskey-key --auth-life-time " -- $cur) )
+                        ;;
+                    "set-protocol-convert")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --certificate --rsa-key --protocol-converts " -- $cur) )
+                        ;;
+                    "create-live-domain")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --play-domain --publish-domain --source-type --back-http-type --default-source-host --site-type --back-source-type --ip-source --domain-source " -- $cur) )
+                        ;;
+                    "query-live-domain-detail")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "query-statistics-data")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --start-time --end-time --domain --sub-domain --fields --area --isp --origin --period " -- $cur) )
+                        ;;
+                    "query-statistics-data-group-by-area")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --start-time --end-time --domain --sub-domain --fields --area --isp --origin --period --group-by " -- $cur) )
+                        ;;
+                    "query-statistics-data-group-sum")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --start-time --end-time --domain --sub-domain --fields --area --isp --origin --period --group-by " -- $cur) )
+                        ;;
+                    "query-statistics-top-ip")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --start-time --end-time --domain --sub-domain --size --top-by " -- $cur) )
+                        ;;
+                    "query-statistics-top-url")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --start-time --end-time --domain --sub-domain --size --top-by " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
 	        "clouddnsservice")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
@@ -2062,6 +3084,24 @@ _jdc_complete()
                     "get-storage-list")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --storage-type --namespace-id " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "ams")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "describe-streams-input")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --stream-id --start-time --end-time " -- $cur) )
+                        ;;
+                    "describe-authenticate")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --p-id --ver " -- $cur) )
                         ;;
 
                     "generate-skeleton")

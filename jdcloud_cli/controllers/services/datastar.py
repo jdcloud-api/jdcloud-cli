@@ -31,7 +31,7 @@ class DatastarController(BaseController):
         help = '知客相关API'
         description = '''
         datastar cli 子命令，知客相关API。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/438/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/datastar/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

@@ -31,7 +31,7 @@ class MongodbController(BaseController):
         help = '京东云数据库MongoDB接口'
         description = '''
         mongodb cli 子命令，数据库MongoDB相关接口。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/383/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/jcs-for-mongodb/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

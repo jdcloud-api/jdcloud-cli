@@ -1,0 +1,11 @@
+{
+    "describe-streams-input":{
+        "startTime":"",
+        "endTime":"",
+        "streamId":""
+    },
+    "describe-authenticate":{
+        "ver":"",
+        "pId":""
+    },
+}
