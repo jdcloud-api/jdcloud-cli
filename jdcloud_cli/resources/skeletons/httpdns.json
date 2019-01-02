@@ -1,0 +1,30 @@
+{
+    "get-account-id":{
+        "regionId":""
+    },
+    "create-account":{
+        "regionId":""
+    },
+    "get-account-info":{
+        "regionId":""
+    },
+    "operate-key":{
+        "action":"",
+        "key":"",
+        "regionId":""
+    },
+    "get-domains":{
+        "pageIndex":"",
+        "pageSize":"",
+        "domainName":"",
+        "regionId":""
+    },
+    "add-domains":{
+        "domainNames":[""],
+        "regionId":""
+    },
+    "del-domains":{
+        "domainNames":[""],
+        "regionId":""
+    },
+}

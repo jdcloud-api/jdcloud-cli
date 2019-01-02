@@ -31,7 +31,7 @@ class BaseantiController(BaseController):
         help = '京东云DDoS基础防护相关接口'
         description = '''
         baseanti cli 子命令，京东云DDoS基础防护相关接口。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/412/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/anti-ddos-basic/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

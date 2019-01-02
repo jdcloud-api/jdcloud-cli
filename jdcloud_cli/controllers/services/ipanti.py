@@ -31,7 +31,7 @@ class IpantiController(BaseController):
         help = '京东云IP高防相关接口'
         description = '''
         ipanti cli 子命令，京东云IP高防相关接口。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/381/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/anti-ddos-pro/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

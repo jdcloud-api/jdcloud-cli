@@ -25,43 +25,42 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class StreambusController(BaseController):
+class HttpdnsController(BaseController):
     class Meta:
-        label = 'streambus'
-        help = 'JDCLOUD 流数据总线 API'
+        label = 'httpdns'
+        help = '京东云httpdns OpenAPI接口'
         description = '''
-        streambus cli 子命令，提供流数据总线topic操作的相关接口。。
-        OpenAPI文档地址为：https://docs.jdcloud.com/cn/stream-hub/api/overview
+        httpdns cli 子命令，京东云httpdns OpenAPI接口。
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/xxx/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--keyword'], dict(help="""(string) NA """, dest='keyword',  required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询topic列表，返回topic的集合 ''',
+        help=''' 查询用户名下httpdns的账户ID ''',
         description='''
-            查询topic列表，返回topic的集合。
+            查询用户名下httpdns的账户ID。
 
-            示例: jdc streambus get-topic-list 
+            示例: jdc httpdns get-account-id 
         ''',
     )
-    def get_topic_list(self):
-        client_factory = ClientFactory('streambus')
+    def get_account_id(self):
+        client_factory = ClientFactory('httpdns')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.GetTopicListRequest import GetTopicListRequest
+            from jdcloud_sdk.services.httpdns.apis.GetAccountIdRequest import GetAccountIdRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetTopicListRequest(params_dict, headers)
+            req = GetAccountIdRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -71,30 +70,29 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) NA """, dest='name',  required=True)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询指定主题,如果已归档会返回归档信息 ''',
+        help=''' 创建httpdns账户 ''',
         description='''
-            查询指定主题,如果已归档会返回归档信息。
+            创建httpdns账户。
 
-            示例: jdc streambus describe-topic  --name xxx
+            示例: jdc httpdns create-account 
         ''',
     )
-    def describe_topic(self):
-        client_factory = ClientFactory('streambus')
+    def create_account(self):
+        client_factory = ClientFactory('httpdns')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.DescribeTopicRequest import DescribeTopicRequest
+            from jdcloud_sdk.services.httpdns.apis.CreateAccountRequest import CreateAccountRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeTopicRequest(params_dict, headers)
+            req = CreateAccountRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -104,30 +102,29 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--topic-model'], dict(help="""(topicModel) 示例：{"topicModel":{"topic":{"archived":0,"id":"","name":"create","remark":"备注","shardNum":1,"partitionNum":2,"lifecycle":3}}} """, dest='topicModel',  required=True)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建topic时，topicModel中只需要传topic参数，另外两个参数可为空 ''',
+        help=''' 查询httpdns账户的基本信息 ''',
         description='''
-            创建topic时，topicModel中只需要传topic参数，另外两个参数可为空。
+            查询httpdns账户的基本信息。
 
-            示例: jdc streambus add-topic  --topic-model {"":""}
+            示例: jdc httpdns get-account-info 
         ''',
     )
-    def add_topic(self):
-        client_factory = ClientFactory('streambus')
+    def get_account_info(self):
+        client_factory = ClientFactory('httpdns')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.AddTopicRequest import AddTopicRequest
+            from jdcloud_sdk.services.httpdns.apis.GetAccountInfoRequest import GetAccountInfoRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddTopicRequest(params_dict, headers)
+            req = GetAccountInfoRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -137,30 +134,31 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--topic-model'], dict(help="""(topicModel) 当更新主题时只需要修改topicModel中的topic中的属性即可；创建归档需要指定target以及归档的目的地(mysql,京东云 Elasticsearch,对象存储,数据计算服务)参数 """, dest='topicModel',  required=True)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
+            (['--action'], dict(help="""(string) 操作类型, create创建, enable启用, disable禁用 """, dest='action',  required=False)),
+            (['--key'], dict(help="""(string) 操作的密钥 """, dest='key',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 此接口可以用来更新主题，创建归档，修改归档，删除归档，传入不同的参数可以实现不同的功能。修改归档只需要修改相应归档的参数，删除归档只需要把归档参数置为空即可 ''',
+        help=''' 创建，启用，禁用httpdns服务密钥 ''',
         description='''
-            此接口可以用来更新主题，创建归档，修改归档，删除归档，传入不同的参数可以实现不同的功能。修改归档只需要修改相应归档的参数，删除归档只需要把归档参数置为空即可。
+            创建，启用，禁用httpdns服务密钥。
 
-            示例: jdc streambus update-topic  --topic-model {"":""}
+            示例: jdc httpdns operate-key 
         ''',
     )
-    def update_topic(self):
-        client_factory = ClientFactory('streambus')
+    def operate_key(self):
+        client_factory = ClientFactory('httpdns')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.UpdateTopicRequest import UpdateTopicRequest
+            from jdcloud_sdk.services.httpdns.apis.OperateKeyRequest import OperateKeyRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateTopicRequest(params_dict, headers)
+            req = OperateKeyRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -170,30 +168,32 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) NA """, dest='name',  required=True)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
+            (['--page-index'], dict(help="""(int) 当前页数，起始值为1 """, dest='pageIndex', type=int, required=True)),
+            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', type=int, required=True)),
+            (['--domain-name'], dict(help="""(string) 关键字，按照”%domainName%”模式搜索域名 """, dest='domainName',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除topic ''',
+        help=''' 查询使用httpdns服务的域名 ''',
         description='''
-            删除topic。
+            查询使用httpdns服务的域名。
 
-            示例: jdc streambus delete-topic  --name xxx
+            示例: jdc httpdns get-domains  --page-index 0 --page-size 0
         ''',
     )
-    def delete_topic(self):
-        client_factory = ClientFactory('streambus')
+    def get_domains(self):
+        client_factory = ClientFactory('httpdns')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.DeleteTopicRequest import DeleteTopicRequest
+            from jdcloud_sdk.services.httpdns.apis.GetDomainsRequest import GetDomainsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteTopicRequest(params_dict, headers)
+            req = GetDomainsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -203,30 +203,30 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--topic-id'], dict(help="""(int) 主题id """, dest='topicId', type=int, required=True)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
+            (['--domain-names'], dict(help="""(array: string) 需要添加的域名数组 """, dest='domainNames',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看指定主题的所有消费组 ''',
+        help=''' 添加域名。<br>; 可以添加顶级域名除外的多级域名。;  ''',
         description='''
-            查看指定主题的所有消费组。
+            添加域名。<br>; 可以添加顶级域名除外的多级域名。; 。
 
-            示例: jdc streambus get-consumer-group-list  --topic-id 0
+            示例: jdc httpdns add-domains 
         ''',
     )
-    def get_consumer_group_list(self):
-        client_factory = ClientFactory('streambus')
+    def add_domains(self):
+        client_factory = ClientFactory('httpdns')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.GetConsumerGroupListRequest import GetConsumerGroupListRequest
+            from jdcloud_sdk.services.httpdns.apis.AddDomainsRequest import AddDomainsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetConsumerGroupListRequest(params_dict, headers)
+            req = AddDomainsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -236,30 +236,30 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--consumer-group-str'], dict(help="""(consumerGroup) 消费组对象 """, dest='consumerGroupStr',  required=False)),
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
+            (['--domain-names'], dict(help="""(array: string) 需要删除的域名数组 """, dest='domainNames',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建consumerGroupName ''',
+        help=''' 删除域名 ''',
         description='''
-            创建consumerGroupName。
+            删除域名。
 
-            示例: jdc streambus create-consumer-group 
+            示例: jdc httpdns del-domains 
         ''',
     )
-    def create_consumer_group(self):
-        client_factory = ClientFactory('streambus')
+    def del_domains(self):
+        client_factory = ClientFactory('httpdns')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streambus.apis.CreateConsumerGroupRequest import CreateConsumerGroupRequest
+            from jdcloud_sdk.services.httpdns.apis.DelDomainsRequest import DelDomainsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateConsumerGroupRequest(params_dict, headers)
+            req = DelDomainsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -269,41 +269,7 @@ class StreambusController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--topic-id'], dict(help="""(int) 主题ID """, dest='topicId', type=int, required=True)),
-            (['--consumer-group-id'], dict(help="""(int) 消费组ID """, dest='consumerGroupId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除consumerGroupName ''',
-        description='''
-            删除consumerGroupName。
-
-            示例: jdc streambus delete-consumer-group  --topic-id 0 --consumer-group-id 0
-        ''',
-    )
-    def delete_consumer_group(self):
-        client_factory = ClientFactory('streambus')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.streambus.apis.DeleteConsumerGroupRequest import DeleteConsumerGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteConsumerGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e.message)
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-topic-list','describe-topic','add-topic','update-topic','delete-topic','get-consumer-group-list','create-consumer-group','delete-consumer-group',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['get-account-id','create-account','get-account-info','operate-key','get-domains','add-domains','del-domains',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -313,5 +279,5 @@ class StreambusController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('streambus', self.app.pargs.api)
+        skeleton = Skeleton('httpdns', self.app.pargs.api)
         skeleton.show()

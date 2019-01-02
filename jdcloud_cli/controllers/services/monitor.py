@@ -31,7 +31,7 @@ class MonitorController(BaseController):
         help = 'JCLOUD MONITOR API'
         description = '''
         monitor cli 子命令，monitor API。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/380/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/monitoring/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

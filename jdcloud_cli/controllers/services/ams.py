@@ -25,43 +25,44 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class SopController(BaseController):
+class AmsController(BaseController):
     class Meta:
-        label = 'sop'
-        help = '敏感操作保护'
+        label = 'ams'
+        help = '京东云视频云应用管理平台接口（仅对授权用户使用）'
         description = '''
-        sop cli 子命令，敏感操作保护(SOP)相关接口。
-        OpenAPI文档地址为：https://docs.jdcloud.com/cn/security-operation-protection/api/overview
+        ams cli 子命令，京东云视频云应用管理平台接口（仅对授权用户使用）。
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/xxx/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--get-security-token-info'], dict(help="""(getSecurityTokenInfo) 获取SecurityToken参数 """, dest='getSecurityTokenInfo',  required=True)),
+            (['--stream-id'], dict(help="""(string) 流ID """, dest='streamId',  required=True)),
+            (['--start-time'], dict(help="""(string) 起始时间 """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取Token ''',
+        help=''' 获取收流基础数据查询 ''',
         description='''
-            获取Token。
+            获取收流基础数据查询。
 
-            示例: jdc sop get-security-token  --get-security-token-info {"":""}
+            示例: jdc ams describe-streams-input  --stream-id xxx
         ''',
     )
-    def get_security_token(self):
-        client_factory = ClientFactory('sop')
+    def describe_streams_input(self):
+        client_factory = ClientFactory('ams')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.sop.apis.GetSecurityTokenRequest import GetSecurityTokenRequest
+            from jdcloud_sdk.services.ams.apis.DescribeStreamsInputRequest import DescribeStreamsInputRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetSecurityTokenRequest(params_dict, headers)
+            req = DescribeStreamsInputRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -71,30 +72,30 @@ class SopController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--action'], dict(help="""(string) 操作action serviceName:actionName """, dest='action',  required=True)),
+            (['--p-id'], dict(help="""(string) PinId """, dest='pId',  required=True)),
+            (['--ver'], dict(help="""(int) 版本 """, dest='ver', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取操作保护设置信息 ''',
+        help=''' 客户端鉴权查询 ''',
         description='''
-            获取操作保护设置信息。
+            客户端鉴权查询。
 
-            示例: jdc sop get-sensitive-op-setting  --action xxx
+            示例: jdc ams describe-authenticate  --p-id xxx
         ''',
     )
-    def get_sensitive_op_setting(self):
-        client_factory = ClientFactory('sop')
+    def describe_authenticate(self):
+        client_factory = ClientFactory('ams')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.sop.apis.GetSensitiveOpSettingRequest import GetSensitiveOpSettingRequest
+            from jdcloud_sdk.services.ams.apis.DescribeAuthenticateRequest import DescribeAuthenticateRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetSensitiveOpSettingRequest(params_dict, headers)
+            req = DescribeAuthenticateRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -104,7 +105,7 @@ class SopController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-security-token','get-sensitive-op-setting',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-streams-input','describe-authenticate',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -114,5 +115,5 @@ class SopController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('sop', self.app.pargs.api)
+        skeleton = Skeleton('ams', self.app.pargs.api)
         skeleton.show()
