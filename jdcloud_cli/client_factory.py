@@ -19,14 +19,20 @@
 from jdcloud_sdk.core.config import Config
 from jdcloud_sdk.core.credential import Credential
 from jdcloud_sdk.services.vm.client.VmClient import VmClient
+from jdcloud_sdk.services.kms.client.KmsClient import KmsClient
 from jdcloud_sdk.services.iam.client.IamClient import IamClient
 from jdcloud_sdk.services.disk.client.DiskClient import DiskClient
 from jdcloud_sdk.services.mongodb.client.MongodbClient import MongodbClient
+from jdcloud_sdk.services.ias.client.IasClient import IasClient
+from jdcloud_sdk.services.jdfusion.client.JdfusionClient import JdfusionClient
+from jdcloud_sdk.services.function.client.FunctionClient import FunctionClient
 from jdcloud_sdk.services.mps.client.MpsClient import MpsClient
 from jdcloud_sdk.services.streambus.client.StreambusClient import StreambusClient
 from jdcloud_sdk.services.baseanti.client.BaseantiClient import BaseantiClient
 from jdcloud_sdk.services.jke.client.JkeClient import JkeClient
+from jdcloud_sdk.services.live.client.LiveClient import LiveClient
 from jdcloud_sdk.services.ipanti.client.IpantiClient import IpantiClient
+from jdcloud_sdk.services.httpdns.client.HttpdnsClient import HttpdnsClient
 from jdcloud_sdk.services.rds.client.RdsClient import RdsClient
 from jdcloud_sdk.services.redis.client.RedisClient import RedisClient
 from jdcloud_sdk.services.monitor.client.MonitorClient import MonitorClient
@@ -38,9 +44,11 @@ from jdcloud_sdk.services.iothub.client.IothubClient import IothubClient
 from jdcloud_sdk.services.xdata.client.XdataClient import XdataClient
 from jdcloud_sdk.services.cr.client.CrClient import CrClient
 from jdcloud_sdk.services.nc.client.NcClient import NcClient
+from jdcloud_sdk.services.cdn.client.CdnClient import CdnClient
 from jdcloud_sdk.services.clouddnsservice.client.ClouddnsserviceClient import ClouddnsserviceClient
 from jdcloud_sdk.services.oss.client.OssClient import OssClient
 from jdcloud_sdk.services.streamcomputer.client.StreamcomputerClient import StreamcomputerClient
+from jdcloud_sdk.services.ams.client.AmsClient import AmsClient
 from jdcloud_cli.config import ProfileManager
 from jdcloud_cli.logger import get_logger
 
@@ -53,14 +61,20 @@ class ClientFactory(object):
     def get(self, app):
         client_map = {
             'vm': VmClient,
+            'kms': KmsClient,
             'iam': IamClient,
             'disk': DiskClient,
             'mongodb': MongodbClient,
+            'ias': IasClient,
+            'jdfusion': JdfusionClient,
+            'function': FunctionClient,
             'mps': MpsClient,
             'streambus': StreambusClient,
             'baseanti': BaseantiClient,
             'jke': JkeClient,
+            'live': LiveClient,
             'ipanti': IpantiClient,
+            'httpdns': HttpdnsClient,
             'rds': RdsClient,
             'redis': RedisClient,
             'monitor': MonitorClient,
@@ -72,9 +86,11 @@ class ClientFactory(object):
             'xdata': XdataClient,
             'cr': CrClient,
             'nc': NcClient,
+            'cdn': CdnClient,
             'clouddnsservice': ClouddnsserviceClient,
             'oss': OssClient,
             'streamcomputer': StreamcomputerClient,
+            'ams': AmsClient,
         }
 
         profile_manager = ProfileManager()

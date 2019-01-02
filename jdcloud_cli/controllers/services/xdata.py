@@ -31,7 +31,7 @@ class XdataController(BaseController):
         help = '数据计算服务API'
         description = '''
         xdata cli 子命令，数据计算服务相关API。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/389/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/data-compute/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

@@ -31,7 +31,7 @@ class MpsController(BaseController):
         help = '媒体处理 API'
         description = '''
         mps cli 子命令，媒体处理相关接口。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/385/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/media-processing-service/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

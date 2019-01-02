@@ -31,7 +31,7 @@ class CpsController(BaseController):
         help = '云物理服务器'
         description = '''
         cps cli 子命令，云物理服务器相关接口。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/432/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/cloud-physical-server/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

@@ -25,13 +25,13 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class StreamcomputerController(BaseController):
+class FunctionController(BaseController):
     class Meta:
-        label = 'streamcomputer'
-        help = 'JDCLOUD流计算API'
+        label = 'function'
+        help = '京东云function接口'
         description = '''
-        streamcomputer cli 子命令，提供流计算操作的相关接口。。
-        OpenAPI文档地址为：https://docs.jdcloud.com/cn/stream-compute/api/overview
+        function cli 子命令，function相关接口。
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/function-service/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
@@ -39,30 +39,29 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--job-id'], dict(help="""(int) NA """, dest='jobId', type=int, required=True)),
-            (['--namespace-id'], dict(help="""(int) NA """, dest='namespaceId', type=int, required=True)),
+            (['--function-name'], dict(help="""(string) 别名所属函数名称 """, dest='functionName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询指定作业详情 ''',
+        help=''' 查询别名列表 ''',
         description='''
-            查询指定作业详情。
+            查询别名列表。
 
-            示例: jdc streamcomputer describe-job  --job-id 0 --namespace-id 0
+            示例: jdc function list-alias  --function-name xxx
         ''',
     )
-    def describe_job(self):
-        client_factory = ClientFactory('streamcomputer')
+    def list_alias(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.DescribeJobRequest import DescribeJobRequest
+            from jdcloud_sdk.services.function.apis.ListAliasRequest import ListAliasRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeJobRequest(params_dict, headers)
+            req = ListAliasRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -73,29 +72,32 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--job-str'], dict(help="""(jobStr) 创建作业的详情 """, dest='jobStr',  required=True)),
+            (['--function-name'], dict(help="""(string) 别名所属函数名称 """, dest='functionName',  required=True)),
+            (['--alias-name'], dict(help="""(string) 别名名称 """, dest='aliasName',  required=True)),
+            (['--description'], dict(help="""(string) 别名描述信息 """, dest='description',  required=False)),
+            (['--version'], dict(help="""(string) 别名对应的版本名称 """, dest='version',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加或者更新job ''',
+        help=''' 创建别名 ''',
         description='''
-            添加或者更新job。
+            创建别名。
 
-            示例: jdc streamcomputer add-or-update-job  --job-str {"":""}
+            示例: jdc function create-alias  --function-name xxx --alias-name xxx
         ''',
     )
-    def add_or_update_job(self):
-        client_factory = ClientFactory('streamcomputer')
+    def create_alias(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.AddOrUpdateJobRequest import AddOrUpdateJobRequest
+            from jdcloud_sdk.services.function.apis.CreateAliasRequest import CreateAliasRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddOrUpdateJobRequest(params_dict, headers)
+            req = CreateAliasRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -106,30 +108,30 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--namespace-id'], dict(help="""(string) NA """, dest='namespaceId',  required=True)),
-            (['--job-id'], dict(help="""(int) NA """, dest='jobId', type=int, required=True)),
+            (['--function-name'], dict(help="""(string) 别名所属函数名称 """, dest='functionName',  required=True)),
+            (['--alias-name'], dict(help="""(string) 别名名称 """, dest='aliasName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除作业 ''',
+        help=''' 查询别名详情 ''',
         description='''
-            删除作业。
+            查询别名详情。
 
-            示例: jdc streamcomputer delete-job  --namespace-id xxx --job-id 0
+            示例: jdc function get-alias  --function-name xxx --alias-name xxx
         ''',
     )
-    def delete_job(self):
-        client_factory = ClientFactory('streamcomputer')
+    def get_alias(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.DeleteJobRequest import DeleteJobRequest
+            from jdcloud_sdk.services.function.apis.GetAliasRequest import GetAliasRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteJobRequest(params_dict, headers)
+            req = GetAliasRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -140,29 +142,32 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--namespace-id'], dict(help="""(string) NA """, dest='namespaceId',  required=True)),
+            (['--function-name'], dict(help="""(string) 别名所属函数名称 """, dest='functionName',  required=True)),
+            (['--alias-name'], dict(help="""(string) 别名名称 """, dest='aliasName',  required=True)),
+            (['--description'], dict(help="""(string) 别名描述信息 """, dest='description',  required=True)),
+            (['--version'], dict(help="""(string) 别名对应版本 """, dest='version',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询指定应用下的所有job ''',
+        help=''' 更新别名 ''',
         description='''
-            查询指定应用下的所有job。
+            更新别名。
 
-            示例: jdc streamcomputer get-job-list  --namespace-id xxx
+            示例: jdc function update-alias  --function-name xxx --alias-name xxx --description xxx --version xxx
         ''',
     )
-    def get_job_list(self):
-        client_factory = ClientFactory('streamcomputer')
+    def update_alias(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.GetJobListRequest import GetJobListRequest
+            from jdcloud_sdk.services.function.apis.UpdateAliasRequest import UpdateAliasRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetJobListRequest(params_dict, headers)
+            req = UpdateAliasRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -173,30 +178,30 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--namespace-id'], dict(help="""(string) NA """, dest='namespaceId',  required=True)),
-            (['--job-id'], dict(help="""(int) NA """, dest='jobId', type=int, required=True)),
+            (['--function-name'], dict(help="""(string) 别名所属函数名称 """, dest='functionName',  required=True)),
+            (['--alias-name'], dict(help="""(string) 别名名称 """, dest='aliasName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 运行job ''',
+        help=''' 删除别名 ''',
         description='''
-            运行job。
+            删除别名。
 
-            示例: jdc streamcomputer start-job  --namespace-id xxx --job-id 0
+            示例: jdc function delete-alias  --function-name xxx --alias-name xxx
         ''',
     )
-    def start_job(self):
-        client_factory = ClientFactory('streamcomputer')
+    def delete_alias(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.StartJobRequest import StartJobRequest
+            from jdcloud_sdk.services.function.apis.DeleteAliasRequest import DeleteAliasRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = StartJobRequest(params_dict, headers)
+            req = DeleteAliasRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -207,30 +212,29 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--namespace-id'], dict(help="""(string) NA """, dest='namespaceId',  required=True)),
-            (['--job-id'], dict(help="""(int) NA """, dest='jobId', type=int, required=True)),
+            (['--filters'], dict(help="""(array: filter) functionId -函数ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 停止作业运行job ''',
+        help=''' 查询函数列表 ''',
         description='''
-            停止作业运行job。
+            查询函数列表。
 
-            示例: jdc streamcomputer stop-job  --namespace-id xxx --job-id 0
+            示例: jdc function list-function 
         ''',
     )
-    def stop_job(self):
-        client_factory = ClientFactory('streamcomputer')
+    def list_function(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.StopJobRequest import StopJobRequest
+            from jdcloud_sdk.services.function.apis.ListFunctionRequest import ListFunctionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = StopJobRequest(params_dict, headers)
+            req = ListFunctionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -241,29 +245,41 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--keyword'], dict(help="""(string) NA """, dest='keyword',  required=False)),
+            (['--name'], dict(help="""(string) 函数名称 """, dest='name',  required=True)),
+            (['--description'], dict(help="""(string) 函数描述信息 """, dest='description',  required=False)),
+            (['--entrance'], dict(help="""(string) 函数入口，格式为入口文件.入口函数名 """, dest='entrance',  required=True)),
+            (['--memory'], dict(help="""(int) 函数运行最大内存 """, dest='memory', type=int, required=True)),
+            (['--run-time'], dict(help="""(string) 函数运行环境 """, dest='runTime',  required=True)),
+            (['--over-time'], dict(help="""(int) 函数运行超时时间 """, dest='overTime', type=int, required=True)),
+            (['--version'], dict(help="""(string) 函数版本，默认为LATEST """, dest='version',  required=False)),
+            (['--code'], dict(help="""(code) 函数代码包 """, dest='code',  required=True)),
+            (['--environment'], dict(help="""(env) 函数运行时环境变量 """, dest='environment',  required=False)),
+            (['--log-set-id'], dict(help="""(string) 函数指定的日志集Id """, dest='logSetId',  required=False)),
+            (['--log-topic-id'], dict(help="""(string) 函数指定的日志主题Id """, dest='logTopicId',  required=False)),
+            (['--vpc-id'], dict(help="""(string) 函数配置的VPCId """, dest='vpcId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 函数配置的子网Id """, dest='subnetId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询租户下的应用列表 ''',
+        help=''' 创建函数 ''',
         description='''
-            查询租户下的应用列表。
+            创建函数。
 
-            示例: jdc streamcomputer query-namespaces 
+            示例: jdc function create-function  --name xxx --entrance xxx --memory 0 --run-time xxx --over-time 0 --code {"":""}
         ''',
     )
-    def query_namespaces(self):
-        client_factory = ClientFactory('streamcomputer')
+    def create_function(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.QueryNamespacesRequest import QueryNamespacesRequest
+            from jdcloud_sdk.services.function.apis.CreateFunctionRequest import CreateFunctionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryNamespacesRequest(params_dict, headers)
+            req = CreateFunctionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -274,29 +290,29 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--namespace-id'], dict(help="""(int) NA """, dest='namespaceId', type=int, required=True)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询某个应用详情 ''',
+        help=''' 查询函数详情 ''',
         description='''
-            查询某个应用详情。
+            查询函数详情。
 
-            示例: jdc streamcomputer query-namespace-detail  --namespace-id 0
+            示例: jdc function get-function  --function-name xxx
         ''',
     )
-    def query_namespace_detail(self):
-        client_factory = ClientFactory('streamcomputer')
+    def get_function(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.QueryNamespaceDetailRequest import QueryNamespaceDetailRequest
+            from jdcloud_sdk.services.function.apis.GetFunctionRequest import GetFunctionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryNamespaceDetailRequest(params_dict, headers)
+            req = GetFunctionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -307,29 +323,41 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--namespace-str'], dict(help="""(namespace) NA """, dest='namespaceStr',  required=True)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
+            (['--description'], dict(help="""(string) 函数描述信息 """, dest='description',  required=True)),
+            (['--entrance'], dict(help="""(string) 函数入口，格式为入口文件.入口函数名 """, dest='entrance',  required=True)),
+            (['--memory'], dict(help="""(int) 函数运行最大内存 """, dest='memory', type=int, required=True)),
+            (['--run-time'], dict(help="""(string) 函数运行环境 """, dest='runTime',  required=True)),
+            (['--over-time'], dict(help="""(int) 函数运行超时时间 """, dest='overTime', type=int, required=True)),
+            (['--version'], dict(help="""(string) 函数版本 """, dest='version',  required=False)),
+            (['--code'], dict(help="""(code) 函数代码包 """, dest='code',  required=True)),
+            (['--environment'], dict(help="""(env) 函数运行时环境变量 """, dest='environment',  required=True)),
+            (['--log-set-id'], dict(help="""(string) 函数指定的日志集Id """, dest='logSetId',  required=True)),
+            (['--log-topic-id'], dict(help="""(string) 函数指定的日志主题Id """, dest='logTopicId',  required=True)),
+            (['--vpc-id'], dict(help="""(string) 函数配置的VPCId """, dest='vpcId',  required=True)),
+            (['--subnet-id'], dict(help="""(string) 函数配置的子网Id """, dest='subnetId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建namespace ''',
+        help=''' 更新函数 ''',
         description='''
-            创建namespace。
+            更新函数。
 
-            示例: jdc streamcomputer create-namespace  --namespace-str {"":""}
+            示例: jdc function update-function  --function-name xxx --description xxx --entrance xxx --memory 0 --run-time xxx --over-time 0 --code {"":""} --environment {"":""} --log-set-id xxx --log-topic-id xxx --vpc-id xxx --subnet-id xxx
         ''',
     )
-    def create_namespace(self):
-        client_factory = ClientFactory('streamcomputer')
+    def update_function(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.CreateNamespaceRequest import CreateNamespaceRequest
+            from jdcloud_sdk.services.function.apis.UpdateFunctionRequest import UpdateFunctionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateNamespaceRequest(params_dict, headers)
+            req = UpdateFunctionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -340,29 +368,29 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--namespace-str'], dict(help="""(namespace) NA """, dest='namespaceStr',  required=True)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 更新namespace ''',
+        help=''' 删除函数 ''',
         description='''
-            更新namespace。
+            删除函数。
 
-            示例: jdc streamcomputer update-namespace  --namespace-str {"":""}
+            示例: jdc function delete-function  --function-name xxx
         ''',
     )
-    def update_namespace(self):
-        client_factory = ClientFactory('streamcomputer')
+    def delete_function(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.UpdateNamespaceRequest import UpdateNamespaceRequest
+            from jdcloud_sdk.services.function.apis.DeleteFunctionRequest import DeleteFunctionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateNamespaceRequest(params_dict, headers)
+            req = DeleteFunctionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -373,29 +401,31 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--namespace-id'], dict(help="""(int) NA """, dest='namespaceId', type=int, required=True)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
+            (['--version-name'], dict(help="""(string) 版本名称 """, dest='versionName',  required=True)),
+            (['--event'], dict(help="""(string) 执行函数的输入事件 """, dest='event',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除namespace,如果旗下关联有其他资源，不允许删除 ''',
+        help=''' 控制台测试执行函数 ''',
         description='''
-            删除namespace,如果旗下关联有其他资源，不允许删除。
+            控制台测试执行函数。
 
-            示例: jdc streamcomputer delete-namespace  --namespace-id 0
+            示例: jdc function test-invoke  --function-name xxx --version-name xxx --event xxx
         ''',
     )
-    def delete_namespace(self):
-        client_factory = ClientFactory('streamcomputer')
+    def test_invoke(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.DeleteNamespaceRequest import DeleteNamespaceRequest
+            from jdcloud_sdk.services.function.apis.TestInvokeRequest import TestInvokeRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteNamespaceRequest(params_dict, headers)
+            req = TestInvokeRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -406,29 +436,31 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--storage-id'], dict(help="""(int) storageId """, dest='storageId', type=int, required=True)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
+            (['--version-name'], dict(help="""(string) 版本名称 """, dest='versionName',  required=True)),
+            (['--trigger-id'], dict(help="""(string) 触发器Id """, dest='triggerId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询指定输入 ''',
+        help=''' 获取触发器详情 ''',
         description='''
-            查询指定输入。
+            获取触发器详情。
 
-            示例: jdc streamcomputer describe-storage  --storage-id 0
+            示例: jdc function get-trigger  --function-name xxx --version-name xxx --trigger-id xxx
         ''',
     )
-    def describe_storage(self):
-        client_factory = ClientFactory('streamcomputer')
+    def get_trigger(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.DescribeStorageRequest import DescribeStorageRequest
+            from jdcloud_sdk.services.function.apis.GetTriggerRequest import GetTriggerRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeStorageRequest(params_dict, headers)
+            req = GetTriggerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -439,29 +471,30 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--storage-str'], dict(help="""(storage) 创建或者更新storage的详情 """, dest='storageStr',  required=True)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
+            (['--version-name'], dict(help="""(string) 版本名称 """, dest='versionName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建或者更新storage ''',
+        help=''' 查询触发器列表 ''',
         description='''
-            创建或者更新storage。
+            查询触发器列表。
 
-            示例: jdc streamcomputer add-or-update-storage  --storage-str {"":""}
+            示例: jdc function list-trigger  --function-name xxx --version-name xxx
         ''',
     )
-    def add_or_update_storage(self):
-        client_factory = ClientFactory('streamcomputer')
+    def list_trigger(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.AddOrUpdateStorageRequest import AddOrUpdateStorageRequest
+            from jdcloud_sdk.services.function.apis.ListTriggerRequest import ListTriggerRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddOrUpdateStorageRequest(params_dict, headers)
+            req = ListTriggerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -472,29 +505,29 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--storage-id'], dict(help="""(int) storageId """, dest='storageId', type=int, required=True)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除指定输入 ''',
+        help=''' 查询版本列表 ''',
         description='''
-            删除指定输入。
+            查询版本列表。
 
-            示例: jdc streamcomputer delete-storage  --storage-id 0
+            示例: jdc function list-version  --function-name xxx
         ''',
     )
-    def delete_storage(self):
-        client_factory = ClientFactory('streamcomputer')
+    def list_version(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.DeleteStorageRequest import DeleteStorageRequest
+            from jdcloud_sdk.services.function.apis.ListVersionRequest import ListVersionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteStorageRequest(params_dict, headers)
+            req = ListVersionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -505,30 +538,30 @@ class StreamcomputerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--storage-type'], dict(help="""(string) storage类型 """, dest='storageType',  required=True)),
-            (['--namespace-id'], dict(help="""(string) namespaceId """, dest='namespaceId',  required=True)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
+            (['--description'], dict(help="""(string) 版本描述 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建或者更新storage ''',
+        help=''' 创建版本 ''',
         description='''
-            创建或者更新storage。
+            创建版本。
 
-            示例: jdc streamcomputer get-storage-list  --storage-type xxx --namespace-id xxx
+            示例: jdc function create-version  --function-name xxx
         ''',
     )
-    def get_storage_list(self):
-        client_factory = ClientFactory('streamcomputer')
+    def create_version(self):
+        client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.streamcomputer.apis.GetStorageListRequest import GetStorageListRequest
+            from jdcloud_sdk.services.function.apis.CreateVersionRequest import CreateVersionRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetStorageListRequest(params_dict, headers)
+            req = CreateVersionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -538,7 +571,75 @@ class StreamcomputerController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-job','add-or-update-job','delete-job','get-job-list','start-job','stop-job','query-namespaces','query-namespace-detail','create-namespace','update-namespace','delete-namespace','describe-storage','add-or-update-storage','delete-storage','get-storage-list',], required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
+            (['--version-name'], dict(help="""(string) 版本名称 """, dest='versionName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取版本详情 ''',
+        description='''
+            获取版本详情。
+
+            示例: jdc function get-version  --function-name xxx --version-name xxx
+        ''',
+    )
+    def get_version(self):
+        client_factory = ClientFactory('function')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.function.apis.GetVersionRequest import GetVersionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetVersionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
+            (['--version-name'], dict(help="""(string) 版本名称 """, dest='versionName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除版本 ''',
+        description='''
+            删除版本。
+
+            示例: jdc function delete-version  --function-name xxx --version-name xxx
+        ''',
+    )
+    def delete_version(self):
+        client_factory = ClientFactory('function')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.function.apis.DeleteVersionRequest import DeleteVersionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteVersionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['list-alias','create-alias','get-alias','update-alias','delete-alias','list-function','create-function','get-function','update-function','delete-function','test-invoke','get-trigger','list-trigger','list-version','create-version','get-version','delete-version',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -548,5 +649,5 @@ class StreamcomputerController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('streamcomputer', self.app.pargs.api)
+        skeleton = Skeleton('function', self.app.pargs.api)
         skeleton.show()

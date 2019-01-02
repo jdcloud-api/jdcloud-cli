@@ -31,7 +31,7 @@ class CrController(BaseController):
         help = '容器镜像仓库'
         description = '''
         cr cli 子命令，容器镜像仓库服务。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/441/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/containerregistry/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

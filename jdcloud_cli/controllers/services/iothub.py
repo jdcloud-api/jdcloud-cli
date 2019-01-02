@@ -31,7 +31,7 @@ class IothubController(BaseController):
         help = 'JCLOUD IoT Hub API'
         description = '''
         iothub cli 子命令，API related to IoT Hub。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/xxx/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/xxx/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

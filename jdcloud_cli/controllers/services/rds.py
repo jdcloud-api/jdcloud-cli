@@ -31,7 +31,7 @@ class RdsController(BaseController):
         help = '云数据库RDS'
         description = '''
         rds cli 子命令，目前RDS OpenAPI支持云数据库SQL Server、MySQL、PostgreSQL。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/382/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/rds/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

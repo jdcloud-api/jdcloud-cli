@@ -31,7 +31,7 @@ class RedisController(BaseController):
         help = '京东云缓存Redis接口'
         description = '''
         redis cli 子命令，缓存Redis相关接口。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/384/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/jcs-for-redis/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

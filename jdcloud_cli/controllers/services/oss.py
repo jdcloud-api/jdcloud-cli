@@ -31,7 +31,7 @@ class OssController(BaseController):
         help = '云存储API'
         description = '''
         oss cli 子命令，云存储API，主要包含查询Bucket列表，创建Bucket, 删除Bucket，查询Bucket是否存在, 更多API见：https://www.jdcloud.com/help/detail/1901/isCatalog/1。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/386/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/object-storage-service/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'

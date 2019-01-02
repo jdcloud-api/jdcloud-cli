@@ -31,7 +31,7 @@ class IamController(BaseController):
         help = 'IAM API'
         description = '''
         iam cli 子命令，IAM相关接口。
-        OpenAPI文档地址为：https://www.jdcloud.com/help/detail/387/isCatalog/0
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/iam/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
