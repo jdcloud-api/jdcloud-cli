@@ -116,7 +116,7 @@ source ~/.bashrc
 `jdc nc delete-container --headers '{"x-jdcloud-security-token":"xxx"}' --container-id xxxxx`
 
 更多帮助信息及OpenAPI官方文档，请见：
-https://www.jdcloud.com/help/faq?act=3
+https://docs.jdcloud.com/cn/common-declaration/api/introduction
 
 ## 已知问题
 Windows平台中，容器交互命令为exprimental阶段。在命令前需要增加winpty前缀，如：
