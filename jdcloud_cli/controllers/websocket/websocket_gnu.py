@@ -25,6 +25,7 @@ import struct
 import fcntl
 import websocket
 from .websocket_base import WebsocketBase
+from jdcloud_cli.utils import decode
 
 
 class WebsocketGnu(WebsocketBase):
@@ -80,7 +81,7 @@ class WebsocketGnu(WebsocketBase):
                         try:
                             message = json.loads(data)
                             if message.get("type") == "error":
-                                print message
+                                print(message)
                                 raise Exception
                             streamType = message.get("streamType")
                             if streamType == "stdout":
@@ -90,7 +91,7 @@ class WebsocketGnu(WebsocketBase):
                                 sys.stderr.write(message.get("output"))
                                 sys.stderr.flush()
                         except:
-                            sys.stdout.write(data)
+                            sys.stdout.write(decode(data))
                             sys.stdout.flush()
                 except (select.error, IOError) as e:
                     if e.args and e.args[0] == errno.EINTR:
@@ -98,9 +99,9 @@ class WebsocketGnu(WebsocketBase):
                     else:
                         raise
         except websocket.WebSocketConnectionClosedException as e:
-            print e
+            print(e)
         except websocket.WebSocketException as e:
-            print e
+            print(e)
         except Exception as e:
             sys.stderr.write("%s\r\n" % e)
             sys.stderr.flush()

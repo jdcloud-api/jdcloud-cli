@@ -113,15 +113,6 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_cm_metric_data_by_tag_spec(self):
-        cmd = """python ../../main.py monitor describe-cm-metric-data-by-tag-spec  --namespace 'xxx' --metric 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_metrics(self):
         cmd = """python ../../main.py monitor describe-metrics  --service-code 'xxx'"""
         with os.popen(cmd) as f:

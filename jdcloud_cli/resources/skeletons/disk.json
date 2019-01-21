@@ -25,7 +25,9 @@
                 "chargeMode":"",
                 "chargeUnit":"",
                 "chargeDuration":""
-            }
+            },
+            "multiAttachable":"",
+            "encrypt":""
         },
         "maxCount":"",
         "clientToken":"",
@@ -58,6 +60,7 @@
     "describe-snapshots":{
         "pageNumber":"",
         "pageSize":"",
+        "snapshotSource":"",
         "filters":[{
             "name":"",
             "operator":"",
@@ -78,7 +81,7 @@
         "regionId":"",
         "snapshotId":""
     },
-    "modify-snp-attribute":{
+    "modify-snapshot-attribute":{
         "name":"",
         "description":"",
         "regionId":"",

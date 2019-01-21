@@ -497,77 +497,6 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--id-weights'], dict(help="""(array: setlb) 要设置解析记录的权重参数列表 """, dest='idWeights',  required=True)),
-            (['--type'], dict(help="""(string) 这几条解析记录的类型。可以设置权重的类型有：A、AAAA、CNAME、JNAME """, dest='type',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 设置域名解析记录的负载均衡 ''',
-        description='''
-            设置域名解析记录的负载均衡。
-
-            示例: jdc clouddnsservice set-lb  --domain-id xxx --id-weights [{"":""}] --type xxx
-        ''',
-    )
-    def set_lb(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.SetLBRequest import SetLBRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetLBRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e.message)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--type'], dict(help="""(string) 解析记录的类型。有权重的类型有：A、AAAA、CNAME、JNAME """, dest='type',  required=True)),
-            (['--page-number'], dict(help="""(int) 负载均衡记录分页展示的页数，默认为1 """, dest='pageNumber', type=int, required=True)),
-            (['--page-size'], dict(help="""(int) 负载均衡记录分页展示时每页的记录数，默认为10 """, dest='pageSize', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查看当前域名所有的有负载均衡的解析记录<br>; 这些解析记录分页展示的列表;  ''',
-        description='''
-            查看当前域名所有的有负载均衡的解析记录<br>; 这些解析记录分页展示的列表; 。
-
-            示例: jdc clouddnsservice get-lb  --domain-id xxx --type xxx --page-number 0 --page-size 0
-        ''',
-    )
-    def get_lb(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetLBRequest import GetLBRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetLBRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e.message)
-
-    @expose(
-        arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--req'], dict(help="""(addView) 添加自定义线路的参数 """, dest='req',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1019,7 +948,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-action-log','get-domains','add-domain','del-domain','update-domain','get-domain-query-count','get-domain-query-traffic','search-rr','get-view-tree','add-rr','update-rr','operate-rr','batch-set-dns-resolve','set-lb','get-lb','add-user-view','del-user-view','get-user-view','add-user-view-ip','del-user-view-ip','get-user-view-ip','get-monitor','add-monitor','get-targets','add-monitor-target','operate-monitor','update-monitor','get-monitor-alarm-info',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['get-action-log','get-domains','add-domain','del-domain','update-domain','get-domain-query-count','get-domain-query-traffic','search-rr','get-view-tree','add-rr','update-rr','operate-rr','batch-set-dns-resolve','add-user-view','del-user-view','get-user-view','add-user-view-ip','del-user-view-ip','get-user-view-ip','get-monitor','add-monitor','get-targets','add-monitor-target','operate-monitor','update-monitor','get-monitor-alarm-info',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

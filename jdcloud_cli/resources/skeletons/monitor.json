@@ -4,10 +4,13 @@
         "pageSize":"",
         "serviceCode":"",
         "resourceId":"",
+        "resourceIdList":[""],
         "alarmId":"",
         "alarming":"",
+        "serviceCodeList":[""],
         "startTime":"",
         "endTime":"",
+        "ruleType":"",
         "filters":[{
             "Name":"",
             "Values":""
@@ -18,7 +21,7 @@
         "pageNumber":"",
         "pageSize":"",
         "serviceCode":"",
-        "resourceID":"",
+        "resourceId":"",
         "ruleType":"",
         "status":"",
         "enabled":"",
@@ -112,10 +115,13 @@
         "pageSize":"",
         "serviceCode":"",
         "resourceId":"",
+        "resourceIdList":[""],
         "alarmId":"",
         "alarming":"",
+        "serviceCodeList":[""],
         "startTime":"",
         "endTime":"",
+        "ruleType":"",
         "filters":[{
             "Name":"",
             "Values":""
@@ -124,21 +130,6 @@
     "delete-alarms-cm":{
         "ids":"",
         "regionId":""
-    },
-    "describe-cm-metric-data-by-tag-spec":{
-        "aggrType":"",
-        "downSampleType":"",
-        "startTime":"",
-        "endTime":"",
-        "timeInterval":"",
-        "tags":[{
-            "key":"",
-            "values":""
-        }],
-        "groupBy":"",
-        "regionId":"",
-        "namespace":"",
-        "metric":""
     },
     "describe-metrics":{
         "serviceCode":""
@@ -162,9 +153,8 @@
         "metric":""
     },
     "describe-metric-data":{
-        "serviceCode":"",
-        "resourceId":"",
         "aggrType":"",
+        "downSampleType":"",
         "startTime":"",
         "endTime":"",
         "timeInterval":"",
@@ -173,6 +163,9 @@
             "values":""
         }],
         "groupBy":"",
+        "rate":"",
+        "serviceCode":"",
+        "resourceId":"",
         "regionId":"",
         "metric":""
     },

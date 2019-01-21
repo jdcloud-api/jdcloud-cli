@@ -31,9 +31,9 @@ class Skeleton(object):
         obj = yaml.load(open(json_file).read())
 
         if self.__api in obj:
-            print json.dumps(obj[self.__api], indent=4)
+            print(json.dumps(obj[self.__api], indent=4))
         else:
-            print self.__api + ' skeleton is not ready'
+            print(self.__api + ' skeleton is not ready')
 
 
 def show_skeleton(enable, service, api):

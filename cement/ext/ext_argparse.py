@@ -776,6 +776,9 @@ class ArgparseController(CementBaseHandler):
             LOG.debug("processing arguments for '%s' " % command['label'] +
                       "command namespace")
             for arg, kw in command['arguments']:
+                if '--input-json' in controller.app.argv:
+                    kw['required'] = False
+
                 LOG.debug('adding argument (args=%s, kwargs=%s)' %
                           (arg, kw))
                 command_parser.add_argument(*arg, **kw)

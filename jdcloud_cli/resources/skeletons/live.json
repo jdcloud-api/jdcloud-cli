@@ -24,10 +24,14 @@
         "publishDomain":"",
         "appName":""
     },
+    "describe-live-domains":{
+        "pageNum":"",
+        "pageSize":"",
+        "publishDomain":""
+    },
     "add-live-domain":{
         "publishDomain":"",
-        "playDomain":"",
-        "region":""
+        "playDomain":""
     },
     "start-live-domain":{
         "publishDomain":""
@@ -96,6 +100,19 @@
     },
     "delete-live-stream-record-notify-config":{
         "publishDomain":""
+    },
+    "add-live-record-task":{
+        "recordTimes":[{
+            "startTime":"",
+            "endTime":""
+        }],
+        "saveBucket":"",
+        "saveEndpoint":"",
+        "recordFileType":"",
+        "saveObject":"",
+        "publishDomain":"",
+        "appName":"",
+        "streamName":""
     },
     "add-custom-live-stream-snapshot-template":{
         "format":"",
@@ -177,6 +194,21 @@
     "delete-live-stream-notify-config":{
         "publishDomain":""
     },
+    "describe-live-stream-online-list":{
+        "pageNum":"",
+        "pageSize":"",
+        "appName":"",
+        "publishDomain":""
+    },
+    "describe-live-stream-publish-list":{
+        "pageNum":"",
+        "pageSize":"",
+        "appName":"",
+        "streamName":"",
+        "startTime":"",
+        "endTime":"",
+        "publishDomain":""
+    },
     "add-live-stream-domain-transcode":{
         "publishDomain":"",
         "template":""
@@ -198,7 +230,7 @@
         "audioChannel":"",
         "audioCodeRate":""
     },
-    "describe-custom-live-stream-transcodes":{
+    "describe-custom-live-stream-transcode-templates":{
         "pageNum":"",
         "pageSize":"",
         "filters":[{
@@ -225,7 +257,7 @@
         "appName":"",
         "template":""
     },
-    "describe-custom-live-stream-transcode":{
+    "describe-custom-live-stream-transcode-template":{
         "template":""
     },
     "delete-custom-live-stream-transcode-template":{

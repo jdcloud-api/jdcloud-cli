@@ -45,7 +45,7 @@ def collect_user_headers(app):
         if not isinstance(obj, dict):
             raise yaml.YAMLError
     except yaml.YAMLError:
-        print 'user headers is not dict'
+        print('user headers is not dict')
         exit(1)
 
     return obj
@@ -69,7 +69,7 @@ def _get_input_args(pargs_dict):
             else:
                 result[key] = pargs_dict[key]
         except Exception:
-            print 'Parameter %s is invalid!' % key
+            print('Parameter %s is invalid!' % key)
             sys.exit(1)
     return result
 

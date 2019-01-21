@@ -15,17 +15,18 @@
 # limitations under the License.
 
 import json
+from jdcloud_cli.utils import encode
 
 
 class Printer(object):
 
     @staticmethod
     def print_result(resp):
-        print json.dumps(resp.__dict__, cls=ErrorEncoder, indent=4, ensure_ascii=False).encode("utf8")
+        print(encode(json.dumps(resp.__dict__, cls=ErrorEncoder, indent=4, ensure_ascii=False)))
 
     @staticmethod
     def print_text(info):
-        print info
+        print(info)
 
 
 class ErrorEncoder(json.JSONEncoder):

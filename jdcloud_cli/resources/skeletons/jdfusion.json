@@ -4,14 +4,12 @@
         "regionId":""
     },
     "regist-cloud-info":{
-        "body":{
-            "cloud":{
-                "id":"",
-                "name":"",
-                "vendor":"",
-                "info":"",
-                "metadata":""
-            }
+        "cloud":{
+            "id":"",
+            "name":"",
+            "vendor":"",
+            "info":"",
+            "metadata":""
         },
         "regionId":""
     },
@@ -23,25 +21,162 @@
         "regionId":"",
         "cloudId":""
     },
+    "get-deployments":{
+        "regionId":""
+    },
+    "create-deployment":{
+        "deployment":{
+            "info":{
+                "cloudId":"",
+                "version":"",
+                "readOnly":"",
+                "id":"",
+                "name":"",
+                "description":"",
+                "userId":"",
+                "createdTime":"",
+                "updatedTime":""
+            },
+            "content":{
+                "vms":"",
+                "eips":"",
+                "subnets":"",
+                "networkInterfaces":"",
+                "slbs":"",
+                "securityGroups":"",
+                "keypairs":"",
+                "disks":"",
+                "vpcs":"",
+                "vserverGroups":"",
+                "httpListeners":"",
+                "diskAttachment":"",
+                "netInterfaceAttachment":"",
+                "eipAssociate":"",
+                "variables":""
+            }
+        },
+        "regionId":""
+    },
+    "reverse-deployment":{
+        "reverse":{
+            "name":"",
+            "description":"",
+            "version":"",
+            "readOnly":"",
+            "resources":{
+                "vmIds":"",
+                "eipIds":"",
+                "subnetIds":"",
+                "networkInterfaceIds":"",
+                "slbIds":"",
+                "securityGroupIds":"",
+                "keypairIds":"",
+                "diskIds":"",
+                "vpcIds":"",
+                "vserverGroupIds":"",
+                "httpListenerIds":"",
+                "diskAttachmentIds":"",
+                "netInterfaceAttachmentIds":"",
+                "eipAssociateIds":""
+            }
+        },
+        "regionId":""
+    },
+    "get-deployments-by-id":{
+        "regionId":"",
+        "id":""
+    },
+    "edit-deployment":{
+        "deployment":{
+            "info":{
+                "cloudId":"",
+                "version":"",
+                "readOnly":"",
+                "id":"",
+                "name":"",
+                "description":"",
+                "userId":"",
+                "createdTime":"",
+                "updatedTime":""
+            },
+            "content":{
+                "vms":"",
+                "eips":"",
+                "subnets":"",
+                "networkInterfaces":"",
+                "slbs":"",
+                "securityGroups":"",
+                "keypairs":"",
+                "disks":"",
+                "vpcs":"",
+                "vserverGroups":"",
+                "httpListeners":"",
+                "diskAttachment":"",
+                "netInterfaceAttachment":"",
+                "eipAssociate":"",
+                "variables":""
+            }
+        },
+        "regionId":"",
+        "id":""
+    },
+    "delete-deployment":{
+        "regionId":"",
+        "id":""
+    },
+    "clone-deployment":{
+        "deployment":{
+            "name":""
+        },
+        "regionId":"",
+        "id":""
+    },
+    "dryrun-deployment":{
+        "regionId":"",
+        "id":""
+    },
+    "apply-deployment":{
+        "apply":{
+            "comment":""
+        },
+        "regionId":"",
+        "id":""
+    },
+    "get-deployment-result":{
+        "regionId":"",
+        "id":""
+    },
+    "get-deployment-versions":{
+        "regionId":"",
+        "id":""
+    },
+    "get-deployments-version":{
+        "regionId":"",
+        "id":"",
+        "version_id":""
+    },
+    "rollback-deployments-version":{
+        "regionId":"",
+        "id":"",
+        "version_id":""
+    },
     "get-disks":{
         "regionId":""
     },
     "create-disk":{
-        "body":{
-            "disk":{
-                "cloudID":"",
-                "id":"",
-                "name":"",
-                "description":"",
-                "diskSizeGB":"",
-                "attachments":[""],
-                "az":"",
-                "diskType":"",
-                "snapshotId":"",
-                "status":"",
-                "tags":[""],
-                "createdTime":""
-            }
+        "disk":{
+            "cloudID":"",
+            "id":"",
+            "name":"",
+            "description":"",
+            "diskSizeGB":"",
+            "attachments":[""],
+            "az":"",
+            "diskType":"",
+            "snapshotId":"",
+            "status":"",
+            "tags":[""],
+            "createdTime":""
         },
         "regionId":""
     },
@@ -54,21 +189,279 @@
         "id":""
     },
     "attach-disk-to-vm-instance-by-disk-id":{
-        "body":{
-            "attach":{
-                "instanceId":"",
-                "deleteWithInstance":""
-            }
+        "attach":{
+            "instanceId":"",
+            "deleteWithInstance":""
         },
         "regionId":"",
         "id":""
     },
     "detach-disk-to-vm-instance-by-disk-id":{
-        "body":{
-            "detach":{
-                "instanceId":""
+        "detach":{
+            "instanceId":""
+        },
+        "regionId":"",
+        "id":""
+    },
+    "get-buckets":{
+        "regionId":""
+    },
+    "create-bucket":{
+        "bucket":{
+            "name":"",
+            "creationDate":"",
+            "cloudID":"",
+            "acl":""
+        },
+        "regionId":""
+    },
+    "get-bucket-by-name":{
+        "regionId":"",
+        "name":""
+    },
+    "delete-bucket":{
+        "regionId":"",
+        "name":""
+    },
+    "get-bucket-files":{
+        "marker":"",
+        "regionId":"",
+        "name":""
+    },
+    "get-transfer-tasks":{
+        "regionId":""
+    },
+    "create-transfer-task":{
+        "task":{
+            "name":"",
+            "srcAddress":{
+                "storageType":"",
+                "accessKey":"",
+                "secretKey":"",
+                "endpoint":"",
+                "bucket":"",
+                "prefix":""
+            },
+            "dstAddress":{
+                "storageType":"",
+                "accessKey":"",
+                "secretKey":"",
+                "endpoint":"",
+                "bucket":"",
+                "prefix":""
             }
         },
+        "regionId":""
+    },
+    "get-transfer-task-by-id":{
+        "regionId":"",
+        "id":""
+    },
+    "edit-transfer-task":{
+        "task":{
+            "name":"",
+            "srcAddress":{
+                "storageType":"",
+                "accessKey":"",
+                "secretKey":"",
+                "endpoint":"",
+                "bucket":"",
+                "prefix":""
+            },
+            "dstAddress":{
+                "storageType":"",
+                "accessKey":"",
+                "secretKey":"",
+                "endpoint":"",
+                "bucket":"",
+                "prefix":""
+            }
+        },
+        "regionId":"",
+        "id":""
+    },
+    "delete-transfer-task":{
+        "regionId":"",
+        "id":""
+    },
+    "start-transfer-task":{
+        "regionId":"",
+        "id":""
+    },
+    "stop-transfer-task":{
+        "regionId":"",
+        "id":""
+    },
+    "get-transfer-task-progress":{
+        "regionId":"",
+        "id":""
+    },
+    "get-transfer-task-failed-files":{
+        "regionId":"",
+        "id":""
+    },
+    "get-rds-accounts-by-inst-id":{
+        "regionId":"",
+        "instId":""
+    },
+    "create-rds-accounts":{
+        "account":{
+            "name":"",
+            "password":""
+        },
+        "regionId":"",
+        "instId":""
+    },
+    "get-rds-accounts-by-inst-id-and-account-name":{
+        "regionId":"",
+        "instId":"",
+        "accountName":""
+    },
+    "delete-rds-account":{
+        "regionId":"",
+        "instId":"",
+        "accountName":""
+    },
+    "grant-rds-account":{
+        "dbPrivilegeInfo":{
+            "dbName":"",
+            "privilege":""
+        },
+        "regionId":"",
+        "instId":"",
+        "accountName":""
+    },
+    "revoke-rds-account":{
+        "regionId":"",
+        "instId":"",
+        "accountName":"",
+        "dbName":""
+    },
+    "get-rds-databases-by-inst-id":{
+        "regionId":"",
+        "instId":""
+    },
+    "create-rds-database":{
+        "database":{
+            "name":"",
+            "characterSetName":""
+        },
+        "regionId":"",
+        "instId":""
+    },
+    "get-rds-database-by-inst-id-and-db-name":{
+        "regionId":"",
+        "instId":"",
+        "dbName":""
+    },
+    "delete-rds-database":{
+        "regionId":"",
+        "instId":"",
+        "dbName":""
+    },
+    "get-rds-instances":{
+        "regionId":""
+    },
+    "create-rds-instance":{
+        "instance":{
+            "id":"",
+            "name":"",
+            "payType":"",
+            "azs":"",
+            "engine":"",
+            "status":"",
+            "instanceType":"",
+            "cloudID":"",
+            "engineVersion":"",
+            "instanceClass":"",
+            "storageGB":"",
+            "vpcId":"",
+            "subnetId":""
+        },
+        "regionId":""
+    },
+    "get-rds-by-inst-id":{
+        "regionId":"",
+        "instId":""
+    },
+    "delete-rds-by-inst-id":{
+        "regionId":"",
+        "instId":""
+    },
+    "get-channels":{
+        "regionId":""
+    },
+    "create-channel":{
+        "channel":{
+            "info":{
+                "id":"",
+                "name":"",
+                "description":"",
+                "status":""
+            },
+            "source":{
+                "cloud":{
+                    "cloudId":"",
+                    "rdsId":"",
+                    "username":"",
+                    "password":""
+                },
+                "datasource":{
+                    "id":"",
+                    "address":"",
+                    "port":"",
+                    "username":"",
+                    "password":""
+                },
+                "schema":"",
+                "tables":""
+            },
+            "target":{
+                "cloud":{
+                    "cloudId":"",
+                    "rdsId":"",
+                    "username":"",
+                    "password":""
+                },
+                "datasource":{
+                    "id":"",
+                    "address":"",
+                    "port":"",
+                    "username":"",
+                    "password":""
+                },
+                "schema":"",
+                "tables":""
+            }
+        },
+        "regionId":""
+    },
+    "delete-channel":{
+        "regionId":"",
+        "id":""
+    },
+    "start-channel":{
+        "regionId":"",
+        "id":""
+    },
+    "stop-channel":{
+        "regionId":"",
+        "id":""
+    },
+    "get-datasources":{
+        "regionId":""
+    },
+    "create-datasource":{
+        "datasource":{
+            "id":"",
+            "address":"",
+            "port":"",
+            "username":"",
+            "password":""
+        },
+        "regionId":""
+    },
+    "delete-datasource":{
         "regionId":"",
         "id":""
     },
@@ -97,52 +490,50 @@
         "regionId":""
     },
     "create-vm-instance":{
-        "body":{
-            "vms":{
+        "vm":{
+            "id":"",
+            "region":"",
+            "az":"",
+            "name":"",
+            "hostName":"",
+            "imageType":{
                 "id":"",
-                "region":"",
-                "az":"",
+                "desc":"",
+                "imageSource":"",
                 "name":"",
-                "hostName":"",
-                "imageType":{
-                    "id":"",
-                    "desc":"",
-                    "imageSource":"",
-                    "name":"",
-                    "osType":"",
-                    "osVersion":"",
-                    "platform":"",
-                    "region":"",
-                    "cloudID":""
-                },
-                "instanceType":{
-                    "name":"",
-                    "cpu":"",
-                    "memory":""
-                },
-                "description":"",
-                "subnetId":"",
-                "tags":[""],
-                "cloudID":"",
-                "keyNames":"",
-                "elasticIpAddress":"",
-                "privateIpAddress":"",
-                "status":"",
-                "createdTime":"",
-                "imageId":"",
-                "instanceFlavorType":"",
-                "securityGroupId":"",
-                "internetMaxBandwidthIn":"",
-                "internetMaxBandwidthOut":"",
-                "password":"",
-                "passwordInherit":"",
-                "userData":"",
-                "keyPairName":"",
-                "systemDisk":{
-                    "category":"",
-                    "diskSize":"",
-                    "description":""
-                }
+                "osType":"",
+                "osVersion":"",
+                "platform":"",
+                "region":"",
+                "cloudID":""
+            },
+            "instanceType":{
+                "name":"",
+                "cpu":"",
+                "memory":""
+            },
+            "description":"",
+            "subnetId":"",
+            "tags":[""],
+            "cloudID":"",
+            "keyNames":"",
+            "elasticIpAddress":"",
+            "privateIpAddress":"",
+            "status":"",
+            "createdTime":"",
+            "imageId":"",
+            "instanceFlavorType":"",
+            "securityGroupId":"",
+            "internetMaxBandwidthIn":"",
+            "internetMaxBandwidthOut":"",
+            "password":"",
+            "passwordInherit":"",
+            "userData":"",
+            "keyPairName":"",
+            "systemDisk":{
+                "category":"",
+                "diskSize":"",
+                "description":""
             }
         },
         "regionId":""
@@ -174,13 +565,11 @@
         "regionId":""
     },
     "create-vm-keypair":{
-        "body":{
-            "keypair":{
-                "name":"",
-                "keyFingerprint":"",
-                "cloudID":"",
-                "publicKey":""
-            }
+        "keypair":{
+            "name":"",
+            "keyFingerprint":"",
+            "cloudID":"",
+            "publicKey":""
         },
         "regionId":""
     },
@@ -188,12 +577,10 @@
         "regionId":""
     },
     "create-vpc-eip":{
-        "body":{
-            "allocate":{
-                "name":"",
-                "bandwidth":"",
-                "provider":""
-            }
+        "allocate":{
+            "name":"",
+            "bandwidth":"",
+            "provider":""
         },
         "regionId":""
     },
@@ -206,41 +593,35 @@
         "id":""
     },
     "associate-vpc-eip-by-id":{
-        "body":{
-            "associate":{
-                "instanceId":"",
-                "instanceType":""
-            }
+        "associate":{
+            "instanceId":"",
+            "instanceType":""
         },
         "regionId":"",
         "id":""
     },
     "disassociate-vpc-eip-by-id":{
-        "body":{
-            "unassociate":{
-                "instanceId":"",
-                "instanceType":"",
-                "force":""
-            }
+        "unassociate":{
+            "instanceId":"",
+            "instanceType":"",
+            "force":""
         },
         "regionId":"",
         "id":""
     },
     "create-vpc-lbhttp-listener":{
-        "body":{
-            "httpListener":{
-                "loadBalancerId":"",
-                "listenerPort":"",
-                "backendServerPort":"",
-                "vserverGroupId":"",
-                "bandwidth":"",
-                "healthCheckConnectPort":"",
-                "healthyThreshold":"",
-                "unhealthyThreshold":"",
-                "healthCheckTimeout":"",
-                "healthCheckInterval":"",
-                "healthCheckHttpCode":""
-            }
+        "httpListener":{
+            "loadBalancerId":"",
+            "listenerPort":"",
+            "backendServerPort":"",
+            "vserverGroupId":"",
+            "bandwidth":"",
+            "healthCheckConnectPort":"",
+            "healthyThreshold":"",
+            "unhealthyThreshold":"",
+            "healthCheckTimeout":"",
+            "healthCheckInterval":"",
+            "healthCheckHttpCode":""
         },
         "regionId":""
     },
@@ -256,40 +637,34 @@
         "regionId":""
     },
     "create-vpc-network-interface":{
-        "body":{
-            "netInterface":{
-                "id":"",
-                "name":"",
-                "description":"",
-                "vpcId":"",
-                "type":"",
-                "subnetId":"",
-                "az":"",
-                "associatedPublicIp":"",
-                "privateIpAddress":"",
-                "macAddress":"",
-                "instanceId":"",
-                "createdTime":"",
-                "cloudID":"",
-                "securityGroupId":""
-            }
+        "netInterface":{
+            "id":"",
+            "name":"",
+            "description":"",
+            "vpcId":"",
+            "type":"",
+            "subnetId":"",
+            "az":"",
+            "associatedPublicIp":"",
+            "privateIpAddress":"",
+            "macAddress":"",
+            "instanceId":"",
+            "createdTime":"",
+            "cloudID":"",
+            "securityGroupId":""
         },
         "regionId":""
     },
     "attach-vpc-network-interface-by-id":{
-        "body":{
-            "attach":{
-                "instanceId":""
-            }
+        "attach":{
+            "instanceId":""
         },
         "regionId":"",
         "id":""
     },
     "detach-vpc-network-interface-by-id":{
-        "body":{
-            "detach":{
-                "instanceId":""
-            }
+        "detach":{
+            "instanceId":""
         },
         "regionId":"",
         "id":""
@@ -306,15 +681,13 @@
         "regionId":""
     },
     "create-vpc-security-group":{
-        "body":{
-            "securityGroup":{
-                "cloudID":"",
-                "id":"",
-                "name":"",
-                "description":"",
-                "vpcId":"",
-                "createdTime":""
-            }
+        "securityGroup":{
+            "cloudID":"",
+            "id":"",
+            "name":"",
+            "description":"",
+            "vpcId":"",
+            "createdTime":""
         },
         "regionId":""
     },
@@ -330,22 +703,18 @@
         "regionId":""
     },
     "create-vpc-slb":{
-        "body":{
-            "slb":{
-                "cloudID":"",
-                "id":"",
-                "name":"",
-                "status":"",
-                "ipAddress":"",
-                "addressType":"",
-                "subnetId":"",
-                "vpc":"",
-                "networkType":"",
-                "masterAz":"",
-                "slaveAz":"",
-                "createdTime":"",
-                "loadBalancerSpec":""
-            }
+        "slb":{
+            "cloudID":"",
+            "id":"",
+            "name":"",
+            "status":"",
+            "ipAddress":"",
+            "addressType":"",
+            "subnetId":"",
+            "vpc":"",
+            "networkType":"",
+            "azs":"",
+            "createdTime":""
         },
         "regionId":""
     },
@@ -361,17 +730,15 @@
         "regionId":""
     },
     "create-vpc-subnet":{
-        "body":{
-            "subnet":{
-                "id":"",
-                "name":"",
-                "vpcId":"",
-                "cidrBlock":"",
-                "description":"",
-                "az":"",
-                "createdTime":"",
-                "cloudID":""
-            }
+        "subnet":{
+            "id":"",
+            "name":"",
+            "vpcId":"",
+            "cidrBlock":"",
+            "description":"",
+            "az":"",
+            "createdTime":"",
+            "cloudID":""
         },
         "regionId":""
     },
@@ -387,17 +754,13 @@
         "regionId":""
     },
     "create-vpc":{
-        "body":{
-            "vpc":{
-                "id":"",
-                "name":"",
-                "addressPrefix":"",
-                "description":"",
-                "createdTime":"",
-                "cloudID":"",
-                "cidrBlock":"",
-                "userCidr":""
-            }
+        "vpc":{
+            "id":"",
+            "name":"",
+            "cidrBlock":"",
+            "description":"",
+            "createdTime":"",
+            "cloudID":""
         },
         "regionId":""
     },
@@ -406,12 +769,10 @@
         "regionId":""
     },
     "create-vpc-vserver-group":{
-        "body":{
-            "vserverGroup":{
-                "loadBalancerId":"",
-                "vserverGroupName":"",
-                "backendServers":[""]
-            }
+        "vserverGroup":{
+            "loadBalancerId":"",
+            "vserverGroupName":"",
+            "backendServers":[""]
         },
         "regionId":""
     },

@@ -55,9 +55,9 @@ class WebsocketWin(WebsocketBase):
                 x = msvcrt.getch()
                 shell.send_binary(x)
         except websocket.WebSocketConnectionClosedException as e:
-            print e.message
+            print(e.message)
         except websocket.WebSocketException as e:
-            print e.message
+            print(e.message)
 
 
 def show_response(shell):
@@ -72,6 +72,6 @@ def show_response(shell):
                 sys.stdout.write(data)
                 sys.stdout.flush()
     except websocket.WebSocketConnectionClosedException as e:
-        print e.message
+        print(e.message)
     except websocket.WebSocketException as e:
-        print e.message
+        print(e.message)
