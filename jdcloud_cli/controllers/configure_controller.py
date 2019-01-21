@@ -19,6 +19,7 @@ from getpass import getpass
 from cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.config import Config, ProfileManager
+from jdcloud_cli.utils import cmd_input
 
 
 class ConfigureController(BaseController):
@@ -62,17 +63,17 @@ class ConfigureController(BaseController):
         profile = self.app.pargs.profile
 
         if access_key is None:
-            access_key = raw_input("Please input your access-key:")
+            access_key = cmd_input("Please input your access-key:")
 
         if access_key == '':
-            print 'access-key is required.'
+            print('access-key is required.')
             exit(1)
 
         if secret_key is None:
             secret_key = getpass("Please input your secret-key:")
 
         if secret_key == '':
-            print 'secret-key is required.'
+            print('secret-key is required.')
             exit(1)
 
         profile_manager = ProfileManager()
@@ -80,9 +81,9 @@ class ConfigureController(BaseController):
                                                   Config(access_key, secret_key, region_id, endpoint, scheme, timeout))
         if result:
             profile_manager.set_current_profile(profile)
-            print 'Configure successfully!'
+            print('Configure successfully!')
         else:
-            print msg
+            print(msg)
 
     @expose(
         arguments=[
@@ -99,9 +100,9 @@ class ConfigureController(BaseController):
         profile_manager = ProfileManager()
         result, msg = profile_manager.delete_profile(self.app.pargs.profile)
         if result:
-            print 'Configure successfully!'
+            print('Configure successfully!')
         else:
-            print msg
+            print(msg)
 
     @expose(
         arguments=[
@@ -118,9 +119,9 @@ class ConfigureController(BaseController):
         profile_manager = ProfileManager()
         result, msg = profile_manager.set_current_profile(self.app.pargs.profile)
         if result:
-            print 'Configure successfully!'
+            print('Configure successfully!')
         else:
-            print msg
+            print(msg)
 
     @expose(
         formatter_class=RawTextHelpFormatter,
@@ -151,6 +152,6 @@ class ConfigureController(BaseController):
     def _print_profiles(self, profiles):
         for profile in profiles.keys():
             items = profiles[profile]
-            print '================= %s ================' % profile
+            print('================= %s ================' % profile)
             for item in items:
-                print '%s:  \t%s' % (item[0], item[1])
+                print('%s:  \t%s' % (item[0], item[1]))

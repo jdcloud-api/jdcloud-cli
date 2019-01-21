@@ -113,8 +113,8 @@ class DiskTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_modify_snp_attribute(self):
-        cmd = """python ../../main.py disk modify-snp-attribute  --snapshot-id 'xxx'"""
+    def test_modify_snapshot_attribute(self):
+        cmd = """python ../../main.py disk modify-snapshot-attribute  --snapshot-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

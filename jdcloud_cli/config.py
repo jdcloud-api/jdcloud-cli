@@ -53,7 +53,7 @@ class ProfileManager(object):
 
     def load_current_profile(self):
         if self.__current_profile_name not in self.__parser.sections():
-            print 'Please use `jdc configure add` command to add cli configure first.'
+            print('Please use `jdc configure add` command to add cli configure first.')
             return None
 
         # notice that the type of config info which read from file is unicode
@@ -114,7 +114,7 @@ class ProfileManager(object):
                 f.write(name)
             self.__current_profile_name = name
         except Exception as e:
-            return False, e.message
+            return False, e
         return True, ''
 
     def __write_config_file(self):
@@ -122,7 +122,7 @@ class ProfileManager(object):
             with open(self.__config_file, 'w+') as f:
                 self.__parser.write(f)
         except Exception as e:
-            return False, e.message
+            return False, e
         return True, ''
 
     def __make_config_dir(self):

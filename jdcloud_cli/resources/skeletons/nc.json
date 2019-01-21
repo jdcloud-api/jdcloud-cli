@@ -39,7 +39,9 @@
                         "chargeMode":"",
                         "chargeUnit":"",
                         "chargeDuration":""
-                    }
+                    },
+                    "multiAttachable":"",
+                    "encrypt":""
                 },
                 "cloudDiskId":"",
                 "fsType":"",

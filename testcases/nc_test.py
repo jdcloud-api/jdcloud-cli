@@ -14,7 +14,7 @@ class NcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
         self.assertIn('totalCount', result)
@@ -28,7 +28,7 @@ class NcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
         self.assertIn('totalCount', result)
@@ -39,7 +39,7 @@ class NcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
         self.assertIn('container', result)
@@ -83,7 +83,7 @@ class NcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
         self.assertIn('containerIds', result)
@@ -95,7 +95,7 @@ class NcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
         self.assertIn('containerIds', result)
@@ -138,7 +138,7 @@ class NcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
         self.assertIn('containerIds', result)
@@ -149,7 +149,7 @@ class NcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
         return result['error'] is None
@@ -159,7 +159,7 @@ class NcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
         return result['error'] is None
@@ -169,7 +169,7 @@ class NcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         self.assertIsInstance(result, dict)
         return result['error'] is None
@@ -180,7 +180,7 @@ class NcTest(unittest.TestCase):
         with os.popen(cmd) as f:
             content = f.read()
 
-        print content
+        print(content)
         result = json.loads(content)
         if isinstance(result, dict) and result['execId']:
             return True
@@ -191,7 +191,7 @@ class NcTest(unittest.TestCase):
         try_count = count
         result = False
         while try_count > 0:
-            print 'try_count=', try_count
+            print('try_count=', try_count)
             time.sleep(wait)
             result = func(args)
             if result:

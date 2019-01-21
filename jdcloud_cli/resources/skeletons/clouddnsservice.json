@@ -115,22 +115,6 @@
         }],
         "regionId":""
     },
-    "set-lb":{
-        "idWeights":[{
-            "id":"",
-            "weight":""
-        }],
-        "type":"",
-        "regionId":"",
-        "domainId":""
-    },
-    "get-lb":{
-        "type":"",
-        "pageNumber":"",
-        "pageSize":"",
-        "regionId":"",
-        "domainId":""
-    },
     "add-user-view":{
         "req":{
             "domainId":"",

@@ -38,7 +38,7 @@ class JsonStringParser(InputJsonParser):
         try:
             return yaml.load(self.input_json)
         except yaml.YAMLError:
-            print 'Json is invalid!'
+            print('Json is invalid!')
             sys.exit(1)
 
 
@@ -54,10 +54,10 @@ class JsonFileParser(InputJsonParser):
                 content = f.read()
             return yaml.load(content)
         except IOError:
-            print 'File is not accessible!'
+            print('File is not accessible!')
             sys.exit(1)
         except yaml.YAMLError:
-            print 'Json is invalid!'
+            print('Json is invalid!')
             sys.exit(1)
 
 

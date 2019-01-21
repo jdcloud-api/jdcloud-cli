@@ -43,18 +43,21 @@ class MonitorController(BaseController):
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
             (['--service-code'], dict(help="""(string) 产品线 """, dest='serviceCode',  required=False)),
             (['--resource-id'], dict(help="""(string) 资源Id """, dest='resourceId',  required=False)),
+            (['--resource-id-list'], dict(help="""(array: string) resourceId列表 """, dest='resourceIdList',  required=False)),
             (['--alarm-id'], dict(help="""(string) 规则Id """, dest='alarmId',  required=False)),
             (['--alarming'], dict(help="""(int) 正在报警, 取值为1 """, dest='alarming', type=int, required=False)),
+            (['--service-code-list'], dict(help="""(array: string) 产品线列表 """, dest='serviceCodeList',  required=False)),
             (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=False)),
+            (['--rule-type'], dict(help="""(int) 规则类型,默认查询1， 1表示资源监控，6表示站点监控,7表示可用性监控 """, dest='ruleType', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) 服务码或资源Id列表; filter name 为serviceCodes表示查询多个产品线的规则; filter name 为resourceIds表示查询多个资源的规则 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询报警历史; 检索条件组合优先级从高到低为; 1. serviceCode; 1.1 serviceCode + resourceId; 1.2 serviceCode + resourceIds; 2. serviceCodes; 3. 用户所有规则 ''',
+        help=''' 查询报警历史; 检索条件组合优先级从高到低为; 1. alarmId; 2. serviceCode; 2.1 serviceCode + resourceId; 2.2 serviceCode + resourceIds; 3. serviceCodes; 4. 用户所有规则 ''',
         description='''
-            查询报警历史; 检索条件组合优先级从高到低为; 1. serviceCode; 1.1 serviceCode + resourceId; 1.2 serviceCode + resourceIds; 2. serviceCodes; 3. 用户所有规则。
+            查询报警历史; 检索条件组合优先级从高到低为; 1. alarmId; 2. serviceCode; 2.1 serviceCode + resourceId; 2.2 serviceCode + resourceIds; 3. serviceCodes; 4. 用户所有规则。
 
             示例: jdc monitor describe-alarm-history 
         ''',
@@ -83,7 +86,7 @@ class MonitorController(BaseController):
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
             (['--service-code'], dict(help="""(string) 产品名称 """, dest='serviceCode',  required=False)),
-            (['--resource-id'], dict(help="""(string) 资源ID """, dest='resourceID',  required=False)),
+            (['--resource-id'], dict(help="""(string) 资源ID """, dest='resourceId',  required=False)),
             (['--rule-type'], dict(help="""(int) 规则类型, 1表示资源监控，6表示站点监控,7表示可用性监控 """, dest='ruleType', type=int, required=False)),
             (['--status'], dict(help="""(int) 规则报警状态, 1：正常, 2：报警，4：数据不足 """, dest='status', type=int, required=False)),
             (['--enabled'], dict(help="""(int) 规则状态：1为启用，0为禁用 """, dest='enabled', type=int, required=False)),
@@ -94,9 +97,9 @@ class MonitorController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询规则, 查询参数组合及优先级从高到低为：; 1：serviceCode不为空; 1.1：serviceCode + resourceId; 1.2: serviceCode + resourceIds; 2：serviceCodes不为空; 3: 所有规则 ''',
+        help=''' 查询规则, 查询参数组合及优先级从高到低为：; 1：alarmId不为空; 2：serviceCode不为空; 2.1：serviceCode + resourceId; 2.2: serviceCode + resourceIds; 3：serviceCodes不为空; 4: 所有规则 ''',
         description='''
-            查询规则, 查询参数组合及优先级从高到低为：; 1：serviceCode不为空; 1.1：serviceCode + resourceId; 1.2: serviceCode + resourceIds; 2：serviceCodes不为空; 3: 所有规则。
+            查询规则, 查询参数组合及优先级从高到低为：; 1：alarmId不为空; 2：serviceCode不为空; 2.1：serviceCode + resourceId; 2.2: serviceCode + resourceIds; 3：serviceCodes不为空; 4: 所有规则。
 
             示例: jdc monitor describe-alarms 
         ''',
@@ -333,18 +336,21 @@ class MonitorController(BaseController):
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
             (['--service-code'], dict(help="""(string) 产品线 """, dest='serviceCode',  required=False)),
             (['--resource-id'], dict(help="""(string) 资源Id """, dest='resourceId',  required=False)),
+            (['--resource-id-list'], dict(help="""(array: string) resourceId列表 """, dest='resourceIdList',  required=False)),
             (['--alarm-id'], dict(help="""(string) 规则Id """, dest='alarmId',  required=False)),
             (['--alarming'], dict(help="""(int) 正在报警, 取值为1 """, dest='alarming', type=int, required=False)),
+            (['--service-code-list'], dict(help="""(array: string) 产品线列表 """, dest='serviceCodeList',  required=False)),
             (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=False)),
+            (['--rule-type'], dict(help="""(int) 规则类型,默认查询1， 1表示资源监控，6表示站点监控,7表示可用性监控 """, dest='ruleType', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) 服务码或资源Id列表; filter name 为serviceCodes表示查询多个产品线的规则; filter name 为resourceIds表示查询多个资源的规则 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询报警历史; 检索条件组合优先级从高到低为; 1. serviceCode; 1.1 serviceCode + resourceId; 1.2 serviceCode + resourceIds; 2. serviceCodes; 3. 用户所有规则 ''',
+        help=''' 查询报警历史; 检索条件组合优先级从高到低为; 1. alarmId; 2. serviceCode; 2.1 serviceCode + resourceId; 2.2 serviceCode + resourceIds; 3. serviceCodes; 4. 用户所有规则 ''',
         description='''
-            查询报警历史; 检索条件组合优先级从高到低为; 1. serviceCode; 1.1 serviceCode + resourceId; 1.2 serviceCode + resourceIds; 2. serviceCodes; 3. 用户所有规则。
+            查询报警历史; 检索条件组合优先级从高到低为; 1. alarmId; 2. serviceCode; 2.1 serviceCode + resourceId; 2.2 serviceCode + resourceIds; 3. serviceCodes; 4. 用户所有规则。
 
             示例: jdc monitor describe-alarm-history-all-region 
         ''',
@@ -393,47 +399,6 @@ class MonitorController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DeleteAlarmsCmRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e.message)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--namespace'], dict(help="""(string) namespace """, dest='namespace',  required=True)),
-            (['--metric'], dict(help="""(string) 监控项英文标识(id)，监控项名称 """, dest='metric',  required=True)),
-            (['--aggr-type'], dict(help="""(string) 指标聚合方式，每个指标都有默认的聚合方式， 可选值包括：sum,avg.max.min；多个对象的数据如何合并(resourceId -> cluster) """, dest='aggrType',  required=False)),
-            (['--down-sample-type'], dict(help="""(string) 指标采样方式，默认avg， 可选值包括：sum,avg,max,min,last；同一对象的数据，在改变时间点粒度时如何合并(1m->20m) """, dest='downSampleType',  required=False)),
-            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ（默认为当前时间，早于30d时，将被重置为30d） """, dest='startTime',  required=False)),
-            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime',  required=False)),
-            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval 与 endTime 至少填一项 """, dest='timeInterval',  required=False)),
-            (['--tags'], dict(help="""(array: tagFilter) 自定义标签 """, dest='tags',  required=False)),
-            (['--group-by'], dict(help="""(bool) 是否对查询的tags分组 """, dest='groupBy',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询自定义监控项数据 ''',
-        description='''
-            查询自定义监控项数据。
-
-            示例: jdc monitor describe-cm-metric-data-by-tag-spec  --namespace xxx --metric xxx
-        ''',
-    )
-    def describe_cm_metric_data_by_tag_spec(self):
-        client_factory = ClientFactory('monitor')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.monitor.apis.DescribeCmMetricDataByTagSpecRequest import DescribeCmMetricDataByTagSpecRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeCmMetricDataByTagSpecRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -510,7 +475,7 @@ class MonitorController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
             (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=True)),
-            (['--resource-id'], dict(help="""(string) 资源的uuid，支持多个resourceId批量查询，每个id用|分隔。 如：id1|id2|id3|id4 """, dest='resourceId',  required=True)),
+            (['--resource-id'], dict(help="""(string) 资源的uuid，支持多个resourceId批量查询，每个id用竖线'|'分隔。 如：id1|id2|id3|id4 """, dest='resourceId',  required=True)),
             (['--tags'], dict(help="""(array: tagFilter) 自定义标签 """, dest='tags',  required=False)),
             (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ（默认为当前时间，早于30d时，将被重置为30d） """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime',  required=False)),
@@ -550,14 +515,16 @@ class MonitorController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
+            (['--aggr-type'], dict(help="""(string) 聚合方式，默认等于downSampleType或avg，可选值参考http://opentsdb.net/docs/build/html/user_guide/query/aggregators.html?highlight=zimsum#available-aggregators """, dest='aggrType',  required=False)),
+            (['--down-sample-type'], dict(help="""(string) 采样方式，默认等于aggrType或avg，可选值参考http://opentsdb.net/docs/build/html/user_guide/query/aggregators.html?highlight=avg#available-aggregators """, dest='downSampleType',  required=False)),
+            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime',  required=False)),
+            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval默认为1h，当前时间往 前1h """, dest='timeInterval',  required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) 自定义标签/tag；至少要传一个tag，且tag.Values不为空 """, dest='tags',  required=False)),
+            (['--group-by'], dict(help="""(bool) 是否对查询的tags分组 """, dest='groupBy',  required=False)),
+            (['--rate'], dict(help="""(bool) 是否求速率 """, dest='rate',  required=False)),
             (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=True)),
             (['--resource-id'], dict(help="""(string) 资源的uuid """, dest='resourceId',  required=True)),
-            (['--aggr-type'], dict(help="""(string) 指标聚合方式，每个指标都有默认的聚合方式， 可选值包括：sum,avg.max.min """, dest='aggrType',  required=False)),
-            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ（默认为当前时间，早于30d时，将被重置为30d） """, dest='startTime',  required=False)),
-            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime',  required=False)),
-            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval 与 endTime 至少填一项 """, dest='timeInterval',  required=False)),
-            (['--tags'], dict(help="""(array: tagFilter) 自定义标签 """, dest='tags',  required=False)),
-            (['--group-by'], dict(help="""(bool) 是否对查询的tags分组 """, dest='groupBy',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -621,7 +588,7 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-alarm-history','describe-alarms','create-alarm','describe-alarms-by-id','update-alarm','describe-alarm-contacts','disable-alarm','enable-alarm','describe-alarm-history-all-region','delete-alarms-cm','describe-cm-metric-data-by-tag-spec','describe-metrics','describe-metrics-for-create-alarm','last-downsample','describe-metric-data','put-metric-data',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-alarm-history','describe-alarms','create-alarm','describe-alarms-by-id','update-alarm','describe-alarm-contacts','disable-alarm','enable-alarm','describe-alarm-history-all-region','delete-alarms-cm','describe-metrics','describe-metrics-for-create-alarm','last-downsample','describe-metric-data','put-metric-data',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

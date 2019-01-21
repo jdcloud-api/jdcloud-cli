@@ -28,7 +28,7 @@ from jdcloud_cli.skeleton import Skeleton
 class JdfusionController(BaseController):
     class Meta:
         label = 'jdfusion'
-        help = 'JD Fusion'
+        help = 'JDFusion'
         description = '''
         jdfusion cli 子命令，云主机、网卡、云硬盘、网络与相关、关系型数据库、对象存储等相关的接口。
         OpenAPI文档地址为：https://docs.jdcloud.com/cn/jdfusion/api/overview
@@ -72,7 +72,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createCloudInfoReq) NA """, dest='body',  required=True)),
+            (['--cloud'], dict(help="""(cloudInfo) NA """, dest='cloud',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -81,7 +81,7 @@ class JdfusionController(BaseController):
         description='''
             为指定用户关联云。
 
-            示例: jdc jdfusion regist-cloud-info  --body {"":""}
+            示例: jdc jdfusion regist-cloud-info  --cloud {"":""}
         ''',
     )
     def regist_cloud_info(self):
@@ -175,6 +175,439 @@ class JdfusionController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
+        help=''' 查询部署信息列表 ''',
+        description='''
+            查询部署信息列表。
+
+            示例: jdc jdfusion get-deployments 
+        ''',
+    )
+    def get_deployments(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetDeploymentsRequest import GetDeploymentsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDeploymentsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--deployment'], dict(help="""(deploymentInfo) 创建deployment """, dest='deployment',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建部署信息 ''',
+        description='''
+            创建部署信息。
+
+            示例: jdc jdfusion create-deployment  --deployment {"":""}
+        ''',
+    )
+    def create_deployment(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.CreateDeploymentRequest import CreateDeploymentRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateDeploymentRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--reverse'], dict(help="""(reverseDeploymentInfo) 根据已有资源反向生成deployment """, dest='reverse',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据已有资源反向生成deployment ''',
+        description='''
+            根据已有资源反向生成deployment。
+
+            示例: jdc jdfusion reverse-deployment  --reverse {"":""}
+        ''',
+    )
+    def reverse_deployment(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.ReverseDeploymentRequest import ReverseDeploymentRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ReverseDeploymentRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) Deployment ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询部署信息 ''',
+        description='''
+            查询部署信息。
+
+            示例: jdc jdfusion get-deployments-by-id  --id xxx
+        ''',
+    )
+    def get_deployments_by_id(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetDeploymentsByIdRequest import GetDeploymentsByIdRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDeploymentsByIdRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) Deployment ID """, dest='id',  required=True)),
+            (['--deployment'], dict(help="""(deploymentInfo) 修改deployment """, dest='deployment',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改部署信息 ''',
+        description='''
+            修改部署信息。
+
+            示例: jdc jdfusion edit-deployment  --id xxx --deployment {"":""}
+        ''',
+    )
+    def edit_deployment(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.EditDeploymentRequest import EditDeploymentRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EditDeploymentRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) Deployment ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除部署信息 ''',
+        description='''
+            删除部署信息。
+
+            示例: jdc jdfusion delete-deployment  --id xxx
+        ''',
+    )
+    def delete_deployment(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.DeleteDeploymentRequest import DeleteDeploymentRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteDeploymentRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) Deployment ID """, dest='id',  required=True)),
+            (['--deployment'], dict(help="""(deployment) 创建deployment """, dest='deployment',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 克隆部署信息 ''',
+        description='''
+            克隆部署信息。
+
+            示例: jdc jdfusion clone-deployment  --id xxx --deployment {"":""}
+        ''',
+    )
+    def clone_deployment(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.CloneDeploymentRequest import CloneDeploymentRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CloneDeploymentRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) Deployment ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 预部署 ''',
+        description='''
+            预部署。
+
+            示例: jdc jdfusion dryrun-deployment  --id xxx
+        ''',
+    )
+    def dryrun_deployment(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.DryrunDeploymentRequest import DryrunDeploymentRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DryrunDeploymentRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) Deployment ID """, dest='id',  required=True)),
+            (['--apply'], dict(help="""(apply) 应用部署 """, dest='apply',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 应用部署 ''',
+        description='''
+            应用部署。
+
+            示例: jdc jdfusion apply-deployment  --id xxx --apply {"":""}
+        ''',
+    )
+    def apply_deployment(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.ApplyDeploymentRequest import ApplyDeploymentRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ApplyDeploymentRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) deployment ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询执行结果 ''',
+        description='''
+            查询执行结果。
+
+            示例: jdc jdfusion get-deployment-result  --id xxx
+        ''',
+    )
+    def get_deployment_result(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetDeploymentResultRequest import GetDeploymentResultRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDeploymentResultRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) Deployment ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询应用记录 ''',
+        description='''
+            查询应用记录。
+
+            示例: jdc jdfusion get-deployment-versions  --id xxx
+        ''',
+    )
+    def get_deployment_versions(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetDeploymentVersionsRequest import GetDeploymentVersionsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDeploymentVersionsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) deployment ID """, dest='id',  required=True)),
+            (['--version_id'], dict(help="""(string) application ID """, dest='version_id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询应用记录详细信息 ''',
+        description='''
+            查询应用记录详细信息。
+
+            示例: jdc jdfusion get-deployments-version  --id xxx --version_id xxx
+        ''',
+    )
+    def get_deployments_version(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetDeploymentsVersionRequest import GetDeploymentsVersionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDeploymentsVersionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) deployment ID """, dest='id',  required=True)),
+            (['--version_id'], dict(help="""(string) application ID """, dest='version_id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 应用部署回滚 ''',
+        description='''
+            应用部署回滚。
+
+            示例: jdc jdfusion rollback-deployments-version  --id xxx --version_id xxx
+        ''',
+    )
+    def rollback_deployments_version(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.RollbackDeploymentsVersionRequest import RollbackDeploymentsVersionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RollbackDeploymentsVersionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
         help=''' 根据云提供商查询对应的云硬盘资源信息 ''',
         description='''
             根据云提供商查询对应的云硬盘资源信息。
@@ -203,7 +636,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createDataDiskReq) 创建云硬盘 """, dest='body',  required=True)),
+            (['--disk'], dict(help="""(createDataDisk) 创建云硬盘 """, dest='disk',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -212,7 +645,7 @@ class JdfusionController(BaseController):
         description='''
             根据云提供商创建云硬盘。
 
-            示例: jdc jdfusion create-disk  --body {"":""}
+            示例: jdc jdfusion create-disk  --disk {"":""}
         ''',
     )
     def create_disk(self):
@@ -303,7 +736,7 @@ class JdfusionController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--id'], dict(help="""(string) 云硬盘 ID """, dest='id',  required=True)),
-            (['--body'], dict(help="""(attachDataDiskReq) 云硬盘挂载至虚拟机 """, dest='body',  required=True)),
+            (['--attach'], dict(help="""(attachDataDisk) 云硬盘挂载至虚拟机 """, dest='attach',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -312,7 +745,7 @@ class JdfusionController(BaseController):
         description='''
             云硬盘挂载至虚拟机。
 
-            示例: jdc jdfusion attach-disk-to-vm-instance-by-disk-id  --id xxx --body {"":""}
+            示例: jdc jdfusion attach-disk-to-vm-instance-by-disk-id  --id xxx --attach {"":""}
         ''',
     )
     def attach_disk_to_vm_instance_by_disk_id(self):
@@ -337,7 +770,7 @@ class JdfusionController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--id'], dict(help="""(string) 云硬盘 ID """, dest='id',  required=True)),
-            (['--body'], dict(help="""(detachDataDiskReq) 从虚拟机卸载云硬盘 """, dest='body',  required=True)),
+            (['--detach'], dict(help="""(detachDataDisk) 从虚拟机卸载云硬盘 """, dest='detach',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -346,7 +779,7 @@ class JdfusionController(BaseController):
         description='''
             从虚拟机卸载云硬盘。
 
-            示例: jdc jdfusion detach-disk-to-vm-instance-by-disk-id  --id xxx --body {"":""}
+            示例: jdc jdfusion detach-disk-to-vm-instance-by-disk-id  --id xxx --detach {"":""}
         ''',
     )
     def detach_disk_to_vm_instance_by_disk_id(self):
@@ -360,6 +793,1201 @@ class JdfusionController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DetachDiskToVmInstanceByDiskIdRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据云提供商查询对应的OSS存储桶列表 ''',
+        description='''
+            根据云提供商查询对应的OSS存储桶列表。
+
+            示例: jdc jdfusion get-buckets 
+        ''',
+    )
+    def get_buckets(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetBucketsRequest import GetBucketsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetBucketsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--bucket'], dict(help="""(createOSSBucket) 创建OSS存储桶 """, dest='bucket',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据给定的信息，创建OSS存储桶 ''',
+        description='''
+            根据给定的信息，创建OSS存储桶。
+
+            示例: jdc jdfusion create-bucket  --bucket {"":""}
+        ''',
+    )
+    def create_bucket(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.CreateBucketRequest import CreateBucketRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateBucketRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) OSS存储桶名称 """, dest='name',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据云提供商查询对应的OSS存储桶信息 ''',
+        description='''
+            根据云提供商查询对应的OSS存储桶信息。
+
+            示例: jdc jdfusion get-bucket-by-name  --name xxx
+        ''',
+    )
+    def get_bucket_by_name(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetBucketByNameRequest import GetBucketByNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetBucketByNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) OSS存储桶名称 """, dest='name',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除指定ID的OSS存储桶信息 ''',
+        description='''
+            删除指定ID的OSS存储桶信息。
+
+            示例: jdc jdfusion delete-bucket  --name xxx
+        ''',
+    )
+    def delete_bucket(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.DeleteBucketRequest import DeleteBucketRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteBucketRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) OSS存储桶名称 """, dest='name',  required=True)),
+            (['--marker'], dict(help="""(string) 本次查询的起点（文件key值） """, dest='marker',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据过滤条件，取得指定OSS存储桶上的文件列表 ''',
+        description='''
+            根据过滤条件，取得指定OSS存储桶上的文件列表。
+
+            示例: jdc jdfusion get-bucket-files  --name xxx
+        ''',
+    )
+    def get_bucket_files(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetBucketFilesRequest import GetBucketFilesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetBucketFilesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取任务列表 ''',
+        description='''
+            获取任务列表。
+
+            示例: jdc jdfusion get-transfer-tasks 
+        ''',
+    )
+    def get_transfer_tasks(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetTransferTasksRequest import GetTransferTasksRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTransferTasksRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--task'], dict(help="""(transferTaskInfo) NA """, dest='task',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建任务 ''',
+        description='''
+            创建任务。
+
+            示例: jdc jdfusion create-transfer-task 
+        ''',
+    )
+    def create_transfer_task(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.CreateTransferTaskRequest import CreateTransferTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateTransferTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) 用户ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据指定ID获取任务信息 ''',
+        description='''
+            根据指定ID获取任务信息。
+
+            示例: jdc jdfusion get-transfer-task-by-id  --id xxx
+        ''',
+    )
+    def get_transfer_task_by_id(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetTransferTaskByIdRequest import GetTransferTaskByIdRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTransferTaskByIdRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) 任务ID """, dest='id',  required=True)),
+            (['--task'], dict(help="""(transferTaskInfo) NA """, dest='task',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据指定ID修改任务 ''',
+        description='''
+            根据指定ID修改任务。
+
+            示例: jdc jdfusion edit-transfer-task  --id xxx
+        ''',
+    )
+    def edit_transfer_task(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.EditTransferTaskRequest import EditTransferTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EditTransferTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) 任务ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据指定ID删除任务 ''',
+        description='''
+            根据指定ID删除任务。
+
+            示例: jdc jdfusion delete-transfer-task  --id xxx
+        ''',
+    )
+    def delete_transfer_task(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.DeleteTransferTaskRequest import DeleteTransferTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteTransferTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) 用户ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据指定ID启动任务 ''',
+        description='''
+            根据指定ID启动任务。
+
+            示例: jdc jdfusion start-transfer-task  --id xxx
+        ''',
+    )
+    def start_transfer_task(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.StartTransferTaskRequest import StartTransferTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = StartTransferTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) 用户ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据指定ID停止任务 ''',
+        description='''
+            根据指定ID停止任务。
+
+            示例: jdc jdfusion stop-transfer-task  --id xxx
+        ''',
+    )
+    def stop_transfer_task(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.StopTransferTaskRequest import StopTransferTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = StopTransferTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) 任务ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据指定任务id查询迁移进度 ''',
+        description='''
+            根据指定任务id查询迁移进度。
+
+            示例: jdc jdfusion get-transfer-task-progress  --id xxx
+        ''',
+    )
+    def get_transfer_task_progress(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetTransferTaskProgressRequest import GetTransferTaskProgressRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTransferTaskProgressRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) 任务ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据指定任务id查询迁移失败文件列表 ''',
+        description='''
+            根据指定任务id查询迁移失败文件列表。
+
+            示例: jdc jdfusion get-transfer-task-failed-files  --id xxx
+        ''',
+    )
+    def get_transfer_task_failed_files(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetTransferTaskFailedFilesRequest import GetTransferTaskFailedFilesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTransferTaskFailedFilesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据过滤条件，取得指定RDS实例上的账号信息 ''',
+        description='''
+            根据过滤条件，取得指定RDS实例上的账号信息。
+
+            示例: jdc jdfusion get-rds-accounts-by-inst-id  --inst-id xxx
+        ''',
+    )
+    def get_rds_accounts_by_inst_id(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetRdsAccountsByInstIdRequest import GetRdsAccountsByInstIdRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetRdsAccountsByInstIdRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--account'], dict(help="""(createRDSAccount) 创建RDS实例的账号信息 """, dest='account',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据给定的信息，创建指定RDS实例的账户 ''',
+        description='''
+            根据给定的信息，创建指定RDS实例的账户。
+
+            示例: jdc jdfusion create-rds-accounts  --inst-id xxx --account {"":""}
+        ''',
+    )
+    def create_rds_accounts(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.CreateRdsAccountsRequest import CreateRdsAccountsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateRdsAccountsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--account-name'], dict(help="""(string) 账号名称 """, dest='accountName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据过滤条件，取得指定RDS实例上的账号信息 ''',
+        description='''
+            根据过滤条件，取得指定RDS实例上的账号信息。
+
+            示例: jdc jdfusion get-rds-accounts-by-inst-id-and-account-name  --inst-id xxx --account-name xxx
+        ''',
+    )
+    def get_rds_accounts_by_inst_id_and_account_name(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetRdsAccountsByInstIdAndAccountNameRequest import GetRdsAccountsByInstIdAndAccountNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetRdsAccountsByInstIdAndAccountNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--account-name'], dict(help="""(string) 账号用户名 """, dest='accountName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除指定RDS实例上，指定用户名的账号信息 ''',
+        description='''
+            删除指定RDS实例上，指定用户名的账号信息。
+
+            示例: jdc jdfusion delete-rds-account  --inst-id xxx --account-name xxx
+        ''',
+    )
+    def delete_rds_account(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.DeleteRdsAccountRequest import DeleteRdsAccountRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteRdsAccountRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--account-name'], dict(help="""(string) 账号名称 """, dest='accountName',  required=True)),
+            (['--db-privilege-info'], dict(help="""(dbPrivilegeInfo) RDS账号对数据库的权限信息 """, dest='dbPrivilegeInfo',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 给RDS账号分配数据库权限 ''',
+        description='''
+            给RDS账号分配数据库权限。
+
+            示例: jdc jdfusion grant-rds-account  --inst-id xxx --account-name xxx --db-privilege-info {"":""}
+        ''',
+    )
+    def grant_rds_account(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GrantRdsAccountRequest import GrantRdsAccountRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GrantRdsAccountRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--account-name'], dict(help="""(string) 账号名称 """, dest='accountName',  required=True)),
+            (['--db-name'], dict(help="""(string) 数据库名称 """, dest='dbName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 给RDS账号分配数据库权限 ''',
+        description='''
+            给RDS账号分配数据库权限。
+
+            示例: jdc jdfusion revoke-rds-account  --inst-id xxx --account-name xxx --db-name xxx
+        ''',
+    )
+    def revoke_rds_account(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.RevokeRdsAccountRequest import RevokeRdsAccountRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RevokeRdsAccountRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据过滤条件，取得指定RDS实例上的数据库信息 ''',
+        description='''
+            根据过滤条件，取得指定RDS实例上的数据库信息。
+
+            示例: jdc jdfusion get-rds-databases-by-inst-id  --inst-id xxx
+        ''',
+    )
+    def get_rds_databases_by_inst_id(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetRdsDatabasesByInstIdRequest import GetRdsDatabasesByInstIdRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetRdsDatabasesByInstIdRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--database'], dict(help="""(createRDSDB) 创建RDS实例的数据库信息 """, dest='database',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据给定的信息，创建指定RDS实例的数据库 ''',
+        description='''
+            根据给定的信息，创建指定RDS实例的数据库。
+
+            示例: jdc jdfusion create-rds-database  --inst-id xxx --database {"":""}
+        ''',
+    )
+    def create_rds_database(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.CreateRdsDatabaseRequest import CreateRdsDatabaseRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateRdsDatabaseRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--db-name'], dict(help="""(string) 数据库名称 """, dest='dbName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据过滤条件，取得指定RDS实例上的数据库信息 ''',
+        description='''
+            根据过滤条件，取得指定RDS实例上的数据库信息。
+
+            示例: jdc jdfusion get-rds-database-by-inst-id-and-db-name  --inst-id xxx --db-name xxx
+        ''',
+    )
+    def get_rds_database_by_inst_id_and_db_name(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetRdsDatabaseByInstIdAndDbNameRequest import GetRdsDatabaseByInstIdAndDbNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetRdsDatabaseByInstIdAndDbNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--db-name'], dict(help="""(string) 数据库名称 """, dest='dbName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除指定RDS实例上，指定数据库名的数据库信息 ''',
+        description='''
+            删除指定RDS实例上，指定数据库名的数据库信息。
+
+            示例: jdc jdfusion delete-rds-database  --inst-id xxx --db-name xxx
+        ''',
+    )
+    def delete_rds_database(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.DeleteRdsDatabaseRequest import DeleteRdsDatabaseRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteRdsDatabaseRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据云提供商查询对应的RDS实例信息 ''',
+        description='''
+            根据云提供商查询对应的RDS实例信息。
+
+            示例: jdc jdfusion get-rds-instances 
+        ''',
+    )
+    def get_rds_instances(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetRdsInstancesRequest import GetRdsInstancesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetRdsInstancesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance'], dict(help="""(createRDSInstance) 创建RDS实例 """, dest='instance',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据给定的信息，创建RDS实例 ''',
+        description='''
+            根据给定的信息，创建RDS实例。
+
+            示例: jdc jdfusion create-rds-instance  --instance {"":""}
+        ''',
+    )
+    def create_rds_instance(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.CreateRdsInstanceRequest import CreateRdsInstanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateRdsInstanceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据云提供商查询对应的RDS实例信息 ''',
+        description='''
+            根据云提供商查询对应的RDS实例信息。
+
+            示例: jdc jdfusion get-rds-by-inst-id  --inst-id xxx
+        ''',
+    )
+    def get_rds_by_inst_id(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetRdsByInstIdRequest import GetRdsByInstIdRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetRdsByInstIdRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--inst-id'], dict(help="""(string) RDS实例ID """, dest='instId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除指定ID的RDS实例信息 ''',
+        description='''
+            删除指定ID的RDS实例信息。
+
+            示例: jdc jdfusion delete-rds-by-inst-id  --inst-id xxx
+        ''',
+    )
+    def delete_rds_by_inst_id(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.DeleteRdsByInstIdRequest import DeleteRdsByInstIdRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteRdsByInstIdRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询数据同步通道信息 ''',
+        description='''
+            查询数据同步通道信息。
+
+            示例: jdc jdfusion get-channels 
+        ''',
+    )
+    def get_channels(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetChannelsRequest import GetChannelsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetChannelsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--channel'], dict(help="""(channelInfo) 创建channel """, dest='channel',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建数据同步通道 ''',
+        description='''
+            创建数据同步通道。
+
+            示例: jdc jdfusion create-channel  --channel {"":""}
+        ''',
+    )
+    def create_channel(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.CreateChannelRequest import CreateChannelRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateChannelRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) channel ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除channel ''',
+        description='''
+            删除channel。
+
+            示例: jdc jdfusion delete-channel  --id xxx
+        ''',
+    )
+    def delete_channel(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.DeleteChannelRequest import DeleteChannelRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteChannelRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) channel ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启动数据同步 ''',
+        description='''
+            启动数据同步。
+
+            示例: jdc jdfusion start-channel  --id xxx
+        ''',
+    )
+    def start_channel(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.StartChannelRequest import StartChannelRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = StartChannelRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) channel ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 停止数据同步 ''',
+        description='''
+            停止数据同步。
+
+            示例: jdc jdfusion stop-channel  --id xxx
+        ''',
+    )
+    def stop_channel(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.StopChannelRequest import StopChannelRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = StopChannelRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询数据源 ''',
+        description='''
+            查询数据源。
+
+            示例: jdc jdfusion get-datasources 
+        ''',
+    )
+    def get_datasources(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.GetDatasourcesRequest import GetDatasourcesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDatasourcesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--datasource'], dict(help="""(datasourceInfo) 创建数据源 """, dest='datasource',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建数据源 ''',
+        description='''
+            创建数据源。
+
+            示例: jdc jdfusion create-datasource  --datasource {"":""}
+        ''',
+    )
+    def create_datasource(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.CreateDatasourceRequest import CreateDatasourceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateDatasourceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e.message)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(string) channel ID """, dest='id',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除数据源 ''',
+        description='''
+            删除数据源。
+
+            示例: jdc jdfusion delete-datasource  --id xxx
+        ''',
+    )
+    def delete_datasource(self):
+        client_factory = ClientFactory('jdfusion')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdfusion.apis.DeleteDatasourceRequest import DeleteDatasourceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteDatasourceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -568,7 +2196,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createVmReq) 创建VM """, dest='body',  required=True)),
+            (['--vm'], dict(help="""(createVm) 创建VM """, dest='vm',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -577,7 +2205,7 @@ class JdfusionController(BaseController):
         description='''
             根据云提供商创建虚拟机。
 
-            示例: jdc jdfusion create-vm-instance  --body {"":""}
+            示例: jdc jdfusion create-vm-instance  --vm {"":""}
         ''',
     )
     def create_vm_instance(self):
@@ -830,7 +2458,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createKeypairReq) 创建keypair """, dest='body',  required=True)),
+            (['--keypair'], dict(help="""(createKeypair) 创建keypair """, dest='keypair',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -839,7 +2467,7 @@ class JdfusionController(BaseController):
         description='''
             根据云提供商创建密钥对。
 
-            示例: jdc jdfusion create-vm-keypair  --body {"":""}
+            示例: jdc jdfusion create-vm-keypair  --keypair {"":""}
         ''',
     )
     def create_vm_keypair(self):
@@ -895,7 +2523,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(allocateEipAddressReq) 分配弹性公网ip """, dest='body',  required=True)),
+            (['--allocate'], dict(help="""(allocateEipAddress) 分配弹性公网ip """, dest='allocate',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -904,7 +2532,7 @@ class JdfusionController(BaseController):
         description='''
             根据云提供商分配公网IP。
 
-            示例: jdc jdfusion create-vpc-eip  --body {"":""}
+            示例: jdc jdfusion create-vpc-eip  --allocate {"":""}
         ''',
     )
     def create_vpc_eip(self):
@@ -995,7 +2623,7 @@ class JdfusionController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--id'], dict(help="""(string) 公网IP ID """, dest='id',  required=True)),
-            (['--body'], dict(help="""(associateEipAddressReq) 弹性公网IP绑定到虚拟机 """, dest='body',  required=True)),
+            (['--associate'], dict(help="""(associateEipAddress) 弹性公网IP绑定到虚拟机 """, dest='associate',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1004,7 +2632,7 @@ class JdfusionController(BaseController):
         description='''
             弹性公网IP绑定到虚拟机。
 
-            示例: jdc jdfusion associate-vpc-eip-by-id  --id xxx --body {"":""}
+            示例: jdc jdfusion associate-vpc-eip-by-id  --id xxx --associate {"":""}
         ''',
     )
     def associate_vpc_eip_by_id(self):
@@ -1029,7 +2657,7 @@ class JdfusionController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--id'], dict(help="""(string) 公网IP ID """, dest='id',  required=True)),
-            (['--body'], dict(help="""(unassociateEipAddressReq) 解绑公网IP """, dest='body',  required=True)),
+            (['--unassociate'], dict(help="""(unassociateEipAddress) 解绑公网IP """, dest='unassociate',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1038,7 +2666,7 @@ class JdfusionController(BaseController):
         description='''
             解绑公网IP。
 
-            示例: jdc jdfusion disassociate-vpc-eip-by-id  --id xxx --body {"":""}
+            示例: jdc jdfusion disassociate-vpc-eip-by-id  --id xxx --unassociate {"":""}
         ''',
     )
     def disassociate_vpc_eip_by_id(self):
@@ -1062,7 +2690,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createLoadBalancerHTTPListenerReq) 创建HTTP监听器 """, dest='body',  required=True)),
+            (['--http-listener'], dict(help="""(createLoadBalancerHTTPListener) 创建HTTP监听器 """, dest='httpListener',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1071,7 +2699,7 @@ class JdfusionController(BaseController):
         description='''
             创建HTTP监听器。
 
-            示例: jdc jdfusion create-vpc-lbhttp-listener  --body {"":""}
+            示例: jdc jdfusion create-vpc-lbhttp-listener  --http-listener {"":""}
         ''',
     )
     def create_vpc_lbhttp_listener(self):
@@ -1193,7 +2821,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createNetInterfaceReq) 创建网卡 """, dest='body',  required=True)),
+            (['--net-interface'], dict(help="""(createNetInterface) 创建网卡 """, dest='netInterface',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1202,7 +2830,7 @@ class JdfusionController(BaseController):
         description='''
             根据云提供商创建网卡。
 
-            示例: jdc jdfusion create-vpc-network-interface  --body {"":""}
+            示例: jdc jdfusion create-vpc-network-interface  --net-interface {"":""}
         ''',
     )
     def create_vpc_network_interface(self):
@@ -1227,7 +2855,7 @@ class JdfusionController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--id'], dict(help="""(string) 网卡 ID """, dest='id',  required=True)),
-            (['--body'], dict(help="""(attachNetInterfaceReq) 网卡挂载虚拟机 """, dest='body',  required=True)),
+            (['--attach'], dict(help="""(attachNetInterface) 网卡挂载虚拟机 """, dest='attach',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1236,7 +2864,7 @@ class JdfusionController(BaseController):
         description='''
             网卡挂载虚拟机。
 
-            示例: jdc jdfusion attach-vpc-network-interface-by-id  --id xxx --body {"":""}
+            示例: jdc jdfusion attach-vpc-network-interface-by-id  --id xxx --attach {"":""}
         ''',
     )
     def attach_vpc_network_interface_by_id(self):
@@ -1261,7 +2889,7 @@ class JdfusionController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--id'], dict(help="""(string) 网卡 ID """, dest='id',  required=True)),
-            (['--body'], dict(help="""(detachNetInterfaceReq) 卸载网卡 """, dest='body',  required=True)),
+            (['--detach'], dict(help="""(detachNetInterface) 卸载网卡 """, dest='detach',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1270,7 +2898,7 @@ class JdfusionController(BaseController):
         description='''
             卸载网卡。
 
-            示例: jdc jdfusion detach-vpc-network-interface-by-id  --id xxx --body {"":""}
+            示例: jdc jdfusion detach-vpc-network-interface-by-id  --id xxx --detach {"":""}
         ''',
     )
     def detach_vpc_network_interface_by_id(self):
@@ -1392,7 +3020,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createSecurityGroupReq) 创建securityGroup """, dest='body',  required=True)),
+            (['--security-group'], dict(help="""(createSecurityGroup) 创建securityGroup """, dest='securityGroup',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1401,7 +3029,7 @@ class JdfusionController(BaseController):
         description='''
             根据云提供商创建安全组。
 
-            示例: jdc jdfusion create-vpc-security-group  --body {"":""}
+            示例: jdc jdfusion create-vpc-security-group  --security-group {"":""}
         ''',
     )
     def create_vpc_security_group(self):
@@ -1523,7 +3151,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createSlbReq) 创建SLB """, dest='body',  required=True)),
+            (['--slb'], dict(help="""(slbInfo) 创建SLB """, dest='slb',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1532,7 +3160,7 @@ class JdfusionController(BaseController):
         description='''
             根据云提供商创建负载均衡。
 
-            示例: jdc jdfusion create-vpc-slb  --body {"":""}
+            示例: jdc jdfusion create-vpc-slb  --slb {"":""}
         ''',
     )
     def create_vpc_slb(self):
@@ -1654,7 +3282,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createSubnetReq) 创建subnet """, dest='body',  required=True)),
+            (['--subnet'], dict(help="""(createSubnet) 创建subnet """, dest='subnet',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1663,7 +3291,7 @@ class JdfusionController(BaseController):
         description='''
             根据云提供商创建子网。
 
-            示例: jdc jdfusion create-vpc-subnet  --body {"":""}
+            示例: jdc jdfusion create-vpc-subnet  --subnet {"":""}
         ''',
     )
     def create_vpc_subnet(self):
@@ -1785,7 +3413,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createVpcReq) 创建VPC """, dest='body',  required=True)),
+            (['--vpc'], dict(help="""(vpcInfo) 创建VPC """, dest='vpc',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1794,7 +3422,7 @@ class JdfusionController(BaseController):
         description='''
             根据云提供商创建私有网络。
 
-            示例: jdc jdfusion create-vpc  --body {"":""}
+            示例: jdc jdfusion create-vpc  --vpc {"":""}
         ''',
     )
     def create_vpc(self):
@@ -1851,7 +3479,7 @@ class JdfusionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--body'], dict(help="""(createVserverGroupReq) 创建虚拟服务器组 """, dest='body',  required=True)),
+            (['--vserver-group'], dict(help="""(createVserverGroup) 创建虚拟服务器组 """, dest='vserverGroup',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1860,7 +3488,7 @@ class JdfusionController(BaseController):
         description='''
             创建虚拟服务器组，并添加后端服务器。
 
-            示例: jdc jdfusion create-vpc-vserver-group  --body {"":""}
+            示例: jdc jdfusion create-vpc-vserver-group  --vserver-group {"":""}
         ''',
     )
     def create_vpc_vserver_group(self):
@@ -1883,7 +3511,7 @@ class JdfusionController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-cloud-infos','regist-cloud-info','get-cloud-info-by-id','unregist-cloud-info','get-disks','create-disk','get-disk-by-id','remove-disk-by-id','attach-disk-to-vm-instance-by-disk-id','detach-disk-to-vm-instance-by-disk-id','get-task-info-history-by-id','get-task-info-by-id','get-vm-images','get-vm-instances-by-id','delete-vm-instance-by-id','get-vm-instances','create-vm-instance','stop-vm-instance-by-id','start-vm-instance-by-id','reboot-vm-instance-by-id','get-vm-instance-types','get-vm-keypairs-by-name','delete-vm-keypair-by-name','get-vm-keypairs','create-vm-keypair','get-vpc-eips','create-vpc-eip','get-vpc-eip-by-id','delete-vpc-eip-by-id','associate-vpc-eip-by-id','disassociate-vpc-eip-by-id','create-vpc-lbhttp-listener','get-vpc-network-interface-by-id','delete-vpc-network-interface-by-id','get-vpc-network-interfaces','create-vpc-network-interface','attach-vpc-network-interface-by-id','detach-vpc-network-interface-by-id','get-vpc-security-group-by-id','delete-vpc-security-group-by-id','get-vpc-security-groups','create-vpc-security-group','get-vpc-slb-by-id','delete-vpc-slb-by-id','get-vpc-slbs','create-vpc-slb','get-vpc-subnet-by-id','delete-vpc-subnet-by-id','get-vpc-subnets','create-vpc-subnet','get-vpc-by-id','delete-vpc-by-id','get-vpcs','create-vpc','get-vpc-vserver-groups','create-vpc-vserver-group',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['get-cloud-infos','regist-cloud-info','get-cloud-info-by-id','unregist-cloud-info','get-deployments','create-deployment','reverse-deployment','get-deployments-by-id','edit-deployment','delete-deployment','clone-deployment','dryrun-deployment','apply-deployment','get-deployment-result','get-deployment-versions','get-deployments-version','rollback-deployments-version','get-disks','create-disk','get-disk-by-id','remove-disk-by-id','attach-disk-to-vm-instance-by-disk-id','detach-disk-to-vm-instance-by-disk-id','get-buckets','create-bucket','get-bucket-by-name','delete-bucket','get-bucket-files','get-transfer-tasks','create-transfer-task','get-transfer-task-by-id','edit-transfer-task','delete-transfer-task','start-transfer-task','stop-transfer-task','get-transfer-task-progress','get-transfer-task-failed-files','get-rds-accounts-by-inst-id','create-rds-accounts','get-rds-accounts-by-inst-id-and-account-name','delete-rds-account','grant-rds-account','revoke-rds-account','get-rds-databases-by-inst-id','create-rds-database','get-rds-database-by-inst-id-and-db-name','delete-rds-database','get-rds-instances','create-rds-instance','get-rds-by-inst-id','delete-rds-by-inst-id','get-channels','create-channel','delete-channel','start-channel','stop-channel','get-datasources','create-datasource','delete-datasource','get-task-info-history-by-id','get-task-info-by-id','get-vm-images','get-vm-instances-by-id','delete-vm-instance-by-id','get-vm-instances','create-vm-instance','stop-vm-instance-by-id','start-vm-instance-by-id','reboot-vm-instance-by-id','get-vm-instance-types','get-vm-keypairs-by-name','delete-vm-keypair-by-name','get-vm-keypairs','create-vm-keypair','get-vpc-eips','create-vpc-eip','get-vpc-eip-by-id','delete-vpc-eip-by-id','associate-vpc-eip-by-id','disassociate-vpc-eip-by-id','create-vpc-lbhttp-listener','get-vpc-network-interface-by-id','delete-vpc-network-interface-by-id','get-vpc-network-interfaces','create-vpc-network-interface','attach-vpc-network-interface-by-id','detach-vpc-network-interface-by-id','get-vpc-security-group-by-id','delete-vpc-security-group-by-id','get-vpc-security-groups','create-vpc-security-group','get-vpc-slb-by-id','delete-vpc-slb-by-id','get-vpc-slbs','create-vpc-slb','get-vpc-subnet-by-id','delete-vpc-subnet-by-id','get-vpc-subnets','create-vpc-subnet','get-vpc-by-id','delete-vpc-by-id','get-vpcs','create-vpc','get-vpc-vserver-groups','create-vpc-vserver-group',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

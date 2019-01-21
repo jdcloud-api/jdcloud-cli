@@ -33,7 +33,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_regist_cloud_info(self):
-        cmd = """python ../../main.py jdfusion regist-cloud-info  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion regist-cloud-info  --cloud '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -59,6 +59,123 @@ class JdfusionTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_get_deployments(self):
+        cmd = """python ../../main.py jdfusion get-deployments """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_deployment(self):
+        cmd = """python ../../main.py jdfusion create-deployment  --deployment '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_reverse_deployment(self):
+        cmd = """python ../../main.py jdfusion reverse-deployment  --reverse '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_deployments_by_id(self):
+        cmd = """python ../../main.py jdfusion get-deployments-by-id  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_edit_deployment(self):
+        cmd = """python ../../main.py jdfusion edit-deployment  --id 'xxx' --deployment '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_deployment(self):
+        cmd = """python ../../main.py jdfusion delete-deployment  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_clone_deployment(self):
+        cmd = """python ../../main.py jdfusion clone-deployment  --id 'xxx' --deployment '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_dryrun_deployment(self):
+        cmd = """python ../../main.py jdfusion dryrun-deployment  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_apply_deployment(self):
+        cmd = """python ../../main.py jdfusion apply-deployment  --id 'xxx' --apply '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_deployment_result(self):
+        cmd = """python ../../main.py jdfusion get-deployment-result  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_deployment_versions(self):
+        cmd = """python ../../main.py jdfusion get-deployment-versions  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_deployments_version(self):
+        cmd = """python ../../main.py jdfusion get-deployments-version  --id 'xxx' --version_id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_rollback_deployments_version(self):
+        cmd = """python ../../main.py jdfusion rollback-deployments-version  --id 'xxx' --version_id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_get_disks(self):
         cmd = """python ../../main.py jdfusion get-disks """
         with os.popen(cmd) as f:
@@ -69,7 +186,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_disk(self):
-        cmd = """python ../../main.py jdfusion create-disk  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-disk  --disk '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -96,7 +213,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_attach_disk_to_vm_instance_by_disk_id(self):
-        cmd = """python ../../main.py jdfusion attach-disk-to-vm-instance-by-disk-id  --id 'xxx' --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion attach-disk-to-vm-instance-by-disk-id  --id 'xxx' --attach '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -105,7 +222,331 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_detach_disk_to_vm_instance_by_disk_id(self):
-        cmd = """python ../../main.py jdfusion detach-disk-to-vm-instance-by-disk-id  --id 'xxx' --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion detach-disk-to-vm-instance-by-disk-id  --id 'xxx' --detach '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_buckets(self):
+        cmd = """python ../../main.py jdfusion get-buckets """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_bucket(self):
+        cmd = """python ../../main.py jdfusion create-bucket  --bucket '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_bucket_by_name(self):
+        cmd = """python ../../main.py jdfusion get-bucket-by-name  --name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_bucket(self):
+        cmd = """python ../../main.py jdfusion delete-bucket  --name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_bucket_files(self):
+        cmd = """python ../../main.py jdfusion get-bucket-files  --name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_transfer_tasks(self):
+        cmd = """python ../../main.py jdfusion get-transfer-tasks """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_transfer_task(self):
+        cmd = """python ../../main.py jdfusion create-transfer-task """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_transfer_task_by_id(self):
+        cmd = """python ../../main.py jdfusion get-transfer-task-by-id  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_edit_transfer_task(self):
+        cmd = """python ../../main.py jdfusion edit-transfer-task  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_transfer_task(self):
+        cmd = """python ../../main.py jdfusion delete-transfer-task  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_start_transfer_task(self):
+        cmd = """python ../../main.py jdfusion start-transfer-task  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_stop_transfer_task(self):
+        cmd = """python ../../main.py jdfusion stop-transfer-task  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_transfer_task_progress(self):
+        cmd = """python ../../main.py jdfusion get-transfer-task-progress  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_transfer_task_failed_files(self):
+        cmd = """python ../../main.py jdfusion get-transfer-task-failed-files  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_rds_accounts_by_inst_id(self):
+        cmd = """python ../../main.py jdfusion get-rds-accounts-by-inst-id  --inst-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_rds_accounts(self):
+        cmd = """python ../../main.py jdfusion create-rds-accounts  --inst-id 'xxx' --account '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_rds_accounts_by_inst_id_and_account_name(self):
+        cmd = """python ../../main.py jdfusion get-rds-accounts-by-inst-id-and-account-name  --inst-id 'xxx' --account-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_rds_account(self):
+        cmd = """python ../../main.py jdfusion delete-rds-account  --inst-id 'xxx' --account-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_grant_rds_account(self):
+        cmd = """python ../../main.py jdfusion grant-rds-account  --inst-id 'xxx' --account-name 'xxx' --db-privilege-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_revoke_rds_account(self):
+        cmd = """python ../../main.py jdfusion revoke-rds-account  --inst-id 'xxx' --account-name 'xxx' --db-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_rds_databases_by_inst_id(self):
+        cmd = """python ../../main.py jdfusion get-rds-databases-by-inst-id  --inst-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_rds_database(self):
+        cmd = """python ../../main.py jdfusion create-rds-database  --inst-id 'xxx' --database '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_rds_database_by_inst_id_and_db_name(self):
+        cmd = """python ../../main.py jdfusion get-rds-database-by-inst-id-and-db-name  --inst-id 'xxx' --db-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_rds_database(self):
+        cmd = """python ../../main.py jdfusion delete-rds-database  --inst-id 'xxx' --db-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_rds_instances(self):
+        cmd = """python ../../main.py jdfusion get-rds-instances """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_rds_instance(self):
+        cmd = """python ../../main.py jdfusion create-rds-instance  --instance '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_rds_by_inst_id(self):
+        cmd = """python ../../main.py jdfusion get-rds-by-inst-id  --inst-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_rds_by_inst_id(self):
+        cmd = """python ../../main.py jdfusion delete-rds-by-inst-id  --inst-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_channels(self):
+        cmd = """python ../../main.py jdfusion get-channels """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_channel(self):
+        cmd = """python ../../main.py jdfusion create-channel  --channel '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_channel(self):
+        cmd = """python ../../main.py jdfusion delete-channel  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_start_channel(self):
+        cmd = """python ../../main.py jdfusion start-channel  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_stop_channel(self):
+        cmd = """python ../../main.py jdfusion stop-channel  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_datasources(self):
+        cmd = """python ../../main.py jdfusion get-datasources """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_datasource(self):
+        cmd = """python ../../main.py jdfusion create-datasource  --datasource '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_datasource(self):
+        cmd = """python ../../main.py jdfusion delete-datasource  --id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -168,7 +609,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_vm_instance(self):
-        cmd = """python ../../main.py jdfusion create-vm-instance  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-vm-instance  --vm '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -240,7 +681,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_vm_keypair(self):
-        cmd = """python ../../main.py jdfusion create-vm-keypair  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-vm-keypair  --keypair '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -258,7 +699,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_vpc_eip(self):
-        cmd = """python ../../main.py jdfusion create-vpc-eip  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-vpc-eip  --allocate '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -285,7 +726,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_associate_vpc_eip_by_id(self):
-        cmd = """python ../../main.py jdfusion associate-vpc-eip-by-id  --id 'xxx' --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion associate-vpc-eip-by-id  --id 'xxx' --associate '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -294,7 +735,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_disassociate_vpc_eip_by_id(self):
-        cmd = """python ../../main.py jdfusion disassociate-vpc-eip-by-id  --id 'xxx' --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion disassociate-vpc-eip-by-id  --id 'xxx' --unassociate '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -303,7 +744,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_vpc_lbhttp_listener(self):
-        cmd = """python ../../main.py jdfusion create-vpc-lbhttp-listener  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-vpc-lbhttp-listener  --http-listener '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -339,7 +780,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_vpc_network_interface(self):
-        cmd = """python ../../main.py jdfusion create-vpc-network-interface  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-vpc-network-interface  --net-interface '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -348,7 +789,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_attach_vpc_network_interface_by_id(self):
-        cmd = """python ../../main.py jdfusion attach-vpc-network-interface-by-id  --id 'xxx' --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion attach-vpc-network-interface-by-id  --id 'xxx' --attach '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -357,7 +798,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_detach_vpc_network_interface_by_id(self):
-        cmd = """python ../../main.py jdfusion detach-vpc-network-interface-by-id  --id 'xxx' --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion detach-vpc-network-interface-by-id  --id 'xxx' --detach '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -393,7 +834,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_vpc_security_group(self):
-        cmd = """python ../../main.py jdfusion create-vpc-security-group  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-vpc-security-group  --security-group '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -429,7 +870,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_vpc_slb(self):
-        cmd = """python ../../main.py jdfusion create-vpc-slb  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-vpc-slb  --slb '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -465,7 +906,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_vpc_subnet(self):
-        cmd = """python ../../main.py jdfusion create-vpc-subnet  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-vpc-subnet  --subnet '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -501,7 +942,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_vpc(self):
-        cmd = """python ../../main.py jdfusion create-vpc  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-vpc  --vpc '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -519,7 +960,7 @@ class JdfusionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_vpc_vserver_group(self):
-        cmd = """python ../../main.py jdfusion create-vpc-vserver-group  --body '{"":""}'"""
+        cmd = """python ../../main.py jdfusion create-vpc-vserver-group  --vserver-group '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

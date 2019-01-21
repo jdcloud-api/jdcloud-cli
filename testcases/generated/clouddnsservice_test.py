@@ -140,24 +140,6 @@ class ClouddnsserviceTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_set_lb(self):
-        cmd = """python ../../main.py clouddnsservice set-lb  --domain-id 'xxx' --id-weights '[{"":""}]' --type 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_lb(self):
-        cmd = """python ../../main.py clouddnsservice get-lb  --domain-id 'xxx' --type 'xxx' --page-number '5' --page-size '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_add_user_view(self):
         cmd = """python ../../main.py clouddnsservice add-user-view  --req '{"":""}'"""
         with os.popen(cmd) as f:
