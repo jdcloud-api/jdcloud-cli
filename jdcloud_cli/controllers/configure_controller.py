@@ -16,7 +16,7 @@
 
 from argparse import RawTextHelpFormatter
 from getpass import getpass
-from cement.ext.ext_argparse import expose
+from jdcloud_cli.cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.config import Config, ProfileManager
 from jdcloud_cli.utils import cmd_input

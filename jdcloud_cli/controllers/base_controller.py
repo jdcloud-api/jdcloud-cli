@@ -15,7 +15,7 @@
 # limitations under the License.
 
 from argparse import RawTextHelpFormatter
-from cement.ext.ext_argparse import ArgparseController
+from jdcloud_cli.cement.ext.ext_argparse import ArgparseController
 from jdcloud_cli.version import VERSION
 
 
@@ -27,6 +27,7 @@ class BaseController(ArgparseController):
             (['-v', '--version'], dict(action='version', version=VERSION)),
         ]
         argument_formatter = RawTextHelpFormatter
+        default_func = None
         description = '''
         京东云CLI使用方法简介:
         
