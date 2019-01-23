@@ -27,7 +27,6 @@ class BaseController(ArgparseController):
             (['-v', '--version'], dict(action='version', version=VERSION)),
         ]
         argument_formatter = RawTextHelpFormatter
-        default_func = None
         description = '''
         京东云CLI使用方法简介:
         
@@ -81,3 +80,6 @@ class BaseController(ArgparseController):
         6）更详细使用说明，请见京东云官方帮助文档：
            https://www.jdcloud.com/help/faq?act=3
         '''
+
+    def default(self):
+        print("Welcome to use JDCloud CLI! Please use -h to visit help. Envoy!")
