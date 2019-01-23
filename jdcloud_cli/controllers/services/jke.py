@@ -18,8 +18,8 @@
 
 import os
 from argparse import RawTextHelpFormatter
-from cement.ext.ext_argparse import expose
 from jinja2 import Template
+from jdcloud_cli.cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.client_factory import ClientFactory
 from jdcloud_cli.parameter_builder import collect_user_args, collect_user_headers
@@ -69,7 +69,7 @@ class JkeController(BaseController):
         except ImportError:
             print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
-            print(e.message)
+            print(e)
 
     @expose(
         arguments=[

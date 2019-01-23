@@ -15,7 +15,7 @@
 # limitations under the License.
 
 from argparse import RawTextHelpFormatter
-from cement.ext.ext_argparse import ArgparseController
+from jdcloud_cli.cement.ext.ext_argparse import ArgparseController
 from jdcloud_cli.version import VERSION
 
 
@@ -80,3 +80,6 @@ class BaseController(ArgparseController):
         6）更详细使用说明，请见京东云官方帮助文档：
            https://www.jdcloud.com/help/faq?act=3
         '''
+
+    def default(self):
+        print("Welcome to use JDCloud CLI! Please use -h to visit help. Enjoy!")
