@@ -82,4 +82,4 @@ class BaseController(ArgparseController):
         '''
 
     def default(self):
-        print("Welcome to use JDCloud CLI! Please use -h to visit help. Envoy!")
+        print("Welcome to use JDCloud CLI! Please use -h to visit help. Enjoy!")
