@@ -22,7 +22,7 @@ from setuptools import setup, find_packages
 from jdcloud_cli.version import VERSION
 
 install_requires = ['websocket-client', 'configparser', 'requests',
-                    'argcomplete', 'argparse', 'jdcloud_sdk==1.4.0', 'pyyaml', 'jinja2']
+                    'argcomplete', 'jdcloud_sdk==1.4.0', 'pyyaml', 'jinja2']
 
 
 setup(
