@@ -78,40 +78,6 @@ class PodController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--pod-id'], dict(help="""(string) Pod ID """, dest='podId',  required=True)),
             (['--container-name'], dict(help="""(string) container name """, dest='containerName',  required=True)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个容器日志;  ''',
-        description='''
-            查询单个容器日志; 
-
-            示例: jdc pod attach  --pod-id xxx --container-name xxx
-        ''',
-    )
-    def attach(self):
-        client_factory = ClientFactory('pod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.pod.apis.AttachRequest import AttachRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = AttachRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--pod-id'], dict(help="""(string) Pod ID """, dest='podId',  required=True)),
-            (['--container-name'], dict(help="""(string) container name """, dest='containerName',  required=True)),
             (['--command'], dict(help="""(array: string) 执行的命令 """, dest='command',  required=False)),
             (['--tty'], dict(help="""(bool) 执行命令是否分配tty。默认不分配 """, dest='tty',  required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -171,41 +137,6 @@ class PodController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = ExecGetExitCodeRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--pod-id'], dict(help="""(string) Pod ID """, dest='podId',  required=True)),
-            (['--container-name'], dict(help="""(string) container name """, dest='containerName',  required=True)),
-            (['--exec-id'], dict(help="""(string) NA """, dest='execId',  required=False)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 执行exec，此接口需要升级Http协议到WebSocket ''',
-        description='''
-            执行exec，此接口需要升级Http协议到WebSocket
-
-            示例: jdc pod exec-start  --pod-id xxx --container-name xxx
-        ''',
-    )
-    def exec_start(self):
-        client_factory = ClientFactory('pod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.pod.apis.ExecStartRequest import ExecStartRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ExecStartRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
