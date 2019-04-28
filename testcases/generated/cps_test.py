@@ -32,15 +32,6 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_software(self):
-        cmd = """python ../../main.py cps describe-software  --os-type-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_instance_name(self):
         cmd = """python ../../main.py cps describe-instance-name  --instance-id 'xxx'"""
         with os.popen(cmd) as f:

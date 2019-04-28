@@ -113,8 +113,17 @@ class FunctionTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_test_invoke(self):
-        cmd = """python ../../main.py function test-invoke  --function-name 'xxx' --version-name 'xxx' --event 'xxx'"""
+    def test_invoke(self):
+        cmd = """python ../../main.py function invoke  --function-name 'xxx' --version-name 'xxx' --event 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_async_invoke(self):
+        cmd = """python ../../main.py function async-invoke  --function-name 'xxx' --version-name 'xxx' --event 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

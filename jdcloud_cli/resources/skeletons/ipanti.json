@@ -1,5 +1,5 @@
 {
-    "describe-ddos-attack-logs":{
+    "describe-ddo-sattack-logs":{
         "pageNumber":"",
         "pageSize":"",
         "startTime":"",
@@ -7,7 +7,7 @@
         "instanceId":[""],
         "regionId":""
     },
-    "describe-cc-attack-logs":{
+    "describe-ccattack-logs":{
         "pageNumber":"",
         "pageSize":"",
         "startTime":"",
@@ -15,7 +15,7 @@
         "instanceId":[""],
         "regionId":""
     },
-    "describe-cc-attack-log-details":{
+    "describe-ccattack-log-details":{
         "pageNumber":"",
         "pageSize":"",
         "startTime":"",
@@ -24,19 +24,51 @@
         "subDomain":[""],
         "regionId":""
     },
-    "ddos-graph":{
+    "download-ddo-sattack-logs":{
         "startTime":"",
         "endTime":"",
         "instanceId":[""],
         "regionId":""
     },
-    "fwd-graph":{
+    "download-ccattack-logs":{
         "startTime":"",
         "endTime":"",
         "instanceId":[""],
         "regionId":""
     },
-    "cc-graph":{
+    "download-ccattack-log-details":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":"",
+        "subDomain":[""],
+        "regionId":""
+    },
+    "describe-attack-statistics":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "type":"",
+        "regionId":""
+    },
+    "describe-attack-type-count":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "regionId":""
+    },
+    "describe-ddo-sgraph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "regionId":""
+    },
+    "describe-fwd-graph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "regionId":""
+    },
+    "describe-ccgraph":{
         "startTime":"",
         "endTime":"",
         "instanceId":[""],
@@ -46,6 +78,8 @@
     "describe-forward-rules":{
         "pageNumber":"",
         "pageSize":"",
+        "searchType":"",
+        "searchValue":"",
         "regionId":"",
         "instanceId":""
     },
@@ -98,6 +132,33 @@
         "instanceId":"",
         "forwardRuleId":""
     },
+    "describe-protection-rule-of-forward-rule":{
+        "regionId":"",
+        "instanceId":"",
+        "forwardRuleId":""
+    },
+    "modify-protection-rule-of-forward-rule":{
+        "forwardProtectionRuleSpec":{
+            "spoofIpEnable":"",
+            "srcNewConnLimitEnable":"",
+            "srcNewConnLimitValue":"",
+            "srcConcurrentConnLimitEnable":"",
+            "srcConcurrentConnLimitValue":"",
+            "dstNewConnLimitEnable":"",
+            "dstNewConnLimitValue":"",
+            "dstConcurrentConnLimitEnable":"",
+            "dstConcurrentConnLimitValue":"",
+            "datagramRangeMin":"",
+            "datagramRangeMax":"",
+            "geoBlackList":""
+        },
+        "regionId":"",
+        "instanceId":"",
+        "forwardRuleId":""
+    },
+    "describe-geo-areas":{
+        "regionId":""
+    },
     "describe-instances":{
         "pageNumber":"",
         "pageSize":"",
@@ -105,20 +166,36 @@
         "regionId":""
     },
     "create-instance":{
-        "instanceSpec":{
+        "createInstanceSpec":{
+            "id":"",
             "name":"",
             "buyType":"",
-            "timeUnit":"",
-            "timeSpan":"",
             "carrier":"",
+            "ipType":"",
             "bp":"",
             "ep":"",
             "bw":"",
+            "timeSpan":"",
+            "timeUnit":"",
             "returnUrl":""
         },
         "regionId":""
     },
     "describe-instance":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-instance-name":{
+        "renameInstanceSpec":{
+            "name":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-epb":{
+        "modifyInstanceEPBSpec":{
+            "ep":""
+        },
         "regionId":"",
         "instanceId":""
     },
@@ -155,13 +232,11 @@
         "regionId":"",
         "instanceId":""
     },
-    "modify-instance-name":{
-        "name":"",
-        "regionId":"",
-        "instanceId":""
-    },
     "modify-instance-ip-black-list":{
-        "ipBlackList":[""],
+        "ipBwListSpec":{
+            "ipList":"",
+            "tryFlag":""
+        },
         "regionId":"",
         "instanceId":""
     },
@@ -174,7 +249,10 @@
         "instanceId":""
     },
     "modify-instance-ip-white-list":{
-        "ipWhiteList":[""],
+        "ipBwListSpec":{
+            "ipList":"",
+            "tryFlag":""
+        },
         "regionId":"",
         "instanceId":""
     },
@@ -186,23 +264,23 @@
         "regionId":"",
         "instanceId":""
     },
-    "enable-cc-observer-mode":{
+    "enable-ccobserver-mode":{
         "regionId":"",
         "instanceId":""
     },
-    "disable-cc-observer-mode":{
+    "disable-ccobserver-mode":{
         "regionId":"",
         "instanceId":""
     },
-    "enable-cc-ip-limit":{
+    "enable-ccip-limit":{
         "regionId":"",
         "instanceId":""
     },
-    "disable-cc-ip-limit":{
+    "disable-ccip-limit":{
         "regionId":"",
         "instanceId":""
     },
-    "set-cc-ip-limit":{
+    "set-ccip-limit":{
         "cCSpec":{
             "ccSpeedLimit":"",
             "ccSpeedPeriod":""
@@ -210,28 +288,75 @@
         "regionId":"",
         "instanceId":""
     },
+    "describe-alarm-config":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-alarm-config":{
+        "alarmConfigSpec":{
+            "blackHoleAlarmEmailStatus":"",
+            "blackHoleAlarmSmsStatus":"",
+            "blackHoleAlarmStatus":"",
+            "ddosAlarmEmailStatus":"",
+            "ddosAlarmSmsStatus":"",
+            "ddosAlarmStatus":"",
+            "errorCodeAlarmStatus":"",
+            "errorCodeDomain":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-name-list":{
+        "id":"",
+        "name":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "describe-protection-statistics":{
+        "regionId":""
+    },
+    "check-name":{
+        "name":"",
+        "regionId":""
+    },
+    "describe-vpc-ip-list":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "describe-ccdefault-thresholds":{
+        "regionId":""
+    },
     "describe-web-rules":{
         "pageNumber":"",
         "pageSize":"",
+        "searchType":"",
+        "searchValue":"",
         "regionId":"",
         "instanceId":""
     },
     "create-web-rule":{
         "webRuleSpec":{
             "domain":"",
-            "protocol":"",
+            "protocol":{
+                "http":"",
+                "https":""
+            },
             "port":"",
             "httpsPort":"",
             "originType":"",
             "originAddr":[""],
             "onlineAddr":"",
             "originDomain":"",
-            "httpsCertContent":"",
-            "httpsRsaKey":"",
             "algorithm":"",
             "forceJump":"",
             "customPortStatus":"",
-            "httpOrigin":""
+            "httpOrigin":"",
+            "webSocketStatus":"",
+            "httpsCertContent":"",
+            "httpsRsaKey":"",
+            "certId":""
         },
         "regionId":"",
         "instanceId":""
@@ -244,19 +369,24 @@
     "modify-web-rule":{
         "webRuleSpec":{
             "domain":"",
-            "protocol":"",
+            "protocol":{
+                "http":"",
+                "https":""
+            },
             "port":"",
             "httpsPort":"",
             "originType":"",
             "originAddr":[""],
             "onlineAddr":"",
             "originDomain":"",
-            "httpsCertContent":"",
-            "httpsRsaKey":"",
             "algorithm":"",
             "forceJump":"",
             "customPortStatus":"",
-            "httpOrigin":""
+            "httpOrigin":"",
+            "webSocketStatus":"",
+            "httpsCertContent":"",
+            "httpsRsaKey":"",
+            "certId":""
         },
         "regionId":"",
         "instanceId":"",
@@ -283,6 +413,25 @@
         "webRuleId":""
     },
     "disable-web-rule-cc":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "modify-cert-info":{
+        "certInfoModifySpec":{
+            "certId":"",
+            "httpsCertContent":"",
+            "httpsRsaKey":""
+        },
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "describe-cert-info":{
+        "certInfoDescribeSpec":{
+            "domain":"",
+            "httpsCertContent":""
+        },
         "regionId":"",
         "instanceId":"",
         "webRuleId":""

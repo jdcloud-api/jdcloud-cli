@@ -86,7 +86,7 @@ class DiskController(BaseController):
         description='''
             -   创建一块或多块按配置或者按使用时长付费的云硬盘。; -   云硬盘类型包括高效云盘(premium-hdd)、SSD云盘(ssd)、通用型SSD(ssd.gp1)、性能型SSD(ssd.io1)、容量型HDD(hdd.std1)。; -   计费方式默认为按配置付费。; -   创建完成后，云硬盘状态为 available。; -   可选参数快照 ID用于从快照创建新盘。; -   批量创建时，云硬盘的命名为 硬盘名称-数字，例如 myDisk-1，myDisk-2。; -   maxCount为最大努力，不保证一定能达到maxCount。; 。
 
-            示例: jdc disk create-disks  --disk-spec {"":""} --max-count 0 --client-token xxx
+            示例: jdc disk create-disks  --disk-spec '{"":""}' --max-count 0 --client-token xxx
         ''',
     )
     def create_disks(self):
@@ -325,7 +325,7 @@ class DiskController(BaseController):
         description='''
             -   为指定云硬盘创建快照，新生成的快照的状态为creating。; -   同一地域下单用户快照的配额为15块。; -   为保证数据完整性，请您在创建快照之前，停止对云硬盘进行写入操作，以保证快照数据的完整性。; -   在执行创建快照前，建议您对云硬盘进行卸载操作，创建快照后再重新挂载到云主机上。; -   手动快照的生命周期独立于云硬盘，请您及时删除不需要的快照。; -   创建快照所需时间取决于云硬盘容量的大小，云硬盘容量越大耗时越长。; 。
 
-            示例: jdc disk create-snapshot  --snapshot-spec {"":""} --client-token xxx
+            示例: jdc disk create-snapshot  --snapshot-spec '{"":""}' --client-token xxx
         ''',
     )
     def create_snapshot(self):

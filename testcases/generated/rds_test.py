@@ -518,6 +518,24 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_modify_parameter_group(self):
+        cmd = """python ../../main.py rds modify-parameter-group  --instance-id 'xxx' --parameter-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_exchange_instance_dns(self):
+        cmd = """python ../../main.py rds exchange-instance-dns  --instance-id 'xxx' --target-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_enable_intercept(self):
         cmd = """python ../../main.py rds enable-intercept  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -529,6 +547,24 @@ class RdsTest(unittest.TestCase):
 
     def test_disable_intercept(self):
         cmd = """python ../../main.py rds disable-intercept  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_intercept_result(self):
+        cmd = """python ../../main.py rds describe-intercept-result  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_intercept(self):
+        cmd = """python ../../main.py rds describe-intercept  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -565,6 +601,69 @@ class RdsTest(unittest.TestCase):
 
     def test_modify_parameter_group_attribute(self):
         cmd = """python ../../main.py rds modify-parameter-group-attribute  --parameter-group-id 'xxx' --parameter-group-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_parameter_groups(self):
+        cmd = """python ../../main.py rds describe-parameter-groups """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_parameter_group(self):
+        cmd = """python ../../main.py rds create-parameter-group  --engine 'xxx' --engine-version 'xxx' --parameter-group-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_parameter_group_parameters(self):
+        cmd = """python ../../main.py rds describe-parameter-group-parameters  --parameter-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_parameter_group_parameters(self):
+        cmd = """python ../../main.py rds modify-parameter-group-parameters  --parameter-group-id 'xxx' --parameters '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_parameter_modify_records(self):
+        cmd = """python ../../main.py rds describe-parameter-modify-records  --parameter-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_copy_parameter_group(self):
+        cmd = """python ../../main.py rds copy-parameter-group  --parameter-group-id 'xxx' --parameter-group-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_parameter_group_attached_instances(self):
+        cmd = """python ../../main.py rds describe-parameter-group-attached-instances  --parameter-group-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

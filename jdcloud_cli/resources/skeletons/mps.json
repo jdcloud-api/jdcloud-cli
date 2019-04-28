@@ -1,4 +1,17 @@
 {
+    "get-style-delimiter":{
+        "regionId":"",
+        "bucketName":""
+    },
+    "set-style-delimiter":{
+        "delimiters":[""],
+        "regionId":"",
+        "bucketName":""
+    },
+    "delete-style-delimiter":{
+        "regionId":"",
+        "bucketName":""
+    },
     "list-thumbnail-task":{
         "status":"",
         "begin":"",

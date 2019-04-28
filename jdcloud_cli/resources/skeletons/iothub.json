@@ -1,4 +1,11 @@
 {
+    "delete-device":{
+        "deviceId":"",
+        "instanceId":""
+    },
+    "query-device-online-infos":{
+        "deviceIds":[""]
+    },
     "device-activate":{
         "deviceId":""
     },
@@ -11,11 +18,17 @@
             "parentDeviceName":""
         }
     },
+    "query-device-commands":{
+        "deviceId":""
+    },
     "device-command":{
         "commands":{
             "name":"",
             "inputData":""
         },
+        "deviceId":""
+    },
+    "query-device-states":{
         "deviceId":""
     },
     "device-state":{
@@ -32,6 +45,14 @@
     "module-state":{
         "states":"",
         "moduleName":""
+    },
+    "get-omprivate-url":{
+        "instanceId":"",
+        "deviceId":""
+    },
+    "om-enrollby-file":{
+        "instanceId":"",
+        "fileName":""
     },
     "om-enroll":{
         "instanceId":"",

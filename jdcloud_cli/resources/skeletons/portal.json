@@ -1,0 +1,18 @@
+{
+    "describe-products":{
+        "lang":"",
+        "ak":"",
+        "regionId":""
+    },
+    "describe-product":{
+        "url":"",
+        "lang":"",
+        "ak":"",
+        "regionId":""
+    },
+    "describe-products-by-id":{
+        "id":"",
+        "ak":"",
+        "regionId":""
+    },
+}

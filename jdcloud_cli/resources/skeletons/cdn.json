@@ -1,4 +1,11 @@
 {
+    "query-online-billing-type":{
+    },
+    "set-online-billing-type":{
+        "allType":""
+    },
+    "query-area-isp-list":{
+    },
     "preview-certificate":{
         "content":"",
         "domain":""
@@ -117,6 +124,20 @@
         "jumpType":"",
         "domain":""
     },
+    "query-follow-redirect":{
+        "domain":""
+    },
+    "set-follow-redirect":{
+        "status":"",
+        "domain":""
+    },
+    "query-follow-source-protocol":{
+        "domain":""
+    },
+    "set-follow-source-protocol":{
+        "status":"",
+        "domain":""
+    },
     "query-domain-group-list":{
         "shareCache":"",
         "pageNumber":"",
@@ -151,6 +172,17 @@
         "pageSize":"",
         "status":"",
         "type":""
+    },
+    "get-domain-list-by-filter":{
+        "keyWord":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "status":"",
+        "type":"",
+        "tagFilters":[{
+            "key":"",
+            "values":""
+        }]
     },
     "get-domain-detail":{
         "domain":""
@@ -223,8 +255,8 @@
         "domain":""
     },
     "operate-live-domain-ip-black-list":{
-        "domain":"",
-        "blackIpsEnable":""
+        "blackIpsEnable":"",
+        "domain":""
     },
     "set-live-domain-back-source-host":{
         "sourceHost":"",
@@ -242,6 +274,16 @@
         "protocolConverts":[""],
         "domain":""
     },
+    "delete-forbidden-stream":{
+        "deleteStreams":[""],
+        "domain":""
+    },
+    "query-push-domain-orapp-or-stream":{
+        "app":"",
+        "stream":"",
+        "limit":"",
+        "domain":""
+    },
     "create-live-domain":{
         "playDomain":"",
         "publishDomain":"",
@@ -255,6 +297,45 @@
     },
     "query-live-domain-detail":{
         "domain":""
+    },
+    "query-live-domain-apps":{
+        "domain":""
+    },
+    "create-live-domain-prefecth-task":{
+        "urlList":"",
+        "prefetchTime":"",
+        "action":""
+    },
+    "query-live-prefetch-task":{
+        "urlList":""
+    },
+    "query-mix-statistics-data":{
+        "startTime":"",
+        "endTime":"",
+        "domain":"",
+        "fields":"",
+        "area":"",
+        "isp":"",
+        "period":""
+    },
+    "query-mix-statistics-with-area-data":{
+        "startTime":"",
+        "endTime":"",
+        "domain":"",
+        "fields":"",
+        "area":"",
+        "isp":"",
+        "period":""
+    },
+    "query-mix-traffic-group-sum":{
+        "startTime":"",
+        "endTime":"",
+        "domain":"",
+        "fields":"",
+        "area":"",
+        "isp":"",
+        "period":"",
+        "groupBy":""
     },
     "query-statistics-data":{
         "startTime":"",
@@ -290,6 +371,50 @@
         "origin":"",
         "period":"",
         "groupBy":""
+    },
+    "query-live-statistics-data":{
+        "startTime":"",
+        "endTime":"",
+        "domain":"",
+        "appname":"",
+        "streamname":"",
+        "subDomain":"",
+        "fields":"",
+        "area":"",
+        "isp":"",
+        "reqMethod":"",
+        "scheme":"",
+        "period":""
+    },
+    "query-live-statistics-area-data-group-by":{
+        "startTime":"",
+        "endTime":"",
+        "domain":"",
+        "appName":"",
+        "fields":"",
+        "area":"",
+        "isp":"",
+        "streamName":"",
+        "period":"",
+        "groupBy":"",
+        "subDomain":"",
+        "scheme":"",
+        "reqMethod":""
+    },
+    "query-live-traffic-group-sum":{
+        "startTime":"",
+        "endTime":"",
+        "domain":"",
+        "subDomain":"",
+        "appName":"",
+        "streamName":"",
+        "fields":"",
+        "area":"",
+        "isp":"",
+        "scheme":"",
+        "period":"",
+        "groupBy":"",
+        "reqMethod":""
     },
     "query-statistics-top-ip":{
         "startTime":"",

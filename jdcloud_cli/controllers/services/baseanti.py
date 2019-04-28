@@ -115,7 +115,7 @@ class BaseantiController(BaseController):
         description='''
             设置公网Ip的清洗阈值。
 
-            示例: jdc baseanti set-clean-threshold  --ip xxx --clean-threshold-spec {"":""}
+            示例: jdc baseanti set-clean-threshold  --ip xxx --clean-threshold-spec '{"":""}'
         ''',
     )
     def set_clean_threshold(self):

@@ -82,7 +82,7 @@ class StreamcomputerController(BaseController):
         description='''
             添加或者更新job。
 
-            示例: jdc streamcomputer add-or-update-job  --job-str {"":""}
+            示例: jdc streamcomputer add-or-update-job  --job-str '{"":""}'
         ''',
     )
     def add_or_update_job(self):
@@ -316,7 +316,7 @@ class StreamcomputerController(BaseController):
         description='''
             创建namespace。
 
-            示例: jdc streamcomputer create-namespace  --namespace-str {"":""}
+            示例: jdc streamcomputer create-namespace  --namespace-str '{"":""}'
         ''',
     )
     def create_namespace(self):
@@ -349,7 +349,7 @@ class StreamcomputerController(BaseController):
         description='''
             更新namespace。
 
-            示例: jdc streamcomputer update-namespace  --namespace-str {"":""}
+            示例: jdc streamcomputer update-namespace  --namespace-str '{"":""}'
         ''',
     )
     def update_namespace(self):
@@ -448,7 +448,7 @@ class StreamcomputerController(BaseController):
         description='''
             创建或者更新storage。
 
-            示例: jdc streamcomputer add-or-update-storage  --storage-str {"":""}
+            示例: jdc streamcomputer add-or-update-storage  --storage-str '{"":""}'
         ''',
     )
     def add_or_update_storage(self):

@@ -61,6 +61,10 @@
         },
         "regionId":""
     },
+    "delete-alarms":{
+        "ids":"",
+        "regionId":""
+    },
     "describe-alarms-by-id":{
         "regionId":"",
         "alarmId":""

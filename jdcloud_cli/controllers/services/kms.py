@@ -80,7 +80,7 @@ class KmsController(BaseController):
         description='''
             创建一个CMK（用户主密钥），默认为启用状态。
 
-            示例: jdc kms create-key  --key-cfg {"":""}
+            示例: jdc kms create-key  --key-cfg '{"":""}'
         ''',
     )
     def create_key(self):
@@ -145,7 +145,7 @@ class KmsController(BaseController):
         description='''
             修改密钥配置，包括key的名称、用途、是否自动轮换和轮换周期等。
 
-            示例: jdc kms update-key-description  --key-id xxx --key-cfg {"":""}
+            示例: jdc kms update-key-description  --key-id xxx --key-cfg '{"":""}'
         ''',
     )
     def update_key_description(self):
@@ -636,7 +636,7 @@ class KmsController(BaseController):
         description='''
             创建机密。
 
-            示例: jdc kms create-secret  --secret-cfg {"":""}
+            示例: jdc kms create-secret  --secret-cfg '{"":""}'
         ''',
     )
     def create_secret(self):
@@ -735,7 +735,7 @@ class KmsController(BaseController):
         description='''
             修改机密描述。
 
-            示例: jdc kms update-secret  --secret-id xxx --secret-desc-cfg {"":""}
+            示例: jdc kms update-secret  --secret-id xxx --secret-desc-cfg '{"":""}'
         ''',
     )
     def update_secret(self):
@@ -864,7 +864,7 @@ class KmsController(BaseController):
         description='''
             创建机密新的版本，默认为已启用状态。
 
-            示例: jdc kms create-secret-version  --secret-id xxx --secret-version-cfg {"":""}
+            示例: jdc kms create-secret-version  --secret-id xxx --secret-version-cfg '{"":""}'
         ''',
     )
     def create_secret_version(self):
@@ -963,7 +963,7 @@ class KmsController(BaseController):
         description='''
             修改机密指定版本配置。
 
-            示例: jdc kms update-secret-version  --secret-id xxx --version xxx --secret-time-cfg {"":""}
+            示例: jdc kms update-secret-version  --secret-id xxx --version xxx --secret-time-cfg '{"":""}'
         ''',
     )
     def update_secret_version(self):

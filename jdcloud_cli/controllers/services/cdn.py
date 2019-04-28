@@ -38,6 +38,100 @@ class CdnController(BaseController):
 
     @expose(
         arguments=[
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置线上计费方式 ''',
+        description='''
+            设置线上计费方式。
+
+            示例: jdc cdn query-online-billing-type 
+        ''',
+    )
+    def query_online_billing_type(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryOnlineBillingTypeRequest import QueryOnlineBillingTypeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryOnlineBillingTypeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--all-type'], dict(help="""(int) 计费方式,取值[0,1],0:日流量计费,1:日峰值带宽计费. """, dest='allType', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置线上计费方式 ''',
+        description='''
+            设置线上计费方式。
+
+            示例: jdc cdn set-online-billing-type 
+        ''',
+    )
+    def set_online_billing_type(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetOnlineBillingTypeRequest import SetOnlineBillingTypeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetOnlineBillingTypeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查找地域运营商列表 ''',
+        description='''
+            查找地域运营商列表。
+
+            示例: jdc cdn query-area-isp-list 
+        ''',
+    )
+    def query_area_isp_list(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryAreaIspListRequest import QueryAreaIspListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryAreaIspListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
             (['--content'], dict(help="""(string) NA """, dest='content',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -881,6 +975,136 @@ class CdnController(BaseController):
 
     @expose(
         arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询回源302跳转信息 ''',
+        description='''
+            查询回源302跳转信息。
+
+            示例: jdc cdn query-follow-redirect  --domain xxx
+        ''',
+    )
+    def query_follow_redirect(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryFollowRedirectRequest import QueryFollowRedirectRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryFollowRedirectRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--status'], dict(help="""(string) 开关取值[on,off] """, dest='status',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置回源302跳转 ''',
+        description='''
+            设置回源302跳转。
+
+            示例: jdc cdn set-follow-redirect  --domain xxx
+        ''',
+    )
+    def set_follow_redirect(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetFollowRedirectRequest import SetFollowRedirectRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetFollowRedirectRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询协议跟随回源 ''',
+        description='''
+            查询协议跟随回源。
+
+            示例: jdc cdn query-follow-source-protocol  --domain xxx
+        ''',
+    )
+    def query_follow_source_protocol(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryFollowSourceProtocolRequest import QueryFollowSourceProtocolRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryFollowSourceProtocolRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--status'], dict(help="""(string) 开关取值[on,off] """, dest='status',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置协议跟随回源 ''',
+        description='''
+            设置协议跟随回源。
+
+            示例: jdc cdn set-follow-source-protocol  --domain xxx
+        ''',
+    )
+    def set_follow_source_protocol(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetFollowSourceProtocolRequest import SetFollowSourceProtocolRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetFollowSourceProtocolRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--share-cache'], dict(help="""(string) 根据是否共享内存筛选 """, dest='shareCache',  required=False)),
             (['--page-number'], dict(help="""(int) pageNumber """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) pageSize """, dest='pageSize', type=int, required=False)),
@@ -1110,6 +1334,43 @@ class CdnController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = GetDomainListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--key-word'], dict(help="""(string) 根据关键字进行模糊匹配 """, dest='keyWord',  required=False)),
+            (['--page-number'], dict(help="""(int) pageNumber """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) pageSize """, dest='pageSize', type=int, required=False)),
+            (['--status'], dict(help="""(string) 根据域名状态查询, 可选值[offline, online, configuring, auditing, audit_reject] """, dest='status',  required=False)),
+            (['--type'], dict(help="""(string) type """, dest='type',  required=False)),
+            (['--tag-filters'], dict(help="""(array: tagFilter) 标签过滤条件 """, dest='tagFilters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 通过标签查询加速域名接口 ''',
+        description='''
+            通过标签查询加速域名接口。
+
+            示例: jdc cdn get-domain-list-by-filter 
+        ''',
+    )
+    def get_domain_list_by_filter(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.GetDomainListByFilterRequest import GetDomainListByFilterRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDomainListByFilterRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1509,7 +1770,7 @@ class CdnController(BaseController):
     @expose(
         arguments=[
             (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
-            (['--black-ips-enable'], dict(help="""(string) NA """, dest='blackIpsEnable',  required=True)),
+            (['--black-ips-enable'], dict(help="""(string) NA """, dest='blackIpsEnable',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1518,7 +1779,7 @@ class CdnController(BaseController):
         description='''
             开启或关闭ip黑名单。
 
-            示例: jdc cdn operate-live-domain-ip-black-list  --domain xxx --black-ips-enable xxx
+            示例: jdc cdn operate-live-domain-ip-black-list  --domain xxx
         ''',
     )
     def operate_live_domain_ip_black_list(self):
@@ -1644,6 +1905,74 @@ class CdnController(BaseController):
 
     @expose(
         arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--delete-streams'], dict(help="""(array: array) 要删除的禁播流 """, dest='deleteStreams',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除禁播流 ''',
+        description='''
+            删除禁播流。
+
+            示例: jdc cdn delete-forbidden-stream  --domain xxx
+        ''',
+    )
+    def delete_forbidden_stream(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.DeleteForbiddenStreamRequest import DeleteForbiddenStreamRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteForbiddenStreamRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--app'], dict(help="""(string) app名，传appName查询流名列表 """, dest='app',  required=False)),
+            (['--stream'], dict(help="""(string) 流名模糊查询 """, dest='stream',  required=False)),
+            (['--limit'], dict(help="""(int) 指定app/流名列表大小，默认50 """, dest='limit', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询用户推流域名app名/流名 ''',
+        description='''
+            查询用户推流域名app名/流名。
+
+            示例: jdc cdn query-push-domain-orapp-or-stream  --domain xxx
+        ''',
+    )
+    def query_push_domain_orapp_or_stream(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryPushDomainORAppOrStreamRequest import QueryPushDomainORAppOrStreamRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryPushDomainORAppOrStreamRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--play-domain'], dict(help="""(string) 播放域名 """, dest='playDomain',  required=False)),
             (['--publish-domain'], dict(help="""(string) 创建推流域名时，必传推流域名 """, dest='publishDomain',  required=False)),
             (['--source-type'], dict(help="""(string) 回源类型只能是[ips,domain]中的一种 """, dest='sourceType',  required=False)),
@@ -1707,6 +2036,219 @@ class CdnController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = QueryLiveDomainDetailRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询直播域名app列表 ''',
+        description='''
+            查询直播域名app列表。
+
+            示例: jdc cdn query-live-domain-apps  --domain xxx
+        ''',
+    )
+    def query_live_domain_apps(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryLiveDomainAppsRequest import QueryLiveDomainAppsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryLiveDomainAppsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--url-list'], dict(help="""(array) 预热的URL """, dest='urlList',  required=False)),
+            (['--prefetch-time'], dict(help="""(int) 预热时长 """, dest='prefetchTime', type=int, required=False)),
+            (['--action'], dict(help="""(string) 操作类型只能是[start,stop]中的一种 """, dest='action',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建直播预热任务 ''',
+        description='''
+            创建直播预热任务。
+
+            示例: jdc cdn create-live-domain-prefecth-task 
+        ''',
+    )
+    def create_live_domain_prefecth_task(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.CreateLiveDomainPrefecthTaskRequest import CreateLiveDomainPrefecthTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateLiveDomainPrefecthTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--url-list'], dict(help="""(array) 预热的URL """, dest='urlList',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询直播预热任务 ''',
+        description='''
+            查询直播预热任务。
+
+            示例: jdc cdn query-live-prefetch-task 
+        ''',
+    )
+    def query_live_prefetch_task(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryLivePrefetchTaskRequest import QueryLivePrefetchTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryLivePrefetchTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--fields'], dict(help="""(string) 需要查询的字段 """, dest='fields',  required=False)),
+            (['--area'], dict(help="""(string) NA """, dest='area',  required=False)),
+            (['--isp'], dict(help="""(string) NA """, dest='isp',  required=False)),
+            (['--period'], dict(help="""(string) 时间粒度，可选值:[oneMin,fiveMin,followTime],followTime只会返回一个汇总后的数据 """, dest='period',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询统计数据 ''',
+        description='''
+            查询统计数据。
+
+            示例: jdc cdn query-mix-statistics-data 
+        ''',
+    )
+    def query_mix_statistics_data(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryMixStatisticsDataRequest import QueryMixStatisticsDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryMixStatisticsDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--fields'], dict(help="""(string) 需要查询的字段 """, dest='fields',  required=False)),
+            (['--area'], dict(help="""(string) NA """, dest='area',  required=False)),
+            (['--isp'], dict(help="""(string) NA """, dest='isp',  required=False)),
+            (['--period'], dict(help="""(string) 时间粒度，可选值:[oneMin,fiveMin,followTime],followTime只会返回一个汇总后的数据 """, dest='period',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 分地区及运营商查询统计数据 ''',
+        description='''
+            分地区及运营商查询统计数据。
+
+            示例: jdc cdn query-mix-statistics-with-area-data 
+        ''',
+    )
+    def query_mix_statistics_with_area_data(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryMixStatisticsWithAreaDataRequest import QueryMixStatisticsWithAreaDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryMixStatisticsWithAreaDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--fields'], dict(help="""(string) 需要查询的字段 """, dest='fields',  required=False)),
+            (['--area'], dict(help="""(string) NA """, dest='area',  required=False)),
+            (['--isp'], dict(help="""(string) NA """, dest='isp',  required=False)),
+            (['--period'], dict(help="""(string) 时间粒度，可选值:[oneMin,fiveMin,followTime],followTime只会返回一个汇总后的数据 """, dest='period',  required=False)),
+            (['--group-by'], dict(help="""(string) 分组依据,只能按域名分组 """, dest='groupBy',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询统计数据并进行汇总加和 ''',
+        description='''
+            查询统计数据并进行汇总加和。
+
+            示例: jdc cdn query-mix-traffic-group-sum 
+        ''',
+    )
+    def query_mix_traffic_group_sum(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryMixTrafficGroupSumRequest import QueryMixTrafficGroupSumRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryMixTrafficGroupSumRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1841,6 +2383,137 @@ class CdnController(BaseController):
             (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
             (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--appname'], dict(help="""(string) app名 """, dest='appname',  required=False)),
+            (['--streamname'], dict(help="""(string) 流名 """, dest='streamname',  required=False)),
+            (['--sub-domain'], dict(help="""(string) 子域名 """, dest='subDomain',  required=False)),
+            (['--fields'], dict(help="""(string) 需要查询的字段 """, dest='fields',  required=False)),
+            (['--area'], dict(help="""(string) NA """, dest='area',  required=False)),
+            (['--isp'], dict(help="""(string) NA """, dest='isp',  required=False)),
+            (['--req-method'], dict(help="""(string) NA """, dest='reqMethod',  required=False)),
+            (['--scheme'], dict(help="""(string) 查询的流协议类型 """, dest='scheme',  required=False)),
+            (['--period'], dict(help="""(string) 时间粒度，可选值:[oneMin,fiveMin,followTime],followTime只会返回一个汇总后的数据 """, dest='period',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询统计数据 ''',
+        description='''
+            查询统计数据。
+
+            示例: jdc cdn query-live-statistics-data 
+        ''',
+    )
+    def query_live_statistics_data(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryLiveStatisticsDataRequest import QueryLiveStatisticsDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryLiveStatisticsDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--app-name'], dict(help="""(string) app名 """, dest='appName',  required=False)),
+            (['--fields'], dict(help="""(string) 需要查询的字段 """, dest='fields',  required=False)),
+            (['--area'], dict(help="""(string) NA """, dest='area',  required=False)),
+            (['--isp'], dict(help="""(string) NA """, dest='isp',  required=False)),
+            (['--stream-name'], dict(help="""(string) NA """, dest='streamName',  required=False)),
+            (['--period'], dict(help="""(string) 时间粒度，可选值:[oneMin,fiveMin,followTime],followTime只会返回一个汇总后的数据 """, dest='period',  required=False)),
+            (['--group-by'], dict(help="""(string) 分组依据 """, dest='groupBy',  required=False)),
+            (['--sub-domain'], dict(help="""(string) NA """, dest='subDomain',  required=False)),
+            (['--scheme'], dict(help="""(string) 查询的流协议 """, dest='scheme',  required=False)),
+            (['--req-method'], dict(help="""(string) NA """, dest='reqMethod',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 分地区及运营商查询统计数据 ''',
+        description='''
+            分地区及运营商查询统计数据。
+
+            示例: jdc cdn query-live-statistics-area-data-group-by 
+        ''',
+    )
+    def query_live_statistics_area_data_group_by(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryLiveStatisticsAreaDataGroupByRequest import QueryLiveStatisticsAreaDataGroupByRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryLiveStatisticsAreaDataGroupByRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--sub-domain'], dict(help="""(string) NA """, dest='subDomain',  required=False)),
+            (['--app-name'], dict(help="""(string) app名 """, dest='appName',  required=False)),
+            (['--stream-name'], dict(help="""(string) 流名 """, dest='streamName',  required=False)),
+            (['--fields'], dict(help="""(string) 需要查询的字段 """, dest='fields',  required=False)),
+            (['--area'], dict(help="""(string) NA """, dest='area',  required=False)),
+            (['--isp'], dict(help="""(string) NA """, dest='isp',  required=False)),
+            (['--scheme'], dict(help="""(string) 查询的流协议 """, dest='scheme',  required=False)),
+            (['--period'], dict(help="""(string) 时间粒度，可选值:[oneMin,fiveMin,followTime],followTime只会返回一个汇总后的数据 """, dest='period',  required=False)),
+            (['--group-by'], dict(help="""(string) 分组依据 """, dest='groupBy',  required=False)),
+            (['--req-method'], dict(help="""(string) NA """, dest='reqMethod',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询统计数据并进行汇总加和 ''',
+        description='''
+            查询统计数据并进行汇总加和。
+
+            示例: jdc cdn query-live-traffic-group-sum 
+        ''',
+    )
+    def query_live_traffic_group_sum(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryLiveTrafficGroupSumRequest import QueryLiveTrafficGroupSumRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryLiveTrafficGroupSumRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
             (['--sub-domain'], dict(help="""(string) 待查询的子域名 """, dest='subDomain',  required=False)),
             (['--size'], dict(help="""(int) NA """, dest='size', type=int, required=False)),
             (['--top-by'], dict(help="""(string) 排序依据 """, dest='topBy',  required=False)),
@@ -1912,7 +2585,7 @@ class CdnController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['preview-certificate','query-default-http-header-key','query-ip-black-list','set-ip-black-list','operate-ip-black-list','create-cache-rule','update-cache-rule','delete-cache-rule','query-http-header','set-http-header','delete-http-header','set-video-draft','set-range','set-ignore-query-string','query-user-agent','set-user-agent-config','query-accesskey-config','set-accesskey-config','set-refer','query-monitor','set-monitor','stop-monitor','set-source','operate-share-cache','set-http-type','query-domain-group-list','query-domain-group-detail','query-domains-not-in-group','update-domain-group','create-domain-group','batch-delete-domain-group','get-domain-list','get-domain-detail','create-domain','delete-domain','start-domain','stop-domain','query-oss-buckets','batch-create','query-domain-config','set-live-domain-back-source','set-live-domain-ip-black-list','set-live-domain-refer','operate-live-domain-ip-black-list','set-live-domain-back-source-host','set-live-domain-access-key','set-protocol-convert','create-live-domain','query-live-domain-detail','query-statistics-data','query-statistics-data-group-by-area','query-statistics-data-group-sum','query-statistics-top-ip','query-statistics-top-url',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['query-online-billing-type','set-online-billing-type','query-area-isp-list','preview-certificate','query-default-http-header-key','query-ip-black-list','set-ip-black-list','operate-ip-black-list','create-cache-rule','update-cache-rule','delete-cache-rule','query-http-header','set-http-header','delete-http-header','set-video-draft','set-range','set-ignore-query-string','query-user-agent','set-user-agent-config','query-accesskey-config','set-accesskey-config','set-refer','query-monitor','set-monitor','stop-monitor','set-source','operate-share-cache','set-http-type','query-follow-redirect','set-follow-redirect','query-follow-source-protocol','set-follow-source-protocol','query-domain-group-list','query-domain-group-detail','query-domains-not-in-group','update-domain-group','create-domain-group','batch-delete-domain-group','get-domain-list','get-domain-list-by-filter','get-domain-detail','create-domain','delete-domain','start-domain','stop-domain','query-oss-buckets','batch-create','query-domain-config','set-live-domain-back-source','set-live-domain-ip-black-list','set-live-domain-refer','operate-live-domain-ip-black-list','set-live-domain-back-source-host','set-live-domain-access-key','set-protocol-convert','delete-forbidden-stream','query-push-domain-orapp-or-stream','create-live-domain','query-live-domain-detail','query-live-domain-apps','create-live-domain-prefecth-task','query-live-prefetch-task','query-mix-statistics-data','query-mix-statistics-with-area-data','query-mix-traffic-group-sum','query-statistics-data','query-statistics-data-group-by-area','query-statistics-data-group-sum','query-live-statistics-data','query-live-statistics-area-data-group-by','query-live-traffic-group-sum','query-statistics-top-ip','query-statistics-top-url',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

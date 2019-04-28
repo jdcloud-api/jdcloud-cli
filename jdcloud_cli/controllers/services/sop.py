@@ -48,7 +48,7 @@ class SopController(BaseController):
         description='''
             获取Token。
 
-            示例: jdc sop get-security-token  --get-security-token-info {"":""}
+            示例: jdc sop get-security-token  --get-security-token-info '{"":""}'
         ''',
     )
     def get_security_token(self):

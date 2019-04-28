@@ -38,34 +38,34 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
-            (['--instance-id'], dict(help="""(array: string) 高防实例id """, dest='instanceId',  required=False)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小, 默认为10, 取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: int) 高防实例 ID """, dest='instanceId', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询DDos攻击日志 ''',
+        help=''' 查询 DDos 攻击日志 ''',
         description='''
-            查询DDos攻击日志。
+            查询 DDos 攻击日志。
 
-            示例: jdc ipanti describe-ddos-attack-logs  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-ddo-sattack-logs  --start-time xxx --end-time xxx
         ''',
     )
-    def describe_ddos_attack_logs(self):
+    def describe_ddo_sattack_logs(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.DescribeDDosAttackLogsRequest import DescribeDDosAttackLogsRequest
+            from jdcloud_sdk.services.ipanti.apis.DescribeDDoSAttackLogsRequest import DescribeDDoSAttackLogsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeDDosAttackLogsRequest(params_dict, headers)
+            req = DescribeDDoSAttackLogsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -75,34 +75,34 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
-            (['--instance-id'], dict(help="""(array: string) 高防实例id """, dest='instanceId',  required=False)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小, 默认为10, 取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: int) 高防实例 ID """, dest='instanceId', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询cc攻击日志 ''',
+        help=''' 查询 CC 攻击日志 ''',
         description='''
-            查询cc攻击日志。
+            查询 CC 攻击日志。
 
-            示例: jdc ipanti describe-cc-attack-logs  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-ccattack-logs  --start-time xxx --end-time xxx
         ''',
     )
-    def describe_cc_attack_logs(self):
+    def describe_ccattack_logs(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.DescribeCcAttackLogsRequest import DescribeCcAttackLogsRequest
+            from jdcloud_sdk.services.ipanti.apis.DescribeCCAttackLogsRequest import DescribeCCAttackLogsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeCcAttackLogsRequest(params_dict, headers)
+            req = DescribeCCAttackLogsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -112,35 +112,35 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
-            (['--instance-id'], dict(help="""(string) 高防实例id """, dest='instanceId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小, 默认为10, 取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 60 天以内的数据, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(int) 高防实例 ID """, dest='instanceId', type=int, required=True)),
             (['--sub-domain'], dict(help="""(array: string) 子域名 """, dest='subDomain',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询cc攻击日志详情 ''',
+        help=''' 查询 CC 攻击日志详情 ''',
         description='''
-            查询cc攻击日志详情。
+            查询 CC 攻击日志详情。
 
-            示例: jdc ipanti describe-cc-attack-log-details  --start-time xxx --end-time xxx --instance-id xxx
+            示例: jdc ipanti describe-ccattack-log-details  --start-time xxx --end-time xxx --instance-id 0
         ''',
     )
-    def describe_cc_attack_log_details(self):
+    def describe_ccattack_log_details(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.DescribeCcAttackLogDetailsRequest import DescribeCcAttackLogDetailsRequest
+            from jdcloud_sdk.services.ipanti.apis.DescribeCCAttackLogDetailsRequest import DescribeCCAttackLogDetailsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeCcAttackLogDetailsRequest(params_dict, headers)
+            req = DescribeCCAttackLogDetailsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -150,32 +150,32 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
-            (['--instance-id'], dict(help="""(array: string) 高防实例id，可以传0个或多个 """, dest='instanceId',  required=False)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能下载最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: int) 高防实例 ID """, dest='instanceId', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' ddos防护报表 ''',
+        help=''' 下载 DDos 攻击日志 ''',
         description='''
-            ddos防护报表。
+            下载 DDos 攻击日志。
 
-            示例: jdc ipanti ddos-graph  --start-time xxx --end-time xxx
+            示例: jdc ipanti download-ddo-sattack-logs  --start-time xxx --end-time xxx
         ''',
     )
-    def ddos_graph(self):
+    def download_ddo_sattack_logs(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.DdosGraphRequest import DdosGraphRequest
+            from jdcloud_sdk.services.ipanti.apis.DownloadDDoSAttackLogsRequest import DownloadDDoSAttackLogsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DdosGraphRequest(params_dict, headers)
+            req = DownloadDDoSAttackLogsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -185,10 +185,187 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
-            (['--instance-id'], dict(help="""(array: string) 高防实例id，可以传0个或多个 """, dest='instanceId',  required=False)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能下载最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: int) 高防实例 ID """, dest='instanceId', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 下载 CC 攻击日志 ''',
+        description='''
+            下载 CC 攻击日志。
+
+            示例: jdc ipanti download-ccattack-logs  --start-time xxx --end-time xxx
+        ''',
+    )
+    def download_ccattack_logs(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DownloadCCAttackLogsRequest import DownloadCCAttackLogsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DownloadCCAttackLogsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能下载最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(int) 高防实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--sub-domain'], dict(help="""(array: string) 子域名 """, dest='subDomain',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 下载 CC 攻击日志详情 ''',
+        description='''
+            下载 CC 攻击日志详情。
+
+            示例: jdc ipanti download-ccattack-log-details  --start-time xxx --end-time xxx --instance-id 0
+        ''',
+    )
+    def download_ccattack_log_details(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DownloadCCAttackLogDetailsRequest import DownloadCCAttackLogDetailsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DownloadCCAttackLogDetailsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: int) 高防实例 ID """, dest='instanceId', type=int, required=False)),
+            (['--type'], dict(help="""(int) 攻击类型, 0 为 DDos, 1 为 CC """, dest='type', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询攻击次数及流量峰值 ''',
+        description='''
+            查询攻击次数及流量峰值。
+
+            示例: jdc ipanti describe-attack-statistics  --start-time xxx --end-time xxx --type 0
+        ''',
+    )
+    def describe_attack_statistics(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeAttackStatisticsRequest import DescribeAttackStatisticsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAttackStatisticsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: int) 高防实例 ID """, dest='instanceId', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询各类型攻击次数 ''',
+        description='''
+            查询各类型攻击次数。
+
+            示例: jdc ipanti describe-attack-type-count  --start-time xxx --end-time xxx
+        ''',
+    )
+    def describe_attack_type_count(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeAttackTypeCountRequest import DescribeAttackTypeCountRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAttackTypeCountRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 最多查最近 60 天, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: int) 高防实例 Id 列表 """, dest='instanceId', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' DDos 防护流量报表 ''',
+        description='''
+            DDos 防护流量报表。
+
+            示例: jdc ipanti describe-ddo-sgraph  --start-time xxx --end-time xxx
+        ''',
+    )
+    def describe_ddo_sgraph(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeDDoSGraphRequest import DescribeDDoSGraphRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeDDoSGraphRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 最多查最近 60 天, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: int) 高防实例 Id 列表 """, dest='instanceId', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -197,20 +374,20 @@ class IpantiController(BaseController):
         description='''
             转发流量报表。
 
-            示例: jdc ipanti fwd-graph  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-fwd-graph  --start-time xxx --end-time xxx
         ''',
     )
-    def fwd_graph(self):
+    def describe_fwd_graph(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.FwdGraphRequest import FwdGraphRequest
+            from jdcloud_sdk.services.ipanti.apis.DescribeFwdGraphRequest import DescribeFwdGraphRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = FwdGraphRequest(params_dict, headers)
+            req = DescribeFwdGraphRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -220,33 +397,33 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间，最多查最近30天，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
-            (['--instance-id'], dict(help="""(array: string) 高防实例id，可以传0个或多个 """, dest='instanceId',  required=False)),
-            (['--sub-domain'], dict(help="""(array: string) 规则域名，可以传0个或多个 """, dest='subDomain',  required=False)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, 最多查最近 60 天, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--instance-id'], dict(help="""(array: int) 高防实例 Id 列表 """, dest='instanceId', type=int, required=False)),
+            (['--sub-domain'], dict(help="""(array: string) 规则域名列表 """, dest='subDomain',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 转发流量报表 ''',
+        help=''' CC 防护流量报表 ''',
         description='''
-            转发流量报表。
+            CC 防护流量报表。
 
-            示例: jdc ipanti cc-graph  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-ccgraph  --start-time xxx --end-time xxx
         ''',
     )
-    def cc_graph(self):
+    def describe_ccgraph(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.CcGraphRequest import CcGraphRequest
+            from jdcloud_sdk.services.ipanti.apis.DescribeCCGraphRequest import DescribeCCGraphRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CcGraphRequest(params_dict, headers)
+            req = DescribeCCGraphRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -256,10 +433,12 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小, 默认为10, 取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--search-type'], dict(help="""(string) 查询类型名称, domain:源站域名, ip:源站 IP, port: 转发端口, originPort: 源站端口 """, dest='searchType',  required=False)),
+            (['--search-value'], dict(help="""(string) 查询类型值 """, dest='searchValue',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -268,7 +447,7 @@ class IpantiController(BaseController):
         description='''
             查询某个实例下的非网站转发配置。
 
-            示例: jdc ipanti describe-forward-rules  --instance-id xxx
+            示例: jdc ipanti describe-forward-rules  --instance-id 5
         ''',
     )
     def describe_forward_rules(self):
@@ -291,9 +470,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--forward-rule-spec'], dict(help="""(forwardRuleSpec) 非网站类规则参数 """, dest='forwardRuleSpec',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--forward-rule-spec'], dict(help="""(forwardRuleSpec) 添加非网站类规则请求参数 """, dest='forwardRuleSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -302,7 +481,7 @@ class IpantiController(BaseController):
         description='''
             添加非网站类规则。
 
-            示例: jdc ipanti create-forward-rule  --instance-id xxx --forward-rule-spec {"":""}
+            示例: jdc ipanti create-forward-rule  --instance-id 5 --forward-rule-spec '{"":""}'
         ''',
     )
     def create_forward_rule(self):
@@ -325,18 +504,18 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--forward-rule-id'], dict(help="""(int) 转发规则 Id """, dest='forwardRuleId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询某条非网站类规则 ''',
+        help=''' 查询非网站类规则 ''',
         description='''
-            查询某条非网站类规则。
+            查询非网站类规则。
 
-            示例: jdc ipanti describe-forward-rule  --instance-id xxx --forward-rule-id xxx
+            示例: jdc ipanti describe-forward-rule  --instance-id 5 --forward-rule-id 5
         ''',
     )
     def describe_forward_rule(self):
@@ -359,19 +538,19 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId',  required=True)),
-            (['--forward-rule-spec'], dict(help="""(forwardRuleSpec) 非网站类规则参数 """, dest='forwardRuleSpec',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--forward-rule-id'], dict(help="""(int) 转发规则 Id """, dest='forwardRuleId', type=int, required=True)),
+            (['--forward-rule-spec'], dict(help="""(forwardRuleSpec) 更新非网站类规则请求参数 """, dest='forwardRuleSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 更新某条非网站类规则 ''',
+        help=''' 更新非网站类规则 ''',
         description='''
-            更新某条非网站类规则。
+            更新非网站类规则。
 
-            示例: jdc ipanti modify-forward-rule  --instance-id xxx --forward-rule-id xxx --forward-rule-spec {"":""}
+            示例: jdc ipanti modify-forward-rule  --instance-id 5 --forward-rule-id 5 --forward-rule-spec '{"":""}'
         ''',
     )
     def modify_forward_rule(self):
@@ -394,18 +573,18 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--forward-rule-id'], dict(help="""(int) 转发规则 Id """, dest='forwardRuleId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除某条非网站规则 ''',
+        help=''' 删除非网站规则 ''',
         description='''
-            删除某条非网站规则。
+            删除非网站规则。
 
-            示例: jdc ipanti delete-forward-rule  --instance-id xxx --forward-rule-id xxx
+            示例: jdc ipanti delete-forward-rule  --instance-id 5 --forward-rule-id 5
         ''',
     )
     def delete_forward_rule(self):
@@ -428,9 +607,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--forward-rule-id'], dict(help="""(int) 转发规则 Id """, dest='forwardRuleId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -439,7 +618,7 @@ class IpantiController(BaseController):
         description='''
             非网站类规则切换成防御状态。
 
-            示例: jdc ipanti switch-forward-rule-protect  --instance-id xxx --forward-rule-id xxx
+            示例: jdc ipanti switch-forward-rule-protect  --instance-id 5 --forward-rule-id 5
         ''',
     )
     def switch_forward_rule_protect(self):
@@ -462,9 +641,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--forward-rule-id'], dict(help="""(string) 转发规则id """, dest='forwardRuleId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--forward-rule-id'], dict(help="""(int) 转发规则 Id """, dest='forwardRuleId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -473,7 +652,7 @@ class IpantiController(BaseController):
         description='''
             非网站类规则切换成回源状态。
 
-            示例: jdc ipanti switch-forward-rule-origin  --instance-id xxx --forward-rule-id xxx
+            示例: jdc ipanti switch-forward-rule-origin  --instance-id 5 --forward-rule-id 5
         ''',
     )
     def switch_forward_rule_origin(self):
@@ -496,9 +675,110 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--forward-rule-id'], dict(help="""(int) 转发规则 Id """, dest='forwardRuleId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询非网站类转发规则的防护规则 ''',
+        description='''
+            查询非网站类转发规则的防护规则。
+
+            示例: jdc ipanti describe-protection-rule-of-forward-rule  --instance-id 5 --forward-rule-id 5
+        ''',
+    )
+    def describe_protection_rule_of_forward_rule(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeProtectionRuleOfForwardRuleRequest import DescribeProtectionRuleOfForwardRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeProtectionRuleOfForwardRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--forward-rule-id'], dict(help="""(int) 转发规则 Id """, dest='forwardRuleId', type=int, required=True)),
+            (['--forward-protection-rule-spec'], dict(help="""(forwardProtectionRuleSpec) 修改非网站类转发规则的防护规则请求参数 """, dest='forwardProtectionRuleSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改非网站类转发规则的防护规则 ''',
+        description='''
+            修改非网站类转发规则的防护规则。
+
+            示例: jdc ipanti modify-protection-rule-of-forward-rule  --instance-id 5 --forward-rule-id 5 --forward-protection-rule-spec '{"":""}'
+        ''',
+    )
+    def modify_protection_rule_of_forward_rule(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.ModifyProtectionRuleOfForwardRuleRequest import ModifyProtectionRuleOfForwardRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyProtectionRuleOfForwardRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询非网站类转发规则的防护规则 Geo 拦截可设置区域编码 ''',
+        description='''
+            查询非网站类转发规则的防护规则 Geo 拦截可设置区域编码。
+
+            示例: jdc ipanti describe-geo-areas 
+        ''',
+    )
+    def describe_geo_areas(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeGeoAreasRequest import DescribeGeoAreasRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeGeoAreasRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为 1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小, 默认为 10, 取值范围[10, 100], 0 表示全量 """, dest='pageSize', type=int, required=False)),
             (['--name'], dict(help="""(string) 实例名称，可模糊匹配 """, dest='name',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -532,16 +812,16 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-spec'], dict(help="""(instanceSpec) 实例规格参数 """, dest='instanceSpec',  required=True)),
+            (['--create-instance-spec'], dict(help="""(createInstanceSpec) 新购或升级实例请求参数 """, dest='createInstanceSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建实例 ''',
+        help=''' 新购或升级高防实例 ''',
         description='''
-            创建实例。
+            新购或升级高防实例。
 
-            示例: jdc ipanti create-instance  --instance-spec {"":""}
+            示例: jdc ipanti create-instance  --create-instance-spec '{"":""}'
         ''',
     )
     def create_instance(self):
@@ -565,7 +845,7 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -574,7 +854,7 @@ class IpantiController(BaseController):
         description='''
             查询实例。
 
-            示例: jdc ipanti describe-instance  --instance-id xxx
+            示例: jdc ipanti describe-instance  --instance-id 5
         ''',
     )
     def describe_instance(self):
@@ -598,208 +878,8 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--c-cspec'], dict(help="""(cCSpec) cc参数 """, dest='cCSpec',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 设置实例CC防护 ''',
-        description='''
-            设置实例CC防护。
-
-            示例: jdc ipanti modify-instance-cc  --instance-id xxx --c-cspec {"":""}
-        ''',
-    )
-    def modify_instance_cc(self):
-        client_factory = ClientFactory('ipanti')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.ipanti.apis.ModifyInstanceCCRequest import ModifyInstanceCCRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyInstanceCCRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 开启实例CC防护 ''',
-        description='''
-            开启实例CC防护。
-
-            示例: jdc ipanti enable-instance-cc  --instance-id xxx
-        ''',
-    )
-    def enable_instance_cc(self):
-        client_factory = ClientFactory('ipanti')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.ipanti.apis.EnableInstanceCCRequest import EnableInstanceCCRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = EnableInstanceCCRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 关闭实例CC防护 ''',
-        description='''
-            关闭实例CC防护。
-
-            示例: jdc ipanti disable-instance-cc  --instance-id xxx
-        ''',
-    )
-    def disable_instance_cc(self):
-        client_factory = ClientFactory('ipanti')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.ipanti.apis.DisableInstanceCCRequest import DisableInstanceCCRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DisableInstanceCCRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--url-white-list'], dict(help="""(array: string) 网站类规则参数 """, dest='urlWhiteList',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 设置实例url白名单 ''',
-        description='''
-            设置实例url白名单。
-
-            示例: jdc ipanti modify-instance-url-white-list  --instance-id xxx
-        ''',
-    )
-    def modify_instance_url_white_list(self):
-        client_factory = ClientFactory('ipanti')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.ipanti.apis.ModifyInstanceUrlWhiteListRequest import ModifyInstanceUrlWhiteListRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyInstanceUrlWhiteListRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 启用实例url白名单 ''',
-        description='''
-            启用实例url白名单。
-
-            示例: jdc ipanti enable-instance-url-white-list  --instance-id xxx
-        ''',
-    )
-    def enable_instance_url_white_list(self):
-        client_factory = ClientFactory('ipanti')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.ipanti.apis.EnableInstanceUrlWhiteListRequest import EnableInstanceUrlWhiteListRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = EnableInstanceUrlWhiteListRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 禁用实例url白名单 ''',
-        description='''
-            禁用实例url白名单。
-
-            示例: jdc ipanti disable-instance-url-white-list  --instance-id xxx
-        ''',
-    )
-    def disable_instance_url_white_list(self):
-        client_factory = ClientFactory('ipanti')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.ipanti.apis.DisableInstanceUrlWhiteListRequest import DisableInstanceUrlWhiteListRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DisableInstanceUrlWhiteListRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--name'], dict(help="""(string) 新的实例名称 """, dest='name',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--rename-instance-spec'], dict(help="""(renameInstanceSpec) 修改实例名称请求参数 """, dest='renameInstanceSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -808,7 +888,7 @@ class IpantiController(BaseController):
         description='''
             修改实例名称。
 
-            示例: jdc ipanti modify-instance-name  --instance-id xxx --name xxx
+            示例: jdc ipanti modify-instance-name  --instance-id 5 --rename-instance-spec '{"":""}'
         ''',
     )
     def modify_instance_name(self):
@@ -832,17 +912,251 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--ip-black-list'], dict(help="""(array: string) ip黑名单列表 """, dest='ipBlackList',  required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--modify-instance-epbspec'], dict(help="""(modifyInstanceEPBSpec) 修改实例名称请求参数 """, dest='modifyInstanceEPBSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 设置实例ip黑名单 ''',
+        help=''' 更新实例弹性防护带宽 ''',
         description='''
-            设置实例ip黑名单。
+            更新实例弹性防护带宽。
 
-            示例: jdc ipanti modify-instance-ip-black-list  --instance-id xxx
+            示例: jdc ipanti modify-epb  --instance-id 5 --modify-instance-epbspec '{"":""}'
+        ''',
+    )
+    def modify_epb(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.ModifyEPBRequest import ModifyEPBRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyEPBRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--c-cspec'], dict(help="""(cCSpec) CC 参数 """, dest='cCSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置实例 CC 防护 ''',
+        description='''
+            设置实例 CC 防护。
+
+            示例: jdc ipanti modify-instance-cc  --instance-id 5 --c-cspec '{"":""}'
+        ''',
+    )
+    def modify_instance_cc(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.ModifyInstanceCCRequest import ModifyInstanceCCRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyInstanceCCRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 开启实例 CC 防护 ''',
+        description='''
+            开启实例 CC 防护。
+
+            示例: jdc ipanti enable-instance-cc  --instance-id 5
+        ''',
+    )
+    def enable_instance_cc(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.EnableInstanceCCRequest import EnableInstanceCCRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableInstanceCCRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 关闭实例 CC 防护 ''',
+        description='''
+            关闭实例 CC 防护。
+
+            示例: jdc ipanti disable-instance-cc  --instance-id 5
+        ''',
+    )
+    def disable_instance_cc(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DisableInstanceCCRequest import DisableInstanceCCRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableInstanceCCRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--url-white-list'], dict(help="""(array: string) 网站类规则参数 """, dest='urlWhiteList',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置实例 Url 白名单 ''',
+        description='''
+            设置实例 Url 白名单。
+
+            示例: jdc ipanti modify-instance-url-white-list  --instance-id 5
+        ''',
+    )
+    def modify_instance_url_white_list(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.ModifyInstanceUrlWhiteListRequest import ModifyInstanceUrlWhiteListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyInstanceUrlWhiteListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 开启实例 Url 白名单 ''',
+        description='''
+            开启实例 Url 白名单。
+
+            示例: jdc ipanti enable-instance-url-white-list  --instance-id 5
+        ''',
+    )
+    def enable_instance_url_white_list(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.EnableInstanceUrlWhiteListRequest import EnableInstanceUrlWhiteListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableInstanceUrlWhiteListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 关闭实例 Url 白名单 ''',
+        description='''
+            关闭实例 Url 白名单。
+
+            示例: jdc ipanti disable-instance-url-white-list  --instance-id 5
+        ''',
+    )
+    def disable_instance_url_white_list(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DisableInstanceUrlWhiteListRequest import DisableInstanceUrlWhiteListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableInstanceUrlWhiteListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--ip-bw-list-spec'], dict(help="""(ipBwListSpec) 设置 IP 黑名单请求 """, dest='ipBwListSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置实例 IP 黑名单 ''',
+        description='''
+            设置实例 IP 黑名单。
+
+            示例: jdc ipanti modify-instance-ip-black-list  --instance-id 5 --ip-bw-list-spec '{"":""}'
         ''',
     )
     def modify_instance_ip_black_list(self):
@@ -866,16 +1180,16 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 启用实例ip黑名单 ''',
+        help=''' 开启实例 IP 黑名单 ''',
         description='''
-            启用实例ip黑名单。
+            开启实例 IP 黑名单。
 
-            示例: jdc ipanti enable-instance-ip-black-list  --instance-id xxx
+            示例: jdc ipanti enable-instance-ip-black-list  --instance-id 5
         ''',
     )
     def enable_instance_ip_black_list(self):
@@ -899,16 +1213,16 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 禁用实例ip黑名单 ''',
+        help=''' 关闭实例 IP 黑名单 ''',
         description='''
-            禁用实例ip黑名单。
+            关闭实例 IP 黑名单。
 
-            示例: jdc ipanti disable-instance-ip-black-list  --instance-id xxx
+            示例: jdc ipanti disable-instance-ip-black-list  --instance-id 5
         ''',
     )
     def disable_instance_ip_black_list(self):
@@ -932,17 +1246,17 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--ip-white-list'], dict(help="""(array: string) ip白名单列表 """, dest='ipWhiteList',  required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--ip-bw-list-spec'], dict(help="""(ipBwListSpec) 设置 IP 白名单请求参数 """, dest='ipBwListSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 设置实例ip白名单 ''',
+        help=''' 设置实例 IP 白名单 ''',
         description='''
-            设置实例ip白名单。
+            设置实例 IP 白名单。
 
-            示例: jdc ipanti modify-instance-ip-white-list  --instance-id xxx
+            示例: jdc ipanti modify-instance-ip-white-list  --instance-id 5 --ip-bw-list-spec '{"":""}'
         ''',
     )
     def modify_instance_ip_white_list(self):
@@ -966,16 +1280,16 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 启用实例ip白名单 ''',
+        help=''' 开启实例 IP 白名单 ''',
         description='''
-            启用实例ip白名单。
+            开启实例 IP 白名单。
 
-            示例: jdc ipanti enable-instance-ip-white-list  --instance-id xxx
+            示例: jdc ipanti enable-instance-ip-white-list  --instance-id 5
         ''',
     )
     def enable_instance_ip_white_list(self):
@@ -999,16 +1313,16 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 禁用实例ip白名单 ''',
+        help=''' 关闭实例 IP 白名单 ''',
         description='''
-            禁用实例ip白名单。
+            关闭实例 IP 白名单。
 
-            示例: jdc ipanti disable-instance-ip-white-list  --instance-id xxx
+            示例: jdc ipanti disable-instance-ip-white-list  --instance-id 5
         ''',
     )
     def disable_instance_ip_white_list(self):
@@ -1032,29 +1346,29 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 开启实例CC防护的观察者模式 ''',
+        help=''' 开启实例 CC 防护的观察者模式 ''',
         description='''
-            开启实例CC防护的观察者模式。
+            开启实例 CC 防护的观察者模式。
 
-            示例: jdc ipanti enable-cc-observer-mode  --instance-id xxx
+            示例: jdc ipanti enable-ccobserver-mode  --instance-id 5
         ''',
     )
-    def enable_cc_observer_mode(self):
+    def enable_ccobserver_mode(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.EnableCcObserverModeRequest import EnableCcObserverModeRequest
+            from jdcloud_sdk.services.ipanti.apis.EnableCCObserverModeRequest import EnableCCObserverModeRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = EnableCcObserverModeRequest(params_dict, headers)
+            req = EnableCCObserverModeRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1065,29 +1379,29 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 关闭实例CC防护的观察者模式 ''',
+        help=''' 关闭实例 CC 防护的观察者模式 ''',
         description='''
-            关闭实例CC防护的观察者模式。
+            关闭实例 CC 防护的观察者模式。
 
-            示例: jdc ipanti disable-cc-observer-mode  --instance-id xxx
+            示例: jdc ipanti disable-ccobserver-mode  --instance-id 5
         ''',
     )
-    def disable_cc_observer_mode(self):
+    def disable_ccobserver_mode(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.DisableCcObserverModeRequest import DisableCcObserverModeRequest
+            from jdcloud_sdk.services.ipanti.apis.DisableCCObserverModeRequest import DisableCCObserverModeRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DisableCcObserverModeRequest(params_dict, headers)
+            req = DisableCCObserverModeRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1098,29 +1412,29 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 开启CC防护每ip的限速 ''',
+        help=''' 开启 CC 防护每 IP 的限速 ''',
         description='''
-            开启CC防护每ip的限速。
+            开启 CC 防护每 IP 的限速。
 
-            示例: jdc ipanti enable-cc-ip-limit  --instance-id xxx
+            示例: jdc ipanti enable-ccip-limit  --instance-id 5
         ''',
     )
-    def enable_cc_ip_limit(self):
+    def enable_ccip_limit(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.EnableCcIpLimitRequest import EnableCcIpLimitRequest
+            from jdcloud_sdk.services.ipanti.apis.EnableCCIpLimitRequest import EnableCCIpLimitRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = EnableCcIpLimitRequest(params_dict, headers)
+            req = EnableCCIpLimitRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1131,29 +1445,29 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 关闭CC防护每ip的限速 ''',
+        help=''' 关闭 CC 防护每 IP 的限速 ''',
         description='''
-            关闭CC防护每ip的限速。
+            关闭 CC 防护每 IP 的限速。
 
-            示例: jdc ipanti disable-cc-ip-limit  --instance-id xxx
+            示例: jdc ipanti disable-ccip-limit  --instance-id 5
         ''',
     )
-    def disable_cc_ip_limit(self):
+    def disable_ccip_limit(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.DisableCcIpLimitRequest import DisableCcIpLimitRequest
+            from jdcloud_sdk.services.ipanti.apis.DisableCCIpLimitRequest import DisableCCIpLimitRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DisableCcIpLimitRequest(params_dict, headers)
+            req = DisableCCIpLimitRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1164,30 +1478,30 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--c-cspec'], dict(help="""(ccIpLimitSpec) cc参数 """, dest='cCSpec',  required=True)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--c-cspec'], dict(help="""(ccIpLimitSpec) CC 参数 """, dest='cCSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 设置实例CC防护每ip限速 ''',
+        help=''' 设置实例 CC 防护每 IP 限速 ''',
         description='''
-            设置实例CC防护每ip限速。
+            设置实例 CC 防护每 IP 限速。
 
-            示例: jdc ipanti set-cc-ip-limit  --instance-id xxx --c-cspec {"":""}
+            示例: jdc ipanti set-ccip-limit  --instance-id 5 --c-cspec '{"":""}'
         ''',
     )
-    def set_cc_ip_limit(self):
+    def set_ccip_limit(self):
         client_factory = ClientFactory('ipanti')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.ipanti.apis.SetCcIpLimitRequest import SetCcIpLimitRequest
+            from jdcloud_sdk.services.ipanti.apis.SetCCIpLimitRequest import SetCCIpLimitRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = SetCcIpLimitRequest(params_dict, headers)
+            req = SetCCIpLimitRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1198,9 +1512,245 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询告警配置 ''',
+        description='''
+            查询告警配置。
+
+            示例: jdc ipanti describe-alarm-config  --instance-id 5
+        ''',
+    )
+    def describe_alarm_config(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeAlarmConfigRequest import DescribeAlarmConfigRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAlarmConfigRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 实例 ID """, dest='instanceId', type=int, required=True)),
+            (['--alarm-config-spec'], dict(help="""(alarmConfigSpec) 更新告警配置请求参数 """, dest='alarmConfigSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 更新告警配置 ''',
+        description='''
+            更新告警配置。
+
+            示例: jdc ipanti modify-alarm-config  --instance-id 5 --alarm-config-spec '{"":""}'
+        ''',
+    )
+    def modify_alarm_config(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.ModifyAlarmConfigRequest import ModifyAlarmConfigRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyAlarmConfigRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--id'], dict(help="""(int) 高防实例 ID, 为空则查询所有实例名称 """, dest='id', type=int, required=False)),
+            (['--name'], dict(help="""(string) 实例名称, 可模糊匹配 """, dest='name',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为 1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小, 默认为 10, 取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询高防实例名称列表 ''',
+        description='''
+            查询高防实例名称列表。
+
+            示例: jdc ipanti describe-name-list 
+        ''',
+    )
+    def describe_name_list(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeNameListRequest import DescribeNameListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeNameListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询高防实例防护统计信息 ''',
+        description='''
+            查询高防实例防护统计信息。
+
+            示例: jdc ipanti describe-protection-statistics 
+        ''',
+    )
+    def describe_protection_statistics(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeProtectionStatisticsRequest import DescribeProtectionStatisticsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeProtectionStatisticsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) 待检测实例名称 """, dest='name',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 检测实例名称是否合法 ''',
+        description='''
+            检测实例名称是否合法。
+
+            示例: jdc ipanti check-name  --name xxx
+        ''',
+    )
+    def check_name(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.CheckNameRequest import CheckNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CheckNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为 1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小, 默认为 10, 取值范围 [0, 100], 0 表示全量 """, dest='pageSize', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询用户的京东云 IP 资源 ''',
+        description='''
+            查询用户的京东云 IP 资源。
+
+            示例: jdc ipanti describe-vpc-ip-list 
+        ''',
+    )
+    def describe_vpc_ip_list(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeVpcIpListRequest import DescribeVpcIpListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeVpcIpListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询 CC 自定义默认阈值 ''',
+        description='''
+            查询 CC 自定义默认阈值。
+
+            示例: jdc ipanti describe-ccdefault-thresholds 
+        ''',
+    )
+    def describe_ccdefault_thresholds(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeCCDefaultThresholdsRequest import DescribeCCDefaultThresholdsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeCCDefaultThresholdsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小, 默认为10, 取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--search-type'], dict(help="""(string) 查询类型名称, domain:源站域名, ip:源站 IP, rawDomain: 域名 """, dest='searchType',  required=False)),
+            (['--search-value'], dict(help="""(string) 查询类型值 """, dest='searchValue',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1209,7 +1759,7 @@ class IpantiController(BaseController):
         description='''
             查询某个实例下的网站类规则。
 
-            示例: jdc ipanti describe-web-rules  --instance-id xxx
+            示例: jdc ipanti describe-web-rules  --instance-id 5
         ''',
     )
     def describe_web_rules(self):
@@ -1232,9 +1782,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--web-rule-spec'], dict(help="""(webRuleSpec) 网站类规则参数 """, dest='webRuleSpec',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--web-rule-spec'], dict(help="""(webRuleSpec) 添加网站类规则请求参数 """, dest='webRuleSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1243,7 +1793,7 @@ class IpantiController(BaseController):
         description='''
             添加网站类规则。
 
-            示例: jdc ipanti create-web-rule  --instance-id xxx --web-rule-spec {"":""}
+            示例: jdc ipanti create-web-rule  --instance-id 5 --web-rule-spec '{"":""}'
         ''',
     )
     def create_web_rule(self):
@@ -1266,18 +1816,18 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--web-rule-id'], dict(help="""(int) 网站规则 Id """, dest='webRuleId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询某条网站类规则 ''',
+        help=''' 查询网站类规则 ''',
         description='''
-            查询某条网站类规则。
+            查询网站类规则。
 
-            示例: jdc ipanti describe-web-rule  --instance-id xxx --web-rule-id xxx
+            示例: jdc ipanti describe-web-rule  --instance-id 5 --web-rule-id 5
         ''',
     )
     def describe_web_rule(self):
@@ -1300,19 +1850,19 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
-            (['--web-rule-spec'], dict(help="""(webRuleSpec) 网站类规则参数 """, dest='webRuleSpec',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--web-rule-id'], dict(help="""(int) 网站规则 Id """, dest='webRuleId', type=int, required=True)),
+            (['--web-rule-spec'], dict(help="""(webRuleSpec) 更新网站类规则请求参数 """, dest='webRuleSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 更新某条网站类规则 ''',
+        help=''' 修改网站类规则 ''',
         description='''
-            更新某条网站类规则。
+            修改网站类规则。
 
-            示例: jdc ipanti modify-web-rule  --instance-id xxx --web-rule-id xxx --web-rule-spec {"":""}
+            示例: jdc ipanti modify-web-rule  --instance-id 5 --web-rule-id 5 --web-rule-spec '{"":""}'
         ''',
     )
     def modify_web_rule(self):
@@ -1335,18 +1885,18 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--web-rule-id'], dict(help="""(int) 网站规则 Id """, dest='webRuleId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除某条网站规则 ''',
+        help=''' 删除网站规则 ''',
         description='''
-            删除某条网站规则。
+            删除网站规则。
 
-            示例: jdc ipanti delete-web-rule  --instance-id xxx --web-rule-id xxx
+            示例: jdc ipanti delete-web-rule  --instance-id 5 --web-rule-id 5
         ''',
     )
     def delete_web_rule(self):
@@ -1369,9 +1919,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--web-rule-id'], dict(help="""(int) 网站规则 Id """, dest='webRuleId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1380,7 +1930,7 @@ class IpantiController(BaseController):
         description='''
             网站类规则切换成防御状态。
 
-            示例: jdc ipanti switch-web-rule-protect  --instance-id xxx --web-rule-id xxx
+            示例: jdc ipanti switch-web-rule-protect  --instance-id 5 --web-rule-id 5
         ''',
     )
     def switch_web_rule_protect(self):
@@ -1403,9 +1953,9 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--web-rule-id'], dict(help="""(int) 网站规则 Id """, dest='webRuleId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1414,7 +1964,7 @@ class IpantiController(BaseController):
         description='''
             网站类规则切换成回源状态。
 
-            示例: jdc ipanti switch-web-rule-origin  --instance-id xxx --web-rule-id xxx
+            示例: jdc ipanti switch-web-rule-origin  --instance-id 5 --web-rule-id 5
         ''',
     )
     def switch_web_rule_origin(self):
@@ -1437,18 +1987,18 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--web-rule-id'], dict(help="""(int) 网站规则 Id """, dest='webRuleId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 网站类规则开启CC ''',
+        help=''' 网站类规则开启 CC ''',
         description='''
-            网站类规则开启CC。
+            网站类规则开启 CC。
 
-            示例: jdc ipanti enable-web-rule-cc  --instance-id xxx --web-rule-id xxx
+            示例: jdc ipanti enable-web-rule-cc  --instance-id 5 --web-rule-id 5
         ''',
     )
     def enable_web_rule_cc(self):
@@ -1471,18 +2021,18 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 实例id """, dest='instanceId',  required=True)),
-            (['--web-rule-id'], dict(help="""(string) 网站规则id """, dest='webRuleId',  required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--web-rule-id'], dict(help="""(int) 网站规则 Id """, dest='webRuleId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 网站类规则禁用CC ''',
+        help=''' 网站类规则禁用 CC ''',
         description='''
-            网站类规则禁用CC。
+            网站类规则禁用 CC。
 
-            示例: jdc ipanti disable-web-rule-cc  --instance-id xxx --web-rule-id xxx
+            示例: jdc ipanti disable-web-rule-cc  --instance-id 5 --web-rule-id 5
         ''',
     )
     def disable_web_rule_cc(self):
@@ -1505,7 +2055,77 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-ddos-attack-logs','describe-cc-attack-logs','describe-cc-attack-log-details','ddos-graph','fwd-graph','cc-graph','describe-forward-rules','create-forward-rule','describe-forward-rule','modify-forward-rule','delete-forward-rule','switch-forward-rule-protect','switch-forward-rule-origin','describe-instances','create-instance','describe-instance','modify-instance-cc','enable-instance-cc','disable-instance-cc','modify-instance-url-white-list','enable-instance-url-white-list','disable-instance-url-white-list','modify-instance-name','modify-instance-ip-black-list','enable-instance-ip-black-list','disable-instance-ip-black-list','modify-instance-ip-white-list','enable-instance-ip-white-list','disable-instance-ip-white-list','enable-cc-observer-mode','disable-cc-observer-mode','enable-cc-ip-limit','disable-cc-ip-limit','set-cc-ip-limit','describe-web-rules','create-web-rule','describe-web-rule','modify-web-rule','delete-web-rule','switch-web-rule-protect','switch-web-rule-origin','enable-web-rule-cc','disable-web-rule-cc',], required=True)),
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--web-rule-id'], dict(help="""(int) 网站规则 Id """, dest='webRuleId', type=int, required=True)),
+            (['--cert-info-modify-spec'], dict(help="""(certInfoModifySpec) 编辑网站规则证书信息请求参数 """, dest='certInfoModifySpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 编辑网站规则证书信息 ''',
+        description='''
+            编辑网站规则证书信息。
+
+            示例: jdc ipanti modify-cert-info  --instance-id 5 --web-rule-id 5 --cert-info-modify-spec '{"":""}'
+        ''',
+    )
+    def modify_cert_info(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.ModifyCertInfoRequest import ModifyCertInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyCertInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域 Id """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(int) 高防实例 Id """, dest='instanceId', type=int, required=True)),
+            (['--web-rule-id'], dict(help="""(int) 网站规则 Id """, dest='webRuleId', type=int, required=True)),
+            (['--cert-info-describe-spec'], dict(help="""(certInfoDescribeSpec) 查询证书预览请求参数 """, dest='certInfoDescribeSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询证书预览信息 ''',
+        description='''
+            查询证书预览信息。
+
+            示例: jdc ipanti describe-cert-info  --instance-id 5 --web-rule-id 5 --cert-info-describe-spec '{"":""}'
+        ''',
+    )
+    def describe_cert_info(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeCertInfoRequest import DescribeCertInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeCertInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-ddo-sattack-logs','describe-ccattack-logs','describe-ccattack-log-details','download-ddo-sattack-logs','download-ccattack-logs','download-ccattack-log-details','describe-attack-statistics','describe-attack-type-count','describe-ddo-sgraph','describe-fwd-graph','describe-ccgraph','describe-forward-rules','create-forward-rule','describe-forward-rule','modify-forward-rule','delete-forward-rule','switch-forward-rule-protect','switch-forward-rule-origin','describe-protection-rule-of-forward-rule','modify-protection-rule-of-forward-rule','describe-geo-areas','describe-instances','create-instance','describe-instance','modify-instance-name','modify-epb','modify-instance-cc','enable-instance-cc','disable-instance-cc','modify-instance-url-white-list','enable-instance-url-white-list','disable-instance-url-white-list','modify-instance-ip-black-list','enable-instance-ip-black-list','disable-instance-ip-black-list','modify-instance-ip-white-list','enable-instance-ip-white-list','disable-instance-ip-white-list','enable-ccobserver-mode','disable-ccobserver-mode','enable-ccip-limit','disable-ccip-limit','set-ccip-limit','describe-alarm-config','modify-alarm-config','describe-name-list','describe-protection-statistics','check-name','describe-vpc-ip-list','describe-ccdefault-thresholds','describe-web-rules','create-web-rule','describe-web-rule','modify-web-rule','delete-web-rule','switch-web-rule-protect','switch-web-rule-origin','enable-web-rule-cc','disable-web-rule-cc','modify-cert-info','describe-cert-info',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

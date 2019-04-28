@@ -59,6 +59,15 @@ class JdfusionTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_valid_cloud_info(self):
+        cmd = """python ../../main.py jdfusion valid-cloud-info  --cloud-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_get_deployments(self):
         cmd = """python ../../main.py jdfusion get-deployments """
         with os.popen(cmd) as f:
@@ -169,6 +178,15 @@ class JdfusionTest(unittest.TestCase):
 
     def test_rollback_deployments_version(self):
         cmd = """python ../../main.py jdfusion rollback-deployments-version  --id 'xxx' --version_id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_deployments_results_by_id_record(self):
+        cmd = """python ../../main.py jdfusion get-deployments-results-by-id-record  --id 'xxx' --record 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -410,6 +428,15 @@ class JdfusionTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_grant_rds_accounts_by_task(self):
+        cmd = """python ../../main.py jdfusion grant-rds-accounts-by-task  --inst-id 'xxx' --account-name 'xxx' --info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_get_rds_databases_by_inst_id(self):
         cmd = """python ../../main.py jdfusion get-rds-databases-by-inst-id  --inst-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -547,6 +574,33 @@ class JdfusionTest(unittest.TestCase):
 
     def test_delete_datasource(self):
         cmd = """python ../../main.py jdfusion delete-datasource  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_rds_specification(self):
+        cmd = """python ../../main.py jdfusion get-rds-specification  --engine 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_regions(self):
+        cmd = """python ../../main.py jdfusion get-regions """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_regions_available_zones(self):
+        cmd = """python ../../main.py jdfusion get-regions-available-zones  --region 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -743,6 +797,15 @@ class JdfusionTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_get_lb_http_listener(self):
+        cmd = """python ../../main.py jdfusion get-lb-http-listener """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_create_vpc_lbhttp_listener(self):
         cmd = """python ../../main.py jdfusion create-vpc-lbhttp-listener  --http-listener '{"":""}'"""
         with os.popen(cmd) as f:
@@ -842,6 +905,24 @@ class JdfusionTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_create_security_groups_rule(self):
+        cmd = """python ../../main.py jdfusion create-security-groups-rule  --id 'xxx' --sg-rule '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_security_groups_rule(self):
+        cmd = """python ../../main.py jdfusion delete-security-groups-rule  --id 'xxx' --rule-type 'xxx' --protocol 'xxx' --from-port 'xxx' --to-port 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_get_vpc_slb_by_id(self):
         cmd = """python ../../main.py jdfusion get-vpc-slb-by-id  --id 'xxx'"""
         with os.popen(cmd) as f:
@@ -871,6 +952,51 @@ class JdfusionTest(unittest.TestCase):
 
     def test_create_vpc_slb(self):
         cmd = """python ../../main.py jdfusion create-vpc-slb  --slb '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_start_slb(self):
+        cmd = """python ../../main.py jdfusion start-slb  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_stop_slb(self):
+        cmd = """python ../../main.py jdfusion stop-slb  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_slbs_listener(self):
+        cmd = """python ../../main.py jdfusion delete-slbs-listener  --id 'xxx' --listener-port '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_start_slb_listener(self):
+        cmd = """python ../../main.py jdfusion start-slb-listener  --id 'xxx' --listener-port '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_stop_slb_listener(self):
+        cmd = """python ../../main.py jdfusion stop-slb-listener  --id 'xxx' --listener-port '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -961,6 +1087,24 @@ class JdfusionTest(unittest.TestCase):
 
     def test_create_vpc_vserver_group(self):
         cmd = """python ../../main.py jdfusion create-vpc-vserver-group  --vserver-group '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_vserver_groups_by_id(self):
+        cmd = """python ../../main.py jdfusion get-vserver-groups-by-id  --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_vserver_group(self):
+        cmd = """python ../../main.py jdfusion delete-vserver-group  --id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

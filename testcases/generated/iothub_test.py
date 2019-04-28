@@ -23,6 +23,24 @@ import json
 
 class IothubTest(unittest.TestCase):
 
+    def test_delete_device(self):
+        cmd = """python ../../main.py iothub delete-device """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_device_online_infos(self):
+        cmd = """python ../../main.py iothub query-device-online-infos """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_device_activate(self):
         cmd = """python ../../main.py iothub device-activate  --device-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -41,8 +59,26 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_query_device_commands(self):
+        cmd = """python ../../main.py iothub query-device-commands  --device-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_device_command(self):
         cmd = """python ../../main.py iothub device-command  --device-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_device_states(self):
+        cmd = """python ../../main.py iothub query-device-states  --device-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -70,6 +106,24 @@ class IothubTest(unittest.TestCase):
 
     def test_module_state(self):
         cmd = """python ../../main.py iothub module-state  --module-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_omprivate_url(self):
+        cmd = """python ../../main.py iothub get-omprivate-url  --device-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_om_enrollby_file(self):
+        cmd = """python ../../main.py iothub om-enrollby-file  --file-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -21,6 +21,10 @@
         "regionId":"",
         "cloudId":""
     },
+    "valid-cloud-info":{
+        "regionId":"",
+        "cloudId":""
+    },
     "get-deployments":{
         "regionId":""
     },
@@ -35,7 +39,8 @@
                 "description":"",
                 "userId":"",
                 "createdTime":"",
-                "updatedTime":""
+                "updatedTime":"",
+                "lastOperation":""
             },
             "content":{
                 "vms":"",
@@ -44,6 +49,7 @@
                 "networkInterfaces":"",
                 "slbs":"",
                 "securityGroups":"",
+                "securityGroupRules":"",
                 "keypairs":"",
                 "disks":"",
                 "vpcs":"",
@@ -52,6 +58,11 @@
                 "diskAttachment":"",
                 "netInterfaceAttachment":"",
                 "eipAssociate":"",
+                "rds":"",
+                "rdsDatabase":"",
+                "rdsAccount":"",
+                "rdsAccountGrant":"",
+                "bucket":"",
                 "variables":""
             }
         },
@@ -97,7 +108,8 @@
                 "description":"",
                 "userId":"",
                 "createdTime":"",
-                "updatedTime":""
+                "updatedTime":"",
+                "lastOperation":""
             },
             "content":{
                 "vms":"",
@@ -106,6 +118,7 @@
                 "networkInterfaces":"",
                 "slbs":"",
                 "securityGroups":"",
+                "securityGroupRules":"",
                 "keypairs":"",
                 "disks":"",
                 "vpcs":"",
@@ -114,6 +127,11 @@
                 "diskAttachment":"",
                 "netInterfaceAttachment":"",
                 "eipAssociate":"",
+                "rds":"",
+                "rdsDatabase":"",
+                "rdsAccount":"",
+                "rdsAccountGrant":"",
+                "bucket":"",
                 "variables":""
             }
         },
@@ -160,7 +178,13 @@
         "id":"",
         "version_id":""
     },
+    "get-deployments-results-by-id-record":{
+        "regionId":"",
+        "id":"",
+        "record":""
+    },
     "get-disks":{
+        "vmId":"",
         "regionId":""
     },
     "create-disk":{
@@ -235,18 +259,12 @@
         "task":{
             "name":"",
             "srcAddress":{
-                "storageType":"",
-                "accessKey":"",
-                "secretKey":"",
-                "endpoint":"",
+                "cloudID":"",
                 "bucket":"",
                 "prefix":""
             },
             "dstAddress":{
-                "storageType":"",
-                "accessKey":"",
-                "secretKey":"",
-                "endpoint":"",
+                "cloudID":"",
                 "bucket":"",
                 "prefix":""
             }
@@ -266,7 +284,8 @@
                 "secretKey":"",
                 "endpoint":"",
                 "bucket":"",
-                "prefix":""
+                "prefix":"",
+                "cloudID":""
             },
             "dstAddress":{
                 "storageType":"",
@@ -274,7 +293,8 @@
                 "secretKey":"",
                 "endpoint":"",
                 "bucket":"",
-                "prefix":""
+                "prefix":"",
+                "cloudID":""
             }
         },
         "regionId":"",
@@ -337,6 +357,15 @@
         "accountName":"",
         "dbName":""
     },
+    "grant-rds-accounts-by-task":{
+        "info":{
+            "dbName":"",
+            "privilege":""
+        },
+        "regionId":"",
+        "instId":"",
+        "accountName":""
+    },
     "get-rds-databases-by-inst-id":{
         "regionId":"",
         "instId":""
@@ -376,7 +405,8 @@
             "instanceClass":"",
             "storageGB":"",
             "vpcId":"",
-            "subnetId":""
+            "subnetId":"",
+            "createTime":""
         },
         "regionId":""
     },
@@ -465,6 +495,17 @@
         "regionId":"",
         "id":""
     },
+    "get-rds-specification":{
+        "regionId":"",
+        "engine":""
+    },
+    "get-regions":{
+        "regionId":""
+    },
+    "get-regions-available-zones":{
+        "regionId":"",
+        "region":""
+    },
     "get-task-info-history-by-id":{
         "regionId":"",
         "task":""
@@ -551,6 +592,7 @@
         "id":""
     },
     "get-vm-instance-types":{
+        "az":"",
         "regionId":""
     },
     "get-vm-keypairs-by-name":{
@@ -603,11 +645,14 @@
     "disassociate-vpc-eip-by-id":{
         "unassociate":{
             "instanceId":"",
-            "instanceType":"",
-            "force":""
+            "instanceType":""
         },
         "regionId":"",
         "id":""
+    },
+    "get-lb-http-listener":{
+        "slbid":"",
+        "regionId":""
     },
     "create-vpc-lbhttp-listener":{
         "httpListener":{
@@ -634,6 +679,7 @@
         "id":""
     },
     "get-vpc-network-interfaces":{
+        "vmId":"",
         "regionId":""
     },
     "create-vpc-network-interface":{
@@ -691,6 +737,33 @@
         },
         "regionId":""
     },
+    "create-security-groups-rule":{
+        "sgRule":{
+            "ruleType":"",
+            "protocol":"",
+            "fromPort":"",
+            "toPort":"",
+            "securityGroupId":"",
+            "nicType":"",
+            "policy":"",
+            "priority":"",
+            "cidrIp":""
+        },
+        "regionId":"",
+        "id":""
+    },
+    "delete-security-groups-rule":{
+        "ruleType":"",
+        "protocol":"",
+        "fromPort":"",
+        "toPort":"",
+        "nicType":"",
+        "policy":"",
+        "priority":"",
+        "cidrIp":"",
+        "regionId":"",
+        "id":""
+    },
     "get-vpc-slb-by-id":{
         "regionId":"",
         "id":""
@@ -717,6 +790,29 @@
             "createdTime":""
         },
         "regionId":""
+    },
+    "start-slb":{
+        "regionId":"",
+        "id":""
+    },
+    "stop-slb":{
+        "regionId":"",
+        "id":""
+    },
+    "delete-slbs-listener":{
+        "listenerPort":"",
+        "regionId":"",
+        "id":""
+    },
+    "start-slb-listener":{
+        "listenerPort":"",
+        "regionId":"",
+        "id":""
+    },
+    "stop-slb-listener":{
+        "listenerPort":"",
+        "regionId":"",
+        "id":""
     },
     "get-vpc-subnet-by-id":{
         "regionId":"",
@@ -775,5 +871,13 @@
             "backendServers":[""]
         },
         "regionId":""
+    },
+    "get-vserver-groups-by-id":{
+        "regionId":"",
+        "id":""
+    },
+    "delete-vserver-group":{
+        "regionId":"",
+        "id":""
     },
 }
