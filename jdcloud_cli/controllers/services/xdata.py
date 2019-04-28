@@ -567,7 +567,7 @@ class XdataController(BaseController):
         description='''
             创建用户实例的数据表。
 
-            示例: jdc xdata create-table  --instance-name xxx --db-model-dbtable {"":""}
+            示例: jdc xdata create-table  --instance-name xxx --db-model-dbtable '{"":""}'
         ''',
     )
     def create_table(self):

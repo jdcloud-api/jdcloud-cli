@@ -3,10 +3,6 @@
         "deviceType":"",
         "regionId":""
     },
-    "describe-software":{
-        "regionId":"",
-        "osTypeId":""
-    },
     "describe-instance-name":{
         "regionId":"",
         "instanceId":""
@@ -18,6 +14,7 @@
         "instanceId":""
     },
     "describe-device-types":{
+        "az":"",
         "regionId":""
     },
     "describe-device-raids":{
@@ -58,6 +55,7 @@
             "keepData":"",
             "dataRaidTypeId":"",
             "password":"",
+            "hostname":"",
             "softwares":[""]
         },
         "regionId":"",
@@ -93,12 +91,14 @@
         "instanceSpec":{
             "az":"",
             "deviceType":"",
+            "hostname":"",
             "imageType":"",
             "osTypeId":"",
             "sysRaidTypeId":"",
             "dataRaidTypeId":"",
             "subnetId":"",
             "enableInternet":"",
+            "enableIpv6":"",
             "networkType":"",
             "cidr":"",
             "lineType":"",

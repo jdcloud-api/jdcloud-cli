@@ -24,6 +24,14 @@
         "publishDomain":"",
         "appName":""
     },
+    "describe-live-play-auth-key":{
+        "playDomain":""
+    },
+    "set-live-play-auth-key":{
+        "playDomain":"",
+        "authStatus":"",
+        "authKey":""
+    },
     "describe-live-domains":{
         "pageNum":"",
         "pageSize":"",
@@ -62,8 +70,8 @@
         "template":""
     },
     "add-live-stream-app-record":{
-        "appName":"",
         "publishDomain":"",
+        "appName":"",
         "template":""
     },
     "add-live-stream-domain-record":{
@@ -110,9 +118,135 @@
         "saveEndpoint":"",
         "recordFileType":"",
         "saveObject":"",
+        "taskExternalId":"",
         "publishDomain":"",
         "appName":"",
         "streamName":""
+    },
+    "describe-publish-stream-info-data":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-stream-history-user-num":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "ispName":"",
+        "locationName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-publish-stream-num":{
+        "domainName":"",
+        "appName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-stream-player-ranking-data":{
+        "domainName":"",
+        "appName":"",
+        "protocolType":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-transcode-stream-list":{
+        "domainName":"",
+        "appName":"",
+        "streamName":""
+    },
+    "describe-live-transcode-stream-num":{
+        "domainName":""
+    },
+    "describe-live-transcode-stream-player-user-num":{
+        "domainName":"",
+        "appName":"",
+        "ispName":"",
+        "locationName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-transcode-stream-bandwidth":{
+        "domainName":"",
+        "appName":"",
+        "ispName":"",
+        "locationName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-transcoding-duration-data":{
+        "grade":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-stream-bandwidth-data":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "ispName":"",
+        "locationName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-stream-publish-bandwidth-data":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "ispName":"",
+        "locationName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-stream-traffic-data":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "ispName":"",
+        "locationName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-stream-publish-traffic-data":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "ispName":"",
+        "locationName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-snapshot-data":{
+        "publishDomain":"",
+        "appName":"",
+        "streamName":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-porn-data":{
+        "publishDomain":"",
+        "appName":"",
+        "streamName":"",
+        "startTime":"",
+        "endTime":""
     },
     "add-custom-live-stream-snapshot-template":{
         "format":"",
@@ -144,8 +278,8 @@
         }]
     },
     "add-live-stream-app-snapshot":{
-        "appName":"",
         "publishDomain":"",
+        "appName":"",
         "template":""
     },
     "add-live-stream-domain-snapshot":{
@@ -175,13 +309,18 @@
         "publishDomain":""
     },
     "forbid-live-stream":{
-        "appName":"",
         "publishDomain":"",
+        "appName":"",
         "streamName":""
     },
     "resume-live-stream":{
-        "appName":"",
         "publishDomain":"",
+        "appName":"",
+        "streamName":""
+    },
+    "describe-live-stream-info":{
+        "publishDomain":"",
+        "appName":"",
         "streamName":""
     },
     "set-live-stream-notify-config":{
@@ -209,14 +348,25 @@
         "endTime":"",
         "publishDomain":""
     },
+    "open-live-timeshift":{
+        "playDomain":""
+    },
+    "close-live-timeshift":{
+        "playDomain":""
+    },
+    "describe-live-timeshift-configs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "playDomain":""
+    },
     "add-live-stream-domain-transcode":{
         "publishDomain":"",
         "template":""
     },
     "add-live-stream-app-transcode":{
         "publishDomain":"",
-        "template":"",
-        "appName":""
+        "appName":"",
+        "template":""
     },
     "add-custom-live-stream-transcode-template":{
         "videoCodeRate":"",
@@ -281,8 +431,8 @@
         }]
     },
     "add-live-stream-app-watermark":{
-        "appName":"",
         "publishDomain":"",
+        "appName":"",
         "template":""
     },
     "add-live-stream-domain-watermark":{

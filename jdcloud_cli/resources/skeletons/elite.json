@@ -1,0 +1,28 @@
+{
+    "list-sale-service":{
+        "pageNo":"",
+        "pageSize":"",
+        "deliverNumber":"",
+        "deliverStatus":"",
+        "createDtStart":"",
+        "createDtEnd":"",
+        "regionId":""
+    },
+    "get-sale-service-by-deliver-number":{
+        "deliverNumber":"",
+        "regionId":""
+    },
+    "confirm-sale-service-delivery":{
+        "confirmDeliveryInfo":{
+            "deliverNumber":"",
+            "remark":""
+        },
+        "regionId":""
+    },
+    "get-store-service":{
+        "buyerPin":"",
+        "businessData":"",
+        "queryAll":"",
+        "regionId":""
+    },
+}

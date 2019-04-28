@@ -23,6 +23,33 @@ import json
 
 class MpsTest(unittest.TestCase):
 
+    def test_get_style_delimiter(self):
+        cmd = """python ../../main.py mps get-style-delimiter  --bucket-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_style_delimiter(self):
+        cmd = """python ../../main.py mps set-style-delimiter  --bucket-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_style_delimiter(self):
+        cmd = """python ../../main.py mps delete-style-delimiter  --bucket-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_list_thumbnail_task(self):
         cmd = """python ../../main.py mps list-thumbnail-task """
         with os.popen(cmd) as f:

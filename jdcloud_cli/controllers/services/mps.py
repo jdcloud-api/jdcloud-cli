@@ -38,6 +38,106 @@ class MpsController(BaseController):
 
     @expose(
         arguments=[
+            (['--region-id'], dict(help="""(string) 区域ID """, dest='regionId',  required=False)),
+            (['--bucket-name'], dict(help="""(string) Bucket名称 """, dest='bucketName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取bucket的图片样式分隔符配置 ''',
+        description='''
+            获取bucket的图片样式分隔符配置。
+
+            示例: jdc mps get-style-delimiter  --bucket-name xxx
+        ''',
+    )
+    def get_style_delimiter(self):
+        client_factory = ClientFactory('mps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mps.apis.GetStyleDelimiterRequest import GetStyleDelimiterRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetStyleDelimiterRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域ID """, dest='regionId',  required=False)),
+            (['--bucket-name'], dict(help="""(string) Bucket名称 """, dest='bucketName',  required=True)),
+            (['--delimiters'], dict(help="""(array: string) 图片样式分隔符配置（JSON数组）；支持的分隔符包含：["-", "_", "/", "!"] """, dest='delimiters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置图片样式分隔符 ''',
+        description='''
+            设置图片样式分隔符。
+
+            示例: jdc mps set-style-delimiter  --bucket-name xxx
+        ''',
+    )
+    def set_style_delimiter(self):
+        client_factory = ClientFactory('mps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mps.apis.SetStyleDelimiterRequest import SetStyleDelimiterRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetStyleDelimiterRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域ID """, dest='regionId',  required=False)),
+            (['--bucket-name'], dict(help="""(string) Bucket名称 """, dest='bucketName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除bucket的图片样式分隔符配置 ''',
+        description='''
+            删除bucket的图片样式分隔符配置。
+
+            示例: jdc mps delete-style-delimiter  --bucket-name xxx
+        ''',
+    )
+    def delete_style_delimiter(self):
+        client_factory = ClientFactory('mps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mps.apis.DeleteStyleDelimiterRequest import DeleteStyleDelimiterRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteStyleDelimiterRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--region-id'], dict(help="""(string) region id """, dest='regionId',  required=False)),
             (['--status'], dict(help="""(string) task 状态 (PENDING, RUNNING, SUCCESS, FAILED) """, dest='status',  required=False)),
             (['--begin'], dict(help="""(string) 开始时间 时间格式(GMT): yyyy-MM-dd'T'HH:mm:ss.SSS'Z' """, dest='begin',  required=False)),
@@ -48,9 +148,9 @@ class MpsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询截图任务 ''',
+        help=''' 查询截图任务，返回满足查询条件的任务列表。 ''',
         description='''
-            查询截图任务。
+            查询截图任务，返回满足查询条件的任务列表。。
 
             示例: jdc mps list-thumbnail-task 
         ''',
@@ -88,11 +188,11 @@ class MpsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建截图任务 ''',
+        help=''' 创建截图任务，创建成功时返回任务ID。本接口用于截取指定时间点的画面。 ''',
         description='''
-            创建截图任务。
+            创建截图任务，创建成功时返回任务ID。本接口用于截取指定时间点的画面。。
 
-            示例: jdc mps create-thumbnail-task  --source {"":""} --target {"":""}
+            示例: jdc mps create-thumbnail-task  --source '{"":""}' --target '{"":""}'
         ''',
     )
     def create_thumbnail_task(self):
@@ -121,9 +221,9 @@ class MpsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取截图任务 ''',
+        help=''' 根据任务ID获取截图任务。 ''',
         description='''
-            获取截图任务。
+            根据任务ID获取截图任务。。
 
             示例: jdc mps get-thumbnail-task  --task-id xxx
         ''',
@@ -153,9 +253,9 @@ class MpsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取截图通知 ''',
+        help=''' 获取媒体处理通知 ''',
         description='''
-            获取截图通知。
+            获取媒体处理通知。
 
             示例: jdc mps get-notification 
         ''',
@@ -217,7 +317,7 @@ class MpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['list-thumbnail-task','create-thumbnail-task','get-thumbnail-task','get-notification','set-notification',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['get-style-delimiter','set-style-delimiter','delete-style-delimiter','list-thumbnail-task','create-thumbnail-task','get-thumbnail-task','get-notification','set-notification',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -125,7 +125,7 @@ class MonitorController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--client-token'], dict(help="""(string) 幂等性校验参数,最长36位 """, dest='clientToken',  required=True)),
+            (['--client-token'], dict(help="""(string) 幂等性校验参数,最长36位,若两个请求clientToken相等，则返回第一次创建的规则id，只创建一次规则 """, dest='clientToken',  required=True)),
             (['--create-alarm-spec'], dict(help="""(createAlarmParam) NA """, dest='createAlarmSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -135,7 +135,7 @@ class MonitorController(BaseController):
         description='''
             创建报警规则，可以为某一个实例创建报警规则，也可以为多个实例同时创建报警规则。。
 
-            示例: jdc monitor create-alarm  --client-token xxx --create-alarm-spec {"":""}
+            示例: jdc monitor create-alarm  --client-token xxx --create-alarm-spec '{"":""}'
         ''',
     )
     def create_alarm(self):
@@ -149,6 +149,39 @@ class MonitorController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = CreateAlarmRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--ids'], dict(help="""(string) 待删除的规则id，用竖线分隔 """, dest='ids',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 批量删除规则 ''',
+        description='''
+            批量删除规则。
+
+            示例: jdc monitor delete-alarms  --ids xxx
+        ''',
+    )
+    def delete_alarms(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.DeleteAlarmsRequest import DeleteAlarmsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteAlarmsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -207,7 +240,7 @@ class MonitorController(BaseController):
         description='''
             修改已创建的报警规则。
 
-            示例: jdc monitor update-alarm  --alarm-id xxx --rule {"":""}
+            示例: jdc monitor update-alarm  --alarm-id xxx --rule '{"":""}'
         ''',
     )
     def update_alarm(self):
@@ -475,7 +508,7 @@ class MonitorController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
             (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=True)),
-            (['--resource-id'], dict(help="""(string) 资源的uuid，支持多个resourceId批量查询，每个id用竖线'|'分隔。 如：id1|id2|id3|id4 """, dest='resourceId',  required=True)),
+            (['--resource-id'], dict(help="""(string) 资源的uuid，支持多个resourceId批量查询，每个id用竖线分隔。 如：id1|id2|id3|id4 """, dest='resourceId',  required=True)),
             (['--tags'], dict(help="""(array: tagFilter) 自定义标签 """, dest='tags',  required=False)),
             (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ（默认为当前时间，早于30d时，将被重置为30d） """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime',  required=False)),
@@ -515,8 +548,8 @@ class MonitorController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
-            (['--aggr-type'], dict(help="""(string) 聚合方式，默认等于downSampleType或avg，可选值参考http://opentsdb.net/docs/build/html/user_guide/query/aggregators.html?highlight=zimsum#available-aggregators """, dest='aggrType',  required=False)),
-            (['--down-sample-type'], dict(help="""(string) 采样方式，默认等于aggrType或avg，可选值参考http://opentsdb.net/docs/build/html/user_guide/query/aggregators.html?highlight=avg#available-aggregators """, dest='downSampleType',  required=False)),
+            (['--aggr-type'], dict(help="""(string) 聚合方式，默认等于downSampleType或avg，可选值参考:sum、avg、last、min、max """, dest='aggrType',  required=False)),
+            (['--down-sample-type'], dict(help="""(string) 采样方式，默认等于aggrType或avg，可选值参考：sum、avg、last、min、max """, dest='downSampleType',  required=False)),
             (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime',  required=False)),
             (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval默认为1h，当前时间往 前1h """, dest='timeInterval',  required=False)),
@@ -588,7 +621,7 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-alarm-history','describe-alarms','create-alarm','describe-alarms-by-id','update-alarm','describe-alarm-contacts','disable-alarm','enable-alarm','describe-alarm-history-all-region','delete-alarms-cm','describe-metrics','describe-metrics-for-create-alarm','last-downsample','describe-metric-data','put-metric-data',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-alarm-history','describe-alarms','create-alarm','delete-alarms','describe-alarms-by-id','update-alarm','describe-alarm-contacts','disable-alarm','enable-alarm','describe-alarm-history-all-region','delete-alarms-cm','describe-metrics','describe-metrics-for-create-alarm','last-downsample','describe-metric-data','put-metric-data',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

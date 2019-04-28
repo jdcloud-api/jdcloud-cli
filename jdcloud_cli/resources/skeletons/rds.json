@@ -85,6 +85,11 @@
         "accountName":"",
         "pageNumber":"",
         "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "regionId":"",
         "instanceId":""
     },
@@ -154,6 +159,8 @@
     },
     "describe-databases":{
         "dbName":"",
+        "pageNumber":"",
+        "pageSize":"",
         "regionId":"",
         "instanceId":""
     },
@@ -343,11 +350,31 @@
         "regionId":"",
         "instanceId":""
     },
+    "modify-parameter-group":{
+        "parameterGroupId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "exchange-instance-dns":{
+        "targetInstanceId":"",
+        "regionId":"",
+        "instanceId":""
+    },
     "enable-intercept":{
         "regionId":"",
         "instanceId":""
     },
     "disable-intercept":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-intercept-result":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-intercept":{
         "regionId":"",
         "instanceId":""
     },
@@ -370,6 +397,47 @@
     "modify-parameter-group-attribute":{
         "parameterGroupName":"",
         "description":"",
+        "regionId":"",
+        "parameterGroupId":""
+    },
+    "describe-parameter-groups":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "create-parameter-group":{
+        "engine":"",
+        "engineVersion":"",
+        "parameterGroupName":"",
+        "description":"",
+        "regionId":""
+    },
+    "describe-parameter-group-parameters":{
+        "regionId":"",
+        "parameterGroupId":""
+    },
+    "modify-parameter-group-parameters":{
+        "parameters":[""],
+        "regionId":"",
+        "parameterGroupId":""
+    },
+    "describe-parameter-modify-records":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "regionId":"",
+        "parameterGroupId":""
+    },
+    "copy-parameter-group":{
+        "parameterGroupId":"",
+        "parameterGroupName":"",
+        "description":"",
+        "regionId":""
+    },
+    "describe-parameter-group-attached-instances":{
+        "pageNumber":"",
+        "pageSize":"",
         "regionId":"",
         "parameterGroupId":""
     },

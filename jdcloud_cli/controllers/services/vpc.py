@@ -85,7 +85,7 @@ class VpcController(BaseController):
         description='''
             创建一个或者多个弹性Ip。
 
-            示例: jdc vpc create-elastic-ips  --max-count 0 --elastic-ip-spec {"":""}
+            示例: jdc vpc create-elastic-ips  --max-count 0 --elastic-ip-spec '{"":""}'
         ''',
     )
     def create_elastic_ips(self):
@@ -458,7 +458,7 @@ class VpcController(BaseController):
         description='''
             添加networkAcl规则接口。
 
-            示例: jdc vpc add-network-acl-rules  --network-acl-id xxx --network-acl-rule-specs [{"":""}]
+            示例: jdc vpc add-network-acl-rules  --network-acl-id xxx --network-acl-rule-specs ['{"":""}']
         ''',
     )
     def add_network_acl_rules(self):
@@ -526,7 +526,7 @@ class VpcController(BaseController):
         description='''
             修改networkAcl接口。
 
-            示例: jdc vpc modify-network-acl-rules  --network-acl-id xxx --modify-network-acl-rule-specs [{"":""}]
+            示例: jdc vpc modify-network-acl-rules  --network-acl-id xxx --modify-network-acl-rule-specs ['{"":""}']
         ''',
     )
     def modify_network_acl_rules(self):
@@ -1050,7 +1050,7 @@ class VpcController(BaseController):
         description='''
             添加安全组规则。
 
-            示例: jdc vpc add-network-security-group-rules  --network-security-group-id xxx --network-security-group-rule-specs [{"":""}]
+            示例: jdc vpc add-network-security-group-rules  --network-security-group-id xxx --network-security-group-rule-specs ['{"":""}']
         ''',
     )
     def add_network_security_group_rules(self):
@@ -1118,7 +1118,7 @@ class VpcController(BaseController):
         description='''
             修改安全组规则。
 
-            示例: jdc vpc modify-network-security-group-rules  --network-security-group-id xxx --modify-security-group-rule-specs [{"":""}]
+            示例: jdc vpc modify-network-security-group-rules  --network-security-group-id xxx --modify-security-group-rule-specs ['{"":""}']
         ''',
     )
     def modify_network_security_group_rules(self):
@@ -1357,7 +1357,7 @@ class VpcController(BaseController):
         description='''
             添加路由表规则。
 
-            示例: jdc vpc add-route-table-rules  --route-table-id xxx --route-table-rule-specs [{"":""}]
+            示例: jdc vpc add-route-table-rules  --route-table-id xxx --route-table-rule-specs ['{"":""}']
         ''',
     )
     def add_route_table_rules(self):
@@ -1425,7 +1425,7 @@ class VpcController(BaseController):
         description='''
             修改路由表规则。
 
-            示例: jdc vpc modify-route-table-rules  --route-table-id xxx --modify-route-table-rule-specs [{"":""}]
+            示例: jdc vpc modify-route-table-rules  --route-table-id xxx --modify-route-table-rule-specs ['{"":""}']
         ''',
     )
     def modify_route_table_rules(self):

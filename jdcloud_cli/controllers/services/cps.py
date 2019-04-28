@@ -72,39 +72,6 @@ class CpsController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--os-type-id'], dict(help="""(string) 操作系统系统类型ID，调用接口（describeOS）获取云物理服务器支持的操作系统 """, dest='osTypeId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询物理服务器可预装的软件列表<br/>; 可调用接口（describeOS）获取云物理服务器支持的操作系统列表，根据不同的操作系统类型得到支持的可预装的软件列表<br/>;  ''',
-        description='''
-            查询物理服务器可预装的软件列表<br/>; 可调用接口（describeOS）获取云物理服务器支持的操作系统列表，根据不同的操作系统类型得到支持的可预装的软件列表<br/>; 。
-
-            示例: jdc cps describe-software  --os-type-id xxx
-        ''',
-    )
-    def describe_software(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeSoftwareRequest import DescribeSoftwareRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSoftwareRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -173,6 +140,7 @@ class CpsController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--az'], dict(help="""(string) 可用区，精确匹配 """, dest='az',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -414,11 +382,11 @@ class CpsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 重装云物理服务器，只能重装stopped状态的服务器<br/>; - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表; - 可调用接口（describeSoftware）获取云物理服务器支持的软件列表，也可以不预装软件;  ''',
+        help=''' 重装云物理服务器，只能重装stopped状态的服务器<br/>; - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表;  ''',
         description='''
-            重装云物理服务器，只能重装stopped状态的服务器<br/>; - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表; - 可调用接口（describeSoftware）获取云物理服务器支持的软件列表，也可以不预装软件; 。
+            重装云物理服务器，只能重装stopped状态的服务器<br/>; - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表; 。
 
-            示例: jdc cps reinstall-instance  --instance-id xxx --instance-spec {"":""}
+            示例: jdc cps reinstall-instance  --instance-id xxx --instance-spec '{"":""}'
         ''',
     )
     def reinstall_instance(self):
@@ -556,11 +524,11 @@ class CpsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一台或多台指定配置的云物理服务器<br/>; - 地域与可用区<br/>;   - 调用接口（describeRegiones）获取云物理服务器支持的地域与可用区<br/>; - 实例类型<br/>;   - 调用接口（describeDeviceTypes）获取物理实例类型列表<br/>;   - 不能使用已下线、或已售馨的实例类型<br/>; - 操作系统和预装软件<br/>;   - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表<br/>;   - 可调用接口（describeSoftware）获取云物理服务器支持的软件列表，也可以不预装软件<br/>; - 存储<br/>;   - 数据盘多种RAID可选，可调用接口（describeDeviceRaids）获取服务器支持的RAID列表<br/>; - 网络<br/>;   - 网络类型目前只支持basic<br/>;   - 线路目前只支持bgp<br/>;   - 支持不启用外网，如果启用外网，带宽范围[1,200] 单位Mbps<br/>; - 其他<br/>;   - 购买时长，可按年或月购买，最少购买时长1个月，最长36个月（3年）<br/>;   - 密码设置参考公共参数规范<br/>;  ''',
+        help=''' 创建一台或多台指定配置的云物理服务器<br/>; - 地域与可用区<br/>;   - 调用接口（describeRegiones）获取云物理服务器支持的地域与可用区<br/>; - 实例类型<br/>;   - 调用接口（describeDeviceTypes）获取物理实例类型列表<br/>;   - 不能使用已下线、或已售馨的实例类型<br/>; - 操作系统和预装软件<br/>;   - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表<br/>; - 存储<br/>;   - 数据盘多种RAID可选，可调用接口（describeDeviceRaids）获取服务器支持的RAID列表<br/>; - 网络<br/>;   - 网络类型目前只支持basic<br/>;   - 线路目前只支持bgp<br/>;   - 支持不启用外网，如果启用外网，带宽范围[1,200] 单位Mbps<br/>; - 其他<br/>;   - 购买时长，可按年或月购买：月取值范围[1,9], 年取值范围[1,3]<br/>;   - 密码设置参考公共参数规范<br/>;  ''',
         description='''
-            创建一台或多台指定配置的云物理服务器<br/>; - 地域与可用区<br/>;   - 调用接口（describeRegiones）获取云物理服务器支持的地域与可用区<br/>; - 实例类型<br/>;   - 调用接口（describeDeviceTypes）获取物理实例类型列表<br/>;   - 不能使用已下线、或已售馨的实例类型<br/>; - 操作系统和预装软件<br/>;   - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表<br/>;   - 可调用接口（describeSoftware）获取云物理服务器支持的软件列表，也可以不预装软件<br/>; - 存储<br/>;   - 数据盘多种RAID可选，可调用接口（describeDeviceRaids）获取服务器支持的RAID列表<br/>; - 网络<br/>;   - 网络类型目前只支持basic<br/>;   - 线路目前只支持bgp<br/>;   - 支持不启用外网，如果启用外网，带宽范围[1,200] 单位Mbps<br/>; - 其他<br/>;   - 购买时长，可按年或月购买，最少购买时长1个月，最长36个月（3年）<br/>;   - 密码设置参考公共参数规范<br/>; 。
+            创建一台或多台指定配置的云物理服务器<br/>; - 地域与可用区<br/>;   - 调用接口（describeRegiones）获取云物理服务器支持的地域与可用区<br/>; - 实例类型<br/>;   - 调用接口（describeDeviceTypes）获取物理实例类型列表<br/>;   - 不能使用已下线、或已售馨的实例类型<br/>; - 操作系统和预装软件<br/>;   - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表<br/>; - 存储<br/>;   - 数据盘多种RAID可选，可调用接口（describeDeviceRaids）获取服务器支持的RAID列表<br/>; - 网络<br/>;   - 网络类型目前只支持basic<br/>;   - 线路目前只支持bgp<br/>;   - 支持不启用外网，如果启用外网，带宽范围[1,200] 单位Mbps<br/>; - 其他<br/>;   - 购买时长，可按年或月购买：月取值范围[1,9], 年取值范围[1,3]<br/>;   - 密码设置参考公共参数规范<br/>; 。
 
-            示例: jdc cps create-instances  --instance-spec {"":""}
+            示例: jdc cps create-instances  --instance-spec '{"":""}'
         ''',
     )
     def create_instances(self):
@@ -647,7 +615,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-os','describe-software','describe-instance-name','modify-instance','describe-device-types','describe-device-raids','describe-instance-raid','describe-instance-status','restart-instance','stop-instance','start-instance','reinstall-instance','modify-bandwidth','describe-instance','describe-instances','create-instances','describe-regiones','describe-subnet',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-os','describe-instance-name','modify-instance','describe-device-types','describe-device-raids','describe-instance-raid','describe-instance-status','restart-instance','stop-instance','start-instance','reinstall-instance','modify-bandwidth','describe-instance','describe-instances','create-instances','describe-regiones','describe-subnet',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

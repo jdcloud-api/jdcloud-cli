@@ -212,7 +212,7 @@ class FunctionController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--filters'], dict(help="""(array: filter) functionId -函数ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) functionId -函数ID，精确匹配，支持多个; functionName  - 函数名称，模糊匹配，支持单个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -266,7 +266,7 @@ class FunctionController(BaseController):
         description='''
             创建函数。
 
-            示例: jdc function create-function  --name xxx --entrance xxx --memory 0 --run-time xxx --over-time 0 --code {"":""}
+            示例: jdc function create-function  --name xxx --entrance xxx --memory 0 --run-time xxx --over-time 0 --code '{"":""}'
         ''',
     )
     def create_function(self):
@@ -344,7 +344,7 @@ class FunctionController(BaseController):
         description='''
             更新函数。
 
-            示例: jdc function update-function  --function-name xxx --description xxx --entrance xxx --memory 0 --run-time xxx --over-time 0 --code {"":""} --environment {"":""} --log-set-id xxx --log-topic-id xxx --vpc-id xxx --subnet-id xxx
+            示例: jdc function update-function  --function-name xxx --description xxx --entrance xxx --memory 0 --run-time xxx --over-time 0 --code '{"":""}' --environment '{"":""}' --log-set-id xxx --log-topic-id xxx --vpc-id xxx --subnet-id xxx
         ''',
     )
     def update_function(self):
@@ -412,20 +412,55 @@ class FunctionController(BaseController):
         description='''
             控制台测试执行函数。
 
-            示例: jdc function test-invoke  --function-name xxx --version-name xxx --event xxx
+            示例: jdc function invoke  --function-name xxx --version-name xxx --event xxx
         ''',
     )
-    def test_invoke(self):
+    def invoke(self):
         client_factory = ClientFactory('function')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.function.apis.TestInvokeRequest import TestInvokeRequest
+            from jdcloud_sdk.services.function.apis.InvokeRequest import InvokeRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = TestInvokeRequest(params_dict, headers)
+            req = InvokeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--function-name'], dict(help="""(string) 函数名称 """, dest='functionName',  required=True)),
+            (['--version-name'], dict(help="""(string) 版本名称 """, dest='versionName',  required=True)),
+            (['--event'], dict(help="""(string) 异步执行函数的输入事件 """, dest='event',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 异步测试执行函数 ''',
+        description='''
+            异步测试执行函数。
+
+            示例: jdc function async-invoke  --function-name xxx --version-name xxx --event xxx
+        ''',
+    )
+    def async_invoke(self):
+        client_factory = ClientFactory('function')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.function.apis.AsyncInvokeRequest import AsyncInvokeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AsyncInvokeRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -639,7 +674,7 @@ class FunctionController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['list-alias','create-alias','get-alias','update-alias','delete-alias','list-function','create-function','get-function','update-function','delete-function','test-invoke','get-trigger','list-trigger','list-version','create-version','get-version','delete-version',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['list-alias','create-alias','get-alias','update-alias','delete-alias','list-function','create-function','get-function','update-function','delete-function','invoke','async-invoke','get-trigger','list-trigger','list-version','create-version','get-version','delete-version',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

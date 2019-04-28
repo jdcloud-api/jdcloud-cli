@@ -1,8 +1,4 @@
 {
-    "describe-quota":{
-        "resourceType":"",
-        "regionId":""
-    },
     "decribe-container":{
         "regionId":"",
         "podId":"",
@@ -39,35 +35,6 @@
         "regionId":"",
         "podId":"",
         "containerName":""
-    },
-    "describe-secrets":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-secret":{
-        "name":"",
-        "secretType":"",
-        "data":{
-            "server":"",
-            "username":"",
-            "password":"",
-            "email":""
-        },
-        "regionId":""
-    },
-    "describe-secret":{
-        "regionId":"",
-        "name":""
-    },
-    "delete-secret":{
-        "regionId":"",
-        "name":""
     },
     "describe-pods":{
         "pageNumber":"",
@@ -149,7 +116,6 @@
         "podId":""
     },
     "modify-pod-attribute":{
-        "name":"",
         "description":"",
         "regionId":"",
         "podId":""
@@ -173,5 +139,38 @@
         "regionId":"",
         "podId":"",
         "containerName":""
+    },
+    "describe-quota":{
+        "resourceType":"",
+        "regionId":""
+    },
+    "describe-secrets":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-secret":{
+        "name":"",
+        "secretType":"",
+        "data":{
+            "server":"",
+            "username":"",
+            "password":"",
+            "email":""
+        },
+        "regionId":""
+    },
+    "describe-secret":{
+        "regionId":"",
+        "name":""
+    },
+    "delete-secret":{
+        "regionId":"",
+        "name":""
     },
 }

@@ -50,6 +50,15 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_delete_alarms(self):
+        cmd = """python ../../main.py monitor delete-alarms  --ids 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_alarms_by_id(self):
         cmd = """python ../../main.py monitor describe-alarms-by-id  --alarm-id 'xxx'"""
         with os.popen(cmd) as f:

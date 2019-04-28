@@ -89,11 +89,17 @@
         "regionId":"",
         "functionName":""
     },
-    "test-invoke":{
-        "functionName":"",
-        "versionName":"",
+    "invoke":{
         "event":"",
-        "regionId":""
+        "regionId":"",
+        "functionName":"",
+        "versionName":""
+    },
+    "async-invoke":{
+        "event":"",
+        "regionId":"",
+        "functionName":"",
+        "versionName":""
     },
     "get-trigger":{
         "triggerId":"",

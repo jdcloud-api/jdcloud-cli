@@ -85,7 +85,7 @@ class RedisController(BaseController):
         description='''
             创建一个指定配置的缓存Redis实例; 规格性能：创建缓存Redis实例的规格，分为主从版和集群版两种规格。每种规格都有最大连接数，内网带宽上限，CPU处理能力，规格代码等信息，具体可查看：<a href="https://www.jdcloud.com/help/detail/411/isCatalog/1">实例规格代码</a>; 可用区：可用区是指在同一地域下，电力、网络等基础设施互相独立的物理区域。一个地域包含一个或多个可用区，同一地域下的多个可用区可以彼此连通。地域可用区详细信息可查询：<a href="https://www.jdcloud.com/help/detail/2222/isCatalog/1">地域可用区详情</a>; 私有网络：简称VPC，自定义的逻辑隔离网络空间，支持自定义网段划分、路由策略等。具体信息可查询：<a href="https://www.jdcloud.com/help/detail/1509/isCatalog/1">私有网络VPC详情</a>; 子网：子网是所属VPC IP地址范围内的IP地址块，简称subnet，在VPC下创建子网，同一VPC下子网的网段不可以重叠，不同VPC下子网的网段可以重叠。具体信息可查询：<a href="https://www.jdcloud.com/help/detail/1510/isCatalog/1">子网subnet详情</a>; 。
 
-            示例: jdc redis create-cache-instance  --cache-instance {"":""}
+            示例: jdc redis create-cache-instance  --cache-instance '{"":""}'
         ''',
     )
     def create_cache_instance(self):

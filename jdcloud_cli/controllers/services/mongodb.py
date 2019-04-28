@@ -86,7 +86,7 @@ class MongodbController(BaseController):
         description='''
             创建实例。
 
-            示例: jdc mongodb create-instance  --instance-spec {"":""}
+            示例: jdc mongodb create-instance  --instance-spec '{"":""}'
         ''',
     )
     def create_instance(self):
