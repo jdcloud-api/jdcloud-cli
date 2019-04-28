@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/jdcloud-api/jdcloud-cli.svg?branch=master)](https://travis-ci.com/jdcloud-api/jdcloud-cli)
+
 # 京东云CLI
 京东云CLI提供使用命令行的方式访问您的云中资源。
 
