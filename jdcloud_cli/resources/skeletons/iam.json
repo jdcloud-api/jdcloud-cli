@@ -1,4 +1,50 @@
 {
+    "enable-sub-user-access-key":{
+        "subUser":"",
+        "accessKey":""
+    },
+    "disable-sub-user-access-key":{
+        "subUser":"",
+        "accessKey":""
+    },
+    "delete-sub-user-access-key":{
+        "subUser":"",
+        "accessKey":""
+    },
+    "create-group":{
+        "createGroupInfo":{
+            "name":"",
+            "description":""
+        }
+    },
+    "describe-group":{
+        "groupName":""
+    },
+    "update-group":{
+        "updateGroupInfo":{
+            "description":""
+        },
+        "groupName":""
+    },
+    "delete-group":{
+        "groupName":""
+    },
+    "detach-group-policy":{
+        "policyName":"",
+        "groupName":""
+    },
+    "attach-group-policy":{
+        "policyName":"",
+        "groupName":""
+    },
+    "remove-sub-user-from-group":{
+        "subUser":"",
+        "groupName":""
+    },
+    "add-sub-user-to-group":{
+        "subUser":"",
+        "groupName":""
+    },
     "create-permission":{
         "createPermissionInfo":{
             "name":"",
@@ -45,6 +91,54 @@
         "permissionId":"",
         "subUser":""
     },
+    "create-policy":{
+        "createPolicyInfo":{
+            "name":"",
+            "description":"",
+            "content":""
+        }
+    },
+    "describe-policy":{
+        "policyName":""
+    },
+    "delete-policy":{
+        "policyName":""
+    },
+    "update-policy-description":{
+        "updatePolicyDescriptionInfo":{
+            "description":""
+        },
+        "policyName":""
+    },
+    "create-role":{
+        "createRoleInfo":{
+            "roleName":"",
+            "type":"",
+            "assumeRolePolicyDocument":"",
+            "description":"",
+            "maxSessionDuration":""
+        }
+    },
+    "describe-role":{
+        "roleName":""
+    },
+    "delete-role":{
+        "roleName":""
+    },
+    "update-assume-role-policy":{
+        "updateAssumeRolePolicyInfo":{
+            "assumeRolePolicyDocument":""
+        },
+        "roleName":""
+    },
+    "attach-role-policy":{
+        "policyName":"",
+        "roleName":""
+    },
+    "detach-role-policy":{
+        "policyName":"",
+        "roleName":""
+    },
     "create-sub-user":{
         "createSubUserInfo":{
             "name":"",
@@ -57,6 +151,28 @@
             "consoleLogin":"",
             "autoGeneratePassword":""
         }
+    },
+    "describe-sub-user":{
+        "subUser":""
+    },
+    "update-sub-user":{
+        "updateSubUserInfo":{
+            "description":"",
+            "phone":"",
+            "email":""
+        },
+        "subUser":""
+    },
+    "delete-sub-user":{
+        "subUser":""
+    },
+    "detach-sub-user-policy":{
+        "policyName":"",
+        "subUser":""
+    },
+    "attach-sub-user-policy":{
+        "policyName":"",
+        "subUser":""
     },
     "describe-user-access-keys":{
         "regionId":""

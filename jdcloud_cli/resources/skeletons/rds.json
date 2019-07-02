@@ -140,6 +140,28 @@
         "regionId":"",
         "serviceId":""
     },
+    "create-instance-by-time-in-cross-region":{
+        "restoreTime":"",
+        "serviceId":"",
+        "instanceSpec":{
+            "instanceName":"",
+            "instanceClass":"",
+            "instanceStorageGB":"",
+            "azId":"",
+            "vpcId":"",
+            "subnetId":"",
+            "parameterGroup":"",
+            "chargeSpec":{
+                "chargeMode":"",
+                "chargeUnit":"",
+                "chargeDuration":""
+            },
+            "instanceStorageType":"",
+            "storageEncrypted":"",
+            "instanceType":""
+        },
+        "regionId":""
+    },
     "describe-binlogs":{
         "pageNumber":"",
         "pageSize":"",
@@ -248,7 +270,10 @@
                 "chargeMode":"",
                 "chargeUnit":"",
                 "chargeDuration":""
-            }
+            },
+            "instanceStorageType":"",
+            "storageEncrypted":"",
+            "instanceType":""
         },
         "regionId":""
     },
@@ -312,7 +337,10 @@
                 "chargeMode":"",
                 "chargeUnit":"",
                 "chargeDuration":""
-            }
+            },
+            "instanceStorageType":"",
+            "storageEncrypted":"",
+            "instanceType":""
         },
         "regionId":""
     },
@@ -336,8 +364,25 @@
                 "chargeMode":"",
                 "chargeUnit":"",
                 "chargeDuration":""
-            }
+            },
+            "instanceStorageType":"",
+            "storageEncrypted":"",
+            "instanceType":""
         },
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-roinstance":{
+        "instanceName":"",
+        "instanceClass":"",
+        "instanceStorageType":"",
+        "instanceStorageGB":"",
+        "azId":"",
+        "vpcId":"",
+        "subnetId":"",
+        "parameterGroup":"",
+        "storageEncrypted":"",
+        "count":"",
         "regionId":"",
         "instanceId":""
     },

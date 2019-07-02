@@ -254,8 +254,147 @@ class KubernetesController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群 ID """, dest='clusterId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 终止升级 ''',
+        description='''
+            终止升级。
+
+            示例: jdc kubernetes abort-upgrade  --cluster-id xxx
+        ''',
+    )
+    def abort_upgrade(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.AbortUpgradeRequest import AbortUpgradeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AbortUpgradeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群 ID """, dest='clusterId',  required=True)),
+            (['--node-group-ids'], dict(help="""(array: string) 节点组 ID """, dest='nodeGroupIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询集群操作进度 ''',
+        description='''
+            查询集群操作进度。
+
+            示例: jdc kubernetes describe-progress  --cluster-id xxx
+        ''',
+    )
+    def describe_progress(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.DescribeProgressRequest import DescribeProgressRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeProgressRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群 ID """, dest='clusterId',  required=True)),
+            (['--auto-upgrade'], dict(help="""(bool) 开启或者关闭集群自动升级，开启时必须指定 maintenancePolicy """, dest='autoUpgrade',  required=True)),
+            (['--maintenance-window'], dict(help="""(maintenanceWindowSpec) 开启集群自动升级, 必须配置集群维护策略 """, dest='maintenanceWindow',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置自动升级 ''',
+        description='''
+            设置自动升级。
+
+            示例: jdc kubernetes set-auto-upgrade  --cluster-id xxx --auto-upgrade true
+        ''',
+    )
+    def set_auto_upgrade(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.SetAutoUpgradeRequest import SetAutoUpgradeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetAutoUpgradeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群 ID """, dest='clusterId',  required=True)),
+            (['--scope'], dict(help="""(string) 升级范围 """, dest='scope',  required=True)),
+            (['--node-group-ids'], dict(help="""(array: string) 节点组 id """, dest='nodeGroupIds',  required=False)),
+            (['--verison'], dict(help="""(string) 指定升级到的版本 """, dest='verison',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 触发升级 ''',
+        description='''
+            触发升级。
+
+            示例: jdc kubernetes upgrade-cluster  --cluster-id xxx --scope xxx --verison xxx
+        ''',
+    )
+    def upgrade_cluster(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.UpgradeClusterRequest import UpgradeClusterRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpgradeClusterRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
             (['--filters'], dict(help="""(array: filter) name - 节点组名称，模糊匹配，支持单个      ; id - 节点组 id，支持多个     ; clusterId - 根据clusterId查询        ; clusterName - 根据名称查询 cluster             ;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -497,6 +636,39 @@ class KubernetesController(BaseController):
 
     @expose(
         arguments=[
+            (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
+            (['--node-group-id'], dict(help="""(string) 节点组 ID """, dest='nodeGroupId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 回滚未升级完的节点组 ''',
+        description='''
+            回滚未升级完的节点组。
+
+            示例: jdc kubernetes rollback-node-group-upgrade  --node-group-id xxx
+        ''',
+    )
+    def rollback_node_group_upgrade(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.RollbackNodeGroupUpgradeRequest import RollbackNodeGroupUpgradeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RollbackNodeGroupUpgradeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--filters'], dict(help="""(array: filter) resourceTypes - 资源类型，暂时只支持[kubernetes];  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -563,40 +735,6 @@ class KubernetesController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--master-version'], dict(help="""(string) 集群的大版本，如 1.8.12 """, dest='masterVersion',  required=False)),
-            (['--master-image-code'], dict(help="""(string) master 的镜像编码，如 1.8.12-jke """, dest='masterImageCode',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询服务配置信息，提供详细的 master 和 node 镜像信息。 ''',
-        description='''
-            查询服务配置信息，提供详细的 master 和 node 镜像信息。。
-
-            示例: jdc kubernetes describe-images 
-        ''',
-    )
-    def describe_images(self):
-        client_factory = ClientFactory('kubernetes')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.kubernetes.apis.DescribeImagesRequest import DescribeImagesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeImagesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--master-version'], dict(help="""(string) 集群的大版本，如 1.12.4-jcs.1 """, dest='masterVersion',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -629,7 +767,107 @@ class KubernetesController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-clusters','create-cluster','describe-cluster','modify-cluster','delete-cluster','set-user-metrics','describe-node-groups','create-node-group','describe-node-group','modify-node-group','delete-node-group','set-node-group-size','set-auto-repair','describe-quotas','describe-server-config','describe-images','describe-versions',], required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--node-version'], dict(help="""(string) 节点版本 """, dest='nodeVersion',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询节点版本 ''',
+        description='''
+            查询节点版本。
+
+            示例: jdc kubernetes describe-node-version  --node-version xxx
+        ''',
+    )
+    def describe_node_version(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.DescribeNodeVersionRequest import DescribeNodeVersionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeNodeVersionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群 ID """, dest='clusterId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可升级的控制节点版本 ''',
+        description='''
+            查询可升级的控制节点版本。
+
+            示例: jdc kubernetes describe-upgradable-master-versions  --cluster-id xxx
+        ''',
+    )
+    def describe_upgradable_master_versions(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.DescribeUpgradableMasterVersionsRequest import DescribeUpgradableMasterVersionsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeUpgradableMasterVersionsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群 ID """, dest='clusterId',  required=True)),
+            (['--node-group-ids'], dict(help="""(array: string) 节点组 id """, dest='nodeGroupIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可升级的节点版本 ''',
+        description='''
+            查询可升级的节点版本。
+
+            示例: jdc kubernetes describe-upgradable-node-versions  --cluster-id xxx
+        ''',
+    )
+    def describe_upgradable_node_versions(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.DescribeUpgradableNodeVersionsRequest import DescribeUpgradableNodeVersionsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeUpgradableNodeVersionsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-clusters','create-cluster','describe-cluster','modify-cluster','delete-cluster','set-user-metrics','abort-upgrade','describe-progress','set-auto-upgrade','upgrade-cluster','describe-node-groups','create-node-group','describe-node-group','modify-node-group','delete-node-group','set-node-group-size','set-auto-repair','rollback-node-group-upgrade','describe-quotas','describe-server-config','describe-versions','describe-node-version','describe-upgradable-master-versions','describe-upgradable-node-versions',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

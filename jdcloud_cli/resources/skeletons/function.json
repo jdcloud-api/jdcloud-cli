@@ -28,6 +28,9 @@
         "aliasName":""
     },
     "list-function":{
+        "listAll":"",
+        "pageNumber":"",
+        "pageSize":"",
         "filters":[{
             "name":"",
             "operator":"",
@@ -103,11 +106,6 @@
     },
     "get-trigger":{
         "triggerId":"",
-        "regionId":"",
-        "functionName":"",
-        "versionName":""
-    },
-    "list-trigger":{
         "regionId":"",
         "functionName":"",
         "versionName":""

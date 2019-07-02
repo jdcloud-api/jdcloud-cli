@@ -149,6 +149,41 @@ class PodController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--pod-id'], dict(help="""(string) Pod ID """, dest='podId',  required=True)),
             (['--container-name'], dict(help="""(string) container name """, dest='containerName',  required=True)),
+            (['--exec-id'], dict(help="""(string) NA """, dest='execId',  required=False)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 执行exec，此接口需要升级Http协议到WebSocket ''',
+        description='''
+            执行exec，此接口需要升级Http协议到WebSocket
+
+            示例: jdc pod exec-start  --pod-id xxx --container-name xxx
+        ''',
+    )
+    def exec_start(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.ExecStartRequest import ExecStartRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ExecStartRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--pod-id'], dict(help="""(string) Pod ID """, dest='podId',  required=True)),
+            (['--container-name'], dict(help="""(string) container name """, dest='containerName',  required=True)),
             (['--height'], dict(help="""(int) tty row，取值范围：[10, 2000] """, dest='height', type=int, required=False)),
             (['--width'], dict(help="""(int) tty column，取值范围：[10, 1000] """, dest='width', type=int, required=False)),
             (['--exec-id'], dict(help="""(string) tty column，取值范围：[10, 1000] """, dest='execId',  required=False)),
@@ -734,6 +769,7 @@ class PodController(BaseController):
             (['--container-name'], dict(help="""(string) container name """, dest='containerName', required=True)),
             (['--exec-id'], dict(help='(string) exec id', dest='execId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 执行exec，此接口需要升级Http协议到WebSocket ''',
@@ -755,6 +791,7 @@ class PodController(BaseController):
             (['--pod-id'], dict(help="""(string) Pod ID """, dest='podId', required=True)),
             (['--container-name'], dict(help='(string) container name', dest='containerName', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 绑定输入输出到容器 ''',
@@ -772,7 +809,7 @@ class PodController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['decribe-container','attach','exec-create','exec-get-exit-code','exec-start','resize-tty','describe-pods','create-pods','check-pod-name','describe-pod','delete-pod','start-pod','stop-pod','modify-pod-attribute','associate-elastic-ip','disassociate-elastic-ip','get-container-logs','describe-quota','describe-secrets','create-secret','describe-secret','delete-secret',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['decribe-container','exec-create','exec-get-exit-code','exec-start','resize-tty','describe-pods','create-pods','check-pod-name','describe-pod','delete-pod','start-pod','stop-pod','modify-pod-attribute','associate-elastic-ip','disassociate-elastic-ip','get-container-logs','describe-quota','describe-secrets','create-secret','describe-secret','delete-secret',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

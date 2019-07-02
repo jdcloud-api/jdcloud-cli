@@ -32,15 +32,6 @@ class PodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_attach(self):
-        cmd = """python ../../main.py pod attach  --pod-id 'xxx' --container-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_exec_create(self):
         cmd = """python ../../main.py pod exec-create  --pod-id 'xxx' --container-name 'xxx'"""
         with os.popen(cmd) as f:

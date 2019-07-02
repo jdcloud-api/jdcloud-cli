@@ -39,6 +39,72 @@ class EliteController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--report-order-info'], dict(help="""(reportOrderInfo) 上报订单信息 """, dest='reportOrderInfo',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 上报订单 ''',
+        description='''
+            上报订单。
+
+            示例: jdc elite jdx-report-order  --report-order-info '{"":""}'
+        ''',
+    )
+    def jdx_report_order(self):
+        client_factory = ClientFactory('elite')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.elite.apis.JdxReportOrderRequest import JdxReportOrderRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = JdxReportOrderRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--query-price-param'], dict(help="""(queryPriceParam) 查询价格参数 """, dest='queryPriceParam',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询价格 ''',
+        description='''
+            查询价格。
+
+            示例: jdc elite jdx-query-price  --query-price-param '{"":""}'
+        ''',
+    )
+    def jdx_query_price(self):
+        client_factory = ClientFactory('elite')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.elite.apis.JdxQueryPriceRequest import JdxQueryPriceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = JdxQueryPriceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--page-no'], dict(help="""(int) 页码（最小1） """, dest='pageNo', type=int, required=True)),
             (['--page-size'], dict(help="""(int) 每页记录数（最小10，最大100） """, dest='pageSize', type=int, required=True)),
             (['--deliver-number'], dict(help="""(string) 交付单号 """, dest='deliverNumber',  required=False)),
@@ -177,7 +243,7 @@ class EliteController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['list-sale-service','get-sale-service-by-deliver-number','confirm-sale-service-delivery','get-store-service',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['jdx-report-order','jdx-query-price','list-sale-service','get-sale-service-by-deliver-number','confirm-sale-service-delivery','get-store-service',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

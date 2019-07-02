@@ -75,8 +75,8 @@ class RdsController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
-            (['--account-name'], dict(help="""(string) 账号名，在同一个RDS实例中，账号名不能重复。账号名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='accountName',  required=True)),
-            (['--account-password'], dict(help="""(string) 密码,密码的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='accountPassword',  required=True)),
+            (['--account-name'], dict(help="""(string) 账号名，在同一个RDS实例中，账号名不能重复。账号名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Database-and-Cache-Service/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='accountName',  required=True)),
+            (['--account-password'], dict(help="""(string) 密码,密码的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Database-and-Cache-Service/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='accountPassword',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -215,7 +215,7 @@ class RdsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
             (['--account-name'], dict(help="""(string) 账号名，在同一个实例中账号名不能重复 """, dest='accountName',  required=True)),
-            (['--account-password'], dict(help="""(string) 新密码，密码的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='accountPassword',  required=True)),
+            (['--account-password'], dict(help="""(string) 新密码，密码的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Database-and-Cache-Service/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='accountPassword',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -771,9 +771,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询跨地域备份同步服务列表。<br>- 仅支持MySQL ''',
+        help=''' 查询跨地域备份同步服务列表。 ''',
         description='''
-            查询跨地域备份同步服务列表。<br>- 仅支持MySQL。
+            查询跨地域备份同步服务列表。。
 
             示例: jdc rds describe-backup-synchronicities 
         ''',
@@ -805,9 +805,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一个跨地域备份同步服务。<br>- 仅支持MySQL ''',
+        help=''' 创建一个跨地域备份同步服务。 ''',
         description='''
-            创建一个跨地域备份同步服务。<br>- 仅支持MySQL。
+            创建一个跨地域备份同步服务。。
 
             示例: jdc rds create-backup-synchronicity  --instance-id xxx --dest-region xxx
         ''',
@@ -838,9 +838,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除一个跨地域备份同步服务。<br>- 仅支持MySQL ''',
+        help=''' 删除一个跨地域备份同步服务。 ''',
         description='''
-            删除一个跨地域备份同步服务。<br>- 仅支持MySQL。
+            删除一个跨地域备份同步服务。。
 
             示例: jdc rds delete-backup-synchronicity  --service-id xxx
         ''',
@@ -856,6 +856,41 @@ class RdsController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DeleteBackupSynchronicityRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--restore-time'], dict(help="""(string) 根据源实例的哪个时间点创建新实例 """, dest='restoreTime',  required=True)),
+            (['--service-id'], dict(help="""(string) 跨地域备份同步服务ID """, dest='serviceId',  required=True)),
+            (['--instance-spec'], dict(help="""(restoredNewDBInstanceSpec) 新建实例规格 """, dest='instanceSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据跨地域备份同步服务时间点创建实例。 ''',
+        description='''
+            根据跨地域备份同步服务时间点创建实例。。
+
+            示例: jdc rds create-instance-by-time-in-cross-region  --restore-time xxx --service-id xxx --instance-spec '{"":""}'
+        ''',
+    )
+    def create_instance_by_time_in_cross_region(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.CreateInstanceByTimeInCrossRegionRequest import CreateInstanceByTimeInCrossRegionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateInstanceByTimeInCrossRegionRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1007,7 +1042,7 @@ class RdsController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
-            (['--db-name'], dict(help="""(string) 数据库名，数据库名称的限制请参考[帮助中心文档](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='dbName',  required=True)),
+            (['--db-name'], dict(help="""(string) 数据库名，数据库名称的限制请参考[帮助中心文档](../../../documentation/Database-and-Cache-Service/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='dbName',  required=True)),
             (['--character-set-name'], dict(help="""(string) 数据库的字符集名，当前支持的字符集请查看[枚举参数定义](../Enum-Definitions/Enum-Definitions.md) """, dest='characterSetName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -1554,14 +1589,14 @@ class RdsController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称，名称支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='instanceName',  required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称，名称支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Database-and-Cache-Service/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='instanceName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改实例名称，可支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) ''',
+        help=''' 修改实例名称，可支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Database-and-Cache-Service/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) ''',
         description='''
-            修改实例名称，可支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Cloud-Database-and-Cache/RDS/Introduction/Restrictions/SQLServer-Restrictions.md)。
+            修改实例名称，可支持中文，实例名的具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Database-and-Cache-Service/RDS/Introduction/Restrictions/SQLServer-Restrictions.md)。
 
             示例: jdc rds modify-instance-name  --instance-id xxx --instance-name xxx
         ''',
@@ -1850,6 +1885,49 @@ class RdsController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = CreateInstanceByTimeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称，具体规则可参见帮助中心文档:[名称及密码限制](../../../documentation/Database-and-Cache-Service/RDS/Introduction/Restrictions/SQLServer-Restrictions.md) """, dest='instanceName',  required=True)),
+            (['--instance-class'], dict(help="""(string) 只读实例规格FlavorId """, dest='instanceClass',  required=True)),
+            (['--instance-storage-type'], dict(help="""(string) 存储类型，参见[枚举参数定义](../Enum-Definitions/Enum-Definitions.md)，缺省值为：LOCAL_SSD """, dest='instanceStorageType',  required=False)),
+            (['--instance-storage-gb'], dict(help="""(int) 磁盘空间 """, dest='instanceStorageGB', type=int, required=True)),
+            (['--az-id'], dict(help="""(string) 可用区ID """, dest='azId',  required=True)),
+            (['--vpc-id'], dict(help="""(string) VPC的ID，如果没有填写就保持和常规实例一样的VPC """, dest='vpcId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 子网ID，如果没有填写就保持和常规实例一样的subnet """, dest='subnetId',  required=False)),
+            (['--parameter-group'], dict(help="""(string) 参数组ID，缺省采用和常规实例一样的参数组 """, dest='parameterGroup',  required=False)),
+            (['--storage-encrypted'], dict(help="""(bool) 实例数据加密(存储类型为云硬盘才支持数据加密)。false：不加密；true：加密。缺省为false。 """, dest='storageEncrypted',  required=False)),
+            (['--count'], dict(help="""(int) 创建只读实例的数目,缺省为1 """, dest='count', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建MySQL的只读实例<br>- 仅支持MySQL ''',
+        description='''
+            创建MySQL的只读实例<br>- 仅支持MySQL。
+
+            示例: jdc rds create-roinstance  --instance-id xxx --instance-name xxx --instance-class xxx --instance-storage-gb 0 --az-id xxx
+        ''',
+    )
+    def create_roinstance(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.CreateROInstanceRequest import CreateROInstanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateROInstanceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2480,9 +2558,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看参数的修改历史<br>- 仅支持MySQL ''',
+        help=''' 查看参数组绑定的云数据库实例<br>- 仅支持MySQL ''',
         description='''
-            查看参数的修改历史<br>- 仅支持MySQL。
+            查看参数组绑定的云数据库实例<br>- 仅支持MySQL。
 
             示例: jdc rds describe-parameter-group-attached-instances  --parameter-group-id xxx
         ''',
@@ -2761,7 +2839,7 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-accounts','create-account','delete-account','grant-privilege','revoke-privilege','reset-password','describe-audit','create-audit','delete-audit','describe-audit-options','modify-audit','describe-audit-files','describe-audit-download-url','enable-audit','disable-audit','describe-audit-result','describe-azs','describe-backups','create-backup','delete-backup','describe-backup-download-url','describe-backup-synchronicities','create-backup-synchronicity','delete-backup-synchronicity','describe-binlogs','describe-binlog-download-url','clear-binlogs','describe-databases','create-database','delete-database','restore-database-from-backup','restore-database-from-file','restore-database-from-oss','describe-error-logs','describe-import-files','get-upload-key','set-import-file-shared','delete-import-file','describe-instances','create-instance','describe-instance-attributes','delete-instance','describe-backup-policy','modify-backup-policy','modify-instance-name','failover-instance','reboot-instance','enable-internet-access','disable-internet-access','restore-instance','create-instance-from-backup','modify-instance-spec','create-instance-by-time','modify-connection-mode','describe-latest-restore-time','modify-parameter-group','exchange-instance-dns','enable-intercept','disable-intercept','describe-intercept-result','describe-intercept','describe-parameters','modify-parameters','delete-parameter-group','modify-parameter-group-attribute','describe-parameter-groups','create-parameter-group','describe-parameter-group-parameters','modify-parameter-group-parameters','describe-parameter-modify-records','copy-parameter-group','describe-parameter-group-attached-instances','describe-index-performance','describe-query-performance','describe-slow-log-attributes','describe-slow-logs','describe-active-query-performance','describe-white-list','modify-white-list',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-accounts','create-account','delete-account','grant-privilege','revoke-privilege','reset-password','describe-audit','create-audit','delete-audit','describe-audit-options','modify-audit','describe-audit-files','describe-audit-download-url','enable-audit','disable-audit','describe-audit-result','describe-azs','describe-backups','create-backup','delete-backup','describe-backup-download-url','describe-backup-synchronicities','create-backup-synchronicity','delete-backup-synchronicity','create-instance-by-time-in-cross-region','describe-binlogs','describe-binlog-download-url','clear-binlogs','describe-databases','create-database','delete-database','restore-database-from-backup','restore-database-from-file','restore-database-from-oss','describe-error-logs','describe-import-files','get-upload-key','set-import-file-shared','delete-import-file','describe-instances','create-instance','describe-instance-attributes','delete-instance','describe-backup-policy','modify-backup-policy','modify-instance-name','failover-instance','reboot-instance','enable-internet-access','disable-internet-access','restore-instance','create-instance-from-backup','modify-instance-spec','create-instance-by-time','create-roinstance','modify-connection-mode','describe-latest-restore-time','modify-parameter-group','exchange-instance-dns','enable-intercept','disable-intercept','describe-intercept-result','describe-intercept','describe-parameters','modify-parameters','delete-parameter-group','modify-parameter-group-attribute','describe-parameter-groups','create-parameter-group','describe-parameter-group-parameters','modify-parameter-group-parameters','describe-parameter-modify-records','copy-parameter-group','describe-parameter-group-attached-instances','describe-index-performance','describe-query-performance','describe-slow-log-attributes','describe-slow-logs','describe-active-query-performance','describe-white-list','modify-white-list',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -39,40 +39,6 @@ class PortalController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID （cn-north-1：华北-北京） """, dest='regionId',  required=False)),
-            (['--lang'], dict(help="""(string) 语言类型；中文cn；英文en； """, dest='lang',  required=True)),
-            (['--ak'], dict(help="""(string) 外部使用ak； """, dest='ak',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 产品页列表查询接口;  ''',
-        description='''
-            产品页列表查询接口; 。
-
-            示例: jdc portal describe-products  --lang xxx --ak xxx
-        ''',
-    )
-    def describe_products(self):
-        client_factory = ClientFactory('portal')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.portal.apis.DescribeProductsRequest import DescribeProductsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeProductsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID （cn-north-1：华北-北京） """, dest='regionId',  required=False)),
             (['--url'], dict(help="""(string) 产品url """, dest='url',  required=True)),
             (['--lang'], dict(help="""(string) 中文cn 英文en """, dest='lang',  required=True)),
             (['--ak'], dict(help="""(string) 外部使用ak； """, dest='ak',  required=True)),
@@ -141,7 +107,7 @@ class PortalController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-products','describe-product','describe-products-by-id',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-product','describe-products-by-id',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

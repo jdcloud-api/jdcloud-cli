@@ -122,6 +122,10 @@
         "certificate":"",
         "rsaKey":"",
         "jumpType":"",
+        "certFrom":"",
+        "sslCertId":"",
+        "syncToSsl":"",
+        "certName":"",
         "domain":""
     },
     "query-follow-redirect":{
@@ -271,6 +275,10 @@
     "set-protocol-convert":{
         "certificate":"",
         "rsaKey":"",
+        "certFrom":"",
+        "sslCertId":"",
+        "syncToSsl":"",
+        "certName":"",
         "protocolConverts":[""],
         "domain":""
     },
@@ -284,7 +292,7 @@
         "limit":"",
         "domain":""
     },
-    "create-live-domain":{
+    "batch-create-live-domain":{
         "playDomain":"",
         "publishDomain":"",
         "sourceType":"",
@@ -308,6 +316,51 @@
     },
     "query-live-prefetch-task":{
         "urlList":""
+    },
+    "query-refresh-task-by-ids":{
+        "taskIds":"",
+        "keyword":""
+    },
+    "query-refresh-task-by-id":{
+        "taskId":""
+    },
+    "create-refresh-task-for-callback":{
+        "taskType":"",
+        "urlItems":[""]
+    },
+    "create-refresh-task-for-callback-v2":{
+        "taskType":"",
+        "urlItems":[""]
+    },
+    "query-refresh-task":{
+        "startTime":"",
+        "endTime":"",
+        "keyword":"",
+        "taskId":"",
+        "taskStatus":"",
+        "taskType":"",
+        "pageNumber":"",
+        "pageSize":""
+    },
+    "create-refresh-task":{
+        "taskType":"",
+        "urls":[""]
+    },
+    "get-all-upper-node-ip-list":{
+    },
+    "get-ssl-cert-list":{
+        "pageNumber":"",
+        "pageSize":"",
+        "domain":""
+    },
+    "get-ssl-cert-detail":{
+        "sslCertId":""
+    },
+    "upload-cert":{
+        "certName":"",
+        "keyFile":"",
+        "certFile":"",
+        "aliasName":""
     },
     "query-mix-statistics-data":{
         "startTime":"",
@@ -376,8 +429,8 @@
         "startTime":"",
         "endTime":"",
         "domain":"",
-        "appname":"",
-        "streamname":"",
+        "appName":"",
+        "streamName":"",
         "subDomain":"",
         "fields":"",
         "area":"",
@@ -423,6 +476,22 @@
         "subDomain":"",
         "size":"",
         "topBy":""
+    },
+    "query-domains-log":{
+        "domains":[""],
+        "startTime":"",
+        "endTime":"",
+        "interval":"",
+        "logType":""
+    },
+    "query-domain-log":{
+        "startTime":"",
+        "endTime":"",
+        "interval":"",
+        "logType":"",
+        "pageSize":"",
+        "pageNumber":"",
+        "domain":""
     },
     "query-statistics-top-url":{
         "startTime":"",

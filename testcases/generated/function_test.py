@@ -69,7 +69,7 @@ class FunctionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_list_function(self):
-        cmd = """python ../../main.py function list-function """
+        cmd = """python ../../main.py function list-function  --list-all 'true'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -78,7 +78,7 @@ class FunctionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_function(self):
-        cmd = """python ../../main.py function create-function  --name 'xxx' --entrance 'xxx' --memory '5' --run-time 'xxx' --over-time '5' --code '{"":""}'"""
+        cmd = """python ../../main.py function create-function """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -96,7 +96,7 @@ class FunctionTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_update_function(self):
-        cmd = """python ../../main.py function update-function  --function-name 'xxx' --description 'xxx' --entrance 'xxx' --memory '5' --run-time 'xxx' --over-time '5' --code '{"":""}' --environment '{"":""}' --log-set-id 'xxx' --log-topic-id 'xxx' --vpc-id 'xxx' --subnet-id 'xxx'"""
+        cmd = """python ../../main.py function update-function  --function-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -133,15 +133,6 @@ class FunctionTest(unittest.TestCase):
 
     def test_get_trigger(self):
         cmd = """python ../../main.py function get-trigger  --function-name 'xxx' --version-name 'xxx' --trigger-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_list_trigger(self):
-        cmd = """python ../../main.py function list-trigger  --function-name 'xxx' --version-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

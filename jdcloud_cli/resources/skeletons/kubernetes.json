@@ -56,9 +56,41 @@
         "regionId":"",
         "clusterId":""
     },
+    "abort-upgrade":{
+        "regionId":"",
+        "clusterId":""
+    },
+    "describe-progress":{
+        "nodeGroupIds":[""],
+        "regionId":"",
+        "clusterId":""
+    },
+    "set-auto-upgrade":{
+        "autoUpgrade":"",
+        "maintenanceWindow":{
+            "periodType":"",
+            "startDay":"",
+            "startTime":"",
+            "timeZone":"",
+            "duration":""
+        },
+        "regionId":"",
+        "clusterId":""
+    },
+    "upgrade-cluster":{
+        "scope":"",
+        "nodeGroupIds":[""],
+        "verison":"",
+        "regionId":"",
+        "clusterId":""
+    },
     "describe-node-groups":{
         "pageNumber":"",
         "pageSize":"",
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
         "filters":[{
             "name":"",
             "operator":"",
@@ -107,6 +139,10 @@
         "regionId":"",
         "nodeGroupId":""
     },
+    "rollback-node-group-upgrade":{
+        "regionId":"",
+        "nodeGroupId":""
+    },
     "describe-quotas":{
         "filters":[{
             "name":"",
@@ -118,13 +154,21 @@
     "describe-server-config":{
         "regionId":""
     },
-    "describe-images":{
-        "masterVersion":"",
-        "masterImageCode":"",
-        "regionId":""
-    },
     "describe-versions":{
         "masterVersion":"",
         "regionId":""
+    },
+    "describe-node-version":{
+        "regionId":"",
+        "nodeVersion":""
+    },
+    "describe-upgradable-master-versions":{
+        "regionId":"",
+        "clusterId":""
+    },
+    "describe-upgradable-node-versions":{
+        "nodeGroupIds":[""],
+        "regionId":"",
+        "clusterId":""
     },
 }
