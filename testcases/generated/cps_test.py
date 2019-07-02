@@ -23,8 +23,89 @@ import json
 
 class CpsTest(unittest.TestCase):
 
+    def test_describe_elastic_ips(self):
+        cmd = """python ../../main.py cps describe-elastic-ips """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_apply_elastic_ips(self):
+        cmd = """python ../../main.py cps apply-elastic-ips  --elastic-ip-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_elastic_ip(self):
+        cmd = """python ../../main.py cps describe-elastic-ip  --elastic-ip-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_elastic_ip_bandwidth(self):
+        cmd = """python ../../main.py cps modify-elastic-ip-bandwidth  --elastic-ip-id 'xxx' --bandwidth '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_device_types(self):
+        cmd = """python ../../main.py cps describe-device-types """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_os(self):
         cmd = """python ../../main.py cps describe-os  --device-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_device_raids(self):
+        cmd = """python ../../main.py cps describe-device-raids  --device-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance(self):
+        cmd = """python ../../main.py cps describe-instance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instances(self):
+        cmd = """python ../../main.py cps describe-instances """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_instances(self):
+        cmd = """python ../../main.py cps create-instances  --instance-spec '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -43,24 +124,6 @@ class CpsTest(unittest.TestCase):
 
     def test_modify_instance(self):
         cmd = """python ../../main.py cps modify-instance  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_device_types(self):
-        cmd = """python ../../main.py cps describe-device-types """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_device_raids(self):
-        cmd = """python ../../main.py cps describe-device-raids  --device-type 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -131,8 +194,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_instance(self):
-        cmd = """python ../../main.py cps describe-instance  --instance-id 'xxx'"""
+    def test_associate_elastic_ip(self):
+        cmd = """python ../../main.py cps associate-elastic-ip  --instance-id 'xxx' --elastic-ip-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -140,17 +203,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_instances(self):
-        cmd = """python ../../main.py cps describe-instances """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_instances(self):
-        cmd = """python ../../main.py cps create-instances  --instance-spec '{"":""}'"""
+    def test_disassociate_elastic_ip(self):
+        cmd = """python ../../main.py cps disassociate-elastic-ip  --instance-id 'xxx' --elastic-ip-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -167,8 +221,98 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_basic_subnet(self):
+        cmd = """python ../../main.py cps describe-basic-subnet  --az 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_subnets(self):
+        cmd = """python ../../main.py cps describe-subnets """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_subnet(self):
+        cmd = """python ../../main.py cps create-subnet  --subnet-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_subnet(self):
-        cmd = """python ../../main.py cps describe-subnet  --az 'xxx'"""
+        cmd = """python ../../main.py cps describe-subnet  --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_subnet(self):
+        cmd = """python ../../main.py cps modify-subnet  --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_subnet(self):
+        cmd = """python ../../main.py cps delete-subnet  --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_vpc(self):
+        cmd = """python ../../main.py cps describe-vpc  --vpc-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_vpc(self):
+        cmd = """python ../../main.py cps modify-vpc  --vpc-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_vpc(self):
+        cmd = """python ../../main.py cps delete-vpc  --vpc-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_vpcs(self):
+        cmd = """python ../../main.py cps describe-vpcs """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_vpc(self):
+        cmd = """python ../../main.py cps create-vpc  --vpc-spec '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

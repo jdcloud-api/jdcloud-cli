@@ -23,6 +23,24 @@ import json
 
 class EliteTest(unittest.TestCase):
 
+    def test_jdx_report_order(self):
+        cmd = """python ../../main.py elite jdx-report-order  --report-order-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_jdx_query_price(self):
+        cmd = """python ../../main.py elite jdx-query-price  --query-price-param '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_list_sale_service(self):
         cmd = """python ../../main.py elite list-sale-service  --page-no '5' --page-size '5'"""
         with os.popen(cmd) as f:

@@ -111,39 +111,6 @@ class LiveController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 启用应用; - 启用 停用 状态的应用;  ''',
-        description='''
-            启用应用; - 启用 停用 状态的应用; 。
-
-            示例: jdc live start-live-app  --publish-domain xxx --app-name xxx
-        ''',
-    )
-    def start_live_app(self):
-        client_factory = ClientFactory('live')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.live.apis.StartLiveAppRequest import StartLiveAppRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = StartLiveAppRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--publish-domain'], dict(help="""(string) 直播的推流域名 """, dest='publishDomain',  required=True)),
-            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
         help=''' 停用 运行中 状态的应用; - 停用应用之后,不能再用此应用名推流;  ''',
         description='''
             停用 运行中 状态的应用; - 停用应用之后,不能再用此应用名推流; 。
@@ -162,39 +129,6 @@ class LiveController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = StopLiveAppRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
-            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除应用; - 删除应用之前需要先停用应用; - 删除应用同时会删除此应用下的所有数据;  ''',
-        description='''
-            删除应用; - 删除应用之前需要先停用应用; - 删除应用同时会删除此应用下的所有数据; 。
-
-            示例: jdc live delete-live-app  --publish-domain xxx --app-name xxx
-        ''',
-    )
-    def delete_live_app(self):
-        client_factory = ClientFactory('live')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.live.apis.DeleteLiveAppRequest import DeleteLiveAppRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteLiveAppRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -501,9 +435,9 @@ class LiveController(BaseController):
         arguments=[
             (['--record-period'], dict(help="""(int) 自动录制周期; - 取值: [15,360]; - 单位: 分钟;  """, dest='recordPeriod', type=int, required=True)),
             (['--save-bucket'], dict(help="""(string) 存储桶;  """, dest='saveBucket',  required=True)),
-            (['--save-endpoint'], dict(help="""(string) endpoint;  """, dest='saveEndpoint',  required=True)),
+            (['--save-endpoint'], dict(help="""(string) endpoint;  """, dest='saveEndpoint',  required=False)),
             (['--record-file-type'], dict(help="""(string) 录制文件格式:; - 取值: ts,flv,mp4 (多种类型之间用;隔开); - 不区分大小写;  """, dest='recordFileType',  required=True)),
-            (['--template'], dict(help="""(string) 录制模板自定义名称:;  - 取值要求：数字、大小写字母或短横线("-");  - <b>注意: 不能与已定义命名重复</b>;  """, dest='template',  required=True)),
+            (['--template'], dict(help="""(string) 录制模板自定义名称:;  - 取值要求：数字、大小写字母或短横线("-")、下划线("_"),;    最大长度50个字符;  - <b>注意: 不能与已定义命名重复</b>;  """, dest='template',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -512,7 +446,7 @@ class LiveController(BaseController):
         description='''
             添加用户自定义直播录制模板; 。
 
-            示例: jdc live add-custom-live-stream-record-template  --record-period 0 --save-bucket xxx --save-endpoint xxx --record-file-type xxx --template xxx
+            示例: jdc live add-custom-live-stream-record-template  --record-period 0 --save-bucket xxx --record-file-type xxx --template xxx
         ''',
     )
     def add_custom_live_stream_record_template(self):
@@ -836,8 +770,8 @@ class LiveController(BaseController):
             (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
             (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=True)),
             (['--record-times'], dict(help="""(array: recordTime) 录制时间集合; - 最大支持10段,多段合并成一个文件; - 多段时间跨度最小不能小于10s; - 多段时间跨度最大不能超过8小时;  """, dest='recordTimes',  required=True)),
-            (['--save-bucket'], dict(help="""(string) 存储桶 """, dest='saveBucket',  required=True)),
-            (['--save-endpoint'], dict(help="""(string) 存储地址 """, dest='saveEndpoint',  required=True)),
+            (['--save-bucket'], dict(help="""(string) 存储桶 """, dest='saveBucket',  required=False)),
+            (['--save-endpoint'], dict(help="""(string) 存储地址 """, dest='saveEndpoint',  required=False)),
             (['--record-file-type'], dict(help="""(string) 录制文件类型:; - 取值: ts,flv,mp4 (多种类型之前用;隔开); - 不区分大小写;  """, dest='recordFileType',  required=True)),
             (['--save-object'], dict(help="""(string) 录制文件存储路径:; - 默认地址: record/{Date}/{ServerId}/{AppName}/{StreamName}/{StartTime}_{EndTime};  """, dest='saveObject',  required=False)),
             (['--task-external-id'], dict(help="""(string) 打点录制任务外键;  """, dest='taskExternalId',  required=False)),
@@ -849,7 +783,7 @@ class LiveController(BaseController):
         description='''
             添加打点录制任务; - 您可以调用此接口精确提取已录制的文件中所需要的部分; 。
 
-            示例: jdc live add-live-record-task  --publish-domain xxx --app-name xxx --stream-name xxx --record-times ['{"":""}'] --save-bucket xxx --save-endpoint xxx --record-file-type xxx
+            示例: jdc live add-live-record-task  --publish-domain xxx --app-name xxx --stream-name xxx --record-times ['{"":""}'] --record-file-type xxx
         ''',
     )
     def add_live_record_task(self):
@@ -863,6 +797,85 @@ class LiveController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = AddLiveRecordTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-name'], dict(help="""(string) 推流域名 """, dest='domainName',  required=True)),
+            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
+            (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=True)),
+            (['--isp-name'], dict(help="""(string) 运营商;  """, dest='ispName',  required=False)),
+            (['--location-name'], dict(help="""(string) 查询的区域，如beijing,shanghai。多个用逗号分隔;  """, dest='locationName',  required=False)),
+            (['--period'], dict(help="""(string) 查询周期，当前取值范围：“oneMin,fiveMin,halfHour,hour,twoHour,sixHour,day,followTime”，分别表示1min，5min，半小时，1小时，2小时，6小时，1天，跟随时间。默认为空，表示fiveMin。当传入followTime时，表示按Endtime-StartTime的周期，只返回一个点;  """, dest='period',  required=False)),
+            (['--start-time'], dict(help="""(string) 起始时间; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z;  """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 结束时间:; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z; - 为空,默认为当前时间，查询时间跨度不超过1天;  """, dest='endTime',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询流分组统计数据 ''',
+        description='''
+            查询流分组统计数据。
+
+            示例: jdc live describe-live-statistic-group-by-stream  --domain-name xxx --app-name xxx --stream-name xxx --start-time xxx
+        ''',
+    )
+    def describe_live_statistic_group_by_stream(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DescribeLiveStatisticGroupByStreamRequest import DescribeLiveStatisticGroupByStreamRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLiveStatisticGroupByStreamRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-name'], dict(help="""(string) 推流域名 """, dest='domainName',  required=True)),
+            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
+            (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=True)),
+            (['--isp-name'], dict(help="""(string) 运营商;  """, dest='ispName',  required=False)),
+            (['--location-name'], dict(help="""(string) 查询的区域，如beijing,shanghai。多个用逗号分隔;  """, dest='locationName',  required=False)),
+            (['--protocol-type'], dict(help="""(string) 查询的流协议类型，取值范围："rtmp,hdl,hls"，多个时以逗号分隔;  """, dest='protocolType',  required=False)),
+            (['--period'], dict(help="""(string) 查询周期，当前取值范围：“oneMin,fiveMin,halfHour,hour,twoHour,sixHour,day,followTime”，分别表示1min，5min，半小时，1小时，2小时，6小时，1天，跟随时间。默认为空，表示fiveMin。当传入followTime时，表示按Endtime-StartTime的周期，只返回一个点;  """, dest='period',  required=False)),
+            (['--start-time'], dict(help="""(string) 起始时间; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z;  """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 结束时间:; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z; - 为空,默认为当前时间，查询时间跨度不超过1天;  """, dest='endTime',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询地域/运营商分组统计数据 ''',
+        description='''
+            查询地域/运营商分组统计数据。
+
+            示例: jdc live describe-live-statistic-group-by-area-isp  --domain-name xxx --app-name xxx --stream-name xxx --start-time xxx
+        ''',
+    )
+    def describe_live_statistic_group_by_area_isp(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DescribeLiveStatisticGroupByAreaIspRequest import DescribeLiveStatisticGroupByAreaIspRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLiveStatisticGroupByAreaIspRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -951,6 +964,8 @@ class LiveController(BaseController):
             (['--domain-name'], dict(help="""(string) 播放域名 """, dest='domainName',  required=False)),
             (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=False)),
             (['--protocol-type'], dict(help="""(string) 查询的流协议类型，取值范围："rtmp,hdl,hls"，多个时以逗号分隔;  """, dest='protocolType',  required=False)),
+            (['--isp-name'], dict(help="""(string) 运营商;  """, dest='ispName',  required=False)),
+            (['--location-name'], dict(help="""(string) 查询的区域，如beijing,shanghai。多个用逗号分隔;  """, dest='locationName',  required=False)),
             (['--period'], dict(help="""(string) 查询周期，当前取值范围：“oneMin,fiveMin,halfHour,hour,twoHour,sixHour,day,followTime”，分别表示1min，5min，半小时，1小时，2小时，6小时，1天，跟随时间。默认为空，表示fiveMin。当传入followTime时，表示按Endtime-StartTime的周期，只返回一个点;  """, dest='period',  required=False)),
             (['--start-time'], dict(help="""(string) 起始时间; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z;  """, dest='startTime',  required=True)),
             (['--end-time'], dict(help="""(string) 结束时间:; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z; - 为空,默认为当前时间;  """, dest='endTime',  required=False)),
@@ -1200,6 +1215,40 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
+            (['--period'], dict(help="""(string) 查询周期，取值范围：“day,month,year,followTime”，分别表示1天，1月，1年，跟随时间。默认为空，表示day。当传入followTime时，表示按Endtime-StartTime的周期，只返回一个点;  """, dest='period',  required=False)),
+            (['--start-time'], dict(help="""(string) 查询起始时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ss'Z';  """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询截至时间，UTC时间，格式：yyyy-MM-dd'T'HH:mm:ss'Z'，为空时默认为当前时间;  """, dest='endTime',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询存储空间数据 ''',
+        description='''
+            查询存储空间数据。
+
+            示例: jdc live describe-live-file-storage-data  --start-time xxx
+        ''',
+    )
+    def describe_live_file_storage_data(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DescribeLiveFileStorageDataRequest import DescribeLiveFileStorageDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLiveFileStorageDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--domain-name'], dict(help="""(string) 播放域名，可以通过指定域名查询该域名下产生的带宽数据。;  """, dest='domainName',  required=False)),
             (['--app-name'], dict(help="""(string) 推流AppName，将AppName作为查询条件时须指定域名。;  """, dest='appName',  required=False)),
             (['--stream-name'], dict(help="""(string) 流名称，将流名称作为查询条件时须指定域名和AppName。;  """, dest='streamName',  required=False)),
@@ -1360,7 +1409,7 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
-            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=False)),
             (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=False)),
             (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=False)),
             (['--start-time'], dict(help="""(string) 起始时间:; - UTC时间;   格式: yyyy-MM-dd'T'HH:mm:ss'Z';   示例: 2018-10-21T10:00:00Z; - 支持最大查询90天以内的数据;  """, dest='startTime',  required=True)),
@@ -1373,7 +1422,7 @@ class LiveController(BaseController):
         description='''
             查询直播截图张数数据。
 
-            示例: jdc live describe-live-snapshot-data  --publish-domain xxx --start-time xxx
+            示例: jdc live describe-live-snapshot-data  --start-time xxx
         ''',
     )
     def describe_live_snapshot_data(self):
@@ -1396,7 +1445,7 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
-            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=False)),
             (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=False)),
             (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=False)),
             (['--start-time'], dict(help="""(string) 起始时间; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z; - 支持最大查询90天以内的数据;  """, dest='startTime',  required=True)),
@@ -1409,7 +1458,7 @@ class LiveController(BaseController):
         description='''
             查询直播鉴黄张数数据。
 
-            示例: jdc live describe-live-porn-data  --publish-domain xxx --start-time xxx
+            示例: jdc live describe-live-porn-data  --start-time xxx
         ''',
     )
     def describe_live_porn_data(self):
@@ -1439,8 +1488,8 @@ class LiveController(BaseController):
             (['--snapshot-interval'], dict(help="""(int) 截图周期; - 取值范围 [5,3600]; - 单位: 秒;  """, dest='snapshotInterval', type=int, required=True)),
             (['--save-mode'], dict(help="""(int) 存储模式;   1: 覆盖存储;   2: 顺序存储;  """, dest='saveMode', type=int, required=True)),
             (['--save-bucket'], dict(help="""(string) 存储桶 """, dest='saveBucket',  required=True)),
-            (['--save-endpoint'], dict(help="""(string) 存储地址 """, dest='saveEndpoint',  required=True)),
-            (['--template'], dict(help="""(string) 截图模板自定义名称:; - 取值要求: 数字、大小写字母或短横线("-"),;   首尾不能有特殊字符("-"); - <b>注意: 不能与已定义命名重复</b>;  """, dest='template',  required=True)),
+            (['--save-endpoint'], dict(help="""(string) 存储地址 """, dest='saveEndpoint',  required=False)),
+            (['--template'], dict(help="""(string) 截图模板自定义名称:; - 取值要求: 数字、大小写字母或短横线("-")、下划线("_"),;   首尾不能有特殊字符("-");   最大长度50个字符; - <b>注意: 不能与已定义命名重复</b>;  """, dest='template',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1449,7 +1498,7 @@ class LiveController(BaseController):
         description='''
             添加直播截图模板。
 
-            示例: jdc live add-custom-live-stream-snapshot-template  --format xxx --fill-type 0 --snapshot-interval 0 --save-mode 0 --save-bucket xxx --save-endpoint xxx --template xxx
+            示例: jdc live add-custom-live-stream-snapshot-template  --format xxx --fill-type 0 --snapshot-interval 0 --save-mode 0 --save-bucket xxx --template xxx
         ''',
     )
     def add_custom_live_stream_snapshot_template(self):
@@ -1878,6 +1927,40 @@ class LiveController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
+        help=''' 中断直播流推送; - 中断操作1秒后可以继续推流;  ''',
+        description='''
+            中断直播流推送; - 中断操作1秒后可以继续推流; 。
+
+            示例: jdc live interrupt-live-stream  --publish-domain xxx --app-name xxx --stream-name xxx
+        ''',
+    )
+    def interrupt_live_stream(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.InterruptLiveStreamRequest import InterruptLiveStreamRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = InterruptLiveStreamRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
+            (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
         help=''' 查询直播实时流信息;  ''',
         description='''
             查询直播实时流信息; 。
@@ -2042,8 +2125,8 @@ class LiveController(BaseController):
             (['--page-size'], dict(help="""(int) 分页大小<br>; - 取值范围[10, 100];  """, dest='pageSize', type=int, required=False)),
             (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=False)),
             (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=False)),
-            (['--start-time'], dict(help="""(string) 推流起始时间<br>; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z; - 最大支持最近90天内的流历史查询;  """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 推流结束时间<br>; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z; - 最大支持最近90天内的流历史查询; - 结束时间为空默认为当前时间;  """, dest='endTime',  required=False)),
+            (['--start-time'], dict(help="""(string) 推流起始时间<br>; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z; - 最大支持最近30天内的流历史查询;  """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 推流结束时间<br>; - UTC时间;   格式:yyyy-MM-dd'T'HH:mm:ss'Z';   示例:2018-10-21T10:00:00Z; - 最大支持最近30天内的流历史查询; - 结束时间为空默认为当前时间;  """, dest='endTime',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -2174,7 +2257,7 @@ class LiveController(BaseController):
     @expose(
         arguments=[
             (['--publish-domain'], dict(help="""(string) 直播的推流域名 """, dest='publishDomain',  required=True)),
-            (['--template'], dict(help="""(string) 转码模版; - 取值范围: 系统标准转码模板, 用户自定义转码模板; - 系统标准转码模板;   ld (h.264/640*360/15f);   sd (h.264/854*480/24f);   hd (h.264/1280*720/25f);   shd (h.264/1920*1080/30f);  """, dest='template',  required=True)),
+            (['--template'], dict(help="""(string) 转码模版; - 取值范围: 系统标准转码模板, 用户自定义转码模板; - 系统标准转码模板;   ld (h.264/640*360/15f);   sd (h.264/960*540/24f);   hd (h.264/1280*720/25f);   shd (h.264/1920*1080/30f);   ld.265 (h.265/640*360/15f);   sd.265 (h.265/960*540/24f);   hd.265 (h.265/1280*720/25f);   shd.265 (h.265/1920*1080/30f);  """, dest='template',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -2208,7 +2291,7 @@ class LiveController(BaseController):
         arguments=[
             (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
             (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
-            (['--template'], dict(help="""(string) 转码模版; - 取值范围: 系统标准转码模板, 用户自定义转码模板; - 系统标准转码模板;   ld (h.264/640*360/15f);   sd (h.264/854*480/24f);   hd (h.264/1280*720/25f);   shd (h.264/1920*1080/30f);  """, dest='template',  required=True)),
+            (['--template'], dict(help="""(string) 转码模版; - 取值范围: 系统标准转码模板, 用户自定义转码模板; - 系统标准转码模板;   ld (h.264/640*360/15f);   sd (h.264/960*540/24f);   hd (h.264/1280*720/25f);   shd (h.264/1920*1080/30f);   ld.265 (h.265/640*360/15f);   sd.265 (h.265/960*540/24f);   hd.265 (h.265/1280*720/25f);   shd.265 (h.265/1920*1080/30f);  """, dest='template',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -2240,11 +2323,13 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
-            (['--video-code-rate'], dict(help="""(int) 转码输出的码率值; - 取值范围: [200,3000]; - 单位: kpbs;  """, dest='videoCodeRate', type=int, required=True)),
-            (['--video-frame-rate'], dict(help="""(string) 转码输出的帧率值; - 取值：15、25、30、60;  """, dest='videoFrameRate',  required=True)),
-            (['--width'], dict(help="""(int) 转码输出视频宽度; - 取值: [100,1920]; - 如果(width,height)只设置其中之一,则按所设置参数项等比缩放另一项输出转码; - 如果(width,height)都不设置，则按源流大小输出转码;  """, dest='width', type=int, required=False)),
-            (['--height'], dict(help="""(int) 转码输出视频宽度; - 取值: [100,1920]; - 如果(width,height)只设置其中之一,则按所设置参数项等比缩放另一项输出转码; - 如果(width,height)都不设置，则按源流大小输出转码;  """, dest='height', type=int, required=False)),
-            (['--template'], dict(help="""(string) 转码模板(转码流输出后缀); - 取值要求：数字、大小写字母或短横线("-"),必须以数字或字母作为开头和结尾,长度不超过50字符; - <b>注意: 不能与系统的标准的转码模板和当前用户已自定义命名重复</b>; - 系统标准转码模板;   ld (h.264/640*360/15f);   sd (h.264/854*480/24f);   hd (h.264/1280*720/25f);   shd (h.264/1920*1080/30f);  """, dest='template',  required=True)),
+            (['--template-name'], dict(help="""(string) 转码模板名称; - 长度范围：[1,50];  """, dest='templateName',  required=False)),
+            (['--video-codec'], dict(help="""(string) 视频编码格式，取值：h264,h265，默认h264;  """, dest='videoCodec',  required=False)),
+            (['--video-code-rate'], dict(help="""(int) 转码输出的码率值; - 取值范围: [1,6000]; - 单位: kpbs;  """, dest='videoCodeRate', type=int, required=True)),
+            (['--video-frame-rate'], dict(help="""(string) 转码输出的帧率值; - 取值：[1,30];  """, dest='videoFrameRate',  required=True)),
+            (['--width'], dict(help="""(int) 转码输出视频宽度; - 取值: [128,1920]; - 如果(width,height)只设置其中之一,则按所设置参数项等比缩放另一项输出转码; - 如果(width,height)都不设置，则按源流大小输出转码;  """, dest='width', type=int, required=False)),
+            (['--height'], dict(help="""(int) 转码输出视频宽度; - 取值: [128,1920]; - 如果(width,height)只设置其中之一,则按所设置参数项等比缩放另一项输出转码; - 如果(width,height)都不设置，则按源流大小输出转码;  """, dest='height', type=int, required=False)),
+            (['--template'], dict(help="""(string) 转码模板(转码流输出后缀); - 取值要求：数字、大小写字母或短横线("-"),必须以数字或字母作为开头和结尾,长度不超过50字符; - <b>注意: 不能与系统的标准的转码模板和当前用户已自定义命名重复</b>; - 系统标准转码模板;   ld (h.264/640*360/15f);   sd (h.264/960*540/24f);   hd (h.264/1280*720/25f);   shd (h.264/1920*1080/30f);   ld.265 (h.265/640*360/15f);   sd.265 (h.265/960*540/24f);   hd.265 (h.265/1280*720/25f);   shd.265 (h.265/1920*1080/30f);  """, dest='template',  required=True)),
             (['--audio-codec'], dict(help="""(string) 转码输出音频编码格式; - 取值: aac、mp3; - 不区分大小写;  """, dest='audioCodec',  required=True)),
             (['--audio-format'], dict(help="""(string) 转码输出音频格式; - 取值: aac_lc，aac_low，aac_he，aac_he_v2; - 不区分大小写;  """, dest='audioFormat',  required=True)),
             (['--audio-sample-rate'], dict(help="""(int) 转码输出音频采样率; - 取值: [44100,48000];  """, dest='audioSampleRate', type=int, required=True)),
@@ -2254,9 +2339,9 @@ class LiveController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加自定义转码模板; - 系统为您预设了标准转码模板,如果不能满足您的转码需求,可以通过此接口添加自定义转码模板; - 系统标准转码模板;     ld (h.264/640*360/15f);     sd (h.264/854*480/24f);     hd (h.264/1280*720/25f);     shd (h.264/1920*1080/30f);  ''',
+        help=''' 添加自定义转码模板; - 系统为您预设了标准转码模板,如果不能满足您的转码需求,可以通过此接口添加自定义转码模板; - 系统标准转码模板;     ld (h.264/640*360/15f);     sd (h.264/960*540/24f);     hd (h.264/1280*720/25f);     shd (h.264/1920*1080/30f);     ld.265 (h.265/640*360/15f);     sd.265 (h.265/960*540/24f);     hd.265 (h.265/1280*720/25f);     shd.265 (h.265/1920*1080/30f);  ''',
         description='''
-            添加自定义转码模板; - 系统为您预设了标准转码模板,如果不能满足您的转码需求,可以通过此接口添加自定义转码模板; - 系统标准转码模板;     ld (h.264/640*360/15f);     sd (h.264/854*480/24f);     hd (h.264/1280*720/25f);     shd (h.264/1920*1080/30f); 。
+            添加自定义转码模板; - 系统为您预设了标准转码模板,如果不能满足您的转码需求,可以通过此接口添加自定义转码模板; - 系统标准转码模板;     ld (h.264/640*360/15f);     sd (h.264/960*540/24f);     hd (h.264/1280*720/25f);     shd (h.264/1920*1080/30f);     ld.265 (h.265/640*360/15f);     sd.265 (h.265/960*540/24f);     hd.265 (h.265/1280*720/25f);     shd.265 (h.265/1920*1080/30f); 。
 
             示例: jdc live add-custom-live-stream-transcode-template  --video-code-rate 0 --video-frame-rate xxx --template xxx --audio-codec xxx --audio-format xxx --audio-sample-rate 0 --audio-channel 0 --audio-code-rate 0
         ''',
@@ -2306,6 +2391,40 @@ class LiveController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeCustomLiveStreamTranscodeTemplatesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-num'], dict(help="""(int) 页码; - 取值范围 [1, 100000];  """, dest='pageNum', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小; - 取值范围 [10, 100];  """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) 转码模板查询过滤条件:;   - name:   template 录制模板自定义名称;   - value:  如果参数为空，则查询全部;   - 如果为空,则表示查询该用下所有自定义的转码模板;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询系统默认转码模板列表;  ''',
+        description='''
+            查询系统默认转码模板列表; 。
+
+            示例: jdc live describe-system-live-stream-transcode-templates 
+        ''',
+    )
+    def describe_system_live_stream_transcode_templates(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DescribeSystemLiveStreamTranscodeTemplatesRequest import DescribeSystemLiveStreamTranscodeTemplatesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSystemLiveStreamTranscodeTemplatesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2421,9 +2540,9 @@ class LiveController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询用户自定义转码模板详情; - 查询用户自定义转码模板详情; - 系统标准转码模板;     ld (h.264/640*360/15f);     sd (h.264/854*480/24f);     hd (h.264/1280*720/25f);     shd (h.264/1920*1080/30f);  ''',
+        help=''' 查询用户自定义转码模板详情; - 查询用户自定义转码模板详情; - 系统标准转码模板;       ld (h.264/640*360/15f);       sd (h.264/960*540/24f);       hd (h.264/1280*720/25f);       shd (h.264/1920*1080/30f);       ld.265 (h.265/640*360/15f);       sd.265 (h.265/960*540/24f);       hd.265 (h.265/1280*720/25f);       shd.265 (h.265/1920*1080/30f);  ''',
         description='''
-            查询用户自定义转码模板详情; - 查询用户自定义转码模板详情; - 系统标准转码模板;     ld (h.264/640*360/15f);     sd (h.264/854*480/24f);     hd (h.264/1280*720/25f);     shd (h.264/1920*1080/30f); 。
+            查询用户自定义转码模板详情; - 查询用户自定义转码模板详情; - 系统标准转码模板;       ld (h.264/640*360/15f);       sd (h.264/960*540/24f);       hd (h.264/1280*720/25f);       shd (h.264/1920*1080/30f);       ld.265 (h.265/640*360/15f);       sd.265 (h.265/960*540/24f);       hd.265 (h.265/1280*720/25f);       shd.265 (h.265/1920*1080/30f); 。
 
             示例: jdc live describe-custom-live-stream-transcode-template  --template xxx
         ''',
@@ -2480,11 +2599,13 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
+            (['--position'], dict(help="""(int) 水印位置; - 取值范围：左上：1，右上：3， 左下：7，右下：9，默认：1;  """, dest='position', type=int, required=False)),
             (['--offset-x'], dict(help="""(int) x轴偏移量; - 单位: 像素;  """, dest='offsetX', type=int, required=True)),
             (['--offset-y'], dict(help="""(int) y轴偏移量:; - 单位: 像素;  """, dest='offsetY', type=int, required=True)),
             (['--width'], dict(help="""(int) 水印宽度:; - 取值: [0,1920]; - 单位: 像素;  """, dest='width', type=int, required=True)),
             (['--height'], dict(help="""(int) 水印高度:; - 取值: [0,1920]; - 单位: 像素;  """, dest='height', type=int, required=True)),
-            (['--template'], dict(help="""(string) 自定义水印模板名称; -&ensp;取值要求: 数字、大小写字母或短横线("-"),; &ensp;&ensp;首尾不能有特殊字符("-"),; &ensp;&ensp;不超过50字符,utf-8格式; -&ensp;<b>注意: 不能与已定义命名重复</b>;  """, dest='template',  required=True)),
+            (['--template'], dict(help="""(string) 自定义水印模板名称; -&ensp;取值要求: 数字、大小写字母、短横线("-")、下划线("_"),; &ensp;&ensp;首尾不能有特殊字符("-"),; &ensp;&ensp;不超过50字符,utf-8格式; -&ensp;<b>注意: 不能与已定义命名重复</b>;  """, dest='template',  required=True)),
+            (['--upload-id'], dict(help="""(string) 创建上传任务时返回的uploadId参数，当通过接口上传水印图片时，uploadId必填;  """, dest='uploadId',  required=False)),
             (['--url'], dict(help="""(string) 水印地址<br>-&ensp;以&ensp;http:// 开头,可公开访问地址<br> """, dest='url',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -2508,6 +2629,45 @@ class LiveController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = AddCustomLiveStreamWatermarkTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--position'], dict(help="""(int) 水印位置; - 取值范围：左上：1，右上：3， 左下：7，右下：9，默认：1;  """, dest='position', type=int, required=False)),
+            (['--offset-x'], dict(help="""(int) x轴偏移量; - 单位: 像素;  """, dest='offsetX', type=int, required=True)),
+            (['--offset-y'], dict(help="""(int) y轴偏移量:; - 单位: 像素;  """, dest='offsetY', type=int, required=True)),
+            (['--width'], dict(help="""(int) 水印宽度:; - 取值: [0,1920]; - 单位: 像素;  """, dest='width', type=int, required=True)),
+            (['--height'], dict(help="""(int) 水印高度:; - 取值: [0,1920]; - 单位: 像素;  """, dest='height', type=int, required=True)),
+            (['--template'], dict(help="""(string) 自定义水印模板名称; -&ensp;取值要求: 数字、大小写字母或短横线("-")、下划线("_"),; &ensp;&ensp;首尾不能有特殊字符("-"),; &ensp;&ensp;不超过50字符,utf-8格式; -&ensp;<b>注意: 不能与已定义命名重复</b>;  """, dest='template',  required=True)),
+            (['--upload-id'], dict(help="""(string) 创建上传任务时返回的uploadId参数，当通过接口上传水印图片时，uploadId必填;  """, dest='uploadId',  required=False)),
+            (['--url'], dict(help="""(string) 水印地址<br>-&ensp;以&ensp;http:// 开头,可公开访问地址<br> """, dest='url',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改用户自定义水印模板;  ''',
+        description='''
+            修改用户自定义水印模板; 。
+
+            示例: jdc live update-custom-live-stream-watermark-template  --offset-x 0 --offset-y 0 --width 0 --height 0 --template xxx --url xxx
+        ''',
+    )
+    def update_custom_live_stream_watermark_template(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.UpdateCustomLiveStreamWatermarkTemplateRequest import UpdateCustomLiveStreamWatermarkTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateCustomLiveStreamWatermarkTemplateRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2751,7 +2911,7 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-live-app','add-live-app','start-live-app','stop-live-app','delete-live-app','describe-live-play-auth-key','set-live-play-auth-key','describe-live-domains','add-live-domain','start-live-domain','stop-live-domain','describe-live-domain-detail','delete-live-domain','describe-custom-live-stream-record-templates','add-custom-live-stream-record-template','add-live-stream-app-record','add-live-stream-domain-record','describe-custom-live-stream-record-config','set-live-stream-record-notify-config','delete-custom-live-stream-record-template','delete-live-stream-app-record','delete-live-stream-domain-record','describe-live-stream-record-notify-config','delete-live-stream-record-notify-config','add-live-record-task','describe-publish-stream-info-data','describe-live-stream-history-user-num','describe-live-publish-stream-num','describe-live-stream-player-ranking-data','describe-live-transcode-stream-list','describe-live-transcode-stream-num','describe-live-transcode-stream-player-user-num','describe-live-transcode-stream-bandwidth','describe-live-transcoding-duration-data','describe-live-stream-bandwidth-data','describe-live-stream-publish-bandwidth-data','describe-live-stream-traffic-data','describe-live-stream-publish-traffic-data','describe-live-snapshot-data','describe-live-porn-data','add-custom-live-stream-snapshot-template','describe-custom-live-stream-snapshot-config','describe-custom-live-stream-snapshot-templates','add-live-stream-app-snapshot','add-live-stream-domain-snapshot','set-live-stream-snapshot-notify-config','delete-custom-live-stream-snapshot-template','delete-live-stream-app-snapshot','delete-live-stream-domain-snapshot','describe-live-stream-snapshot-notify-config','delete-live-stream-snapshot-notify-config','forbid-live-stream','resume-live-stream','describe-live-stream-info','set-live-stream-notify-config','describe-live-stream-notify-config','delete-live-stream-notify-config','describe-live-stream-online-list','describe-live-stream-publish-list','open-live-timeshift','close-live-timeshift','describe-live-timeshift-configs','add-live-stream-domain-transcode','add-live-stream-app-transcode','add-custom-live-stream-transcode-template','describe-custom-live-stream-transcode-templates','describe-live-stream-transcode-config','delete-live-stream-domain-transcode','delete-live-stream-app-transcode','describe-custom-live-stream-transcode-template','delete-custom-live-stream-transcode-template','add-custom-live-stream-watermark-template','describe-custom-live-stream-watermark-templates','add-live-stream-app-watermark','add-live-stream-domain-watermark','describe-custom-live-stream-watermark-config','delete-custom-live-stream-watermark-template','delete-live-stream-app-watermark','delete-live-stream-domain-watermark',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-live-app','add-live-app','stop-live-app','describe-live-play-auth-key','set-live-play-auth-key','describe-live-domains','add-live-domain','start-live-domain','stop-live-domain','describe-live-domain-detail','delete-live-domain','describe-custom-live-stream-record-templates','add-custom-live-stream-record-template','add-live-stream-app-record','add-live-stream-domain-record','describe-custom-live-stream-record-config','set-live-stream-record-notify-config','delete-custom-live-stream-record-template','delete-live-stream-app-record','delete-live-stream-domain-record','describe-live-stream-record-notify-config','delete-live-stream-record-notify-config','add-live-record-task','describe-live-statistic-group-by-stream','describe-live-statistic-group-by-area-isp','describe-publish-stream-info-data','describe-live-stream-history-user-num','describe-live-publish-stream-num','describe-live-stream-player-ranking-data','describe-live-transcode-stream-list','describe-live-transcode-stream-num','describe-live-transcode-stream-player-user-num','describe-live-transcode-stream-bandwidth','describe-live-transcoding-duration-data','describe-live-file-storage-data','describe-live-stream-bandwidth-data','describe-live-stream-publish-bandwidth-data','describe-live-stream-traffic-data','describe-live-stream-publish-traffic-data','describe-live-snapshot-data','describe-live-porn-data','add-custom-live-stream-snapshot-template','describe-custom-live-stream-snapshot-config','describe-custom-live-stream-snapshot-templates','add-live-stream-app-snapshot','add-live-stream-domain-snapshot','set-live-stream-snapshot-notify-config','delete-custom-live-stream-snapshot-template','delete-live-stream-app-snapshot','delete-live-stream-domain-snapshot','describe-live-stream-snapshot-notify-config','delete-live-stream-snapshot-notify-config','forbid-live-stream','resume-live-stream','interrupt-live-stream','describe-live-stream-info','set-live-stream-notify-config','describe-live-stream-notify-config','delete-live-stream-notify-config','describe-live-stream-online-list','describe-live-stream-publish-list','open-live-timeshift','close-live-timeshift','describe-live-timeshift-configs','add-live-stream-domain-transcode','add-live-stream-app-transcode','add-custom-live-stream-transcode-template','describe-custom-live-stream-transcode-templates','describe-system-live-stream-transcode-templates','describe-live-stream-transcode-config','delete-live-stream-domain-transcode','delete-live-stream-app-transcode','describe-custom-live-stream-transcode-template','delete-custom-live-stream-transcode-template','add-custom-live-stream-watermark-template','update-custom-live-stream-watermark-template','describe-custom-live-stream-watermark-templates','add-live-stream-app-watermark','add-live-stream-domain-watermark','describe-custom-live-stream-watermark-config','delete-custom-live-stream-watermark-template','delete-live-stream-app-watermark','delete-live-stream-domain-watermark',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

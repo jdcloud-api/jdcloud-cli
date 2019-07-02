@@ -12,15 +12,7 @@
         "publishDomain":"",
         "appName":""
     },
-    "start-live-app":{
-        "publishDomain":"",
-        "appName":""
-    },
     "stop-live-app":{
-        "publishDomain":"",
-        "appName":""
-    },
-    "delete-live-app":{
         "publishDomain":"",
         "appName":""
     },
@@ -123,6 +115,27 @@
         "appName":"",
         "streamName":""
     },
+    "describe-live-statistic-group-by-stream":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "ispName":"",
+        "locationName":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-statistic-group-by-area-isp":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "ispName":"",
+        "locationName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
     "describe-publish-stream-info-data":{
         "domainName":"",
         "appName":"",
@@ -145,6 +158,8 @@
         "domainName":"",
         "appName":"",
         "protocolType":"",
+        "ispName":"",
+        "locationName":"",
         "period":"",
         "startTime":"",
         "endTime":""
@@ -186,6 +201,11 @@
     },
     "describe-live-transcoding-duration-data":{
         "grade":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-file-storage-data":{
         "period":"",
         "startTime":"",
         "endTime":""
@@ -318,6 +338,11 @@
         "appName":"",
         "streamName":""
     },
+    "interrupt-live-stream":{
+        "publishDomain":"",
+        "appName":"",
+        "streamName":""
+    },
     "describe-live-stream-info":{
         "publishDomain":"",
         "appName":"",
@@ -369,6 +394,8 @@
         "template":""
     },
     "add-custom-live-stream-transcode-template":{
+        "templateName":"",
+        "videoCodec":"",
         "videoCodeRate":"",
         "videoFrameRate":"",
         "width":"",
@@ -381,6 +408,15 @@
         "audioCodeRate":""
     },
     "describe-custom-live-stream-transcode-templates":{
+        "pageNum":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }]
+    },
+    "describe-system-live-stream-transcode-templates":{
         "pageNum":"",
         "pageSize":"",
         "filters":[{
@@ -414,11 +450,23 @@
         "template":""
     },
     "add-custom-live-stream-watermark-template":{
+        "position":"",
         "offsetX":"",
         "offsetY":"",
         "width":"",
         "height":"",
         "template":"",
+        "uploadId":"",
+        "url":""
+    },
+    "update-custom-live-stream-watermark-template":{
+        "position":"",
+        "offsetX":"",
+        "offsetY":"",
+        "width":"",
+        "height":"",
+        "template":"",
+        "uploadId":"",
         "url":""
     },
     "describe-custom-live-stream-watermark-templates":{

@@ -23,6 +23,105 @@ import json
 
 class IamTest(unittest.TestCase):
 
+    def test_enable_sub_user_access_key(self):
+        cmd = """python ../../main.py iam enable-sub-user-access-key  --sub-user 'xxx' --access-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_sub_user_access_key(self):
+        cmd = """python ../../main.py iam disable-sub-user-access-key  --sub-user 'xxx' --access-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_sub_user_access_key(self):
+        cmd = """python ../../main.py iam delete-sub-user-access-key  --sub-user 'xxx' --access-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_group(self):
+        cmd = """python ../../main.py iam create-group  --create-group-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_group(self):
+        cmd = """python ../../main.py iam describe-group  --group-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_group(self):
+        cmd = """python ../../main.py iam update-group  --group-name 'xxx' --update-group-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_group(self):
+        cmd = """python ../../main.py iam delete-group  --group-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_detach_group_policy(self):
+        cmd = """python ../../main.py iam detach-group-policy  --group-name 'xxx' --policy-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_attach_group_policy(self):
+        cmd = """python ../../main.py iam attach-group-policy  --group-name 'xxx' --policy-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_remove_sub_user_from_group(self):
+        cmd = """python ../../main.py iam remove-sub-user-from-group  --group-name 'xxx' --sub-user 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_sub_user_to_group(self):
+        cmd = """python ../../main.py iam add-sub-user-to-group  --group-name 'xxx' --sub-user 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_create_permission(self):
         cmd = """python ../../main.py iam create-permission  --create-permission-info '{"":""}'"""
         with os.popen(cmd) as f:
@@ -86,8 +185,143 @@ class IamTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_create_policy(self):
+        cmd = """python ../../main.py iam create-policy  --create-policy-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_policy(self):
+        cmd = """python ../../main.py iam describe-policy  --policy-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_policy(self):
+        cmd = """python ../../main.py iam delete-policy  --policy-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_policy_description(self):
+        cmd = """python ../../main.py iam update-policy-description  --policy-name 'xxx' --update-policy-description-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_role(self):
+        cmd = """python ../../main.py iam create-role  --create-role-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_role(self):
+        cmd = """python ../../main.py iam describe-role  --role-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_role(self):
+        cmd = """python ../../main.py iam delete-role  --role-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_assume_role_policy(self):
+        cmd = """python ../../main.py iam update-assume-role-policy  --role-name 'xxx' --update-assume-role-policy-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_attach_role_policy(self):
+        cmd = """python ../../main.py iam attach-role-policy  --role-name 'xxx' --policy-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_detach_role_policy(self):
+        cmd = """python ../../main.py iam detach-role-policy  --role-name 'xxx' --policy-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_create_sub_user(self):
         cmd = """python ../../main.py iam create-sub-user  --create-sub-user-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_sub_user(self):
+        cmd = """python ../../main.py iam describe-sub-user  --sub-user 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_sub_user(self):
+        cmd = """python ../../main.py iam update-sub-user  --sub-user 'xxx' --update-sub-user-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_sub_user(self):
+        cmd = """python ../../main.py iam delete-sub-user  --sub-user 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_detach_sub_user_policy(self):
+        cmd = """python ../../main.py iam detach-sub-user-policy  --sub-user 'xxx' --policy-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_attach_sub_user_policy(self):
+        cmd = """python ../../main.py iam attach-sub-user-policy  --sub-user 'xxx' --policy-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -23,15 +23,6 @@ import json
 
 class PortalTest(unittest.TestCase):
 
-    def test_describe_products(self):
-        cmd = """python ../../main.py portal describe-products  --lang 'xxx' --ak 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_product(self):
         cmd = """python ../../main.py portal describe-product  --url 'xxx' --lang 'xxx' --ak 'xxx'"""
         with os.popen(cmd) as f:

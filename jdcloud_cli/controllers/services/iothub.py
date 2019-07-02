@@ -298,6 +298,38 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
+            (['--device-id'], dict(help="""(string) Device 唯一标识 """, dest='deviceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 验证DeviceId是否可用;  ''',
+        description='''
+            验证DeviceId是否可用; 。
+
+            示例: jdc iothub check-device-id  --device-id xxx
+        ''',
+    )
+    def check_device_id(self):
+        client_factory = ClientFactory('iothub')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iothub.apis.CheckDeviceIdRequest import CheckDeviceIdRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CheckDeviceIdRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--module-name'], dict(help="""(string) moduleName 唯一标识 """, dest='moduleName',  required=True)),
             (['--instance-id'], dict(help="""(string) NA """, dest='instanceId',  required=False)),
             (['--model-name'], dict(help="""(string) NA """, dest='modelName',  required=False)),
@@ -311,20 +343,20 @@ class IothubController(BaseController):
         description='''
             客户用该接口可以登记模块; 。
 
-            示例: jdc iothub module-enroll  --module-name xxx
+            示例: jdc iothub module-enrollment  --module-name xxx
         ''',
     )
-    def module_enroll(self):
+    def module_enrollment(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.ModuleEnrollRequest import ModuleEnrollRequest
+            from jdcloud_sdk.services.iothub.apis.ModuleEnrollmentRequest import ModuleEnrollmentRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ModuleEnrollRequest(params_dict, headers)
+            req = ModuleEnrollmentRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -400,8 +432,8 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--file-name'], dict(help="""(string) NA """, dest='fileName',  required=True)),
-            (['--instance-id'], dict(help="""(string) NA """, dest='instanceId',  required=False)),
+            (['--file-name'], dict(help="""(string) 物模型文件名称 """, dest='fileName',  required=True)),
+            (['--instance-id'], dict(help="""(string) 待上传物模型的IoT Hub实例编号 """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -410,7 +442,7 @@ class IothubController(BaseController):
         description='''
             物模型通过文件上传注册接口; 。
 
-            示例: jdc iothub om-enrollby-file  --file-name xxx
+            示例: jdc iothub om-enrollby-file  --file-name xxx --instance-id xxx
         ''',
     )
     def om_enrollby_file(self):
@@ -467,7 +499,7 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['delete-device','query-device-online-infos','device-activate','devices-enroll','query-device-commands','device-command','query-device-states','device-state','module-enroll','module-state','get-omprivate-url','om-enrollby-file','om-enroll',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['delete-device','query-device-online-infos','device-activate','devices-enroll','query-device-commands','device-command','query-device-states','device-state','check-device-id','module-enrollment','module-state','get-omprivate-url','om-enrollby-file','om-enroll',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

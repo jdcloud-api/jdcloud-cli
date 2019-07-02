@@ -734,6 +734,7 @@ class PodController(BaseController):
             (['--container-name'], dict(help="""(string) container name """, dest='containerName', required=True)),
             (['--exec-id'], dict(help='(string) exec id', dest='execId', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 执行exec，此接口需要升级Http协议到WebSocket ''',
@@ -755,6 +756,7 @@ class PodController(BaseController):
             (['--pod-id'], dict(help="""(string) Pod ID """, dest='podId', required=True)),
             (['--container-name'], dict(help='(string) container name', dest='containerName', required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 绑定输入输出到容器 ''',
@@ -772,7 +774,7 @@ class PodController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['decribe-container','attach','exec-create','exec-get-exit-code','exec-start','resize-tty','describe-pods','create-pods','check-pod-name','describe-pod','delete-pod','start-pod','stop-pod','modify-pod-attribute','associate-elastic-ip','disassociate-elastic-ip','get-container-logs','describe-quota','describe-secrets','create-secret','describe-secret','delete-secret',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['decribe-container','exec-create','exec-get-exit-code','exec-start','resize-tty','describe-pods','create-pods','check-pod-name','describe-pod','delete-pod','start-pod','stop-pod','modify-pod-attribute','associate-elastic-ip','disassociate-elastic-ip','get-container-logs','describe-quota','describe-secrets','create-secret','describe-secret','delete-secret',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -95,8 +95,17 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_module_enroll(self):
-        cmd = """python ../../main.py iothub module-enroll  --module-name 'xxx'"""
+    def test_check_device_id(self):
+        cmd = """python ../../main.py iothub check-device-id  --device-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_module_enrollment(self):
+        cmd = """python ../../main.py iothub module-enrollment  --module-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -123,7 +132,7 @@ class IothubTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_om_enrollby_file(self):
-        cmd = """python ../../main.py iothub om-enrollby-file  --file-name 'xxx'"""
+        cmd = """python ../../main.py iothub om-enrollby-file  --file-name 'xxx' --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

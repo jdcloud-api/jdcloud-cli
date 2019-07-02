@@ -77,6 +77,42 @@ class KubernetesTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_abort_upgrade(self):
+        cmd = """python ../../main.py kubernetes abort-upgrade  --cluster-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_progress(self):
+        cmd = """python ../../main.py kubernetes describe-progress  --cluster-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_auto_upgrade(self):
+        cmd = """python ../../main.py kubernetes set-auto-upgrade  --cluster-id 'xxx' --auto-upgrade 'true'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_upgrade_cluster(self):
+        cmd = """python ../../main.py kubernetes upgrade-cluster  --cluster-id 'xxx' --scope 'xxx' --verison 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_node_groups(self):
         cmd = """python ../../main.py kubernetes describe-node-groups """
         with os.popen(cmd) as f:
@@ -140,6 +176,15 @@ class KubernetesTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_rollback_node_group_upgrade(self):
+        cmd = """python ../../main.py kubernetes rollback-node-group-upgrade  --node-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_quotas(self):
         cmd = """python ../../main.py kubernetes describe-quotas """
         with os.popen(cmd) as f:
@@ -158,8 +203,8 @@ class KubernetesTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_images(self):
-        cmd = """python ../../main.py kubernetes describe-images """
+    def test_describe_versions(self):
+        cmd = """python ../../main.py kubernetes describe-versions """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -167,8 +212,26 @@ class KubernetesTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_versions(self):
-        cmd = """python ../../main.py kubernetes describe-versions """
+    def test_describe_node_version(self):
+        cmd = """python ../../main.py kubernetes describe-node-version  --node-version 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_upgradable_master_versions(self):
+        cmd = """python ../../main.py kubernetes describe-upgradable-master-versions  --cluster-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_upgradable_node_versions(self):
+        cmd = """python ../../main.py kubernetes describe-upgradable-node-versions  --cluster-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

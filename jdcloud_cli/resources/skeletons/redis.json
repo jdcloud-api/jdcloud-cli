@@ -11,6 +11,10 @@
             "name":"",
             "direction":""
         }],
+        "tagFilters":[{
+            "key":"",
+            "values":""
+        }],
         "regionId":""
     },
     "create-cache-instance":{
@@ -24,7 +28,9 @@
                 "master":"",
                 "slave":""
             },
-            "cacheInstanceDescription":""
+            "cacheInstanceDescription":"",
+            "redisVersion":"",
+            "ipv6On":""
         },
         "charge":{
             "chargeMode":"",
@@ -58,6 +64,7 @@
         "cacheInstanceId":""
     },
     "describe-instance-class":{
+        "redisVersion":"",
         "regionId":""
     },
     "describe-user-quota":{

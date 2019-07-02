@@ -1,4 +1,21 @@
 {
+    "jdx-report-order":{
+        "reportOrderInfo":{
+            "orderNumber":"",
+            "distributorAccount":"",
+            "distributorName":"",
+            "extraInfo":""
+        },
+        "regionId":""
+    },
+    "jdx-query-price":{
+        "queryPriceParam":{
+            "cmd":"",
+            "packageCount":"",
+            "orderList":[""]
+        },
+        "regionId":""
+    },
     "list-sale-service":{
         "pageNo":"",
         "pageSize":"",

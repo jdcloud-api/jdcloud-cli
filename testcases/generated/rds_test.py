@@ -239,6 +239,15 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_create_instance_by_time_in_cross_region(self):
+        cmd = """python ../../main.py rds create-instance-by-time-in-cross-region  --restore-time 'xxx' --service-id 'xxx' --instance-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_binlogs(self):
         cmd = """python ../../main.py rds describe-binlogs  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -493,6 +502,15 @@ class RdsTest(unittest.TestCase):
 
     def test_create_instance_by_time(self):
         cmd = """python ../../main.py rds create-instance-by-time  --instance-id 'xxx' --restore-time 'xxx' --instance-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_roinstance(self):
+        cmd = """python ../../main.py rds create-roinstance  --instance-id 'xxx' --instance-name 'xxx' --instance-class 'xxx' --instance-storage-gb '5' --az-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

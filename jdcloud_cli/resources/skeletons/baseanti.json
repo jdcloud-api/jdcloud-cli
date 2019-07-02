@@ -1,11 +1,47 @@
 {
+    "describe-attack-logs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "ip":[""]
+    },
+    "describe-attack-statistics":{
+        "startTime":"",
+        "endTime":"",
+        "ip":[""]
+    },
+    "describe-attack-type-count":{
+        "startTime":"",
+        "endTime":"",
+        "ip":[""]
+    },
+    "describe-ip-monitor-flow":{
+        "startTime":"",
+        "endTime":"",
+        "ip":[""]
+    },
     "describe-ip-resources":{
         "ip":"",
+        "regionId":""
+    },
+    "describe-elastic-ip-resources":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "describe-cps-ip-resources":{
+        "pageNumber":"",
+        "pageSize":"",
         "regionId":""
     },
     "describe-ip-resource-info":{
         "regionId":"",
         "ip":""
+    },
+    "describe-ip-safety-info":{
+        "ip":"",
+        "regionId":""
     },
     "set-clean-threshold":{
         "cleanThresholdSpec":{
@@ -14,6 +50,18 @@
         },
         "regionId":"",
         "ip":""
+    },
+    "set-ip-clean-threshold":{
+        "ipCleanThresholdSpec":{
+            "ip":"",
+            "cleanThresholdBps":"",
+            "cleanThresholdPps":""
+        },
+        "regionId":""
+    },
+    "describe-ip-clean-threshold-range":{
+        "ip":"",
+        "regionId":""
     },
     "describe-ip-resource-protect-info":{
         "start":"",

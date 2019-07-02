@@ -4,11 +4,6 @@
         "podId":"",
         "containerName":""
     },
-    "attach":{
-        "regionId":"",
-        "podId":"",
-        "containerName":""
-    },
     "exec-create":{
         "command":[""],
         "tty":"",
