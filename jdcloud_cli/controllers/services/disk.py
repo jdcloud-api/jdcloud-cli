@@ -247,6 +247,7 @@ class DiskController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--disk-id'], dict(help="""(string) 云硬盘ID """, dest='diskId',  required=True)),
             (['--disk-size-gb'], dict(help="""(int) 扩容后的云硬盘大小，单位为GiB """, dest='diskSizeGB', type=int, required=True)),
+            (['--iops'], dict(help="""(int) 修改ssd.io1型云硬盘的iops数量，当且仅当ssd.io1型的云盘类型有效，步长是10. """, dest='iops', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

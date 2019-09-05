@@ -122,6 +122,15 @@ class LiveTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_add_live_restart_domain(self):
+        cmd = """python ../../main.py live add-live-restart-domain  --play-domain 'xxx' --restart-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_custom_live_stream_record_templates(self):
         cmd = """python ../../main.py live describe-custom-live-stream-record-templates """
         with os.popen(cmd) as f:
@@ -230,8 +239,71 @@ class LiveTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_record_binding(self):
+        cmd = """python ../../main.py live describe-record-binding  --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_export_live_stream_bandwidth_data(self):
+        cmd = """python ../../main.py live export-live-stream-bandwidth-data  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_export_live_stream_traffic_data(self):
+        cmd = """python ../../main.py live export-live-stream-traffic-data  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_export_publish_stream_info_data(self):
+        cmd = """python ../../main.py live export-publish-stream-info-data  --domain-name 'xxx' --app-name 'xxx' --stream-name 'xxx' --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_export_live_snapshot_data(self):
+        cmd = """python ../../main.py live export-live-snapshot-data  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_export_live_transcoding_duration_data(self):
+        cmd = """python ../../main.py live export-live-transcoding-duration-data  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_live_statistic_group_by_stream(self):
         cmd = """python ../../main.py live describe-live-statistic-group-by-stream  --domain-name 'xxx' --app-name 'xxx' --stream-name 'xxx' --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_live_statistic_group_by_area(self):
+        cmd = """python ../../main.py live describe-live-statistic-group-by-area  --domain-name 'xxx' --app-name 'xxx' --stream-name 'xxx' --start-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -313,6 +385,33 @@ class LiveTest(unittest.TestCase):
 
     def test_describe_live_transcode_stream_bandwidth(self):
         cmd = """python ../../main.py live describe-live-transcode-stream-bandwidth  --domain-name 'xxx' --app-name 'xxx' --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_domain_online_stream(self):
+        cmd = """python ../../main.py live describe-domain-online-stream  --domain-name 'xxx' --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_domains_log(self):
+        cmd = """python ../../main.py live describe-domains-log  --domains 'xxx' --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_url_ranking(self):
+        cmd = """python ../../main.py live describe-url-ranking  --domain-name 'xxx' --start-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -491,6 +590,15 @@ class LiveTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_snapshot_binding(self):
+        cmd = """python ../../main.py live describe-snapshot-binding  --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_forbid_live_stream(self):
         cmd = """python ../../main.py live forbid-live-stream  --publish-domain 'xxx' --app-name 'xxx' --stream-name 'xxx'"""
         with os.popen(cmd) as f:
@@ -572,6 +680,33 @@ class LiveTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_open_live_restart(self):
+        cmd = """python ../../main.py live open-live-restart  --restart-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_close_live_restart(self):
+        cmd = """python ../../main.py live close-live-restart  --restart-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_live_restart_configs(self):
+        cmd = """python ../../main.py live describe-live-restart-configs  --restart-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_open_live_timeshift(self):
         cmd = """python ../../main.py live open-live-timeshift  --play-domain 'xxx'"""
         with os.popen(cmd) as f:
@@ -618,7 +753,7 @@ class LiveTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_add_custom_live_stream_transcode_template(self):
-        cmd = """python ../../main.py live add-custom-live-stream-transcode-template  --video-code-rate '5' --video-frame-rate 'xxx' --template 'xxx' --audio-codec 'xxx' --audio-format 'xxx' --audio-sample-rate '5' --audio-channel '5' --audio-code-rate '5'"""
+        cmd = """python ../../main.py live add-custom-live-stream-transcode-template  --video-code-rate '5' --video-frame-rate 'xxx' --template 'xxx' --audio-codec 'xxx' --audio-sample-rate '5' --audio-channel '5' --audio-code-rate '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -689,8 +824,8 @@ class LiveTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_add_custom_live_stream_watermark_template(self):
-        cmd = """python ../../main.py live add-custom-live-stream-watermark-template  --offset-x '5' --offset-y '5' --width '5' --height '5' --template 'xxx' --url 'xxx'"""
+    def test_describe_transcode_binding(self):
+        cmd = """python ../../main.py live describe-transcode-binding  --template 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -698,8 +833,8 @@ class LiveTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_custom_live_stream_watermark_template(self):
-        cmd = """python ../../main.py live update-custom-live-stream-watermark-template  --offset-x '5' --offset-y '5' --width '5' --height '5' --template 'xxx' --url 'xxx'"""
+    def test_add_custom_live_stream_watermark_template(self):
+        cmd = """python ../../main.py live add-custom-live-stream-watermark-template  --offset-x '5' --offset-y '5' --width '5' --height '5' --template 'xxx' --url 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -763,6 +898,15 @@ class LiveTest(unittest.TestCase):
 
     def test_delete_live_stream_domain_watermark(self):
         cmd = """python ../../main.py live delete-live-stream-domain-watermark  --publish-domain 'xxx' --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_watermark_binding(self):
+        cmd = """python ../../main.py live describe-watermark-binding  --template 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

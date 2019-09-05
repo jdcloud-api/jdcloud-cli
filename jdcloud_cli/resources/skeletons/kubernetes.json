@@ -35,6 +35,10 @@
         "accessKey":"",
         "secretKey":"",
         "userMetrics":"",
+        "addonsConfig":[{
+            "name":"",
+            "enabled":""
+        }],
         "regionId":""
     },
     "describe-cluster":{
@@ -80,7 +84,15 @@
     "upgrade-cluster":{
         "scope":"",
         "nodeGroupIds":[""],
-        "verison":"",
+        "version":"",
+        "regionId":"",
+        "clusterId":""
+    },
+    "set-addons":{
+        "addonsConfig":[{
+            "name":"",
+            "enabled":""
+        }],
         "regionId":"",
         "clusterId":""
     },

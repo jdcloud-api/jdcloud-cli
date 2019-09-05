@@ -45,6 +45,10 @@
     "delete-live-domain":{
         "publishDomain":""
     },
+    "add-live-restart-domain":{
+        "playDomain":"",
+        "restartDomain":""
+    },
     "describe-custom-live-stream-record-templates":{
         "pageNum":"",
         "pageSize":"",
@@ -115,7 +119,62 @@
         "appName":"",
         "streamName":""
     },
+    "describe-record-binding":{
+        "template":""
+    },
+    "export-live-stream-bandwidth-data":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "ispName":"",
+        "locationName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "export-live-stream-traffic-data":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "ispName":"",
+        "locationName":"",
+        "protocolType":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "export-publish-stream-info-data":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "export-live-snapshot-data":{
+        "publishDomain":"",
+        "appName":"",
+        "streamName":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "export-live-transcoding-duration-data":{
+        "grade":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
     "describe-live-statistic-group-by-stream":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "ispName":"",
+        "locationName":"",
+        "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-live-statistic-group-by-area":{
         "domainName":"",
         "appName":"",
         "streamName":"",
@@ -196,6 +255,28 @@
         "locationName":"",
         "protocolType":"",
         "period":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-domain-online-stream":{
+        "domainName":"",
+        "appName":"",
+        "streamName":"",
+        "pageNum":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-domains-log":{
+        "domains":"",
+        "interval":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "describe-url-ranking":{
+        "domainName":"",
+        "size":"",
+        "rankfield":"",
         "startTime":"",
         "endTime":""
     },
@@ -328,10 +409,14 @@
     "delete-live-stream-snapshot-notify-config":{
         "publishDomain":""
     },
+    "describe-snapshot-binding":{
+        "template":""
+    },
     "forbid-live-stream":{
         "publishDomain":"",
         "appName":"",
-        "streamName":""
+        "streamName":"",
+        "forbidTime":""
     },
     "resume-live-stream":{
         "publishDomain":"",
@@ -373,6 +458,17 @@
         "endTime":"",
         "publishDomain":""
     },
+    "open-live-restart":{
+        "restartDomain":""
+    },
+    "close-live-restart":{
+        "restartDomain":""
+    },
+    "describe-live-restart-configs":{
+        "pageNum":"",
+        "pageSize":"",
+        "restartDomain":""
+    },
     "open-live-timeshift":{
         "playDomain":""
     },
@@ -405,7 +501,9 @@
         "audioFormat":"",
         "audioSampleRate":"",
         "audioChannel":"",
-        "audioCodeRate":""
+        "audioCodeRate":"",
+        "jdchd":"",
+        "audioComfort":""
     },
     "describe-custom-live-stream-transcode-templates":{
         "pageNum":"",
@@ -449,20 +547,15 @@
     "delete-custom-live-stream-transcode-template":{
         "template":""
     },
+    "describe-transcode-binding":{
+        "template":""
+    },
     "add-custom-live-stream-watermark-template":{
         "position":"",
+        "offsetUnit":"",
         "offsetX":"",
         "offsetY":"",
-        "width":"",
-        "height":"",
-        "template":"",
-        "uploadId":"",
-        "url":""
-    },
-    "update-custom-live-stream-watermark-template":{
-        "position":"",
-        "offsetX":"",
-        "offsetY":"",
+        "sizeUnit":"",
         "width":"",
         "height":"",
         "template":"",
@@ -506,6 +599,9 @@
     },
     "delete-live-stream-domain-watermark":{
         "publishDomain":"",
+        "template":""
+    },
+    "describe-watermark-binding":{
         "template":""
     },
 }

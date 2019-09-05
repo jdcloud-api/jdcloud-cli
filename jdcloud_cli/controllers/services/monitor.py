@@ -41,23 +41,24 @@ class MonitorController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
-            (['--service-code'], dict(help="""(string) 产品线 """, dest='serviceCode',  required=False)),
+            (['--service-code'], dict(help="""(string) 产品线标识,默认返回该serviceCode下所有group的数据。eg:serviceCode=jdw（jdw产品线下包含jdw-master与jdw-segment两个分组)会返回jdw-master和jdw-segment的数据。 """, dest='serviceCode',  required=False)),
+            (['--group-code'], dict(help="""(string) 分组标识、指定该参数时，查询只返回该group的数据。groupCode参数仅在与serviceCode匹配时生效；eg:serviceCode=jdw、groupCode=jdw-master,只返回jdw-master分组的数据，不返回jdw-segment的数据。 """, dest='groupCode',  required=False)),
             (['--resource-id'], dict(help="""(string) 资源Id """, dest='resourceId',  required=False)),
-            (['--resource-id-list'], dict(help="""(array: string) resourceId列表 """, dest='resourceIdList',  required=False)),
+            (['--resource-id-list'], dict(help="""(array: string) resourceId列表，必须指定serviceCode才会生效 """, dest='resourceIdList',  required=False)),
             (['--alarm-id'], dict(help="""(string) 规则Id """, dest='alarmId',  required=False)),
             (['--alarming'], dict(help="""(int) 正在报警, 取值为1 """, dest='alarming', type=int, required=False)),
             (['--service-code-list'], dict(help="""(array: string) 产品线列表 """, dest='serviceCodeList',  required=False)),
             (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=False)),
             (['--rule-type'], dict(help="""(int) 规则类型,默认查询1， 1表示资源监控，6表示站点监控,7表示可用性监控 """, dest='ruleType', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) 服务码或资源Id列表; filter name 为serviceCodes表示查询多个产品线的规则; filter name 为resourceIds表示查询多个资源的规则 """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) serviceCodes - 产品线servicecode，精确匹配，支持多个; resourceIds - 资源Id，精确匹配，支持多个（必须指定serviceCode才会在该serviceCode下根据resourceIds过滤，否则该参数不生效）; alarmIds - 规则Id，精确匹配，支持多个; ruleName - 规则名称，模糊匹配，支持单个 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询报警历史; 检索条件组合优先级从高到低为; 1. alarmId; 2. serviceCode; 2.1 serviceCode + resourceId; 2.2 serviceCode + resourceIds; 3. serviceCodes; 4. 用户所有规则 ''',
+        help=''' 查询报警历史; 检索条件组合优先级从高到低为; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则 ''',
         description='''
-            查询报警历史; 检索条件组合优先级从高到低为; 1. alarmId; 2. serviceCode; 2.1 serviceCode + resourceId; 2.2 serviceCode + resourceIds; 3. serviceCodes; 4. 用户所有规则。
+            查询报警历史; 检索条件组合优先级从高到低为; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则。
 
             示例: jdc monitor describe-alarm-history 
         ''',
@@ -85,21 +86,22 @@ class MonitorController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
-            (['--service-code'], dict(help="""(string) 产品名称 """, dest='serviceCode',  required=False)),
-            (['--resource-id'], dict(help="""(string) 资源ID """, dest='resourceId',  required=False)),
+            (['--service-code'], dict(help="""(string) 产品线标识,默认返回该serviceCode下所有group的数据。eg:serviceCode=jdw（jdw产品线下包含jdw-master与jdw-segment两个分组)会返回jdw-master和jdw-segment的数据。 """, dest='serviceCode',  required=False)),
+            (['--group-code'], dict(help="""(string) 分组标识、指定该参数时，查询只返回该group的数据。groupCode参数仅在与serviceCode匹配时生效；eg:serviceCode=jdw、groupCode=jdw-master,只返回jdw-master分组的数据，不返回jdw-segment的数据。 """, dest='groupCode',  required=False)),
+            (['--resource-id'], dict(help="""(string) 资源ID,根据resourceId查询时必须指定serviceCode才会生效 """, dest='resourceId',  required=False)),
             (['--rule-type'], dict(help="""(int) 规则类型, 1表示资源监控，6表示站点监控,7表示可用性监控 """, dest='ruleType', type=int, required=False)),
             (['--status'], dict(help="""(int) 规则报警状态, 1：正常, 2：报警，4：数据不足 """, dest='status', type=int, required=False)),
             (['--enabled'], dict(help="""(int) 规则状态：1为启用，0为禁用 """, dest='enabled', type=int, required=False)),
             (['--is-alarming'], dict(help="""(int) 是否为正在报警的规则，0为忽略，1为是，与 status 同时只能生效一个,isAlarming 优先生效 """, dest='isAlarming', type=int, required=False)),
-            (['--alarm-id'], dict(help="""(string) 规则的id """, dest='alarmId',  required=False)),
-            (['--filters'], dict(help="""(array: filter) 服务码或资源Id列表; filter name 为serviceCodes表示查询多个产品线的规则; filter name 为resourceIds表示查询多个资源的规则 """, dest='filters',  required=False)),
+            (['--alarm-id'], dict(help="""(string) 规则的id，若指定filter的alarmIds过滤时，忽略该参数 """, dest='alarmId',  required=False)),
+            (['--filters'], dict(help="""(array: filter) 服务码或资源Id列表; serviceCodes - 产品线servicecode，精确匹配，支持多个; resourceIds - 资源Id，精确匹配，支持多个（必须指定serviceCode才会在该serviceCode下根据resourceIds过滤，否则该参数不生效）; alarmIds - 规则id，精确匹配，支持多个; ruleName - 规则名称，模糊匹配，支持单个 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询规则, 查询参数组合及优先级从高到低为：; 1：alarmId不为空; 2：serviceCode不为空; 2.1：serviceCode + resourceId; 2.2: serviceCode + resourceIds; 3：serviceCodes不为空; 4: 所有规则 ''',
+        help=''' 查询规则, 查询参数组合及优先级从高到低为：; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则 ''',
         description='''
-            查询规则, 查询参数组合及优先级从高到低为：; 1：alarmId不为空; 2：serviceCode不为空; 2.1：serviceCode + resourceId; 2.2: serviceCode + resourceIds; 3：serviceCodes不为空; 4: 所有规则。
+            查询规则, 查询参数组合及优先级从高到低为：; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则。
 
             示例: jdc monitor describe-alarms 
         ''',
@@ -124,7 +126,7 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域 Id，对于类似CDN这种没有地域属性的产品，regionId为cn-north-1 """, dest='regionId',  required=False)),
             (['--client-token'], dict(help="""(string) 幂等性校验参数,最长36位,若两个请求clientToken相等，则返回第一次创建的规则id，只创建一次规则 """, dest='clientToken',  required=True)),
             (['--create-alarm-spec'], dict(help="""(createAlarmParam) NA """, dest='createAlarmSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -159,14 +161,14 @@ class MonitorController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--ids'], dict(help="""(string) 待删除的规则id，用竖线分隔 """, dest='ids',  required=True)),
+            (['--ids'], dict(help="""(string) 待删除的规则id，用逗号,分隔 """, dest='ids',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 批量删除规则 ''',
+        help=''' 删除规则 ''',
         description='''
-            批量删除规则。
+            删除规则。
 
             示例: jdc monitor delete-alarms  --ids xxx
         ''',
@@ -224,14 +226,14 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域 Id，对于类似CDN这种没有地域属性的产品，regionId为cn-north-1 """, dest='regionId',  required=False)),
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId',  required=True)),
             (['--contacts'], dict(help="""(array: baseContact) 通知联系人 """, dest='contacts',  required=False)),
             (['--rule'], dict(help="""(baseRule) NA """, dest='rule',  required=True)),
             (['--web-hook-content'], dict(help="""(string) 回调content 注：仅webHookUrl和webHookContent均不为空时，才会创建webHook """, dest='webHookContent',  required=False)),
-            (['--web-hook-protocol'], dict(help="""(string) webHook协议 """, dest='webHookProtocol',  required=False)),
+            (['--web-hook-protocol'], dict(help="""(string) webHook协议，目前支持http，https """, dest='webHookProtocol',  required=False)),
             (['--web-hook-secret'], dict(help="""(string) 回调secret，用户请求签名，防伪造 """, dest='webHookSecret',  required=False)),
-            (['--web-hook-url'], dict(help="""(string) 回调url """, dest='webHookUrl',  required=False)),
+            (['--web-hook-url'], dict(help="""(string) 回调url，例如http://www.jdcloud.com """, dest='webHookUrl',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -367,23 +369,24 @@ class MonitorController(BaseController):
         arguments=[
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
-            (['--service-code'], dict(help="""(string) 产品线 """, dest='serviceCode',  required=False)),
+            (['--service-code'], dict(help="""(string) 产品线标识,默认返回该serviceCode下所有group的数据。eg:serviceCode=jdw（jdw产品线下包含jdw-master与jdw-segment两个分组)会返回jdw-master和jdw-segment的数据。 """, dest='serviceCode',  required=False)),
+            (['--group-code'], dict(help="""(string) 分组标识、指定该参数时，查询只返回该group的数据。groupCode参数仅在与serviceCode匹配时生效；eg:serviceCode=jdw、groupCode=jdw-master,只返回jdw-master分组的数据，不返回jdw-segment的数据。 """, dest='groupCode',  required=False)),
             (['--resource-id'], dict(help="""(string) 资源Id """, dest='resourceId',  required=False)),
-            (['--resource-id-list'], dict(help="""(array: string) resourceId列表 """, dest='resourceIdList',  required=False)),
+            (['--resource-id-list'], dict(help="""(array: string) resourceId列表，必须指定serviceCode才会生效 """, dest='resourceIdList',  required=False)),
             (['--alarm-id'], dict(help="""(string) 规则Id """, dest='alarmId',  required=False)),
             (['--alarming'], dict(help="""(int) 正在报警, 取值为1 """, dest='alarming', type=int, required=False)),
             (['--service-code-list'], dict(help="""(array: string) 产品线列表 """, dest='serviceCodeList',  required=False)),
             (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=False)),
             (['--rule-type'], dict(help="""(int) 规则类型,默认查询1， 1表示资源监控，6表示站点监控,7表示可用性监控 """, dest='ruleType', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) 服务码或资源Id列表; filter name 为serviceCodes表示查询多个产品线的规则; filter name 为resourceIds表示查询多个资源的规则 """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) serviceCodes - 产品线servicecode，精确匹配，支持多个; resourceIds - 资源Id，精确匹配，支持多个（必须指定serviceCode才会在该serviceCode下根据resourceIds过滤，否则该参数不生效）; alarmIds - 规则Id，精确匹配，支持多个; ruleName - 规则名称，模糊匹配，支持单个 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询报警历史; 检索条件组合优先级从高到低为; 1. alarmId; 2. serviceCode; 2.1 serviceCode + resourceId; 2.2 serviceCode + resourceIds; 3. serviceCodes; 4. 用户所有规则 ''',
+        help=''' 查询报警历史; 检索条件组合优先级从高到低为; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则 ''',
         description='''
-            查询报警历史; 检索条件组合优先级从高到低为; 1. alarmId; 2. serviceCode; 2.1 serviceCode + resourceId; 2.2 serviceCode + resourceIds; 3. serviceCodes; 4. 用户所有规则。
+            查询报警历史; 检索条件组合优先级从高到低为; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则。
 
             示例: jdc monitor describe-alarm-history-all-region 
         ''',
@@ -442,6 +445,7 @@ class MonitorController(BaseController):
     @expose(
         arguments=[
             (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=True)),
+            (['--type'], dict(help="""(int) metric的类型，取值0(控制台展示)、1(内部使用，控制台不展示)、2(所有).默认取0 """, dest='type', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -474,6 +478,7 @@ class MonitorController(BaseController):
     @expose(
         arguments=[
             (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=False)),
+            (['--type'], dict(help="""(int) metric类型，取值0、1；默认值：0（常规指标，用于控制台创建报警规则）、1（其它） """, dest='type', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -510,11 +515,11 @@ class MonitorController(BaseController):
             (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=True)),
             (['--resource-id'], dict(help="""(string) 资源的uuid，支持多个resourceId批量查询，每个id用竖线分隔。 如：id1|id2|id3|id4 """, dest='resourceId',  required=True)),
             (['--tags'], dict(help="""(array: tagFilter) 自定义标签 """, dest='tags',  required=False)),
-            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ（默认为当前时间，早于30d时，将被重置为30d） """, dest='startTime',  required=False)),
-            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime',  required=False)),
+            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800（早于30d时，将被重置为30d）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12-11T00:00:00+0800（为空时，将由startTime与timeInterval计算得出）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='endTime',  required=False)),
             (['--time-interval'], dict(help="""(string) 查询的时间间隔，最大不超过30天，支持分钟级别,小时级别，天级别，例如：1m、1h、1d """, dest='timeInterval',  required=False)),
             (['--aggr-type'], dict(help="""(string) 聚合方式：max avg min等,用于不同维度之间聚合 """, dest='aggrType',  required=False)),
-            (['--down-aggr-type'], dict(help="""(string) 聚合方式：max avg min等,用于将维度内一个周期数据聚合为一个点的聚合方式 """, dest='downAggrType',  required=False)),
+            (['--down-aggr-type'], dict(help="""(string) 聚合方式：max avg min等,用于将维度内一个周期数据聚合为一个点的聚合方式,默认last """, dest='downAggrType',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -550,10 +555,10 @@ class MonitorController(BaseController):
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
             (['--aggr-type'], dict(help="""(string) 聚合方式，默认等于downSampleType或avg，可选值参考:sum、avg、last、min、max """, dest='aggrType',  required=False)),
             (['--down-sample-type'], dict(help="""(string) 采样方式，默认等于aggrType或avg，可选值参考：sum、avg、last、min、max """, dest='downSampleType',  required=False)),
-            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=False)),
-            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12- yyyy-MM-dd'T'HH:mm:ssZ（为空时，将由startTime与timeInterval计算得出） """, dest='endTime',  required=False)),
+            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12-11T00:00:00+0800（为空时，将由startTime与timeInterval计算得出）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='endTime',  required=False)),
             (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval默认为1h，当前时间往 前1h """, dest='timeInterval',  required=False)),
-            (['--tags'], dict(help="""(array: tagFilter) 自定义标签/tag；至少要传一个tag，且tag.Values不为空 """, dest='tags',  required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) 监控指标数据的维度信息,根据tags来筛选指标数据不同的维度 """, dest='tags',  required=False)),
             (['--group-by'], dict(help="""(bool) 是否对查询的tags分组 """, dest='groupBy',  required=False)),
             (['--rate'], dict(help="""(bool) 是否求速率 """, dest='rate',  required=False)),
             (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=True)),
@@ -621,7 +626,40 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-alarm-history','describe-alarms','create-alarm','delete-alarms','describe-alarms-by-id','update-alarm','describe-alarm-contacts','disable-alarm','enable-alarm','describe-alarm-history-all-region','delete-alarms-cm','describe-metrics','describe-metrics-for-create-alarm','last-downsample','describe-metric-data','put-metric-data',], required=True)),
+            (['--filters'], dict(help="""(array: filter) 服务码列表; filter name 为serviceCodes表示查询多个产品线的规则 """, dest='filters',  required=False)),
+            (['--product-type'], dict(help="""(int) 要查询的产品线类型   0：all    1：资源监控   2：其它   默认：1。若指定了查询的serviceCode，则忽略该参数 """, dest='productType', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 概览页产品线信息接口 ''',
+        description='''
+            概览页产品线信息接口。
+
+            示例: jdc monitor describe-services 
+        ''',
+    )
+    def describe_services(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.DescribeServicesRequest import DescribeServicesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeServicesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-alarm-history','describe-alarms','create-alarm','delete-alarms','describe-alarms-by-id','update-alarm','describe-alarm-contacts','disable-alarm','enable-alarm','describe-alarm-history-all-region','delete-alarms-cm','describe-metrics','describe-metrics-for-create-alarm','last-downsample','describe-metric-data','put-metric-data','describe-services',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

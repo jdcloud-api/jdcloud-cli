@@ -1,0 +1,11 @@
+{
+    "query-my-customer-list":{
+        "customerPin":"",
+        "aliasName":"",
+        "startRelTime":"",
+        "endRelTime":"",
+        "pageIndex":"",
+        "pageSize":"",
+        "regionId":""
+    },
+}

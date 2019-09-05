@@ -113,6 +113,24 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_import_image(self):
+        cmd = """python ../../main.py vm import-image  --architecture 'xxx' --os-type 'xxx' --platform 'xxx' --disk-format 'xxx' --system-disk-size-gb '5' --image-url 'xxx' --image-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_image_tasks(self):
+        cmd = """python ../../main.py vm image-tasks  --task-action 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_instances(self):
         cmd = """python ../../main.py vm describe-instances """
         with os.popen(cmd) as f:
@@ -240,7 +258,7 @@ class VmTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_image(self):
-        cmd = """python ../../main.py vm create-image  --instance-id 'xxx' --name 'xxx' --description 'xxx'"""
+        cmd = """python ../../main.py vm create-image  --instance-id 'xxx' --name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -313,6 +331,60 @@ class VmTest(unittest.TestCase):
 
     def test_rebuild_instance(self):
         cmd = """python ../../main.py vm rebuild-instance  --instance-id 'xxx' --password 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_templates(self):
+        cmd = """python ../../main.py vm describe-instance-templates """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_instance_template(self):
+        cmd = """python ../../main.py vm create-instance-template  --instance-template-data '{"":""}' --name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_template(self):
+        cmd = """python ../../main.py vm describe-instance-template  --instance-template-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_instance_template(self):
+        cmd = """python ../../main.py vm update-instance-template  --instance-template-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_instance_template(self):
+        cmd = """python ../../main.py vm delete-instance-template  --instance-template-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_verify_instance_template(self):
+        cmd = """python ../../main.py vm verify-instance-template  --instance-template-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

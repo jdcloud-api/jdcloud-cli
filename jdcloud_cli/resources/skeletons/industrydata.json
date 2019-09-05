@@ -1,0 +1,11 @@
+{
+    "get-large-screen-data":{
+        "region":"",
+        "industry":"",
+        "startDate":"",
+        "endDate":"",
+        "firstIndex":"",
+        "secondIndex":"",
+        "regionId":""
+    },
+}

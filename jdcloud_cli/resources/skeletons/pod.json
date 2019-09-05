@@ -1,5 +1,5 @@
 {
-    "decribe-container":{
+    "describe-container":{
         "regionId":"",
         "podId":"",
         "containerName":""
@@ -31,12 +31,24 @@
         "podId":"",
         "containerName":""
     },
+    "describe-instance-types":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
     "describe-pods":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
             "name":"",
             "operator":"",
+            "values":""
+        }],
+        "tags":[{
+            "key":"",
             "values":""
         }],
         "regionId":""
@@ -67,8 +79,13 @@
                 "chargeDuration":""
             },
             "elasticIp":{
-                "elasticIpId":"",
-                "elasticIpAddress":""
+                "bandwidthMbps":"",
+                "provider":"",
+                "chargeSpec":{
+                    "chargeMode":"",
+                    "chargeUnit":"",
+                    "chargeDuration":""
+                }
             },
             "primaryNetworkInterface":{
                 "autoDelete":"",
@@ -87,6 +104,7 @@
             }
         },
         "maxCount":"",
+        "clientToken":"",
         "regionId":""
     },
     "check-pod-name":{
@@ -134,6 +152,61 @@
         "regionId":"",
         "podId":"",
         "containerName":""
+    },
+    "rebuild-pod":{
+        "containers":[{
+            "name":"",
+            "command":"",
+            "args":"",
+            "env":[""],
+            "image":"",
+            "secret":"",
+            "tty":"",
+            "workingDir":"",
+            "livenessProbe":{
+                "initialDelaySeconds":"",
+                "periodSeconds":"",
+                "timeoutSeconds":"",
+                "failureThreshold":"",
+                "successThreshold":"",
+                "exec":{
+                    "command":""
+                },
+                "httpGet":{
+                    "scheme":"",
+                    "host":"",
+                    "port":"",
+                    "path":"",
+                    "httpHeader":[""]
+                },
+                "tcpSocket":{
+                    "port":""
+                }
+            },
+            "readinessProbe":{
+                "initialDelaySeconds":"",
+                "periodSeconds":"",
+                "timeoutSeconds":"",
+                "failureThreshold":"",
+                "successThreshold":"",
+                "exec":{
+                    "command":""
+                },
+                "httpGet":{
+                    "scheme":"",
+                    "host":"",
+                    "port":"",
+                    "path":"",
+                    "httpHeader":[""]
+                },
+                "tcpSocket":{
+                    "port":""
+                }
+            },
+            "volumeMounts":[""]
+        }],
+        "regionId":"",
+        "podId":""
     },
     "describe-quota":{
         "resourceType":"",

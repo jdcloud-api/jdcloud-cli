@@ -86,6 +86,15 @@ class BaseantiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_ccs_ip_resources(self):
+        cmd = """python ../../main.py baseanti describe-ccs-ip-resources """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_ip_resource_info(self):
         cmd = """python ../../main.py baseanti describe-ip-resource-info  --ip 'xxx'"""
         with os.popen(cmd) as f:

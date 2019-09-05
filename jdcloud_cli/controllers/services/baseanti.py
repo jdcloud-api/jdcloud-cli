@@ -182,9 +182,9 @@ class BaseantiController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询公网 IP 的安全信息列表. 包括私有网络的弹性公网 IP(运营商级 NAT 保留地址除外), 云物理服务器的公网 IP 和弹性公网 IP. (已废弃, 建议使用 <a href="http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources">describeElasticIpResources</a>, <a href="http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources">describeCpsIpResources</a> 接口)";  ''',
+        help=''' 查询基础防护已防护的公网 IP 的安全信息列表. 包括私有网络的弹性公网 IP(运营商级 NAT 保留地址除外), 云物理服务器的公网 IP 和弹性公网 IP. (已废弃, 建议使用 <a href="http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources">describeElasticIpResources</a>, <a href="http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources">describeCpsIpResources</a> 接口)";  ''',
         description='''
-            查询公网 IP 的安全信息列表. 包括私有网络的弹性公网 IP(运营商级 NAT 保留地址除外), 云物理服务器的公网 IP 和弹性公网 IP. (已废弃, 建议使用 <a href="http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources">describeElasticIpResources</a>, <a href="http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources">describeCpsIpResources</a> 接口)"; 。
+            查询基础防护已防护的公网 IP 的安全信息列表. 包括私有网络的弹性公网 IP(运营商级 NAT 保留地址除外), 云物理服务器的公网 IP 和弹性公网 IP. (已废弃, 建议使用 <a href="http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources">describeElasticIpResources</a>, <a href="http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources">describeCpsIpResources</a> 接口)"; 。
 
             示例: jdc baseanti describe-ip-resources 
         ''',
@@ -216,9 +216,9 @@ class BaseantiController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询私有网络的弹性公网 IP 的安全信息. 包括私有网络的弹性公网 IP(运营商级 NAT 保留地址除外);  ''',
+        help=''' 查询基础防护已防护的私有网络的弹性公网 IP 的安全信息. 包括私有网络的弹性公网 IP(运营商级 NAT 保留地址除外);  ''',
         description='''
-            查询私有网络的弹性公网 IP 的安全信息. 包括私有网络的弹性公网 IP(运营商级 NAT 保留地址除外); 。
+            查询基础防护已防护的私有网络的弹性公网 IP 的安全信息. 包括私有网络的弹性公网 IP(运营商级 NAT 保留地址除外); 。
 
             示例: jdc baseanti describe-elastic-ip-resources 
         ''',
@@ -250,9 +250,9 @@ class BaseantiController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询云物理服务器公网 IP 的安全信息. 包括云物理服务器的公网 IP 和弹性公网 IP.;  ''',
+        help=''' 查询基础防护已防护的云物理服务器公网 IP 的安全信息. 包括云物理服务器的公网 IP 和弹性公网 IP.;  ''',
         description='''
-            查询云物理服务器公网 IP 的安全信息. 包括云物理服务器的公网 IP 和弹性公网 IP.; 。
+            查询基础防护已防护的云物理服务器公网 IP 的安全信息. 包括云物理服务器的公网 IP 和弹性公网 IP.; 。
 
             示例: jdc baseanti describe-cps-ip-resources 
         ''',
@@ -268,6 +268,40 @@ class BaseantiController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeCpsIpResourcesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域编码. 基础防护已支持华北-北京, 华东-宿迁, 华东-上海, 华南-广州;  """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小 """, dest='pageSize', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询基础防护已防护的托管区 IP 的安全信息 ''',
+        description='''
+            查询基础防护已防护的托管区 IP 的安全信息。
+
+            示例: jdc baseanti describe-ccs-ip-resources 
+        ''',
+    )
+    def describe_ccs_ip_resources(self):
+        client_factory = ClientFactory('baseanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.baseanti.apis.DescribeCcsIpResourcesRequest import DescribeCcsIpResourcesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeCcsIpResourcesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -512,7 +546,7 @@ class BaseantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-attack-logs','describe-attack-statistics','describe-attack-type-count','describe-ip-monitor-flow','describe-ip-resources','describe-elastic-ip-resources','describe-cps-ip-resources','describe-ip-resource-info','describe-ip-safety-info','set-clean-threshold','set-ip-clean-threshold','describe-ip-clean-threshold-range','describe-ip-resource-protect-info','describe-ip-resource-flow',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-attack-logs','describe-attack-statistics','describe-attack-type-count','describe-ip-monitor-flow','describe-ip-resources','describe-elastic-ip-resources','describe-cps-ip-resources','describe-ccs-ip-resources','describe-ip-resource-info','describe-ip-safety-info','set-clean-threshold','set-ip-clean-threshold','describe-ip-clean-threshold-range','describe-ip-resource-protect-info','describe-ip-resource-flow',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
