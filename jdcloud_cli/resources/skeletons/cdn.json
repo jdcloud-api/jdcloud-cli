@@ -342,10 +342,6 @@
         "pageNumber":"",
         "pageSize":""
     },
-    "create-refresh-task":{
-        "taskType":"",
-        "urls":[""]
-    },
     "get-all-upper-node-ip-list":{
     },
     "get-ssl-cert-list":{

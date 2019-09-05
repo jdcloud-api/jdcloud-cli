@@ -86,6 +86,87 @@ class RedisTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_instance_config(self):
+        cmd = """python ../../main.py redis describe-instance-config  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_instance_config(self):
+        cmd = """python ../../main.py redis modify-instance-config  --cache-instance-id 'xxx' --instance-config '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_backups(self):
+        cmd = """python ../../main.py redis describe-backups  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_backup(self):
+        cmd = """python ../../main.py redis create-backup  --cache-instance-id 'xxx' --file-name 'xxx' --backup-type '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_backup_policy(self):
+        cmd = """python ../../main.py redis describe-backup-policy  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_backup_policy(self):
+        cmd = """python ../../main.py redis modify-backup-policy  --cache-instance-id 'xxx' --backup-time 'xxx' --backup-period 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_restore_instance(self):
+        cmd = """python ../../main.py redis restore-instance  --cache-instance-id 'xxx' --base-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_download_url(self):
+        cmd = """python ../../main.py redis describe-download-url  --cache-instance-id 'xxx' --base-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_cluster_info(self):
+        cmd = """python ../../main.py redis describe-cluster-info  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_instance_class(self):
         cmd = """python ../../main.py redis describe-instance-class """
         with os.popen(cmd) as f:

@@ -1,0 +1,35 @@
+{
+    "describe-certs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "domainName":"",
+        "certIds":""
+    },
+    "describe-cert":{
+        "pageNumber":"",
+        "pageSize":"",
+        "certId":""
+    },
+    "delete-certs":{
+        "certId":""
+    },
+    "upload-cert":{
+        "certName":"",
+        "keyFile":"",
+        "certFile":"",
+        "aliasName":""
+    },
+    "download-cert":{
+        "certId":"",
+        "serverType":""
+    },
+    "update-cert-name":{
+        "certId":"",
+        "certName":""
+    },
+    "update-cert":{
+        "certId":"",
+        "keyFile":"",
+        "certFile":""
+    },
+}

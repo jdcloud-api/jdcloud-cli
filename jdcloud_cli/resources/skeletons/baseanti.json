@@ -35,6 +35,11 @@
         "pageSize":"",
         "regionId":""
     },
+    "describe-ccs-ip-resources":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
     "describe-ip-resource-info":{
         "regionId":"",
         "ip":""

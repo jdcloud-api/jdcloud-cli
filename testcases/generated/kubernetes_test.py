@@ -105,7 +105,16 @@ class KubernetesTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_upgrade_cluster(self):
-        cmd = """python ../../main.py kubernetes upgrade-cluster  --cluster-id 'xxx' --scope 'xxx' --verison 'xxx'"""
+        cmd = """python ../../main.py kubernetes upgrade-cluster  --cluster-id 'xxx' --scope 'xxx' --version 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_addons(self):
+        cmd = """python ../../main.py kubernetes set-addons  --cluster-id 'xxx' --addons-config '[{"":""}]'"""
         with os.popen(cmd) as f:
             content = f.read()
 

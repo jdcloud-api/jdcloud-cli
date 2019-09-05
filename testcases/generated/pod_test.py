@@ -23,8 +23,8 @@ import json
 
 class PodTest(unittest.TestCase):
 
-    def test_decribe_container(self):
-        cmd = """python ../../main.py pod decribe-container  --pod-id 'xxx' --container-name 'xxx'"""
+    def test_describe_container(self):
+        cmd = """python ../../main.py pod describe-container  --pod-id 'xxx' --container-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -42,7 +42,7 @@ class PodTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_exec_get_exit_code(self):
-        cmd = """python ../../main.py pod exec-get-exit-code  --pod-id 'xxx' --container-name 'xxx'"""
+        cmd = """python ../../main.py pod exec-get-exit-code  --pod-id 'xxx' --container-name 'xxx' --exec-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -51,7 +51,7 @@ class PodTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_exec_start(self):
-        cmd = """python ../../main.py pod exec-start  --pod-id 'xxx' --container-name 'xxx'"""
+        cmd = """python ../../main.py pod exec-start  --pod-id 'xxx' --container-name 'xxx' --exec-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -60,7 +60,16 @@ class PodTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_resize_tty(self):
-        cmd = """python ../../main.py pod resize-tty  --pod-id 'xxx' --container-name 'xxx'"""
+        cmd = """python ../../main.py pod resize-tty  --pod-id 'xxx' --container-name 'xxx' --height '5' --width '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_types(self):
+        cmd = """python ../../main.py pod describe-instance-types """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -78,7 +87,7 @@ class PodTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_pods(self):
-        cmd = """python ../../main.py pod create-pods """
+        cmd = """python ../../main.py pod create-pods  --pod-spec '{"":""}' --max-count '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -167,6 +176,15 @@ class PodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_rebuild_pod(self):
+        cmd = """python ../../main.py pod rebuild-pod  --pod-id 'xxx' --containers '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_quota(self):
         cmd = """python ../../main.py pod describe-quota  --resource-type 'xxx'"""
         with os.popen(cmd) as f:
@@ -186,7 +204,7 @@ class PodTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_secret(self):
-        cmd = """python ../../main.py pod create-secret  --name 'xxx' --secret-type 'xxx'"""
+        cmd = """python ../../main.py pod create-secret  --name 'xxx' --secret-type 'xxx' --data '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -1,0 +1,26 @@
+{
+    "describe-datapush-venders":{
+        "appkey":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "ydRdsInstanceId":"",
+        "rdsInstanceName":"",
+        "venderId":"",
+        "venderName":""
+    },
+    "add-datapush-vender":{
+        "datapushVender":{
+            "appkey":"",
+            "ydRdsInstanceId":"",
+            "venderId":""
+        }
+    },
+    "delete-datapush-vender":{
+        "appkey":"",
+        "ydRdsInstanceId":"",
+        "venderId":""
+    },
+    "describe-rds-instances":{
+        "appkey":""
+    },
+}

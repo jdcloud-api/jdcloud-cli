@@ -3,6 +3,7 @@
         "pageNumber":"",
         "pageSize":"",
         "serviceCode":"",
+        "groupCode":"",
         "resourceId":"",
         "resourceIdList":[""],
         "alarmId":"",
@@ -21,6 +22,7 @@
         "pageNumber":"",
         "pageSize":"",
         "serviceCode":"",
+        "groupCode":"",
         "resourceId":"",
         "ruleType":"",
         "status":"",
@@ -50,6 +52,7 @@
             "operation":"",
             "period":"",
             "resourceIds":"",
+            "ruleName":"",
             "serviceCode":"",
             "tags":"",
             "threshold":"",
@@ -87,6 +90,7 @@
             "noticePeriod":"",
             "operation":"",
             "period":"",
+            "ruleName":"",
             "ruleType":"",
             "tags":"",
             "threshold":"",
@@ -118,6 +122,7 @@
         "pageNumber":"",
         "pageSize":"",
         "serviceCode":"",
+        "groupCode":"",
         "resourceId":"",
         "resourceIdList":[""],
         "alarmId":"",
@@ -136,10 +141,12 @@
         "regionId":""
     },
     "describe-metrics":{
-        "serviceCode":""
+        "serviceCode":"",
+        "type":""
     },
     "describe-metrics-for-create-alarm":{
-        "serviceCode":""
+        "serviceCode":"",
+        "type":""
     },
     "last-downsample":{
         "serviceCode":"",
@@ -183,5 +190,12 @@
             "values":"",
             "unit":""
         }]
+    },
+    "describe-services":{
+        "filters":[{
+            "Name":"",
+            "Values":""
+        }],
+        "productType":""
     },
 }

@@ -279,6 +279,315 @@ class RedisController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
+            (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看缓存Redis实例的当前配置参数 ''',
+        description='''
+            查看缓存Redis实例的当前配置参数。
+
+            示例: jdc redis describe-instance-config  --cache-instance-id xxx
+        ''',
+    )
+    def describe_instance_config(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.DescribeInstanceConfigRequest import DescribeInstanceConfigRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeInstanceConfigRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
+            (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
+            (['--instance-config'], dict(help="""(array: configItem) 要修改的配置参数名和参数值 """, dest='instanceConfig',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改缓存Redis实例的配置参数，支持部分参数修改 ''',
+        description='''
+            修改缓存Redis实例的配置参数，支持部分参数修改。
+
+            示例: jdc redis modify-instance-config  --cache-instance-id xxx --instance-config ['{"":""}']
+        ''',
+    )
+    def modify_instance_config(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.ModifyInstanceConfigRequest import ModifyInstanceConfigRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyInstanceConfigRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
+            (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=False)),
+            (['--base-id'], dict(help="""(string) 备份任务ID """, dest='baseId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询缓存Redis实例的备份结果（备份文件列表），可分页、可指定起止时间或备份任务ID ''',
+        description='''
+            查询缓存Redis实例的备份结果（备份文件列表），可分页、可指定起止时间或备份任务ID。
+
+            示例: jdc redis describe-backups  --cache-instance-id xxx
+        ''',
+    )
+    def describe_backups(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.DescribeBackupsRequest import DescribeBackupsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeBackupsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
+            (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
+            (['--file-name'], dict(help="""(string) 备份文件名称，只支持英文数字和下划线的组合，长度不超过32个字符 """, dest='fileName',  required=True)),
+            (['--backup-type'], dict(help="""(int) 备份类型：手动备份为1，只能为手动备份 """, dest='backupType', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建并执行缓存Redis实例的备份任务，只能为手动备份，可设置备份文件名称 ''',
+        description='''
+            创建并执行缓存Redis实例的备份任务，只能为手动备份，可设置备份文件名称。
+
+            示例: jdc redis create-backup  --cache-instance-id xxx --file-name xxx --backup-type 0
+        ''',
+    )
+    def create_backup(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.CreateBackupRequest import CreateBackupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateBackupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
+            (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询缓存Redis实例的自动备份策略 ''',
+        description='''
+            查询缓存Redis实例的自动备份策略。
+
+            示例: jdc redis describe-backup-policy  --cache-instance-id xxx
+        ''',
+    )
+    def describe_backup_policy(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.DescribeBackupPolicyRequest import DescribeBackupPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeBackupPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
+            (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
+            (['--backup-time'], dict(help="""(string) 备份时间，格式为：HH:mm-HH:mm 时区，例如"01:00-02:00 +0800"，表示东八区的1点到2点 """, dest='backupTime',  required=True)),
+            (['--backup-period'], dict(help="""(string) 备份周期，包括：Monday，Tuesday，Wednesday，Thursday，Friday，Saturday，Sunday，多个用逗号分隔 """, dest='backupPeriod',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改缓存Redis实例的自动备份策略，可修改备份周期和备份时间 ''',
+        description='''
+            修改缓存Redis实例的自动备份策略，可修改备份周期和备份时间。
+
+            示例: jdc redis modify-backup-policy  --cache-instance-id xxx --backup-time xxx --backup-period xxx
+        ''',
+    )
+    def modify_backup_policy(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.ModifyBackupPolicyRequest import ModifyBackupPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyBackupPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
+            (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
+            (['--base-id'], dict(help="""(string) 备份任务ID """, dest='baseId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 恢复缓存Redis实例的某次备份 ''',
+        description='''
+            恢复缓存Redis实例的某次备份。
+
+            示例: jdc redis restore-instance  --cache-instance-id xxx --base-id xxx
+        ''',
+    )
+    def restore_instance(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.RestoreInstanceRequest import RestoreInstanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RestoreInstanceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
+            (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
+            (['--base-id'], dict(help="""(string) 备份任务ID """, dest='baseId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取缓存Redis实例的备份文件临时下载地址 ''',
+        description='''
+            获取缓存Redis实例的备份文件临时下载地址。
+
+            示例: jdc redis describe-download-url  --cache-instance-id xxx --base-id xxx
+        ''',
+    )
+    def describe_download_url(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.DescribeDownloadUrlRequest import DescribeDownloadUrlRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeDownloadUrlRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
+            (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询Redis实例的集群内部信息 ''',
+        description='''
+            查询Redis实例的集群内部信息。
+
+            示例: jdc redis describe-cluster-info  --cache-instance-id xxx
+        ''',
+    )
+    def describe_cluster_info(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.DescribeClusterInfoRequest import DescribeClusterInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeClusterInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
             (['--redis-version'], dict(help="""(string) 缓存Redis的版本号：目前有2.8和4.0，默认为2.8 """, dest='redisVersion',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -343,7 +652,7 @@ class RedisController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-cache-instances','create-cache-instance','describe-cache-instance','modify-cache-instance-attribute','delete-cache-instance','modify-cache-instance-class','reset-cache-instance-password','describe-instance-class','describe-user-quota',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-cache-instances','create-cache-instance','describe-cache-instance','modify-cache-instance-attribute','delete-cache-instance','modify-cache-instance-class','reset-cache-instance-password','describe-instance-config','modify-instance-config','describe-backups','create-backup','describe-backup-policy','modify-backup-policy','restore-instance','describe-download-url','describe-cluster-info','describe-instance-class','describe-user-quota',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

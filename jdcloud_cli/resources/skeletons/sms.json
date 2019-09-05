@@ -1,0 +1,20 @@
+{
+    "batch-send":{
+        "templateId":"",
+        "signId":"",
+        "phoneList":[""],
+        "params":[""],
+        "regionId":""
+    },
+    "status-report":{
+        "sequenceNumber":"",
+        "phoneList":[""],
+        "regionId":""
+    },
+    "reply":{
+        "appId":"",
+        "dataDate":"",
+        "phoneList":[""],
+        "regionId":""
+    },
+}

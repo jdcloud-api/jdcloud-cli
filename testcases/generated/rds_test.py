@@ -77,6 +77,15 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_create_super_account(self):
+        cmd = """python ../../main.py rds create-super-account  --instance-id 'xxx' --account-name 'xxx' --account-password 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_audit(self):
         cmd = """python ../../main.py rds describe-audit  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -268,6 +277,15 @@ class RdsTest(unittest.TestCase):
 
     def test_clear_binlogs(self):
         cmd = """python ../../main.py rds clear-binlogs  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_alter_table_with_online_ddl(self):
+        cmd = """python ../../main.py rds alter-table-with-online-ddl  --instance-id 'xxx' --database 'xxx' --table 'xxx' --command 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -590,6 +608,24 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_logs(self):
+        cmd = """python ../../main.py rds describe-logs  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_log_download_urlinternal(self):
+        cmd = """python ../../main.py rds update-log-download-urlinternal  --instance-id 'xxx' --log-id 'xxx' --seconds '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_parameters(self):
         cmd = """python ../../main.py rds describe-parameters  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -727,6 +763,24 @@ class RdsTest(unittest.TestCase):
 
     def test_describe_active_query_performance(self):
         cmd = """python ../../main.py rds describe-active-query-performance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_tde(self):
+        cmd = """python ../../main.py rds describe-tde  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_tde(self):
+        cmd = """python ../../main.py rds enable-tde  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

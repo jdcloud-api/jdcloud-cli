@@ -37,6 +37,12 @@
         "instanceId":"",
         "accountName":""
     },
+    "create-super-account":{
+        "accountName":"",
+        "accountPassword":"",
+        "regionId":"",
+        "instanceId":""
+    },
     "describe-audit":{
         "regionId":"",
         "instanceId":""
@@ -157,6 +163,7 @@
                 "chargeDuration":""
             },
             "instanceStorageType":"",
+            "instancePort":"",
             "storageEncrypted":"",
             "instanceType":""
         },
@@ -176,6 +183,13 @@
         "binlogBackupId":""
     },
     "clear-binlogs":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "alter-table-with-online-ddl":{
+        "database":"",
+        "table":"",
+        "command":"",
         "regionId":"",
         "instanceId":""
     },
@@ -272,6 +286,7 @@
                 "chargeDuration":""
             },
             "instanceStorageType":"",
+            "instancePort":"",
             "storageEncrypted":"",
             "instanceType":""
         },
@@ -339,6 +354,7 @@
                 "chargeDuration":""
             },
             "instanceStorageType":"",
+            "instancePort":"",
             "storageEncrypted":"",
             "instanceType":""
         },
@@ -366,6 +382,7 @@
                 "chargeDuration":""
             },
             "instanceStorageType":"",
+            "instancePort":"",
             "storageEncrypted":"",
             "instanceType":""
         },
@@ -422,6 +439,18 @@
     "describe-intercept":{
         "regionId":"",
         "instanceId":""
+    },
+    "describe-logs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "update-log-download-urlinternal":{
+        "seconds":"",
+        "regionId":"",
+        "instanceId":"",
+        "logId":""
     },
     "describe-parameters":{
         "regionId":"",
@@ -525,6 +554,14 @@
         "threshold":"",
         "pageNumber":"",
         "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-tde":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "enable-tde":{
         "regionId":"",
         "instanceId":""
     },

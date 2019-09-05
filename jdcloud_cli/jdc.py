@@ -22,16 +22,16 @@ from jdcloud_cli.controllers.configure_controller import ConfigureController
 from jdcloud_cli.controllers.services.rds import RdsController
 from jdcloud_cli.controllers.services.kubernetes import KubernetesController
 from jdcloud_cli.controllers.services.streamcomputer import StreamcomputerController
+from jdcloud_cli.controllers.services.ssl import SslController
 from jdcloud_cli.controllers.services.ipanti import IpantiController
 from jdcloud_cli.controllers.services.oss import OssController
 from jdcloud_cli.controllers.services.redis import RedisController
+from jdcloud_cli.controllers.services.domainservice import DomainserviceController
 from jdcloud_cli.controllers.services.deploy import DeployController
 from jdcloud_cli.controllers.services.sop import SopController
 from jdcloud_cli.controllers.services.function import FunctionController
 from jdcloud_cli.controllers.services.portal import PortalController
 from jdcloud_cli.controllers.services.clouddnsservice import ClouddnsserviceController
-from jdcloud_cli.controllers.services.cps import CpsController
-from jdcloud_cli.controllers.services.cdn import CdnController
 from jdcloud_cli.controllers.services.streambus import StreambusController
 from jdcloud_cli.controllers.services.httpdns import HttpdnsController
 from jdcloud_cli.controllers.services.mps import MpsController
@@ -42,21 +42,28 @@ from jdcloud_cli.controllers.services.pod import PodController
 from jdcloud_cli.controllers.services.ams import AmsController
 from jdcloud_cli.controllers.services.jdro import JdroController
 from jdcloud_cli.controllers.services.zfs import ZfsController
+from jdcloud_cli.controllers.services.vod import VodController
+from jdcloud_cli.controllers.services.yundingdatapush import YundingdatapushController
 from jdcloud_cli.controllers.services.datastar import DatastarController
 from jdcloud_cli.controllers.services.kms import KmsController
 from jdcloud_cli.controllers.services.elite import EliteController
+from jdcloud_cli.controllers.services.ossopenapi import OssopenapiController
 from jdcloud_cli.controllers.services.iam import IamController
 from jdcloud_cli.controllers.services.iothub import IothubController
+from jdcloud_cli.controllers.services.sms import SmsController
 from jdcloud_cli.controllers.services.jcq import JcqController
 from jdcloud_cli.controllers.services.baseanti import BaseantiController
 from jdcloud_cli.controllers.services.ias import IasController
 from jdcloud_cli.controllers.services.mongodb import MongodbController
 from jdcloud_cli.controllers.services.live import LiveController
 from jdcloud_cli.controllers.services.jdfusion import JdfusionController
+from jdcloud_cli.controllers.services.renewal import RenewalController
 from jdcloud_cli.controllers.services.vpc import VpcController
 from jdcloud_cli.controllers.services.monitor import MonitorController
 from jdcloud_cli.controllers.services.xdata import XdataController
 from jdcloud_cli.controllers.services.cr import CrController
+from jdcloud_cli.controllers.services.partner import PartnerController
+from jdcloud_cli.controllers.services.industrydata import IndustrydataController
 
 
 class JDC(CementApp):
@@ -73,16 +80,16 @@ def main():
         app.handler.register(RdsController)
         app.handler.register(KubernetesController)
         app.handler.register(StreamcomputerController)
+        app.handler.register(SslController)
         app.handler.register(IpantiController)
         app.handler.register(OssController)
         app.handler.register(RedisController)
+        app.handler.register(DomainserviceController)
         app.handler.register(DeployController)
         app.handler.register(SopController)
         app.handler.register(FunctionController)
         app.handler.register(PortalController)
         app.handler.register(ClouddnsserviceController)
-        app.handler.register(CpsController)
-        app.handler.register(CdnController)
         app.handler.register(StreambusController)
         app.handler.register(HttpdnsController)
         app.handler.register(MpsController)
@@ -93,20 +100,27 @@ def main():
         app.handler.register(AmsController)
         app.handler.register(JdroController)
         app.handler.register(ZfsController)
+        app.handler.register(VodController)
+        app.handler.register(YundingdatapushController)
         app.handler.register(DatastarController)
         app.handler.register(KmsController)
         app.handler.register(EliteController)
+        app.handler.register(OssopenapiController)
         app.handler.register(IamController)
         app.handler.register(IothubController)
+        app.handler.register(SmsController)
         app.handler.register(JcqController)
         app.handler.register(BaseantiController)
         app.handler.register(IasController)
         app.handler.register(MongodbController)
         app.handler.register(LiveController)
         app.handler.register(JdfusionController)
+        app.handler.register(RenewalController)
         app.handler.register(VpcController)
         app.handler.register(MonitorController)
         app.handler.register(XdataController)
         app.handler.register(CrController)
+        app.handler.register(PartnerController)
+        app.handler.register(IndustrydataController)
 
         app.run()

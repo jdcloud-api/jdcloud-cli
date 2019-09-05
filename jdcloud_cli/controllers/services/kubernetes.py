@@ -86,7 +86,8 @@ class KubernetesController(BaseController):
             (['--master-cidr'], dict(help="""(string) k8s的master的cidr """, dest='masterCidr',  required=True)),
             (['--access-key'], dict(help="""(string) 用户的AccessKey，插件调用open-api时的认证凭证 """, dest='accessKey',  required=True)),
             (['--secret-key'], dict(help="""(string) 用户的SecretKey，插件调用open-api时的认证凭证 """, dest='secretKey',  required=True)),
-            (['--user-metrics'], dict(help="""(bool) 是否启用用户自定义监控，默认不启用 """, dest='userMetrics',  required=False)),
+            (['--user-metrics'], dict(help="""(bool) deprecated 在addonsConfig中同时指定，将被addonsConfig的设置覆盖 <br>是否启用用户自定义监控 """, dest='userMetrics',  required=False)),
+            (['--addons-config'], dict(help="""(array: addonConfigSpec) 集群组件配置 """, dest='addonsConfig',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -226,9 +227,9 @@ class KubernetesController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 设置用户自定义监控状态 ''',
+        help=''' Deprecated 建议使用 setAddons 接口 <br>设置用户自定义监控状态 ''',
         description='''
-            设置用户自定义监控状态。
+            Deprecated 建议使用 setAddons 接口 <br>设置用户自定义监控状态。
 
             示例: jdc kubernetes set-user-metrics  --cluster-id xxx
         ''',
@@ -359,7 +360,7 @@ class KubernetesController(BaseController):
             (['--cluster-id'], dict(help="""(string) 集群 ID """, dest='clusterId',  required=True)),
             (['--scope'], dict(help="""(string) 升级范围 """, dest='scope',  required=True)),
             (['--node-group-ids'], dict(help="""(array: string) 节点组 id """, dest='nodeGroupIds',  required=False)),
-            (['--verison'], dict(help="""(string) 指定升级到的版本 """, dest='verison',  required=True)),
+            (['--version'], dict(help="""(string) 指定升级到的版本 """, dest='version',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -368,7 +369,7 @@ class KubernetesController(BaseController):
         description='''
             触发升级。
 
-            示例: jdc kubernetes upgrade-cluster  --cluster-id xxx --scope xxx --verison xxx
+            示例: jdc kubernetes upgrade-cluster  --cluster-id xxx --scope xxx --version xxx
         ''',
     )
     def upgrade_cluster(self):
@@ -382,6 +383,40 @@ class KubernetesController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = UpgradeClusterRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群 ID """, dest='clusterId',  required=True)),
+            (['--addons-config'], dict(help="""(array: addonConfigSpec) 需要设置的集群组件配置 """, dest='addonsConfig',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置集群组件 ''',
+        description='''
+            设置集群组件。
+
+            示例: jdc kubernetes set-addons  --cluster-id xxx --addons-config [{"":""}]
+        ''',
+    )
+    def set_addons(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.SetAddonsRequest import SetAddonsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetAddonsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -867,7 +902,7 @@ class KubernetesController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-clusters','create-cluster','describe-cluster','modify-cluster','delete-cluster','set-user-metrics','abort-upgrade','describe-progress','set-auto-upgrade','upgrade-cluster','describe-node-groups','create-node-group','describe-node-group','modify-node-group','delete-node-group','set-node-group-size','set-auto-repair','rollback-node-group-upgrade','describe-quotas','describe-server-config','describe-versions','describe-node-version','describe-upgradable-master-versions','describe-upgradable-node-versions',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-clusters','create-cluster','describe-cluster','modify-cluster','delete-cluster','set-user-metrics','abort-upgrade','describe-progress','set-auto-upgrade','upgrade-cluster','set-addons','describe-node-groups','create-node-group','describe-node-group','modify-node-group','delete-node-group','set-node-group-size','set-auto-repair','rollback-node-group-upgrade','describe-quotas','describe-server-config','describe-versions','describe-node-version','describe-upgradable-master-versions','describe-upgradable-node-versions',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

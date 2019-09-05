@@ -20,6 +20,7 @@
             "description":"",
             "diskType":"",
             "diskSizeGB":"",
+            "iops":"",
             "snapshotId":"",
             "charge":{
                 "chargeMode":"",
@@ -54,6 +55,7 @@
     },
     "extend-disk":{
         "diskSizeGB":"",
+        "iops":"",
         "regionId":"",
         "diskId":""
     },

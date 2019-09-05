@@ -63,6 +63,57 @@
         "regionId":"",
         "cacheInstanceId":""
     },
+    "describe-instance-config":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "modify-instance-config":{
+        "instanceConfig":[{
+            "configName":"",
+            "configValue":""
+        }],
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-backups":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "baseId":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "create-backup":{
+        "fileName":"",
+        "backupType":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-backup-policy":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "modify-backup-policy":{
+        "backupTime":"",
+        "backupPeriod":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "restore-instance":{
+        "baseId":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-download-url":{
+        "baseId":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-cluster-info":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
     "describe-instance-class":{
         "redisVersion":"",
         "regionId":""
