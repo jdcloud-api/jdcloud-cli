@@ -32,6 +32,7 @@ from jdcloud_cli.controllers.services.sop import SopController
 from jdcloud_cli.controllers.services.function import FunctionController
 from jdcloud_cli.controllers.services.portal import PortalController
 from jdcloud_cli.controllers.services.clouddnsservice import ClouddnsserviceController
+from jdcloud_cli.controllers.services.cps import CpsController
 from jdcloud_cli.controllers.services.streambus import StreambusController
 from jdcloud_cli.controllers.services.httpdns import HttpdnsController
 from jdcloud_cli.controllers.services.mps import MpsController
@@ -61,7 +62,7 @@ from jdcloud_cli.controllers.services.renewal import RenewalController
 from jdcloud_cli.controllers.services.vpc import VpcController
 from jdcloud_cli.controllers.services.monitor import MonitorController
 from jdcloud_cli.controllers.services.xdata import XdataController
-from jdcloud_cli.controllers.services.cr import CrController
+from jdcloud_cli.controllers.services.containerregistry import ContainerregistryController
 from jdcloud_cli.controllers.services.partner import PartnerController
 from jdcloud_cli.controllers.services.industrydata import IndustrydataController
 
@@ -90,6 +91,7 @@ def main():
         app.handler.register(FunctionController)
         app.handler.register(PortalController)
         app.handler.register(ClouddnsserviceController)
+        app.handler.register(CpsController)
         app.handler.register(StreambusController)
         app.handler.register(HttpdnsController)
         app.handler.register(MpsController)
@@ -119,7 +121,7 @@ def main():
         app.handler.register(VpcController)
         app.handler.register(MonitorController)
         app.handler.register(XdataController)
-        app.handler.register(CrController)
+        app.handler.register(ContainerregistryController)
         app.handler.register(PartnerController)
         app.handler.register(IndustrydataController)
 

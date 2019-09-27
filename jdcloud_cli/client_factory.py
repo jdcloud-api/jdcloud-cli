@@ -31,6 +31,7 @@ from jdcloud_sdk.services.sop.client.SopClient import SopClient
 from jdcloud_sdk.services.function.client.FunctionClient import FunctionClient
 from jdcloud_sdk.services.portal.client.PortalClient import PortalClient
 from jdcloud_sdk.services.clouddnsservice.client.ClouddnsserviceClient import ClouddnsserviceClient
+from jdcloud_sdk.services.cps.client.CpsClient import CpsClient
 from jdcloud_sdk.services.streambus.client.StreambusClient import StreambusClient
 from jdcloud_sdk.services.httpdns.client.HttpdnsClient import HttpdnsClient
 from jdcloud_sdk.services.mps.client.MpsClient import MpsClient
@@ -60,7 +61,7 @@ from jdcloud_sdk.services.renewal.client.RenewalClient import RenewalClient
 from jdcloud_sdk.services.vpc.client.VpcClient import VpcClient
 from jdcloud_sdk.services.monitor.client.MonitorClient import MonitorClient
 from jdcloud_sdk.services.xdata.client.XdataClient import XdataClient
-from jdcloud_sdk.services.cr.client.CrClient import CrClient
+from jdcloud_sdk.services.containerregistry.client.ContainerregistryClient import ContainerregistryClient
 from jdcloud_sdk.services.partner.client.PartnerClient import PartnerClient
 from jdcloud_sdk.services.industrydata.client.IndustrydataClient import IndustrydataClient
 from jdcloud_cli.config import ProfileManager
@@ -87,6 +88,7 @@ class ClientFactory(object):
             'function': FunctionClient,
             'portal': PortalClient,
             'clouddnsservice': ClouddnsserviceClient,
+            'cps': CpsClient,
             'streambus': StreambusClient,
             'httpdns': HttpdnsClient,
             'mps': MpsClient,
@@ -116,7 +118,7 @@ class ClientFactory(object):
             'vpc': VpcClient,
             'monitor': MonitorClient,
             'xdata': XdataClient,
-            'cr': CrClient,
+            'containerregistry': ContainerregistryClient,
             'partner': PartnerClient,
             'industrydata': IndustrydataClient,
         }
