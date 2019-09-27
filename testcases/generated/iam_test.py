@@ -86,6 +86,33 @@ class IamTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_group_sub_users(self):
+        cmd = """python ../../main.py iam describe-group-sub-users  --group-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_groups(self):
+        cmd = """python ../../main.py iam describe-groups """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_attached_group_policies(self):
+        cmd = """python ../../main.py iam describe-attached-group-policies  --group-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_detach_group_policy(self):
         cmd = """python ../../main.py iam detach-group-policy  --group-name 'xxx' --policy-name 'xxx'"""
         with os.popen(cmd) as f:
@@ -221,6 +248,15 @@ class IamTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_policies(self):
+        cmd = """python ../../main.py iam describe-policies """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_create_role(self):
         cmd = """python ../../main.py iam create-role  --create-role-info '{"":""}'"""
         with os.popen(cmd) as f:
@@ -257,6 +293,15 @@ class IamTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_roles(self):
+        cmd = """python ../../main.py iam describe-roles """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_attach_role_policy(self):
         cmd = """python ../../main.py iam attach-role-policy  --role-name 'xxx' --policy-name 'xxx'"""
         with os.popen(cmd) as f:
@@ -268,6 +313,15 @@ class IamTest(unittest.TestCase):
 
     def test_detach_role_policy(self):
         cmd = """python ../../main.py iam detach-role-policy  --role-name 'xxx' --policy-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_role_policies(self):
+        cmd = """python ../../main.py iam describe-role-policies  --role-name 'xxx' --sort '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -304,6 +358,33 @@ class IamTest(unittest.TestCase):
 
     def test_delete_sub_user(self):
         cmd = """python ../../main.py iam delete-sub-user  --sub-user 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_sub_users(self):
+        cmd = """python ../../main.py iam describe-sub-users """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_sub_user_groups(self):
+        cmd = """python ../../main.py iam describe-sub-user-groups  --sub-user 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_attached_sub_user_policies(self):
+        cmd = """python ../../main.py iam describe-attached-sub-user-policies  --sub-user 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

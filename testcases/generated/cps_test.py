@@ -212,8 +212,314 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_reset_password(self):
+        cmd = """python ../../main.py cps reset-password  --instance-id 'xxx' --password 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_monitor_info(self):
+        cmd = """python ../../main.py cps describe-instance-monitor-info  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_keypairs(self):
+        cmd = """python ../../main.py cps query-keypairs """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_keypairs(self):
+        cmd = """python ../../main.py cps create-keypairs  --name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_import_keypairs(self):
+        cmd = """python ../../main.py cps import-keypairs  --name 'xxx' --public-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_keypair(self):
+        cmd = """python ../../main.py cps query-keypair  --keypair-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_keypairs(self):
+        cmd = """python ../../main.py cps delete-keypairs  --keypair-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_listeners(self):
+        cmd = """python ../../main.py cps query-listeners """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_listener(self):
+        cmd = """python ../../main.py cps create-listener  --load-balancer-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_listener(self):
+        cmd = """python ../../main.py cps modify-listener  --listener-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_listener(self):
+        cmd = """python ../../main.py cps query-listener  --listener-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_listener(self):
+        cmd = """python ../../main.py cps delete-listener  --listener-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_start_listener(self):
+        cmd = """python ../../main.py cps start-listener  --listener-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_stop_listener(self):
+        cmd = """python ../../main.py cps stop-listener  --listener-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_load_balancers(self):
+        cmd = """python ../../main.py cps query-load-balancers """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_load_balancer(self):
+        cmd = """python ../../main.py cps create-load-balancer  --load-balancer-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_load_balancer(self):
+        cmd = """python ../../main.py cps modify-load-balancer  --load-balancer-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_load_balancer(self):
+        cmd = """python ../../main.py cps query-load-balancer  --load-balancer-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_start_load_balancer(self):
+        cmd = """python ../../main.py cps start-load-balancer  --load-balancer-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_stop_load_balancer(self):
+        cmd = """python ../../main.py cps stop-load-balancer  --load-balancer-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_associate_elastic_ip_lb(self):
+        cmd = """python ../../main.py cps associate-elastic-ip-lb  --load-balancer-id 'xxx' --elastic-ip-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disassociate_elastic_ip_lb(self):
+        cmd = """python ../../main.py cps disassociate-elastic-ip-lb  --load-balancer-id 'xxx' --elastic-ip-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_regiones(self):
         cmd = """python ../../main.py cps describe-regiones """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_cpslbregions(self):
+        cmd = """python ../../main.py cps query-cpslbregions """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_route_table(self):
+        cmd = """python ../../main.py cps query-route-table  --route-table-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_route_tables(self):
+        cmd = """python ../../main.py cps query-route-tables """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_servers(self):
+        cmd = """python ../../main.py cps query-servers  --server-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_servers(self):
+        cmd = """python ../../main.py cps add-servers  --server-group-id 'xxx' --server-spec '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_server(self):
+        cmd = """python ../../main.py cps modify-server  --server-group-id 'xxx' --server-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_remove_server(self):
+        cmd = """python ../../main.py cps remove-server  --server-group-id 'xxx' --server-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_server_groups(self):
+        cmd = """python ../../main.py cps query-server-groups """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_server_group(self):
+        cmd = """python ../../main.py cps create-server-group  --server-group-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_server_group(self):
+        cmd = """python ../../main.py cps query-server-group  --server-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_server_group(self):
+        cmd = """python ../../main.py cps modify-server-group  --server-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_server_group(self):
+        cmd = """python ../../main.py cps delete-server-group  --server-group-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

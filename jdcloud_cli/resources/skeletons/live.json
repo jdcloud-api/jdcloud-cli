@@ -24,6 +24,24 @@
         "authStatus":"",
         "authKey":""
     },
+    "describe-live-restart-auth-key":{
+        "restartDomain":""
+    },
+    "set-live-restart-auth-key":{
+        "restartDomain":"",
+        "authStatus":"",
+        "authKey":""
+    },
+    "describe-live-domain-certificate":{
+        "playDomain":""
+    },
+    "set-live-domain-certificate":{
+        "playDomain":"",
+        "certStatus":"",
+        "cert":"",
+        "key":"",
+        "title":""
+    },
     "describe-live-domains":{
         "pageNum":"",
         "pageSize":"",
@@ -121,48 +139,6 @@
     },
     "describe-record-binding":{
         "template":""
-    },
-    "export-live-stream-bandwidth-data":{
-        "domainName":"",
-        "appName":"",
-        "streamName":"",
-        "ispName":"",
-        "locationName":"",
-        "protocolType":"",
-        "period":"",
-        "startTime":"",
-        "endTime":""
-    },
-    "export-live-stream-traffic-data":{
-        "domainName":"",
-        "appName":"",
-        "streamName":"",
-        "ispName":"",
-        "locationName":"",
-        "protocolType":"",
-        "period":"",
-        "startTime":"",
-        "endTime":""
-    },
-    "export-publish-stream-info-data":{
-        "domainName":"",
-        "appName":"",
-        "streamName":"",
-        "startTime":"",
-        "endTime":""
-    },
-    "export-live-snapshot-data":{
-        "publishDomain":"",
-        "appName":"",
-        "streamName":"",
-        "startTime":"",
-        "endTime":""
-    },
-    "export-live-transcoding-duration-data":{
-        "grade":"",
-        "period":"",
-        "startTime":"",
-        "endTime":""
     },
     "describe-live-statistic-group-by-stream":{
         "domainName":"",

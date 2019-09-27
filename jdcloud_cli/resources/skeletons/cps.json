@@ -59,6 +59,7 @@
         "networkType":"",
         "deviceType":"",
         "subnetId":"",
+        "keypairId":"",
         "enableInternet":"",
         "filters":[{
             "name":"",
@@ -89,6 +90,8 @@
             "description":"",
             "password":"",
             "count":"",
+            "userData":"",
+            "keypairId":"",
             "charge":{
                 "chargeMode":"",
                 "chargeUnit":"",
@@ -140,7 +143,9 @@
             "keepData":"",
             "dataRaidTypeId":"",
             "password":"",
-            "hostname":""
+            "hostname":"",
+            "userData":"",
+            "keypairId":""
         },
         "regionId":"",
         "instanceId":""
@@ -163,8 +168,264 @@
         "regionId":"",
         "instanceId":""
     },
+    "reset-password":{
+        "clientToken":"",
+        "password":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-instance-monitor-info":{
+        "startTime":"",
+        "endTime":"",
+        "metrics":[""],
+        "regionId":"",
+        "instanceId":""
+    },
+    "query-keypairs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "name":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-keypairs":{
+        "clientToken":"",
+        "name":"",
+        "regionId":""
+    },
+    "import-keypairs":{
+        "clientToken":"",
+        "name":"",
+        "publicKey":"",
+        "regionId":""
+    },
+    "query-keypair":{
+        "regionId":"",
+        "keypairId":""
+    },
+    "delete-keypairs":{
+        "regionId":"",
+        "keypairId":""
+    },
+    "query-listeners":{
+        "pageNumber":"",
+        "pageSize":"",
+        "name":"",
+        "loadBalancerId":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-listener":{
+        "clientToken":"",
+        "loadBalancerSpec":{
+            "loadBalancerId":"",
+            "protocol":"",
+            "port":"",
+            "algorithm":"",
+            "stickySession":"",
+            "realIp":"",
+            "name":"",
+            "description":"",
+            "healthCheck":"",
+            "healthCheckTimeout":"",
+            "healthCheckInterval":"",
+            "healthyThreshold":"",
+            "unhealthyThreshold":"",
+            "serverGroupId":""
+        },
+        "regionId":""
+    },
+    "modify-listener":{
+        "algorithm":"",
+        "stickySession":"",
+        "realIp":"",
+        "name":"",
+        "description":"",
+        "healthCheck":"",
+        "healthCheckTimeout":"",
+        "healthCheckInterval":"",
+        "healthyThreshold":"",
+        "unhealthyThreshold":"",
+        "serverGroupId":"",
+        "regionId":"",
+        "listenerId":""
+    },
+    "query-listener":{
+        "regionId":"",
+        "listenerId":""
+    },
+    "delete-listener":{
+        "regionId":"",
+        "listenerId":""
+    },
+    "start-listener":{
+        "clientToken":"",
+        "regionId":"",
+        "listenerId":""
+    },
+    "stop-listener":{
+        "clientToken":"",
+        "regionId":"",
+        "listenerId":""
+    },
+    "query-load-balancers":{
+        "pageNumber":"",
+        "pageSize":"",
+        "status":"",
+        "name":"",
+        "vpcId":"",
+        "bindEip":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-load-balancer":{
+        "clientToken":"",
+        "loadBalancerSpec":{
+            "netType":"",
+            "ipAddressType":"",
+            "vpcId":"",
+            "name":"",
+            "description":"",
+            "applyElasticIp":"",
+            "bandwidth":"",
+            "charge":{
+                "chargeMode":"",
+                "chargeUnit":"",
+                "chargeDuration":""
+            }
+        },
+        "regionId":""
+    },
+    "modify-load-balancer":{
+        "name":"",
+        "description":"",
+        "regionId":"",
+        "loadBalancerId":""
+    },
+    "query-load-balancer":{
+        "regionId":"",
+        "loadBalancerId":""
+    },
+    "start-load-balancer":{
+        "clientToken":"",
+        "regionId":"",
+        "loadBalancerId":""
+    },
+    "stop-load-balancer":{
+        "clientToken":"",
+        "regionId":"",
+        "loadBalancerId":""
+    },
+    "associate-elastic-ip-lb":{
+        "clientToken":"",
+        "elasticIpId":"",
+        "regionId":"",
+        "loadBalancerId":""
+    },
+    "disassociate-elastic-ip-lb":{
+        "clientToken":"",
+        "elasticIpId":"",
+        "regionId":"",
+        "loadBalancerId":""
+    },
     "describe-regiones":{
         "networkType":""
+    },
+    "query-cpslbregions":{
+    },
+    "query-route-table":{
+        "regionId":"",
+        "routeTableId":""
+    },
+    "query-route-tables":{
+        "pageNumber":"",
+        "pageSize":"",
+        "name":"",
+        "vpcId":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "query-servers":{
+        "pageNumber":"",
+        "pageSize":"",
+        "listenerId":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":"",
+        "serverGroupId":""
+    },
+    "add-servers":{
+        "clientToken":"",
+        "serverSpec":[{
+            "instanceId":"",
+            "port":"",
+            "weight":""
+        }],
+        "regionId":"",
+        "serverGroupId":""
+    },
+    "modify-server":{
+        "weight":"",
+        "regionId":"",
+        "serverGroupId":"",
+        "serverId":""
+    },
+    "remove-server":{
+        "regionId":"",
+        "serverGroupId":"",
+        "serverId":""
+    },
+    "query-server-groups":{
+        "pageNumber":"",
+        "pageSize":"",
+        "name":"",
+        "loadBalancerId":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-server-group":{
+        "clientToken":"",
+        "serverGroupSpec":{
+            "loadBalancerId":"",
+            "name":""
+        },
+        "regionId":""
+    },
+    "query-server-group":{
+        "regionId":"",
+        "serverGroupId":""
+    },
+    "modify-server-group":{
+        "name":"",
+        "regionId":"",
+        "serverGroupId":""
+    },
+    "delete-server-group":{
+        "regionId":"",
+        "serverGroupId":""
     },
     "describe-basic-subnet":{
         "az":"",

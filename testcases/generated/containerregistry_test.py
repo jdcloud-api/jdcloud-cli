@@ -21,10 +21,10 @@ import os
 import json
 
 
-class MonitorTest(unittest.TestCase):
+class ContainerregistryTest(unittest.TestCase):
 
-    def test_describe_alarms(self):
-        cmd = """python ../../main.py monitor describe-alarms """
+    def test_get_authorization_token(self):
+        cmd = """python ../../main.py containerregistry get-authorization-token  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_alarm(self):
-        cmd = """python ../../main.py monitor create-alarm  --client-token 'xxx' --product 'xxx' --resource-option '{"":""}' --rule-name 'xxx' --rule-option '{"":""}'"""
+    def test_describe_authorization_tokens(self):
+        cmd = """python ../../main.py containerregistry describe-authorization-tokens  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_alarm(self):
-        cmd = """python ../../main.py monitor describe-alarm  --alarm-id 'xxx'"""
+    def test_release_authorization_token(self):
+        cmd = """python ../../main.py containerregistry release-authorization-token  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_alarm(self):
-        cmd = """python ../../main.py monitor update-alarm  --alarm-id 'xxx' --product 'xxx' --resource-option '{"":""}' --rule-name 'xxx' --rule-option '{"":""}'"""
+    def test_describe_images(self):
+        cmd = """python ../../main.py containerregistry describe-images """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -59,8 +59,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_alarms(self):
-        cmd = """python ../../main.py monitor delete-alarms  --alarm-id 'xxx'"""
+    def test_delete_image(self):
+        cmd = """python ../../main.py containerregistry delete-image  --registry-name 'xxx' --repository-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -68,8 +68,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_alarm_contacts(self):
-        cmd = """python ../../main.py monitor describe-alarm-contacts  --alarm-id 'xxx'"""
+    def test_describe_quotas(self):
+        cmd = """python ../../main.py containerregistry describe-quotas """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -77,8 +77,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_metrics_for_alarm(self):
-        cmd = """python ../../main.py monitor describe-metrics-for-alarm """
+    def test_describe_registries(self):
+        cmd = """python ../../main.py containerregistry describe-registries """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,8 +86,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_products_for_alarm(self):
-        cmd = """python ../../main.py monitor describe-products-for-alarm """
+    def test_create_registry(self):
+        cmd = """python ../../main.py containerregistry create-registry  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -95,8 +95,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_enable_alarms(self):
-        cmd = """python ../../main.py monitor enable-alarms """
+    def test_describe_registry(self):
+        cmd = """python ../../main.py containerregistry describe-registry  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -104,8 +104,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_alarm_history(self):
-        cmd = """python ../../main.py monitor describe-alarm-history """
+    def test_delete_registry(self):
+        cmd = """python ../../main.py containerregistry delete-registry  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -113,8 +113,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_metrics(self):
-        cmd = """python ../../main.py monitor describe-metrics  --service-code 'xxx'"""
+    def test_check_registry_name(self):
+        cmd = """python ../../main.py containerregistry check-registry-name  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -122,8 +122,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_last_downsample(self):
-        cmd = """python ../../main.py monitor last-downsample  --metric 'xxx' --service-code 'xxx' --resource-id 'xxx'"""
+    def test_create_repository(self):
+        cmd = """python ../../main.py containerregistry create-repository  --registry-name 'xxx' --repository-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -131,8 +131,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_metric_data(self):
-        cmd = """python ../../main.py monitor describe-metric-data  --metric 'xxx' --resource-id 'xxx'"""
+    def test_describe_repositories(self):
+        cmd = """python ../../main.py containerregistry describe-repositories """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -140,8 +140,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_services(self):
-        cmd = """python ../../main.py monitor describe-services """
+    def test_delete_repository(self):
+        cmd = """python ../../main.py containerregistry delete-repository  --registry-name 'xxx' --repository-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -149,8 +149,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_put_metric_data(self):
-        cmd = """python ../../main.py monitor put-metric-data """
+    def test_check_repository_name(self):
+        cmd = """python ../../main.py containerregistry check-repository-name  --registry-name 'xxx' --repository-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

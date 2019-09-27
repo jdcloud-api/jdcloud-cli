@@ -68,6 +68,42 @@ class LiveTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_live_restart_auth_key(self):
+        cmd = """python ../../main.py live describe-live-restart-auth-key  --restart-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_live_restart_auth_key(self):
+        cmd = """python ../../main.py live set-live-restart-auth-key  --restart-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_live_domain_certificate(self):
+        cmd = """python ../../main.py live describe-live-domain-certificate  --play-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_live_domain_certificate(self):
+        cmd = """python ../../main.py live set-live-domain-certificate  --play-domain 'xxx' --cert-status 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_live_domains(self):
         cmd = """python ../../main.py live describe-live-domains """
         with os.popen(cmd) as f:
@@ -241,51 +277,6 @@ class LiveTest(unittest.TestCase):
 
     def test_describe_record_binding(self):
         cmd = """python ../../main.py live describe-record-binding  --template 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_export_live_stream_bandwidth_data(self):
-        cmd = """python ../../main.py live export-live-stream-bandwidth-data  --start-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_export_live_stream_traffic_data(self):
-        cmd = """python ../../main.py live export-live-stream-traffic-data  --start-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_export_publish_stream_info_data(self):
-        cmd = """python ../../main.py live export-publish-stream-info-data  --domain-name 'xxx' --app-name 'xxx' --stream-name 'xxx' --start-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_export_live_snapshot_data(self):
-        cmd = """python ../../main.py live export-live-snapshot-data  --start-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_export_live_transcoding_duration_data(self):
-        cmd = """python ../../main.py live export-live-transcoding-duration-data  --start-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

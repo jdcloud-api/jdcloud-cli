@@ -38,70 +38,23 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
-            (['--service-code'], dict(help="""(string) 产品线标识,默认返回该serviceCode下所有group的数据。eg:serviceCode=jdw（jdw产品线下包含jdw-master与jdw-segment两个分组)会返回jdw-master和jdw-segment的数据。 """, dest='serviceCode',  required=False)),
-            (['--group-code'], dict(help="""(string) 分组标识、指定该参数时，查询只返回该group的数据。groupCode参数仅在与serviceCode匹配时生效；eg:serviceCode=jdw、groupCode=jdw-master,只返回jdw-master分组的数据，不返回jdw-segment的数据。 """, dest='groupCode',  required=False)),
-            (['--resource-id'], dict(help="""(string) 资源Id """, dest='resourceId',  required=False)),
-            (['--resource-id-list'], dict(help="""(array: string) resourceId列表，必须指定serviceCode才会生效 """, dest='resourceIdList',  required=False)),
-            (['--alarm-id'], dict(help="""(string) 规则Id """, dest='alarmId',  required=False)),
-            (['--alarming'], dict(help="""(int) 正在报警, 取值为1 """, dest='alarming', type=int, required=False)),
-            (['--service-code-list'], dict(help="""(array: string) 产品线列表 """, dest='serviceCodeList',  required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=False)),
-            (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=False)),
-            (['--rule-type'], dict(help="""(int) 规则类型,默认查询1， 1表示资源监控，6表示站点监控,7表示可用性监控 """, dest='ruleType', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) serviceCodes - 产品线servicecode，精确匹配，支持多个; resourceIds - 资源Id，精确匹配，支持多个（必须指定serviceCode才会在该serviceCode下根据resourceIds过滤，否则该参数不生效）; alarmIds - 规则Id，精确匹配，支持多个; ruleName - 规则名称，模糊匹配，支持单个 """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询报警历史; 检索条件组合优先级从高到低为; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则 ''',
-        description='''
-            查询报警历史; 检索条件组合优先级从高到低为; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则。
-
-            示例: jdc monitor describe-alarm-history 
-        ''',
-    )
-    def describe_alarm_history(self):
-        client_factory = ClientFactory('monitor')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.monitor.apis.DescribeAlarmHistoryRequest import DescribeAlarmHistoryRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAlarmHistoryRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
-            (['--service-code'], dict(help="""(string) 产品线标识,默认返回该serviceCode下所有group的数据。eg:serviceCode=jdw（jdw产品线下包含jdw-master与jdw-segment两个分组)会返回jdw-master和jdw-segment的数据。 """, dest='serviceCode',  required=False)),
-            (['--group-code'], dict(help="""(string) 分组标识、指定该参数时，查询只返回该group的数据。groupCode参数仅在与serviceCode匹配时生效；eg:serviceCode=jdw、groupCode=jdw-master,只返回jdw-master分组的数据，不返回jdw-segment的数据。 """, dest='groupCode',  required=False)),
-            (['--resource-id'], dict(help="""(string) 资源ID,根据resourceId查询时必须指定serviceCode才会生效 """, dest='resourceId',  required=False)),
+            (['--service-code'], dict(help="""(string) 产品线标识，同一个产品线下可能存在多个product，如(redis下有redis2.8cluster、redis4.0) """, dest='serviceCode',  required=False)),
+            (['--product'], dict(help="""(string) 产品标识，如redis下分多个产品(redis2.8cluster、redis4.0)。同时指定serviceCode与product时，product优先生效 """, dest='product',  required=False)),
+            (['--dimension'], dict(help="""(string) 产品下的维度标识，指定dimension时必须指定product """, dest='dimension',  required=False)),
+            (['--rule-name'], dict(help="""(string) 规则名称 """, dest='ruleName',  required=False)),
             (['--rule-type'], dict(help="""(int) 规则类型, 1表示资源监控，6表示站点监控,7表示可用性监控 """, dest='ruleType', type=int, required=False)),
-            (['--status'], dict(help="""(int) 规则报警状态, 1：正常, 2：报警，4：数据不足 """, dest='status', type=int, required=False)),
             (['--enabled'], dict(help="""(int) 规则状态：1为启用，0为禁用 """, dest='enabled', type=int, required=False)),
-            (['--is-alarming'], dict(help="""(int) 是否为正在报警的规则，0为忽略，1为是，与 status 同时只能生效一个,isAlarming 优先生效 """, dest='isAlarming', type=int, required=False)),
-            (['--alarm-id'], dict(help="""(string) 规则的id，若指定filter的alarmIds过滤时，忽略该参数 """, dest='alarmId',  required=False)),
-            (['--filters'], dict(help="""(array: filter) 服务码或资源Id列表; serviceCodes - 产品线servicecode，精确匹配，支持多个; resourceIds - 资源Id，精确匹配，支持多个（必须指定serviceCode才会在该serviceCode下根据resourceIds过滤，否则该参数不生效）; alarmIds - 规则id，精确匹配，支持多个; ruleName - 规则名称，模糊匹配，支持单个 """, dest='filters',  required=False)),
+            (['--rule-status'], dict(help="""(int) 资源的规则状态  2：报警、4：数据不足 """, dest='ruleStatus', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) 服务码或资源Id列表; products - 产品product，精确匹配，支持多个; resourceIds - 资源Id，精确匹配，支持多个（必须指定serviceCode、product或dimension，否则该参数不生效）; alarmIds - 规则id，精确匹配，支持多个 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询规则, 查询参数组合及优先级从高到低为：; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则 ''',
+        help=''' 查询规则列表 ''',
         description='''
-            查询规则, 查询参数组合及优先级从高到低为：; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则。
+            查询规则列表。
 
             示例: jdc monitor describe-alarms 
         ''',
@@ -126,18 +79,27 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id，对于类似CDN这种没有地域属性的产品，regionId为cn-north-1 """, dest='regionId',  required=False)),
+            (['--base-contact'], dict(help="""(array: baseContact) 告警通知联系人 """, dest='baseContact',  required=False)),
             (['--client-token'], dict(help="""(string) 幂等性校验参数,最长36位,若两个请求clientToken相等，则返回第一次创建的规则id，只创建一次规则 """, dest='clientToken',  required=True)),
-            (['--create-alarm-spec'], dict(help="""(createAlarmParam) NA """, dest='createAlarmSpec',  required=True)),
+            (['--dimension'], dict(help="""(string) 资源维度，可用的维度请使用 describeProductsForAlarm接口查询 """, dest='dimension',  required=False)),
+            (['--enabled'], dict(help="""(int) 是否启用, 1表示启用规则，0表示禁用规则，默认为1 """, dest='enabled', type=int, required=False)),
+            (['--notice-option'], dict(help="""(array: noticeOption) 通知策略 """, dest='noticeOption',  required=False)),
+            (['--product'], dict(help="""(string) 资源类型, 可用的资源类型列表请使用 describeProductsForAlarm接口查询。 """, dest='product',  required=True)),
+            (['--resource-option'], dict(help="""(resourceOption) NA """, dest='resourceOption',  required=True)),
+            (['--rule-name'], dict(help="""(string) 规则名称，规则名称，最大长度42个字符，只允许中英文、数字、''-''和"_" """, dest='ruleName',  required=True)),
+            (['--rule-option'], dict(help="""(ruleOption) NA """, dest='ruleOption',  required=True)),
+            (['--rule-type'], dict(help="""(string) 规则类型, 默认为resourceMonitor """, dest='ruleType',  required=False)),
+            (['--tags'], dict(help="""(object) 资源维度，指定监控数据实例的维度标签,如resourceId=id。(请确认资源的监控数据带有该标签，否则规则会报数据不足) """, dest='tags',  required=False)),
+            (['--web-hook-option'], dict(help="""(webHookOption) NA """, dest='webHookOption',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建报警规则，可以为某一个实例创建报警规则，也可以为多个实例同时创建报警规则。 ''',
+        help=''' 创建报警规则 ''',
         description='''
-            创建报警规则，可以为某一个实例创建报警规则，也可以为多个实例同时创建报警规则。。
+            创建报警规则。
 
-            示例: jdc monitor create-alarm  --client-token xxx --create-alarm-spec '{"":""}'
+            示例: jdc monitor create-alarm  --client-token xxx --product xxx --resource-option '{"":""}' --rule-name xxx --rule-option '{"":""}'
         ''',
     )
     def create_alarm(self):
@@ -160,40 +122,6 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--ids'], dict(help="""(string) 待删除的规则id，用逗号,分隔 """, dest='ids',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除规则 ''',
-        description='''
-            删除规则。
-
-            示例: jdc monitor delete-alarms  --ids xxx
-        ''',
-    )
-    def delete_alarms(self):
-        client_factory = ClientFactory('monitor')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.monitor.apis.DeleteAlarmsRequest import DeleteAlarmsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteAlarmsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -203,20 +131,20 @@ class MonitorController(BaseController):
         description='''
             查询规则详情。
 
-            示例: jdc monitor describe-alarms-by-id  --alarm-id xxx
+            示例: jdc monitor describe-alarm  --alarm-id xxx
         ''',
     )
-    def describe_alarms_by_id(self):
+    def describe_alarm(self):
         client_factory = ClientFactory('monitor')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.monitor.apis.DescribeAlarmsByIDRequest import DescribeAlarmsByIDRequest
+            from jdcloud_sdk.services.monitor.apis.DescribeAlarmRequest import DescribeAlarmRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeAlarmsByIDRequest(params_dict, headers)
+            req = DescribeAlarmRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -226,14 +154,18 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id，对于类似CDN这种没有地域属性的产品，regionId为cn-north-1 """, dest='regionId',  required=False)),
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId',  required=True)),
-            (['--contacts'], dict(help="""(array: baseContact) 通知联系人 """, dest='contacts',  required=False)),
-            (['--rule'], dict(help="""(baseRule) NA """, dest='rule',  required=True)),
-            (['--web-hook-content'], dict(help="""(string) 回调content 注：仅webHookUrl和webHookContent均不为空时，才会创建webHook """, dest='webHookContent',  required=False)),
-            (['--web-hook-protocol'], dict(help="""(string) webHook协议，目前支持http，https """, dest='webHookProtocol',  required=False)),
-            (['--web-hook-secret'], dict(help="""(string) 回调secret，用户请求签名，防伪造 """, dest='webHookSecret',  required=False)),
-            (['--web-hook-url'], dict(help="""(string) 回调url，例如http://www.jdcloud.com """, dest='webHookUrl',  required=False)),
+            (['--base-contact'], dict(help="""(array: baseContact) 告警通知联系人 """, dest='baseContact',  required=False)),
+            (['--dimension'], dict(help="""(string) 资源维度，可用的维度请使用 describeProductsForAlarm接口查询 """, dest='dimension',  required=False)),
+            (['--enabled'], dict(help="""(int) 是否启用, 1表示启用规则，0表示禁用规则，默认为1 """, dest='enabled', type=int, required=False)),
+            (['--notice-option'], dict(help="""(array: noticeOption) 通知策略 """, dest='noticeOption',  required=False)),
+            (['--product'], dict(help="""(string) 资源类型, 可用的资源类型列表请使用 describeProductsForAlarm接口查询。 """, dest='product',  required=True)),
+            (['--resource-option'], dict(help="""(resourceOption) NA """, dest='resourceOption',  required=True)),
+            (['--rule-name'], dict(help="""(string) 规则名称，规则名称，最大长度42个字符，只允许中英文、数字、''-''和"_" """, dest='ruleName',  required=True)),
+            (['--rule-option'], dict(help="""(ruleOption) NA """, dest='ruleOption',  required=True)),
+            (['--rule-type'], dict(help="""(string) 规则类型, 默认为resourceMonitor """, dest='ruleType',  required=False)),
+            (['--tags'], dict(help="""(object) 资源维度，指定监控数据实例的维度标签,如resourceId=id。(请确认资源的监控数据带有该标签，否则规则会报数据不足) """, dest='tags',  required=False)),
+            (['--web-hook-option'], dict(help="""(webHookOption) NA """, dest='webHookOption',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -242,7 +174,7 @@ class MonitorController(BaseController):
         description='''
             修改已创建的报警规则。
 
-            示例: jdc monitor update-alarm  --alarm-id xxx --rule '{"":""}'
+            示例: jdc monitor update-alarm  --alarm-id xxx --product xxx --resource-option '{"":""}' --rule-name xxx --rule-option '{"":""}'
         ''',
     )
     def update_alarm(self):
@@ -265,7 +197,38 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除规则 ''',
+        description='''
+            删除规则。
+
+            示例: jdc monitor delete-alarms  --alarm-id xxx
+        ''',
+    )
+    def delete_alarms(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.DeleteAlarmsRequest import DeleteAlarmsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteAlarmsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId',  required=True)),
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
@@ -301,30 +264,32 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) region """, dest='regionId',  required=False)),
-            (['--alarm-id'], dict(help="""(string) 规则 id """, dest='alarmId',  required=True)),
+            (['--service-code'], dict(help="""(string) 产品线 """, dest='serviceCode',  required=False)),
+            (['--product'], dict(help="""(string) 产品类型，如redis2.8cluster(集群)\redis2.8MS(主从)。当serviceCode与product同时指定时，product优先级更高 """, dest='product',  required=False)),
+            (['--dimension'], dict(help="""(string) 产品维度，必须指定serviceCode或product才生效。 """, dest='dimension',  required=False)),
+            (['--metric-type'], dict(help="""(int) metric类型，取值0、1；默认值：0（常规指标，用于控制台创建报警规则）、1（其它） """, dest='metricType', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 禁用报警规则。报警规则禁用后，将停止探测实例的监控项数据。 ''',
+        help=''' 查询可用于创建监控规则的指标列表,metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a> ''',
         description='''
-            禁用报警规则。报警规则禁用后，将停止探测实例的监控项数据。。
+            查询可用于创建监控规则的指标列表,metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>。
 
-            示例: jdc monitor disable-alarm  --alarm-id xxx
+            示例: jdc monitor describe-metrics-for-alarm 
         ''',
     )
-    def disable_alarm(self):
+    def describe_metrics_for_alarm(self):
         client_factory = ClientFactory('monitor')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.monitor.apis.DisableAlarmRequest import DisableAlarmRequest
+            from jdcloud_sdk.services.monitor.apis.DescribeMetricsForAlarmRequest import DescribeMetricsForAlarmRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DisableAlarmRequest(params_dict, headers)
+            req = DescribeMetricsForAlarmRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -334,30 +299,63 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId',  required=True)),
+            (['--service-code'], dict(help="""(string) 产品线，从产品线维度筛选 """, dest='serviceCode',  required=False)),
+            (['--product'], dict(help="""(string) 产品类型,从产品维度筛选、如redis2.8cluster\redis2.8instance。当serviceCode与product同时指定时，product优先级更高 """, dest='product',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 启用报警规则，当客户的报警规则处于停止状态时，可以使用此接口启用报警规则。 ''',
+        help=''' 查询可用于创建监控规则的产品列表 ''',
         description='''
-            启用报警规则，当客户的报警规则处于停止状态时，可以使用此接口启用报警规则。。
+            查询可用于创建监控规则的产品列表。
 
-            示例: jdc monitor enable-alarm  --alarm-id xxx
+            示例: jdc monitor describe-products-for-alarm 
         ''',
     )
-    def enable_alarm(self):
+    def describe_products_for_alarm(self):
         client_factory = ClientFactory('monitor')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.monitor.apis.EnableAlarmRequest import EnableAlarmRequest
+            from jdcloud_sdk.services.monitor.apis.DescribeProductsForAlarmRequest import DescribeProductsForAlarmRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = EnableAlarmRequest(params_dict, headers)
+            req = DescribeProductsForAlarmRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--alarm-ids'], dict(help="""(array: string) 告警规则的ID列表 """, dest='alarmIds',  required=False)),
+            (['--state'], dict(help="""(int) 启用:1,禁用0, """, dest='state', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启用、禁用规则 ''',
+        description='''
+            启用、禁用规则。
+
+            示例: jdc monitor enable-alarms 
+        ''',
+    )
+    def enable_alarms(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.EnableAlarmsRequest import EnableAlarmsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableAlarmsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -369,39 +367,38 @@ class MonitorController(BaseController):
         arguments=[
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
-            (['--service-code'], dict(help="""(string) 产品线标识,默认返回该serviceCode下所有group的数据。eg:serviceCode=jdw（jdw产品线下包含jdw-master与jdw-segment两个分组)会返回jdw-master和jdw-segment的数据。 """, dest='serviceCode',  required=False)),
-            (['--group-code'], dict(help="""(string) 分组标识、指定该参数时，查询只返回该group的数据。groupCode参数仅在与serviceCode匹配时生效；eg:serviceCode=jdw、groupCode=jdw-master,只返回jdw-master分组的数据，不返回jdw-segment的数据。 """, dest='groupCode',  required=False)),
-            (['--resource-id'], dict(help="""(string) 资源Id """, dest='resourceId',  required=False)),
-            (['--resource-id-list'], dict(help="""(array: string) resourceId列表，必须指定serviceCode才会生效 """, dest='resourceIdList',  required=False)),
-            (['--alarm-id'], dict(help="""(string) 规则Id """, dest='alarmId',  required=False)),
-            (['--alarming'], dict(help="""(int) 正在报警, 取值为1 """, dest='alarming', type=int, required=False)),
-            (['--service-code-list'], dict(help="""(array: string) 产品线列表 """, dest='serviceCodeList',  required=False)),
+            (['--service-code'], dict(help="""(string) 产品线标识，同一个产品线下可能存在多个product，如(redis下有redis2.8cluster、redis4.0) """, dest='serviceCode',  required=False)),
+            (['--product'], dict(help="""(string) 产品标识,默认返回该product下所有dimension的数据。eg:product=redis2.8cluster（redis2.8cluster产品下包含redis2.8-shard与redis2.8-proxy、redis2.8-instance多个维度)。 """, dest='product',  required=False)),
+            (['--dimension'], dict(help="""(string) 维度标识、指定该参数时，查询只返回该维度的数据。如redis2.8cluster下存在实例、分片等多个维度 """, dest='dimension',  required=False)),
+            (['--is-alarming'], dict(help="""(int) 正在报警, 取值为1 """, dest='isAlarming', type=int, required=False)),
+            (['--status'], dict(help="""(int) 报警的状态,1为报警恢复、2为报警、4为报警恢复无数据 """, dest='status', type=int, required=False)),
             (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=False)),
             (['--rule-type'], dict(help="""(int) 规则类型,默认查询1， 1表示资源监控，6表示站点监控,7表示可用性监控 """, dest='ruleType', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) serviceCodes - 产品线servicecode，精确匹配，支持多个; resourceIds - 资源Id，精确匹配，支持多个（必须指定serviceCode才会在该serviceCode下根据resourceIds过滤，否则该参数不生效）; alarmIds - 规则Id，精确匹配，支持多个; ruleName - 规则名称，模糊匹配，支持单个 """, dest='filters',  required=False)),
+            (['--rule-name'], dict(help="""(string) 规则名称模糊搜索 """, dest='ruleName',  required=False)),
+            (['--filters'], dict(help="""(array: filter) serviceCodes - 产品线servicecode，精确匹配，支持多个; resourceIds - 资源Id，精确匹配，支持多个（必须指定serviceCode才会在该serviceCode下根据resourceIds过滤，否则该参数不生效）; alarmIds - 规则Id，精确匹配，支持多个 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询报警历史; 检索条件组合优先级从高到低为; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则 ''',
+        help=''' 查询报警历史 ''',
         description='''
-            查询报警历史; 检索条件组合优先级从高到低为; 1：alarmIds不为空; 2：alarmId不为空; 3：serviceCode不为空; 3.1：serviceCode + resourceId; 3.2: serviceCode + resourceIds; 3.3: serviceCode + ruleName; 4：serviceCodes不为空; 4.1：serviceCode + resourceId; 4.2: serviceCode + resourceIds; 4.3: serviceCode + ruleName; 5: 所有规则。
+            查询报警历史。
 
-            示例: jdc monitor describe-alarm-history-all-region 
+            示例: jdc monitor describe-alarm-history 
         ''',
     )
-    def describe_alarm_history_all_region(self):
+    def describe_alarm_history(self):
         client_factory = ClientFactory('monitor')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.monitor.apis.DescribeAlarmHistoryAllRegionRequest import DescribeAlarmHistoryAllRegionRequest
+            from jdcloud_sdk.services.monitor.apis.DescribeAlarmHistoryRequest import DescribeAlarmHistoryRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeAlarmHistoryAllRegionRequest(params_dict, headers)
+            req = DescribeAlarmHistoryRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -411,40 +408,7 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) region """, dest='regionId',  required=False)),
-            (['--ids'], dict(help="""(string) ids,多个id用|分隔 """, dest='ids',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除自定义监控规则 ''',
-        description='''
-            删除自定义监控规则。
-
-            示例: jdc monitor delete-alarms-cm  --ids xxx
-        ''',
-    )
-    def delete_alarms_cm(self):
-        client_factory = ClientFactory('monitor')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.monitor.apis.DeleteAlarmsCmRequest import DeleteAlarmsCmRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteAlarmsCmRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=True)),
+            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等。<a href="https://docs.jdcloud.com/cn/monitoring/api/describeservices?content=API&SOP=JDCloud">describeServices</a>：查询己接入云监控的产品线列表，当产品线下有多个分组时，查询分组对应的监控项，serviceCode请传对应分组的groupCode字段值 """, dest='serviceCode',  required=True)),
             (['--type'], dict(help="""(int) metric的类型，取值0(控制台展示)、1(内部使用，控制台不展示)、2(所有).默认取0 """, dest='type', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -477,42 +441,10 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=False)),
-            (['--type'], dict(help="""(int) metric类型，取值0、1；默认值：0（常规指标，用于控制台创建报警规则）、1（其它） """, dest='type', type=int, required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询可用创建监控规则的指标列表,metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a> ''',
-        description='''
-            查询可用创建监控规则的指标列表,metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>。
-
-            示例: jdc monitor describe-metrics-for-create-alarm 
-        ''',
-    )
-    def describe_metrics_for_create_alarm(self):
-        client_factory = ClientFactory('monitor')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.monitor.apis.DescribeMetricsForCreateAlarmRequest import DescribeMetricsForCreateAlarmRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeMetricsForCreateAlarmRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
-            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=True)),
+            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等。可用的serviceCode请使用describeServices接口查询 """, dest='serviceCode',  required=True)),
+            (['--dimension'], dict(help="""(string) 资源的维度。serviceCode下可用的dimension请使用describeServices接口查询 """, dest='dimension',  required=False)),
             (['--resource-id'], dict(help="""(string) 资源的uuid，支持多个resourceId批量查询，每个id用竖线分隔。 如：id1|id2|id3|id4 """, dest='resourceId',  required=True)),
             (['--tags'], dict(help="""(array: tagFilter) 自定义标签 """, dest='tags',  required=False)),
             (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800（早于30d时，将被重置为30d）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='startTime',  required=False)),
@@ -524,9 +456,9 @@ class MonitorController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看某资源的最后一个点,metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a> ''',
+        help=''' 根据不同的聚合方式将metric的数据聚合为一个点。downAggrType：last(最后一个点)、max(最大值)、min(最小值)、avg(平均值)。该接口返回值为上报metric的原始值，没有做单位转换。metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a> ''',
         description='''
-            查看某资源的最后一个点,metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>。
+            根据不同的聚合方式将metric的数据聚合为一个点。downAggrType：last(最后一个点)、max(最大值)、min(最小值)、avg(平均值)。该接口返回值为上报metric的原始值，没有做单位转换。metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>。
 
             示例: jdc monitor last-downsample  --metric xxx --service-code xxx --resource-id xxx
         ''',
@@ -553,25 +485,26 @@ class MonitorController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
-            (['--aggr-type'], dict(help="""(string) 聚合方式，默认等于downSampleType或avg，可选值参考:sum、avg、last、min、max """, dest='aggrType',  required=False)),
-            (['--down-sample-type'], dict(help="""(string) 采样方式，默认等于aggrType或avg，可选值参考：sum、avg、last、min、max """, dest='downSampleType',  required=False)),
+            (['--aggr-type'], dict(help="""(string) 聚合方式，用于不同时间轴上的聚合。如balance产品同一个resourceId下存在port=80和port=8080等多种维度。可选值参考:sum、avg、min、max """, dest='aggrType',  required=False)),
+            (['--down-sample-type'], dict(help="""(string) 采样方式，用于在时间轴维度上将聚合周期内的数据聚合为一个点。可选值参考：sum(聚合周期内的数据求和)、avg(求平均)、last(最新值)、min(最小值)、max(最大值) """, dest='downSampleType',  required=False)),
             (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12-11T00:00:00+0800（为空时，将由startTime与timeInterval计算得出）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='endTime',  required=False)),
             (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval默认为1h，当前时间往 前1h """, dest='timeInterval',  required=False)),
             (['--tags'], dict(help="""(array: tagFilter) 监控指标数据的维度信息,根据tags来筛选指标数据不同的维度 """, dest='tags',  required=False)),
             (['--group-by'], dict(help="""(bool) 是否对查询的tags分组 """, dest='groupBy',  required=False)),
             (['--rate'], dict(help="""(bool) 是否求速率 """, dest='rate',  required=False)),
-            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等 """, dest='serviceCode',  required=True)),
+            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等,<a href="https://docs.jdcloud.com/cn/monitoring/api/describeservices?content=API&SOP=JDCloud">describeServices</a>：查询己接入云监控的产品线列表 """, dest='serviceCode',  required=False)),
+            (['--dimension'], dict(help="""(string) 资源的维度。查询serviceCode下可用的维度请使用describeServices接口 """, dest='dimension',  required=False)),
             (['--resource-id'], dict(help="""(string) 资源的uuid """, dest='resourceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看某资源多个监控项数据，metric介绍1：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a> ''',
+        help=''' 查看某资源单个监控项数据，metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>，可以使用接口<a href="https://docs.jdcloud.com/cn/monitoring/metrics">describeMetrics</a>：查询产品线可用的metric列表。 ''',
         description='''
-            查看某资源多个监控项数据，metric介绍1：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>。
+            查看某资源单个监控项数据，metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>，可以使用接口<a href="https://docs.jdcloud.com/cn/monitoring/metrics">describeMetrics</a>：查询产品线可用的metric列表。。
 
-            示例: jdc monitor describe-metric-data  --metric xxx --service-code xxx --resource-id xxx
+            示例: jdc monitor describe-metric-data  --metric xxx --resource-id xxx
         ''',
     )
     def describe_metric_data(self):
@@ -585,6 +518,39 @@ class MonitorController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeMetricDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--filters'], dict(help="""(array: filter) 服务码列表; filter name 为serviceCodes表示查询多个产品线的规则 """, dest='filters',  required=False)),
+            (['--product-type'], dict(help="""(int) 要查询的产品线类型   0：all    1：资源监控   2：其它   默认：1。若指定了查询的serviceCode，则忽略该参数 """, dest='productType', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询监控图可用的产品线列表 ''',
+        description='''
+            查询监控图可用的产品线列表。
+
+            示例: jdc monitor describe-services 
+        ''',
+    )
+    def describe_services(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.DescribeServicesRequest import DescribeServicesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeServicesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -626,40 +592,7 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--filters'], dict(help="""(array: filter) 服务码列表; filter name 为serviceCodes表示查询多个产品线的规则 """, dest='filters',  required=False)),
-            (['--product-type'], dict(help="""(int) 要查询的产品线类型   0：all    1：资源监控   2：其它   默认：1。若指定了查询的serviceCode，则忽略该参数 """, dest='productType', type=int, required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 概览页产品线信息接口 ''',
-        description='''
-            概览页产品线信息接口。
-
-            示例: jdc monitor describe-services 
-        ''',
-    )
-    def describe_services(self):
-        client_factory = ClientFactory('monitor')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.monitor.apis.DescribeServicesRequest import DescribeServicesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeServicesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-alarm-history','describe-alarms','create-alarm','delete-alarms','describe-alarms-by-id','update-alarm','describe-alarm-contacts','disable-alarm','enable-alarm','describe-alarm-history-all-region','delete-alarms-cm','describe-metrics','describe-metrics-for-create-alarm','last-downsample','describe-metric-data','put-metric-data','describe-services',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-alarms','create-alarm','describe-alarm','update-alarm','delete-alarms','describe-alarm-contacts','describe-metrics-for-alarm','describe-products-for-alarm','enable-alarms','describe-alarm-history','describe-metrics','last-downsample','describe-metric-data','describe-services','put-metric-data',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

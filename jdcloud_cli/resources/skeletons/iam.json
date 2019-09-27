@@ -29,6 +29,20 @@
     "delete-group":{
         "groupName":""
     },
+    "describe-group-sub-users":{
+        "pageNumber":"",
+        "pageSize":"",
+        "groupName":""
+    },
+    "describe-groups":{
+        "pageNumber":"",
+        "pageSize":"",
+        "keyword":"",
+        "sort":""
+    },
+    "describe-attached-group-policies":{
+        "groupName":""
+    },
     "detach-group-policy":{
         "policyName":"",
         "groupName":""
@@ -110,6 +124,13 @@
         },
         "policyName":""
     },
+    "describe-policies":{
+        "pageNumber":"",
+        "pageSize":"",
+        "keyword":"",
+        "queryType":"",
+        "sort":""
+    },
     "create-role":{
         "createRoleInfo":{
             "roleName":"",
@@ -131,12 +152,26 @@
         },
         "roleName":""
     },
+    "describe-roles":{
+        "pageNumber":"",
+        "pageSize":"",
+        "roleName":"",
+        "type":"",
+        "sort":""
+    },
     "attach-role-policy":{
         "policyName":"",
         "roleName":""
     },
     "detach-role-policy":{
         "policyName":"",
+        "roleName":""
+    },
+    "describe-role-policies":{
+        "pageNumber":"",
+        "pageSize":"",
+        "keyword":"",
+        "sort":"",
         "roleName":""
     },
     "create-sub-user":{
@@ -164,6 +199,18 @@
         "subUser":""
     },
     "delete-sub-user":{
+        "subUser":""
+    },
+    "describe-sub-users":{
+        "pageNumber":"",
+        "pageSize":"",
+        "keyword":"",
+        "sort":""
+    },
+    "describe-sub-user-groups":{
+        "subUser":""
+    },
+    "describe-attached-sub-user-policies":{
         "subUser":""
     },
     "detach-sub-user-policy":{

@@ -1,155 +1,149 @@
 {
-    "describe-alarm-history":{
-        "pageNumber":"",
-        "pageSize":"",
-        "serviceCode":"",
-        "groupCode":"",
-        "resourceId":"",
-        "resourceIdList":[""],
-        "alarmId":"",
-        "alarming":"",
-        "serviceCodeList":[""],
-        "startTime":"",
-        "endTime":"",
-        "ruleType":"",
-        "filters":[{
-            "Name":"",
-            "Values":""
-        }],
-        "regionId":""
-    },
     "describe-alarms":{
         "pageNumber":"",
         "pageSize":"",
         "serviceCode":"",
-        "groupCode":"",
-        "resourceId":"",
+        "product":"",
+        "dimension":"",
+        "ruleName":"",
         "ruleType":"",
-        "status":"",
         "enabled":"",
-        "isAlarming":"",
-        "alarmId":"",
+        "ruleStatus":"",
         "filters":[{
             "Name":"",
             "Values":""
-        }],
-        "regionId":""
+        }]
     },
     "create-alarm":{
+        "baseContact":[{
+            "referenceId":"",
+            "referenceType":""
+        }],
         "clientToken":"",
-        "createAlarmSpec":{
-            "calculateUnit":"",
-            "calculation":"",
-            "contactGroups":"",
-            "contactPersons":"",
-            "downSample":"",
-            "metric":"",
-            "noticeLevel":{
-                "custom":"",
-                "levels":""
-            },
+        "dimension":"",
+        "enabled":"",
+        "noticeOption":[{
+            "effectiveIntervalEnd":"",
+            "effectiveIntervalStart":"",
+            "noticeCondition":"",
             "noticePeriod":"",
-            "operation":"",
-            "period":"",
-            "resourceIds":"",
-            "ruleName":"",
-            "serviceCode":"",
-            "tags":"",
-            "threshold":"",
-            "times":"",
+            "noticeWay":""
+        }],
+        "product":"",
+        "resourceOption":{
+            "resourceItems":[""],
+            "tagsOption":{
+                "operator":"",
+                "tags":[""]
+            }
+        },
+        "ruleName":"",
+        "ruleOption":{
+            "rules":[""],
+            "templateOption":{
+                "templateId":"",
+                "templateType":""
+            }
+        },
+        "ruleType":"",
+        "tags":"",
+        "webHookOption":{
+            "webHookContent":"",
+            "webHookProtocol":"",
+            "webHookSecret":"",
+            "webHookUrl":""
+        }
+    },
+    "describe-alarm":{
+        "alarmId":""
+    },
+    "update-alarm":{
+        "baseContact":[{
+            "referenceId":"",
+            "referenceType":""
+        }],
+        "dimension":"",
+        "enabled":"",
+        "noticeOption":[{
+            "effectiveIntervalEnd":"",
+            "effectiveIntervalStart":"",
+            "noticeCondition":"",
+            "noticePeriod":"",
+            "noticeWay":""
+        }],
+        "product":"",
+        "resourceOption":{
+            "resourceItems":[""],
+            "tagsOption":{
+                "operator":"",
+                "tags":[""]
+            }
+        },
+        "ruleName":"",
+        "ruleOption":{
+            "rules":[""],
+            "templateOption":{
+                "templateId":"",
+                "templateType":""
+            }
+        },
+        "ruleType":"",
+        "tags":"",
+        "webHookOption":{
             "webHookContent":"",
             "webHookProtocol":"",
             "webHookSecret":"",
             "webHookUrl":""
         },
-        "regionId":""
-    },
-    "delete-alarms":{
-        "ids":"",
-        "regionId":""
-    },
-    "describe-alarms-by-id":{
-        "regionId":"",
         "alarmId":""
     },
-    "update-alarm":{
-        "contacts":[{
-            "referenceId":"",
-            "referenceType":""
-        }],
-        "rule":{
-            "autoScalingPolicyId":"",
-            "calculateUnit":"",
-            "calculation":"",
-            "downSample":"",
-            "metric":"",
-            "noticeLevel":{
-                "custom":"",
-                "levels":""
-            },
-            "noticePeriod":"",
-            "operation":"",
-            "period":"",
-            "ruleName":"",
-            "ruleType":"",
-            "tags":"",
-            "threshold":"",
-            "times":""
-        },
-        "webHookContent":"",
-        "webHookProtocol":"",
-        "webHookSecret":"",
-        "webHookUrl":"",
-        "regionId":"",
+    "delete-alarms":{
         "alarmId":""
     },
     "describe-alarm-contacts":{
         "pageNumber":"",
         "pageSize":"",
         "referenceType":"",
-        "regionId":"",
         "alarmId":""
     },
-    "disable-alarm":{
-        "regionId":"",
-        "alarmId":""
+    "describe-metrics-for-alarm":{
+        "serviceCode":"",
+        "product":"",
+        "dimension":"",
+        "metricType":""
     },
-    "enable-alarm":{
-        "regionId":"",
-        "alarmId":""
+    "describe-products-for-alarm":{
+        "serviceCode":"",
+        "product":""
     },
-    "describe-alarm-history-all-region":{
+    "enable-alarms":{
+        "alarmIds":[""],
+        "state":""
+    },
+    "describe-alarm-history":{
         "pageNumber":"",
         "pageSize":"",
         "serviceCode":"",
-        "groupCode":"",
-        "resourceId":"",
-        "resourceIdList":[""],
-        "alarmId":"",
-        "alarming":"",
-        "serviceCodeList":[""],
+        "product":"",
+        "dimension":"",
+        "isAlarming":"",
+        "status":"",
         "startTime":"",
         "endTime":"",
         "ruleType":"",
+        "ruleName":"",
         "filters":[{
             "Name":"",
             "Values":""
         }]
     },
-    "delete-alarms-cm":{
-        "ids":"",
-        "regionId":""
-    },
     "describe-metrics":{
-        "serviceCode":"",
-        "type":""
-    },
-    "describe-metrics-for-create-alarm":{
         "serviceCode":"",
         "type":""
     },
     "last-downsample":{
         "serviceCode":"",
+        "dimension":"",
         "resourceId":"",
         "tags":[{
             "key":"",
@@ -176,9 +170,17 @@
         "groupBy":"",
         "rate":"",
         "serviceCode":"",
+        "dimension":"",
         "resourceId":"",
         "regionId":"",
         "metric":""
+    },
+    "describe-services":{
+        "filters":[{
+            "Name":"",
+            "Values":""
+        }],
+        "productType":""
     },
     "put-metric-data":{
         "metricDataList":[{
@@ -190,12 +192,5 @@
             "values":"",
             "unit":""
         }]
-    },
-    "describe-services":{
-        "filters":[{
-            "Name":"",
-            "Values":""
-        }],
-        "productType":""
     },
 }
