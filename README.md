@@ -101,9 +101,10 @@ source ~/.bashrc
 
 ## CLI使用方法
 ### 配置鉴权信息
-`jdc configure add --access-key your-ak --secret-key your-sk --endpoint www.internal.cn-north-1.jdcloud-api.com`
+`jdc configure add --access-key your-ak --secret-key your-sk`
 
-说明：access-key和secret-key可以从京东云控制台申请开通。默认为华北区域，协议为HTTP，超时时间为20秒，可以使用--scheme和--timeout分别设置。
+说明：access-key和secret-key可以从京东云控制台申请开通。
+默认区域为华北区域，协议为HTTP，超时时间为20秒，可以使用--region-id,--scheme和--timeout分别设置。
 
 ### 执行产品命令
 `jdc [options] command sub-command [--parameters values]`
