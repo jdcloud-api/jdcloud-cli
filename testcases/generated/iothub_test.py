@@ -23,8 +23,8 @@ import json
 
 class IothubTest(unittest.TestCase):
 
-    def test_delete_device(self):
-        cmd = """python ../../main.py iothub delete-device """
+    def test_describe_thing_shadow(self):
+        cmd = """python ../../main.py iothub describe-thing-shadow  --identifier 'xxx' --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_device_online_infos(self):
-        cmd = """python ../../main.py iothub query-device-online-infos """
+    def test_update_thing_shadow(self):
+        cmd = """python ../../main.py iothub update-thing-shadow  --identifier 'xxx' --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_device_activate(self):
-        cmd = """python ../../main.py iothub device-activate  --device-id 'xxx'"""
+    def test_invoke_thing_service(self):
+        cmd = """python ../../main.py iothub invoke-thing-service  --identifier 'xxx' --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_devices_enroll(self):
-        cmd = """python ../../main.py iothub devices-enroll """
+    def test_query_device_page(self):
+        cmd = """python ../../main.py iothub query-device-page """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -59,8 +59,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_device_commands(self):
-        cmd = """python ../../main.py iothub query-device-commands  --device-id 'xxx'"""
+    def test_update_device(self):
+        cmd = """python ../../main.py iothub update-device  --device-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -68,8 +68,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_device_command(self):
-        cmd = """python ../../main.py iothub device-command  --device-id 'xxx'"""
+    def test_add_device(self):
+        cmd = """python ../../main.py iothub add-device """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -77,8 +77,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_device_states(self):
-        cmd = """python ../../main.py iothub query-device-states  --device-id 'xxx'"""
+    def test_query_device_detail(self):
+        cmd = """python ../../main.py iothub query-device-detail  --device-name 'xxx' --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,8 +86,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_device_state(self):
-        cmd = """python ../../main.py iothub device-state  --device-id 'xxx'"""
+    def test_remove_device(self):
+        cmd = """python ../../main.py iothub remove-device  --device-name 'xxx' --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -95,8 +95,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_check_device_id(self):
-        cmd = """python ../../main.py iothub check-device-id  --device-id 'xxx'"""
+    def test_remove_device_by_id(self):
+        cmd = """python ../../main.py iothub remove-device-by-id  --device-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -104,8 +104,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_module_enrollment(self):
-        cmd = """python ../../main.py iothub module-enrollment  --module-name 'xxx'"""
+    def test_list_products(self):
+        cmd = """python ../../main.py iothub list-products """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -113,8 +113,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_module_state(self):
-        cmd = """python ../../main.py iothub module-state  --module-name 'xxx'"""
+    def test_create_product(self):
+        cmd = """python ../../main.py iothub create-product  --product-name 'xxx' --product-type '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -122,8 +122,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_omprivate_url(self):
-        cmd = """python ../../main.py iothub get-omprivate-url  --device-id 'xxx'"""
+    def test_describe_product(self):
+        cmd = """python ../../main.py iothub describe-product  --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -131,8 +131,8 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_om_enrollby_file(self):
-        cmd = """python ../../main.py iothub om-enrollby-file  --file-name 'xxx' --instance-id 'xxx'"""
+    def test_update_product(self):
+        cmd = """python ../../main.py iothub update-product  --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -140,8 +140,35 @@ class IothubTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_om_enroll(self):
-        cmd = """python ../../main.py iothub om-enroll  --om-name 'xxx'"""
+    def test_delete_product(self):
+        cmd = """python ../../main.py iothub delete-product  --product-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_product_abilities(self):
+        cmd = """python ../../main.py iothub list-product-abilities  --product-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_import_thing_model(self):
+        cmd = """python ../../main.py iothub import-thing-model  --product-key 'xxx' --thing-model '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_export_thing_model(self):
+        cmd = """python ../../main.py iothub export-thing-model  --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

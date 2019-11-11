@@ -566,6 +566,368 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
+            (['--template'], dict(help="""(string) 模板名称。长度不超过128个字符。UTF-8编码;  """, dest='template',  required=True)),
+            (['--modules'], dict(help="""(array: string) 检测项列表。取值范围：;   BlackScreen - 黑屏;   PureColor - 纯色;   ColorCast - 偏色;   FrozenFrame - 静帧;   Brightness - 亮度;   Contrast - 对比度;  """, dest='modules',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加直播质量检测模板 ''',
+        description='''
+            添加直播质量检测模板。
+
+            示例: jdc live add-custom-live-stream-quality-detection-template  --template xxx
+        ''',
+    )
+    def add_custom_live_stream_quality_detection_template(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.AddCustomLiveStreamQualityDetectionTemplateRequest import AddCustomLiveStreamQualityDetectionTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddCustomLiveStreamQualityDetectionTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-num'], dict(help="""(int) 页码; - 取值范围 [1, 100000];  """, dest='pageNum', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小; - 取值范围 [10, 100];  """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) 质量检测模板查询过滤条件; - name:   template 质量检测自定义名称; - value:  如果参数为空，则查询全部;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询直播质量检测模板列表 ''',
+        description='''
+            查询直播质量检测模板列表。
+
+            示例: jdc live describe-custom-live-stream-quality-detection-templates 
+        ''',
+    )
+    def describe_custom_live_stream_quality_detection_templates(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DescribeCustomLiveStreamQualityDetectionTemplatesRequest import DescribeCustomLiveStreamQualityDetectionTemplatesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeCustomLiveStreamQualityDetectionTemplatesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
+            (['--template'], dict(help="""(string) 质量检测模板;  """, dest='template',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加应用质量检测配置; - 添加应用级别的质量检测模板配置;  ''',
+        description='''
+            添加应用质量检测配置; - 添加应用级别的质量检测模板配置; 。
+
+            示例: jdc live add-live-stream-app-quality-detection  --publish-domain xxx --app-name xxx --template xxx
+        ''',
+    )
+    def add_live_stream_app_quality_detection(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.AddLiveStreamAppQualityDetectionRequest import AddLiveStreamAppQualityDetectionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddLiveStreamAppQualityDetectionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--template'], dict(help="""(string) 质量检测模板;  """, dest='template',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加域名质量检测配置; - 添加域名级别的质量检测模板配置;  ''',
+        description='''
+            添加域名质量检测配置; - 添加域名级别的质量检测模板配置; 。
+
+            示例: jdc live add-live-stream-domain-quality-detection  --publish-domain xxx --template xxx
+        ''',
+    )
+    def add_live_stream_domain_quality_detection(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.AddLiveStreamDomainQualityDetectionRequest import AddLiveStreamDomainQualityDetectionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddLiveStreamDomainQualityDetectionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--notify-url'], dict(help="""(string) 质量检测回调通知的URL地址:; - 以 http:// 开头,外网可访问的地址;  """, dest='notifyUrl',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置直播质量检测回调通知地址;  ''',
+        description='''
+            设置直播质量检测回调通知地址; 。
+
+            示例: jdc live set-live-stream-quality-detection-notify-config  --publish-domain xxx --notify-url xxx
+        ''',
+    )
+    def set_live_stream_quality_detection_notify_config(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.SetLiveStreamQualityDetectionNotifyConfigRequest import SetLiveStreamQualityDetectionNotifyConfigRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetLiveStreamQualityDetectionNotifyConfigRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--template'], dict(help="""(string) 质量检测模板 """, dest='template',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除直播质量检测模板; - 删除质量检测模板前,请先删除此模板相关的质量检测配置,否则无法删除;  ''',
+        description='''
+            删除直播质量检测模板; - 删除质量检测模板前,请先删除此模板相关的质量检测配置,否则无法删除; 。
+
+            示例: jdc live delete-custom-live-stream-quality-detection-template  --template xxx
+        ''',
+    )
+    def delete_custom_live_stream_quality_detection_template(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DeleteCustomLiveStreamQualityDetectionTemplateRequest import DeleteCustomLiveStreamQualityDetectionTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteCustomLiveStreamQualityDetectionTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
+            (['--template'], dict(help="""(string) 质量检测模板 """, dest='template',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除应用级别质量检测模板配置; - 删除应用级别质量检测模板配置,重新推流后生效;  ''',
+        description='''
+            删除应用级别质量检测模板配置; - 删除应用级别质量检测模板配置,重新推流后生效; 。
+
+            示例: jdc live delete-live-stream-app-quality-detection  --publish-domain xxx --app-name xxx --template xxx
+        ''',
+    )
+    def delete_live_stream_app_quality_detection(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DeleteLiveStreamAppQualityDetectionRequest import DeleteLiveStreamAppQualityDetectionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteLiveStreamAppQualityDetectionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--template'], dict(help="""(string) 质量检测模板 """, dest='template',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除域名质量检测配置; - 删除域名级别的质量检测模板配置,重新推流后生效;  ''',
+        description='''
+            删除域名质量检测配置; - 删除域名级别的质量检测模板配置,重新推流后生效; 。
+
+            示例: jdc live delete-live-stream-domain-quality-detection  --publish-domain xxx --template xxx
+        ''',
+    )
+    def delete_live_stream_domain_quality_detection(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DeleteLiveStreamDomainQualityDetectionRequest import DeleteLiveStreamDomainQualityDetectionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteLiveStreamDomainQualityDetectionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询质量检测回调配置;  ''',
+        description='''
+            查询质量检测回调配置; 。
+
+            示例: jdc live describe-live-stream-quality-detection-notify-config  --publish-domain xxx
+        ''',
+    )
+    def describe_live_stream_quality_detection_notify_config(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DescribeLiveStreamQualityDetectionNotifyConfigRequest import DescribeLiveStreamQualityDetectionNotifyConfigRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLiveStreamQualityDetectionNotifyConfigRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除质量检测回调配置;  ''',
+        description='''
+            删除质量检测回调配置; 。
+
+            示例: jdc live delete-live-stream-quality-detection-notify-config  --publish-domain xxx
+        ''',
+    )
+    def delete_live_stream_quality_detection_notify_config(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DeleteLiveStreamQualityDetectionNotifyConfigRequest import DeleteLiveStreamQualityDetectionNotifyConfigRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteLiveStreamQualityDetectionNotifyConfigRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--template'], dict(help="""(string) 质量检测模板 """, dest='template',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询质量检测模板绑定;  ''',
+        description='''
+            查询质量检测模板绑定; 。
+
+            示例: jdc live describe-quality-detection-binding  --template xxx
+        ''',
+    )
+    def describe_quality_detection_binding(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DescribeQualityDetectionBindingRequest import DescribeQualityDetectionBindingRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeQualityDetectionBindingRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--page-num'], dict(help="""(int) 页码; - 取值范围[1, 100000];  """, dest='pageNum', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小; - 取值范围[10, 100];  """, dest='pageSize', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) 录制模板列表查询过滤条件:;   - name:   template 录制模板自定义名称;   - value:  如果参数为空，则查询全部;  """, dest='filters',  required=False)),
@@ -3418,7 +3780,7 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-live-app','add-live-app','stop-live-app','describe-live-play-auth-key','set-live-play-auth-key','describe-live-restart-auth-key','set-live-restart-auth-key','describe-live-domain-certificate','set-live-domain-certificate','describe-live-domains','add-live-domain','start-live-domain','stop-live-domain','describe-live-domain-detail','delete-live-domain','add-live-restart-domain','describe-custom-live-stream-record-templates','add-custom-live-stream-record-template','add-live-stream-app-record','add-live-stream-domain-record','describe-custom-live-stream-record-config','set-live-stream-record-notify-config','delete-custom-live-stream-record-template','delete-live-stream-app-record','delete-live-stream-domain-record','describe-live-stream-record-notify-config','delete-live-stream-record-notify-config','add-live-record-task','describe-record-binding','describe-live-statistic-group-by-stream','describe-live-statistic-group-by-area','describe-live-statistic-group-by-area-isp','describe-publish-stream-info-data','describe-live-stream-history-user-num','describe-live-publish-stream-num','describe-live-stream-player-ranking-data','describe-live-transcode-stream-list','describe-live-transcode-stream-num','describe-live-transcode-stream-player-user-num','describe-live-transcode-stream-bandwidth','describe-domain-online-stream','describe-domains-log','describe-url-ranking','describe-live-transcoding-duration-data','describe-live-file-storage-data','describe-live-stream-bandwidth-data','describe-live-stream-publish-bandwidth-data','describe-live-stream-traffic-data','describe-live-stream-publish-traffic-data','describe-live-snapshot-data','describe-live-porn-data','add-custom-live-stream-snapshot-template','describe-custom-live-stream-snapshot-config','describe-custom-live-stream-snapshot-templates','add-live-stream-app-snapshot','add-live-stream-domain-snapshot','set-live-stream-snapshot-notify-config','delete-custom-live-stream-snapshot-template','delete-live-stream-app-snapshot','delete-live-stream-domain-snapshot','describe-live-stream-snapshot-notify-config','delete-live-stream-snapshot-notify-config','describe-snapshot-binding','forbid-live-stream','resume-live-stream','interrupt-live-stream','describe-live-stream-info','set-live-stream-notify-config','describe-live-stream-notify-config','delete-live-stream-notify-config','describe-live-stream-online-list','describe-live-stream-publish-list','open-live-restart','close-live-restart','describe-live-restart-configs','open-live-timeshift','close-live-timeshift','describe-live-timeshift-configs','add-live-stream-domain-transcode','add-live-stream-app-transcode','add-custom-live-stream-transcode-template','describe-custom-live-stream-transcode-templates','describe-system-live-stream-transcode-templates','describe-live-stream-transcode-config','delete-live-stream-domain-transcode','delete-live-stream-app-transcode','describe-custom-live-stream-transcode-template','delete-custom-live-stream-transcode-template','describe-transcode-binding','add-custom-live-stream-watermark-template','describe-custom-live-stream-watermark-templates','add-live-stream-app-watermark','add-live-stream-domain-watermark','describe-custom-live-stream-watermark-config','delete-custom-live-stream-watermark-template','delete-live-stream-app-watermark','delete-live-stream-domain-watermark','describe-watermark-binding',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-live-app','add-live-app','stop-live-app','describe-live-play-auth-key','set-live-play-auth-key','describe-live-restart-auth-key','set-live-restart-auth-key','describe-live-domain-certificate','set-live-domain-certificate','describe-live-domains','add-live-domain','start-live-domain','stop-live-domain','describe-live-domain-detail','delete-live-domain','add-live-restart-domain','add-custom-live-stream-quality-detection-template','describe-custom-live-stream-quality-detection-templates','add-live-stream-app-quality-detection','add-live-stream-domain-quality-detection','set-live-stream-quality-detection-notify-config','delete-custom-live-stream-quality-detection-template','delete-live-stream-app-quality-detection','delete-live-stream-domain-quality-detection','describe-live-stream-quality-detection-notify-config','delete-live-stream-quality-detection-notify-config','describe-quality-detection-binding','describe-custom-live-stream-record-templates','add-custom-live-stream-record-template','add-live-stream-app-record','add-live-stream-domain-record','describe-custom-live-stream-record-config','set-live-stream-record-notify-config','delete-custom-live-stream-record-template','delete-live-stream-app-record','delete-live-stream-domain-record','describe-live-stream-record-notify-config','delete-live-stream-record-notify-config','add-live-record-task','describe-record-binding','describe-live-statistic-group-by-stream','describe-live-statistic-group-by-area','describe-live-statistic-group-by-area-isp','describe-publish-stream-info-data','describe-live-stream-history-user-num','describe-live-publish-stream-num','describe-live-stream-player-ranking-data','describe-live-transcode-stream-list','describe-live-transcode-stream-num','describe-live-transcode-stream-player-user-num','describe-live-transcode-stream-bandwidth','describe-domain-online-stream','describe-domains-log','describe-url-ranking','describe-live-transcoding-duration-data','describe-live-file-storage-data','describe-live-stream-bandwidth-data','describe-live-stream-publish-bandwidth-data','describe-live-stream-traffic-data','describe-live-stream-publish-traffic-data','describe-live-snapshot-data','describe-live-porn-data','add-custom-live-stream-snapshot-template','describe-custom-live-stream-snapshot-config','describe-custom-live-stream-snapshot-templates','add-live-stream-app-snapshot','add-live-stream-domain-snapshot','set-live-stream-snapshot-notify-config','delete-custom-live-stream-snapshot-template','delete-live-stream-app-snapshot','delete-live-stream-domain-snapshot','describe-live-stream-snapshot-notify-config','delete-live-stream-snapshot-notify-config','describe-snapshot-binding','forbid-live-stream','resume-live-stream','interrupt-live-stream','describe-live-stream-info','set-live-stream-notify-config','describe-live-stream-notify-config','delete-live-stream-notify-config','describe-live-stream-online-list','describe-live-stream-publish-list','open-live-restart','close-live-restart','describe-live-restart-configs','open-live-timeshift','close-live-timeshift','describe-live-timeshift-configs','add-live-stream-domain-transcode','add-live-stream-app-transcode','add-custom-live-stream-transcode-template','describe-custom-live-stream-transcode-templates','describe-system-live-stream-transcode-templates','describe-live-stream-transcode-config','delete-live-stream-domain-transcode','delete-live-stream-app-transcode','describe-custom-live-stream-transcode-template','delete-custom-live-stream-transcode-template','describe-transcode-binding','add-custom-live-stream-watermark-template','describe-custom-live-stream-watermark-templates','add-live-stream-app-watermark','add-live-stream-domain-watermark','describe-custom-live-stream-watermark-config','delete-custom-live-stream-watermark-template','delete-live-stream-app-watermark','delete-live-stream-domain-watermark','describe-watermark-binding',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -174,7 +174,7 @@ class SslController(BaseController):
 
     @expose(
         arguments=[
-            (['--cert-id'], dict(help="""(string) 证书Id,以逗号分隔多个Id """, dest='certId',  required=True)),
+            (['--cert-id'], dict(help="""(string) 证书 Id """, dest='certId',  required=True)),
             (['--server-type'], dict(help="""(string) 证书应用的服务器类型(Nginx Apache Tomcat IIS Other) """, dest='serverType',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),

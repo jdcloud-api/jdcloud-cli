@@ -12,6 +12,7 @@
         "platform":"",
         "ids":[""],
         "rootDeviceType":"",
+        "launchPermission":"",
         "status":"",
         "pageNumber":"",
         "pageSize":"",
@@ -32,6 +33,14 @@
     },
     "un-share-image":{
         "pins":[""],
+        "regionId":"",
+        "imageId":""
+    },
+    "release-image":{
+        "regionId":"",
+        "imageId":""
+    },
+    "un-release-image":{
         "regionId":"",
         "imageId":""
     },
@@ -100,7 +109,9 @@
                 "chargeSpec":{
                     "chargeMode":"",
                     "chargeUnit":"",
-                    "chargeDuration":""
+                    "chargeDuration":"",
+                    "autoRenew":"",
+                    "buyScenario":""
                 }
             },
             "primaryNetworkInterface":{
@@ -131,7 +142,9 @@
                     "charge":{
                         "chargeMode":"",
                         "chargeUnit":"",
-                        "chargeDuration":""
+                        "chargeDuration":"",
+                        "autoRenew":"",
+                        "buyScenario":""
                     },
                     "multiAttachable":"",
                     "encrypt":""
@@ -143,7 +156,9 @@
             "charge":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             },
             "userdata":[""],
             "description":"",
@@ -241,7 +256,9 @@
                 "charge":{
                     "chargeMode":"",
                     "chargeUnit":"",
-                    "chargeDuration":""
+                    "chargeDuration":"",
+                    "autoRenew":"",
+                    "buyScenario":""
                 },
                 "multiAttachable":"",
                 "encrypt":""

@@ -86,6 +86,24 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_release_image(self):
+        cmd = """python ../../main.py vm release-image  --image-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_un_release_image(self):
+        cmd = """python ../../main.py vm un-release-image  --image-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_image_members(self):
         cmd = """python ../../main.py vm describe-image-members  --image-id 'xxx'"""
         with os.popen(cmd) as f:

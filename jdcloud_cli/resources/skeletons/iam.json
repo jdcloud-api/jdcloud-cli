@@ -115,6 +115,12 @@
     "describe-policy":{
         "policyName":""
     },
+    "update-policy":{
+        "updatePolicyInfo":{
+            "content":""
+        },
+        "policyName":""
+    },
     "delete-policy":{
         "policyName":""
     },

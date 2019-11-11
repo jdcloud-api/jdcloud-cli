@@ -68,7 +68,7 @@ _jdc_complete()
 
             "redis")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-cache-instances create-cache-instance describe-cache-instance modify-cache-instance-attribute delete-cache-instance modify-cache-instance-class reset-cache-instance-password describe-instance-config modify-instance-config describe-backups create-backup describe-backup-policy modify-backup-policy restore-instance describe-download-url describe-cluster-info describe-instance-class describe-user-quota " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-cache-instances create-cache-instance describe-cache-instance modify-cache-instance-attribute delete-cache-instance modify-cache-instance-class reset-cache-instance-password describe-instance-config modify-instance-config describe-backups create-backup describe-backup-policy modify-backup-policy restore-instance describe-download-url describe-cluster-info describe-slow-log describe-instance-class describe-user-quota " -- $cur) )
                 ;;
 
             "domainservice")
@@ -133,7 +133,7 @@ _jdc_complete()
 
             "vm")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-image delete-image describe-images describe-image-constraints describe-image-constraints-batch share-image un-share-image describe-image-members copy-images modify-image-attribute import-image image-tasks describe-instances create-instances describe-instance delete-instance describe-instance-status describe-instance-private-ip-address stop-instance start-instance reboot-instance attach-network-interface detach-network-interface modify-instance-network-attribute associate-elastic-ip disassociate-elastic-ip create-image attach-disk detach-disk modify-instance-disk-attribute modify-instance-attribute modify-instance-password describe-instance-vnc-url resize-instance rebuild-instance describe-instance-templates create-instance-template describe-instance-template update-instance-template delete-instance-template verify-instance-template describe-instance-types describe-keypairs create-keypair import-keypair delete-keypair describe-quotas " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-image delete-image describe-images describe-image-constraints describe-image-constraints-batch share-image un-share-image release-image un-release-image describe-image-members copy-images modify-image-attribute import-image image-tasks describe-instances create-instances describe-instance delete-instance describe-instance-status describe-instance-private-ip-address stop-instance start-instance reboot-instance attach-network-interface detach-network-interface modify-instance-network-attribute associate-elastic-ip disassociate-elastic-ip create-image attach-disk detach-disk modify-instance-disk-attribute modify-instance-attribute modify-instance-password describe-instance-vnc-url resize-instance rebuild-instance describe-instance-templates create-instance-template describe-instance-template update-instance-template delete-instance-template verify-instance-template describe-instance-types describe-keypairs create-keypair import-keypair delete-keypair describe-quotas " -- $cur) )
                 ;;
 
             "pod")
@@ -188,12 +188,12 @@ _jdc_complete()
 
             "iam")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton enable-sub-user-access-key disable-sub-user-access-key delete-sub-user-access-key create-group describe-group update-group delete-group describe-group-sub-users describe-groups describe-attached-group-policies detach-group-policy attach-group-policy remove-sub-user-from-group add-sub-user-to-group create-permission describe-permission-detail update-permission describe-permissions describe-sub-user-permissions add-permissions-to-sub-user remove-permission-of-sub-user create-policy describe-policy delete-policy update-policy-description describe-policies create-role describe-role delete-role update-assume-role-policy describe-roles attach-role-policy detach-role-policy describe-role-policies create-sub-user describe-sub-user update-sub-user delete-sub-user describe-sub-users describe-sub-user-groups describe-attached-sub-user-policies detach-sub-user-policy attach-sub-user-policy describe-user-access-keys create-user-access-key enabled-user-access-key disabled-user-access-key delete-user-access-key " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton enable-sub-user-access-key disable-sub-user-access-key delete-sub-user-access-key create-group describe-group update-group delete-group describe-group-sub-users describe-groups describe-attached-group-policies detach-group-policy attach-group-policy remove-sub-user-from-group add-sub-user-to-group create-permission describe-permission-detail update-permission describe-permissions describe-sub-user-permissions add-permissions-to-sub-user remove-permission-of-sub-user create-policy describe-policy update-policy delete-policy update-policy-description describe-policies create-role describe-role delete-role update-assume-role-policy describe-roles attach-role-policy detach-role-policy describe-role-policies create-sub-user describe-sub-user update-sub-user delete-sub-user describe-sub-users describe-sub-user-groups describe-attached-sub-user-policies detach-sub-user-policy attach-sub-user-policy describe-user-access-keys create-user-access-key enabled-user-access-key disabled-user-access-key delete-user-access-key " -- $cur) )
                 ;;
 
             "iothub")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton delete-device query-device-online-infos device-activate devices-enroll query-device-commands device-command query-device-states device-state check-device-id module-enrollment module-state get-omprivate-url om-enrollby-file om-enroll " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-thing-shadow update-thing-shadow invoke-thing-service query-device-page update-device add-device query-device-detail remove-device remove-device-by-id list-products create-product describe-product update-product delete-product list-product-abilities import-thing-model export-thing-model " -- $cur) )
                 ;;
 
             "sms")
@@ -203,7 +203,7 @@ _jdc_complete()
 
             "jcq")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-access-point describe-consumer-group-ids describe-dead-letter-numbers describe-dead-letter-numbers-with-topic list-dead-letters delete-dead-letters resend-dead-letters describe-messages describe-message describe-permission add-permission remove-permission describe-subscriptions create-subscription describe-subscription delete-subscription clean-messages reset-consume-offset describe-topics create-topic describe-topic delete-topic " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-access-point describe-consumer-group-ids describe-dead-letter-numbers describe-dead-letter-numbers-with-topic list-dead-letters delete-dead-letters resend-dead-letters describe-messages describe-message describe-message-trace describe-messages-by-business-id describe-permission add-permission remove-permission describe-subscriptions create-subscription describe-subscription modify-subscription-attribute delete-subscription clean-messages reset-consume-offset describe-topics create-topic describe-topic delete-topic " -- $cur) )
                 ;;
 
             "baseanti")
@@ -223,7 +223,7 @@ _jdc_complete()
 
             "live")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-live-app add-live-app stop-live-app describe-live-play-auth-key set-live-play-auth-key describe-live-restart-auth-key set-live-restart-auth-key describe-live-domain-certificate set-live-domain-certificate describe-live-domains add-live-domain start-live-domain stop-live-domain describe-live-domain-detail delete-live-domain add-live-restart-domain describe-custom-live-stream-record-templates add-custom-live-stream-record-template add-live-stream-app-record add-live-stream-domain-record describe-custom-live-stream-record-config set-live-stream-record-notify-config delete-custom-live-stream-record-template delete-live-stream-app-record delete-live-stream-domain-record describe-live-stream-record-notify-config delete-live-stream-record-notify-config add-live-record-task describe-record-binding describe-live-statistic-group-by-stream describe-live-statistic-group-by-area describe-live-statistic-group-by-area-isp describe-publish-stream-info-data describe-live-stream-history-user-num describe-live-publish-stream-num describe-live-stream-player-ranking-data describe-live-transcode-stream-list describe-live-transcode-stream-num describe-live-transcode-stream-player-user-num describe-live-transcode-stream-bandwidth describe-domain-online-stream describe-domains-log describe-url-ranking describe-live-transcoding-duration-data describe-live-file-storage-data describe-live-stream-bandwidth-data describe-live-stream-publish-bandwidth-data describe-live-stream-traffic-data describe-live-stream-publish-traffic-data describe-live-snapshot-data describe-live-porn-data add-custom-live-stream-snapshot-template describe-custom-live-stream-snapshot-config describe-custom-live-stream-snapshot-templates add-live-stream-app-snapshot add-live-stream-domain-snapshot set-live-stream-snapshot-notify-config delete-custom-live-stream-snapshot-template delete-live-stream-app-snapshot delete-live-stream-domain-snapshot describe-live-stream-snapshot-notify-config delete-live-stream-snapshot-notify-config describe-snapshot-binding forbid-live-stream resume-live-stream interrupt-live-stream describe-live-stream-info set-live-stream-notify-config describe-live-stream-notify-config delete-live-stream-notify-config describe-live-stream-online-list describe-live-stream-publish-list open-live-restart close-live-restart describe-live-restart-configs open-live-timeshift close-live-timeshift describe-live-timeshift-configs add-live-stream-domain-transcode add-live-stream-app-transcode add-custom-live-stream-transcode-template describe-custom-live-stream-transcode-templates describe-system-live-stream-transcode-templates describe-live-stream-transcode-config delete-live-stream-domain-transcode delete-live-stream-app-transcode describe-custom-live-stream-transcode-template delete-custom-live-stream-transcode-template describe-transcode-binding add-custom-live-stream-watermark-template describe-custom-live-stream-watermark-templates add-live-stream-app-watermark add-live-stream-domain-watermark describe-custom-live-stream-watermark-config delete-custom-live-stream-watermark-template delete-live-stream-app-watermark delete-live-stream-domain-watermark describe-watermark-binding " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-live-app add-live-app stop-live-app describe-live-play-auth-key set-live-play-auth-key describe-live-restart-auth-key set-live-restart-auth-key describe-live-domain-certificate set-live-domain-certificate describe-live-domains add-live-domain start-live-domain stop-live-domain describe-live-domain-detail delete-live-domain add-live-restart-domain add-custom-live-stream-quality-detection-template describe-custom-live-stream-quality-detection-templates add-live-stream-app-quality-detection add-live-stream-domain-quality-detection set-live-stream-quality-detection-notify-config delete-custom-live-stream-quality-detection-template delete-live-stream-app-quality-detection delete-live-stream-domain-quality-detection describe-live-stream-quality-detection-notify-config delete-live-stream-quality-detection-notify-config describe-quality-detection-binding describe-custom-live-stream-record-templates add-custom-live-stream-record-template add-live-stream-app-record add-live-stream-domain-record describe-custom-live-stream-record-config set-live-stream-record-notify-config delete-custom-live-stream-record-template delete-live-stream-app-record delete-live-stream-domain-record describe-live-stream-record-notify-config delete-live-stream-record-notify-config add-live-record-task describe-record-binding describe-live-statistic-group-by-stream describe-live-statistic-group-by-area describe-live-statistic-group-by-area-isp describe-publish-stream-info-data describe-live-stream-history-user-num describe-live-publish-stream-num describe-live-stream-player-ranking-data describe-live-transcode-stream-list describe-live-transcode-stream-num describe-live-transcode-stream-player-user-num describe-live-transcode-stream-bandwidth describe-domain-online-stream describe-domains-log describe-url-ranking describe-live-transcoding-duration-data describe-live-file-storage-data describe-live-stream-bandwidth-data describe-live-stream-publish-bandwidth-data describe-live-stream-traffic-data describe-live-stream-publish-traffic-data describe-live-snapshot-data describe-live-porn-data add-custom-live-stream-snapshot-template describe-custom-live-stream-snapshot-config describe-custom-live-stream-snapshot-templates add-live-stream-app-snapshot add-live-stream-domain-snapshot set-live-stream-snapshot-notify-config delete-custom-live-stream-snapshot-template delete-live-stream-app-snapshot delete-live-stream-domain-snapshot describe-live-stream-snapshot-notify-config delete-live-stream-snapshot-notify-config describe-snapshot-binding forbid-live-stream resume-live-stream interrupt-live-stream describe-live-stream-info set-live-stream-notify-config describe-live-stream-notify-config delete-live-stream-notify-config describe-live-stream-online-list describe-live-stream-publish-list open-live-restart close-live-restart describe-live-restart-configs open-live-timeshift close-live-timeshift describe-live-timeshift-configs add-live-stream-domain-transcode add-live-stream-app-transcode add-custom-live-stream-transcode-template describe-custom-live-stream-transcode-templates describe-system-live-stream-transcode-templates describe-live-stream-transcode-config delete-live-stream-domain-transcode delete-live-stream-app-transcode describe-custom-live-stream-transcode-template delete-custom-live-stream-transcode-template describe-transcode-binding add-custom-live-stream-watermark-template describe-custom-live-stream-watermark-templates add-live-stream-app-watermark add-live-stream-domain-watermark describe-custom-live-stream-watermark-config delete-custom-live-stream-watermark-template delete-live-stream-app-watermark delete-live-stream-domain-watermark describe-watermark-binding " -- $cur) )
                 ;;
 
             "jdfusion")
@@ -1306,6 +1306,10 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --cache-instance-id " -- $cur) )
                         ;;
+                    "describe-slow-log")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --cache-instance-id --page-number --page-size --start-time --end-time --shard-id " -- $cur) )
+                        ;;
                     "describe-instance-class")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --redis-version " -- $cur) )
@@ -2246,7 +2250,7 @@ _jdc_complete()
                         ;;
                     "describe-images")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --image-source --platform --ids --root-device-type --status --page-number --page-size " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --image-source --platform --ids --root-device-type --launch-permission --status --page-number --page-size " -- $cur) )
                         ;;
                     "describe-image-constraints")
                         COMPREPLY=( $(compgen \
@@ -2263,6 +2267,14 @@ _jdc_complete()
                     "un-share-image")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --image-id --pins " -- $cur) )
+                        ;;
+                    "release-image")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --image-id " -- $cur) )
+                        ;;
+                    "un-release-image")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --image-id " -- $cur) )
                         ;;
                     "describe-image-members")
                         COMPREPLY=( $(compgen \
@@ -3230,6 +3242,10 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --policy-name " -- $cur) )
                         ;;
+                    "update-policy")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --policy-name --update-policy-info " -- $cur) )
+                        ;;
                     "delete-policy")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --policy-name " -- $cur) )
@@ -3340,61 +3356,73 @@ _jdc_complete()
 	        "iothub")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
-                    "delete-device")
+                    "describe-thing-shadow")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --device-id --instance-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --identifier --product-key " -- $cur) )
                         ;;
-                    "query-device-online-infos")
+                    "update-thing-shadow")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --device-ids " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --identifier --product-key --state --version " -- $cur) )
                         ;;
-                    "device-activate")
+                    "invoke-thing-service")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --device-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --identifier --product-key --name --input " -- $cur) )
                         ;;
-                    "devices-enroll")
+                    "query-device-page")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --instance-id --device " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --device-name --status --product-key --device-type --now-page --page-size --order --direction --parent-id " -- $cur) )
                         ;;
-                    "query-device-commands")
+                    "update-device")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --device-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --device-id --model --manufacturer --description --status " -- $cur) )
                         ;;
-                    "device-command")
+                    "add-device")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --device-id --commands " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --device-name --product-key --model --manufacturer --description " -- $cur) )
                         ;;
-                    "query-device-states")
+                    "query-device-detail")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --device-id " -- $cur) )
+                            -W "-h --help --headers --input-json --device-name --region-id --product-key " -- $cur) )
                         ;;
-                    "device-state")
+                    "remove-device")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --device-id --states " -- $cur) )
+                            -W "-h --help --headers --input-json --device-name --region-id --product-key " -- $cur) )
                         ;;
-                    "check-device-id")
+                    "remove-device-by-id")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --device-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --device-id " -- $cur) )
                         ;;
-                    "module-enrollment")
+                    "list-products")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --module-name --instance-id --model-name --parent-device-name --name " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --page-number --page-size --filters " -- $cur) )
                         ;;
-                    "module-state")
+                    "create-product")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --module-name --states " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --product-name --product-type --product-description --template-id " -- $cur) )
                         ;;
-                    "get-omprivate-url")
+                    "describe-product")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --device-id --instance-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --product-key " -- $cur) )
                         ;;
-                    "om-enrollby-file")
+                    "update-product")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --file-name --instance-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --product-key --product-name --product-description --dynamic-register " -- $cur) )
                         ;;
-                    "om-enroll")
+                    "delete-product")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --om-name --instance-id --payload " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --product-key " -- $cur) )
+                        ;;
+                    "list-product-abilities")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --product-key --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "import-thing-model")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --product-key --thing-model " -- $cur) )
+                        ;;
+                    "export-thing-model")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --product-key " -- $cur) )
                         ;;
 
                     "generate-skeleton")
@@ -3458,11 +3486,19 @@ _jdc_complete()
                         ;;
                     "describe-messages")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --topic-name --start-time --end-time " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --topic-name --start-time --end-time --page-size --page-number " -- $cur) )
                         ;;
                     "describe-message")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --topic-name --message-id " -- $cur) )
+                        ;;
+                    "describe-message-trace")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --topic-name --message-id " -- $cur) )
+                        ;;
+                    "describe-messages-by-business-id")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --topic-name --business-id " -- $cur) )
                         ;;
                     "describe-permission")
                         COMPREPLY=( $(compgen \
@@ -3482,11 +3518,15 @@ _jdc_complete()
                         ;;
                     "create-subscription")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --topic-name --consumer-group-id " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --topic-name --consumer-group-id --message-invisible-time-in-seconds --dlq-enable --max-retry-times " -- $cur) )
                         ;;
                     "describe-subscription")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --topic-name --consumer-group-id " -- $cur) )
+                        ;;
+                    "modify-subscription-attribute")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --topic-name --consumer-group-id --max-retry-times --message-invisible-time-in-seconds --dlq-enable " -- $cur) )
                         ;;
                     "delete-subscription")
                         COMPREPLY=( $(compgen \
@@ -3779,6 +3819,50 @@ _jdc_complete()
                     "add-live-restart-domain")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --play-domain --restart-domain " -- $cur) )
+                        ;;
+                    "add-custom-live-stream-quality-detection-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template --modules " -- $cur) )
+                        ;;
+                    "describe-custom-live-stream-quality-detection-templates")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-num --page-size --filters " -- $cur) )
+                        ;;
+                    "add-live-stream-app-quality-detection")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --app-name --template " -- $cur) )
+                        ;;
+                    "add-live-stream-domain-quality-detection")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template " -- $cur) )
+                        ;;
+                    "set-live-stream-quality-detection-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --notify-url " -- $cur) )
+                        ;;
+                    "delete-custom-live-stream-quality-detection-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template " -- $cur) )
+                        ;;
+                    "delete-live-stream-app-quality-detection")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --app-name --template " -- $cur) )
+                        ;;
+                    "delete-live-stream-domain-quality-detection")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain --template " -- $cur) )
+                        ;;
+                    "describe-live-stream-quality-detection-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "delete-live-stream-quality-detection-notify-config")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --publish-domain " -- $cur) )
+                        ;;
+                    "describe-quality-detection-binding")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template " -- $cur) )
                         ;;
                     "describe-custom-live-stream-record-templates")
                         COMPREPLY=( $(compgen \

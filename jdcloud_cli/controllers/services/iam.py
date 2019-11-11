@@ -803,6 +803,39 @@ class IamController(BaseController):
     @expose(
         arguments=[
             (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
+            (['--update-policy-info'], dict(help="""(updatePolicyInfo) 策略文档信息 """, dest='updatePolicyInfo',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改策略文档 ''',
+        description='''
+            修改策略文档。
+
+            示例: jdc iam update-policy  --policy-name xxx --update-policy-info '{"":""}'
+        ''',
+    )
+    def update_policy(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.UpdatePolicyRequest import UpdatePolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdatePolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1627,7 +1660,7 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['enable-sub-user-access-key','disable-sub-user-access-key','delete-sub-user-access-key','create-group','describe-group','update-group','delete-group','describe-group-sub-users','describe-groups','describe-attached-group-policies','detach-group-policy','attach-group-policy','remove-sub-user-from-group','add-sub-user-to-group','create-permission','describe-permission-detail','update-permission','describe-permissions','describe-sub-user-permissions','add-permissions-to-sub-user','remove-permission-of-sub-user','create-policy','describe-policy','delete-policy','update-policy-description','describe-policies','create-role','describe-role','delete-role','update-assume-role-policy','describe-roles','attach-role-policy','detach-role-policy','describe-role-policies','create-sub-user','describe-sub-user','update-sub-user','delete-sub-user','describe-sub-users','describe-sub-user-groups','describe-attached-sub-user-policies','detach-sub-user-policy','attach-sub-user-policy','describe-user-access-keys','create-user-access-key','enabled-user-access-key','disabled-user-access-key','delete-user-access-key',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['enable-sub-user-access-key','disable-sub-user-access-key','delete-sub-user-access-key','create-group','describe-group','update-group','delete-group','describe-group-sub-users','describe-groups','describe-attached-group-policies','detach-group-policy','attach-group-policy','remove-sub-user-from-group','add-sub-user-to-group','create-permission','describe-permission-detail','update-permission','describe-permissions','describe-sub-user-permissions','add-permissions-to-sub-user','remove-permission-of-sub-user','create-policy','describe-policy','update-policy','delete-policy','update-policy-description','describe-policies','create-role','describe-role','delete-role','update-assume-role-policy','describe-roles','attach-role-policy','detach-role-policy','describe-role-policies','create-sub-user','describe-sub-user','update-sub-user','delete-sub-user','describe-sub-users','describe-sub-user-groups','describe-attached-sub-user-policies','detach-sub-user-policy','attach-sub-user-policy','describe-user-access-keys','create-user-access-key','enabled-user-access-key','disabled-user-access-key','delete-user-access-key',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

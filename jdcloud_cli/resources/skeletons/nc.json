@@ -39,7 +39,9 @@
                     "charge":{
                         "chargeMode":"",
                         "chargeUnit":"",
-                        "chargeDuration":""
+                        "chargeDuration":"",
+                        "autoRenew":"",
+                        "buyScenario":""
                     },
                     "multiAttachable":"",
                     "encrypt":""
@@ -55,7 +57,9 @@
                 "chargeSpec":{
                     "chargeMode":"",
                     "chargeUnit":"",
-                    "chargeDuration":""
+                    "chargeDuration":"",
+                    "autoRenew":"",
+                    "buyScenario":""
                 }
             },
             "primaryNetworkInterface":{
@@ -83,7 +87,9 @@
             "charge":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             }
         },
         "maxCount":"",

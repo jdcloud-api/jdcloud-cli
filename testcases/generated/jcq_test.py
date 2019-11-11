@@ -104,6 +104,24 @@ class JcqTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_message_trace(self):
+        cmd = """python ../../main.py jcq describe-message-trace  --topic-name 'xxx' --message-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_messages_by_business_id(self):
+        cmd = """python ../../main.py jcq describe-messages-by-business-id  --topic-name 'xxx' --business-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_permission(self):
         cmd = """python ../../main.py jcq describe-permission  --topic-name 'xxx'"""
         with os.popen(cmd) as f:
@@ -151,6 +169,15 @@ class JcqTest(unittest.TestCase):
 
     def test_describe_subscription(self):
         cmd = """python ../../main.py jcq describe-subscription  --topic-name 'xxx' --consumer-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_subscription_attribute(self):
+        cmd = """python ../../main.py jcq modify-subscription-attribute  --topic-name 'xxx' --consumer-group-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
