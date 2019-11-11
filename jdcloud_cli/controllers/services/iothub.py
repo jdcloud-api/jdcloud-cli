@@ -38,8 +38,264 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--device-id'], dict(help="""(string) 设备Id """, dest='deviceId',  required=False)),
-            (['--instance-id'], dict(help="""(string) hub实例instanceId """, dest='instanceId',  required=False)),
+            (['--region-id'], dict(help="""(string) 设备归属的实例所在区域 """, dest='regionId',  required=False)),
+            (['--identifier'], dict(help="""(string) 设备唯一标识 """, dest='identifier',  required=True)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看设备影子 ''',
+        description='''
+            查看设备影子。
+
+            示例: jdc iothub describe-thing-shadow  --identifier xxx --product-key xxx
+        ''',
+    )
+    def describe_thing_shadow(self):
+        client_factory = ClientFactory('iothub')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iothub.apis.DescribeThingShadowRequest import DescribeThingShadowRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeThingShadowRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 设备归属的实例所在区域 """, dest='regionId',  required=False)),
+            (['--identifier'], dict(help="""(string) 设备唯一标识 """, dest='identifier',  required=True)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
+            (['--state'], dict(help="""(object) 运行状态 """, dest='state',  required=False)),
+            (['--version'], dict(help="""(int) 设备影子版本,当前版本加1，当前版本默认其实版本为-1; 用户主动更新版本号时，设备影子会检查请求中的主动更新版本号是否大于当前版本号。; 如果大于当前版本号，则更新设备影子，并将影子版本值更新到请求的版本中，反之则会拒绝更新设备影子。; 影子版本参数为Integer型; 取值范围：0到2147483647(2的31次方-1); 当取值达到最大值2147483647(2的31次方-1)时，请求中的主动更新版本号应为-1;  """, dest='version', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 更新设备影子的期望值 ''',
+        description='''
+            更新设备影子的期望值。
+
+            示例: jdc iothub update-thing-shadow  --identifier xxx --product-key xxx
+        ''',
+    )
+    def update_thing_shadow(self):
+        client_factory = ClientFactory('iothub')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iothub.apis.UpdateThingShadowRequest import UpdateThingShadowRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateThingShadowRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 设备归属的实例所在区域 """, dest='regionId',  required=False)),
+            (['--identifier'], dict(help="""(string) 设备唯一标识 """, dest='identifier',  required=True)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
+            (['--name'], dict(help="""(string) 服务名称 """, dest='name',  required=False)),
+            (['--input'], dict(help="""(object) 输入参数,object的key为参数名称，value为参数值 """, dest='input',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设备服务调用 ''',
+        description='''
+            设备服务调用。
+
+            示例: jdc iothub invoke-thing-service  --identifier xxx --product-key xxx
+        ''',
+    )
+    def invoke_thing_service(self):
+        client_factory = ClientFactory('iothub')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iothub.apis.InvokeThingServiceRequest import InvokeThingServiceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = InvokeThingServiceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 设备归属的实例所在区域 """, dest='regionId',  required=False)),
+            (['--device-name'], dict(help="""(string) 设备名称，模糊匹配 """, dest='deviceName',  required=False)),
+            (['--status'], dict(help="""(int) 设备状态 0-未激活，1-激活离线，2-激活在线 """, dest='status', type=int, required=False)),
+            (['--product-key'], dict(help="""(string) 设备所归属的产品Key """, dest='productKey',  required=False)),
+            (['--device-type'], dict(help="""(int) 设备类型，同产品类型，0-设备，1-网关 """, dest='deviceType', type=int, required=False)),
+            (['--now-page'], dict(help="""(int) 当前页数 """, dest='nowPage', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 每页的数据条数 """, dest='pageSize', type=int, required=False)),
+            (['--order'], dict(help="""(string) 排序关键字--name,type,productKey,status--最多支持一个字段 """, dest='order',  required=False)),
+            (['--direction'], dict(help="""(string) 顺序，升序降序--asc,desc """, dest='direction',  required=False)),
+            (['--parent-id'], dict(help="""(string) 父设备Id """, dest='parentId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 分页查询设备信息,支持一个或多个条件 ''',
+        description='''
+            分页查询设备信息,支持一个或多个条件。
+
+            示例: jdc iothub query-device-page 
+        ''',
+    )
+    def query_device_page(self):
+        client_factory = ClientFactory('iothub')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iothub.apis.QueryDevicePageRequest import QueryDevicePageRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryDevicePageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 设备归属的实例所在区域 """, dest='regionId',  required=False)),
+            (['--device-id'], dict(help="""(string) 设备Id """, dest='deviceId',  required=True)),
+            (['--model'], dict(help="""(string) 设备型号 """, dest='model',  required=False)),
+            (['--manufacturer'], dict(help="""(string) 设备厂商 """, dest='manufacturer',  required=False)),
+            (['--description'], dict(help="""(string) 设备描述 """, dest='description',  required=False)),
+            (['--status'], dict(help="""(int) 设备状态 """, dest='status', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改设备详情 ''',
+        description='''
+            修改设备详情。
+
+            示例: jdc iothub update-device  --device-id xxx
+        ''',
+    )
+    def update_device(self):
+        client_factory = ClientFactory('iothub')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iothub.apis.UpdateDeviceRequest import UpdateDeviceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateDeviceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 设备归属的实例所在区域 """, dest='regionId',  required=False)),
+            (['--device-name'], dict(help="""(string) 设备名称 """, dest='deviceName',  required=False)),
+            (['--product-key'], dict(help="""(string) 设备所归属的产品 """, dest='productKey',  required=False)),
+            (['--model'], dict(help="""(string) 设备型号 """, dest='model',  required=False)),
+            (['--manufacturer'], dict(help="""(string) 厂商 """, dest='manufacturer',  required=False)),
+            (['--description'], dict(help="""(string) 设备描述 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 注册单个设备并返回秘钥信息 ''',
+        description='''
+            注册单个设备并返回秘钥信息。
+
+            示例: jdc iothub add-device 
+        ''',
+    )
+    def add_device(self):
+        client_factory = ClientFactory('iothub')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iothub.apis.AddDeviceRequest import AddDeviceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddDeviceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--device-name'], dict(help="""(string) 设备名称 """, dest='deviceName',  required=True)),
+            (['--region-id'], dict(help="""(string) 设备归属的实例所在区域 """, dest='regionId',  required=False)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询设备详情 ''',
+        description='''
+            查询设备详情。
+
+            示例: jdc iothub query-device-detail  --device-name xxx --product-key xxx
+        ''',
+    )
+    def query_device_detail(self):
+        client_factory = ClientFactory('iothub')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iothub.apis.QueryDeviceDetailRequest import QueryDeviceDetailRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryDeviceDetailRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--device-name'], dict(help="""(string) 设备名称 """, dest='deviceName',  required=True)),
+            (['--region-id'], dict(help="""(string) 设备归属的实例所在区域 """, dest='regionId',  required=False)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -48,20 +304,20 @@ class IothubController(BaseController):
         description='''
             删除设备。
 
-            示例: jdc iothub delete-device 
+            示例: jdc iothub remove-device  --device-name xxx --product-key xxx
         ''',
     )
-    def delete_device(self):
+    def remove_device(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.DeleteDeviceRequest import DeleteDeviceRequest
+            from jdcloud_sdk.services.iothub.apis.RemoveDeviceRequest import RemoveDeviceRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteDeviceRequest(params_dict, headers)
+            req = RemoveDeviceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -71,29 +327,30 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--device-ids'], dict(help="""(array: string) 设备Id集合 """, dest='deviceIds',  required=False)),
+            (['--region-id'], dict(help="""(string) 设备归属的实例所在区域 """, dest='regionId',  required=False)),
+            (['--device-id'], dict(help="""(string) 设备Id """, dest='deviceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询设备在线信息 ''',
+        help=''' 删除设备 ''',
         description='''
-            查询设备在线信息。
+            删除设备。
 
-            示例: jdc iothub query-device-online-infos 
+            示例: jdc iothub remove-device-by-id  --device-id xxx
         ''',
     )
-    def query_device_online_infos(self):
+    def remove_device_by_id(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.QueryDeviceOnlineInfosRequest import QueryDeviceOnlineInfosRequest
+            from jdcloud_sdk.services.iothub.apis.RemoveDeviceByIdRequest import RemoveDeviceByIdRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryDeviceOnlineInfosRequest(params_dict, headers)
+            req = RemoveDeviceByIdRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -103,29 +360,32 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--device-id'], dict(help="""(string) Device 唯一标识 """, dest='deviceId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为10，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) productName-产品名称，精确匹配，支持单个; productKey-产品key，精确匹配，支持单个; productType-产品类型，精确匹配，支持单个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 激活一个设备，包括Edge、Dragon和普通设备;  ''',
+        help=''' 查看产品列表接口 ''',
         description='''
-            激活一个设备，包括Edge、Dragon和普通设备; 。
+            查看产品列表接口。
 
-            示例: jdc iothub device-activate  --device-id xxx
+            示例: jdc iothub list-products 
         ''',
     )
-    def device_activate(self):
+    def list_products(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.DeviceActivateRequest import DeviceActivateRequest
+            from jdcloud_sdk.services.iothub.apis.ListProductsRequest import ListProductsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeviceActivateRequest(params_dict, headers)
+            req = ListProductsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -135,30 +395,33 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--instance-id'], dict(help="""(string) NA """, dest='instanceId',  required=False)),
-            (['--device'], dict(help="""(deviceEnrollVO) NA """, dest='device',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--product-name'], dict(help="""(string) 产品名称，名称不可为空，3-30个字符，只支持汉字、英文字母、数字、下划线“_”及中划线“-”，必须以汉字、英文字母及数字开头结尾 """, dest='productName',  required=True)),
+            (['--product-type'], dict(help="""(int) 节点类型，取值：; 0：设备。设备不能挂载子设备。可以直连物联网平台，也可以作为网关的子设备连接物联网平台; 1：网关。网关可以挂载子设备，具有子设备管理模块，维持子设备的拓扑关系，和将拓扑关系同步到物联网平台;  """, dest='productType', type=int, required=True)),
+            (['--product-description'], dict(help="""(string) 产品描述，80字符以内 """, dest='productDescription',  required=False)),
+            (['--template-id'], dict(help="""(string) 物模型模板ID，内部参数，用户不可见，默认为自定义 """, dest='templateId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 客户用该接口可以批量登记设备;  ''',
+        help=''' 新建产品 ''',
         description='''
-            客户用该接口可以批量登记设备; 。
+            新建产品。
 
-            示例: jdc iothub devices-enroll 
+            示例: jdc iothub create-product  --product-name xxx --product-type 0
         ''',
     )
-    def devices_enroll(self):
+    def create_product(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.DevicesEnrollRequest import DevicesEnrollRequest
+            from jdcloud_sdk.services.iothub.apis.CreateProductRequest import CreateProductRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DevicesEnrollRequest(params_dict, headers)
+            req = CreateProductRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -168,29 +431,30 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--device-id'], dict(help="""(string) Device 唯一标识 """, dest='deviceId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 客户用该接口可以查询设备命令列表;  ''',
+        help=''' 查看产品 ''',
         description='''
-            客户用该接口可以查询设备命令列表; 。
+            查看产品。
 
-            示例: jdc iothub query-device-commands  --device-id xxx
+            示例: jdc iothub describe-product  --product-key xxx
         ''',
     )
-    def query_device_commands(self):
+    def describe_product(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.QueryDeviceCommandsRequest import QueryDeviceCommandsRequest
+            from jdcloud_sdk.services.iothub.apis.DescribeProductRequest import DescribeProductRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryDeviceCommandsRequest(params_dict, headers)
+            req = DescribeProductRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -200,30 +464,33 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--device-id'], dict(help="""(string) Device 唯一标识 """, dest='deviceId',  required=True)),
-            (['--commands'], dict(help="""(deviceCommandVO) NA """, dest='commands',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
+            (['--product-name'], dict(help="""(string) 产品名称，名称不可为空，3-30个字符，只支持汉字、英文字母、数字、下划线“_”及中划线“-”，必须以汉字、英文字母及数字开头结尾 """, dest='productName',  required=False)),
+            (['--product-description'], dict(help="""(string) 产品描述，80字符以内 """, dest='productDescription',  required=False)),
+            (['--dynamic-register'], dict(help="""(int) 动态注册,0:关闭，1:开启 """, dest='dynamicRegister', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 客户用该接口可以对设备下发命令;  ''',
+        help=''' 修改产品 ''',
         description='''
-            客户用该接口可以对设备下发命令; 。
+            修改产品。
 
-            示例: jdc iothub device-command  --device-id xxx
+            示例: jdc iothub update-product  --product-key xxx
         ''',
     )
-    def device_command(self):
+    def update_product(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.DeviceCommandRequest import DeviceCommandRequest
+            from jdcloud_sdk.services.iothub.apis.UpdateProductRequest import UpdateProductRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeviceCommandRequest(params_dict, headers)
+            req = UpdateProductRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -233,29 +500,30 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--device-id'], dict(help="""(string) Device 唯一标识 """, dest='deviceId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 客户用该接口可以查询设备预期状态;  ''',
+        help=''' 删除产品 ''',
         description='''
-            客户用该接口可以查询设备预期状态; 。
+            删除产品。
 
-            示例: jdc iothub query-device-states  --device-id xxx
+            示例: jdc iothub delete-product  --product-key xxx
         ''',
     )
-    def query_device_states(self):
+    def delete_product(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.QueryDeviceStatesRequest import QueryDeviceStatesRequest
+            from jdcloud_sdk.services.iothub.apis.DeleteProductRequest import DeleteProductRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryDeviceStatesRequest(params_dict, headers)
+            req = DeleteProductRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -265,30 +533,33 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--device-id'], dict(help="""(string) Device 唯一标识 """, dest='deviceId',  required=True)),
-            (['--states'], dict(help="""(string) NA """, dest='states',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为10，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) abilityName-功能名称，精确匹配; abilityType-功能类型，精确匹配;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 客户用该接口可以修改设备预期状态;  ''',
+        help=''' 查看产品功能列表接口 ''',
         description='''
-            客户用该接口可以修改设备预期状态; 。
+            查看产品功能列表接口。
 
-            示例: jdc iothub device-state  --device-id xxx
+            示例: jdc iothub list-product-abilities  --product-key xxx
         ''',
     )
-    def device_state(self):
+    def list_product_abilities(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.DeviceStateRequest import DeviceStateRequest
+            from jdcloud_sdk.services.iothub.apis.ListProductAbilitiesRequest import ListProductAbilitiesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeviceStateRequest(params_dict, headers)
+            req = ListProductAbilitiesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -298,29 +569,31 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--device-id'], dict(help="""(string) Device 唯一标识 """, dest='deviceId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
+            (['--thing-model'], dict(help="""(object) 物模型JSON """, dest='thingModel',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 验证DeviceId是否可用;  ''',
+        help=''' 导入物模型 ''',
         description='''
-            验证DeviceId是否可用; 。
+            导入物模型。
 
-            示例: jdc iothub check-device-id  --device-id xxx
+            示例: jdc iothub import-thing-model  --product-key xxx --thing-model '{"":""}'
         ''',
     )
-    def check_device_id(self):
+    def import_thing_model(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.CheckDeviceIdRequest import CheckDeviceIdRequest
+            from jdcloud_sdk.services.iothub.apis.ImportThingModelRequest import ImportThingModelRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CheckDeviceIdRequest(params_dict, headers)
+            req = ImportThingModelRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -330,33 +603,30 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--module-name'], dict(help="""(string) moduleName 唯一标识 """, dest='moduleName',  required=True)),
-            (['--instance-id'], dict(help="""(string) NA """, dest='instanceId',  required=False)),
-            (['--model-name'], dict(help="""(string) NA """, dest='modelName',  required=False)),
-            (['--parent-device-name'], dict(help="""(string) NA """, dest='parentDeviceName',  required=False)),
-            (['--name'], dict(help="""(string) NA """, dest='name',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--product-key'], dict(help="""(string) 产品Key """, dest='productKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 客户用该接口可以登记模块;  ''',
+        help=''' 导出物模型 ''',
         description='''
-            客户用该接口可以登记模块; 。
+            导出物模型。
 
-            示例: jdc iothub module-enrollment  --module-name xxx
+            示例: jdc iothub export-thing-model  --product-key xxx
         ''',
     )
-    def module_enrollment(self):
+    def export_thing_model(self):
         client_factory = ClientFactory('iothub')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iothub.apis.ModuleEnrollmentRequest import ModuleEnrollmentRequest
+            from jdcloud_sdk.services.iothub.apis.ExportThingModelRequest import ExportThingModelRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ModuleEnrollmentRequest(params_dict, headers)
+            req = ExportThingModelRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -366,140 +636,7 @@ class IothubController(BaseController):
 
     @expose(
         arguments=[
-            (['--module-name'], dict(help="""(string) moduleName 唯一标识 """, dest='moduleName',  required=True)),
-            (['--states'], dict(help="""(string) NA """, dest='states',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 客户用该接口可以修改模块预期状态;  ''',
-        description='''
-            客户用该接口可以修改模块预期状态; 。
-
-            示例: jdc iothub module-state  --module-name xxx
-        ''',
-    )
-    def module_state(self):
-        client_factory = ClientFactory('iothub')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iothub.apis.ModuleStateRequest import ModuleStateRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModuleStateRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--device-id'], dict(help="""(string) NA """, dest='deviceId',  required=True)),
-            (['--instance-id'], dict(help="""(string) NA """, dest='instanceId',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 获取下载物模型的外链地址;  ''',
-        description='''
-            获取下载物模型的外链地址; 。
-
-            示例: jdc iothub get-omprivate-url  --device-id xxx
-        ''',
-    )
-    def get_omprivate_url(self):
-        client_factory = ClientFactory('iothub')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iothub.apis.GetOMPrivateURLRequest import GetOMPrivateURLRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetOMPrivateURLRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--file-name'], dict(help="""(string) 物模型文件名称 """, dest='fileName',  required=True)),
-            (['--instance-id'], dict(help="""(string) 待上传物模型的IoT Hub实例编号 """, dest='instanceId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 物模型通过文件上传注册接口;  ''',
-        description='''
-            物模型通过文件上传注册接口; 。
-
-            示例: jdc iothub om-enrollby-file  --file-name xxx --instance-id xxx
-        ''',
-    )
-    def om_enrollby_file(self):
-        client_factory = ClientFactory('iothub')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iothub.apis.OmEnrollbyFileRequest import OmEnrollbyFileRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = OmEnrollbyFileRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--om-name'], dict(help="""(string) 物模型唯一标识 """, dest='omName',  required=True)),
-            (['--instance-id'], dict(help="""(string) NA """, dest='instanceId',  required=False)),
-            (['--payload'], dict(help="""(string) NA """, dest='payload',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 物模型注册接口;  ''',
-        description='''
-            物模型注册接口; 。
-
-            示例: jdc iothub om-enroll  --om-name xxx
-        ''',
-    )
-    def om_enroll(self):
-        client_factory = ClientFactory('iothub')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iothub.apis.OmEnrollRequest import OmEnrollRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = OmEnrollRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['delete-device','query-device-online-infos','device-activate','devices-enroll','query-device-commands','device-command','query-device-states','device-state','check-device-id','module-enrollment','module-state','get-omprivate-url','om-enrollby-file','om-enroll',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-thing-shadow','update-thing-shadow','invoke-thing-service','query-device-page','update-device','add-device','query-device-detail','remove-device','remove-device-by-id','list-products','create-product','describe-product','update-product','delete-product','list-product-abilities','import-thing-model','export-thing-model',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

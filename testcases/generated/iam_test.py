@@ -230,6 +230,15 @@ class IamTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_update_policy(self):
+        cmd = """python ../../main.py iam update-policy  --policy-name 'xxx' --update-policy-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_delete_policy(self):
         cmd = """python ../../main.py iam delete-policy  --policy-name 'xxx'"""
         with os.popen(cmd) as f:

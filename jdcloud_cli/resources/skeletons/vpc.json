@@ -18,7 +18,9 @@
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             }
         },
         "regionId":""

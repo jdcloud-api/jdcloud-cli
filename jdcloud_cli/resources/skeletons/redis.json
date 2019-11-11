@@ -35,7 +35,9 @@
         "charge":{
             "chargeMode":"",
             "chargeUnit":"",
-            "chargeDuration":""
+            "chargeDuration":"",
+            "autoRenew":"",
+            "buyScenario":""
         },
         "regionId":""
     },
@@ -111,6 +113,15 @@
         "cacheInstanceId":""
     },
     "describe-cluster-info":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-slow-log":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "shardId":"",
         "regionId":"",
         "cacheInstanceId":""
     },

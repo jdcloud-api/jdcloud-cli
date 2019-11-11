@@ -203,7 +203,10 @@
             "notifySmsEnable":"",
             "protocol":"",
             "stopRecoverRule":"",
-            "switchRecoverRule":""
+            "switchRecoverRule":"",
+            "requestHeaders":[""],
+            "responseBodyMatch":"",
+            "responseCodeRanges":[""]
         },
         "regionId":"",
         "domainId":""

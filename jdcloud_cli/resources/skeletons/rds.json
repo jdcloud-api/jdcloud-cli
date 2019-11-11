@@ -160,7 +160,9 @@
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             },
             "instanceStorageType":"",
             "instancePort":"",
@@ -283,7 +285,9 @@
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             },
             "instanceStorageType":"",
             "instancePort":"",
@@ -351,7 +355,9 @@
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             },
             "instanceStorageType":"",
             "instancePort":"",
@@ -379,7 +385,9 @@
             "chargeSpec":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             },
             "instanceStorageType":"",
             "instancePort":"",

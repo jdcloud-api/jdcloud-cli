@@ -167,6 +167,105 @@ class LiveTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_add_custom_live_stream_quality_detection_template(self):
+        cmd = """python ../../main.py live add-custom-live-stream-quality-detection-template  --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_custom_live_stream_quality_detection_templates(self):
+        cmd = """python ../../main.py live describe-custom-live-stream-quality-detection-templates """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_live_stream_app_quality_detection(self):
+        cmd = """python ../../main.py live add-live-stream-app-quality-detection  --publish-domain 'xxx' --app-name 'xxx' --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_live_stream_domain_quality_detection(self):
+        cmd = """python ../../main.py live add-live-stream-domain-quality-detection  --publish-domain 'xxx' --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_live_stream_quality_detection_notify_config(self):
+        cmd = """python ../../main.py live set-live-stream-quality-detection-notify-config  --publish-domain 'xxx' --notify-url 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_custom_live_stream_quality_detection_template(self):
+        cmd = """python ../../main.py live delete-custom-live-stream-quality-detection-template  --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_live_stream_app_quality_detection(self):
+        cmd = """python ../../main.py live delete-live-stream-app-quality-detection  --publish-domain 'xxx' --app-name 'xxx' --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_live_stream_domain_quality_detection(self):
+        cmd = """python ../../main.py live delete-live-stream-domain-quality-detection  --publish-domain 'xxx' --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_live_stream_quality_detection_notify_config(self):
+        cmd = """python ../../main.py live describe-live-stream-quality-detection-notify-config  --publish-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_live_stream_quality_detection_notify_config(self):
+        cmd = """python ../../main.py live delete-live-stream-quality-detection-notify-config  --publish-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_quality_detection_binding(self):
+        cmd = """python ../../main.py live describe-quality-detection-binding  --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_custom_live_stream_record_templates(self):
         cmd = """python ../../main.py live describe-custom-live-stream-record-templates """
         with os.popen(cmd) as f:

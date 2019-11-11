@@ -167,6 +167,15 @@ class RedisTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_slow_log(self):
+        cmd = """python ../../main.py redis describe-slow-log  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_instance_class(self):
         cmd = """python ../../main.py redis describe-instance-class """
         with os.popen(cmd) as f:

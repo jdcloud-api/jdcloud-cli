@@ -25,7 +25,9 @@
             "charge":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             },
             "multiAttachable":"",
             "encrypt":""

@@ -76,7 +76,9 @@
             "charge":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             },
             "elasticIp":{
                 "bandwidthMbps":"",
@@ -84,7 +86,9 @@
                 "chargeSpec":{
                     "chargeMode":"",
                     "chargeUnit":"",
-                    "chargeDuration":""
+                    "chargeDuration":"",
+                    "autoRenew":"",
+                    "buyScenario":""
                 }
             },
             "primaryNetworkInterface":{

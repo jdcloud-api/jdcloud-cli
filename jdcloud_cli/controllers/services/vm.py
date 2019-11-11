@@ -105,10 +105,11 @@ class VmController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--image-source'], dict(help="""(string) 镜像来源，如果没有指定ids参数，此参数必传；取值范围：public、shared、thirdparty、private """, dest='imageSource',  required=False)),
+            (['--image-source'], dict(help="""(string) 镜像来源，如果没有指定ids参数，此参数必传；取值范围：public、shared、thirdparty、private、community """, dest='imageSource',  required=False)),
             (['--platform'], dict(help="""(string) 操作系统平台，取值范围：Windows Server、CentOS、Ubuntu """, dest='platform',  required=False)),
             (['--ids'], dict(help="""(array: string) 镜像ID列表，如果指定了此参数，其它参数可为空 """, dest='ids',  required=False)),
             (['--root-device-type'], dict(help="""(string) 镜像支持的系统盘类型，[localDisk,cloudDisk] """, dest='rootDeviceType',  required=False)),
+            (['--launch-permission'], dict(help="""(string) 镜像的使用权限[all, specifiedUsers，ownerOnly]，可选参数，仅当imageSource取值private时有效 """, dest='launchPermission',  required=False)),
             (['--status'], dict(help="""(string) <a href="http://docs.jdcloud.com/virtual-machines/api/image_status">参考镜像状态</a> """, dest='status',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
@@ -268,6 +269,72 @@ class VmController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = UnShareImageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 发布社区镜像，只允许操作您的个人私有镜像。发布为社区镜像后会撤销共享关系。<br>;  ''',
+        description='''
+            发布社区镜像，只允许操作您的个人私有镜像。发布为社区镜像后会撤销共享关系。<br>; 。
+
+            示例: jdc vm release-image  --image-id xxx
+        ''',
+    )
+    def release_image(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.ReleaseImageRequest import ReleaseImageRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ReleaseImageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 撤销社区镜像，只允许操作您的个人私有镜像。;  ''',
+        description='''
+            撤销社区镜像，只允许操作您的个人私有镜像。; 。
+
+            示例: jdc vm un-release-image  --image-id xxx
+        ''',
+    )
+    def un_release_image(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.UnReleaseImageRequest import UnReleaseImageRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UnReleaseImageRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1657,7 +1724,7 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-image','delete-image','describe-images','describe-image-constraints','describe-image-constraints-batch','share-image','un-share-image','describe-image-members','copy-images','modify-image-attribute','import-image','image-tasks','describe-instances','create-instances','describe-instance','delete-instance','describe-instance-status','describe-instance-private-ip-address','stop-instance','start-instance','reboot-instance','attach-network-interface','detach-network-interface','modify-instance-network-attribute','associate-elastic-ip','disassociate-elastic-ip','create-image','attach-disk','detach-disk','modify-instance-disk-attribute','modify-instance-attribute','modify-instance-password','describe-instance-vnc-url','resize-instance','rebuild-instance','describe-instance-templates','create-instance-template','describe-instance-template','update-instance-template','delete-instance-template','verify-instance-template','describe-instance-types','describe-keypairs','create-keypair','import-keypair','delete-keypair','describe-quotas',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-image','delete-image','describe-images','describe-image-constraints','describe-image-constraints-batch','share-image','un-share-image','release-image','un-release-image','describe-image-members','copy-images','modify-image-attribute','import-image','image-tasks','describe-instances','create-instances','describe-instance','delete-instance','describe-instance-status','describe-instance-private-ip-address','stop-instance','start-instance','reboot-instance','attach-network-interface','detach-network-interface','modify-instance-network-attribute','associate-elastic-ip','disassociate-elastic-ip','create-image','attach-disk','detach-disk','modify-instance-disk-attribute','modify-instance-attribute','modify-instance-password','describe-instance-vnc-url','resize-instance','rebuild-instance','describe-instance-templates','create-instance-template','describe-instance-template','update-instance-template','delete-instance-template','verify-instance-template','describe-instance-types','describe-keypairs','create-keypair','import-keypair','delete-keypair','describe-quotas',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

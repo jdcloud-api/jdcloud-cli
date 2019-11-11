@@ -106,7 +106,7 @@ class JcqController(BaseController):
             (['--region-id'], dict(help="""(string) 所在区域的Region ID """, dest='regionId',  required=False)),
             (['--consumer-group-id'], dict(help="""(string) consumerGroupId为空则显示该用户所有订阅关系里的死信数量 """, dest='consumerGroupId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 每页数 """, dest='pageSize', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -142,7 +142,7 @@ class JcqController(BaseController):
             (['--topic-name'], dict(help="""(string) topic 名称 """, dest='topicName',  required=True)),
             (['--consumer-group-id'], dict(help="""(string) consumerGroupId为空则显示该Topic下所有订阅关系里的死信数量 """, dest='consumerGroupId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 每页数 """, dest='pageSize', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -177,8 +177,8 @@ class JcqController(BaseController):
             (['--region-id'], dict(help="""(string) 所在区域的Region ID """, dest='regionId',  required=False)),
             (['--topic-name'], dict(help="""(string) topic 名称 """, dest='topicName',  required=True)),
             (['--consumer-group-id'], dict(help="""(string) consumerGroupId """, dest='consumerGroupId',  required=True)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=True)),
             (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -286,6 +286,8 @@ class JcqController(BaseController):
             (['--topic-name'], dict(help="""(string) topic 名称 """, dest='topicName',  required=True)),
             (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=True)),
             (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=True)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -342,6 +344,74 @@ class JcqController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeMessageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 所在区域的Region ID """, dest='regionId',  required=False)),
+            (['--topic-name'], dict(help="""(string) topic 名称 """, dest='topicName',  required=True)),
+            (['--message-id'], dict(help="""(string) message Id """, dest='messageId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询消息轨迹 ''',
+        description='''
+            查询消息轨迹。
+
+            示例: jdc jcq describe-message-trace  --topic-name xxx --message-id xxx
+        ''',
+    )
+    def describe_message_trace(self):
+        client_factory = ClientFactory('jcq')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jcq.apis.DescribeMessageTraceRequest import DescribeMessageTraceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeMessageTraceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 所在区域的Region ID """, dest='regionId',  required=False)),
+            (['--topic-name'], dict(help="""(string) topic 名称 """, dest='topicName',  required=True)),
+            (['--business-id'], dict(help="""(string) business id """, dest='businessId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据businessId查询消息 ''',
+        description='''
+            根据businessId查询消息。
+
+            示例: jdc jcq describe-messages-by-business-id  --topic-name xxx --business-id xxx
+        ''',
+    )
+    def describe_messages_by_business_id(self):
+        client_factory = ClientFactory('jcq')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jcq.apis.DescribeMessagesByBusinessIdRequest import DescribeMessagesByBusinessIdRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeMessagesByBusinessIdRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -457,8 +527,8 @@ class JcqController(BaseController):
             (['--region-id'], dict(help="""(string) 所在区域的Region ID """, dest='regionId',  required=False)),
             (['--topic-name'], dict(help="""(string) topic 名称 """, dest='topicName',  required=True)),
             (['--consumer-group-filter'], dict(help="""(string) consumerGroupFilter，consumerGroupId的过滤条件 """, dest='consumerGroupFilter',  required=False)),
-            (['--page-size'], dict(help="""(int) 分页之中的每页大小 """, dest='pageSize', type=int, required=False)),
-            (['--page-number'], dict(help="""(int) 分页之中的页码 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -493,6 +563,9 @@ class JcqController(BaseController):
             (['--region-id'], dict(help="""(string) 所在区域的Region ID """, dest='regionId',  required=False)),
             (['--topic-name'], dict(help="""(string) topic 名称 """, dest='topicName',  required=True)),
             (['--consumer-group-id'], dict(help="""(string) consumerGroupId """, dest='consumerGroupId',  required=True)),
+            (['--message-invisible-time-in-seconds'], dict(help="""(int) 消息隐藏时间单位秒 """, dest='messageInvisibleTimeInSeconds', type=int, required=False)),
+            (['--dlq-enable'], dict(help="""(bool) 是否开启死信队列[true, false] """, dest='dlqEnable',  required=False)),
+            (['--max-retry-times'], dict(help="""(int) 最大重试次数dlqEnable为true必填,范围[0,16] """, dest='maxRetryTimes', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -549,6 +622,43 @@ class JcqController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeSubscriptionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 所在区域的Region ID """, dest='regionId',  required=False)),
+            (['--topic-name'], dict(help="""(string) topic 名称 """, dest='topicName',  required=True)),
+            (['--consumer-group-id'], dict(help="""(string) consumerGroupId """, dest='consumerGroupId',  required=True)),
+            (['--max-retry-times'], dict(help="""(int) 最大重试次数 """, dest='maxRetryTimes', type=int, required=False)),
+            (['--message-invisible-time-in-seconds'], dict(help="""(int) 消息ack超时时间 """, dest='messageInvisibleTimeInSeconds', type=int, required=False)),
+            (['--dlq-enable'], dict(help="""(bool) 是否开启死信队列[true, false] """, dest='dlqEnable',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改订阅 ''',
+        description='''
+            修改订阅。
+
+            示例: jdc jcq modify-subscription-attribute  --topic-name xxx --consumer-group-id xxx
+        ''',
+    )
+    def modify_subscription_attribute(self):
+        client_factory = ClientFactory('jcq')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jcq.apis.ModifySubscriptionAttributeRequest import ModifySubscriptionAttributeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifySubscriptionAttributeRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -662,8 +772,8 @@ class JcqController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 所在区域的Region ID """, dest='regionId',  required=False)),
-            (['--page-size'], dict(help="""(int) 分页之中的每页大小 """, dest='pageSize', type=int, required=False)),
-            (['--page-number'], dict(help="""(int) 分页之中的页码 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
             (['--topic-filter'], dict(help="""(string) topic名称的过滤条件，大小写不敏感 """, dest='topicFilter',  required=False)),
             (['--tag-filters'], dict(help="""(array: tagFilter) 标签过滤条件 """, dest='tagFilters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -798,7 +908,7 @@ class JcqController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-access-point','describe-consumer-group-ids','describe-dead-letter-numbers','describe-dead-letter-numbers-with-topic','list-dead-letters','delete-dead-letters','resend-dead-letters','describe-messages','describe-message','describe-permission','add-permission','remove-permission','describe-subscriptions','create-subscription','describe-subscription','delete-subscription','clean-messages','reset-consume-offset','describe-topics','create-topic','describe-topic','delete-topic',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-access-point','describe-consumer-group-ids','describe-dead-letter-numbers','describe-dead-letter-numbers-with-topic','list-dead-letters','delete-dead-letters','resend-dead-letters','describe-messages','describe-message','describe-message-trace','describe-messages-by-business-id','describe-permission','add-permission','remove-permission','describe-subscriptions','create-subscription','describe-subscription','modify-subscription-attribute','delete-subscription','clean-messages','reset-consume-offset','describe-topics','create-topic','describe-topic','delete-topic',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -76,8 +76,8 @@ class RedisController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
-            (['--cache-instance'], dict(help="""(cacheInstanceSpec) 创建实例时输入的信息 """, dest='cacheInstance',  required=True)),
-            (['--charge'], dict(help="""(chargeSpec) 该实例规格的计费信息 """, dest='charge',  required=False)),
+            (['--cache-instance'], dict(help="""(cacheInstanceSpec) 创建实例时指定的信息 """, dest='cacheInstance',  required=True)),
+            (['--charge'], dict(help="""(chargeSpec) 实例的计费类型 """, dest='charge',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -588,6 +588,44 @@ class RedisController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
+            (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 结束时间 """, dest='endTime',  required=False)),
+            (['--shard-id'], dict(help="""(string) 分片id """, dest='shardId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取缓存Redis实例的慢查询日志 ''',
+        description='''
+            获取缓存Redis实例的慢查询日志。
+
+            示例: jdc redis describe-slow-log  --cache-instance-id xxx
+        ''',
+    )
+    def describe_slow_log(self):
+        client_factory = ClientFactory('redis')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.redis.apis.DescribeSlowLogRequest import DescribeSlowLogRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSlowLogRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
             (['--redis-version'], dict(help="""(string) 缓存Redis的版本号：目前有2.8和4.0，默认为2.8 """, dest='redisVersion',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -652,7 +690,7 @@ class RedisController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-cache-instances','create-cache-instance','describe-cache-instance','modify-cache-instance-attribute','delete-cache-instance','modify-cache-instance-class','reset-cache-instance-password','describe-instance-config','modify-instance-config','describe-backups','create-backup','describe-backup-policy','modify-backup-policy','restore-instance','describe-download-url','describe-cluster-info','describe-instance-class','describe-user-quota',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-cache-instances','create-cache-instance','describe-cache-instance','modify-cache-instance-attribute','delete-cache-instance','modify-cache-instance-class','reset-cache-instance-password','describe-instance-config','modify-instance-config','describe-backups','create-backup','describe-backup-policy','modify-backup-policy','restore-instance','describe-download-url','describe-cluster-info','describe-slow-log','describe-instance-class','describe-user-quota',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

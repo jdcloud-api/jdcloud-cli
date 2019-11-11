@@ -18,7 +18,9 @@
             "charge":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             }
         },
         "regionId":""
@@ -95,7 +97,9 @@
             "charge":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             }
         },
         "regionId":""
@@ -303,7 +307,9 @@
             "charge":{
                 "chargeMode":"",
                 "chargeUnit":"",
-                "chargeDuration":""
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
             }
         },
         "regionId":""

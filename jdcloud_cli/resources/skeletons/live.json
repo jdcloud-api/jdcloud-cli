@@ -67,6 +67,53 @@
         "playDomain":"",
         "restartDomain":""
     },
+    "add-custom-live-stream-quality-detection-template":{
+        "template":"",
+        "modules":[""]
+    },
+    "describe-custom-live-stream-quality-detection-templates":{
+        "pageNum":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }]
+    },
+    "add-live-stream-app-quality-detection":{
+        "publishDomain":"",
+        "appName":"",
+        "template":""
+    },
+    "add-live-stream-domain-quality-detection":{
+        "publishDomain":"",
+        "template":""
+    },
+    "set-live-stream-quality-detection-notify-config":{
+        "publishDomain":"",
+        "notifyUrl":""
+    },
+    "delete-custom-live-stream-quality-detection-template":{
+        "template":""
+    },
+    "delete-live-stream-app-quality-detection":{
+        "publishDomain":"",
+        "appName":"",
+        "template":""
+    },
+    "delete-live-stream-domain-quality-detection":{
+        "publishDomain":"",
+        "template":""
+    },
+    "describe-live-stream-quality-detection-notify-config":{
+        "publishDomain":""
+    },
+    "delete-live-stream-quality-detection-notify-config":{
+        "publishDomain":""
+    },
+    "describe-quality-detection-binding":{
+        "template":""
+    },
     "describe-custom-live-stream-record-templates":{
         "pageNum":"",
         "pageSize":"",

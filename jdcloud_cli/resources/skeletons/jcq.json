@@ -43,6 +43,8 @@
     "describe-messages":{
         "startTime":"",
         "endTime":"",
+        "pageSize":"",
+        "pageNumber":"",
         "regionId":"",
         "topicName":""
     },
@@ -50,6 +52,16 @@
         "regionId":"",
         "topicName":"",
         "messageId":""
+    },
+    "describe-message-trace":{
+        "regionId":"",
+        "topicName":"",
+        "messageId":""
+    },
+    "describe-messages-by-business-id":{
+        "businessId":"",
+        "regionId":"",
+        "topicName":""
     },
     "describe-permission":{
         "regionId":"",
@@ -76,10 +88,21 @@
     },
     "create-subscription":{
         "consumerGroupId":"",
+        "messageInvisibleTimeInSeconds":"",
+        "dlqEnable":"",
+        "maxRetryTimes":"",
         "regionId":"",
         "topicName":""
     },
     "describe-subscription":{
+        "regionId":"",
+        "topicName":"",
+        "consumerGroupId":""
+    },
+    "modify-subscription-attribute":{
+        "maxRetryTimes":"",
+        "messageInvisibleTimeInSeconds":"",
+        "dlqEnable":"",
         "regionId":"",
         "topicName":"",
         "consumerGroupId":""
