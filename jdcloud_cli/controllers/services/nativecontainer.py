@@ -21,7 +21,6 @@ from jdcloud_cli.cement.ext.ext_argparse import expose
 from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.controllers.websocket.exec_start_request import exec_start
 from jdcloud_cli.controllers.websocket.attach_request import attach
-from jdcloud_cli.controllers.websocket.exec_create_request import ExecCreateRequest
 from jdcloud_cli.client_factory import ClientFactory
 from jdcloud_cli.parameter_builder import collect_user_args, collect_user_headers
 from jdcloud_cli.printer import Printer
@@ -762,36 +761,6 @@ class NativecontainerController(BaseController):
             print('{"error":"This api is not supported, please use the newer version"}')
         except Exception as e:
             print(e)
-
-
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help='(string) region id', dest='regionId', choices=['cn-north-1', 'cn-east-1', 'cn-east-2', 'cn-south-1'], required=False)),
-            (['--container-id'], dict(help='(string) container id', dest='containerId', required=True)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 为容器创建一个执行环境 ''',
-        description='''
-            为容器创建一个执行环境.
-
-            示例: jdc nativecontainer exec-create --container-id xxx
-        '''
-    )
-    def exec_create(self):
-        client_factory = ClientFactory('nativecontainer')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        params_dict = collect_user_args(self.app)
-        headers = collect_user_headers(self.app)
-
-        req = ExecCreateRequest(params_dict, headers)
-        resp = client.send(req)
-        Printer.print_result(resp)
 
     @expose(
         arguments=[
