@@ -28,7 +28,7 @@ from jdcloud_cli.skeleton import Skeleton
 class KmsController(BaseController):
     class Meta:
         label = 'kms'
-        help = 'JDCLOUD 密钥管理服务(Key Management Service) API'
+        help = '密钥管理服务'
         description = '''
         kms cli 子命令，基于硬件保护密钥的安全数据托管服务。
         OpenAPI文档地址为：https://docs.jdcloud.com/cn/key-management-service/api/overview
@@ -141,9 +141,9 @@ class KmsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改密钥配置，包括key的名称、用途、是否自动轮换和轮换周期等 ''',
+        help=''' -   修改对称密钥配置，包括key的名称、用途、是否自动轮换和轮换周期等;; -   修改非对称密钥配置，包括key的名称、用途等。;  ''',
         description='''
-            修改密钥配置，包括key的名称、用途、是否自动轮换和轮换周期等。
+            -   修改对称密钥配置，包括key的名称、用途、是否自动轮换和轮换周期等;; -   修改非对称密钥配置，包括key的名称、用途等。; 。
 
             示例: jdc kms update-key-description  --key-id xxx --key-cfg '{"":""}'
         ''',
@@ -302,9 +302,9 @@ class KmsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 立即轮换密钥，自动轮换周期顺延 ''',
+        help=''' 立即轮换密钥，自动轮换周期顺延-支持对称密钥 ''',
         description='''
-            立即轮换密钥，自动轮换周期顺延。
+            立即轮换密钥，自动轮换周期顺延-支持对称密钥。
 
             示例: jdc kms key-rotation  --key-id xxx
         ''',
@@ -335,9 +335,9 @@ class KmsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 使用密钥对数据进行加密 ''',
+        help=''' 使用密钥对数据进行加密，针对非对称密钥：使用公钥进行加密，仅支持RSA_PKCS1_PADDING填充方式，最大加密数据长度为245字节 ''',
         description='''
-            使用密钥对数据进行加密。
+            使用密钥对数据进行加密，针对非对称密钥：使用公钥进行加密，仅支持RSA_PKCS1_PADDING填充方式，最大加密数据长度为245字节。
 
             示例: jdc kms encrypt  --key-id xxx
         ''',
@@ -368,9 +368,9 @@ class KmsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 使用密钥对数据进行解密 ''',
+        help=''' 使用密钥对数据进行解密，针对非对称密钥：使用私钥进行加密 ''',
         description='''
-            使用密钥对数据进行解密。
+            使用密钥对数据进行解密，针对非对称密钥：使用私钥进行加密。
 
             示例: jdc kms decrypt  --key-id xxx
         ''',
@@ -386,6 +386,105 @@ class KmsController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DecryptRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取非对称密钥的公钥 ''',
+        description='''
+            获取非对称密钥的公钥。
+
+            示例: jdc kms get-public-key  --key-id xxx
+        ''',
+    )
+    def get_public_key(self):
+        client_factory = ClientFactory('kms')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kms.apis.GetPublicKeyRequest import GetPublicKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetPublicKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--plaintext'], dict(help="""(string) 需要签名的数据 Base64-encoded binary data object """, dest='plaintext',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 使用非对称密钥的私钥签名,签名算法仅支持RSA_PKCS1_PADDING填充方式,最大签名数据长度为4K字节 ''',
+        description='''
+            使用非对称密钥的私钥签名,签名算法仅支持RSA_PKCS1_PADDING填充方式,最大签名数据长度为4K字节。
+
+            示例: jdc kms sign  --key-id xxx
+        ''',
+    )
+    def sign(self):
+        client_factory = ClientFactory('kms')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kms.apis.SignRequest import SignRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SignRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--key-id'], dict(help="""(string) 密钥ID """, dest='keyId',  required=True)),
+            (['--plaintext'], dict(help="""(string) 需要签名的数据 Base64-encoded binary data object """, dest='plaintext',  required=False)),
+            (['--signature'], dict(help="""(string) 签名 """, dest='signature',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 使用非对称密钥的公钥验证签名 ''',
+        description='''
+            使用非对称密钥的公钥验证签名。
+
+            示例: jdc kms validate  --key-id xxx
+        ''',
+    )
+    def validate(self):
+        client_factory = ClientFactory('kms')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kms.apis.ValidateRequest import ValidateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ValidateRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1085,7 +1184,7 @@ class KmsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-key-list','create-key','describe-key','update-key-description','enable-key','disable-key','schedule-key-deletion','cancel-key-deletion','key-rotation','encrypt','decrypt','generate-data-key','describe-key-detail','enable-key-version','disable-key-version','schedule-key-version-deletion','cancel-key-version-deletion','describe-secret-list','create-secret','import-secret','describe-secret-version-list','update-secret','enable-secret','disable-secret','delete-secret','create-secret-version','export-secret','describe-secret-version-info','update-secret-version','enable-secret-version','disable-secret-version','delete-secret-version',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-key-list','create-key','describe-key','update-key-description','enable-key','disable-key','schedule-key-deletion','cancel-key-deletion','key-rotation','encrypt','decrypt','get-public-key','sign','validate','generate-data-key','describe-key-detail','enable-key-version','disable-key-version','schedule-key-version-deletion','cancel-key-version-deletion','describe-secret-list','create-secret','import-secret','describe-secret-version-list','update-secret','enable-secret','disable-secret','delete-secret','create-secret-version','export-secret','describe-secret-version-info','update-secret-version','enable-secret-version','disable-secret-version','delete-secret-version',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -7,7 +7,8 @@
         "keyCfg":{
             "keyDescCfg":{
                 "keyName":"",
-                "keyDesc":""
+                "keyDesc":"",
+                "keyType":""
             },
             "keyRotateCfg":{
                 "autoRotate":"",
@@ -22,7 +23,8 @@
         "keyCfg":{
             "keyDescCfg":{
                 "keyName":"",
-                "keyDesc":""
+                "keyDesc":"",
+                "keyType":""
             },
             "keyRotateCfg":{
                 "autoRotate":"",
@@ -53,6 +55,18 @@
     },
     "decrypt":{
         "ciphertextBlob":"",
+        "keyId":""
+    },
+    "get-public-key":{
+        "keyId":""
+    },
+    "sign":{
+        "plaintext":"",
+        "keyId":""
+    },
+    "validate":{
+        "plaintext":"",
+        "signature":"",
         "keyId":""
     },
     "generate-data-key":{

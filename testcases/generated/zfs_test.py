@@ -78,7 +78,7 @@ class ZfsTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_mount_target(self):
-        cmd = """python ../../main.py zfs create-mount-target  --file-system-id 'xxx' --subnet-id 'xxx' --vpc-id 'xxx' --security-group-id 'xxx' --client-token 'xxx'"""
+        cmd = """python ../../main.py zfs create-mount-target  --file-system-id 'xxx' --subnet-id 'xxx' --vpc-id 'xxx' --client-token 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -122,6 +122,33 @@ class KmsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_get_public_key(self):
+        cmd = """python ../../main.py kms get-public-key  --key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_sign(self):
+        cmd = """python ../../main.py kms sign  --key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_validate(self):
+        cmd = """python ../../main.py kms validate  --key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_generate_data_key(self):
         cmd = """python ../../main.py kms generate-data-key  --key-id 'xxx'"""
         with os.popen(cmd) as f:

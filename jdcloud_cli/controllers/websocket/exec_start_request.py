@@ -27,8 +27,11 @@ from jdcloud_cli.controllers.websocket.websocket_base import web_socket
 class ExecStartRequest(object):
 
     def __init__(self, service, scheme, endpoint, method, headers, region_id, container_id, exec_id, pod_id=None):
-        url_map = {'nc': '%s://%s/v1/regions/%s/containers/%s:execStart?execId=%s' % (scheme, endpoint, region_id, container_id, exec_id),
-                   'pod': '%s://%s/v1/regions/%s/pods/%s/containers/%s:execStart?execId=%s' % (scheme, endpoint, region_id, pod_id, container_id, exec_id)}
+        url_map = {
+            'nc': '%s://%s/v1/regions/%s/containers/%s:execStart?execId=%s' % (scheme, endpoint, region_id, container_id, exec_id),
+            'nativecontainer': '%s://%s/v1/regions/%s/containers/%s:execStart?execId=%s' % (scheme, endpoint, region_id, container_id, exec_id),
+            'pod': '%s://%s/v1/regions/%s/pods/%s/containers/%s:execStart?execId=%s' % (scheme, endpoint, region_id, pod_id, container_id, exec_id)
+        }
         self.__url = url_map[service]
         self.__method = method
         self.__region_id = region_id

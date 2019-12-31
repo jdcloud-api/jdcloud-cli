@@ -2,10 +2,32 @@
     "query-my-customer-list":{
         "customerPin":"",
         "aliasName":"",
+        "loginName":"",
         "startRelTime":"",
         "endRelTime":"",
         "pageIndex":"",
         "pageSize":"",
+        "regionId":""
+    },
+    "get-total-consumption":{
+        "startTime":"",
+        "endTime":"",
+        "regionId":""
+    },
+    "get-each-consumption":{
+        "startTime":"",
+        "endTime":"",
+        "pin":"",
+        "pageSize":"",
+        "pageIndex":"",
+        "regionId":""
+    },
+    "describe-customer-bill-by-product":{
+        "pin":"",
+        "startTime":"",
+        "endTime":"",
+        "pageSize":"",
+        "pageIndex":"",
         "regionId":""
     },
 }

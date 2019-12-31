@@ -6,6 +6,8 @@
         "startTime":"",
         "endTime":"",
         "timeInterval":"",
+        "ip":"",
+        "port":"",
         "idc":"",
         "metric":""
     },
@@ -13,6 +15,15 @@
         "resourceId":"",
         "idc":"",
         "metric":""
+    },
+    "describe-bandwidth-traffics":{
+        "pageNumber":"",
+        "pageSize":"",
+        "idc":""
+    },
+    "describe-bandwidth-traffic":{
+        "idc":"",
+        "bandwidthId":""
     },
     "describe-idcs":{
         "pageNumber":"",

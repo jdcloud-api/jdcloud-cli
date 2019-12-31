@@ -42,6 +42,7 @@ class CpsController(BaseController):
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
             (['--status'], dict(help="""(string) 弹性公网IP状态，取值范围：associate、disassociate """, dest='status',  required=False)),
+            (['--include-lb'], dict(help="""(string) 是否包含负载均衡 """, dest='includeLB',  required=False)),
             (['--filters'], dict(help="""(array: filter) elasticIpId - 弹性公网IPID，精确匹配，支持多个<br/>; elasticIp - 弹性公网IP，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -320,7 +321,8 @@ class CpsController(BaseController):
             (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=False)),
             (['--keypair-id'], dict(help="""(string) 密钥对ID """, dest='keypairId',  required=False)),
             (['--enable-internet'], dict(help="""(string) 是否启用外网, yes/no """, dest='enableInternet',  required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 云物理服务器ID，精确匹配，支持多个<br/>; privateIp - 云物理服务器内网IP，精确匹配，支持多个<br/>; status - 云物理服务器状态，参考云物理服务器状态，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--private-ip'], dict(help="""(string) 内网ip """, dest='privateIp',  required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 云物理服务器ID，精确匹配，支持多个<br/>; status - 云物理服务器状态，参考云物理服务器状态，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -801,7 +803,7 @@ class CpsController(BaseController):
             (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--start-time'], dict(help="""(int) 开始时间的时间戳，格式：1562915166551 """, dest='startTime', type=int, required=False)),
             (['--end-time'], dict(help="""(int) 结束时间的时间戳，格式：1562915166551 """, dest='endTime', type=int, required=False)),
-            (['--metrics'], dict(help="""(array: string) cps.cpu.util - CPU使用率<br/>; cps.memory.util - 内存使用率<br/>; cps.memory.used - 内存使用量<br/>; cps.disk.used - 磁盘使用量<br/>; cps.disk.util - 磁盘使用率<br/>; cps.disk.bytes.read - 磁盘读流量<br/>; cps.disk.bytes.write - 磁盘写流量<br/>; cps.disk.counts.read - 磁盘读IOPS<br/>; cps.disk.counts.write - 磁盘写IOPS<br/>; cps.network.bytes.ingress - 网卡进流量<br/>; cps.network.bytes.egress - 网卡出流量<br/>; cps.network.packets.ingress - 网络进包量<br/>; cps.network.packets.egress - 网络出包量<br/>; cps.avg.load1 - CPU平均负载1min<br/>; cps.avg.load5 - CPU平均负载5min<br/>; cps.avg.load15 - CPU平均负载15min<br/>; cps.tcp.connect.total - TCP总连接数<br/>; cps.tcp.connect.established - TCP正常连接数<br/>; cps.process.total - 总进程数;  """, dest='metrics',  required=False)),
+            (['--filters'], dict(help="""(array: filter) metric - 监控指标，精确匹配，支持多个，具体如下<br/>; cps.cpu.util - CPU使用率<br/>; cps.memory.util - 内存使用率<br/>; cps.memory.used - 内存使用量<br/>; cps.disk.used - 磁盘使用量<br/>; cps.disk.util - 磁盘使用率<br/>; cps.disk.bytes.read - 磁盘读流量<br/>; cps.disk.bytes.write - 磁盘写流量<br/>; cps.disk.counts.read - 磁盘读IOPS<br/>; cps.disk.counts.write - 磁盘写IOPS<br/>; cps.network.bytes.ingress - 网卡进流量<br/>; cps.network.bytes.egress - 网卡出流量<br/>; cps.network.packets.ingress - 网络进包量<br/>; cps.network.packets.egress - 网络出包量<br/>; cps.avg.load1 - CPU平均负载1min<br/>; cps.avg.load5 - CPU平均负载5min<br/>; cps.avg.load15 - CPU平均负载15min<br/>; cps.tcp.connect.total - TCP总连接数<br/>; cps.tcp.connect.established - TCP正常连接数<br/>; cps.process.total - 总进程数;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -846,20 +848,20 @@ class CpsController(BaseController):
         description='''
             查询密钥对列表。
 
-            示例: jdc cps query-keypairs 
+            示例: jdc cps describe-keypairs 
         ''',
     )
-    def query_keypairs(self):
+    def describe_keypairs(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryKeypairsRequest import QueryKeypairsRequest
+            from jdcloud_sdk.services.cps.apis.DescribeKeypairsRequest import DescribeKeypairsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryKeypairsRequest(params_dict, headers)
+            req = DescribeKeypairsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -948,20 +950,20 @@ class CpsController(BaseController):
         description='''
             查询密钥对详情。
 
-            示例: jdc cps query-keypair  --keypair-id xxx
+            示例: jdc cps describe-keypair  --keypair-id xxx
         ''',
     )
-    def query_keypair(self):
+    def describe_keypair(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryKeypairRequest import QueryKeypairRequest
+            from jdcloud_sdk.services.cps.apis.DescribeKeypairRequest import DescribeKeypairRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryKeypairRequest(params_dict, headers)
+            req = DescribeKeypairRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1004,7 +1006,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
             (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
@@ -1018,20 +1020,20 @@ class CpsController(BaseController):
         description='''
             查询监听器。
 
-            示例: jdc cps query-listeners 
+            示例: jdc cps describe-listeners 
         ''',
     )
-    def query_listeners(self):
+    def describe_listeners(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryListenersRequest import QueryListenersRequest
+            from jdcloud_sdk.services.cps.apis.DescribeListenersRequest import DescribeListenersRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryListenersRequest(params_dict, headers)
+            req = DescribeListenersRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1041,9 +1043,9 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--load-balancer-spec'], dict(help="""(listenerSpec) 监听器配置 """, dest='loadBalancerSpec',  required=True)),
+            (['--listener-spec'], dict(help="""(listenerSpec) 监听器配置 """, dest='listenerSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1052,7 +1054,7 @@ class CpsController(BaseController):
         description='''
             创建监听器。
 
-            示例: jdc cps create-listener  --load-balancer-spec '{"":""}'
+            示例: jdc cps create-listener  --listener-spec '{"":""}'
         ''',
     )
     def create_listener(self):
@@ -1075,7 +1077,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--algorithm'], dict(help="""(string) 调度算法 """, dest='algorithm',  required=False)),
             (['--sticky-session'], dict(help="""(string) 会话保持 """, dest='stickySession',  required=False)),
@@ -1119,7 +1121,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -1129,20 +1131,20 @@ class CpsController(BaseController):
         description='''
             查询监听器详情。
 
-            示例: jdc cps query-listener  --listener-id xxx
+            示例: jdc cps describe-listener  --listener-id xxx
         ''',
     )
-    def query_listener(self):
+    def describe_listener(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryListenerRequest import QueryListenerRequest
+            from jdcloud_sdk.services.cps.apis.DescribeListenerRequest import DescribeListenerRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryListenerRequest(params_dict, headers)
+            req = DescribeListenerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1152,7 +1154,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -1185,7 +1187,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1219,7 +1221,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1253,7 +1255,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
             (['--status'], dict(help="""(string) 状态 """, dest='status',  required=False)),
@@ -1269,20 +1271,20 @@ class CpsController(BaseController):
         description='''
             查询负载均衡实例列表。
 
-            示例: jdc cps query-load-balancers 
+            示例: jdc cps describe-load-balancers 
         ''',
     )
-    def query_load_balancers(self):
+    def describe_load_balancers(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryLoadBalancersRequest import QueryLoadBalancersRequest
+            from jdcloud_sdk.services.cps.apis.DescribeLoadBalancersRequest import DescribeLoadBalancersRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryLoadBalancersRequest(params_dict, headers)
+            req = DescribeLoadBalancersRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1292,7 +1294,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--load-balancer-spec'], dict(help="""(loadBalancerSpec) 负载均衡配置 """, dest='loadBalancerSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1326,7 +1328,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
             (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
             (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
@@ -1361,7 +1363,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -1371,20 +1373,20 @@ class CpsController(BaseController):
         description='''
             查询负载均衡实例详情。
 
-            示例: jdc cps query-load-balancer  --load-balancer-id xxx
+            示例: jdc cps describe-load-balancer  --load-balancer-id xxx
         ''',
     )
-    def query_load_balancer(self):
+    def describe_load_balancer(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryLoadBalancerRequest import QueryLoadBalancerRequest
+            from jdcloud_sdk.services.cps.apis.DescribeLoadBalancerRequest import DescribeLoadBalancerRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryLoadBalancerRequest(params_dict, headers)
+            req = DescribeLoadBalancerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1394,7 +1396,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1428,7 +1430,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1462,7 +1464,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--elastic-ip-id'], dict(help="""(string) 弹性公网IPId """, dest='elasticIpId',  required=True)),
@@ -1497,7 +1499,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--elastic-ip-id'], dict(help="""(string) 弹性公网IPId """, dest='elasticIpId',  required=True)),
@@ -1572,20 +1574,20 @@ class CpsController(BaseController):
         description='''
             查询负载均衡地域列表。
 
-            示例: jdc cps query-cpslbregions 
+            示例: jdc cps describe-cpslbregions 
         ''',
     )
-    def query_cpslbregions(self):
+    def describe_cpslbregions(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryCPSLBRegionsRequest import QueryCPSLBRegionsRequest
+            from jdcloud_sdk.services.cps.apis.DescribeCPSLBRegionsRequest import DescribeCPSLBRegionsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryCPSLBRegionsRequest(params_dict, headers)
+            req = DescribeCPSLBRegionsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1605,20 +1607,20 @@ class CpsController(BaseController):
         description='''
             查询路由表详情。
 
-            示例: jdc cps query-route-table  --route-table-id xxx
+            示例: jdc cps describe-route-table  --route-table-id xxx
         ''',
     )
-    def query_route_table(self):
+    def describe_route_table(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryRouteTableRequest import QueryRouteTableRequest
+            from jdcloud_sdk.services.cps.apis.DescribeRouteTableRequest import DescribeRouteTableRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryRouteTableRequest(params_dict, headers)
+            req = DescribeRouteTableRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1642,20 +1644,20 @@ class CpsController(BaseController):
         description='''
             查询路由表列表。
 
-            示例: jdc cps query-route-tables 
+            示例: jdc cps describe-route-tables 
         ''',
     )
-    def query_route_tables(self):
+    def describe_route_tables(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryRouteTablesRequest import QueryRouteTablesRequest
+            from jdcloud_sdk.services.cps.apis.DescribeRouteTablesRequest import DescribeRouteTablesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryRouteTablesRequest(params_dict, headers)
+            req = DescribeRouteTablesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1665,7 +1667,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
@@ -1679,20 +1681,20 @@ class CpsController(BaseController):
         description='''
             查询后端服务器列表。
 
-            示例: jdc cps query-servers  --server-group-id xxx
+            示例: jdc cps describe-servers  --server-group-id xxx
         ''',
     )
-    def query_servers(self):
+    def describe_servers(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryServersRequest import QueryServersRequest
+            from jdcloud_sdk.services.cps.apis.DescribeServersRequest import DescribeServersRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryServersRequest(params_dict, headers)
+            req = DescribeServersRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1702,7 +1704,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--server-spec'], dict(help="""(array: serverSpec) 后端服务器配置 """, dest='serverSpec',  required=True)),
@@ -1737,7 +1739,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
             (['--server-id'], dict(help="""(string) 后端服务器ID """, dest='serverId',  required=True)),
             (['--weight'], dict(help="""(int) 权重 """, dest='weight', type=int, required=False)),
@@ -1772,7 +1774,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
             (['--server-id'], dict(help="""(string) 后端服务器ID """, dest='serverId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1806,7 +1808,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
             (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
@@ -1820,20 +1822,20 @@ class CpsController(BaseController):
         description='''
             查询虚拟服务器组列表。
 
-            示例: jdc cps query-server-groups 
+            示例: jdc cps describe-server-groups 
         ''',
     )
-    def query_server_groups(self):
+    def describe_server_groups(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryServerGroupsRequest import QueryServerGroupsRequest
+            from jdcloud_sdk.services.cps.apis.DescribeServerGroupsRequest import DescribeServerGroupsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryServerGroupsRequest(params_dict, headers)
+            req = DescribeServerGroupsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1843,7 +1845,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--server-group-spec'], dict(help="""(serverGroupSpec) 虚拟服务器组配置 """, dest='serverGroupSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1877,7 +1879,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -1887,20 +1889,20 @@ class CpsController(BaseController):
         description='''
             查询虚拟服务器组。
 
-            示例: jdc cps query-server-group  --server-group-id xxx
+            示例: jdc cps describe-server-group  --server-group-id xxx
         ''',
     )
-    def query_server_group(self):
+    def describe_server_group(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.QueryServerGroupRequest import QueryServerGroupRequest
+            from jdcloud_sdk.services.cps.apis.DescribeServerGroupRequest import DescribeServerGroupRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryServerGroupRequest(params_dict, headers)
+            req = DescribeServerGroupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1910,7 +1912,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
             (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1944,7 +1946,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（queryCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -2356,7 +2358,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-elastic-ips','apply-elastic-ips','describe-elastic-ip','modify-elastic-ip-bandwidth','describe-device-types','describe-os','describe-device-raids','describe-instance','describe-instances','create-instances','describe-instance-name','modify-instance','describe-instance-raid','describe-instance-status','restart-instance','stop-instance','start-instance','reinstall-instance','modify-bandwidth','associate-elastic-ip','disassociate-elastic-ip','reset-password','describe-instance-monitor-info','query-keypairs','create-keypairs','import-keypairs','query-keypair','delete-keypairs','query-listeners','create-listener','modify-listener','query-listener','delete-listener','start-listener','stop-listener','query-load-balancers','create-load-balancer','modify-load-balancer','query-load-balancer','start-load-balancer','stop-load-balancer','associate-elastic-ip-lb','disassociate-elastic-ip-lb','describe-regiones','query-cpslbregions','query-route-table','query-route-tables','query-servers','add-servers','modify-server','remove-server','query-server-groups','create-server-group','query-server-group','modify-server-group','delete-server-group','describe-basic-subnet','describe-subnets','create-subnet','describe-subnet','modify-subnet','delete-subnet','describe-vpc','modify-vpc','delete-vpc','describe-vpcs','create-vpc',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-elastic-ips','apply-elastic-ips','describe-elastic-ip','modify-elastic-ip-bandwidth','describe-device-types','describe-os','describe-device-raids','describe-instance','describe-instances','create-instances','describe-instance-name','modify-instance','describe-instance-raid','describe-instance-status','restart-instance','stop-instance','start-instance','reinstall-instance','modify-bandwidth','associate-elastic-ip','disassociate-elastic-ip','reset-password','describe-instance-monitor-info','describe-keypairs','create-keypairs','import-keypairs','describe-keypair','delete-keypairs','describe-listeners','create-listener','modify-listener','describe-listener','delete-listener','start-listener','stop-listener','describe-load-balancers','create-load-balancer','modify-load-balancer','describe-load-balancer','start-load-balancer','stop-load-balancer','associate-elastic-ip-lb','disassociate-elastic-ip-lb','describe-regiones','describe-cpslbregions','describe-route-table','describe-route-tables','describe-servers','add-servers','modify-server','remove-server','describe-server-groups','create-server-group','describe-server-group','modify-server-group','delete-server-group','describe-basic-subnet','describe-subnets','create-subnet','describe-subnet','modify-subnet','delete-subnet','describe-vpc','modify-vpc','delete-vpc','describe-vpcs','create-vpc',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -41,6 +41,7 @@ class ZfsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
             (['--filters'], dict(help="""(array: filter) fileSystemId - 文件系统ID，精确匹配，支持多个; name - 文件系统名称，模糊匹配，支持单个; status - 文件系统状态，精确匹配，支持多个 FileSystem Status/creating、available、in-use;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -77,6 +78,7 @@ class ZfsController(BaseController):
             (['--name'], dict(help="""(string) 文件系统名称 """, dest='name',  required=True)),
             (['--description'], dict(help="""(string) 文件系统描述 """, dest='description',  required=True)),
             (['--client-token'], dict(help="""(string) 幂等性参数(只支持数字、大小写字母，且不能超过64字符) """, dest='clientToken',  required=True)),
+            (['--file-system-type'], dict(help="""(string) 文件系统类型(通用型:gp1,容量型:std1),默认为通用型 """, dest='fileSystemType',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -182,9 +184,9 @@ class ZfsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' -   删除一个文件系统，一旦删除，该文件系统将不存在，也无法访问已删除的文件系统里的任何内容。;  ''',
+        help=''' -   删除一个文件系统，一旦删除，该文件系统将不存在，也无法访问已删除的文件系统里的任何内容。;  [MFA enabled] ''',
         description='''
-            -   删除一个文件系统，一旦删除，该文件系统将不存在，也无法访问已删除的文件系统里的任何内容。; 。
+            -   删除一个文件系统，一旦删除，该文件系统将不存在，也无法访问已删除的文件系统里的任何内容。;  [MFA enabled]。
 
             示例: jdc zfs delete-file-system  --file-system-id xxx
         ''',
@@ -248,7 +250,7 @@ class ZfsController(BaseController):
             (['--file-system-id'], dict(help="""(string) 创建挂载目标的文件系统 """, dest='fileSystemId',  required=True)),
             (['--subnet-id'], dict(help="""(string) 子网id """, dest='subnetId',  required=True)),
             (['--vpc-id'], dict(help="""(string) vpcId """, dest='vpcId',  required=True)),
-            (['--security-group-id'], dict(help="""(string) 安全组id """, dest='securityGroupId',  required=True)),
+            (['--security-group-id'], dict(help="""(string) 安全组id """, dest='securityGroupId',  required=False)),
             (['--client-token'], dict(help="""(string) 幂等性参数(只支持数字、大小写字母，且不能超过64字符) """, dest='clientToken',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -258,7 +260,7 @@ class ZfsController(BaseController):
         description='''
             - 为一个文件系统创建一个挂载目标。通过这个挂载目标,你可以挂载将一个文件系统挂载到主机实例上。; - 创建一个挂载目标，为这个挂载目标分配一个Id; 。
 
-            示例: jdc zfs create-mount-target  --file-system-id xxx --subnet-id xxx --vpc-id xxx --security-group-id xxx --client-token xxx
+            示例: jdc zfs create-mount-target  --file-system-id xxx --subnet-id xxx --vpc-id xxx --client-token xxx
         ''',
     )
     def create_mount_target(self):

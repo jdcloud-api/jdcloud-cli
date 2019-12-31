@@ -7,6 +7,10 @@
             "operator":"",
             "values":""
         }],
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
         "regionId":""
     },
     "create-elastic-ips":{
@@ -23,6 +27,10 @@
                 "buyScenario":""
             }
         },
+        "userTags":[{
+            "key":"",
+            "value":""
+        }],
         "regionId":""
     },
     "describe-elastic-ip":{
@@ -272,7 +280,8 @@
             "nextHopType":"",
             "nextHopId":"",
             "addressPrefix":"",
-            "priority":""
+            "priority":"",
+            "description":""
         }],
         "regionId":"",
         "routeTableId":""
@@ -288,7 +297,8 @@
             "priority":"",
             "nextHopType":"",
             "nextHopId":"",
-            "addressPrefix":""
+            "addressPrefix":"",
+            "description":""
         }],
         "regionId":"",
         "routeTableId":""

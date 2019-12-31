@@ -17,12 +17,6 @@
         "podId":"",
         "containerName":""
     },
-    "exec-start":{
-        "execId":"",
-        "regionId":"",
-        "podId":"",
-        "containerName":""
-    },
     "resize-tty":{
         "height":"",
         "width":"",
@@ -208,6 +202,24 @@
                 }
             },
             "volumeMounts":[""]
+        }],
+        "regionId":"",
+        "podId":""
+    },
+    "resize-pod":{
+        "instanceType":"",
+        "containerResources":[{
+            "name":"",
+            "resources":{
+                "requests":{
+                    "cpu":"",
+                    "memoryMB":""
+                },
+                "limits":{
+                    "cpu":"",
+                    "memoryMB":""
+                }
+            }
         }],
         "regionId":"",
         "podId":""

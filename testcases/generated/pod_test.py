@@ -50,15 +50,6 @@ class PodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_exec_start(self):
-        cmd = """python ../../main.py pod exec-start  --pod-id 'xxx' --container-name 'xxx' --exec-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_resize_tty(self):
         cmd = """python ../../main.py pod resize-tty  --pod-id 'xxx' --container-name 'xxx' --height '5' --width '5'"""
         with os.popen(cmd) as f:
@@ -178,6 +169,15 @@ class PodTest(unittest.TestCase):
 
     def test_rebuild_pod(self):
         cmd = """python ../../main.py pod rebuild-pod  --pod-id 'xxx' --containers '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_resize_pod(self):
+        cmd = """python ../../main.py pod resize-pod  --pod-id 'xxx' --instance-type 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

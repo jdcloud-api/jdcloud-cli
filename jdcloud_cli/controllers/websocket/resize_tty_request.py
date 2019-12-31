@@ -22,8 +22,11 @@ from jdcloud_cli.printer import Printer
 class ResizeTtyRequest(JDCloudRequest):
 
     def __init__(self, service, parameters, headers, version="v1"):
-        url_map = {'pod': '/regions/{regionId}/pods/{podId}/containers/{containerId}:resizeTTY',
-                   'nc': '/regions/{regionId}/containers/{containerId}:resizeTTY'}
+        url_map = {
+            'pod': '/regions/{regionId}/pods/{podId}/containers/{containerId}:resizeTTY',
+            'nc': '/regions/{regionId}/containers/{containerId}:resizeTTY',
+            'nativecontainer': '/regions/{regionId}/containers/{containerId}:resizeTTY'
+        }
         super(ResizeTtyRequest, self).__init__(url_map[service], 'POST', headers, version)
         self.parameters = parameters
 

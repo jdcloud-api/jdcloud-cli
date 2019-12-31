@@ -26,19 +26,26 @@ from jdcloud_sdk.services.ipanti.client.IpantiClient import IpantiClient
 from jdcloud_sdk.services.oss.client.OssClient import OssClient
 from jdcloud_sdk.services.redis.client.RedisClient import RedisClient
 from jdcloud_sdk.services.domainservice.client.DomainserviceClient import DomainserviceClient
+from jdcloud_sdk.services.billing.client.BillingClient import BillingClient
 from jdcloud_sdk.services.deploy.client.DeployClient import DeployClient
 from jdcloud_sdk.services.sop.client.SopClient import SopClient
 from jdcloud_sdk.services.function.client.FunctionClient import FunctionClient
 from jdcloud_sdk.services.portal.client.PortalClient import PortalClient
+from jdcloud_sdk.services.logs.client.LogsClient import LogsClient
+from jdcloud_sdk.services.jdccs.client.JdccsClient import JdccsClient
 from jdcloud_sdk.services.clouddnsservice.client.ClouddnsserviceClient import ClouddnsserviceClient
 from jdcloud_sdk.services.cps.client.CpsClient import CpsClient
+from jdcloud_sdk.services.cdn.client.CdnClient import CdnClient
 from jdcloud_sdk.services.streambus.client.StreambusClient import StreambusClient
 from jdcloud_sdk.services.httpdns.client.HttpdnsClient import HttpdnsClient
+from jdcloud_sdk.services.apigateway.client.ApigatewayClient import ApigatewayClient
 from jdcloud_sdk.services.mps.client.MpsClient import MpsClient
 from jdcloud_sdk.services.disk.client.DiskClient import DiskClient
 from jdcloud_sdk.services.nc.client.NcClient import NcClient
 from jdcloud_sdk.services.vm.client.VmClient import VmClient
+from jdcloud_sdk.services.nativecontainer.client.NativecontainerClient import NativecontainerClient
 from jdcloud_sdk.services.pod.client.PodClient import PodClient
+from jdcloud_sdk.services.iotcore.client.IotcoreClient import IotcoreClient
 from jdcloud_sdk.services.ams.client.AmsClient import AmsClient
 from jdcloud_sdk.services.jdro.client.JdroClient import JdroClient
 from jdcloud_sdk.services.zfs.client.ZfsClient import ZfsClient
@@ -57,7 +64,10 @@ from jdcloud_sdk.services.ias.client.IasClient import IasClient
 from jdcloud_sdk.services.mongodb.client.MongodbClient import MongodbClient
 from jdcloud_sdk.services.live.client.LiveClient import LiveClient
 from jdcloud_sdk.services.jdfusion.client.JdfusionClient import JdfusionClient
+from jdcloud_sdk.services.detection.client.DetectionClient import DetectionClient
 from jdcloud_sdk.services.renewal.client.RenewalClient import RenewalClient
+from jdcloud_sdk.services.iotlink.client.IotlinkClient import IotlinkClient
+from jdcloud_sdk.services.yunding.client.YundingClient import YundingClient
 from jdcloud_sdk.services.vpc.client.VpcClient import VpcClient
 from jdcloud_sdk.services.monitor.client.MonitorClient import MonitorClient
 from jdcloud_sdk.services.xdata.client.XdataClient import XdataClient
@@ -83,19 +93,26 @@ class ClientFactory(object):
             'oss': OssClient,
             'redis': RedisClient,
             'domainservice': DomainserviceClient,
+            'billing': BillingClient,
             'deploy': DeployClient,
             'sop': SopClient,
             'function': FunctionClient,
             'portal': PortalClient,
+            'logs': LogsClient,
+            'jdccs': JdccsClient,
             'clouddnsservice': ClouddnsserviceClient,
             'cps': CpsClient,
+            'cdn': CdnClient,
             'streambus': StreambusClient,
             'httpdns': HttpdnsClient,
+            'apigateway': ApigatewayClient,
             'mps': MpsClient,
             'disk': DiskClient,
             'nc': NcClient,
             'vm': VmClient,
+            'nativecontainer': NativecontainerClient,
             'pod': PodClient,
+            'iotcore': IotcoreClient,
             'ams': AmsClient,
             'jdro': JdroClient,
             'zfs': ZfsClient,
@@ -114,7 +131,10 @@ class ClientFactory(object):
             'mongodb': MongodbClient,
             'live': LiveClient,
             'jdfusion': JdfusionClient,
+            'detection': DetectionClient,
             'renewal': RenewalClient,
+            'iotlink': IotlinkClient,
+            'yunding': YundingClient,
             'vpc': VpcClient,
             'monitor': MonitorClient,
             'xdata': XdataClient,

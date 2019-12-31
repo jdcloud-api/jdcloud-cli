@@ -30,7 +30,7 @@ class RdsController(BaseController):
         label = 'rds'
         help = '云数据库RDS'
         description = '''
-        rds cli 子命令，目前RDS OpenAPI支持云数据库 MySQL、Percona、MariaDB、SQL Server。
+        rds cli 子命令，目前RDS OpenAPI支持云数据库 MySQL、Percona、MariaDB、SQL Server、PostgreSQL。
         OpenAPI文档地址为：https://docs.jdcloud.com/cn/rds/api/overview
         '''
         stacked_on = 'base'
@@ -524,9 +524,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 仅支持MySQL实例开启数据库审计 ''',
+        help=''' 仅支持MySQL实例开启数据库审计<br>- 仅支持 MySQL 5.6, MySQL 5.7, Percona, MariaDB ''',
         description='''
-            仅支持MySQL实例开启数据库审计。
+            仅支持MySQL实例开启数据库审计<br>- 仅支持 MySQL 5.6, MySQL 5.7, Percona, MariaDB。
 
             示例: jdc rds enable-audit  --instance-id xxx
         ''',
@@ -557,9 +557,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 仅支持MySQL实例关闭数据库审计 ''',
+        help=''' 仅支持MySQL实例关闭数据库审计<br>- 仅支持 MySQL 5.6, MySQL 5.7, Percona, MariaDB ''',
         description='''
-            仅支持MySQL实例关闭数据库审计。
+            仅支持MySQL实例关闭数据库审计<br>- 仅支持 MySQL 5.6, MySQL 5.7, Percona, MariaDB。
 
             示例: jdc rds disable-audit  --instance-id xxx
         ''',
@@ -597,9 +597,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 仅支持查看MySQL实例的审计内容 ''',
+        help=''' 仅支持查看MySQL实例的审计内容<br>- 仅支持 MySQL 5.6, MySQL 5.7, Percona, MariaDB ''',
         description='''
-            仅支持查看MySQL实例的审计内容。
+            仅支持查看MySQL实例的审计内容<br>- 仅支持 MySQL 5.6, MySQL 5.7, Percona, MariaDB。
 
             示例: jdc rds describe-audit-result  --instance-id xxx --start-time xxx --end-time xxx
         ''',
@@ -767,7 +767,7 @@ class RdsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
             (['--backup-id'], dict(help="""(string) 备份ID """, dest='backupId',  required=True)),
             (['--file-name'], dict(help="""(string) 文件名称<br>- MySQL：不支持该参数<br>- SQL Server：必须输入该参数，指定该备份中需要获取下载链接的文件名称。备份中的文件名（不包括后缀）即为备份的数据库名。例如文件名为my_test_db.bak，表示该文件是my_test_db数据库的备份 """, dest='fileName',  required=False)),
-            (['--url-expiration-second'], dict(help="""(string) 指定下载链接的过期时间，单位秒,缺省为86400秒，即24小时。<br>- MySQL：不支持该参数，只能是默认值<br>- SQL Server：支持 """, dest='urlExpirationSecond',  required=False)),
+            (['--url-expiration-second'], dict(help="""(string) 指定下载链接的过期时间，单位秒, 取值范围为 1 ~ 86400 秒；支持 SQL Server：缺省为 86400 秒。支持 MySQL, Percona, MariaDB：缺省为 300 秒。 """, dest='urlExpirationSecond',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -945,9 +945,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取MySQL实例中binlog的详细信息<br>- 仅支持MySQL ''',
+        help=''' 获取MySQL实例中binlog的详细信息<br>- 仅支持 MySQL, Percona, MariaDB ''',
         description='''
-            获取MySQL实例中binlog的详细信息<br>- 仅支持MySQL。
+            获取MySQL实例中binlog的详细信息<br>- 仅支持 MySQL, Percona, MariaDB。
 
             示例: jdc rds describe-binlogs  --instance-id xxx
         ''',
@@ -975,13 +975,14 @@ class RdsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
             (['--binlog-backup-id'], dict(help="""(string) binlog的备份ID，可以通过describeBinlogs获得 """, dest='binlogBackupId',  required=True)),
+            (['--seconds'], dict(help="""(int) 设置链接地址的过期时间，单位是秒，默认值是 300 秒，最长不能超过取值范围为 1 ~ 86400 秒 """, dest='seconds', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取MySQL实例的binlog的下载链接<br>- 仅支持MySQL ''',
+        help=''' 获取MySQL实例的binlog的下载链接<br>- 仅支持 MySQL, Percona, MariaDB ''',
         description='''
-            获取MySQL实例的binlog的下载链接<br>- 仅支持MySQL。
+            获取MySQL实例的binlog的下载链接<br>- 仅支持 MySQL, Percona, MariaDB。
 
             示例: jdc rds describe-binlog-download-url  --instance-id xxx --binlog-backup-id xxx
         ''',
@@ -1458,16 +1459,16 @@ class RdsController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[-1,∞)。pageNumber为-1时，返回所有数据页码；超过总页数时，显示最后一页; """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为100，取值范围：[10,100]，用于查询列表的接口 """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) 过滤参数，多个过滤参数之间的关系为“与”(and); 支持以下属性的过滤：; instanceId, 支持operator选项：eq; instanceName, 支持operator选项：eq; engine, 支持operator选项：eq; engineVersion, 支持operator选项：eq; instanceStatus, 支持operator选项：eq; chargeMode, 支持operator选项：eq; vpcId, 支持operator选项：eq;  """, dest='filters',  required=False)),
+            (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为10，取值范围：[10,100]，且为10的整数倍 """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) 过滤参数，多个过滤参数之间的关系为“与”(and); 支持以下属性的过滤：; instanceId, 支持operator选项：eq; instanceName, 支持operator选项：eq, like; engine, 支持operator选项：eq; engineVersion, 支持operator选项：eq; instanceStatus, 支持operator选项：eq; vpcId, 支持operator选项：eq; instanceType, 支持operator选项：eq; internalDomainName, 支持operator选项：eq; publicDomainName, 支持operator选项：eq;  """, dest='filters',  required=False)),
             (['--tag-filters'], dict(help="""(array: tagFilter) 资源标签 """, dest='tagFilters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取当前账号下所有RDS实例及MySQL只读实例的概要信息，例如实例类型，版本，计费信息等 ''',
+        help=''' 获取当前账号下所有RDS实例及MySQL/PostgreSQL只读实例的概要信息，例如实例类型，版本，计费信息等 ''',
         description='''
-            获取当前账号下所有RDS实例及MySQL只读实例的概要信息，例如实例类型，版本，计费信息等。
+            获取当前账号下所有RDS实例及MySQL/PostgreSQL只读实例的概要信息，例如实例类型，版本，计费信息等。
 
             示例: jdc rds describe-instances 
         ''',
@@ -1531,9 +1532,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询RDS实例（MySQL、SQL Server等）的详细信息以及MySQL只读实例详细信息 ''',
+        help=''' 查询RDS实例（MySQL、SQL Server等）的详细信息以及MySQL/PostgreSQL只读实例详细信息 ''',
         description='''
-            查询RDS实例（MySQL、SQL Server等）的详细信息以及MySQL只读实例详细信息。
+            查询RDS实例（MySQL、SQL Server等）的详细信息以及MySQL/PostgreSQL只读实例详细信息。
 
             示例: jdc rds describe-instance-attributes  --instance-id xxx
         ''',
@@ -1564,9 +1565,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除一个RDS实例或者MySQL的只读实例。删除MySQL主实例时，会同时将对应的MySQL只读实例也删除 [MFA enabled] ''',
+        help=''' 删除一个RDS实例或者MySQL/PostgreSQL的只读实例。删除MySQL/PostgreSQL主实例时，会同时将对应的MySQL/PostgreSQL只读实例也删除 [MFA enabled] ''',
         description='''
-            删除一个RDS实例或者MySQL的只读实例。删除MySQL主实例时，会同时将对应的MySQL只读实例也删除 [MFA enabled]。
+            删除一个RDS实例或者MySQL/PostgreSQL的只读实例。删除MySQL/PostgreSQL主实例时，会同时将对应的MySQL/PostgreSQL只读实例也删除 [MFA enabled]。
 
             示例: jdc rds delete-instance  --instance-id xxx
         ''',
@@ -1899,6 +1900,8 @@ class RdsController(BaseController):
             (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
             (['--new-instance-class'], dict(help="""(string) 扩容后实例规格 """, dest='newInstanceClass',  required=True)),
             (['--new-instance-storage-gb'], dict(help="""(int) 扩容后实例磁盘大小 """, dest='newInstanceStorageGB', type=int, required=True)),
+            (['--new-instance-storage-type'], dict(help="""(string) 存储类型，如果不指定，默认会采用实例原存储类型. """, dest='newInstanceStorageType',  required=False)),
+            (['--storage-encrypted'], dict(help="""(bool) 实例数据加密(存储类型为云硬盘才支持数据加密). false：不加密; true：加密. 如果实例从本地盘变为云硬盘，缺省为false. 如果实例本来就是使用云硬盘的，缺省和源实例保持一致 """, dest='storageEncrypted',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1981,9 +1984,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建MySQL的只读实例<br>- 仅支持MySQL ''',
+        help=''' 创建MySQL的只读实例<br> - 仅支持MySQL<br> - 创建的只读实例跟主实例在同一个VPC同一个子网中<br> * 只读实例只支持按配置计费 ''',
         description='''
-            创建MySQL的只读实例<br>- 仅支持MySQL。
+            创建MySQL的只读实例<br> - 仅支持MySQL<br> - 创建的只读实例跟主实例在同一个VPC同一个子网中<br> * 只读实例只支持按配置计费。
 
             示例: jdc rds create-roinstance  --instance-id xxx --instance-name xxx --instance-class xxx --instance-storage-gb 0 --az-id xxx
         ''',
@@ -2281,13 +2284,14 @@ class RdsController(BaseController):
             (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
             (['--page-number'], dict(help="""(int) 显示数据的页码，默认为1，取值范围：[-1,∞)。pageNumber为-1时，返回所有数据页码；超过总页数时，显示最后一页; """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 每页显示的数据条数，默认为100，取值范围：[10,100]，用于查询列表的接口 """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) 过滤参数，多个过滤参数之间的关系为“与”(and); 支持以下属性的过滤：logType, 支持operator选项：eq, 仅支持 MySQL，Percona，MariaDB;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取 PostgreSQL 的日志文件列表 ''',
+        help=''' 获取日志文件列表<br>- 仅支持PostgreSQL, MySQL, Percona, MariaDB ''',
         description='''
-            获取 PostgreSQL 的日志文件列表。
+            获取日志文件列表<br>- 仅支持PostgreSQL, MySQL, Percona, MariaDB。
 
             示例: jdc rds describe-logs  --instance-id xxx
         ''',
@@ -2338,6 +2342,41 @@ class RdsController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = UpdateLogDownloadURLInternalRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域代码，取值范围参见[《各地域及可用区对照表》](../Enum-Definitions/Regions-AZ.md) """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) RDS 实例ID，唯一标识一个RDS实例 """, dest='instanceId',  required=True)),
+            (['--log-id'], dict(help="""(string) 日志文件ID """, dest='logId',  required=True)),
+            (['--seconds'], dict(help="""(int) 设置链接地址的过期时间，单位是秒，默认值是 300 秒，最长不能超过取值范围为 1 ~ 86400 秒 """, dest='seconds', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据日志文件的下载链接过期时间，生成日志文件下载地址 仅支持 PostgreSQL, MySQL, Percona, MariaDB ''',
+        description='''
+            根据日志文件的下载链接过期时间，生成日志文件下载地址 仅支持 PostgreSQL, MySQL, Percona, MariaDB。
+
+            示例: jdc rds describe-log-download-url  --instance-id xxx --log-id xxx
+        ''',
+    )
+    def describe_log_download_url(self):
+        client_factory = ClientFactory('rds')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.rds.apis.DescribeLogDownloadURLRequest import DescribeLogDownloadURLRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLogDownloadURLRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2420,9 +2459,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除参数组<br>- 仅支持MySQL ''',
+        help=''' 删除参数组<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL ''',
         description='''
-            删除参数组<br>- 仅支持MySQL。
+            删除参数组<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL。
 
             示例: jdc rds delete-parameter-group  --parameter-group-id xxx
         ''',
@@ -2455,9 +2494,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改参数组名称，描述<br>- 仅支持MySQL ''',
+        help=''' 修改参数组名称，描述<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL ''',
         description='''
-            修改参数组名称，描述<br>- 仅支持MySQL。
+            修改参数组名称，描述<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL。
 
             示例: jdc rds modify-parameter-group-attribute  --parameter-group-id xxx --parameter-group-name xxx
         ''',
@@ -2489,9 +2528,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取当前账号下所有的参数组列表<br>- 仅支持MySQL ''',
+        help=''' 获取当前账号下所有的参数组列表<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL ''',
         description='''
-            获取当前账号下所有的参数组列表<br>- 仅支持MySQL。
+            获取当前账号下所有的参数组列表<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL。
 
             示例: jdc rds describe-parameter-groups 
         ''',
@@ -2525,9 +2564,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一个参数组<br>- 仅支持MySQL ''',
+        help=''' 创建一个参数组<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL ''',
         description='''
-            创建一个参数组<br>- 仅支持MySQL。
+            创建一个参数组<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL。
 
             示例: jdc rds create-parameter-group  --engine xxx --engine-version xxx --parameter-group-name xxx
         ''',
@@ -2558,9 +2597,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看参数组的参数<br>- 仅支持MySQL ''',
+        help=''' 查看参数组的参数<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL ''',
         description='''
-            查看参数组的参数<br>- 仅支持MySQL。
+            查看参数组的参数<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL。
 
             示例: jdc rds describe-parameter-group-parameters  --parameter-group-id xxx
         ''',
@@ -2592,9 +2631,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改参数组的参数<br>- 仅支持MySQL ''',
+        help=''' 修改参数组的参数<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL ''',
         description='''
-            修改参数组的参数<br>- 仅支持MySQL。
+            修改参数组的参数<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL。
 
             示例: jdc rds modify-parameter-group-parameters  --parameter-group-id xxx --parameters ['{"":""}']
         ''',
@@ -2629,9 +2668,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看参数的修改历史<br>- 仅支持MySQL ''',
+        help=''' 查看参数的修改历史<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL ''',
         description='''
-            查看参数的修改历史<br>- 仅支持MySQL。
+            查看参数的修改历史<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL。
 
             示例: jdc rds describe-parameter-modify-records  --parameter-group-id xxx
         ''',
@@ -2664,9 +2703,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 拷贝参数组<br>- 仅支持MySQL ''',
+        help=''' 拷贝参数组 ''',
         description='''
-            拷贝参数组<br>- 仅支持MySQL。
+            拷贝参数组。
 
             示例: jdc rds copy-parameter-group  --parameter-group-id xxx --parameter-group-name xxx
         ''',
@@ -2699,9 +2738,9 @@ class RdsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看参数组绑定的云数据库实例<br>- 仅支持MySQL ''',
+        help=''' 查看参数组绑定的云数据库实例<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL ''',
         description='''
-            查看参数组绑定的云数据库实例<br>- 仅支持MySQL。
+            查看参数组绑定的云数据库实例<br>- 仅支持MySQL，Percona，MariaDB，PostgreSQL。
 
             示例: jdc rds describe-parameter-group-attached-instances  --parameter-group-id xxx
         ''',
@@ -3046,7 +3085,7 @@ class RdsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-accounts','create-account','delete-account','grant-privilege','revoke-privilege','reset-password','create-super-account','describe-audit','create-audit','delete-audit','describe-audit-options','modify-audit','describe-audit-files','describe-audit-download-url','enable-audit','disable-audit','describe-audit-result','describe-azs','describe-backups','create-backup','delete-backup','describe-backup-download-url','describe-backup-synchronicities','create-backup-synchronicity','delete-backup-synchronicity','create-instance-by-time-in-cross-region','describe-binlogs','describe-binlog-download-url','clear-binlogs','alter-table-with-online-ddl','describe-databases','create-database','delete-database','restore-database-from-backup','restore-database-from-file','restore-database-from-oss','describe-error-logs','describe-import-files','get-upload-key','set-import-file-shared','delete-import-file','describe-instances','create-instance','describe-instance-attributes','delete-instance','describe-backup-policy','modify-backup-policy','modify-instance-name','failover-instance','reboot-instance','enable-internet-access','disable-internet-access','restore-instance','create-instance-from-backup','modify-instance-spec','create-instance-by-time','create-roinstance','modify-connection-mode','describe-latest-restore-time','modify-parameter-group','exchange-instance-dns','enable-intercept','disable-intercept','describe-intercept-result','describe-intercept','describe-logs','update-log-download-urlinternal','describe-parameters','modify-parameters','delete-parameter-group','modify-parameter-group-attribute','describe-parameter-groups','create-parameter-group','describe-parameter-group-parameters','modify-parameter-group-parameters','describe-parameter-modify-records','copy-parameter-group','describe-parameter-group-attached-instances','describe-index-performance','describe-query-performance','describe-slow-log-attributes','describe-slow-logs','describe-active-query-performance','describe-tde','enable-tde','describe-white-list','modify-white-list',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-accounts','create-account','delete-account','grant-privilege','revoke-privilege','reset-password','create-super-account','describe-audit','create-audit','delete-audit','describe-audit-options','modify-audit','describe-audit-files','describe-audit-download-url','enable-audit','disable-audit','describe-audit-result','describe-azs','describe-backups','create-backup','delete-backup','describe-backup-download-url','describe-backup-synchronicities','create-backup-synchronicity','delete-backup-synchronicity','create-instance-by-time-in-cross-region','describe-binlogs','describe-binlog-download-url','clear-binlogs','alter-table-with-online-ddl','describe-databases','create-database','delete-database','restore-database-from-backup','restore-database-from-file','restore-database-from-oss','describe-error-logs','describe-import-files','get-upload-key','set-import-file-shared','delete-import-file','describe-instances','create-instance','describe-instance-attributes','delete-instance','describe-backup-policy','modify-backup-policy','modify-instance-name','failover-instance','reboot-instance','enable-internet-access','disable-internet-access','restore-instance','create-instance-from-backup','modify-instance-spec','create-instance-by-time','create-roinstance','modify-connection-mode','describe-latest-restore-time','modify-parameter-group','exchange-instance-dns','enable-intercept','disable-intercept','describe-intercept-result','describe-intercept','describe-logs','update-log-download-urlinternal','describe-log-download-url','describe-parameters','modify-parameters','delete-parameter-group','modify-parameter-group-attribute','describe-parameter-groups','create-parameter-group','describe-parameter-group-parameters','modify-parameter-group-parameters','describe-parameter-modify-records','copy-parameter-group','describe-parameter-group-attached-instances','describe-index-performance','describe-query-performance','describe-slow-log-attributes','describe-slow-logs','describe-active-query-performance','describe-tde','enable-tde','describe-white-list','modify-white-list',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

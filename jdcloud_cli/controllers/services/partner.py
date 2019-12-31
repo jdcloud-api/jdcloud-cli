@@ -39,8 +39,9 @@ class PartnerController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) NA """, dest='regionId',  required=False)),
-            (['--customer-pin'], dict(help="""(string) 客户pin（客户账户） """, dest='customerPin',  required=False)),
+            (['--customer-pin'], dict(help="""(string) 客户pin """, dest='customerPin',  required=False)),
             (['--alias-name'], dict(help="""(string) 客户昵称 """, dest='aliasName',  required=False)),
+            (['--login-name'], dict(help="""(string) 帐户名 """, dest='loginName',  required=False)),
             (['--start-rel-time'], dict(help="""(string) 关联开始时间（格式：yyyy-MM-dd HH:mm:ss） """, dest='startRelTime',  required=False)),
             (['--end-rel-time'], dict(help="""(string) 关联结束时间（格式：yyyy-MM-dd HH:mm:ss） """, dest='endRelTime',  required=False)),
             (['--page-index'], dict(help="""(int) 当前页序号 """, dest='pageIndex', type=int, required=False)),
@@ -76,7 +77,115 @@ class PartnerController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['query-my-customer-list',], required=True)),
+            (['--region-id'], dict(help="""(string) NA """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 按月查询开始时间（yyyy/MM/dd） """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 按月查询结束时间（yyyy/MM/dd） """, dest='endTime',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询服务商相关的总消费数据 ''',
+        description='''
+            查询服务商相关的总消费数据。
+
+            示例: jdc partner get-total-consumption  --start-time xxx --end-time xxx
+        ''',
+    )
+    def get_total_consumption(self):
+        client_factory = ClientFactory('partner')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.partner.apis.GetTotalConsumptionRequest import GetTotalConsumptionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTotalConsumptionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) NA """, dest='regionId',  required=False)),
+            (['--start-time'], dict(help="""(string) 按月查询开始时间（yyyy/MM/dd） """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 按月查询结束时间（yyyy/MM/dd） """, dest='endTime',  required=True)),
+            (['--pin'], dict(help="""(string) pin """, dest='pin',  required=False)),
+            (['--page-size'], dict(help="""(int) 每页条数 """, dest='pageSize', type=int, required=True)),
+            (['--page-index'], dict(help="""(int) 第几页 """, dest='pageIndex', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询服务商下每个客户总消费数据 ''',
+        description='''
+            查询服务商下每个客户总消费数据。
+
+            示例: jdc partner get-each-consumption  --start-time xxx --end-time xxx --page-size 0 --page-index 0
+        ''',
+    )
+    def get_each_consumption(self):
+        client_factory = ClientFactory('partner')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.partner.apis.GetEachConsumptionRequest import GetEachConsumptionRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetEachConsumptionRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) NA """, dest='regionId',  required=False)),
+            (['--pin'], dict(help="""(string) pin """, dest='pin',  required=False)),
+            (['--start-time'], dict(help="""(string) 按月查询开始时间（yyyy-MM-dd）,不可跨月 """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 按月查询结束时间（yyyy-MM-dd）,不可跨月 """, dest='endTime',  required=True)),
+            (['--page-size'], dict(help="""(int) 每页条数,不超过100 """, dest='pageSize', type=int, required=True)),
+            (['--page-index'], dict(help="""(int) 第几页 """, dest='pageIndex', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询服务商相关pin下每个产品的消费数据 ''',
+        description='''
+            查询服务商相关pin下每个产品的消费数据。
+
+            示例: jdc partner describe-customer-bill-by-product  --start-time xxx --end-time xxx --page-size 0 --page-index 0
+        ''',
+    )
+    def describe_customer_bill_by_product(self):
+        client_factory = ClientFactory('partner')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.partner.apis.DescribeCustomerBillByProductRequest import DescribeCustomerBillByProductRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeCustomerBillByProductRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['query-my-customer-list','get-total-consumption','get-each-consumption','describe-customer-bill-by-product',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

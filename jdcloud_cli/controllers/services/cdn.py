@@ -101,6 +101,112 @@ class CdnController(BaseController):
 
     @expose(
         arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--area'], dict(help="""(string) 地域 """, dest='area',  required=False)),
+            (['--isp'], dict(help="""(string) 运营商 """, dest='isp',  required=False)),
+            (['--period'], dict(help="""(string) 查询周期 """, dest='period',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 带宽查询接口 ''',
+        description='''
+            带宽查询接口。
+
+            示例: jdc cdn query-band 
+        ''',
+    )
+    def query_band(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryBandRequest import QueryBandRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryBandRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--area'], dict(help="""(string) 地域 """, dest='area',  required=False)),
+            (['--isp'], dict(help="""(string) 运营商 """, dest='isp',  required=False)),
+            (['--period'], dict(help="""(string) 查询周期 """, dest='period',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 分地域运营商带宽查询接口 ''',
+        description='''
+            分地域运营商带宽查询接口。
+
+            示例: jdc cdn query-band-with-area 
+        ''',
+    )
+    def query_band_with_area(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryBandWithAreaRequest import QueryBandWithAreaRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryBandWithAreaRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--task-id'], dict(help="""(string) 任务ID """, dest='taskId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询域名配置状态 ''',
+        description='''
+            查询域名配置状态。
+
+            示例: jdc cdn query-domain-config-status  --task-id xxx
+        ''',
+    )
+    def query_domain_config_status(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryDomainConfigStatusRequest import QueryDomainConfigStatusRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryDomainConfigStatusRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1109,6 +1215,41 @@ class CdnController(BaseController):
 
     @expose(
         arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--http-type'], dict(help="""(string) http类型,只能为http或者https """, dest='httpType',  required=False)),
+            (['--back-source-type'], dict(help="""(string) 回源类型 """, dest='backSourceType',  required=False)),
+            (['--jump-type'], dict(help="""(string) 有三种类型：default、http、https """, dest='jumpType',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 更新域名配置 ''',
+        description='''
+            更新域名配置。
+
+            示例: jdc cdn set-domain-config  --domain xxx
+        ''',
+    )
+    def set_domain_config(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetDomainConfigRequest import SetDomainConfigRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetDomainConfigRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--share-cache'], dict(help="""(string) 根据是否共享内存筛选 """, dest='shareCache',  required=False)),
             (['--page-number'], dict(help="""(int) pageNumber """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) pageSize """, dest='pageSize', type=int, required=False)),
@@ -1316,6 +1457,7 @@ class CdnController(BaseController):
             (['--page-size'], dict(help="""(int) pageSize,最大值50,默认值20 """, dest='pageSize', type=int, required=False)),
             (['--status'], dict(help="""(string) 根据域名状态查询, 可选值[offline, online, configuring, auditing, audit_reject] """, dest='status',  required=False)),
             (['--type'], dict(help="""(string) 域名类型，(web:静态小文件，download:大文件加速，vod:视频加速，live:直播加速),不传查所有 """, dest='type',  required=False)),
+            (['--accelerate-region'], dict(help="""(string) 加速区域，(mainLand:中国大陆，nonMainLand:海外加港澳台，all:全球),不传为全球 """, dest='accelerateRegion',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1352,6 +1494,7 @@ class CdnController(BaseController):
             (['--page-size'], dict(help="""(int) pageSize,默认值为20,最大值为50 """, dest='pageSize', type=int, required=False)),
             (['--status'], dict(help="""(string) 根据域名状态查询, 可选值[offline, online, configuring, auditing, audit_reject] """, dest='status',  required=False)),
             (['--type'], dict(help="""(string) 域名类型，(web:静态小文件，download:大文件加速，vod:视频加速，live:直播加速),不传查所有 """, dest='type',  required=False)),
+            (['--accelerate-region'], dict(help="""(string) 加速区域，(mainLand:中国大陆，nonMainLand:海外加港澳台，all:全球),不传为全球 """, dest='accelerateRegion',  required=False)),
             (['--tag-filters'], dict(help="""(array: tagFilter) 标签过滤条件 """, dest='tagFilters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -1431,6 +1574,7 @@ class CdnController(BaseController):
             (['--ip-source'], dict(help="""(array: array) NA """, dest='ipSource',  required=False)),
             (['--domain-source'], dict(help="""(array: array) NA """, dest='domainSource',  required=False)),
             (['--oss-source'], dict(help="""(string) NA """, dest='ossSource',  required=False)),
+            (['--accelerate-region'], dict(help="""(string) 加速区域:(mainLand:中国大陆，nonMainLand:海外加港澳台，all:全球)默认为中国大陆 """, dest='accelerateRegion',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1604,6 +1748,7 @@ class CdnController(BaseController):
             (['--ip-source'], dict(help="""(array: array) NA """, dest='ipSource',  required=False)),
             (['--domain-source'], dict(help="""(array: array) NA """, dest='domainSource',  required=False)),
             (['--oss-source'], dict(help="""(string) NA """, dest='ossSource',  required=False)),
+            (['--accelerate-region'], dict(help="""(string) 加速区域 (mainLand:中国大陆，nonMainLand:海外加港澳台，all:全球)默认为中国大陆 """, dest='accelerateRegion',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1658,6 +1803,38 @@ class CdnController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = QueryDomainConfigRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--ips'], dict(help="""(array) NA """, dest='ips',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取所有上层节点的ip ''',
+        description='''
+            获取所有上层节点的ip。
+
+            示例: jdc cdn check-whether-ip-belong-to-jcloud 
+        ''',
+    )
+    def check_whether_ip_belong_to_jcloud(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.CheckWhetherIpBelongToJCloudRequest import CheckWhetherIpBelongToJCloudRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CheckWhetherIpBelongToJCloudRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1981,6 +2158,207 @@ class CdnController(BaseController):
 
     @expose(
         arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--status'], dict(help="""(string) 开启on，关闭off """, dest='status',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置是否开启过滤参数 ''',
+        description='''
+            设置是否开启过滤参数。
+
+            示例: jdc cdn operate-live-domain-ignore-query-string  --domain xxx
+        ''',
+    )
+    def operate_live_domain_ignore_query_string(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.OperateLiveDomainIgnoreQueryStringRequest import OperateLiveDomainIgnoreQueryStringRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = OperateLiveDomainIgnoreQueryStringRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--ip-list'], dict(help="""(array) NA """, dest='ipList',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置IP白名单 ''',
+        description='''
+            设置IP白名单。
+
+            示例: jdc cdn set-push-ip-white-list  --domain xxx
+        ''',
+    )
+    def set_push_ip_white_list(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetPushIpWhiteListRequest import SetPushIpWhiteListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetPushIpWhiteListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--timeout'], dict(help="""(int) 超时时间应介于0s到3600s之间 """, dest='timeout', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置推流中断超时时间 ''',
+        description='''
+            设置推流中断超时时间。
+
+            示例: jdc cdn set-publish-normal-timeout  --domain xxx
+        ''',
+    )
+    def set_publish_normal_timeout(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetPublishNormalTimeoutRequest import SetPublishNormalTimeoutRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetPublishNormalTimeoutRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--notify-url'], dict(help="""(string) 通知的目标URL """, dest='notifyUrl',  required=False)),
+            (['--notify-auth-key'], dict(help="""(string) 通知时需携带的鉴权key """, dest='notifyAuthKey',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置推流中断通知方式 ''',
+        description='''
+            设置推流中断通知方式。
+
+            示例: jdc cdn set-stream-notify-info  --domain xxx
+        ''',
+    )
+    def set_stream_notify_info(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetStreamNotifyInfoRequest import SetStreamNotifyInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetStreamNotifyInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--accesskey-type'], dict(help="""(int) 鉴权类型，0表示无鉴权，1表示参数鉴权，2表示路径鉴权 """, dest='accesskeyType', type=int, required=False)),
+            (['--accesskey-key'], dict(help="""(string) 密码，长度为8到32 """, dest='accesskeyKey',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置转推鉴权信息 ''',
+        description='''
+            设置转推鉴权信息。
+
+            示例: jdc cdn set-forward-authentication  --domain xxx
+        ''',
+    )
+    def set_forward_authentication(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetForwardAuthenticationRequest import SetForwardAuthenticationRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetForwardAuthenticationRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--accesskey-type'], dict(help="""(int) 鉴权类型，0表示无鉴权，1表示参数鉴权，2表示路径鉴权 """, dest='accesskeyType', type=int, required=False)),
+            (['--accesskey-key'], dict(help="""(string) 密码，长度为8到32 """, dest='accesskeyKey',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置回源鉴权信息 ''',
+        description='''
+            设置回源鉴权信息。
+
+            示例: jdc cdn set-origin-authentication  --domain xxx
+        ''',
+    )
+    def set_origin_authentication(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetOriginAuthenticationRequest import SetOriginAuthenticationRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetOriginAuthenticationRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--play-domain'], dict(help="""(string) 播放域名 """, dest='playDomain',  required=False)),
             (['--publish-domain'], dict(help="""(string) 创建推流域名时，必传推流域名 """, dest='publishDomain',  required=False)),
             (['--source-type'], dict(help="""(string) 回源类型只能是[ips,domain]中的一种 """, dest='sourceType',  required=False)),
@@ -1990,6 +2368,7 @@ class CdnController(BaseController):
             (['--back-source-type'], dict(help="""(string) 回源类型，目前只能为rtmp """, dest='backSourceType',  required=False)),
             (['--ip-source'], dict(help="""(array: array) NA """, dest='ipSource',  required=False)),
             (['--domain-source'], dict(help="""(array: array) NA """, dest='domainSource',  required=False)),
+            (['--accelerate-region'], dict(help="""(string) 加速区域(mainLand:中国大陆，nonMainLand:海外加港澳台，all:全球)默认为中国大陆 """, dest='accelerateRegion',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -2021,14 +2400,124 @@ class CdnController(BaseController):
 
     @expose(
         arguments=[
+            (['--play-domain'], dict(help="""(string) 播放域名（仅siteType=1且publishDomain不为空时可为空） """, dest='playDomain',  required=False)),
+            (['--publish-domain'], dict(help="""(string) 推流域名（siteType=push时playDomain与publishDomain不能同时传入） """, dest='publishDomain',  required=False)),
+            (['--source-type'], dict(help="""(string) 回源类型只能是[ips,domain]中的一种 """, dest='sourceType',  required=False)),
+            (['--back-http-type'], dict(help="""(string) NA """, dest='backHttpType',  required=False)),
+            (['--default-source-host'], dict(help="""(string) 默认回源host """, dest='defaultSourceHost',  required=False)),
+            (['--site-type'], dict(help="""(string) 站点类型1:push(推流模式),2:pull(拉流模式),3:mix(混合模式) """, dest='siteType',  required=False)),
+            (['--back-source-type'], dict(help="""(string) 回源类型，支持rtmp, http-flv, https-flv, http-hls,https-hls，默认rtmp """, dest='backSourceType',  required=False)),
+            (['--play-protocol'], dict(help="""(array) 播放协议，默认为rtmp,hdl,hls全选 """, dest='playProtocol',  required=False)),
+            (['--forward-custom-vhost'], dict(help="""(string) 转推地址 """, dest='forwardCustomVhost',  required=False)),
+            (['--ip-source'], dict(help="""(array: array) 回源IP信息 """, dest='ipSource',  required=False)),
+            (['--domain-source'], dict(help="""(array: array) 回源域名信息 """, dest='domainSource',  required=False)),
+            (['--video-type'], dict(help="""(string) 默认为H.264 """, dest='videoType',  required=False)),
+            (['--audio-type'], dict(help="""(string) 默认为AAC """, dest='audioType',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建直播域名V2 ''',
+        description='''
+            创建直播域名V2。
+
+            示例: jdc cdn create-live-domain 
+        ''',
+    )
+    def create_live_domain(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.CreateLiveDomainRequest import CreateLiveDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateLiveDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 绑定推流域名 ''',
+        description='''
+            绑定推流域名。
+
+            示例: jdc cdn bind-publish-domain  --domain xxx --publish-domain xxx
+        ''',
+    )
+    def bind_publish_domain(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.BindPublishDomainRequest import BindPublishDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = BindPublishDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--forward-custom-vhost'], dict(help="""(string) 转推域名 """, dest='forwardCustomVhost',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置转推域名 ''',
+        description='''
+            设置转推域名。
+
+            示例: jdc cdn modify-live-domain-forward-custom-vhost  --domain xxx
+        ''',
+    )
+    def modify_live_domain_forward_custom_vhost(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.ModifyLiveDomainForwardCustomVhostRequest import ModifyLiveDomainForwardCustomVhostRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyLiveDomainForwardCustomVhostRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询直播域名详情 ''',
+        help=''' 查询直播域名详情v1 ''',
         description='''
-            查询直播域名详情。
+            查询直播域名详情v1。
 
             示例: jdc cdn query-live-domain-detail  --domain xxx
         ''',
@@ -2044,6 +2533,101 @@ class CdnController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = QueryLiveDomainDetailRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询直播域名详情v2 ''',
+        description='''
+            查询直播域名详情v2。
+
+            示例: jdc cdn query-live-domain-detail-v2  --domain xxx
+        ''',
+    )
+    def query_live_domain_detail_v2(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryLiveDomainDetailV2Request import QueryLiveDomainDetailV2Request
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryLiveDomainDetailV2Request(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询全部推流域名 ''',
+        description='''
+            查询全部推流域名。
+
+            示例: jdc cdn describe-publish-domains 
+        ''',
+    )
+    def describe_publish_domains(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.DescribePublishDomainsRequest import DescribePublishDomainsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribePublishDomainsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询关联域名 ''',
+        description='''
+            查询关联域名。
+
+            示例: jdc cdn describebinded-domains  --domain xxx
+        ''',
+    )
+    def describebinded_domains(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.DescribebindedDomainsRequest import DescribebindedDomainsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribebindedDomainsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2322,7 +2906,7 @@ class CdnController(BaseController):
     @expose(
         arguments=[
             (['--task-type'], dict(help="""(string) 刷新预热类型,(url:url刷新,dir:目录刷新,prefetch:预热) """, dest='taskType',  required=False)),
-            (['--urls'], dict(help="""(array: array) NA """, dest='urls',  required=False)),
+            (['--urls'], dict(help="""(array) NA """, dest='urls',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -2345,6 +2929,274 @@ class CdnController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = CreateRefreshTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询网络防护层规则接口 ''',
+        description='''
+            查询网络防护层规则接口。
+
+            示例: jdc cdn query-net-protection-rules 
+        ''',
+    )
+    def query_net_protection_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryNetProtectionRulesRequest import QueryNetProtectionRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryNetProtectionRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--src-new-conn-limit-enable'], dict(help="""(string) 源新建连接限速，取值on,off，其中on开启，off关闭 """, dest='srcNewConnLimitEnable',  required=False)),
+            (['--dst-new-conn-limit-enable'], dict(help="""(string) 目的新建连接，取值on,off，其中on开启，off关闭 """, dest='dstNewConnLimitEnable',  required=False)),
+            (['--datagram-range-min'], dict(help="""(int) 报文最小长度（包最小长度）,取值：1-1500 """, dest='datagramRangeMin', type=int, required=False)),
+            (['--datagram-range-max'], dict(help="""(int) 报文最大长度（包最大长度）,取值：1-1500 """, dest='datagramRangeMax', type=int, required=False)),
+            (['--dst-new-conn-limit-value'], dict(help="""(int) 目的新建连接限速值，取值：0-4294967295 """, dest='dstNewConnLimitValue', type=int, required=False)),
+            (['--src-new-conn-limit-value'], dict(help="""(int) 源新建连接限速值，取值：0-4294967295 """, dest='srcNewConnLimitValue', type=int, required=False)),
+            (['--geo-black'], dict(help="""(array) 地域黑名单（GEO IP拦截） """, dest='geoBlack',  required=False)),
+            (['--ip-black'], dict(help="""(array) ip 黑名单 """, dest='ipBlack',  required=False)),
+            (['--ip-white'], dict(help="""(array) ip 白名单 """, dest='ipWhite',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置网络防护层规则 ''',
+        description='''
+            设置网络防护层规则。
+
+            示例: jdc cdn set-net-protection-rules 
+        ''',
+    )
+    def set_net_protection_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetNetProtectionRulesRequest import SetNetProtectionRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetNetProtectionRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询网络防护层规则 ''',
+        description='''
+            查询网络防护层规则。
+
+            示例: jdc cdn query-net-protection-rules-switch 
+        ''',
+    )
+    def query_net_protection_rules_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryNetProtectionRulesSwitchRequest import QueryNetProtectionRulesSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryNetProtectionRulesSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--switch-status'], dict(help="""(string) on,off """, dest='switchStatus',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置网络防护层规则总开关 ''',
+        description='''
+            设置网络防护层规则总开关。
+
+            示例: jdc cdn set-net-protection-rules-switch 
+        ''',
+    )
+    def set_net_protection_rules_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetNetProtectionRulesSwitchRequest import SetNetProtectionRulesSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetNetProtectionRulesSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询geo地域 ''',
+        description='''
+            查询geo地域。
+
+            示例: jdc cdn query-geo-areas 
+        ''',
+    )
+    def query_geo_areas(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryGeoAreasRequest import QueryGeoAreasRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryGeoAreasRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2019-08-16T06:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2019-08-16T07:00:00Z """, dest='endTime',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 攻击类型统计接口 ''',
+        description='''
+            攻击类型统计接口。
+
+            示例: jdc cdn query-attack-type-count 
+        ''',
+    )
+    def query_attack_type_count(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryAttackTypeCountRequest import QueryAttackTypeCountRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryAttackTypeCountRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2019-08-16T06:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2019-08-16T07:00:00Z """, dest='endTime',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' DDOS攻击报表接口 ''',
+        description='''
+            DDOS攻击报表接口。
+
+            示例: jdc cdn query-ddos-graph 
+        ''',
+    )
+    def query_ddos_graph(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryDdosGraphRequest import QueryDdosGraphRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryDdosGraphRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2019-08-16T06:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2019-08-16T07:00:00Z """, dest='endTime',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页条数 """, dest='pageSize', type=int, required=False)),
+            (['--sort-field'], dict(help="""(string) 排序字段，默认传avgbandwidth """, dest='sortField',  required=False)),
+            (['--sort-rule'], dict(help="""(string) 排序规则，默认是降序排序，传值asc或者desc """, dest='sortRule',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 攻击记录查询 ''',
+        description='''
+            攻击记录查询。
+
+            示例: jdc cdn search-attack-log 
+        ''',
+    )
+    def search_attack_log(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SearchAttackLogRequest import SearchAttackLogRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SearchAttackLogRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2493,6 +3345,7 @@ class CdnController(BaseController):
             (['--area'], dict(help="""(string) NA """, dest='area',  required=False)),
             (['--isp'], dict(help="""(string) NA """, dest='isp',  required=False)),
             (['--period'], dict(help="""(string) 时间粒度，可选值:[oneMin,fiveMin,followTime],followTime只会返回一个汇总后的数据 """, dest='period',  required=False)),
+            (['--scheme'], dict(help="""(string) 查询协议，可选值:[http,https,all],传空默认返回全部协议汇总后的数据 """, dest='scheme',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -2651,6 +3504,7 @@ class CdnController(BaseController):
             (['--origin'], dict(help="""(string) NA """, dest='origin',  required=False)),
             (['--period'], dict(help="""(string) 时间粒度，可选值:[oneMin,fiveMin,followTime],followTime只会返回一个汇总后的数据 """, dest='period',  required=False)),
             (['--group-by'], dict(help="""(string) 分组依据 """, dest='groupBy',  required=False)),
+            (['--scheme'], dict(help="""(string) 查询协议，可选值:[http,https,all],传空默认返回全部协议汇总后的数据 """, dest='scheme',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -2891,7 +3745,7 @@ class CdnController(BaseController):
 
     @expose(
         arguments=[
-            (['--domains'], dict(help="""(array: array) NA """, dest='domains',  required=False)),
+            (['--domains'], dict(help="""(array) NA """, dest='domains',  required=False)),
             (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
             (['--interval'], dict(help="""(string) 时间间隔，取值(hour，day，fiveMin)，不传默认小时。 """, dest='interval',  required=False)),
@@ -3002,7 +3856,1202 @@ class CdnController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['query-online-billing-type','set-online-billing-type','query-area-isp-list','preview-certificate','query-default-http-header-key','query-ip-black-list','set-ip-black-list','operate-ip-black-list','create-cache-rule','update-cache-rule','delete-cache-rule','query-http-header','set-http-header','delete-http-header','set-video-draft','set-range','set-ignore-query-string','query-user-agent','set-user-agent-config','query-accesskey-config','set-accesskey-config','set-refer','query-monitor','set-monitor','stop-monitor','set-source','operate-share-cache','set-http-type','query-follow-redirect','set-follow-redirect','query-follow-source-protocol','set-follow-source-protocol','query-domain-group-list','query-domain-group-detail','query-domains-not-in-group','update-domain-group','create-domain-group','batch-delete-domain-group','get-domain-list','get-domain-list-by-filter','get-domain-detail','create-domain','delete-domain','start-domain','stop-domain','query-oss-buckets','batch-create','query-domain-config','set-live-domain-back-source','set-live-domain-ip-black-list','set-live-domain-refer','operate-live-domain-ip-black-list','set-live-domain-back-source-host','set-live-domain-access-key','set-protocol-convert','delete-forbidden-stream','query-push-domain-orapp-or-stream','batch-create-live-domain','query-live-domain-detail','query-live-domain-apps','create-live-domain-prefecth-task','query-live-prefetch-task','query-refresh-task-by-ids','query-refresh-task-by-id','create-refresh-task-for-callback','create-refresh-task-for-callback-v2','query-refresh-task','create-refresh-task','get-all-upper-node-ip-list','get-ssl-cert-list','get-ssl-cert-detail','upload-cert','query-mix-statistics-data','query-mix-statistics-with-area-data','query-mix-traffic-group-sum','query-statistics-data','query-statistics-data-group-by-area','query-statistics-data-group-sum','query-live-statistics-data','query-live-statistics-area-data-group-by','query-live-traffic-group-sum','query-statistics-top-ip','query-domains-log','query-domain-log','query-statistics-top-url',], required=True)),
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询WAF总开关 ''',
+        description='''
+            查询WAF总开关。
+
+            示例: jdc cdn query-waf-switch  --domain xxx
+        ''',
+    )
+    def query_waf_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryWafSwitchRequest import QueryWafSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryWafSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--switch-status'], dict(help="""(string) 开关状态, on:开启,off:关闭 """, dest='switchStatus',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置WAF总开关 ''',
+        description='''
+            设置WAF总开关。
+
+            示例: jdc cdn set-waf-switch  --domain xxx
+        ''',
+    )
+    def set_waf_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetWafSwitchRequest import SetWafSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetWafSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询WAF总开关 ''',
+        description='''
+            查询WAF总开关。
+
+            示例: jdc cdn query-waf-white-rule-switch  --domain xxx
+        ''',
+    )
+    def query_waf_white_rule_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryWafWhiteRuleSwitchRequest import QueryWafWhiteRuleSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryWafWhiteRuleSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--switch-status'], dict(help="""(string) 开关状态, on:开启,off:关闭 """, dest='switchStatus',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置WAF白名单开关 ''',
+        description='''
+            设置WAF白名单开关。
+
+            示例: jdc cdn set-waf-white-rule-switch  --domain xxx
+        ''',
+    )
+    def set_waf_white_rule_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetWafWhiteRuleSwitchRequest import SetWafWhiteRuleSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetWafWhiteRuleSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--rule-type'], dict(help="""(string) ruleType, valid values [ip, geo, uri] """, dest='ruleType',  required=True)),
+            (['--id'], dict(help="""(string) ruleId, defalut empty """, dest='id',  required=False)),
+            (['--page-size'], dict(help="""(int) page size , default 0 to query all """, dest='pageSize', type=int, required=False)),
+            (['--page-index'], dict(help="""(int) page index , default 0 to query all """, dest='pageIndex', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询WAF白名单规则列表 ''',
+        description='''
+            查询WAF白名单规则列表。
+
+            示例: jdc cdn querywaf-white-rules  --domain xxx --rule-type xxx
+        ''',
+    )
+    def querywaf_white_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QuerywafWhiteRulesRequest import QuerywafWhiteRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QuerywafWhiteRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--rule-type'], dict(help="""(string) 白名单类型， uri ip geo """, dest='ruleType',  required=False)),
+            (['--match-op'], dict(help="""(int) 匹配模式,uri类型有效，0=完全匹配  1=前缀匹配 2=包含 3=正则 4=大于 5=后缀 """, dest='matchOp', type=int, required=False)),
+            (['--val'], dict(help="""(string) 匹配值 """, dest='val',  required=False)),
+            (['--actions'], dict(help="""(array) 后续处理 "waf" "cc" "deny"自由组合，空表示跳过后续所有阶段 """, dest='actions',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 新增一条白名单规则 ''',
+        description='''
+            新增一条白名单规则。
+
+            示例: jdc cdn create-waf-white-rule  --domain xxx
+        ''',
+    )
+    def create_waf_white_rule(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.CreateWafWhiteRuleRequest import CreateWafWhiteRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateWafWhiteRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--id'], dict(help="""(string) 需要修改的白名单ID """, dest='id',  required=True)),
+            (['--rule-type'], dict(help="""(string) 白名单类型， uri ip geo """, dest='ruleType',  required=False)),
+            (['--match-op'], dict(help="""(int) 匹配模式,uri类型有效，0=完全匹配  1=前缀匹配 2=包含 3=正则 4=大于 5=后缀 """, dest='matchOp', type=int, required=False)),
+            (['--val'], dict(help="""(string) 匹配值 """, dest='val',  required=False)),
+            (['--actions'], dict(help="""(array) 后续处理 "waf" "cc" "deny"自由组合，空表示跳过后续所有阶段 """, dest='actions',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改指定的白名单规则 ''',
+        description='''
+            修改指定的白名单规则。
+
+            示例: jdc cdn update-waf-white-rule  --domain xxx --id xxx
+        ''',
+    )
+    def update_waf_white_rule(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.UpdateWafWhiteRuleRequest import UpdateWafWhiteRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateWafWhiteRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--ids'], dict(help="""(array) NA """, dest='ids',  required=False)),
+            (['--rule-type'], dict(help="""(string) NA """, dest='ruleType',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启用WAF白名单 ''',
+        description='''
+            启用WAF白名单。
+
+            示例: jdc cdn enable-waf-white-rules  --domain xxx
+        ''',
+    )
+    def enable_waf_white_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.EnableWafWhiteRulesRequest import EnableWafWhiteRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableWafWhiteRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--ids'], dict(help="""(array) NA """, dest='ids',  required=False)),
+            (['--rule-type'], dict(help="""(string) NA """, dest='ruleType',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 禁用WAF白名单 ''',
+        description='''
+            禁用WAF白名单。
+
+            示例: jdc cdn disable-waf-white-rules  --domain xxx
+        ''',
+    )
+    def disable_waf_white_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.DisableWafWhiteRulesRequest import DisableWafWhiteRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableWafWhiteRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--ids'], dict(help="""(string) NA """, dest='ids',  required=True)),
+            (['--rule-type'], dict(help="""(string) NA """, dest='ruleType',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除WAF白名单 ''',
+        description='''
+            删除WAF白名单。
+
+            示例: jdc cdn delete-waf-white-rules  --domain xxx --ids xxx --rule-type xxx
+        ''',
+    )
+    def delete_waf_white_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.DeleteWafWhiteRulesRequest import DeleteWafWhiteRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteWafWhiteRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询WAF黑名单开关 ''',
+        description='''
+            查询WAF黑名单开关。
+
+            示例: jdc cdn query-waf-black-rule-switch  --domain xxx
+        ''',
+    )
+    def query_waf_black_rule_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryWafBlackRuleSwitchRequest import QueryWafBlackRuleSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryWafBlackRuleSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--switch-status'], dict(help="""(string) 开关状态, on:开启,off:关闭 """, dest='switchStatus',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置WAF黑名单开关 ''',
+        description='''
+            设置WAF黑名单开关。
+
+            示例: jdc cdn set-waf-black-rule-switch  --domain xxx
+        ''',
+    )
+    def set_waf_black_rule_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetWafBlackRuleSwitchRequest import SetWafBlackRuleSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetWafBlackRuleSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--rule-type'], dict(help="""(string) ruleType, valid values [ip, geo, uri] """, dest='ruleType',  required=True)),
+            (['--id'], dict(help="""(string) ruleId, defalut empty """, dest='id',  required=False)),
+            (['--page-size'], dict(help="""(int) page size , default 0 to query all """, dest='pageSize', type=int, required=False)),
+            (['--page-index'], dict(help="""(int) page index , default 0 to query all """, dest='pageIndex', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询WAF黑名单规则列表 ''',
+        description='''
+            查询WAF黑名单规则列表。
+
+            示例: jdc cdn querywaf-black-rules  --domain xxx --rule-type xxx
+        ''',
+    )
+    def querywaf_black_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QuerywafBlackRulesRequest import QuerywafBlackRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QuerywafBlackRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--rule-type'], dict(help="""(string) 黑名单类型， uri ip geo """, dest='ruleType',  required=False)),
+            (['--match-op'], dict(help="""(int) 匹配模式,uri类型有效，0=完全匹配  1=前缀匹配 2=包含 3=正则 4=大于 5=后缀 """, dest='matchOp', type=int, required=False)),
+            (['--val'], dict(help="""(string) 匹配值 """, dest='val',  required=False)),
+            (['--at-op'], dict(help="""(int) 1：forbidden，493封禁并返回自定义页面 2：redirect，302跳转 3： verify@captcha 4： verify@jscookie """, dest='atOp', type=int, required=False)),
+            (['--at-val'], dict(help="""(string) action为1时为自定义页面名称,空值或缺省值default为默认页面，2时为跳转url，其他时无效 """, dest='atVal',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 新增一条黑名单规则 ''',
+        description='''
+            新增一条黑名单规则。
+
+            示例: jdc cdn create-waf-black-rule  --domain xxx
+        ''',
+    )
+    def create_waf_black_rule(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.CreateWafBlackRuleRequest import CreateWafBlackRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateWafBlackRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--id'], dict(help="""(string) 需要修改的黑名单ID """, dest='id',  required=True)),
+            (['--rule-type'], dict(help="""(string) 黑名单类型， uri ip geo """, dest='ruleType',  required=False)),
+            (['--match-op'], dict(help="""(int) 匹配模式,uri类型有效，0=完全匹配  1=前缀匹配 2=包含 3=正则 4=大于 5=后缀 """, dest='matchOp', type=int, required=False)),
+            (['--val'], dict(help="""(string) 匹配值 """, dest='val',  required=False)),
+            (['--at-op'], dict(help="""(int) 1：forbidden，493封禁并返回自定义页面 2：redirect，302跳转 3： verify@captcha 4： verify@jscookie """, dest='atOp', type=int, required=False)),
+            (['--at-val'], dict(help="""(string) action为1时为自定义页面名称,空值或缺省值default为默认页面，2时为跳转url，其他时无效 """, dest='atVal',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改指定的黑名单规则 ''',
+        description='''
+            修改指定的黑名单规则。
+
+            示例: jdc cdn update-waf-black-rule  --domain xxx --id xxx
+        ''',
+    )
+    def update_waf_black_rule(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.UpdateWafBlackRuleRequest import UpdateWafBlackRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateWafBlackRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--ids'], dict(help="""(array) NA """, dest='ids',  required=False)),
+            (['--rule-type'], dict(help="""(string) NA """, dest='ruleType',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启用WAF黑名单 ''',
+        description='''
+            启用WAF黑名单。
+
+            示例: jdc cdn enable-waf-black-rules  --domain xxx
+        ''',
+    )
+    def enable_waf_black_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.EnableWafBlackRulesRequest import EnableWafBlackRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableWafBlackRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--ids'], dict(help="""(array) NA """, dest='ids',  required=False)),
+            (['--rule-type'], dict(help="""(string) NA """, dest='ruleType',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 禁用WAF黑名单 ''',
+        description='''
+            禁用WAF黑名单。
+
+            示例: jdc cdn disable-waf-black-rules  --domain xxx
+        ''',
+    )
+    def disable_waf_black_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.DisableWafBlackRulesRequest import DisableWafBlackRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableWafBlackRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--ids'], dict(help="""(string) NA """, dest='ids',  required=True)),
+            (['--rule-type'], dict(help="""(string) NA """, dest='ruleType',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除WAF黑名单 ''',
+        description='''
+            删除WAF黑名单。
+
+            示例: jdc cdn delete-waf-black-rules  --domain xxx --ids xxx --rule-type xxx
+        ''',
+    )
+    def delete_waf_black_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.DeleteWafBlackRulesRequest import DeleteWafBlackRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteWafBlackRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询CC 防护开关 ''',
+        description='''
+            查询CC 防护开关。
+
+            示例: jdc cdn query-ccprotect-switch  --domain xxx
+        ''',
+    )
+    def query_ccprotect_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryCCProtectSwitchRequest import QueryCCProtectSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryCCProtectSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--switch-status'], dict(help="""(string) 开关状态, on:开启,off:关闭 """, dest='switchStatus',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置CC 防护开关 ''',
+        description='''
+            设置CC 防护开关。
+
+            示例: jdc cdn set-ccprotect-switch  --domain xxx
+        ''',
+    )
+    def set_ccprotect_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetCCProtectSwitchRequest import SetCCProtectSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetCCProtectSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--id'], dict(help="""(string) ruleId, defalut empty """, dest='id',  required=False)),
+            (['--page-size'], dict(help="""(int) page size , default 0 to query all """, dest='pageSize', type=int, required=False)),
+            (['--page-index'], dict(help="""(int) page index , default 0 to query all """, dest='pageIndex', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询CC防护规则列表 ''',
+        description='''
+            查询CC防护规则列表。
+
+            示例: jdc cdn query-ccprotect-rules  --domain xxx
+        ''',
+    )
+    def query_ccprotect_rules(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryCCProtectRulesRequest import QueryCCProtectRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryCCProtectRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--uri'], dict(help="""(string) null """, dest='uri',  required=False)),
+            (['--detect-period'], dict(help="""(int) null """, dest='detectPeriod', type=int, required=False)),
+            (['--single-ip-limit'], dict(help="""(int) null """, dest='singleIpLimit', type=int, required=False)),
+            (['--block-type'], dict(help="""(int) null """, dest='blockType', type=int, required=False)),
+            (['--block-time'], dict(help="""(int) null """, dest='blockTime', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 新增一条CC防护规则 ''',
+        description='''
+            新增一条CC防护规则。
+
+            示例: jdc cdn create-ccprotect-rule  --domain xxx
+        ''',
+    )
+    def create_ccprotect_rule(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.CreateCCProtectRuleRequest import CreateCCProtectRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateCCProtectRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--id'], dict(help="""(string) 需要修改的规则ID """, dest='id',  required=True)),
+            (['--uri'], dict(help="""(string) null """, dest='uri',  required=False)),
+            (['--detect-period'], dict(help="""(int) null """, dest='detectPeriod', type=int, required=False)),
+            (['--single-ip-limit'], dict(help="""(int) null """, dest='singleIpLimit', type=int, required=False)),
+            (['--block-type'], dict(help="""(int) null """, dest='blockType', type=int, required=False)),
+            (['--block-time'], dict(help="""(int) null """, dest='blockTime', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改CC防护规则 ''',
+        description='''
+            修改CC防护规则。
+
+            示例: jdc cdn update-ccprotect-rule  --domain xxx --id xxx
+        ''',
+    )
+    def update_ccprotect_rule(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.UpdateCCProtectRuleRequest import UpdateCCProtectRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateCCProtectRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--ids'], dict(help="""(array) NA """, dest='ids',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启用CC防护规则 ''',
+        description='''
+            启用CC防护规则。
+
+            示例: jdc cdn enable-ccprotect-rule  --domain xxx
+        ''',
+    )
+    def enable_ccprotect_rule(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.EnableCCProtectRuleRequest import EnableCCProtectRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableCCProtectRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--ids'], dict(help="""(array) NA """, dest='ids',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 禁用CC防护规则 ''',
+        description='''
+            禁用CC防护规则。
+
+            示例: jdc cdn disable-ccprotect-rule  --domain xxx
+        ''',
+    )
+    def disable_ccprotect_rule(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.DisableCCProtectRuleRequest import DisableCCProtectRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableCCProtectRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--ids'], dict(help="""(string) NA """, dest='ids',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除ccProtectRule ''',
+        description='''
+            删除ccProtectRule。
+
+            示例: jdc cdn delete-ccprotect-rule  --domain xxx --ids xxx
+        ''',
+    )
+    def delete_ccprotect_rule(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.DeleteCCProtectRuleRequest import DeleteCCProtectRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteCCProtectRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询web防护开关 ''',
+        description='''
+            查询web防护开关。
+
+            示例: jdc cdn query-web-protect-switch  --domain xxx
+        ''',
+    )
+    def query_web_protect_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryWebProtectSwitchRequest import QueryWebProtectSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryWebProtectSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--switch-status'], dict(help="""(string) 开关状态, on:开启,off:关闭 """, dest='switchStatus',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置web防护开关 ''',
+        description='''
+            设置web防护开关。
+
+            示例: jdc cdn set-web-protect-switch  --domain xxx
+        ''',
+    )
+    def set_web_protect_switch(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.SetWebProtectSwitchRequest import SetWebProtectSwitchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetWebProtectSwitchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询web防护开关 ''',
+        description='''
+            查询web防护开关。
+
+            示例: jdc cdn query-web-protect-settings  --domain xxx
+        ''',
+    )
+    def query_web_protect_settings(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryWebProtectSettingsRequest import QueryWebProtectSettingsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryWebProtectSettingsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--waf-mode'], dict(help="""(string) 0：拦截模式 (阻断forbidden 493跳到自定义页面) ，1-检测模式(观察notice) """, dest='wafMode',  required=False)),
+            (['--waf-level'], dict(help="""(int) 规则策略等级 0为宽松, 1为正常, 2为严格 """, dest='wafLevel', type=int, required=False)),
+            (['--redirection'], dict(help="""(string) 拦截模式跳转的自定义页面名称, 缺省或default返回默认页面 """, dest='redirection',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置web防护开关 ''',
+        description='''
+            设置web防护开关。
+
+            示例: jdc cdn update-web-protect-settings  --domain xxx
+        ''',
+    )
+    def update_web_protect_settings(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.UpdateWebProtectSettingsRequest import UpdateWebProtectSettingsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateWebProtectSettingsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--skip-type'], dict(help="""(string) skipType, valid values [skip, deny] """, dest='skipType',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询waf地域信息 ''',
+        description='''
+            查询waf地域信息。
+
+            示例: jdc cdn query-waf-regions  --skip-type xxx
+        ''',
+    )
+    def query_waf_regions(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryWafRegionsRequest import QueryWafRegionsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryWafRegionsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain'], dict(help="""(string) 用户域名 """, dest='domain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询waf ip黑名单配置状态 ''',
+        description='''
+            查询waf ip黑名单配置状态。
+
+            示例: jdc cdn query-ip-black-setting-status  --domain xxx
+        ''',
+    )
+    def query_ip_black_setting_status(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.QueryIpBlackSettingStatusRequest import QueryIpBlackSettingStatusRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryIpBlackSettingStatusRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询攻击来源 ''',
+        description='''
+            查询攻击来源。
+
+            示例: jdc cdn waf-query-pv-for-area-and-ip 
+        ''',
+    )
+    def waf_query_pv_for_area_and_ip(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.WafQueryPvForAreaAndIpRequest import WafQueryPvForAreaAndIpRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = WafQueryPvForAreaAndIpRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询总请求量与攻击请求量 ''',
+        description='''
+            查询总请求量与攻击请求量。
+
+            示例: jdc cdn waf-query-pv 
+        ''',
+    )
+    def waf_query_pv(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.WafQueryPvRequest import WafQueryPvRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = WafQueryPvRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 查询起始时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询截止时间,UTC时间，格式为:yyyy-MM-dd'T'HH:mm:ss'Z'，示例:2018-10-21T10:00:00Z """, dest='endTime',  required=False)),
+            (['--domain'], dict(help="""(string) 需要查询的域名, 必须为用户pin下有权限的域名 """, dest='domain',  required=False)),
+            (['--sort-field'], dict(help="""(string) 排序字段 """, dest='sortField',  required=False)),
+            (['--sort-rule'], dict(help="""(string) 排序规则：desc，asc """, dest='sortRule',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码，从1开始 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 页大小，默认20 """, dest='pageSize', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询攻击记录详情 ''',
+        description='''
+            查询攻击记录详情。
+
+            示例: jdc cdn waf-query-attack-details 
+        ''',
+    )
+    def waf_query_attack_details(self):
+        client_factory = ClientFactory('cdn')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cdn.apis.WafQueryAttackDetailsRequest import WafQueryAttackDetailsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = WafQueryAttackDetailsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['query-online-billing-type','set-online-billing-type','query-band','query-band-with-area','query-domain-config-status','query-area-isp-list','preview-certificate','query-default-http-header-key','query-ip-black-list','set-ip-black-list','operate-ip-black-list','create-cache-rule','update-cache-rule','delete-cache-rule','query-http-header','set-http-header','delete-http-header','set-video-draft','set-range','set-ignore-query-string','query-user-agent','set-user-agent-config','query-accesskey-config','set-accesskey-config','set-refer','query-monitor','set-monitor','stop-monitor','set-source','operate-share-cache','set-http-type','query-follow-redirect','set-follow-redirect','query-follow-source-protocol','set-follow-source-protocol','set-domain-config','query-domain-group-list','query-domain-group-detail','query-domains-not-in-group','update-domain-group','create-domain-group','batch-delete-domain-group','get-domain-list','get-domain-list-by-filter','get-domain-detail','create-domain','delete-domain','start-domain','stop-domain','query-oss-buckets','batch-create','query-domain-config','check-whether-ip-belong-to-jcloud','set-live-domain-back-source','set-live-domain-ip-black-list','set-live-domain-refer','operate-live-domain-ip-black-list','set-live-domain-back-source-host','set-live-domain-access-key','set-protocol-convert','delete-forbidden-stream','query-push-domain-orapp-or-stream','operate-live-domain-ignore-query-string','set-push-ip-white-list','set-publish-normal-timeout','set-stream-notify-info','set-forward-authentication','set-origin-authentication','batch-create-live-domain','create-live-domain','bind-publish-domain','modify-live-domain-forward-custom-vhost','query-live-domain-detail','query-live-domain-detail-v2','describe-publish-domains','describebinded-domains','query-live-domain-apps','create-live-domain-prefecth-task','query-live-prefetch-task','query-refresh-task-by-ids','query-refresh-task-by-id','create-refresh-task-for-callback','create-refresh-task-for-callback-v2','query-refresh-task','create-refresh-task','query-net-protection-rules','set-net-protection-rules','query-net-protection-rules-switch','set-net-protection-rules-switch','query-geo-areas','query-attack-type-count','query-ddos-graph','search-attack-log','get-all-upper-node-ip-list','get-ssl-cert-list','get-ssl-cert-detail','upload-cert','query-mix-statistics-data','query-mix-statistics-with-area-data','query-mix-traffic-group-sum','query-statistics-data','query-statistics-data-group-by-area','query-statistics-data-group-sum','query-live-statistics-data','query-live-statistics-area-data-group-by','query-live-traffic-group-sum','query-statistics-top-ip','query-domains-log','query-domain-log','query-statistics-top-url','query-waf-switch','set-waf-switch','query-waf-white-rule-switch','set-waf-white-rule-switch','querywaf-white-rules','create-waf-white-rule','update-waf-white-rule','enable-waf-white-rules','disable-waf-white-rules','delete-waf-white-rules','query-waf-black-rule-switch','set-waf-black-rule-switch','querywaf-black-rules','create-waf-black-rule','update-waf-black-rule','enable-waf-black-rules','disable-waf-black-rules','delete-waf-black-rules','query-ccprotect-switch','set-ccprotect-switch','query-ccprotect-rules','create-ccprotect-rule','update-ccprotect-rule','enable-ccprotect-rule','disable-ccprotect-rule','delete-ccprotect-rule','query-web-protect-switch','set-web-protect-switch','query-web-protect-settings','update-web-protect-settings','query-waf-regions','query-ip-black-setting-status','waf-query-pv-for-area-and-ip','waf-query-pv','waf-query-attack-details',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
