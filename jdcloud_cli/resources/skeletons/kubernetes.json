@@ -22,14 +22,26 @@
             "nodeConfig":{
                 "instanceType":"",
                 "version":"",
-                "systemDiskSize":"",
-                "systemDiskType":"",
+                "password":"",
+                "keyNames":"",
+                "systemDisk":{
+                    "systemDiskCategory":"",
+                    "systemDiskSize":"",
+                    "systemDiskType":"",
+                    "systemDiskIops":""
+                },
                 "labels":[""]
             },
+            "azs":"",
             "initialNodeCount":"",
             "vpcId":"",
             "nodeCidr":"",
-            "autoRepair":""
+            "autoRepair":"",
+            "caConfig":{
+                "enable":"",
+                "maxNode":"",
+                "minNode":""
+            }
         },
         "masterCidr":"",
         "accessKey":"",
@@ -117,14 +129,26 @@
         "nodeConfig":{
             "instanceType":"",
             "version":"",
-            "systemDiskSize":"",
-            "systemDiskType":"",
+            "password":"",
+            "keyNames":"",
+            "systemDisk":{
+                "systemDiskCategory":"",
+                "systemDiskSize":"",
+                "systemDiskType":"",
+                "systemDiskIops":""
+            },
             "labels":[""]
         },
+        "azs":[""],
         "initialNodeCount":"",
         "vpcId":"",
         "nodeCidr":"",
         "autoRepair":"",
+        "caConfig":{
+            "enable":"",
+            "maxNode":"",
+            "minNode":""
+        },
         "regionId":""
     },
     "describe-node-group":{
@@ -152,6 +176,20 @@
         "nodeGroupId":""
     },
     "rollback-node-group-upgrade":{
+        "regionId":"",
+        "nodeGroupId":""
+    },
+    "set-node-group-ca":{
+        "caConfig":{
+            "enable":"",
+            "maxNode":"",
+            "minNode":""
+        },
+        "regionId":"",
+        "nodeGroupId":""
+    },
+    "delete-node-instances":{
+        "instanceIds":[""],
         "regionId":"",
         "nodeGroupId":""
     },

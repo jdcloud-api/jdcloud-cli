@@ -180,6 +180,7 @@
         "instanceId":""
     },
     "describe-binlog-download-url":{
+        "seconds":"",
         "regionId":"",
         "instanceId":"",
         "binlogBackupId":""
@@ -369,6 +370,8 @@
     "modify-instance-spec":{
         "newInstanceClass":"",
         "newInstanceStorageGB":"",
+        "newInstanceStorageType":"",
+        "storageEncrypted":"",
         "regionId":"",
         "instanceId":""
     },
@@ -451,10 +454,21 @@
     "describe-logs":{
         "pageNumber":"",
         "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "regionId":"",
         "instanceId":""
     },
     "update-log-download-urlinternal":{
+        "seconds":"",
+        "regionId":"",
+        "instanceId":"",
+        "logId":""
+    },
+    "describe-log-download-url":{
         "seconds":"",
         "regionId":"",
         "instanceId":"",

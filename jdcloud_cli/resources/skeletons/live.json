@@ -42,6 +42,16 @@
         "key":"",
         "title":""
     },
+    "describe-live-restart-domain-certificate":{
+        "restartDomain":""
+    },
+    "set-live-restart-domain-certificate":{
+        "restartDomain":"",
+        "certStatus":"",
+        "cert":"",
+        "key":"",
+        "title":""
+    },
     "describe-live-domains":{
         "pageNum":"",
         "pageSize":"",
@@ -113,6 +123,17 @@
     },
     "describe-quality-detection-binding":{
         "template":""
+    },
+    "open-live-p2p":{
+        "playDomain":""
+    },
+    "close-live-p2p":{
+        "playDomain":""
+    },
+    "describe-live-p2p-configs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "playDomain":""
     },
     "describe-custom-live-stream-record-templates":{
         "pageNum":"",

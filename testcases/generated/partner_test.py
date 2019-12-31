@@ -32,3 +32,30 @@ class PartnerTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_get_total_consumption(self):
+        cmd = """python ../../main.py partner get-total-consumption  --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_each_consumption(self):
+        cmd = """python ../../main.py partner get-each-consumption  --start-time 'xxx' --end-time 'xxx' --page-size '5' --page-index '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_customer_bill_by_product(self):
+        cmd = """python ../../main.py partner describe-customer-bill-by-product  --start-time 'xxx' --end-time 'xxx' --page-size '5' --page-index '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+

@@ -3,6 +3,7 @@
         "pageNumber":"",
         "pageSize":"",
         "status":"",
+        "includeLB":"",
         "filters":[{
             "name":"",
             "operator":"",
@@ -63,6 +64,7 @@
         "subnetId":"",
         "keypairId":"",
         "enableInternet":"",
+        "privateIp":"",
         "filters":[{
             "name":"",
             "operator":"",
@@ -181,11 +183,15 @@
     "describe-instance-monitor-info":{
         "startTime":"",
         "endTime":"",
-        "metrics":[""],
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "regionId":"",
         "instanceId":""
     },
-    "query-keypairs":{
+    "describe-keypairs":{
         "pageNumber":"",
         "pageSize":"",
         "name":"",
@@ -207,7 +213,7 @@
         "publicKey":"",
         "regionId":""
     },
-    "query-keypair":{
+    "describe-keypair":{
         "regionId":"",
         "keypairId":""
     },
@@ -215,7 +221,7 @@
         "regionId":"",
         "keypairId":""
     },
-    "query-listeners":{
+    "describe-listeners":{
         "pageNumber":"",
         "pageSize":"",
         "name":"",
@@ -229,7 +235,7 @@
     },
     "create-listener":{
         "clientToken":"",
-        "loadBalancerSpec":{
+        "listenerSpec":{
             "loadBalancerId":"",
             "protocol":"",
             "port":"",
@@ -262,7 +268,7 @@
         "regionId":"",
         "listenerId":""
     },
-    "query-listener":{
+    "describe-listener":{
         "regionId":"",
         "listenerId":""
     },
@@ -280,7 +286,7 @@
         "regionId":"",
         "listenerId":""
     },
-    "query-load-balancers":{
+    "describe-load-balancers":{
         "pageNumber":"",
         "pageSize":"",
         "status":"",
@@ -320,7 +326,7 @@
         "regionId":"",
         "loadBalancerId":""
     },
-    "query-load-balancer":{
+    "describe-load-balancer":{
         "regionId":"",
         "loadBalancerId":""
     },
@@ -349,13 +355,13 @@
     "describe-regiones":{
         "networkType":""
     },
-    "query-cpslbregions":{
+    "describe-cpslbregions":{
     },
-    "query-route-table":{
+    "describe-route-table":{
         "regionId":"",
         "routeTableId":""
     },
-    "query-route-tables":{
+    "describe-route-tables":{
         "pageNumber":"",
         "pageSize":"",
         "name":"",
@@ -367,7 +373,7 @@
         }],
         "regionId":""
     },
-    "query-servers":{
+    "describe-servers":{
         "pageNumber":"",
         "pageSize":"",
         "listenerId":"",
@@ -400,7 +406,7 @@
         "serverGroupId":"",
         "serverId":""
     },
-    "query-server-groups":{
+    "describe-server-groups":{
         "pageNumber":"",
         "pageSize":"",
         "name":"",
@@ -420,7 +426,7 @@
         },
         "regionId":""
     },
-    "query-server-group":{
+    "describe-server-group":{
         "regionId":"",
         "serverGroupId":""
     },

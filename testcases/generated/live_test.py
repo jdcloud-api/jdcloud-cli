@@ -104,6 +104,24 @@ class LiveTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_live_restart_domain_certificate(self):
+        cmd = """python ../../main.py live describe-live-restart-domain-certificate  --restart-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_live_restart_domain_certificate(self):
+        cmd = """python ../../main.py live set-live-restart-domain-certificate  --restart-domain 'xxx' --cert-status 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_live_domains(self):
         cmd = """python ../../main.py live describe-live-domains """
         with os.popen(cmd) as f:
@@ -259,6 +277,33 @@ class LiveTest(unittest.TestCase):
 
     def test_describe_quality_detection_binding(self):
         cmd = """python ../../main.py live describe-quality-detection-binding  --template 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_open_live_p2p(self):
+        cmd = """python ../../main.py live open-live-p2p """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_close_live_p2p(self):
+        cmd = """python ../../main.py live close-live-p2p """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_live_p2p_configs(self):
+        cmd = """python ../../main.py live describe-live-p2p-configs  --play-domain 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

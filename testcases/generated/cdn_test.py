@@ -41,6 +41,33 @@ class CdnTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_query_band(self):
+        cmd = """python ../../main.py cdn query-band """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_band_with_area(self):
+        cmd = """python ../../main.py cdn query-band-with-area """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_domain_config_status(self):
+        cmd = """python ../../main.py cdn query-domain-config-status  --task-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_query_area_isp_list(self):
         cmd = """python ../../main.py cdn query-area-isp-list """
         with os.popen(cmd) as f:
@@ -311,6 +338,15 @@ class CdnTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_set_domain_config(self):
+        cmd = """python ../../main.py cdn set-domain-config  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_query_domain_group_list(self):
         cmd = """python ../../main.py cdn query-domain-group-list """
         with os.popen(cmd) as f:
@@ -455,6 +491,15 @@ class CdnTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_check_whether_ip_belong_to_jcloud(self):
+        cmd = """python ../../main.py cdn check-whether-ip-belong-to-jcloud """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_set_live_domain_back_source(self):
         cmd = """python ../../main.py cdn set-live-domain-back-source  --domain 'xxx'"""
         with os.popen(cmd) as f:
@@ -536,6 +581,60 @@ class CdnTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_operate_live_domain_ignore_query_string(self):
+        cmd = """python ../../main.py cdn operate-live-domain-ignore-query-string  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_push_ip_white_list(self):
+        cmd = """python ../../main.py cdn set-push-ip-white-list  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_publish_normal_timeout(self):
+        cmd = """python ../../main.py cdn set-publish-normal-timeout  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_stream_notify_info(self):
+        cmd = """python ../../main.py cdn set-stream-notify-info  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_forward_authentication(self):
+        cmd = """python ../../main.py cdn set-forward-authentication  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_origin_authentication(self):
+        cmd = """python ../../main.py cdn set-origin-authentication  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_batch_create_live_domain(self):
         cmd = """python ../../main.py cdn batch-create-live-domain """
         with os.popen(cmd) as f:
@@ -545,8 +644,62 @@ class CdnTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_create_live_domain(self):
+        cmd = """python ../../main.py cdn create-live-domain """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_bind_publish_domain(self):
+        cmd = """python ../../main.py cdn bind-publish-domain  --domain 'xxx' --publish-domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_live_domain_forward_custom_vhost(self):
+        cmd = """python ../../main.py cdn modify-live-domain-forward-custom-vhost  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_query_live_domain_detail(self):
         cmd = """python ../../main.py cdn query-live-domain-detail  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_live_domain_detail_v2(self):
+        cmd = """python ../../main.py cdn query-live-domain-detail-v2  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_publish_domains(self):
+        cmd = """python ../../main.py cdn describe-publish-domains """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describebinded_domains(self):
+        cmd = """python ../../main.py cdn describebinded-domains  --domain 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -628,6 +781,78 @@ class CdnTest(unittest.TestCase):
 
     def test_create_refresh_task(self):
         cmd = """python ../../main.py cdn create-refresh-task """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_net_protection_rules(self):
+        cmd = """python ../../main.py cdn query-net-protection-rules """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_net_protection_rules(self):
+        cmd = """python ../../main.py cdn set-net-protection-rules """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_net_protection_rules_switch(self):
+        cmd = """python ../../main.py cdn query-net-protection-rules-switch """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_net_protection_rules_switch(self):
+        cmd = """python ../../main.py cdn set-net-protection-rules-switch """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_geo_areas(self):
+        cmd = """python ../../main.py cdn query-geo-areas """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_attack_type_count(self):
+        cmd = """python ../../main.py cdn query-attack-type-count """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_ddos_graph(self):
+        cmd = """python ../../main.py cdn query-ddos-graph """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_search_attack_log(self):
+        cmd = """python ../../main.py cdn search-attack-log """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -781,6 +1006,321 @@ class CdnTest(unittest.TestCase):
 
     def test_query_statistics_top_url(self):
         cmd = """python ../../main.py cdn query-statistics-top-url """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_waf_switch(self):
+        cmd = """python ../../main.py cdn query-waf-switch  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_waf_switch(self):
+        cmd = """python ../../main.py cdn set-waf-switch  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_waf_white_rule_switch(self):
+        cmd = """python ../../main.py cdn query-waf-white-rule-switch  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_waf_white_rule_switch(self):
+        cmd = """python ../../main.py cdn set-waf-white-rule-switch  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_querywaf_white_rules(self):
+        cmd = """python ../../main.py cdn querywaf-white-rules  --domain 'xxx' --rule-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_waf_white_rule(self):
+        cmd = """python ../../main.py cdn create-waf-white-rule  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_waf_white_rule(self):
+        cmd = """python ../../main.py cdn update-waf-white-rule  --domain 'xxx' --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_waf_white_rules(self):
+        cmd = """python ../../main.py cdn enable-waf-white-rules  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_waf_white_rules(self):
+        cmd = """python ../../main.py cdn disable-waf-white-rules  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_waf_white_rules(self):
+        cmd = """python ../../main.py cdn delete-waf-white-rules  --domain 'xxx' --ids 'xxx' --rule-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_waf_black_rule_switch(self):
+        cmd = """python ../../main.py cdn query-waf-black-rule-switch  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_waf_black_rule_switch(self):
+        cmd = """python ../../main.py cdn set-waf-black-rule-switch  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_querywaf_black_rules(self):
+        cmd = """python ../../main.py cdn querywaf-black-rules  --domain 'xxx' --rule-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_waf_black_rule(self):
+        cmd = """python ../../main.py cdn create-waf-black-rule  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_waf_black_rule(self):
+        cmd = """python ../../main.py cdn update-waf-black-rule  --domain 'xxx' --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_waf_black_rules(self):
+        cmd = """python ../../main.py cdn enable-waf-black-rules  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_waf_black_rules(self):
+        cmd = """python ../../main.py cdn disable-waf-black-rules  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_waf_black_rules(self):
+        cmd = """python ../../main.py cdn delete-waf-black-rules  --domain 'xxx' --ids 'xxx' --rule-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_ccprotect_switch(self):
+        cmd = """python ../../main.py cdn query-ccprotect-switch  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_ccprotect_switch(self):
+        cmd = """python ../../main.py cdn set-ccprotect-switch  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_ccprotect_rules(self):
+        cmd = """python ../../main.py cdn query-ccprotect-rules  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_ccprotect_rule(self):
+        cmd = """python ../../main.py cdn create-ccprotect-rule  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_ccprotect_rule(self):
+        cmd = """python ../../main.py cdn update-ccprotect-rule  --domain 'xxx' --id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_ccprotect_rule(self):
+        cmd = """python ../../main.py cdn enable-ccprotect-rule  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_ccprotect_rule(self):
+        cmd = """python ../../main.py cdn disable-ccprotect-rule  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_ccprotect_rule(self):
+        cmd = """python ../../main.py cdn delete-ccprotect-rule  --domain 'xxx' --ids 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_web_protect_switch(self):
+        cmd = """python ../../main.py cdn query-web-protect-switch  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_web_protect_switch(self):
+        cmd = """python ../../main.py cdn set-web-protect-switch  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_web_protect_settings(self):
+        cmd = """python ../../main.py cdn query-web-protect-settings  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_web_protect_settings(self):
+        cmd = """python ../../main.py cdn update-web-protect-settings  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_waf_regions(self):
+        cmd = """python ../../main.py cdn query-waf-regions  --skip-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_ip_black_setting_status(self):
+        cmd = """python ../../main.py cdn query-ip-black-setting-status  --domain 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_waf_query_pv_for_area_and_ip(self):
+        cmd = """python ../../main.py cdn waf-query-pv-for-area-and-ip """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_waf_query_pv(self):
+        cmd = """python ../../main.py cdn waf-query-pv """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_waf_query_attack_details(self):
+        cmd = """python ../../main.py cdn waf-query-attack-details """
         with os.popen(cmd) as f:
             content = f.read()
 

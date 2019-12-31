@@ -260,9 +260,9 @@ class PodController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一台或多台 pod; - 创建pod需要通过实名认证; - hostname规范;     - 支持两种方式：以标签方式书写或以完整主机名方式书写;     - 标签规范;         - 0-9，a-z(不分大小写)和-（减号），其他的都是无效的字符串;         - 不能以减号开始，也不能以减号结尾;         - 最小1个字符，最大63个字符;     - 完整的主机名由一系列标签与点连接组成;         - 标签与标签之间使用“.”(点)进行连接;         - 不能以“.”(点)开始，也不能以“.”(点)结尾;         - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符;     - 正则：`^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$`; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-100]Mbps，步进1Mbps;         - 可以指定网卡的主IP(primaryIpAddress)和辅助IP(secondaryIpAddresses)，此时maxCount只能为1;         - 可以设置网卡的自动删除autoDelete属性，指明是否删除实例时自动删除网卡;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一个 pod 创建时至多指定5个安全组;         - 主网卡deviceIndex设置为1; - 存储;     - volume分为container system disk和pod data volume，container system disk的挂载目录是/，data volume的挂载目录可以随意指定;     - container system disk;         - 只能是cloud类别;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,100]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;     - data volume;         - 当前只能选择cloud类别;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,4000]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;         - 可以从快照创建磁盘; - pod 容器日志;     - default：默认在本地分配10MB的存储空间，自动rotate; - DNS-1123 label规范;     - 长度范围: [1-63];     - 正则表达式: `^[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?$`;     - 例子: my-name, 123-abc; - DNS-1123 subdomain规范;     - 长度范围: [1-253];     - 正则表达式: `^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$`;     - 例子: example.com, registry.docker-cn.com; - 其他;     - 创建完成后，pod 状态为running;     - maxCount为最大努力，不保证一定能达到maxCount;  ''',
+        help=''' 创建一台或多台 pod; - 创建pod需要通过实名认证; - hostname规范;     - 支持两种方式：以标签方式书写或以完整主机名方式书写;     - 标签规范;         - 0-9，a-z(不分大小写)和-（减号），其他的都是无效的字符串;         - 不能以减号开始，也不能以减号结尾;         - 最小1个字符，最大63个字符;     - 完整的主机名由一系列标签与点连接组成;         - 标签与标签之间使用“.”(点)进行连接;         - 不能以“.”(点)开始，也不能以“.”(点)结尾;         - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符;     - 正则：^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-100]Mbps，步进1Mbps;         - 可以指定网卡的主IP(primaryIpAddress)和辅助IP(secondaryIpAddresses)，此时maxCount只能为1;         - 可以设置网卡的自动删除autoDelete属性，指明是否删除实例时自动删除网卡;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一个 pod 创建时至多指定5个安全组;         - 主网卡deviceIndex设置为1; - 存储;     - volume分为container system disk和pod data volume，container system disk的挂载目录是/，data volume的挂载目录可以随意指定;     - container system disk;         - 只能是cloud类别;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,100]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;     - data volume;         - 当前只能选择cloud类别;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,4000]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;         - 可以从快照创建磁盘; - pod 容器日志;     - default：默认在本地分配10MB的存储空间，自动rotate; - DNS-1123 label规范;     - 长度范围: [1-63];     - 正则表达式: ^[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?$;     - 例子: my-name, 123-abc; - DNS-1123 subdomain规范;     - 长度范围: [1-253];     - 正则表达式: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$;     - 例子: example.com, registry.docker-cn.com; - 其他;     - 创建完成后，pod 状态为running;     - maxCount为最大努力，不保证一定能达到maxCount;  ''',
         description='''
-            创建一台或多台 pod; - 创建pod需要通过实名认证; - hostname规范;     - 支持两种方式：以标签方式书写或以完整主机名方式书写;     - 标签规范;         - 0-9，a-z(不分大小写)和-（减号），其他的都是无效的字符串;         - 不能以减号开始，也不能以减号结尾;         - 最小1个字符，最大63个字符;     - 完整的主机名由一系列标签与点连接组成;         - 标签与标签之间使用“.”(点)进行连接;         - 不能以“.”(点)开始，也不能以“.”(点)结尾;         - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符;     - 正则：`^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$`; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-100]Mbps，步进1Mbps;         - 可以指定网卡的主IP(primaryIpAddress)和辅助IP(secondaryIpAddresses)，此时maxCount只能为1;         - 可以设置网卡的自动删除autoDelete属性，指明是否删除实例时自动删除网卡;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一个 pod 创建时至多指定5个安全组;         - 主网卡deviceIndex设置为1; - 存储;     - volume分为container system disk和pod data volume，container system disk的挂载目录是/，data volume的挂载目录可以随意指定;     - container system disk;         - 只能是cloud类别;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,100]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;     - data volume;         - 当前只能选择cloud类别;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,4000]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;         - 可以从快照创建磁盘; - pod 容器日志;     - default：默认在本地分配10MB的存储空间，自动rotate; - DNS-1123 label规范;     - 长度范围: [1-63];     - 正则表达式: `^[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?$`;     - 例子: my-name, 123-abc; - DNS-1123 subdomain规范;     - 长度范围: [1-253];     - 正则表达式: `^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$`;     - 例子: example.com, registry.docker-cn.com; - 其他;     - 创建完成后，pod 状态为running;     - maxCount为最大努力，不保证一定能达到maxCount; 
+            创建一台或多台 pod; - 创建pod需要通过实名认证; - hostname规范;     - 支持两种方式：以标签方式书写或以完整主机名方式书写;     - 标签规范;         - 0-9，a-z(不分大小写)和-（减号），其他的都是无效的字符串;         - 不能以减号开始，也不能以减号结尾;         - 最小1个字符，最大63个字符;     - 完整的主机名由一系列标签与点连接组成;         - 标签与标签之间使用“.”(点)进行连接;         - 不能以“.”(点)开始，也不能以“.”(点)结尾;         - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符;     - 正则：^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]))*$; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-100]Mbps，步进1Mbps;         - 可以指定网卡的主IP(primaryIpAddress)和辅助IP(secondaryIpAddresses)，此时maxCount只能为1;         - 可以设置网卡的自动删除autoDelete属性，指明是否删除实例时自动删除网卡;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一个 pod 创建时至多指定5个安全组;         - 主网卡deviceIndex设置为1; - 存储;     - volume分为container system disk和pod data volume，container system disk的挂载目录是/，data volume的挂载目录可以随意指定;     - container system disk;         - 只能是cloud类别;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,100]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;     - data volume;         - 当前只能选择cloud类别;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,4000]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;         - 可以从快照创建磁盘; - pod 容器日志;     - default：默认在本地分配10MB的存储空间，自动rotate; - DNS-1123 label规范;     - 长度范围: [1-63];     - 正则表达式: ^[a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?$;     - 例子: my-name, 123-abc; - DNS-1123 subdomain规范;     - 长度范围: [1-253];     - 正则表达式: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$;     - 例子: example.com, registry.docker-cn.com; - 其他;     - 创建完成后，pod 状态为running;     - maxCount为最大努力，不保证一定能达到maxCount; 
 
             示例: jdc pod create-pods  --pod-spec {"":""} --max-count 0
         ''',
@@ -629,6 +629,41 @@ class PodController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--pod-id'], dict(help="""(string) Pod ID """, dest='podId',  required=True)),
+            (['--instance-type'], dict(help="""(string) 新实例类型，不可与原实例类型相同 """, dest='instanceType',  required=True)),
+            (['--container-resources'], dict(help="""(array: containerResourceSpec) 新实例类型，不可与原实例类型相同 """, dest='containerResources',  required=False)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 调整pod实例类型配置。; - pod phase 需是停止状态；; - 支持升配、降配；**不支持原有规格**; - 计费类型不变;     - 包年包月：需要计算配置差价，如果所选配置价格高，需要补齐到期前的差价，到期时间不变；如果所选配置价格低，需要延长到期时间;     - 按配置：按照所选规格，进行计费; - 支持对 pod 中的容器进行资源限制、资源需求的调整;     - 容器需求的总资源占用不得超过 pod 的实例类型;     - 容器资源限制不得超过 pod 的实例类型;  ''',
+        description='''
+            调整pod实例类型配置。; - pod phase 需是停止状态；; - 支持升配、降配；**不支持原有规格**; - 计费类型不变;     - 包年包月：需要计算配置差价，如果所选配置价格高，需要补齐到期前的差价，到期时间不变；如果所选配置价格低，需要延长到期时间;     - 按配置：按照所选规格，进行计费; - 支持对 pod 中的容器进行资源限制、资源需求的调整;     - 容器需求的总资源占用不得超过 pod 的实例类型;     - 容器资源限制不得超过 pod 的实例类型; 
+
+            示例: jdc pod resize-pod  --pod-id xxx --instance-type xxx
+        ''',
+    )
+    def resize_pod(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.ResizePodRequest import ResizePodRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ResizePodRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--resource-type'], dict(help="""(string) resourceType - 资源类型，支持 [container, pod, secret];  """, dest='resourceType',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -843,7 +878,7 @@ class PodController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-container','exec-create','exec-get-exit-code','exec-start','resize-tty','describe-instance-types','describe-pods','create-pods','check-pod-name','describe-pod','delete-pod','start-pod','stop-pod','modify-pod-attribute','associate-elastic-ip','disassociate-elastic-ip','get-container-logs','rebuild-pod','describe-quota','describe-secrets','create-secret','describe-secret','delete-secret',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-container','exec-create','exec-get-exit-code','resize-tty','describe-instance-types','describe-pods','create-pods','check-pod-name','describe-pod','delete-pod','start-pod','stop-pod','modify-pod-attribute','associate-elastic-ip','disassociate-elastic-ip','get-container-logs','rebuild-pod','resize-pod','describe-quota','describe-secrets','create-secret','describe-secret','delete-secret',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

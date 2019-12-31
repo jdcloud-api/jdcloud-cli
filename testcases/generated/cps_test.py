@@ -230,8 +230,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_keypairs(self):
-        cmd = """python ../../main.py cps query-keypairs """
+    def test_describe_keypairs(self):
+        cmd = """python ../../main.py cps describe-keypairs """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -257,8 +257,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_keypair(self):
-        cmd = """python ../../main.py cps query-keypair  --keypair-id 'xxx'"""
+    def test_describe_keypair(self):
+        cmd = """python ../../main.py cps describe-keypair  --keypair-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -275,8 +275,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_listeners(self):
-        cmd = """python ../../main.py cps query-listeners """
+    def test_describe_listeners(self):
+        cmd = """python ../../main.py cps describe-listeners """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -285,7 +285,7 @@ class CpsTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_listener(self):
-        cmd = """python ../../main.py cps create-listener  --load-balancer-spec '{"":""}'"""
+        cmd = """python ../../main.py cps create-listener  --listener-spec '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -302,8 +302,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_listener(self):
-        cmd = """python ../../main.py cps query-listener  --listener-id 'xxx'"""
+    def test_describe_listener(self):
+        cmd = """python ../../main.py cps describe-listener  --listener-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -338,8 +338,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_load_balancers(self):
-        cmd = """python ../../main.py cps query-load-balancers """
+    def test_describe_load_balancers(self):
+        cmd = """python ../../main.py cps describe-load-balancers """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -365,8 +365,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_load_balancer(self):
-        cmd = """python ../../main.py cps query-load-balancer  --load-balancer-id 'xxx'"""
+    def test_describe_load_balancer(self):
+        cmd = """python ../../main.py cps describe-load-balancer  --load-balancer-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -419,8 +419,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_cpslbregions(self):
-        cmd = """python ../../main.py cps query-cpslbregions """
+    def test_describe_cpslbregions(self):
+        cmd = """python ../../main.py cps describe-cpslbregions """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -428,8 +428,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_route_table(self):
-        cmd = """python ../../main.py cps query-route-table  --route-table-id 'xxx'"""
+    def test_describe_route_table(self):
+        cmd = """python ../../main.py cps describe-route-table  --route-table-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -437,8 +437,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_route_tables(self):
-        cmd = """python ../../main.py cps query-route-tables """
+    def test_describe_route_tables(self):
+        cmd = """python ../../main.py cps describe-route-tables """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -446,8 +446,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_servers(self):
-        cmd = """python ../../main.py cps query-servers  --server-group-id 'xxx'"""
+    def test_describe_servers(self):
+        cmd = """python ../../main.py cps describe-servers  --server-group-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -482,8 +482,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_server_groups(self):
-        cmd = """python ../../main.py cps query-server-groups """
+    def test_describe_server_groups(self):
+        cmd = """python ../../main.py cps describe-server-groups """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -500,8 +500,8 @@ class CpsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_server_group(self):
-        cmd = """python ../../main.py cps query-server-group  --server-group-id 'xxx'"""
+    def test_describe_server_group(self):
+        cmd = """python ../../main.py cps describe-server-group  --server-group-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

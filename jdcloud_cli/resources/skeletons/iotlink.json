@@ -1,0 +1,34 @@
+{
+    "gprs-status":{
+        "iccid":"",
+        "regionId":""
+    },
+    "on-off-status":{
+        "iccid":"",
+        "regionId":""
+    },
+    "life-status":{
+        "iccid":"",
+        "regionId":""
+    },
+    "gprs-realtime-info":{
+        "iccid":"",
+        "regionId":""
+    },
+    "open-iot-card":{
+        "iccids":[""],
+        "regionId":""
+    },
+    "close-iot-card":{
+        "iccids":[""],
+        "regionId":""
+    },
+    "open-iot-flow":{
+        "iccids":[""],
+        "regionId":""
+    },
+    "close-iot-flow":{
+        "iccids":[""],
+        "regionId":""
+    },
+}

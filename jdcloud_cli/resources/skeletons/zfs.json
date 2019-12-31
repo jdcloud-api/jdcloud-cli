@@ -2,6 +2,10 @@
     "describe-file-systems":{
         "pageNumber":"",
         "pageSize":"",
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
         "filters":[{
             "name":"",
             "operator":"",
@@ -13,6 +17,7 @@
         "name":"",
         "description":"",
         "clientToken":"",
+        "fileSystemType":"",
         "regionId":""
     },
     "describe-file-system":{

@@ -27,8 +27,11 @@ from jdcloud_cli.controllers.websocket.websocket_base import web_socket
 class AttachRequest(object):
 
     def __init__(self, service, scheme, endpoint, method, headers, region_id, container_id, pod_id=None):
-        url_map = {'pod': '%s://%s/v1/regions/%s/pods/%s/containers/%s:attach' % (scheme, endpoint, region_id, pod_id, container_id),
-                   'nc': '%s://%s/v1/regions/%s/containers/%s:attach' % (scheme, endpoint, region_id, container_id)}
+        url_map = {
+            'pod': '%s://%s/v1/regions/%s/pods/%s/containers/%s:attach' % (scheme, endpoint, region_id, pod_id, container_id),
+            'nc': '%s://%s/v1/regions/%s/containers/%s:attach' % (scheme, endpoint, region_id, container_id),
+            'nativecontainer': '%s://%s/v1/regions/%s/containers/%s:attach' % (scheme, endpoint, region_id, container_id)
+        }
         self.__url = url_map[service]
         self.__method = method
         self.__region_id = region_id

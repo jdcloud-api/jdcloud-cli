@@ -4,6 +4,25 @@
     "set-online-billing-type":{
         "allType":""
     },
+    "query-band":{
+        "startTime":"",
+        "endTime":"",
+        "domain":"",
+        "area":"",
+        "isp":"",
+        "period":""
+    },
+    "query-band-with-area":{
+        "startTime":"",
+        "endTime":"",
+        "domain":"",
+        "area":"",
+        "isp":"",
+        "period":""
+    },
+    "query-domain-config-status":{
+        "taskId":""
+    },
     "query-area-isp-list":{
     },
     "preview-certificate":{
@@ -142,6 +161,12 @@
         "status":"",
         "domain":""
     },
+    "set-domain-config":{
+        "httpType":"",
+        "backSourceType":"",
+        "jumpType":"",
+        "domain":""
+    },
     "query-domain-group-list":{
         "shareCache":"",
         "pageNumber":"",
@@ -175,7 +200,8 @@
         "pageNumber":"",
         "pageSize":"",
         "status":"",
-        "type":""
+        "type":"",
+        "accelerateRegion":""
     },
     "get-domain-list-by-filter":{
         "keyWord":"",
@@ -183,6 +209,7 @@
         "pageSize":"",
         "status":"",
         "type":"",
+        "accelerateRegion":"",
         "tagFilters":[{
             "key":"",
             "values":""
@@ -206,6 +233,7 @@
         "ipSource":[""],
         "domainSource":[""],
         "ossSource":"",
+        "accelerateRegion":"",
         "domain":""
     },
     "delete-domain":{
@@ -234,10 +262,14 @@
         "httpType":"",
         "ipSource":[""],
         "domainSource":[""],
-        "ossSource":""
+        "ossSource":"",
+        "accelerateRegion":""
     },
     "query-domain-config":{
         "domain":""
+    },
+    "check-whether-ip-belong-to-jcloud":{
+        "ips":""
     },
     "set-live-domain-back-source":{
         "sourceType":"",
@@ -292,6 +324,33 @@
         "limit":"",
         "domain":""
     },
+    "operate-live-domain-ignore-query-string":{
+        "status":"",
+        "domain":""
+    },
+    "set-push-ip-white-list":{
+        "ipList":"",
+        "domain":""
+    },
+    "set-publish-normal-timeout":{
+        "timeout":"",
+        "domain":""
+    },
+    "set-stream-notify-info":{
+        "notifyUrl":"",
+        "notifyAuthKey":"",
+        "domain":""
+    },
+    "set-forward-authentication":{
+        "accesskeyType":"",
+        "accesskeyKey":"",
+        "domain":""
+    },
+    "set-origin-authentication":{
+        "accesskeyType":"",
+        "accesskeyKey":"",
+        "domain":""
+    },
     "batch-create-live-domain":{
         "playDomain":"",
         "publishDomain":"",
@@ -301,9 +360,41 @@
         "siteType":"",
         "backSourceType":"",
         "ipSource":[""],
-        "domainSource":[""]
+        "domainSource":[""],
+        "accelerateRegion":""
+    },
+    "create-live-domain":{
+        "playDomain":"",
+        "publishDomain":"",
+        "sourceType":"",
+        "backHttpType":"",
+        "defaultSourceHost":"",
+        "siteType":"",
+        "backSourceType":"",
+        "playProtocol":"",
+        "forwardCustomVhost":"",
+        "ipSource":[""],
+        "domainSource":[""],
+        "videoType":"",
+        "audioType":""
+    },
+    "bind-publish-domain":{
+        "domain":"",
+        "publishDomain":""
+    },
+    "modify-live-domain-forward-custom-vhost":{
+        "forwardCustomVhost":"",
+        "domain":""
     },
     "query-live-domain-detail":{
+        "domain":""
+    },
+    "query-live-domain-detail-v2":{
+        "domain":""
+    },
+    "describe-publish-domains":{
+    },
+    "describebinded-domains":{
         "domain":""
     },
     "query-live-domain-apps":{
@@ -342,6 +433,46 @@
         "pageNumber":"",
         "pageSize":""
     },
+    "create-refresh-task":{
+        "taskType":"",
+        "urls":""
+    },
+    "query-net-protection-rules":{
+    },
+    "set-net-protection-rules":{
+        "srcNewConnLimitEnable":"",
+        "dstNewConnLimitEnable":"",
+        "datagramRangeMin":"",
+        "datagramRangeMax":"",
+        "dstNewConnLimitValue":"",
+        "srcNewConnLimitValue":"",
+        "geoBlack":"",
+        "ipBlack":"",
+        "ipWhite":""
+    },
+    "query-net-protection-rules-switch":{
+    },
+    "set-net-protection-rules-switch":{
+        "switchStatus":""
+    },
+    "query-geo-areas":{
+    },
+    "query-attack-type-count":{
+        "startTime":"",
+        "endTime":""
+    },
+    "query-ddos-graph":{
+        "startTime":"",
+        "endTime":""
+    },
+    "search-attack-log":{
+        "startTime":"",
+        "endTime":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "sortField":"",
+        "sortRule":""
+    },
     "get-all-upper-node-ip-list":{
     },
     "get-ssl-cert-list":{
@@ -365,7 +496,8 @@
         "fields":"",
         "area":"",
         "isp":"",
-        "period":""
+        "period":"",
+        "scheme":""
     },
     "query-mix-statistics-with-area-data":{
         "startTime":"",
@@ -407,7 +539,8 @@
         "isp":"",
         "origin":"",
         "period":"",
-        "groupBy":""
+        "groupBy":"",
+        "scheme":""
     },
     "query-statistics-data-group-sum":{
         "startTime":"",
@@ -474,7 +607,7 @@
         "topBy":""
     },
     "query-domains-log":{
-        "domains":[""],
+        "domains":"",
         "startTime":"",
         "endTime":"",
         "interval":"",
@@ -496,5 +629,185 @@
         "subDomain":"",
         "size":"",
         "topBy":""
+    },
+    "query-waf-switch":{
+        "domain":""
+    },
+    "set-waf-switch":{
+        "switchStatus":"",
+        "domain":""
+    },
+    "query-waf-white-rule-switch":{
+        "domain":""
+    },
+    "set-waf-white-rule-switch":{
+        "switchStatus":"",
+        "domain":""
+    },
+    "querywaf-white-rules":{
+        "ruleType":"",
+        "id":"",
+        "pageSize":"",
+        "pageIndex":"",
+        "domain":""
+    },
+    "create-waf-white-rule":{
+        "ruleType":"",
+        "matchOp":"",
+        "val":"",
+        "actions":"",
+        "domain":""
+    },
+    "update-waf-white-rule":{
+        "ruleType":"",
+        "matchOp":"",
+        "val":"",
+        "actions":"",
+        "domain":"",
+        "id":""
+    },
+    "enable-waf-white-rules":{
+        "ids":"",
+        "ruleType":"",
+        "domain":""
+    },
+    "disable-waf-white-rules":{
+        "ids":"",
+        "ruleType":"",
+        "domain":""
+    },
+    "delete-waf-white-rules":{
+        "ruleType":"",
+        "domain":"",
+        "ids":""
+    },
+    "query-waf-black-rule-switch":{
+        "domain":""
+    },
+    "set-waf-black-rule-switch":{
+        "switchStatus":"",
+        "domain":""
+    },
+    "querywaf-black-rules":{
+        "ruleType":"",
+        "id":"",
+        "pageSize":"",
+        "pageIndex":"",
+        "domain":""
+    },
+    "create-waf-black-rule":{
+        "ruleType":"",
+        "matchOp":"",
+        "val":"",
+        "atOp":"",
+        "atVal":"",
+        "domain":""
+    },
+    "update-waf-black-rule":{
+        "ruleType":"",
+        "matchOp":"",
+        "val":"",
+        "atOp":"",
+        "atVal":"",
+        "domain":"",
+        "id":""
+    },
+    "enable-waf-black-rules":{
+        "ids":"",
+        "ruleType":"",
+        "domain":""
+    },
+    "disable-waf-black-rules":{
+        "ids":"",
+        "ruleType":"",
+        "domain":""
+    },
+    "delete-waf-black-rules":{
+        "ruleType":"",
+        "domain":"",
+        "ids":""
+    },
+    "query-ccprotect-switch":{
+        "domain":""
+    },
+    "set-ccprotect-switch":{
+        "switchStatus":"",
+        "domain":""
+    },
+    "query-ccprotect-rules":{
+        "id":"",
+        "pageSize":"",
+        "pageIndex":"",
+        "domain":""
+    },
+    "create-ccprotect-rule":{
+        "uri":"",
+        "detectPeriod":"",
+        "singleIpLimit":"",
+        "blockType":"",
+        "blockTime":"",
+        "domain":""
+    },
+    "update-ccprotect-rule":{
+        "uri":"",
+        "detectPeriod":"",
+        "singleIpLimit":"",
+        "blockType":"",
+        "blockTime":"",
+        "domain":"",
+        "id":""
+    },
+    "enable-ccprotect-rule":{
+        "ids":"",
+        "domain":""
+    },
+    "disable-ccprotect-rule":{
+        "ids":"",
+        "domain":""
+    },
+    "delete-ccprotect-rule":{
+        "domain":"",
+        "ids":""
+    },
+    "query-web-protect-switch":{
+        "domain":""
+    },
+    "set-web-protect-switch":{
+        "switchStatus":"",
+        "domain":""
+    },
+    "query-web-protect-settings":{
+        "domain":""
+    },
+    "update-web-protect-settings":{
+        "wafMode":"",
+        "wafLevel":"",
+        "redirection":"",
+        "domain":""
+    },
+    "query-waf-regions":{
+        "skipType":""
+    },
+    "query-ip-black-setting-status":{
+        "domain":""
+    },
+    "waf-query-pv-for-area-and-ip":{
+        "startTime":"",
+        "endTime":"",
+        "domain":""
+    },
+    "waf-query-pv":{
+        "startTime":"",
+        "endTime":"",
+        "domain":""
+    },
+    "waf-query-attack-details":{
+        "startTime":"",
+        "endTime":"",
+        "domain":"",
+        "sortField":"",
+        "sortRule":"",
+        "pageNumber":"",
+        "pageSize":""
     },
 }

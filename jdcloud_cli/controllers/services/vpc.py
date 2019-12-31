@@ -42,6 +42,7 @@ class VpcController(BaseController):
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) elasticIpIds - elasticip id数组条件，支持多个; elasticIpAddress - eip的IP地址，支持单个; chargeStatus	- eip的费用支付状态,normal(正常状态) or overdue(预付费已到期) or arrear(欠费状态)，支持单个;  """, dest='filters',  required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -77,6 +78,7 @@ class VpcController(BaseController):
             (['--max-count'], dict(help="""(int) 购买弹性ip数量；取值范围：[1,100] """, dest='maxCount', type=int, required=True)),
             (['--elastic-ip-address'], dict(help="""(string) 指定弹性ip地址进行创建，当申请创建多个弹性ip时，必须为空 """, dest='elasticIpAddress',  required=False)),
             (['--elastic-ip-spec'], dict(help="""(elasticIpSpec) 弹性ip规格 """, dest='elasticIpSpec',  required=True)),
+            (['--user-tags'], dict(help="""(array: tag) 用户标签 """, dest='userTags',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -552,7 +554,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) networkInterfaceIds - 弹性网卡ID列表，支持多个; networkInterfaceNames - 弹性网卡名称列表，支持多个; vpcId - 弹性网卡所属vpc Id，支持单个; subnetId	- 弹性网卡所属子网Id，支持单个; role - 网卡角色，取值范围：Primary（主网卡）、Secondary（辅助网卡），支持单个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) networkInterfaceIds - 弹性网卡ID列表，支持多个; networkInterfaceNames - 弹性网卡名称列表，支持多个; vpcId - 弹性网卡所属vpc Id，支持单个; subnetId	- 弹性网卡所属子网Id，支持单个; role - 网卡角色，取值范围：Primary（主网卡）、Secondary（辅助网卡）、Managed （受管网卡），支持单个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -586,7 +588,7 @@ class VpcController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=True)),
-            (['--az'], dict(help="""(string) 可用区，用户的默认可用区 """, dest='az',  required=False)),
+            (['--az'], dict(help="""(string) 可用区，用户的默认可用区，该参数无效，不建议使用 """, dest='az',  required=False)),
             (['--network-interface-name'], dict(help="""(string) 网卡名称，只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='networkInterfaceName',  required=False)),
             (['--primary-ip-address'], dict(help="""(string) 网卡主IP，如果不指定，会自动从子网中分配 """, dest='primaryIpAddress',  required=False)),
             (['--secondary-ip-addresses'], dict(help="""(array: string) SecondaryIp列表 """, dest='secondaryIpAddresses',  required=False)),
@@ -1142,8 +1144,8 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--type'], dict(help="""(string) 资源类型，取值范围：vpc、elastic_ip、subnet、security_group、vpcpeering、network_interface（配额只统计辅助网卡） """, dest='type',  required=True)),
-            (['--parent-resource-id'], dict(help="""(string) type为vpc、elastic_ip、network_interface不设置, type为subnet、security_group、vpcpeering设置为vpcId """, dest='parentResourceId',  required=False)),
+            (['--type'], dict(help="""(string) 资源类型，取值范围：vpc、elastic_ip、subnet、security_group、vpcpeering、network_interface（配额只统计辅助网卡）、acl、aclRule、routeTable、staticRoute、propagatedRoute、securityGroupRule """, dest='type',  required=True)),
+            (['--parent-resource-id'], dict(help="""(string) type为vpc、elastic_ip、network_interface不设置, type为subnet、security_group、vpcpeering、acl、routeTable设置为vpcId, type为aclRule设置为aclId, type为staticRoute、propagatedRoute设置为routeTableId, type为securityGroupRule为securityGroupId """, dest='parentResourceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1348,7 +1350,7 @@ class VpcController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
-            (['--route-table-rule-specs'], dict(help="""(array: addRouteTableRules) 安全组规则信息 """, dest='routeTableRuleSpecs',  required=True)),
+            (['--route-table-rule-specs'], dict(help="""(array: addRouteTableRules) 路由表规则信息 """, dest='routeTableRuleSpecs',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],

@@ -626,6 +626,15 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_log_download_url(self):
+        cmd = """python ../../main.py rds describe-log-download-url  --instance-id 'xxx' --log-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_parameters(self):
         cmd = """python ../../main.py rds describe-parameters  --instance-id 'xxx'"""
         with os.popen(cmd) as f:

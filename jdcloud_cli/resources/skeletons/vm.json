@@ -164,7 +164,8 @@
             "description":"",
             "noPassword":"",
             "noKeyNames":"",
-            "noElasticIp":""
+            "noElasticIp":"",
+            "userTags":[""]
         },
         "maxCount":"",
         "clientToken":"",

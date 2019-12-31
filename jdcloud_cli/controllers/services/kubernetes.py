@@ -82,7 +82,7 @@ class KubernetesController(BaseController):
             (['--client-certificate'], dict(help="""(bool) 默认开启 clientCertificate """, dest='clientCertificate',  required=False)),
             (['--version'], dict(help="""(string) kubernetes的版本 """, dest='version',  required=False)),
             (['--azs'], dict(help="""(array: string) 集群所在的az """, dest='azs',  required=False)),
-            (['--node-group'], dict(help="""(nodeGroupSpec) pod 创建参数 """, dest='nodeGroup',  required=True)),
+            (['--node-group'], dict(help="""(nodeGroupSpec) 集群节点组 """, dest='nodeGroup',  required=True)),
             (['--master-cidr'], dict(help="""(string) k8s的master的cidr """, dest='masterCidr',  required=True)),
             (['--access-key'], dict(help="""(string) 用户的AccessKey，插件调用open-api时的认证凭证 """, dest='accessKey',  required=True)),
             (['--secret-key'], dict(help="""(string) 用户的SecretKey，插件调用open-api时的认证凭证 """, dest='secretKey',  required=True)),
@@ -155,14 +155,14 @@ class KubernetesController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
             (['--cluster-id'], dict(help="""(string) 集群 ID """, dest='clusterId',  required=True)),
             (['--name'], dict(help="""(string) 集群名称 """, dest='name',  required=False)),
-            (['--description'], dict(help="""(string) 集群 name 和 description 必须要指定一个 """, dest='description',  required=False)),
+            (['--description'], dict(help="""(string) 集群描述 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改集群的 名称 和 描述。 ''',
+        help=''' 修改集群的 名称 和 描述。<br>集群 name 和 description 必须要指定一个 ''',
         description='''
-            修改集群的 名称 和 描述。。
+            修改集群的 名称 和 描述。<br>集群 name 和 description 必须要指定一个。
 
             示例: jdc kubernetes modify-cluster  --cluster-id xxx
         ''',
@@ -430,14 +430,14 @@ class KubernetesController(BaseController):
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
-            (['--filters'], dict(help="""(array: filter) name - 节点组名称，模糊匹配，支持单个      ; id - 节点组 id，支持多个     ; clusterId - 根据clusterId查询        ; clusterName - 根据名称查询 cluster             ;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) name - 节点组名称，模糊匹配，支持单个; id - 节点组 id，支持多个; clusterId - 根据 clusterId 查询; clusterName - 根据 cluster 名称查询;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询节点组列表 ''',
+        help=''' 查询工作节点组列表 ''',
         description='''
-            查询节点组列表。
+            查询工作节点组列表。
 
             示例: jdc kubernetes describe-node-groups 
         ''',
@@ -465,19 +465,21 @@ class KubernetesController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
             (['--name'], dict(help="""(string) 名称（同一用户的 cluster 内部唯一） """, dest='name',  required=True)),
             (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
-            (['--cluster-id'], dict(help="""(string) node group所属的cluster """, dest='clusterId',  required=True)),
-            (['--node-config'], dict(help="""(nodeConfigSpec) 节点组配置 """, dest='nodeConfig',  required=True)),
-            (['--initial-node-count'], dict(help="""(int) nodeGroup初始化大小 """, dest='initialNodeCount', type=int, required=True)),
-            (['--vpc-id'], dict(help="""(string) k8s运行的vpc """, dest='vpcId',  required=True)),
-            (['--node-cidr'], dict(help="""(string) k8s的node的cidr """, dest='nodeCidr',  required=True)),
-            (['--auto-repair'], dict(help="""(bool) 是否开启 node group 的自动修复，默认关闭 """, dest='autoRepair',  required=False)),
+            (['--cluster-id'], dict(help="""(string) 工作节点所属的集群 """, dest='clusterId',  required=True)),
+            (['--node-config'], dict(help="""(nodeConfigSpec) 工作节点配置信息 """, dest='nodeConfig',  required=True)),
+            (['--azs'], dict(help="""(array: string) 工作节点组的 az，必须为集群az的子集，默认为集群az """, dest='azs',  required=False)),
+            (['--initial-node-count'], dict(help="""(int) 工作节点组初始化大小 """, dest='initialNodeCount', type=int, required=True)),
+            (['--vpc-id'], dict(help="""(string) 工作节点组初始化大小运行的VPC """, dest='vpcId',  required=True)),
+            (['--node-cidr'], dict(help="""(string) 工作节点组的cidr """, dest='nodeCidr',  required=True)),
+            (['--auto-repair'], dict(help="""(bool) 是否开启工作节点组的自动修复，默认关闭 """, dest='autoRepair',  required=False)),
+            (['--ca-config'], dict(help="""(cAConfigSpec) 自动伸缩配置 """, dest='caConfig',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建k8s的nodeGroup; 要求集群状态为running;  ''',
+        help=''' 创建工作节点组<br>; - 要求集群状态为running;  ''',
         description='''
-            创建k8s的nodeGroup; 要求集群状态为running; 。
+            创建工作节点组<br>; - 要求集群状态为running; 。
 
             示例: jdc kubernetes create-node-group  --name xxx --cluster-id xxx --node-config {"":""} --initial-node-count 0 --vpc-id xxx --node-cidr xxx
         ''',
@@ -503,14 +505,14 @@ class KubernetesController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
-            (['--node-group-id'], dict(help="""(string) 节点组 ID """, dest='nodeGroupId',  required=True)),
+            (['--node-group-id'], dict(help="""(string) 工作节点组 ID """, dest='nodeGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个节点组详情 ''',
+        help=''' 查询单个工作节点组详情 ''',
         description='''
-            查询单个节点组详情。
+            查询单个工作节点组详情。
 
             示例: jdc kubernetes describe-node-group  --node-group-id xxx
         ''',
@@ -536,16 +538,16 @@ class KubernetesController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
-            (['--node-group-id'], dict(help="""(string) 节点组 ID """, dest='nodeGroupId',  required=True)),
-            (['--name'], dict(help="""(string) 节点组名称 """, dest='name',  required=False)),
-            (['--description'], dict(help="""(string) 集群 name 和 description 必须要指定一个 """, dest='description',  required=False)),
+            (['--node-group-id'], dict(help="""(string) 工作节点组 ID """, dest='nodeGroupId',  required=True)),
+            (['--name'], dict(help="""(string) 工作节点组名称 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 工作节点组描述 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改节点组的 名称 和 描述 ''',
+        help=''' 修改工作节点组的 名称 和 描述<br>name 和 description 必须要指定一个 ''',
         description='''
-            修改节点组的 名称 和 描述。
+            修改工作节点组的 名称 和 描述<br>name 和 description 必须要指定一个。
 
             示例: jdc kubernetes modify-node-group  --node-group-id xxx
         ''',
@@ -571,14 +573,14 @@ class KubernetesController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
-            (['--node-group-id'], dict(help="""(string) 节点组 ID """, dest='nodeGroupId',  required=True)),
+            (['--node-group-id'], dict(help="""(string) 工作节点组 ID """, dest='nodeGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' cluster 摘除 nodeGroup 并删除 nodeGroup ''',
+        help=''' 集群摘除工作节点组并删除工作节点组 ''',
         description='''
-            cluster 摘除 nodeGroup 并删除 nodeGroup。
+            集群摘除工作节点组并删除工作节点组。
 
             示例: jdc kubernetes delete-node-group  --node-group-id xxx
         ''',
@@ -604,15 +606,15 @@ class KubernetesController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
-            (['--node-group-id'], dict(help="""(string) 节点组 ID """, dest='nodeGroupId',  required=True)),
-            (['--expect-count'], dict(help="""(int) 创建集群请求参数模型 """, dest='expectCount', type=int, required=True)),
+            (['--node-group-id'], dict(help="""(string) 工作节点组 ID """, dest='nodeGroupId',  required=True)),
+            (['--expect-count'], dict(help="""(int) 预期目标节点数量 """, dest='expectCount', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 调整节点组实例数量 ''',
+        help=''' 调整工作节点组实例数量 ''',
         description='''
-            调整节点组实例数量。
+            调整工作节点组实例数量。
 
             示例: jdc kubernetes set-node-group-size  --node-group-id xxx --expect-count 0
         ''',
@@ -638,15 +640,15 @@ class KubernetesController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
-            (['--node-group-id'], dict(help="""(string) 节点组 ID """, dest='nodeGroupId',  required=True)),
+            (['--node-group-id'], dict(help="""(string) 工作节点组 ID """, dest='nodeGroupId',  required=True)),
             (['--enabled'], dict(help="""(bool) 是否开启自动修复 """, dest='enabled',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 设置节点组的自动修复 ''',
+        help=''' 设置工作节点组的自动修复 ''',
         description='''
-            设置节点组的自动修复。
+            设置工作节点组的自动修复。
 
             示例: jdc kubernetes set-auto-repair  --node-group-id xxx --enabled true
         ''',
@@ -672,14 +674,14 @@ class KubernetesController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
-            (['--node-group-id'], dict(help="""(string) 节点组 ID """, dest='nodeGroupId',  required=True)),
+            (['--node-group-id'], dict(help="""(string) 工作节点组 ID """, dest='nodeGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 回滚未升级完的节点组 ''',
+        help=''' 回滚未升级完的工作节点组 ''',
         description='''
-            回滚未升级完的节点组。
+            回滚未升级完的工作节点组。
 
             示例: jdc kubernetes rollback-node-group-upgrade  --node-group-id xxx
         ''',
@@ -704,15 +706,83 @@ class KubernetesController(BaseController):
 
     @expose(
         arguments=[
+            (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
+            (['--node-group-id'], dict(help="""(string) 工作节点组 ID """, dest='nodeGroupId',  required=True)),
+            (['--ca-config'], dict(help="""(cAConfigSpec) 自动伸缩配置，其中 enable 必须指定 """, dest='caConfig',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置工作节点组自动扩容 ''',
+        description='''
+            设置工作节点组自动扩容。
+
+            示例: jdc kubernetes set-node-group-ca  --node-group-id xxx --ca-config {"":""}
+        ''',
+    )
+    def set_node_group_ca(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.SetNodeGroupCARequest import SetNodeGroupCARequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetNodeGroupCARequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 ID """, dest='regionId',  required=False)),
+            (['--node-group-id'], dict(help="""(string) 工作节点组 ID """, dest='nodeGroupId',  required=True)),
+            (['--instance-ids'], dict(help="""(array: string) 需要从工作节点组中删除的实例; - 不可将一个集群中的实例全部删除;  """, dest='instanceIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 从工作节点组中删除指定实例 ''',
+        description='''
+            从工作节点组中删除指定实例。
+
+            示例: jdc kubernetes delete-node-instances  --node-group-id xxx
+        ''',
+    )
+    def delete_node_instances(self):
+        client_factory = ClientFactory('kubernetes')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.kubernetes.apis.DeleteNodeInstancesRequest import DeleteNodeInstancesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteNodeInstancesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--filters'], dict(help="""(array: filter) resourceTypes - 资源类型，暂时只支持[kubernetes];  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询(k8s 集群)配额 ''',
+        help=''' 查询 kubernetes 集群配额 ''',
         description='''
-            查询(k8s 集群)配额。
+            查询 kubernetes 集群配额。
 
             示例: jdc kubernetes describe-quotas 
         ''',
@@ -742,9 +812,9 @@ class KubernetesController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询(k8s 集群)服务配置信息 ''',
+        help=''' 查询 kubernetes 集群服务配置信息 ''',
         description='''
-            查询(k8s 集群)服务配置信息。
+            查询 kubernetes 集群服务配置信息。
 
             示例: jdc kubernetes describe-server-config 
         ''',
@@ -902,7 +972,7 @@ class KubernetesController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-clusters','create-cluster','describe-cluster','modify-cluster','delete-cluster','set-user-metrics','abort-upgrade','describe-progress','set-auto-upgrade','upgrade-cluster','set-addons','describe-node-groups','create-node-group','describe-node-group','modify-node-group','delete-node-group','set-node-group-size','set-auto-repair','rollback-node-group-upgrade','describe-quotas','describe-server-config','describe-versions','describe-node-version','describe-upgradable-master-versions','describe-upgradable-node-versions',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-clusters','create-cluster','describe-cluster','modify-cluster','delete-cluster','set-user-metrics','abort-upgrade','describe-progress','set-auto-upgrade','upgrade-cluster','set-addons','describe-node-groups','create-node-group','describe-node-group','modify-node-group','delete-node-group','set-node-group-size','set-auto-repair','rollback-node-group-upgrade','set-node-group-ca','delete-node-instances','describe-quotas','describe-server-config','describe-versions','describe-node-version','describe-upgradable-master-versions','describe-upgradable-node-versions',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

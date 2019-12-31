@@ -338,6 +338,74 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
+            (['--restart-domain'], dict(help="""(string) 直播回看域名; - 仅支持精确匹配;  """, dest='restartDomain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询直播回看播放证书 ''',
+        description='''
+            查询直播回看播放证书。
+
+            示例: jdc live describe-live-restart-domain-certificate  --restart-domain xxx
+        ''',
+    )
+    def describe_live_restart_domain_certificate(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DescribeLiveRestartDomainCertificateRequest import DescribeLiveRestartDomainCertificateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLiveRestartDomainCertificateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--restart-domain'], dict(help="""(string) 直播回看域名 """, dest='restartDomain',  required=True)),
+            (['--cert-status'], dict(help="""(string) 直播回看证书状态;   on: 开启;   off: 关闭; - 当播放证书状态on(开启)时,cert和key不能为空;  """, dest='certStatus',  required=True)),
+            (['--cert'], dict(help="""(string) 直播回看证书; - 取值: 最大支持4098; - 当播放证书状态on(开启)时,cert不能为空;  """, dest='cert',  required=False)),
+            (['--key'], dict(help="""(string) 直播回看证书key; - 取值: 最大支持2048; - 当播放证书状态on(开启)时,key不能为空;  """, dest='key',  required=False)),
+            (['--title'], dict(help="""(string) 直播回看证书别名; - 取值: 支持大小写字母和数字 长度最大256;  """, dest='title',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置直播回看证书; -- 设置成功之后30分钟以内生效;  ''',
+        description='''
+            设置直播回看证书; -- 设置成功之后30分钟以内生效; 。
+
+            示例: jdc live set-live-restart-domain-certificate  --restart-domain xxx --cert-status xxx
+        ''',
+    )
+    def set_live_restart_domain_certificate(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.SetLiveRestartDomainCertificateRequest import SetLiveRestartDomainCertificateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetLiveRestartDomainCertificateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--page-num'], dict(help="""(int) 页码; - 取值范围[1, 100000];  """, dest='pageNum', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小; - 取值范围[10, 100];  """, dest='pageSize', type=int, required=False)),
             (['--publish-domain'], dict(help="""(string) 推流域名; - 目前仅支持精确查询; - 为空时,查询用户所有直播域名;  """, dest='publishDomain',  required=False)),
@@ -919,6 +987,104 @@ class LiveController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeQualityDetectionBindingRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--play-domain'], dict(help="""(string) 播放域名 """, dest='playDomain',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 开启P2P;  ''',
+        description='''
+            开启P2P; 。
+
+            示例: jdc live open-live-p2p 
+        ''',
+    )
+    def open_live_p2p(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.OpenLiveP2pRequest import OpenLiveP2pRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = OpenLiveP2pRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--play-domain'], dict(help="""(string) 播放域名 """, dest='playDomain',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 关闭P2P ''',
+        description='''
+            关闭P2P。
+
+            示例: jdc live close-live-p2p 
+        ''',
+    )
+    def close_live_p2p(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.CloseLiveP2pRequest import CloseLiveP2pRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CloseLiveP2pRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码; - 取值范围[1, 100000];  """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小; - 取值范围[10, 100];  """, dest='pageSize', type=int, required=False)),
+            (['--play-domain'], dict(help="""(string) 直播的播放域名; - 目前仅支持精确匹配;  """, dest='playDomain',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询P2P配置 ''',
+        description='''
+            查询P2P配置。
+
+            示例: jdc live describe-live-p2p-configs  --play-domain xxx
+        ''',
+    )
+    def describe_live_p2p_configs(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DescribeLiveP2pConfigsRequest import DescribeLiveP2pConfigsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLiveP2pConfigsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -3780,7 +3946,7 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-live-app','add-live-app','stop-live-app','describe-live-play-auth-key','set-live-play-auth-key','describe-live-restart-auth-key','set-live-restart-auth-key','describe-live-domain-certificate','set-live-domain-certificate','describe-live-domains','add-live-domain','start-live-domain','stop-live-domain','describe-live-domain-detail','delete-live-domain','add-live-restart-domain','add-custom-live-stream-quality-detection-template','describe-custom-live-stream-quality-detection-templates','add-live-stream-app-quality-detection','add-live-stream-domain-quality-detection','set-live-stream-quality-detection-notify-config','delete-custom-live-stream-quality-detection-template','delete-live-stream-app-quality-detection','delete-live-stream-domain-quality-detection','describe-live-stream-quality-detection-notify-config','delete-live-stream-quality-detection-notify-config','describe-quality-detection-binding','describe-custom-live-stream-record-templates','add-custom-live-stream-record-template','add-live-stream-app-record','add-live-stream-domain-record','describe-custom-live-stream-record-config','set-live-stream-record-notify-config','delete-custom-live-stream-record-template','delete-live-stream-app-record','delete-live-stream-domain-record','describe-live-stream-record-notify-config','delete-live-stream-record-notify-config','add-live-record-task','describe-record-binding','describe-live-statistic-group-by-stream','describe-live-statistic-group-by-area','describe-live-statistic-group-by-area-isp','describe-publish-stream-info-data','describe-live-stream-history-user-num','describe-live-publish-stream-num','describe-live-stream-player-ranking-data','describe-live-transcode-stream-list','describe-live-transcode-stream-num','describe-live-transcode-stream-player-user-num','describe-live-transcode-stream-bandwidth','describe-domain-online-stream','describe-domains-log','describe-url-ranking','describe-live-transcoding-duration-data','describe-live-file-storage-data','describe-live-stream-bandwidth-data','describe-live-stream-publish-bandwidth-data','describe-live-stream-traffic-data','describe-live-stream-publish-traffic-data','describe-live-snapshot-data','describe-live-porn-data','add-custom-live-stream-snapshot-template','describe-custom-live-stream-snapshot-config','describe-custom-live-stream-snapshot-templates','add-live-stream-app-snapshot','add-live-stream-domain-snapshot','set-live-stream-snapshot-notify-config','delete-custom-live-stream-snapshot-template','delete-live-stream-app-snapshot','delete-live-stream-domain-snapshot','describe-live-stream-snapshot-notify-config','delete-live-stream-snapshot-notify-config','describe-snapshot-binding','forbid-live-stream','resume-live-stream','interrupt-live-stream','describe-live-stream-info','set-live-stream-notify-config','describe-live-stream-notify-config','delete-live-stream-notify-config','describe-live-stream-online-list','describe-live-stream-publish-list','open-live-restart','close-live-restart','describe-live-restart-configs','open-live-timeshift','close-live-timeshift','describe-live-timeshift-configs','add-live-stream-domain-transcode','add-live-stream-app-transcode','add-custom-live-stream-transcode-template','describe-custom-live-stream-transcode-templates','describe-system-live-stream-transcode-templates','describe-live-stream-transcode-config','delete-live-stream-domain-transcode','delete-live-stream-app-transcode','describe-custom-live-stream-transcode-template','delete-custom-live-stream-transcode-template','describe-transcode-binding','add-custom-live-stream-watermark-template','describe-custom-live-stream-watermark-templates','add-live-stream-app-watermark','add-live-stream-domain-watermark','describe-custom-live-stream-watermark-config','delete-custom-live-stream-watermark-template','delete-live-stream-app-watermark','delete-live-stream-domain-watermark','describe-watermark-binding',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-live-app','add-live-app','stop-live-app','describe-live-play-auth-key','set-live-play-auth-key','describe-live-restart-auth-key','set-live-restart-auth-key','describe-live-domain-certificate','set-live-domain-certificate','describe-live-restart-domain-certificate','set-live-restart-domain-certificate','describe-live-domains','add-live-domain','start-live-domain','stop-live-domain','describe-live-domain-detail','delete-live-domain','add-live-restart-domain','add-custom-live-stream-quality-detection-template','describe-custom-live-stream-quality-detection-templates','add-live-stream-app-quality-detection','add-live-stream-domain-quality-detection','set-live-stream-quality-detection-notify-config','delete-custom-live-stream-quality-detection-template','delete-live-stream-app-quality-detection','delete-live-stream-domain-quality-detection','describe-live-stream-quality-detection-notify-config','delete-live-stream-quality-detection-notify-config','describe-quality-detection-binding','open-live-p2p','close-live-p2p','describe-live-p2p-configs','describe-custom-live-stream-record-templates','add-custom-live-stream-record-template','add-live-stream-app-record','add-live-stream-domain-record','describe-custom-live-stream-record-config','set-live-stream-record-notify-config','delete-custom-live-stream-record-template','delete-live-stream-app-record','delete-live-stream-domain-record','describe-live-stream-record-notify-config','delete-live-stream-record-notify-config','add-live-record-task','describe-record-binding','describe-live-statistic-group-by-stream','describe-live-statistic-group-by-area','describe-live-statistic-group-by-area-isp','describe-publish-stream-info-data','describe-live-stream-history-user-num','describe-live-publish-stream-num','describe-live-stream-player-ranking-data','describe-live-transcode-stream-list','describe-live-transcode-stream-num','describe-live-transcode-stream-player-user-num','describe-live-transcode-stream-bandwidth','describe-domain-online-stream','describe-domains-log','describe-url-ranking','describe-live-transcoding-duration-data','describe-live-file-storage-data','describe-live-stream-bandwidth-data','describe-live-stream-publish-bandwidth-data','describe-live-stream-traffic-data','describe-live-stream-publish-traffic-data','describe-live-snapshot-data','describe-live-porn-data','add-custom-live-stream-snapshot-template','describe-custom-live-stream-snapshot-config','describe-custom-live-stream-snapshot-templates','add-live-stream-app-snapshot','add-live-stream-domain-snapshot','set-live-stream-snapshot-notify-config','delete-custom-live-stream-snapshot-template','delete-live-stream-app-snapshot','delete-live-stream-domain-snapshot','describe-live-stream-snapshot-notify-config','delete-live-stream-snapshot-notify-config','describe-snapshot-binding','forbid-live-stream','resume-live-stream','interrupt-live-stream','describe-live-stream-info','set-live-stream-notify-config','describe-live-stream-notify-config','delete-live-stream-notify-config','describe-live-stream-online-list','describe-live-stream-publish-list','open-live-restart','close-live-restart','describe-live-restart-configs','open-live-timeshift','close-live-timeshift','describe-live-timeshift-configs','add-live-stream-domain-transcode','add-live-stream-app-transcode','add-custom-live-stream-transcode-template','describe-custom-live-stream-transcode-templates','describe-system-live-stream-transcode-templates','describe-live-stream-transcode-config','delete-live-stream-domain-transcode','delete-live-stream-app-transcode','describe-custom-live-stream-transcode-template','delete-custom-live-stream-transcode-template','describe-transcode-binding','add-custom-live-stream-watermark-template','describe-custom-live-stream-watermark-templates','add-live-stream-app-watermark','add-live-stream-domain-watermark','describe-custom-live-stream-watermark-config','delete-custom-live-stream-watermark-template','delete-live-stream-app-watermark','delete-live-stream-domain-watermark','describe-watermark-binding',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -194,6 +194,24 @@ class KubernetesTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_set_node_group_ca(self):
+        cmd = """python ../../main.py kubernetes set-node-group-ca  --node-group-id 'xxx' --ca-config '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_node_instances(self):
+        cmd = """python ../../main.py kubernetes delete-node-instances  --node-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_quotas(self):
         cmd = """python ../../main.py kubernetes describe-quotas """
         with os.popen(cmd) as f:
