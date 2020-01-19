@@ -21,6 +21,7 @@ from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.controllers.configure_controller import ConfigureController
 from jdcloud_cli.controllers.services.rds import RdsController
 from jdcloud_cli.controllers.services.kubernetes import KubernetesController
+from jdcloud_cli.controllers.services.vqd import VqdController
 from jdcloud_cli.controllers.services.streamcomputer import StreamcomputerController
 from jdcloud_cli.controllers.services.ssl import SslController
 from jdcloud_cli.controllers.services.ipanti import IpantiController
@@ -42,6 +43,7 @@ from jdcloud_cli.controllers.services.httpdns import HttpdnsController
 from jdcloud_cli.controllers.services.apigateway import ApigatewayController
 from jdcloud_cli.controllers.services.mps import MpsController
 from jdcloud_cli.controllers.services.disk import DiskController
+from jdcloud_cli.controllers.services.sts import StsController
 from jdcloud_cli.controllers.services.nc import NcController
 from jdcloud_cli.controllers.services.vm import VmController
 from jdcloud_cli.controllers.services.nativecontainer import NativecontainerController
@@ -90,6 +92,7 @@ def main():
         app.handler.register(ConfigureController)
         app.handler.register(RdsController)
         app.handler.register(KubernetesController)
+        app.handler.register(VqdController)
         app.handler.register(StreamcomputerController)
         app.handler.register(SslController)
         app.handler.register(IpantiController)
@@ -111,6 +114,7 @@ def main():
         app.handler.register(ApigatewayController)
         app.handler.register(MpsController)
         app.handler.register(DiskController)
+        app.handler.register(StsController)
         app.handler.register(NcController)
         app.handler.register(VmController)
         app.handler.register(NativecontainerController)

@@ -110,66 +110,10 @@
         "regionId":"",
         "logtopicUID":""
     },
-    "test-metric-task":{
-        "aggregate":"",
-        "content":[""],
-        "dataField":"",
-        "filterContent":"",
-        "filterOpen":"",
-        "filterType":"",
-        "regionId":"",
-        "logsetUID":"",
-        "logtopicUID":""
-    },
-    "describe-metric-tasks":{
-        "pageNumber":"",
-        "pageSize":"",
-        "regionId":"",
-        "logsetUID":"",
-        "logtopicUID":""
-    },
-    "create-metric-task":{
-        "aggregate":"",
-        "customUnit":"",
-        "dataField":"",
-        "filterContent":"",
-        "filterOpen":"",
-        "filterType":"",
-        "interval":"",
-        "metric":"",
-        "name":"",
-        "unit":"",
-        "regionId":"",
-        "logsetUID":"",
-        "logtopicUID":""
-    },
-    "describe-metric-task":{
-        "regionId":"",
-        "logsetUID":"",
-        "logtopicUID":"",
-        "logmetrictaskUID":""
-    },
-    "update-metric-task":{
-        "customUnit":"",
-        "filterContent":"",
-        "filterOpen":"",
-        "filterType":"",
-        "name":"",
-        "unit":"",
-        "regionId":"",
-        "logsetUID":"",
-        "logtopicUID":"",
-        "logmetrictaskUID":""
-    },
-    "delete-metric-task":{
-        "regionId":"",
-        "logsetUID":"",
-        "logtopicUID":"",
-        "logmetrictaskUID":""
-    },
     "put":{
         "stream":"",
         "timestamp":"",
+        "tags":"",
         "entries":[{
             "content":"",
             "stream":"",
@@ -181,6 +125,11 @@
     "search-log-context":{
         "anchor":[""],
         "direction":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "id":"",
         "lineSize":"",
         "time":"",
@@ -196,6 +145,12 @@
         "endTime":"",
         "pageNumber":"",
         "pageSize":"",
+        "sort":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "regionId":"",
         "logsetUID":"",
         "logtopicUID":""

@@ -23,6 +23,33 @@ import json
 
 class JdccsTest(unittest.TestCase):
 
+    def test_describe_alarms(self):
+        cmd = """python ../../main.py jdccs describe-alarms """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_alarm(self):
+        cmd = """python ../../main.py jdccs describe-alarm  --alarm-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_alarm_history(self):
+        cmd = """python ../../main.py jdccs describe-alarm-history """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_metrics(self):
         cmd = """python ../../main.py jdccs describe-metrics """
         with os.popen(cmd) as f:
@@ -88,6 +115,78 @@ class JdccsTest(unittest.TestCase):
 
     def test_describe_cabinets(self):
         cmd = """python ../../main.py jdccs describe-cabinets  --idc 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_cabinet(self):
+        cmd = """python ../../main.py jdccs describe-cabinet  --idc 'xxx' --cabinet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_devices(self):
+        cmd = """python ../../main.py jdccs describe-devices  --idc 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_device(self):
+        cmd = """python ../../main.py jdccs describe-device  --idc 'xxx' --device-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ips(self):
+        cmd = """python ../../main.py jdccs describe-ips  --idc 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_bandwidths(self):
+        cmd = """python ../../main.py jdccs describe-bandwidths  --idc 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_bandwidth(self):
+        cmd = """python ../../main.py jdccs describe-bandwidth  --idc 'xxx' --bandwidth-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_tickets(self):
+        cmd = """python ../../main.py jdccs describe-tickets """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ticket(self):
+        cmd = """python ../../main.py jdccs describe-ticket  --ticket-no 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -20,6 +20,7 @@ from jdcloud_sdk.core.config import Config
 from jdcloud_sdk.core.credential import Credential
 from jdcloud_sdk.services.rds.client.RdsClient import RdsClient
 from jdcloud_sdk.services.kubernetes.client.KubernetesClient import KubernetesClient
+from jdcloud_sdk.services.vqd.client.VqdClient import VqdClient
 from jdcloud_sdk.services.streamcomputer.client.StreamcomputerClient import StreamcomputerClient
 from jdcloud_sdk.services.ssl.client.SslClient import SslClient
 from jdcloud_sdk.services.ipanti.client.IpantiClient import IpantiClient
@@ -41,6 +42,7 @@ from jdcloud_sdk.services.httpdns.client.HttpdnsClient import HttpdnsClient
 from jdcloud_sdk.services.apigateway.client.ApigatewayClient import ApigatewayClient
 from jdcloud_sdk.services.mps.client.MpsClient import MpsClient
 from jdcloud_sdk.services.disk.client.DiskClient import DiskClient
+from jdcloud_sdk.services.sts.client.StsClient import StsClient
 from jdcloud_sdk.services.nc.client.NcClient import NcClient
 from jdcloud_sdk.services.vm.client.VmClient import VmClient
 from jdcloud_sdk.services.nativecontainer.client.NativecontainerClient import NativecontainerClient
@@ -87,6 +89,7 @@ class ClientFactory(object):
         client_map = {
             'rds': RdsClient,
             'kubernetes': KubernetesClient,
+            'vqd': VqdClient,
             'streamcomputer': StreamcomputerClient,
             'ssl': SslClient,
             'ipanti': IpantiClient,
@@ -108,6 +111,7 @@ class ClientFactory(object):
             'apigateway': ApigatewayClient,
             'mps': MpsClient,
             'disk': DiskClient,
+            'sts': StsClient,
             'nc': NcClient,
             'vm': VmClient,
             'nativecontainer': NativecontainerClient,

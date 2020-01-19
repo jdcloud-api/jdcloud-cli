@@ -140,6 +140,15 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_export_image(self):
+        cmd = """python ../../main.py vm export-image  --image-id 'xxx' --role-name 'xxx' --oss-url 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_image_tasks(self):
         cmd = """python ../../main.py vm image-tasks  --task-action 'xxx'"""
         with os.popen(cmd) as f:

@@ -15,6 +15,7 @@
         }]
     },
     "create-alarm":{
+        "autoScalingPolicyId":"",
         "baseContact":[{
             "referenceId":"",
             "referenceType":""
@@ -58,6 +59,7 @@
         "alarmId":""
     },
     "update-alarm":{
+        "autoScalingPolicyId":"",
         "baseContact":[{
             "referenceId":"",
             "referenceType":""
@@ -126,6 +128,7 @@
         "serviceCode":"",
         "product":"",
         "dimension":"",
+        "region":"",
         "isAlarming":"",
         "status":"",
         "startTime":"",
@@ -139,9 +142,10 @@
     },
     "describe-metrics":{
         "serviceCode":"",
+        "dimension":"",
         "type":""
     },
-    "last-downsample":{
+    "describe-one-data-point":{
         "serviceCode":"",
         "dimension":"",
         "resourceId":"",
@@ -182,7 +186,18 @@
         }],
         "productType":""
     },
-    "put-metric-data":{
+    "put-custom-metric-data":{
+        "metricDataList":[{
+            "namespace":"",
+            "metric":"",
+            "dimensions":"",
+            "timestamp":"",
+            "type":"",
+            "values":"",
+            "unit":""
+        }]
+    },
+    "put-custom-metric-data":{
         "metricDataList":[{
             "namespace":"",
             "metric":"",

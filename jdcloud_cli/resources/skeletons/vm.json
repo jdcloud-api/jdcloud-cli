@@ -73,6 +73,14 @@
         "clientToken":"",
         "regionId":""
     },
+    "export-image":{
+        "roleName":"",
+        "ossUrl":"",
+        "ossPrefix":"",
+        "clientToken":"",
+        "regionId":"",
+        "imageId":""
+    },
     "image-tasks":{
         "taskAction":"",
         "taskIds":[""],
@@ -308,6 +316,7 @@
     },
     "resize-instance":{
         "instanceType":"",
+        "force":"",
         "regionId":"",
         "instanceId":""
     },

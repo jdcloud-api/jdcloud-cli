@@ -490,7 +490,44 @@ class VmController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--task-action'], dict(help="""(string) 任务种类。可选值：ImportImage """, dest='taskAction',  required=True)),
+            (['--image-id'], dict(help="""(string) 镜像ID """, dest='imageId',  required=True)),
+            (['--role-name'], dict(help="""(string) 用户创建的服务角色名称 """, dest='roleName',  required=True)),
+            (['--oss-url'], dict(help="""(string) 存储导出镜像文件的oss bucket的域名，请填写以 https:// 开头的完整url """, dest='ossUrl',  required=True)),
+            (['--oss-prefix'], dict(help="""(string) 导出镜像文件名前缀，仅支持英文字母和数字，不能超过32个字符 """, dest='ossPrefix',  required=False)),
+            (['--client-token'], dict(help="""(string) 用户导出镜像的幂等性保证。每次导出请传入不同的值，如果传值与某次的clientToken相同，则返还同一个请求结果，不能超过64个字符 """, dest='clientToken',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 导出镜像，将京东云私有镜像导出至京东云以外环境;  ''',
+        description='''
+            导出镜像，将京东云私有镜像导出至京东云以外环境; 。
+
+            示例: jdc vm export-image  --image-id xxx --role-name xxx --oss-url xxx
+        ''',
+    )
+    def export_image(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.ExportImageRequest import ExportImageRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ExportImageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--task-action'], dict(help="""(string) 任务种类。可选值：ImportImage， ExportImage """, dest='taskAction',  required=True)),
             (['--task-ids'], dict(help="""(array: int) 任务id """, dest='taskIds', type=int, required=False)),
             (['--task-status'], dict(help="""(string) 任务状态。可选值：pending,running,failed,finished """, dest='taskStatus',  required=False)),
             (['--start-time'], dict(help="""(string) 任务开始时间 """, dest='startTime',  required=False)),
@@ -501,9 +538,9 @@ class VmController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询镜像导入任务详情;  ''',
+        help=''' 查询镜像导入导出任务详情;  ''',
         description='''
-            查询镜像导入任务详情; 。
+            查询镜像导入导出任务详情; 。
 
             示例: jdc vm image-tasks  --task-action xxx
         ''',
@@ -1250,6 +1287,7 @@ class VmController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
             (['--instance-type'], dict(help="""(string) 实例规格，可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeinstancetypes">DescribeInstanceTypes</a>接口获得指定地域或可用区的规格信息。 """, dest='instanceType',  required=True)),
+            (['--force'], dict(help="""(bool) 是否强制调配，默认为false；如果指定为true, 将会清除本地数据盘。 """, dest='force',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1724,7 +1762,7 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-image','delete-image','describe-images','describe-image-constraints','describe-image-constraints-batch','share-image','un-share-image','release-image','un-release-image','describe-image-members','copy-images','modify-image-attribute','import-image','image-tasks','describe-instances','create-instances','describe-instance','delete-instance','describe-instance-status','describe-instance-private-ip-address','stop-instance','start-instance','reboot-instance','attach-network-interface','detach-network-interface','modify-instance-network-attribute','associate-elastic-ip','disassociate-elastic-ip','create-image','attach-disk','detach-disk','modify-instance-disk-attribute','modify-instance-attribute','modify-instance-password','describe-instance-vnc-url','resize-instance','rebuild-instance','describe-instance-templates','create-instance-template','describe-instance-template','update-instance-template','delete-instance-template','verify-instance-template','describe-instance-types','describe-keypairs','create-keypair','import-keypair','delete-keypair','describe-quotas',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-image','delete-image','describe-images','describe-image-constraints','describe-image-constraints-batch','share-image','un-share-image','release-image','un-release-image','describe-image-members','copy-images','modify-image-attribute','import-image','export-image','image-tasks','describe-instances','create-instances','describe-instance','delete-instance','describe-instance-status','describe-instance-private-ip-address','stop-instance','start-instance','reboot-instance','attach-network-interface','detach-network-interface','modify-instance-network-attribute','associate-elastic-ip','disassociate-elastic-ip','create-image','attach-disk','detach-disk','modify-instance-disk-attribute','modify-instance-attribute','modify-instance-password','describe-instance-vnc-url','resize-instance','rebuild-instance','describe-instance-templates','create-instance-template','describe-instance-template','update-instance-template','delete-instance-template','verify-instance-template','describe-instance-types','describe-keypairs','create-keypair','import-keypair','delete-keypair','describe-quotas',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

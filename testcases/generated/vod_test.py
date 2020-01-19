@@ -240,7 +240,7 @@ class VodTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_video_upload_task(self):
-        cmd = """python ../../main.py vod create-video-upload-task """
+        cmd = """python ../../main.py vod create-video-upload-task  --title 'xxx' --file-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -258,7 +258,7 @@ class VodTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_image_upload_task(self):
-        cmd = """python ../../main.py vod create-image-upload-task """
+        cmd = """python ../../main.py vod create-image-upload-task  --file-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

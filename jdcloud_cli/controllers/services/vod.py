@@ -833,8 +833,8 @@ class VodController(BaseController):
     @expose(
         arguments=[
             (['--http-method'], dict(help="""(string) HTTP 请求方法，取值范围：GET、POST、PUT、DELETE、HEAD、PATCH，默认值为 PUT """, dest='httpMethod',  required=False)),
-            (['--title'], dict(help="""(string) 视频标题 """, dest='title',  required=False)),
-            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=False)),
+            (['--title'], dict(help="""(string) 视频标题 """, dest='title',  required=True)),
+            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
             (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
             (['--cover-url'], dict(help="""(string) 封面地址 """, dest='coverUrl',  required=False)),
             (['--description'], dict(help="""(string) 视频描述 """, dest='description',  required=False)),
@@ -850,7 +850,7 @@ class VodController(BaseController):
         description='''
             获取视频上传地址和凭证。
 
-            示例: jdc vod create-video-upload-task 
+            示例: jdc vod create-video-upload-task  --title xxx --file-name xxx
         ''',
     )
     def create_video_upload_task(self):
@@ -906,7 +906,7 @@ class VodController(BaseController):
     @expose(
         arguments=[
             (['--http-method'], dict(help="""(string) HTTP 请求方法，取值范围：GET、POST、PUT、DELETE、HEAD、PATCH，默认值为 PUT """, dest='httpMethod',  required=False)),
-            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=False)),
+            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
             (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -916,7 +916,7 @@ class VodController(BaseController):
         description='''
             获取图片上传地址和凭证。
 
-            示例: jdc vod create-image-upload-task 
+            示例: jdc vod create-image-upload-task  --file-name xxx
         ''',
     )
     def create_image_upload_task(self):

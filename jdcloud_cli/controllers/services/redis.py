@@ -76,15 +76,15 @@ class RedisController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
-            (['--cache-instance'], dict(help="""(cacheInstanceSpec) 创建实例时指定的信息 """, dest='cacheInstance',  required=True)),
+            (['--cache-instance'], dict(help="""(cacheInstanceSpec) 实例的创建参数 """, dest='cacheInstance',  required=True)),
             (['--charge'], dict(help="""(chargeSpec) 实例的计费类型 """, dest='charge',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一个指定配置的缓存Redis实例：可选择主从版或集群版，每种类型又分为多种规格（按CPU核数、内存容量、磁盘容量、带宽等划分），具体可参考产品规格代码，https://docs.jdcloud.com/cn/jcs-for-redis/specifications;  ''',
+        help=''' 创建一个指定配置的缓存Redis实例：可选择主从版或集群版，每种类型又分为多种规格（按CPU核数、内存容量、磁盘容量、带宽等划分），不同规格价格也不同，具体可参考产品规格代码，https://docs.jdcloud.com/cn/jcs-for-redis/specifications;  ''',
         description='''
-            创建一个指定配置的缓存Redis实例：可选择主从版或集群版，每种类型又分为多种规格（按CPU核数、内存容量、磁盘容量、带宽等划分），具体可参考产品规格代码，https://docs.jdcloud.com/cn/jcs-for-redis/specifications; 。
+            创建一个指定配置的缓存Redis实例：可选择主从版或集群版，每种类型又分为多种规格（按CPU核数、内存容量、磁盘容量、带宽等划分），不同规格价格也不同，具体可参考产品规格代码，https://docs.jdcloud.com/cn/jcs-for-redis/specifications; 。
 
             示例: jdc redis create-cache-instance  --cache-instance '{"":""}'
         ''',
@@ -212,14 +212,14 @@ class RedisController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
             (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
-            (['--cache-instance-class'], dict(help="""(string) 变更后的实例规格 """, dest='cacheInstanceClass',  required=True)),
+            (['--cache-instance-class'], dict(help="""(string) 新规格 """, dest='cacheInstanceClass',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 变更缓存Redis实例规格（变配），只能变更运行状态的实例规格，变更的规格不能与之前的相同。; 预付费用户，从集群版变配到主从版，新规格的内存大小要大于老规格的内存大小，从主从版到集群版，新规格的内存大小要不小于老规格的内存大小。;  ''',
+        help=''' 变更缓存Redis实例规格（变配），实例运行时可以变配，新规格不能与之前的老规格相同，新规格内存大小不能小于实例的已使用内存。;  ''',
         description='''
-            变更缓存Redis实例规格（变配），只能变更运行状态的实例规格，变更的规格不能与之前的相同。; 预付费用户，从集群版变配到主从版，新规格的内存大小要大于老规格的内存大小，从主从版到集群版，新规格的内存大小要不小于老规格的内存大小。; 。
+            变更缓存Redis实例规格（变配），实例运行时可以变配，新规格不能与之前的老规格相同，新规格内存大小不能小于实例的已使用内存。; 。
 
             示例: jdc redis modify-cache-instance-class  --cache-instance-id xxx --cache-instance-class xxx
         ''',
@@ -251,9 +251,9 @@ class RedisController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 重置缓存Redis实例的密码，可为空 ''',
+        help=''' 修改缓存Redis实例的密码，可为空 ''',
         description='''
-            重置缓存Redis实例的密码，可为空。
+            修改缓存Redis实例的密码，可为空。
 
             示例: jdc redis reset-cache-instance-password  --cache-instance-id xxx
         ''',
@@ -313,14 +313,14 @@ class RedisController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 缓存Redis实例所在区域的Region ID。目前有华北-北京、华南-广州、华东-上海三个区域，Region ID分别为cn-north-1、cn-south-1、cn-east-2 """, dest='regionId',  required=False)),
             (['--cache-instance-id'], dict(help="""(string) 缓存Redis实例ID，是访问实例的唯一标识 """, dest='cacheInstanceId',  required=True)),
-            (['--instance-config'], dict(help="""(array: configItem) 要修改的配置参数名和参数值 """, dest='instanceConfig',  required=True)),
+            (['--instance-config'], dict(help="""(array: configItem) 配置参数名和参数值 """, dest='instanceConfig',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改缓存Redis实例的配置参数，支持部分参数修改 ''',
+        help=''' 修改缓存Redis实例的配置参数，支持部分配置参数修改 ''',
         description='''
-            修改缓存Redis实例的配置参数，支持部分参数修改。
+            修改缓存Redis实例的配置参数，支持部分配置参数修改。
 
             示例: jdc redis modify-instance-config  --cache-instance-id xxx --instance-config ['{"":""}']
         ''',
@@ -356,9 +356,9 @@ class RedisController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询缓存Redis实例的备份结果（备份文件列表），可分页、可指定起止时间或备份任务ID ''',
+        help=''' 查询缓存Redis实例的备份任务（文件）列表，可分页、可指定起止时间或备份任务ID ''',
         description='''
-            查询缓存Redis实例的备份结果（备份文件列表），可分页、可指定起止时间或备份任务ID。
+            查询缓存Redis实例的备份任务（文件）列表，可分页、可指定起止时间或备份任务ID。
 
             示例: jdc redis describe-backups  --cache-instance-id xxx
         ''',
@@ -527,9 +527,9 @@ class RedisController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取缓存Redis实例的备份文件临时下载地址 ''',
+        help=''' 获取缓存Redis实例的备份文件临时下载地址（1个小时有效期） ''',
         description='''
-            获取缓存Redis实例的备份文件临时下载地址。
+            获取缓存Redis实例的备份文件临时下载地址（1个小时有效期）。
 
             示例: jdc redis describe-download-url  --cache-instance-id xxx --base-id xxx
         ''',
@@ -598,9 +598,9 @@ class RedisController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 获取缓存Redis实例的慢查询日志 ''',
+        help=''' 获取缓存Redis实例的慢查询日志，可分页、可搜索 ''',
         description='''
-            获取缓存Redis实例的慢查询日志。
+            获取缓存Redis实例的慢查询日志，可分页、可搜索。
 
             示例: jdc redis describe-slow-log  --cache-instance-id xxx
         ''',

@@ -8,8 +8,14 @@
     "create-account":{
         "accountName":"",
         "accountPassword":"",
+        "notes":"",
         "regionId":"",
         "instanceId":""
+    },
+    "describe-account-privilege":{
+        "regionId":"",
+        "instanceId":"",
+        "accountName":""
     },
     "delete-account":{
         "regionId":"",
@@ -42,6 +48,13 @@
         "accountPassword":"",
         "regionId":"",
         "instanceId":""
+    },
+    "grant-account-privilege":{
+        "databasePrivileges":[""],
+        "globalPrivileges":"",
+        "regionId":"",
+        "instanceId":"",
+        "accountName":""
     },
     "describe-audit":{
         "regionId":"",
@@ -195,6 +208,10 @@
         "command":"",
         "regionId":"",
         "instanceId":""
+    },
+    "describe-privilege":{
+        "engine":"",
+        "regionId":""
     },
     "describe-databases":{
         "dbName":"",
@@ -433,6 +450,25 @@
         "regionId":"",
         "instanceId":""
     },
+    "modify-instance-az":{
+        "newAzId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-ssl":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "enable-ssl":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "restore-instance-by-time":{
+        "restoreTime":"",
+        "restoreSchema":[""],
+        "regionId":"",
+        "instanceId":""
+    },
     "enable-intercept":{
         "regionId":"",
         "instanceId":""
@@ -578,6 +614,22 @@
         "pageSize":"",
         "regionId":"",
         "instanceId":""
+    },
+    "describe-error-log":{
+        "startTime":"",
+        "endTime":"",
+        "dbName":"",
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-tables":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":"",
+        "dbName":""
     },
     "describe-tde":{
         "regionId":"",

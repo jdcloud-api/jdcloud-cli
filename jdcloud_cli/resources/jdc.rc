@@ -27,7 +27,7 @@ _jdc_complete()
     # SETUP THE BASE LEVEL
     if [ $COMP_CWORD -eq 1 ]; then
         COMPREPLY=( $(compgen \
-                      -W "--debug -v --version -h --help configure rds kubernetes streamcomputer ssl ipanti oss redis domainservice billing deploy sop function portal logs jdccs clouddnsservice cps cdn streambus httpdns apigateway mps disk nc vm nativecontainer pod iotcore ams jdro zfs vod yundingdatapush datastar kms elite ossopenapi iam iothub sms jcq baseanti ias mongodb live jdfusion detection renewal iotlink yunding vpc monitor xdata containerregistry partner industrydata " \
+                      -W "--debug -v --version -h --help configure rds kubernetes vqd streamcomputer ssl ipanti oss redis domainservice billing deploy sop function portal logs jdccs clouddnsservice cps cdn streambus httpdns apigateway mps disk sts nc vm nativecontainer pod iotcore ams jdro zfs vod yundingdatapush datastar kms elite ossopenapi iam iothub sms jcq baseanti ias mongodb live jdfusion detection renewal iotlink yunding vpc monitor xdata containerregistry partner industrydata " \
                       -- $cur) )
 
 
@@ -38,12 +38,17 @@ _jdc_complete()
             # HANDLE EVERYTHING AFTER THE SECOND LEVEL NAMESPACE
             "rds")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-accounts create-account delete-account grant-privilege revoke-privilege reset-password create-super-account describe-audit create-audit delete-audit describe-audit-options modify-audit describe-audit-files describe-audit-download-url enable-audit disable-audit describe-audit-result describe-azs describe-backups create-backup delete-backup describe-backup-download-url describe-backup-synchronicities create-backup-synchronicity delete-backup-synchronicity create-instance-by-time-in-cross-region describe-binlogs describe-binlog-download-url clear-binlogs alter-table-with-online-ddl describe-databases create-database delete-database restore-database-from-backup restore-database-from-file restore-database-from-oss describe-error-logs describe-import-files get-upload-key set-import-file-shared delete-import-file describe-instances create-instance describe-instance-attributes delete-instance describe-backup-policy modify-backup-policy modify-instance-name failover-instance reboot-instance enable-internet-access disable-internet-access restore-instance create-instance-from-backup modify-instance-spec create-instance-by-time create-roinstance modify-connection-mode describe-latest-restore-time modify-parameter-group exchange-instance-dns enable-intercept disable-intercept describe-intercept-result describe-intercept describe-logs update-log-download-urlinternal describe-log-download-url describe-parameters modify-parameters delete-parameter-group modify-parameter-group-attribute describe-parameter-groups create-parameter-group describe-parameter-group-parameters modify-parameter-group-parameters describe-parameter-modify-records copy-parameter-group describe-parameter-group-attached-instances describe-index-performance describe-query-performance describe-slow-log-attributes describe-slow-logs describe-active-query-performance describe-tde enable-tde describe-white-list modify-white-list " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-accounts create-account describe-account-privilege delete-account grant-privilege revoke-privilege reset-password create-super-account grant-account-privilege describe-audit create-audit delete-audit describe-audit-options modify-audit describe-audit-files describe-audit-download-url enable-audit disable-audit describe-audit-result describe-azs describe-backups create-backup delete-backup describe-backup-download-url describe-backup-synchronicities create-backup-synchronicity delete-backup-synchronicity create-instance-by-time-in-cross-region describe-binlogs describe-binlog-download-url clear-binlogs alter-table-with-online-ddl describe-privilege describe-databases create-database delete-database restore-database-from-backup restore-database-from-file restore-database-from-oss describe-error-logs describe-import-files get-upload-key set-import-file-shared delete-import-file describe-instances create-instance describe-instance-attributes delete-instance describe-backup-policy modify-backup-policy modify-instance-name failover-instance reboot-instance enable-internet-access disable-internet-access restore-instance create-instance-from-backup modify-instance-spec create-instance-by-time create-roinstance modify-connection-mode describe-latest-restore-time modify-parameter-group exchange-instance-dns modify-instance-az describe-ssl enable-ssl restore-instance-by-time enable-intercept disable-intercept describe-intercept-result describe-intercept describe-logs update-log-download-urlinternal describe-log-download-url describe-parameters modify-parameters delete-parameter-group modify-parameter-group-attribute describe-parameter-groups create-parameter-group describe-parameter-group-parameters modify-parameter-group-parameters describe-parameter-modify-records copy-parameter-group describe-parameter-group-attached-instances describe-index-performance describe-query-performance describe-slow-log-attributes describe-slow-logs describe-active-query-performance describe-error-log describe-tables describe-tde enable-tde describe-white-list modify-white-list " -- $cur) )
                 ;;
 
             "kubernetes")
                 COMPREPLY=( $(compgen \
                     -W "-v --version -h --help generate-skeleton describe-clusters create-cluster describe-cluster modify-cluster delete-cluster set-user-metrics abort-upgrade describe-progress set-auto-upgrade upgrade-cluster set-addons describe-node-groups create-node-group describe-node-group modify-node-group delete-node-group set-node-group-size set-auto-repair rollback-node-group-upgrade set-node-group-ca delete-node-instances describe-quotas describe-server-config describe-versions describe-node-version describe-upgradable-master-versions describe-upgradable-node-versions " -- $cur) )
+                ;;
+
+            "vqd")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton set-callback query-callback submit-vqd-task batch-submit-vqd-tasks list-vqd-tasks get-vqd-task delete-vqd-task query-vqd-task-result batch-delete-vqd-tasks list-vqd-templates create-vqd-template get-vqd-template update-vqd-template delete-vqd-template " -- $cur) )
                 ;;
 
             "streamcomputer")
@@ -103,12 +108,12 @@ _jdc_complete()
 
             "logs")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-collect-info update-collect-info describe-collect-resources update-collect-resources create-collect-info describe-logd-ca describe-instance-collect-confs describe-logsets create-logset describe-logset update-logset delete-logset describe-logtopics create-logtopic delete-logtopic describe-logtopic update-logtopic test-metric-task describe-metric-tasks create-metric-task describe-metric-task update-metric-task delete-metric-task put search-log-context search " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-collect-info update-collect-info describe-collect-resources update-collect-resources create-collect-info describe-logd-ca describe-instance-collect-confs describe-logsets create-logset describe-logset update-logset delete-logset describe-logtopics create-logtopic delete-logtopic describe-logtopic update-logtopic put search-log-context search " -- $cur) )
                 ;;
 
             "jdccs")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-metrics describe-metric-data last-downsample describe-bandwidth-traffics describe-bandwidth-traffic describe-idcs describe-rooms describe-cabinets " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-alarms describe-alarm describe-alarm-history describe-metrics describe-metric-data last-downsample describe-bandwidth-traffics describe-bandwidth-traffic describe-idcs describe-rooms describe-cabinets describe-cabinet describe-devices describe-device describe-ips describe-bandwidths describe-bandwidth describe-tickets describe-ticket " -- $cur) )
                 ;;
 
             "clouddnsservice")
@@ -123,7 +128,7 @@ _jdc_complete()
 
             "cdn")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton query-online-billing-type set-online-billing-type query-band query-band-with-area query-domain-config-status query-area-isp-list preview-certificate query-default-http-header-key query-ip-black-list set-ip-black-list operate-ip-black-list create-cache-rule update-cache-rule delete-cache-rule query-http-header set-http-header delete-http-header set-video-draft set-range set-ignore-query-string query-user-agent set-user-agent-config query-accesskey-config set-accesskey-config set-refer query-monitor set-monitor stop-monitor set-source operate-share-cache set-http-type query-follow-redirect set-follow-redirect query-follow-source-protocol set-follow-source-protocol set-domain-config query-domain-group-list query-domain-group-detail query-domains-not-in-group update-domain-group create-domain-group batch-delete-domain-group get-domain-list get-domain-list-by-filter get-domain-detail create-domain delete-domain start-domain stop-domain query-oss-buckets batch-create query-domain-config check-whether-ip-belong-to-jcloud set-live-domain-back-source set-live-domain-ip-black-list set-live-domain-refer operate-live-domain-ip-black-list set-live-domain-back-source-host set-live-domain-access-key set-protocol-convert delete-forbidden-stream query-push-domain-orapp-or-stream operate-live-domain-ignore-query-string set-push-ip-white-list set-publish-normal-timeout set-stream-notify-info set-forward-authentication set-origin-authentication batch-create-live-domain create-live-domain bind-publish-domain modify-live-domain-forward-custom-vhost query-live-domain-detail query-live-domain-detail-v2 describe-publish-domains describebinded-domains query-live-domain-apps create-live-domain-prefecth-task query-live-prefetch-task query-refresh-task-by-ids query-refresh-task-by-id create-refresh-task-for-callback create-refresh-task-for-callback-v2 query-refresh-task create-refresh-task query-net-protection-rules set-net-protection-rules query-net-protection-rules-switch set-net-protection-rules-switch query-geo-areas query-attack-type-count query-ddos-graph search-attack-log get-all-upper-node-ip-list get-ssl-cert-list get-ssl-cert-detail upload-cert query-mix-statistics-data query-mix-statistics-with-area-data query-mix-traffic-group-sum query-statistics-data query-statistics-data-group-by-area query-statistics-data-group-sum query-live-statistics-data query-live-statistics-area-data-group-by query-live-traffic-group-sum query-statistics-top-ip query-domains-log query-domain-log query-statistics-top-url query-waf-switch set-waf-switch query-waf-white-rule-switch set-waf-white-rule-switch querywaf-white-rules create-waf-white-rule update-waf-white-rule enable-waf-white-rules disable-waf-white-rules delete-waf-white-rules query-waf-black-rule-switch set-waf-black-rule-switch querywaf-black-rules create-waf-black-rule update-waf-black-rule enable-waf-black-rules disable-waf-black-rules delete-waf-black-rules query-ccprotect-switch set-ccprotect-switch query-ccprotect-rules create-ccprotect-rule update-ccprotect-rule enable-ccprotect-rule disable-ccprotect-rule delete-ccprotect-rule query-web-protect-switch set-web-protect-switch query-web-protect-settings update-web-protect-settings query-waf-regions query-ip-black-setting-status waf-query-pv-for-area-and-ip waf-query-pv waf-query-attack-details " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton query-domains-log query-domain-log query-online-billing-type set-online-billing-type query-band query-band-with-area query-domain-config-status query-area-isp-list preview-certificate query-default-http-header-key query-ip-black-list set-ip-black-list operate-ip-black-list create-cache-rule update-cache-rule delete-cache-rule query-http-header set-http-header delete-http-header set-video-draft set-range set-ignore-query-string query-user-agent set-user-agent-config query-accesskey-config set-accesskey-config set-refer query-monitor set-monitor stop-monitor set-source operate-share-cache set-http-type query-follow-redirect set-follow-redirect query-follow-source-protocol set-follow-source-protocol set-domain-config query-domain-all-config-classify execute-domain-copy query-domain-group-list query-domain-group-detail query-domains-not-in-group update-domain-group create-domain-group batch-delete-domain-group get-domain-list get-domain-list-by-filter get-domain-detail create-domain delete-domain start-domain stop-domain query-oss-buckets batch-create query-domain-config check-whether-ip-belong-to-jcloud set-live-domain-back-source set-live-domain-ip-black-list set-live-domain-refer operate-live-domain-ip-black-list set-live-domain-back-source-host set-live-domain-access-key set-protocol-convert delete-forbidden-stream query-push-domain-orapp-or-stream batch-create-live-domain query-live-domain-detail query-live-domain-apps create-live-domain-prefecth-task query-live-prefetch-task query-refresh-task-by-ids query-refresh-task-by-id create-refresh-task-for-callback create-refresh-task-for-callback-v2 query-refresh-task create-refresh-task query-net-protection-rules set-net-protection-rules query-net-protection-rules-switch set-net-protection-rules-switch query-geo-areas query-attack-type-count query-ddos-graph search-attack-log get-all-upper-node-ip-list get-ssl-cert-list get-ssl-cert-detail upload-cert query-mix-statistics-data query-mix-statistics-with-area-data query-mix-traffic-group-sum query-statistics-data query-statistics-data-group-by-area query-statistics-data-group-sum query-live-statistics-data query-live-statistics-area-data-group-by query-live-traffic-group-sum query-statistics-top-ip query-statistics-top-url query-dir-bandwidth query-waf-switch set-waf-switch query-waf-white-rule-switch set-waf-white-rule-switch querywaf-white-rules create-waf-white-rule update-waf-white-rule enable-waf-white-rules disable-waf-white-rules delete-waf-white-rules query-waf-black-rule-switch set-waf-black-rule-switch querywaf-black-rules create-waf-black-rule update-waf-black-rule enable-waf-black-rules disable-waf-black-rules delete-waf-black-rules query-ccprotect-switch set-ccprotect-switch query-ccprotect-rules create-ccprotect-rule update-ccprotect-rule enable-ccprotect-rule disable-ccprotect-rule delete-ccprotect-rule query-web-protect-switch set-web-protect-switch query-web-protect-settings update-web-protect-settings query-waf-regions query-ip-black-setting-status waf-query-pv-for-area-and-ip waf-query-pv waf-query-attack-details " -- $cur) )
                 ;;
 
             "streambus")
@@ -151,6 +156,11 @@ _jdc_complete()
                     -W "-v --version -h --help generate-skeleton describe-disks create-disks describe-disk modify-disk-attribute delete-disk restore-disk extend-disk describe-snapshots create-snapshot describe-snapshot modify-snapshot-attribute delete-snapshot " -- $cur) )
                 ;;
 
+            "sts")
+                COMPREPLY=( $(compgen \
+                    -W "-v --version -h --help generate-skeleton assume-role " -- $cur) )
+                ;;
+
             "nc")
                 COMPREPLY=( $(compgen \
                     -W "-v --version -h --help generate-skeleton describe-containers create-containers describe-container delete-container start-container stop-container modify-container-attribute associate-elastic-ip disassociate-elastic-ip get-logs describe-quota describe-secrets create-secret describe-secret delete-secret " -- $cur) )
@@ -158,7 +168,7 @@ _jdc_complete()
 
             "vm")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-image delete-image describe-images describe-image-constraints describe-image-constraints-batch share-image un-share-image release-image un-release-image describe-image-members copy-images modify-image-attribute import-image image-tasks describe-instances create-instances describe-instance delete-instance describe-instance-status describe-instance-private-ip-address stop-instance start-instance reboot-instance attach-network-interface detach-network-interface modify-instance-network-attribute associate-elastic-ip disassociate-elastic-ip create-image attach-disk detach-disk modify-instance-disk-attribute modify-instance-attribute modify-instance-password describe-instance-vnc-url resize-instance rebuild-instance describe-instance-templates create-instance-template describe-instance-template update-instance-template delete-instance-template verify-instance-template describe-instance-types describe-keypairs create-keypair import-keypair delete-keypair describe-quotas " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-image delete-image describe-images describe-image-constraints describe-image-constraints-batch share-image un-share-image release-image un-release-image describe-image-members copy-images modify-image-attribute import-image export-image image-tasks describe-instances create-instances describe-instance delete-instance describe-instance-status describe-instance-private-ip-address stop-instance start-instance reboot-instance attach-network-interface detach-network-interface modify-instance-network-attribute associate-elastic-ip disassociate-elastic-ip create-image attach-disk detach-disk modify-instance-disk-attribute modify-instance-attribute modify-instance-password describe-instance-vnc-url resize-instance rebuild-instance describe-instance-templates create-instance-template describe-instance-template update-instance-template delete-instance-template verify-instance-template describe-instance-types describe-keypairs create-keypair import-keypair delete-keypair describe-quotas " -- $cur) )
                 ;;
 
             "nativecontainer")
@@ -293,7 +303,7 @@ _jdc_complete()
 
             "monitor")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton describe-alarms create-alarm describe-alarm update-alarm delete-alarms describe-alarm-contacts describe-metrics-for-alarm describe-products-for-alarm enable-alarms describe-alarm-history describe-metrics last-downsample describe-metric-data describe-services put-metric-data " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton describe-alarms create-alarm describe-alarm update-alarm delete-alarms describe-alarm-contacts describe-metrics-for-alarm describe-products-for-alarm enable-alarms describe-alarm-history describe-metrics describe-one-data-point describe-metric-data describe-services put-custom-metric-data put-custom-metric-data " -- $cur) )
                 ;;
 
             "xdata")
@@ -338,7 +348,11 @@ _jdc_complete()
                         ;;
                     "create-account")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id --account-name --account-password " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --instance-id --account-name --account-password --notes " -- $cur) )
+                        ;;
+                    "describe-account-privilege")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --account-name " -- $cur) )
                         ;;
                     "delete-account")
                         COMPREPLY=( $(compgen \
@@ -359,6 +373,10 @@ _jdc_complete()
                     "create-super-account")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --account-name --account-password " -- $cur) )
+                        ;;
+                    "grant-account-privilege")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --account-name --database-privileges --global-privileges " -- $cur) )
                         ;;
                     "describe-audit")
                         COMPREPLY=( $(compgen \
@@ -451,6 +469,10 @@ _jdc_complete()
                     "alter-table-with-online-ddl")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --database --table --command " -- $cur) )
+                        ;;
+                    "describe-privilege")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --engine " -- $cur) )
                         ;;
                     "describe-databases")
                         COMPREPLY=( $(compgen \
@@ -576,6 +598,22 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --target-instance-id " -- $cur) )
                         ;;
+                    "modify-instance-az")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --new-az-id " -- $cur) )
+                        ;;
+                    "describe-ssl")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
+                        ;;
+                    "enable-ssl")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
+                        ;;
+                    "restore-instance-by-time")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --restore-time --restore-schema " -- $cur) )
+                        ;;
                     "enable-intercept")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id " -- $cur) )
@@ -667,6 +705,14 @@ _jdc_complete()
                     "describe-active-query-performance")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --db --threshold --page-number --page-size " -- $cur) )
+                        ;;
+                    "describe-error-log")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --start-time --end-time --db-name --page-number --page-size " -- $cur) )
+                        ;;
+                    "describe-tables")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --instance-id --db-name --page-number --page-size " -- $cur) )
                         ;;
                     "describe-tde")
                         COMPREPLY=( $(compgen \
@@ -801,6 +847,72 @@ _jdc_complete()
                     "describe-upgradable-node-versions")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --cluster-id --node-group-ids " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
+	        "vqd")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "set-callback")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --callback-type --http-url --callback-events " -- $cur) )
+                        ;;
+                    "query-callback")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json " -- $cur) )
+                        ;;
+                    "submit-vqd-task")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --media --template-id " -- $cur) )
+                        ;;
+                    "batch-submit-vqd-tasks")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --media-list --template-id " -- $cur) )
+                        ;;
+                    "list-vqd-tasks")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "get-vqd-task")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --task-id " -- $cur) )
+                        ;;
+                    "delete-vqd-task")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --task-id " -- $cur) )
+                        ;;
+                    "query-vqd-task-result")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --task-id " -- $cur) )
+                        ;;
+                    "batch-delete-vqd-tasks")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --task-ids " -- $cur) )
+                        ;;
+                    "list-vqd-templates")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "create-vqd-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template-name --threshold --detections " -- $cur) )
+                        ;;
+                    "get-vqd-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template-id " -- $cur) )
+                        ;;
+                    "update-vqd-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template-id --template-name --threshold --detections " -- $cur) )
+                        ;;
+                    "delete-vqd-template")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --template-id " -- $cur) )
                         ;;
 
                     "generate-skeleton")
@@ -1750,41 +1862,17 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --logtopic-uid --description " -- $cur) )
                         ;;
-                    "test-metric-task")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --logset-uid --logtopic-uid --aggregate --content --data-field --filter-content --filter-open --filter-type " -- $cur) )
-                        ;;
-                    "describe-metric-tasks")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --logset-uid --logtopic-uid --page-number --page-size " -- $cur) )
-                        ;;
-                    "create-metric-task")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --logset-uid --logtopic-uid --aggregate --custom-unit --data-field --filter-content --filter-open --filter-type --interval --metric --name --unit " -- $cur) )
-                        ;;
-                    "describe-metric-task")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --logset-uid --logtopic-uid --logmetrictask-uid " -- $cur) )
-                        ;;
-                    "update-metric-task")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --logset-uid --logtopic-uid --logmetrictask-uid --custom-unit --filter-content --filter-open --filter-type --name --unit " -- $cur) )
-                        ;;
-                    "delete-metric-task")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --logset-uid --logtopic-uid --logmetrictask-uid " -- $cur) )
-                        ;;
                     "put")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --logtopic-uid --stream --timestamp --entries " -- $cur) )
+                            -W "-h --help --headers --input-json --logtopic-uid --stream --timestamp --tags --entries " -- $cur) )
                         ;;
                     "search-log-context")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --logset-uid --logtopic-uid --anchor --direction --id --line-size --time " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --logset-uid --logtopic-uid --anchor --direction --filters --id --line-size --time " -- $cur) )
                         ;;
                     "search")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --logset-uid --logtopic-uid --action --expr --case-sensitive --start-time --end-time --page-number --page-size " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --logset-uid --logtopic-uid --action --expr --case-sensitive --start-time --end-time --page-number --page-size --sort --filters " -- $cur) )
                         ;;
 
                     "generate-skeleton")
@@ -1796,6 +1884,18 @@ _jdc_complete()
 	        "jdccs")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "describe-alarms")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-number --page-size --resource-type --resource-id " -- $cur) )
+                        ;;
+                    "describe-alarm")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --alarm-id " -- $cur) )
+                        ;;
+                    "describe-alarm-history")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-number --page-size --alarm-id " -- $cur) )
+                        ;;
                     "describe-metrics")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json " -- $cur) )
@@ -1827,6 +1927,38 @@ _jdc_complete()
                     "describe-cabinets")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --idc --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "describe-cabinet")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --idc --cabinet-id " -- $cur) )
+                        ;;
+                    "describe-devices")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --idc --page-number --page-size --cabinet-id --filters " -- $cur) )
+                        ;;
+                    "describe-device")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --idc --device-id " -- $cur) )
+                        ;;
+                    "describe-ips")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --idc --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "describe-bandwidths")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --idc --page-number --page-size --filters " -- $cur) )
+                        ;;
+                    "describe-bandwidth")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --idc --bandwidth-id " -- $cur) )
+                        ;;
+                    "describe-tickets")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --page-number --page-size --type " -- $cur) )
+                        ;;
+                    "describe-ticket")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --ticket-no " -- $cur) )
                         ;;
 
                     "generate-skeleton")
@@ -2230,6 +2362,14 @@ _jdc_complete()
 	        "cdn")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "query-domains-log")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domains --start-time --end-time --interval --log-type " -- $cur) )
+                        ;;
+                    "query-domain-log")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --start-time --end-time --interval --log-type --page-size --page-number " -- $cur) )
+                        ;;
                     "query-online-billing-type")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json " -- $cur) )
@@ -2374,6 +2514,14 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --domain --http-type --back-source-type --jump-type " -- $cur) )
                         ;;
+                    "query-domain-all-config-classify")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain " -- $cur) )
+                        ;;
+                    "execute-domain-copy")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --domain --copy-domains --config-keys " -- $cur) )
+                        ;;
                     "query-domain-group-list")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --share-cache --page-number --page-size --primary-domain --domain-group-name " -- $cur) )
@@ -2478,59 +2626,11 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --domain --app --stream --limit " -- $cur) )
                         ;;
-                    "operate-live-domain-ignore-query-string")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain --status " -- $cur) )
-                        ;;
-                    "set-push-ip-white-list")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain --ip-list " -- $cur) )
-                        ;;
-                    "set-publish-normal-timeout")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain --timeout " -- $cur) )
-                        ;;
-                    "set-stream-notify-info")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain --notify-url --notify-auth-key " -- $cur) )
-                        ;;
-                    "set-forward-authentication")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain --accesskey-type --accesskey-key " -- $cur) )
-                        ;;
-                    "set-origin-authentication")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain --accesskey-type --accesskey-key " -- $cur) )
-                        ;;
                     "batch-create-live-domain")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --play-domain --publish-domain --source-type --back-http-type --default-source-host --site-type --back-source-type --ip-source --domain-source --accelerate-region " -- $cur) )
                         ;;
-                    "create-live-domain")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --play-domain --publish-domain --source-type --back-http-type --default-source-host --site-type --back-source-type --play-protocol --forward-custom-vhost --ip-source --domain-source --video-type --audio-type " -- $cur) )
-                        ;;
-                    "bind-publish-domain")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain --publish-domain " -- $cur) )
-                        ;;
-                    "modify-live-domain-forward-custom-vhost")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain --forward-custom-vhost " -- $cur) )
-                        ;;
                     "query-live-domain-detail")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain " -- $cur) )
-                        ;;
-                    "query-live-domain-detail-v2")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain " -- $cur) )
-                        ;;
-                    "describe-publish-domains")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json " -- $cur) )
-                        ;;
-                    "describebinded-domains")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --domain " -- $cur) )
                         ;;
@@ -2658,17 +2758,13 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --start-time --end-time --domain --sub-domain --size --top-by " -- $cur) )
                         ;;
-                    "query-domains-log")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domains --start-time --end-time --interval --log-type " -- $cur) )
-                        ;;
-                    "query-domain-log")
-                        COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --domain --start-time --end-time --interval --log-type --page-size --page-number " -- $cur) )
-                        ;;
                     "query-statistics-top-url")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --start-time --end-time --domain --sub-domain --size --top-by " -- $cur) )
+                        ;;
+                    "query-dir-bandwidth")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --start-time --end-time --domain --dirs --regions " -- $cur) )
                         ;;
                     "query-waf-switch")
                         COMPREPLY=( $(compgen \
@@ -3307,6 +3403,20 @@ _jdc_complete()
                 esac
                 ;;
 
+	        "sts")
+                case "$prev" in
+                    # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
+                    "assume-role")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --assume-role-info " -- $cur) )
+                        ;;
+
+                    "generate-skeleton")
+                        COMPREPLY=( $(compgen -W "-h --help --api" -- $cur) )
+                        ;;
+                esac
+                ;;
+
 	        "nc")
                 case "$prev" in
                     # HANDLE EVERYTHING AFTER THE THIRD LEVEL NAMESPACE
@@ -3432,6 +3542,10 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --architecture --os-type --platform --disk-format --system-disk-size-gb --image-url --os-version --image-name --description --force-import --client-token " -- $cur) )
                         ;;
+                    "export-image")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --region-id --image-id --role-name --oss-url --oss-prefix --client-token " -- $cur) )
+                        ;;
                     "image-tasks")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --task-action --task-ids --task-status --start-time --end-time --page-number --page-size " -- $cur) )
@@ -3522,7 +3636,7 @@ _jdc_complete()
                         ;;
                     "resize-instance")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --region-id --instance-id --instance-type " -- $cur) )
+                            -W "-h --help --headers --input-json --region-id --instance-id --instance-type --force " -- $cur) )
                         ;;
                     "rebuild-instance")
                         COMPREPLY=( $(compgen \
@@ -6512,7 +6626,7 @@ _jdc_complete()
                         ;;
                     "create-alarm")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --base-contact --client-token --dimension --enabled --notice-option --product --resource-option --rule-name --rule-option --rule-type --tags --web-hook-option " -- $cur) )
+                            -W "-h --help --headers --input-json --auto-scaling-policy-id --base-contact --client-token --dimension --enabled --notice-option --product --resource-option --rule-name --rule-option --rule-type --tags --web-hook-option " -- $cur) )
                         ;;
                     "describe-alarm")
                         COMPREPLY=( $(compgen \
@@ -6520,7 +6634,7 @@ _jdc_complete()
                         ;;
                     "update-alarm")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --alarm-id --base-contact --dimension --enabled --notice-option --product --resource-option --rule-name --rule-option --rule-type --tags --web-hook-option " -- $cur) )
+                            -W "-h --help --headers --input-json --alarm-id --auto-scaling-policy-id --base-contact --dimension --enabled --notice-option --product --resource-option --rule-name --rule-option --rule-type --tags --web-hook-option " -- $cur) )
                         ;;
                     "delete-alarms")
                         COMPREPLY=( $(compgen \
@@ -6544,13 +6658,13 @@ _jdc_complete()
                         ;;
                     "describe-alarm-history")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --page-number --page-size --service-code --product --dimension --is-alarming --status --start-time --end-time --rule-type --rule-name --filters " -- $cur) )
+                            -W "-h --help --headers --input-json --page-number --page-size --service-code --product --dimension --region --is-alarming --status --start-time --end-time --rule-type --rule-name --filters " -- $cur) )
                         ;;
                     "describe-metrics")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --service-code --type " -- $cur) )
+                            -W "-h --help --headers --input-json --service-code --dimension --type " -- $cur) )
                         ;;
-                    "last-downsample")
+                    "describe-one-data-point")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --metric --service-code --dimension --resource-id --tags --start-time --end-time --time-interval --aggr-type --down-aggr-type " -- $cur) )
                         ;;
@@ -6562,7 +6676,11 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --filters --product-type " -- $cur) )
                         ;;
-                    "put-metric-data")
+                    "put-custom-metric-data")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --metric-data-list " -- $cur) )
+                        ;;
+                    "put-custom-metric-data")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --metric-data-list " -- $cur) )
                         ;;
