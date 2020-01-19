@@ -21,7 +21,7 @@ under the License.
 from setuptools import setup, find_packages
 from jdcloud_cli.version import VERSION
 
-install_requires = ['websocket-client', 'configparser', 'requests', 'more-itertools==8.0.2',
+install_requires = ['websocket-client', 'configparser', 'requests', 'more-itertools==5.0.0',
                     'argcomplete', 'argparse', 'jdcloud_sdk==1.6.42', 'pyyaml', 'jinja2']
 
 
