@@ -31,4 +31,14 @@
         "iccids":[""],
         "regionId":""
     },
+    "search":{
+        "requestType":"",
+        "requestParam":"",
+        "regionId":""
+    },
+    "operate":{
+        "requestType":"",
+        "requestParam":"",
+        "regionId":""
+    },
 }

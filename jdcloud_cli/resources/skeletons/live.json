@@ -32,6 +32,13 @@
         "authStatus":"",
         "authKey":""
     },
+    "describe-live-bill-data":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }]
+    },
     "describe-live-domain-certificate":{
         "playDomain":""
     },

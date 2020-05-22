@@ -11,7 +11,9 @@
     "describe-alarm-history":{
         "pageNumber":"",
         "pageSize":"",
-        "alarmId":""
+        "alarmId":"",
+        "startTime":"",
+        "endTime":""
     },
     "describe-metrics":{
     },
@@ -38,6 +40,11 @@
     "describe-bandwidth-traffic":{
         "idc":"",
         "bandwidthId":""
+    },
+    "describe-traffic-sampling":{
+        "resourceId":"",
+        "startTime":"",
+        "endTime":""
     },
     "describe-idcs":{
         "pageNumber":"",

@@ -108,6 +108,8 @@ class JdccsController(BaseController):
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
             (['--alarm-id'], dict(help="""(string) 报警规则ID """, dest='alarmId',  required=False)),
+            (['--start-time'], dict(help="""(int) 查询时间范围的开始时间， UNIX时间戳 """, dest='startTime', type=int, required=False)),
+            (['--end-time'], dict(help="""(int) 查询时间范围的结束时间， UNIX时间戳 """, dest='endTime', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -173,8 +175,8 @@ class JdccsController(BaseController):
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
             (['--resource-id'], dict(help="""(string) 资源ID """, dest='resourceId',  required=True)),
-            (['--start-time'], dict(help="""(int) 查询时间范围的开始时间， UNIX时间戳，（最多支持最近90天数据查询） """, dest='startTime', type=int, required=True)),
-            (['--end-time'], dict(help="""(int) 查询时间范围的结束时间， UNIX时间戳，（最多支持最近90天数据查询） """, dest='endTime', type=int, required=True)),
+            (['--start-time'], dict(help="""(int) 查询时间范围的开始时间， UNIX时间戳，（机柜电流最多支持最近90天数据查询、带宽流量最多支持最近30天数据查询） """, dest='startTime', type=int, required=True)),
+            (['--end-time'], dict(help="""(int) 查询时间范围的结束时间， UNIX时间戳，（机柜电流最多支持最近90天数据查询、带宽流量最多支持最近30天数据查询） """, dest='endTime', type=int, required=True)),
             (['--time-interval'], dict(help="""(string) 时间间隔：分钟m、小时h、天d，如： 10分钟=10m、1小时=1h，3天=3d；默认5m，最小支持5m，最大90d 目前带宽上、下行流量查询，会根据时间范围是否超过2小时，设定时间间隔为1m或5m """, dest='timeInterval',  required=False)),
             (['--ip'], dict(help="""(string) 交换机IP，指定ip时须同时指定port """, dest='ip',  required=False)),
             (['--port'], dict(help="""(string) 端口，指定port时须同时指定ip """, dest='port',  required=False)),
@@ -211,7 +213,7 @@ class JdccsController(BaseController):
         arguments=[
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
-            (['--resource-id'], dict(help="""(string) 资源ID，支持多个resourceId批量查询，每个id用竖线 | 分隔 """, dest='resourceId',  required=True)),
+            (['--resource-id'], dict(help="""(string) 资源ID，支持多个resourceId批量查询，每个id用英文竖线分隔 """, dest='resourceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -301,6 +303,40 @@ class JdccsController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeBandwidthTrafficRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--resource-id'], dict(help="""(string) 资源ID，支持多个resourceId批量查询，每个id用英文竖线分隔 """, dest='resourceId',  required=True)),
+            (['--start-time'], dict(help="""(int) 查询时间范围的开始时间， UNIX时间戳，（支持查询最近30分钟数据且时间范围不超过5分钟） """, dest='startTime', type=int, required=True)),
+            (['--end-time'], dict(help="""(int) 查询时间范围的结束时间， UNIX时间戳，（支持查询最近30分钟数据且时间范围不超过5分钟） """, dest='endTime', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据IP网段查询流量采样数据 ''',
+        description='''
+            根据IP网段查询流量采样数据。
+
+            示例: jdc jdccs describe-traffic-sampling  --resource-id xxx --start-time 0 --end-time 0
+        ''',
+    )
+    def describe_traffic_sampling(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DescribeTrafficSamplingRequest import DescribeTrafficSamplingRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeTrafficSamplingRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -684,7 +720,7 @@ class JdccsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-alarms','describe-alarm','describe-alarm-history','describe-metrics','describe-metric-data','last-downsample','describe-bandwidth-traffics','describe-bandwidth-traffic','describe-idcs','describe-rooms','describe-cabinets','describe-cabinet','describe-devices','describe-device','describe-ips','describe-bandwidths','describe-bandwidth','describe-tickets','describe-ticket',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-alarms','describe-alarm','describe-alarm-history','describe-metrics','describe-metric-data','last-downsample','describe-bandwidth-traffics','describe-bandwidth-traffic','describe-traffic-sampling','describe-idcs','describe-rooms','describe-cabinets','describe-cabinet','describe-devices','describe-device','describe-ips','describe-bandwidths','describe-bandwidth','describe-tickets','describe-ticket',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

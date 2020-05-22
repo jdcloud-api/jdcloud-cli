@@ -95,3 +95,21 @@ class IotlinkTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_search(self):
+        cmd = """python ../../main.py iotlink search  --request-type 'xxx' --request-param 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_operate(self):
+        cmd = """python ../../main.py iotlink operate  --request-type 'xxx' --request-param 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+

@@ -24,7 +24,7 @@ import json
 class IpantiTest(unittest.TestCase):
 
     def test_describe_ddo_sattack_logs(self):
-        cmd = """python ../../main.py ipanti describe-ddo-sattack-logs  --start-time 'xxx' --end-time 'xxx'"""
+        cmd = """python ../../main.py ipanti describe-ddo-sattack-logs  --start-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -33,7 +33,7 @@ class IpantiTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_describe_ccattack_logs(self):
-        cmd = """python ../../main.py ipanti describe-ccattack-logs  --start-time 'xxx' --end-time 'xxx'"""
+        cmd = """python ../../main.py ipanti describe-ccattack-logs  --start-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -42,7 +42,7 @@ class IpantiTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_describe_ccattack_log_details(self):
-        cmd = """python ../../main.py ipanti describe-ccattack-log-details  --start-time 'xxx' --end-time 'xxx'"""
+        cmd = """python ../../main.py ipanti describe-ccattack-log-details """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -51,7 +51,7 @@ class IpantiTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_describe_attack_statistics(self):
-        cmd = """python ../../main.py ipanti describe-attack-statistics  --start-time 'xxx' --end-time 'xxx' --type '5'"""
+        cmd = """python ../../main.py ipanti describe-attack-statistics  --start-time 'xxx' --type '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -60,7 +60,7 @@ class IpantiTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_describe_attack_type_count(self):
-        cmd = """python ../../main.py ipanti describe-attack-type-count  --start-time 'xxx' --end-time 'xxx'"""
+        cmd = """python ../../main.py ipanti describe-attack-type-count  --start-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -69,7 +69,7 @@ class IpantiTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_describe_ddo_sgraph(self):
-        cmd = """python ../../main.py ipanti describe-ddo-sgraph  --start-time 'xxx' --end-time 'xxx'"""
+        cmd = """python ../../main.py ipanti describe-ddo-sgraph  --start-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -78,7 +78,7 @@ class IpantiTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_describe_fwd_graph(self):
-        cmd = """python ../../main.py ipanti describe-fwd-graph  --start-time 'xxx' --end-time 'xxx'"""
+        cmd = """python ../../main.py ipanti describe-fwd-graph  --start-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -87,7 +87,7 @@ class IpantiTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_describe_ccgraph(self):
-        cmd = """python ../../main.py ipanti describe-ccgraph  --start-time 'xxx' --end-time 'xxx'"""
+        cmd = """python ../../main.py ipanti describe-ccgraph  --start-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -455,6 +455,15 @@ class IpantiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_bind_cert(self):
+        cmd = """python ../../main.py ipanti bind-cert  --instance-id 'xxx' --web-rule-id 'xxx' --cert-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_switch_web_rule_protect(self):
         cmd = """python ../../main.py ipanti switch-web-rule-protect  --instance-id 'xxx' --web-rule-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -799,6 +808,15 @@ class IpantiTest(unittest.TestCase):
 
     def test_describe_web_rule_white_list_geo_areas(self):
         cmd = """python ../../main.py ipanti describe-web-rule-white-list-geo-areas """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_web_rule_rsgeo_areas(self):
+        cmd = """python ../../main.py ipanti describe-web-rule-rsgeo-areas """
         with os.popen(cmd) as f:
             content = f.read()
 

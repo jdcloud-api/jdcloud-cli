@@ -41,15 +41,15 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) elasticIpIds - elasticip id数组条件，支持多个; elasticIpAddress - eip的IP地址，支持单个; chargeStatus	- eip的费用支付状态,normal(正常状态) or overdue(预付费已到期) or arrear(欠费状态)，支持单个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) elasticIpIds - elasticip id数组条件，支持多个; elasticIpAddress - eip的IP地址，支持单个; chargeStatus	- eip的费用支付状态,normal(正常状态) or overdue(预付费已到期) or arrear(欠费状态)，支持单个; ipType - eip类型，取值：all(所有类型)、standard(标准弹性IP)、edge(边缘弹性IP)，默认standard，支持单个; azs - eip可用区，支持多个;  """, dest='filters',  required=False)),
             (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询弹性ip列表 ''',
+        help=''' 查询弹性公网IP列表 ''',
         description='''
-            查询弹性ip列表。
+            查询弹性公网IP列表。
 
             示例: jdc vpc describe-elastic-ips 
         ''',
@@ -79,13 +79,14 @@ class VpcController(BaseController):
             (['--elastic-ip-address'], dict(help="""(string) 指定弹性ip地址进行创建，当申请创建多个弹性ip时，必须为空 """, dest='elasticIpAddress',  required=False)),
             (['--elastic-ip-spec'], dict(help="""(elasticIpSpec) 弹性ip规格 """, dest='elasticIpSpec',  required=True)),
             (['--user-tags'], dict(help="""(array: tag) 用户标签 """, dest='userTags',  required=False)),
+            (['--ip-type'], dict(help="""(string) 弹性ip类型，取值：standard(标准公网IP)，edge(边缘公网IP)，默认为standard """, dest='ipType',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一个或者多个弹性Ip ''',
+        help=''' 创建一个或者多个弹性公网IP ''',
         description='''
-            创建一个或者多个弹性Ip。
+            创建一个或者多个弹性公网IP。
 
             示例: jdc vpc create-elastic-ips  --max-count 0 --elastic-ip-spec '{"":""}'
         ''',
@@ -150,9 +151,9 @@ class VpcController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改弹性IP ''',
+        help=''' 修改弹性公网IP ''',
         description='''
-            修改弹性IP。
+            修改弹性公网IP。
 
             示例: jdc vpc modify-elastic-ip  --elastic-ip-id xxx --bandwidth-mbps 0
         ''',
@@ -183,9 +184,9 @@ class VpcController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除弹性Ip ''',
+        help=''' 删除弹性公网IP ''',
         description='''
-            删除弹性Ip。
+            删除弹性公网IP。
 
             示例: jdc vpc delete-elastic-ip  --elastic-ip-id xxx
         ''',
@@ -1452,7 +1453,7 @@ class VpcController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
-            (['--subnet-ids'], dict(help="""(array: string) 路由表要绑定的子网ID列表, subnet已被其他路由表绑定时，自动解绑。 """, dest='subnetIds',  required=False)),
+            (['--subnet-ids'], dict(help="""(array: string) 路由表要绑定的子网ID列表, subnet已被其他路由表绑定时，自动解绑。路由表绑定的子网属性要相同，或者都是标准子网，或者都是相同边缘可用区的边缘子网。 """, dest='subnetIds',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1521,7 +1522,42 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) subnetIds - subnet ID列表，支持多个; subnetNames - subnet名称列表，支持多个; routeTableId	- 子网关联路由表Id，支持单个; aclId - 子网关联acl Id，支持单个; vpcId - 子网所属VPC Id，支持单个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) providers - 边缘公网IP的线路，命名规则：[线路接入区].[资源关联范围].[服务类型]，示例如cn-n1-jinan1.ez.bgp，支持多个; pointsOfAccess - 边缘公网IP的线路接入区，提供线路接入区具体位置信息，支持多个; associationScope	- 边缘公网IP的资源关联范围，取值ez(边缘可用区)和az(中心可用区，暂不支持),支持单个; serviceTypes - 边缘公网IP的服务类型，取值：bgp(动态)，unicom(联通)，telecom(电信)，mobile(移动)，支持多个; azs - 边缘公网IP的可用区，分为全可用区（暂不支持）和边缘可用区ID(同线路接入区])，示例如cn-n1-sqxx1，支持多个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询边缘公网IP可用线路列表 ''',
+        description='''
+            查询边缘公网IP可用线路列表。
+
+            示例: jdc vpc describe-edge-ip-providers 
+        ''',
+    )
+    def describe_edge_ip_providers(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeEdgeIpProvidersRequest import DescribeEdgeIpProvidersRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeEdgeIpProvidersRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) subnetIds - subnet ID列表，支持多个; subnetNames - subnet名称列表，支持多个; routeTableId	- 子网关联路由表Id，支持单个; aclId - 子网关联acl Id，支持单个; vpcId - 子网所属VPC Id，支持单个; subnetType - 子网类型，取值：all(全部类型)，standard(标准子网)，edge(边缘子网)，默认standard ，支持单个; azs - 可用区，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1557,8 +1593,10 @@ class VpcController(BaseController):
             (['--vpc-id'], dict(help="""(string) 子网所属vpc的Id """, dest='vpcId',  required=True)),
             (['--subnet-name'], dict(help="""(string) 子网名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='subnetName',  required=True)),
             (['--address-prefix'], dict(help="""(string) 子网网段，vpc内子网网段不能重叠，cidr的取值范围：10.0.0.0/8、172.16.0.0/12和192.168.0.0/16及它们包含的子网，且子网掩码长度为16-28之间，如果vpc含有cidr，则必须为vpc所在cidr的子网 """, dest='addressPrefix',  required=True)),
-            (['--route-table-id'], dict(help="""(string) 子网关联的路由表Id, 默认为vpc的默认路由表 """, dest='routeTableId',  required=False)),
+            (['--route-table-id'], dict(help="""(string) 子网关联的路由表Id, 默认为vpc的默认路由表,子网关联路由表需检查路由表中已绑定的子网与本子网类型是否一致（一致标准为：或者都为标准子网，或者都为相同边缘可用区的边缘子网） """, dest='routeTableId',  required=False)),
             (['--description'], dict(help="""(string) 子网描述信息,允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description',  required=False)),
+            (['--subnet-type'], dict(help="""(string) 子网类型，取值：standard(标准子网)，edge(边缘子网) """, dest='subnetType',  required=False)),
+            (['--az'], dict(help="""(string) 子网可用区，边缘子网必须指定可用区 """, dest='az',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -2034,7 +2072,7 @@ class VpcController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-elastic-ips','create-elastic-ips','describe-elastic-ip','modify-elastic-ip','delete-elastic-ip','describe-network-acls','create-network-acl','describe-network-acl','modify-network-acl','delete-network-acl','associate-network-acl','disassociate-network-acl','add-network-acl-rules','remove-network-acl-rules','modify-network-acl-rules','describe-network-interfaces','create-network-interface','describe-network-interface','modify-network-interface','delete-network-interface','associate-elastic-ip','disassociate-elastic-ip','assign-secondary-ips','unassign-secondary-ips','describe-network-security-groups','create-network-security-group','describe-network-security-group','modify-network-security-group','delete-network-security-group','add-network-security-group-rules','remove-network-security-group-rules','modify-network-security-group-rules','describe-quota','describe-route-tables','create-route-table','describe-route-table','modify-route-table','delete-route-table','add-route-table-rules','remove-route-table-rules','modify-route-table-rules','associate-route-table','disassociate-route-table','describe-subnets','create-subnet','describe-subnet','modify-subnet','delete-subnet','describe-vpcs','create-vpc','describe-vpc','modify-vpc','delete-vpc','describe-vpc-peerings','create-vpc-peering','describe-vpc-peering','modify-vpc-peering','delete-vpc-peering',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-elastic-ips','create-elastic-ips','describe-elastic-ip','modify-elastic-ip','delete-elastic-ip','describe-network-acls','create-network-acl','describe-network-acl','modify-network-acl','delete-network-acl','associate-network-acl','disassociate-network-acl','add-network-acl-rules','remove-network-acl-rules','modify-network-acl-rules','describe-network-interfaces','create-network-interface','describe-network-interface','modify-network-interface','delete-network-interface','associate-elastic-ip','disassociate-elastic-ip','assign-secondary-ips','unassign-secondary-ips','describe-network-security-groups','create-network-security-group','describe-network-security-group','modify-network-security-group','delete-network-security-group','add-network-security-group-rules','remove-network-security-group-rules','modify-network-security-group-rules','describe-quota','describe-route-tables','create-route-table','describe-route-table','modify-route-table','delete-route-table','add-route-table-rules','remove-route-table-rules','modify-route-table-rules','associate-route-table','disassociate-route-table','describe-edge-ip-providers','describe-subnets','create-subnet','describe-subnet','modify-subnet','delete-subnet','describe-vpcs','create-vpc','describe-vpc','modify-vpc','delete-vpc','describe-vpc-peerings','create-vpc-peering','describe-vpc-peering','modify-vpc-peering','delete-vpc-peering',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

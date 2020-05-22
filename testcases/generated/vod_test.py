@@ -239,6 +239,15 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_create_live_to_vod_task(self):
+        cmd = """python ../../main.py vod create-live-to-vod-task  --title 'xxx' --file-name 'xxx' --publish-domain 'xxx' --app-name 'xxx' --stream-name 'xxx' --record-times '[{"":""}]' --record-file-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_create_video_upload_task(self):
         cmd = """python ../../main.py vod create-video-upload-task  --title 'xxx' --file-name 'xxx'"""
         with os.popen(cmd) as f:
@@ -457,6 +466,15 @@ class VodTest(unittest.TestCase):
 
     def test_delete_video_streams(self):
         cmd = """python ../../main.py vod delete-video-streams  --video-id 'xxx' --task-ids '[5]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_video_audit(self):
+        cmd = """python ../../main.py vod video-audit  --video-id 'xxx' --audit-result 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

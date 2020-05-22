@@ -470,9 +470,10 @@ class KubernetesController(BaseController):
             (['--azs'], dict(help="""(array: string) 工作节点组的 az，必须为集群az的子集，默认为集群az """, dest='azs',  required=False)),
             (['--initial-node-count'], dict(help="""(int) 工作节点组初始化大小 """, dest='initialNodeCount', type=int, required=True)),
             (['--vpc-id'], dict(help="""(string) 工作节点组初始化大小运行的VPC """, dest='vpcId',  required=True)),
-            (['--node-cidr'], dict(help="""(string) 工作节点组的cidr """, dest='nodeCidr',  required=True)),
+            (['--node-cidr'], dict(help="""(string) 工作节点组的cidr """, dest='nodeCidr',  required=False)),
             (['--auto-repair'], dict(help="""(bool) 是否开启工作节点组的自动修复，默认关闭 """, dest='autoRepair',  required=False)),
             (['--ca-config'], dict(help="""(cAConfigSpec) 自动伸缩配置 """, dest='caConfig',  required=False)),
+            (['--node-group-network'], dict(help="""(nodeGroupNetworkSpec) 节点组的网络配置，如果集群的类型customized类型，则必须指定该参数，如果是auto，则不是必须 """, dest='nodeGroupNetwork',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -481,7 +482,7 @@ class KubernetesController(BaseController):
         description='''
             创建工作节点组<br>; - 要求集群状态为running; 。
 
-            示例: jdc kubernetes create-node-group  --name xxx --cluster-id xxx --node-config {"":""} --initial-node-count 0 --vpc-id xxx --node-cidr xxx
+            示例: jdc kubernetes create-node-group  --name xxx --cluster-id xxx --node-config {"":""} --initial-node-count 0 --vpc-id xxx
         ''',
     )
     def create_node_group(self):

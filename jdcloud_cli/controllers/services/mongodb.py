@@ -411,6 +411,143 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 重启实例 ''',
+        description='''
+            重启实例。
+
+            示例: jdc mongodb restart-instance  --instance-id xxx
+        ''',
+    )
+    def restart_instance(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.RestartInstanceRequest import RestartInstanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RestartInstanceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--sharding-instance-spec'], dict(help="""(shardingDBInstanceSpec) 实例规格 """, dest='shardingInstanceSpec',  required=True)),
+            (['--charge-spec'], dict(help="""(chargeSpec) 付费方式 """, dest='chargeSpec',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建分片集群 ''',
+        description='''
+            创建分片集群。
+
+            示例: jdc mongodb create-sharding-instance  --sharding-instance-spec '{"":""}'
+        ''',
+    )
+    def create_sharding_instance(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.CreateShardingInstanceRequest import CreateShardingInstanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateShardingInstanceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--node-id'], dict(help="""(string) Node ID """, dest='nodeId',  required=True)),
+            (['--node-type'], dict(help="""(string) Shard节点或Mongos节点的规格，不允许小于当前规格。 """, dest='nodeType',  required=True)),
+            (['--node-storage-gb'], dict(help="""(int) Shard存储空间，当前节点为Shard时可用，不允许小于当前规格。 """, dest='nodeStorageGB', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 变更分片集群的节点规格，支持Mognos、Shard节点。 ''',
+        description='''
+            变更分片集群的节点规格，支持Mognos、Shard节点。。
+
+            示例: jdc mongodb modify-node-spec  --instance-id xxx --node-id xxx --node-type xxx
+        ''',
+    )
+    def modify_node_spec(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.ModifyNodeSpecRequest import ModifyNodeSpecRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyNodeSpecRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
+            (['--node-id'], dict(help="""(string) Node ID """, dest='nodeId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 重启MongoDB分片集群节点，支持重启Mongos、Shard。 ''',
+        description='''
+            重启MongoDB分片集群节点，支持重启Mongos、Shard。。
+
+            示例: jdc mongodb restart-node  --instance-id xxx --node-id xxx
+        ''',
+    )
+    def restart_node(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.RestartNodeRequest import RestartNodeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RestartNodeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) instanceId - 实例ID, 精确匹配; backupId - 备份ID, 精确匹配;  """, dest='filters',  required=False)),
@@ -448,6 +585,7 @@ class MongodbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId',  required=True)),
             (['--backup-name'], dict(help="""(string) 备份名称 """, dest='backupName',  required=False)),
+            (['--backup-method'], dict(help="""(string) 备份方式，Logical - 逻辑备份、Physical - 物理备份 """, dest='backupMethod',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -546,6 +684,109 @@ class MongodbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1，取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) null """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询跨区域备份同步服务 ''',
+        description='''
+            查询跨区域备份同步服务。
+
+            示例: jdc mongodb describe-backup-synchronicities 
+        ''',
+    )
+    def describe_backup_synchronicities(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.DescribeBackupSynchronicitiesRequest import DescribeBackupSynchronicitiesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeBackupSynchronicitiesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 源实例ID """, dest='instanceId',  required=True)),
+            (['--src-region'], dict(help="""(string) 源实例所在地域 """, dest='srcRegion',  required=True)),
+            (['--dst-region'], dict(help="""(string) 备份同步的目标地域 """, dest='dstRegion',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建跨区域备份同步服务 ''',
+        description='''
+            创建跨区域备份同步服务。
+
+            示例: jdc mongodb create-backup-synchronicity  --instance-id xxx --src-region xxx --dst-region xxx
+        ''',
+    )
+    def create_backup_synchronicity(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.CreateBackupSynchronicityRequest import CreateBackupSynchronicityRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateBackupSynchronicityRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--service-id'], dict(help="""(string) service ID """, dest='serviceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除跨地域备份同步服务 ''',
+        description='''
+            删除跨地域备份同步服务。
+
+            示例: jdc mongodb delete-backup-synchronicities  --service-id xxx
+        ''',
+    )
+    def delete_backup_synchronicities(self):
+        client_factory = ClientFactory('mongodb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.mongodb.apis.DeleteBackupSynchronicitiesRequest import DeleteBackupSynchronicitiesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteBackupSynchronicitiesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) Instance ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -613,7 +854,7 @@ class MongodbController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-instances','create-instance','delete-instance','reset-password','modify-instance-spec','modify-instance-name','describe-backup-policy','modify-backup-policy','restore-instance','describe-flavors','describe-available-zones','describe-backups','create-backup','delete-backup','backup-download-url','describe-security-ips','modify-security-ips',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-instances','create-instance','delete-instance','reset-password','modify-instance-spec','modify-instance-name','describe-backup-policy','modify-backup-policy','restore-instance','describe-flavors','describe-available-zones','restart-instance','create-sharding-instance','modify-node-spec','restart-node','describe-backups','create-backup','delete-backup','backup-download-url','describe-backup-synchronicities','create-backup-synchronicity','delete-backup-synchronicities','describe-security-ips','modify-security-ips',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -41,8 +41,8 @@ class IpantiController(BaseController):
             (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小, 默认为10, 取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 90 天以内的数据, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=False)),
             (['--instance-id'], dict(help="""(array: string) 高防实例 ID """, dest='instanceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -52,7 +52,7 @@ class IpantiController(BaseController):
         description='''
             查询 DDoS 攻击日志。
 
-            示例: jdc ipanti describe-ddo-sattack-logs  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-ddo-sattack-logs  --start-time xxx
         ''',
     )
     def describe_ddo_sattack_logs(self):
@@ -78,8 +78,8 @@ class IpantiController(BaseController):
             (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小, 默认为10, 取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 90 天以内的数据, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=False)),
             (['--instance-id'], dict(help="""(array: string) 高防实例 ID """, dest='instanceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -89,7 +89,7 @@ class IpantiController(BaseController):
         description='''
             查询 CC 攻击日志。
 
-            示例: jdc ipanti describe-ccattack-logs  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-ccattack-logs  --start-time xxx
         ''',
     )
     def describe_ccattack_logs(self):
@@ -115,11 +115,11 @@ class IpantiController(BaseController):
             (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小, 默认为10, 取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 60 天以内的数据, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 90 天以内的数据, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ, attackId 为空时必传 """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=False)),
             (['--instance-id'], dict(help="""(string) 高防实例 ID """, dest='instanceId',  required=False)),
-            (['--sub-domain'], dict(help="""(array: string) 查询的子域名，只有选中某一个实例后才能多选子域名 """, dest='subDomain',  required=False)),
-            (['--attack-id'], dict(help="""(string) CC 攻击记录Id """, dest='attackId',  required=False)),
+            (['--sub-domain'], dict(help="""(array: string) 查询的子域名, 只有选中某一个实例后才能多选子域名 """, dest='subDomain',  required=False)),
+            (['--attack-id'], dict(help="""(string) CC 攻击记录 Id, 不为空时忽略 startTime, endTime """, dest='attackId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -128,7 +128,7 @@ class IpantiController(BaseController):
         description='''
             查询 CC 攻击日志详情.; - 参数 attackId 优先级高于 instanceId, attackId 不为空时, 忽略 instanceId; 。
 
-            示例: jdc ipanti describe-ccattack-log-details  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-ccattack-log-details 
         ''',
     )
     def describe_ccattack_log_details(self):
@@ -152,8 +152,8 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 90 天以内的数据, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=False)),
             (['--instance-id'], dict(help="""(array: string) 高防实例 ID """, dest='instanceId',  required=False)),
             (['--type'], dict(help="""(int) 攻击类型, 0 为 DDoS, 1 为 CC """, dest='type', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -164,7 +164,7 @@ class IpantiController(BaseController):
         description='''
             查询攻击次数及流量峰值。
 
-            示例: jdc ipanti describe-attack-statistics  --start-time xxx --end-time xxx --type 0
+            示例: jdc ipanti describe-attack-statistics  --start-time xxx --type 0
         ''',
     )
     def describe_attack_statistics(self):
@@ -188,8 +188,8 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 60 天以内的数据, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式：yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 90 天以内的数据, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=False)),
             (['--instance-id'], dict(help="""(array: string) 高防实例 ID """, dest='instanceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -199,7 +199,7 @@ class IpantiController(BaseController):
         description='''
             查询各类型攻击次数。
 
-            示例: jdc ipanti describe-attack-type-count  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-attack-type-count  --start-time xxx
         ''',
     )
     def describe_attack_type_count(self):
@@ -223,8 +223,8 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间, 最多查最近 60 天, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 90 天以内的数据, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=False)),
             (['--instance-id'], dict(help="""(array: string) 高防实例 Id 列表 """, dest='instanceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -234,7 +234,7 @@ class IpantiController(BaseController):
         description='''
             DDos 防护流量报表。
 
-            示例: jdc ipanti describe-ddo-sgraph  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-ddo-sgraph  --start-time xxx
         ''',
     )
     def describe_ddo_sgraph(self):
@@ -258,8 +258,8 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间, 最多查最近 60 天, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 90 天以内的数据, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=False)),
             (['--instance-id'], dict(help="""(array: string) 高防实例 Id 列表 """, dest='instanceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -269,7 +269,7 @@ class IpantiController(BaseController):
         description='''
             转发流量报表。
 
-            示例: jdc ipanti describe-fwd-graph  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-fwd-graph  --start-time xxx
         ''',
     )
     def describe_fwd_graph(self):
@@ -293,8 +293,8 @@ class IpantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间, 最多查最近 60 天, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--start-time'], dict(help="""(string) 开始时间, 只能查询最近 90 天以内的数据, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询的结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=False)),
             (['--instance-id'], dict(help="""(array: string) 高防实例 Id 列表 """, dest='instanceId',  required=False)),
             (['--sub-domain'], dict(help="""(array: string) 规则域名列表 """, dest='subDomain',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -305,7 +305,7 @@ class IpantiController(BaseController):
         description='''
             CC 防护流量报表。
 
-            示例: jdc ipanti describe-ccgraph  --start-time xxx --end-time xxx
+            示例: jdc ipanti describe-ccgraph  --start-time xxx
         ''',
     )
     def describe_ccgraph(self):
@@ -948,7 +948,7 @@ class IpantiController(BaseController):
             (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为 1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小, 默认为 10, 取值范围[10, 100], 0 表示全量 """, dest='pageSize', type=int, required=False)),
-            (['--name'], dict(help="""(string) 实例名称，可模糊匹配 """, dest='name',  required=False)),
+            (['--name'], dict(help="""(string) 实例名称, 可模糊匹配 """, dest='name',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1697,6 +1697,41 @@ class IpantiController(BaseController):
             (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) 高防实例 Id """, dest='instanceId',  required=True)),
             (['--web-rule-id'], dict(help="""(string) 网站规则 Id """, dest='webRuleId',  required=True)),
+            (['--cert-id'], dict(help="""(string) 证书 Id. 使用 <a href='https://docs.jdcloud.com/cn/ssl-certificate/api/describecerts'>describeCerts</a> 接口, 按照域名检索可绑定的证书, 域名不匹配将导致证书配置失败 """, dest='certId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 网站类规则绑定 SSL 证书 ''',
+        description='''
+            网站类规则绑定 SSL 证书。
+
+            示例: jdc ipanti bind-cert  --instance-id xxx --web-rule-id xxx --cert-id xxx
+        ''',
+    )
+    def bind_cert(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.BindCertRequest import BindCertRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = BindCertRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 高防实例 Id """, dest='instanceId',  required=True)),
+            (['--web-rule-id'], dict(help="""(string) 网站规则 Id """, dest='webRuleId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1837,9 +1872,9 @@ class IpantiController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 开启网站类规则 CC 观察者模式, 观察模式下，CC 防护只告警不防御。支持批量操作, 批量操作时 webRuleId 传多个, 以 ',' 分隔, 返回 result.code 为 1 表示操作成功, 为 0 时可能全部失败, 也可能部分失败 ''',
+        help=''' 开启网站类规则 CC 观察者模式, 观察模式下, CC 防护只告警不防御。支持批量操作, 批量操作时 webRuleId 传多个, 以 ',' 分隔, 返回 result.code 为 1 表示操作成功, 为 0 时可能全部失败, 也可能部分失败 ''',
         description='''
-            开启网站类规则 CC 观察者模式, 观察模式下，CC 防护只告警不防御。支持批量操作, 批量操作时 webRuleId 传多个, 以 ',' 分隔, 返回 result.code 为 1 表示操作成功, 为 0 时可能全部失败, 也可能部分失败。
+            开启网站类规则 CC 观察者模式, 观察模式下, CC 防护只告警不防御。支持批量操作, 批量操作时 webRuleId 传多个, 以 ',' 分隔, 返回 result.code 为 1 表示操作成功, 为 0 时可能全部失败, 也可能部分失败。
 
             示例: jdc ipanti enable-web-rule-ccobserver-mode  --instance-id xxx --web-rule-id xxx
         ''',
@@ -3043,7 +3078,39 @@ class IpantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-ddo-sattack-logs','describe-ccattack-logs','describe-ccattack-log-details','describe-attack-statistics','describe-attack-type-count','describe-ddo-sgraph','describe-fwd-graph','describe-ccgraph','describe-forward-rules','create-forward-rule','describe-forward-rule','modify-forward-rule','delete-forward-rule','switch-forward-rule-protect','switch-forward-rule-origin','describe-protection-rule-of-forward-rule','modify-protection-rule-of-forward-rule','describe-geo-areas','describe-black-list-rule-of-forward-rule','modify-black-list-rule-of-forward-rule','enable-black-list-rule-of-forward-rule','disable-black-list-rule-of-forward-rule','describe-white-list-rule-of-forward-rule','modify-white-list-rule-of-forward-rule','enable-white-list-rule-of-forward-rule','disable-white-list-rule-of-forward-rule','describe-instances','create-instance','describe-instance','modify-instance-name','modify-epb','describe-alarm-config','modify-alarm-config','describe-name-list','describe-protection-statistics','check-name','describe-vpc-ip-list','describe-cps-ip-list','describe-ip-sets','create-ip-set','describe-ip-set','delete-ip-set','describe-ip-set-usage','describe-web-rules','create-web-rule','describe-web-rule','modify-web-rule','delete-web-rule','switch-web-rule-protect','switch-web-rule-origin','enable-web-rule-cc','disable-web-rule-cc','enable-web-rule-ccobserver-mode','disable-web-rule-ccobserver-mode','describe-ccprotection-rules-of-web-rule','create-ccprotection-rule-of-web-rule','describe-ccprotection-rule-of-web-rule','modify-ccprotection-rule-of-web-rule','delete-ccprotection-rule-of-web-rule','enable-ccprotection-rule-of-web-rule','disable-ccprotection-rule-of-web-rule','describe-ccprotection-config-of-web-rule','modify-ccprotection-config-of-web-rule','describe-ccprotection-default-config-of-web-rule','modify-cert-info','describe-web-rule-black-list-usage','describe-black-list-rules-of-web-rule','create-black-list-rule-of-web-rule','describe-black-list-rule-of-web-rule','modify-black-list-rule-of-web-rule','delete-black-list-rule-of-web-rule','enable-web-rule-black-list','enable-black-list-rule-of-web-rule','disable-web-rule-black-list','disable-black-list-rule-of-web-rule','describe-web-rule-white-list-usage','describe-white-list-rules-of-web-rule','create-white-list-rule-of-web-rule','describe-white-list-rule-of-web-rule','modify-white-list-rule-of-web-rule','delete-white-list-rule-of-web-rule','enable-web-rule-white-list','enable-white-list-rule-of-web-rule','disable-web-rule-white-list','disable-white-list-rule-of-web-rule','describe-web-rule-black-list-geo-areas','describe-web-rule-white-list-geo-areas',], required=True)),
+            (['--region-id'], dict(help="""(string) 区域 ID, 高防不区分区域, 传 cn-north-1 即可 """, dest='regionId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询网站类转发规则按地域回源配置 geoRsRoute 可设置的区域 ''',
+        description='''
+            查询网站类转发规则按地域回源配置 geoRsRoute 可设置的区域。
+
+            示例: jdc ipanti describe-web-rule-rsgeo-areas 
+        ''',
+    )
+    def describe_web_rule_rsgeo_areas(self):
+        client_factory = ClientFactory('ipanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ipanti.apis.DescribeWebRuleRSGeoAreasRequest import DescribeWebRuleRSGeoAreasRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeWebRuleRSGeoAreasRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-ddo-sattack-logs','describe-ccattack-logs','describe-ccattack-log-details','describe-attack-statistics','describe-attack-type-count','describe-ddo-sgraph','describe-fwd-graph','describe-ccgraph','describe-forward-rules','create-forward-rule','describe-forward-rule','modify-forward-rule','delete-forward-rule','switch-forward-rule-protect','switch-forward-rule-origin','describe-protection-rule-of-forward-rule','modify-protection-rule-of-forward-rule','describe-geo-areas','describe-black-list-rule-of-forward-rule','modify-black-list-rule-of-forward-rule','enable-black-list-rule-of-forward-rule','disable-black-list-rule-of-forward-rule','describe-white-list-rule-of-forward-rule','modify-white-list-rule-of-forward-rule','enable-white-list-rule-of-forward-rule','disable-white-list-rule-of-forward-rule','describe-instances','create-instance','describe-instance','modify-instance-name','modify-epb','describe-alarm-config','modify-alarm-config','describe-name-list','describe-protection-statistics','check-name','describe-vpc-ip-list','describe-cps-ip-list','describe-ip-sets','create-ip-set','describe-ip-set','delete-ip-set','describe-ip-set-usage','describe-web-rules','create-web-rule','describe-web-rule','modify-web-rule','delete-web-rule','bind-cert','switch-web-rule-protect','switch-web-rule-origin','enable-web-rule-cc','disable-web-rule-cc','enable-web-rule-ccobserver-mode','disable-web-rule-ccobserver-mode','describe-ccprotection-rules-of-web-rule','create-ccprotection-rule-of-web-rule','describe-ccprotection-rule-of-web-rule','modify-ccprotection-rule-of-web-rule','delete-ccprotection-rule-of-web-rule','enable-ccprotection-rule-of-web-rule','disable-ccprotection-rule-of-web-rule','describe-ccprotection-config-of-web-rule','modify-ccprotection-config-of-web-rule','describe-ccprotection-default-config-of-web-rule','modify-cert-info','describe-web-rule-black-list-usage','describe-black-list-rules-of-web-rule','create-black-list-rule-of-web-rule','describe-black-list-rule-of-web-rule','modify-black-list-rule-of-web-rule','delete-black-list-rule-of-web-rule','enable-web-rule-black-list','enable-black-list-rule-of-web-rule','disable-web-rule-black-list','disable-black-list-rule-of-web-rule','describe-web-rule-white-list-usage','describe-white-list-rules-of-web-rule','create-white-list-rule-of-web-rule','describe-white-list-rule-of-web-rule','modify-white-list-rule-of-web-rule','delete-white-list-rule-of-web-rule','enable-web-rule-white-list','enable-white-list-rule-of-web-rule','disable-web-rule-white-list','disable-white-list-rule-of-web-rule','describe-web-rule-black-list-geo-areas','describe-web-rule-white-list-geo-areas','describe-web-rule-rsgeo-areas',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

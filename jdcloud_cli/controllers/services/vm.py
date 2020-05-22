@@ -106,6 +106,8 @@ class VmController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--image-source'], dict(help="""(string) 镜像来源，如果没有指定ids参数，此参数必传；取值范围：public、shared、thirdparty、private、community """, dest='imageSource',  required=False)),
+            (['--service-code'], dict(help="""(string) 产品线标识，非必传，不传的时候返回全部产品线镜像 """, dest='serviceCode',  required=False)),
+            (['--offline'], dict(help="""(bool) 是否下线，默认值为false；imageSource为public或者thirdparty时，此参数才有意义，其它情况下此参数无效；指定镜像ID查询时，此参数无效 """, dest='offline',  required=False)),
             (['--platform'], dict(help="""(string) 操作系统平台，取值范围：Windows Server、CentOS、Ubuntu """, dest='platform',  required=False)),
             (['--ids'], dict(help="""(array: string) 镜像ID列表，如果指定了此参数，其它参数可为空 """, dest='ids',  required=False)),
             (['--root-device-type'], dict(help="""(string) 镜像支持的系统盘类型，[localDisk,cloudDisk] """, dest='rootDeviceType',  required=False)),
@@ -568,7 +570,7 @@ class VmController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个; agId - 使用可用组id，支持单个; faultDomain - 错误域，支持多个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个; agId - 使用可用组id，支持单个; faultDomain - 错误域，支持多个; dedicatedHostId - 专有宿主机ID，精确匹配，支持多个; dedicatedPoolId - 专有宿主机池ID，精确匹配，支持多个; instanceType - 实例规格，精确匹配，支持多个; elasticIpAddress - 公网IP地址，精确匹配，支持单个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -608,9 +610,9 @@ class VmController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一台或多台指定配置的云主机，创建模式分为三种：1.普通方式、2.使用高可用组、3.使用启动模板。三种方式创建云主机时参数的必传与非必传是不同的，具体请参考<a href="http://docs.jdcloud.com/virtual-machines/api/create_vm_sample">参数详细说明</a><br>; - 创建云主机需要通过实名认证; - 实例规格;     - 可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeinstancetypes">DescribeInstanceTypes</a>接口获得指定地域或可用区的规格信息。;     - 不能使用已下线、或已售馨的规格ID; - 镜像;     - Windows Server所有镜像CPU不可选超过64核CPU。;     - 可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeimages">DescribeImages</a>接口获得指定地域的镜像信息。;     - 选择的镜像必须支持选择的实例规格。可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeimageconstraints">DescribeImageConstraints</a>接口获得指定镜像的实例规格限制信息。<br>; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-200]Mbps，步进1Mbps;         - 可以指定主网卡的内网主IP(primaryIpAddress)，此时maxCount只能为1;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一台云主机创建时必须至少指定一个安全组，至多指定5个安全组，如果没有指定安全组，默认使用默认安全组;         - 主网卡deviceIndex设置为1; - 存储;     - 系统盘;         - 磁盘分类，系统盘支持local或cloud;         - 磁盘大小;             - local：不能指定大小，默认为40GB;             - cloud：取值范围: 40-500GB，并且不能小于镜像的最小系统盘大小，如果没有指定，默认以镜像中的系统盘大小为准;         - 自动删除;             - 如果是local类型，默认自动删除，不可修改;             - 如果是cloud类型的按配置计费的云硬盘，默认为True，可修改;             - 如果是cloud类型的包年包月的云硬盘，默认为False，不可修改;     - 数据盘;         - 磁盘分类，数据盘仅支持cloud;         - 云硬盘类型可以选择ssd、premium-hdd、hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - premium-hdd：范围[20,3000]GB，步长为10G;             - ssd：范围[20,1000]GB，步长为10G;             - hdd.std1、ssd.gp1、ssd.io1: 范围[20-16000]GB，步长为10GB;         - 自动删除;             - 默认自动删除，如果是包年包月的云硬盘，此参数不生效;         - 可以从快照创建磁盘;     - local类型系统的云主机可以挂载8块云硬盘;     - cloud类型系统的云主机可以挂载7块云硬盘; - 计费;     - 弹性IP的计费模式，如果选择按用量类型可以单独设置，其它计费模式都以主机为准;     - 云硬盘的计费模式以主机为准; - 其他;     - 创建完成后，主机状态为running;     - 仅Linux系统云主机可以指定密钥;     - maxCount为最大努力，不保证一定能达到maxCount;     - 虚机的az会覆盖磁盘的az属性; - 密码;     - <a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>;  ''',
+        help=''' 创建一台或多台指定配置的云主机，创建模式分为三种：1.普通方式、2.使用高可用组、3.使用启动模板。三种方式创建云主机时参数的必传与非必传是不同的，具体请参考<a href="http://docs.jdcloud.com/virtual-machines/api/create_vm_sample">参数详细说明</a><br>; - 创建云主机需要通过实名认证; - 实例规格;     - 可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeinstancetypes">DescribeInstanceTypes</a>接口获得指定地域或可用区的规格信息。;     - 不能使用已下线、或已售馨的规格ID; - 镜像;     - Windows Server所有镜像CPU不可选超过64核CPU。;     - 可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeimages">DescribeImages</a>接口获得指定地域的镜像信息。;     - 选择的镜像必须支持选择的实例规格。可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeimageconstraints">DescribeImageConstraints</a>接口获得指定镜像的实例规格限制信息。<br>; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-200]Mbps，步进1Mbps;         - 可以指定主网卡的内网主IP(primaryIpAddress)，此时maxCount只能为1;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一台云主机创建时必须至少指定一个安全组，至多指定5个安全组，如果没有指定安全组，默认使用默认安全组;         - 主网卡deviceIndex设置为1; - 存储;     - 系统盘;         - 磁盘分类，系统盘支持local或cloud;         - 磁盘大小;             - local：不能指定大小，默认为40GB;             - cloud：取值范围: 40-500GB，并且不能小于镜像的最小系统盘大小，如果没有指定，默认以镜像中的系统盘大小为准;         - 自动删除;             - 如果是local类型，默认自动删除，不可修改;             - 如果是cloud类型的按配置计费的云硬盘，默认为True，可修改;             - 如果是cloud类型的包年包月的云硬盘，默认为False，不可修改;     - 数据盘;         - 磁盘分类，数据盘仅支持cloud;         - 云硬盘类型可以选择ssd、premium-hdd、hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - premium-hdd：范围[20,3000]GB，步长为10G;             - ssd：范围[20,1000]GB，步长为10G;             - hdd.std1、ssd.gp1、ssd.io1: 范围[20-16000]GB，步长为10GB;         - 自动删除;             - 默认自动删除，如果是包年包月的云硬盘，此参数不生效;         - 可以从快照创建磁盘;     - iops;         - 仅当云盘类型为ssd.io1时，可指定iops值，范围为【200， min（32000，size * 50 ）】，步长为10，若不指定则按此公式计算默认值;     - local类型系统的云主机可以挂载8块云硬盘;     - cloud类型系统的云主机可以挂载7块云硬盘; - 计费;     - 弹性IP的计费模式，如果选择按用量类型可以单独设置，其它计费模式都以主机为准;     - 云硬盘的计费模式以主机为准; - 其他;     - 创建完成后，主机状态为running;     - 仅Linux系统云主机可以指定密钥;     - maxCount为最大努力，不保证一定能达到maxCount;     - 虚机的az会覆盖磁盘的az属性; - 密码;     - <a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>;  ''',
         description='''
-            创建一台或多台指定配置的云主机，创建模式分为三种：1.普通方式、2.使用高可用组、3.使用启动模板。三种方式创建云主机时参数的必传与非必传是不同的，具体请参考<a href="http://docs.jdcloud.com/virtual-machines/api/create_vm_sample">参数详细说明</a><br>; - 创建云主机需要通过实名认证; - 实例规格;     - 可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeinstancetypes">DescribeInstanceTypes</a>接口获得指定地域或可用区的规格信息。;     - 不能使用已下线、或已售馨的规格ID; - 镜像;     - Windows Server所有镜像CPU不可选超过64核CPU。;     - 可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeimages">DescribeImages</a>接口获得指定地域的镜像信息。;     - 选择的镜像必须支持选择的实例规格。可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeimageconstraints">DescribeImageConstraints</a>接口获得指定镜像的实例规格限制信息。<br>; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-200]Mbps，步进1Mbps;         - 可以指定主网卡的内网主IP(primaryIpAddress)，此时maxCount只能为1;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一台云主机创建时必须至少指定一个安全组，至多指定5个安全组，如果没有指定安全组，默认使用默认安全组;         - 主网卡deviceIndex设置为1; - 存储;     - 系统盘;         - 磁盘分类，系统盘支持local或cloud;         - 磁盘大小;             - local：不能指定大小，默认为40GB;             - cloud：取值范围: 40-500GB，并且不能小于镜像的最小系统盘大小，如果没有指定，默认以镜像中的系统盘大小为准;         - 自动删除;             - 如果是local类型，默认自动删除，不可修改;             - 如果是cloud类型的按配置计费的云硬盘，默认为True，可修改;             - 如果是cloud类型的包年包月的云硬盘，默认为False，不可修改;     - 数据盘;         - 磁盘分类，数据盘仅支持cloud;         - 云硬盘类型可以选择ssd、premium-hdd、hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - premium-hdd：范围[20,3000]GB，步长为10G;             - ssd：范围[20,1000]GB，步长为10G;             - hdd.std1、ssd.gp1、ssd.io1: 范围[20-16000]GB，步长为10GB;         - 自动删除;             - 默认自动删除，如果是包年包月的云硬盘，此参数不生效;         - 可以从快照创建磁盘;     - local类型系统的云主机可以挂载8块云硬盘;     - cloud类型系统的云主机可以挂载7块云硬盘; - 计费;     - 弹性IP的计费模式，如果选择按用量类型可以单独设置，其它计费模式都以主机为准;     - 云硬盘的计费模式以主机为准; - 其他;     - 创建完成后，主机状态为running;     - 仅Linux系统云主机可以指定密钥;     - maxCount为最大努力，不保证一定能达到maxCount;     - 虚机的az会覆盖磁盘的az属性; - 密码;     - <a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>; 。
+            创建一台或多台指定配置的云主机，创建模式分为三种：1.普通方式、2.使用高可用组、3.使用启动模板。三种方式创建云主机时参数的必传与非必传是不同的，具体请参考<a href="http://docs.jdcloud.com/virtual-machines/api/create_vm_sample">参数详细说明</a><br>; - 创建云主机需要通过实名认证; - 实例规格;     - 可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeinstancetypes">DescribeInstanceTypes</a>接口获得指定地域或可用区的规格信息。;     - 不能使用已下线、或已售馨的规格ID; - 镜像;     - Windows Server所有镜像CPU不可选超过64核CPU。;     - 可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeimages">DescribeImages</a>接口获得指定地域的镜像信息。;     - 选择的镜像必须支持选择的实例规格。可查询<a href="http://docs.jdcloud.com/virtual-machines/api/describeimageconstraints">DescribeImageConstraints</a>接口获得指定镜像的实例规格限制信息。<br>; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-200]Mbps，步进1Mbps;         - 可以指定主网卡的内网主IP(primaryIpAddress)，此时maxCount只能为1;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一台云主机创建时必须至少指定一个安全组，至多指定5个安全组，如果没有指定安全组，默认使用默认安全组;         - 主网卡deviceIndex设置为1; - 存储;     - 系统盘;         - 磁盘分类，系统盘支持local或cloud;         - 磁盘大小;             - local：不能指定大小，默认为40GB;             - cloud：取值范围: 40-500GB，并且不能小于镜像的最小系统盘大小，如果没有指定，默认以镜像中的系统盘大小为准;         - 自动删除;             - 如果是local类型，默认自动删除，不可修改;             - 如果是cloud类型的按配置计费的云硬盘，默认为True，可修改;             - 如果是cloud类型的包年包月的云硬盘，默认为False，不可修改;     - 数据盘;         - 磁盘分类，数据盘仅支持cloud;         - 云硬盘类型可以选择ssd、premium-hdd、hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - premium-hdd：范围[20,3000]GB，步长为10G;             - ssd：范围[20,1000]GB，步长为10G;             - hdd.std1、ssd.gp1、ssd.io1: 范围[20-16000]GB，步长为10GB;         - 自动删除;             - 默认自动删除，如果是包年包月的云硬盘，此参数不生效;         - 可以从快照创建磁盘;     - iops;         - 仅当云盘类型为ssd.io1时，可指定iops值，范围为【200， min（32000，size * 50 ）】，步长为10，若不指定则按此公式计算默认值;     - local类型系统的云主机可以挂载8块云硬盘;     - cloud类型系统的云主机可以挂载7块云硬盘; - 计费;     - 弹性IP的计费模式，如果选择按用量类型可以单独设置，其它计费模式都以主机为准;     - 云硬盘的计费模式以主机为准; - 其他;     - 创建完成后，主机状态为running;     - 仅Linux系统云主机可以指定密钥;     - maxCount为最大努力，不保证一定能达到maxCount;     - 虚机的az会覆盖磁盘的az属性; - 密码;     - <a href="http://docs.jdcloud.com/virtual-machines/api/general_parameters">参考公共参数规范</a>; 。
 
             示例: jdc vm create-instances  --instance-spec '{"":""}'
         ''',
@@ -626,6 +628,42 @@ class VmController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = CreateInstancesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个; agId - 使用可用组id，支持单个; faultDomain - 错误域，支持多个; dedicatedHostId - 专有宿主机ID，精确匹配，支持多个; dedicatedPoolId - 专有宿主机池ID，精确匹配，支持多个; instanceType - 实例规格，精确匹配，支持多个; elasticIpAddress - 公网IP地址，精确匹配，支持单个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 批量查询云主机信息的轻量接口，不返回云盘、网络、计费、标签等信息。如果不需要关联资源属性，尽量选择使用该接口。<br>; 此接口支持分页查询，默认每页20条。;  ''',
+        description='''
+            批量查询云主机信息的轻量接口，不返回云盘、网络、计费、标签等信息。如果不需要关联资源属性，尽量选择使用该接口。<br>; 此接口支持分页查询，默认每页20条。; 。
+
+            示例: jdc vm describe-brief-instances 
+        ''',
+    )
+    def describe_brief_instances(self):
+        client_factory = ClientFactory('vm')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vm.apis.DescribeBriefInstancesRequest import DescribeBriefInstancesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeBriefInstancesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -739,7 +777,7 @@ class VmController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 云主机ID，精确匹配，支持多个; privateIpAddress - 主网卡内网主IP地址，模糊匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 云主机状态，精确匹配，支持多个，<a href="http://docs.jdcloud.com/virtual-machines/api/vm_status">参考云主机状态</a>; name - 云主机名称，模糊匹配，支持单个; imageId - 镜像ID，精确匹配，支持多个; networkInterfaceId - 弹性网卡ID，精确匹配，支持多个; subnetId - 子网ID，精确匹配，支持多个; chargeOnStopped - 停机不计费标志，keepCharging、stopCharging 或者 notApplicable;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -773,6 +811,7 @@ class VmController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--instance-id'], dict(help="""(string) 云主机ID """, dest='instanceId',  required=True)),
+            (['--charge-on-stopped'], dict(help="""(string) 关机模式，只支持云盘做系统盘的按配置计费云主机keepCharging：关机后继续计费；stopCharging：关机后停止计费。 """, dest='chargeOnStopped',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1762,7 +1801,7 @@ class VmController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-image','delete-image','describe-images','describe-image-constraints','describe-image-constraints-batch','share-image','un-share-image','release-image','un-release-image','describe-image-members','copy-images','modify-image-attribute','import-image','export-image','image-tasks','describe-instances','create-instances','describe-instance','delete-instance','describe-instance-status','describe-instance-private-ip-address','stop-instance','start-instance','reboot-instance','attach-network-interface','detach-network-interface','modify-instance-network-attribute','associate-elastic-ip','disassociate-elastic-ip','create-image','attach-disk','detach-disk','modify-instance-disk-attribute','modify-instance-attribute','modify-instance-password','describe-instance-vnc-url','resize-instance','rebuild-instance','describe-instance-templates','create-instance-template','describe-instance-template','update-instance-template','delete-instance-template','verify-instance-template','describe-instance-types','describe-keypairs','create-keypair','import-keypair','delete-keypair','describe-quotas',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-image','delete-image','describe-images','describe-image-constraints','describe-image-constraints-batch','share-image','un-share-image','release-image','un-release-image','describe-image-members','copy-images','modify-image-attribute','import-image','export-image','image-tasks','describe-instances','create-instances','describe-brief-instances','describe-instance','delete-instance','describe-instance-status','describe-instance-private-ip-address','stop-instance','start-instance','reboot-instance','attach-network-interface','detach-network-interface','modify-instance-network-attribute','associate-elastic-ip','disassociate-elastic-ip','create-image','attach-disk','detach-disk','modify-instance-disk-attribute','modify-instance-attribute','modify-instance-password','describe-instance-vnc-url','resize-instance','rebuild-instance','describe-instance-templates','create-instance-template','describe-instance-template','update-instance-template','delete-instance-template','verify-instance-template','describe-instance-types','describe-keypairs','create-keypair','import-keypair','delete-keypair','describe-quotas',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

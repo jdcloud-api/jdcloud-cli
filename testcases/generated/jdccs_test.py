@@ -95,6 +95,15 @@ class JdccsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_traffic_sampling(self):
+        cmd = """python ../../main.py jdccs describe-traffic-sampling  --resource-id 'xxx' --start-time '5' --end-time '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_idcs(self):
         cmd = """python ../../main.py jdccs describe-idcs """
         with os.popen(cmd) as f:

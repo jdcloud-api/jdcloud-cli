@@ -176,6 +176,15 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_brief_instances(self):
+        cmd = """python ../../main.py vm describe-brief-instances """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_instance(self):
         cmd = """python ../../main.py vm describe-instance  --instance-id 'xxx'"""
         with os.popen(cmd) as f:

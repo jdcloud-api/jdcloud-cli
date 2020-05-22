@@ -832,7 +832,6 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--http-method'], dict(help="""(string) HTTP 请求方法，取值范围：GET、POST、PUT、DELETE、HEAD、PATCH，默认值为 PUT """, dest='httpMethod',  required=False)),
             (['--title'], dict(help="""(string) 视频标题 """, dest='title',  required=True)),
             (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
             (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
@@ -842,6 +841,55 @@ class VodController(BaseController):
             (['--tags'], dict(help="""(array: string) 视频标签集合 """, dest='tags',  required=False)),
             (['--transcode-template-ids'], dict(help="""(array: int) 转码模板ID集合 """, dest='transcodeTemplateIds', type=int, required=False)),
             (['--watermark-ids'], dict(help="""(array: int) 水印ID集合 """, dest='watermarkIds', type=int, required=False)),
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
+            (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=True)),
+            (['--record-times'], dict(help="""(array: recordTime) 录制时间段集合; - 支持自定义1-10个时间段,拼接成一个文件; - 每个时间段不小于10s; - 总跨度不超过12小时; - 时间段按升序排列且无重叠;  """, dest='recordTimes',  required=True)),
+            (['--record-file-type'], dict(help="""(string) 录制文件类型:; - 取值: ts, flv, mp4; - 不区分大小写;  """, dest='recordFileType',  required=True)),
+            (['--task-external-id'], dict(help="""(string) 直播录制任务外键 """, dest='taskExternalId',  required=False)),
+            (['--priority'], dict(help="""(string) 任务优先级:; - 取值: low, medium, high; - 不区分大小写;  """, dest='priority',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建直播转点播任务 ''',
+        description='''
+            创建直播转点播任务。
+
+            示例: jdc vod create-live-to-vod-task  --title xxx --file-name xxx --publish-domain xxx --app-name xxx --stream-name xxx --record-times ['{"":""}'] --record-file-type xxx
+        ''',
+    )
+    def create_live_to_vod_task(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.CreateLiveToVodTaskRequest import CreateLiveToVodTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateLiveToVodTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--http-method'], dict(help="""(string) HTTP 请求方法，上传只支持 PUT 方法，默认值为 PUT """, dest='httpMethod',  required=False)),
+            (['--title'], dict(help="""(string) 视频标题 """, dest='title',  required=True)),
+            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
+            (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
+            (['--cover-url'], dict(help="""(string) 封面地址 """, dest='coverUrl',  required=False)),
+            (['--description'], dict(help="""(string) 视频描述 """, dest='description',  required=False)),
+            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=False)),
+            (['--tags'], dict(help="""(array: string) 视频标签集合 """, dest='tags',  required=False)),
+            (['--transcode-template-ids'], dict(help="""(array: int) 转码模板ID集合 """, dest='transcodeTemplateIds', type=int, required=False)),
+            (['--watermark-ids'], dict(help="""(array: int) 水印ID集合 """, dest='watermarkIds', type=int, required=False)),
+            (['--user-data'], dict(help="""(string) 自定义数据 """, dest='userData',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -905,7 +953,7 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--http-method'], dict(help="""(string) HTTP 请求方法，取值范围：GET、POST、PUT、DELETE、HEAD、PATCH，默认值为 PUT """, dest='httpMethod',  required=False)),
+            (['--http-method'], dict(help="""(string) HTTP 请求方法，上传只支持 PUT 方法，默认值为 PUT """, dest='httpMethod',  required=False)),
             (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
             (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1673,6 +1721,39 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
+            (['--video-id'], dict(help="""(string) 视频ID """, dest='videoId',  required=True)),
+            (['--audit-result'], dict(help="""(string) 审核结果，取值范围:;  block(封禁);  unblock(解封);  """, dest='auditResult',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 视频审核; 视频在上传中或者转码中不允许更改视频审核状态，即视频只有在正常或屏蔽状态下才可以调用此接口设置审核状态;  ''',
+        description='''
+            视频审核; 视频在上传中或者转码中不允许更改视频审核状态，即视频只有在正常或屏蔽状态下才可以调用此接口设置审核状态; 。
+
+            示例: jdc vod video-audit  --video-id xxx --audit-result xxx
+        ''',
+    )
+    def video_audit(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.VideoAuditRequest import VideoAuditRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = VideoAuditRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -1851,7 +1932,7 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['list-categories','create-category','get-category-with-children','get-category','update-category','delete-category','list-domains','create-domain','get-domain','delete-domain','enable-domain','disable-domain','set-default-domain','set-header','list-headers','delete-header','set-referer-rule','get-referer-rule','set-urlrule','get-urlrule','set-iprule','get-iprule','set-http-ssl','get-http-ssl','create-video-upload-task','refresh-video-upload-task','create-image-upload-task','submit-quality-detection-job','batch-submit-quality-detection-jobs','list-quality-detection-templates','create-quality-detection-template','get-quality-detection-template','update-quality-detection-template','delete-quality-detection-template','submit-transcode-job','batch-submit-transcode-jobs','list-transcode-templates','create-transcode-template','get-transcode-template','update-transcode-template','delete-transcode-template','list-videos','get-video','update-video','delete-video','batch-delete-videos','batch-update-videos','get-video-play-info','delete-video-streams','list-watermarks','create-watermark','get-watermark','update-watermark','delete-watermark',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['list-categories','create-category','get-category-with-children','get-category','update-category','delete-category','list-domains','create-domain','get-domain','delete-domain','enable-domain','disable-domain','set-default-domain','set-header','list-headers','delete-header','set-referer-rule','get-referer-rule','set-urlrule','get-urlrule','set-iprule','get-iprule','set-http-ssl','get-http-ssl','create-live-to-vod-task','create-video-upload-task','refresh-video-upload-task','create-image-upload-task','submit-quality-detection-job','batch-submit-quality-detection-jobs','list-quality-detection-templates','create-quality-detection-template','get-quality-detection-template','update-quality-detection-template','delete-quality-detection-template','submit-transcode-job','batch-submit-transcode-jobs','list-transcode-templates','create-transcode-template','get-transcode-template','update-transcode-template','delete-transcode-template','list-videos','get-video','update-video','delete-video','batch-delete-videos','batch-update-videos','get-video-play-info','delete-video-streams','video-audit','list-watermarks','create-watermark','get-watermark','update-watermark','delete-watermark',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

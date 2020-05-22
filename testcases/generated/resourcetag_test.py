@@ -21,10 +21,10 @@ import os
 import json
 
 
-class JmrTest(unittest.TestCase):
+class ResourcetagTest(unittest.TestCase):
 
-    def test_describe_cluster(self):
-        cmd = """python ../../main.py jmr describe-cluster  --cluster-id 'xxx'"""
+    def test_describe_resources(self):
+        cmd = """python ../../main.py resourcetag describe-resources  --resource-vo '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class JmrTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_cluster(self):
-        cmd = """python ../../main.py jmr delete-cluster  --cluster-id 'xxx'"""
+    def test_describe_tags(self):
+        cmd = """python ../../main.py resourcetag describe-tags  --tag-keys-vo '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class JmrTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_clusters(self):
-        cmd = """python ../../main.py jmr describe-clusters """
+    def test_tag_resources(self):
+        cmd = """python ../../main.py resourcetag tag-resources  --tag-resources '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,17 @@ class JmrTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_cluster(self):
-        cmd = """python ../../main.py jmr create-cluster  --cluster-spec '{"":""}' --client-token 'xxx'"""
+    def test_un_tag_resources(self):
+        cmd = """python ../../main.py resourcetag un-tag-resources  --un-tag-resources '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_resource(self):
+        cmd = """python ../../main.py resourcetag query-resource  --query-resource '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

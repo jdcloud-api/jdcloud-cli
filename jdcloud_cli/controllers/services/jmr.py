@@ -25,48 +25,43 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class YundingdatapushController(BaseController):
+class JmrController(BaseController):
     class Meta:
-        label = 'yundingdatapush'
-        help = '云鼎2.0数据推送 openApi'
+        label = 'jmr'
+        help = 'JMR API'
         description = '''
-        yundingdatapush cli 子命令，云鼎2.0数据推送 openApi 相关接口。
-        OpenAPI文档地址为：https://docs.jdcloud.com/cn/xxx/api/overview
+        jmr cli 子命令，提供大数据基础服务中JMR操作的相关接口。
+        OpenAPI文档地址为：https://docs.jdcloud.com/cn/jd-mapreduce/api/overview
         '''
         stacked_on = 'base'
         stacked_type = 'nested'
 
     @expose(
         arguments=[
-            (['--appkey'], dict(help="""(string) appkey """, dest='appkey',  required=True)),
-            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 页大小 """, dest='pageSize', type=int, required=False)),
-            (['--yd-rds-instance-id'], dict(help="""(string) 云鼎数据库实例ID """, dest='ydRdsInstanceId',  required=False)),
-            (['--rds-instance-name'], dict(help="""(string) 数据库实例名称 """, dest='rdsInstanceName',  required=False)),
-            (['--vender-id'], dict(help="""(string) 商家ID """, dest='venderId',  required=False)),
-            (['--vender-name'], dict(help="""(string) 商家店铺名称 """, dest='venderName',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群ID """, dest='clusterId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询已经开通的用户 ''',
+        help=''' 查询指定集群的详细信息;  ''',
         description='''
-            查询已经开通的用户。
+            查询指定集群的详细信息; 。
 
-            示例: jdc yundingdatapush describe-datapush-venders  --appkey xxx
+            示例: jdc jmr describe-cluster  --cluster-id xxx
         ''',
     )
-    def describe_datapush_venders(self):
-        client_factory = ClientFactory('yundingdatapush')
+    def describe_cluster(self):
+        client_factory = ClientFactory('jmr')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.yundingdatapush.apis.DescribeDatapushVendersRequest import DescribeDatapushVendersRequest
+            from jdcloud_sdk.services.jmr.apis.DescribeClusterRequest import DescribeClusterRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeDatapushVendersRequest(params_dict, headers)
+            req = DescribeClusterRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -76,29 +71,30 @@ class YundingdatapushController(BaseController):
 
     @expose(
         arguments=[
-            (['--datapush-vender'], dict(help="""(vender) 添加数据推送用户对象;  """, dest='datapushVender',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--cluster-id'], dict(help="""(string) 集群ID """, dest='clusterId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加数据推送用户 ''',
+        help=''' 释放集群;  ''',
         description='''
-            添加数据推送用户。
+            释放集群; 。
 
-            示例: jdc yundingdatapush add-datapush-vender  --datapush-vender '{"":""}'
+            示例: jdc jmr delete-cluster  --cluster-id xxx
         ''',
     )
-    def add_datapush_vender(self):
-        client_factory = ClientFactory('yundingdatapush')
+    def delete_cluster(self):
+        client_factory = ClientFactory('jmr')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.yundingdatapush.apis.AddDatapushVenderRequest import AddDatapushVenderRequest
+            from jdcloud_sdk.services.jmr.apis.DeleteClusterRequest import DeleteClusterRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddDatapushVenderRequest(params_dict, headers)
+            req = DeleteClusterRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -108,31 +104,31 @@ class YundingdatapushController(BaseController):
 
     @expose(
         arguments=[
-            (['--appkey'], dict(help="""(string) appkey """, dest='appkey',  required=True)),
-            (['--yd-rds-instance-id'], dict(help="""(string) 云鼎数据库实例ID """, dest='ydRdsInstanceId',  required=True)),
-            (['--vender-id'], dict(help="""(string) 商家ID """, dest='venderId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为10；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据推送用户 ''',
+        help=''' 查询集群列表 ''',
         description='''
-            删除数据推送用户。
+            查询集群列表。
 
-            示例: jdc yundingdatapush delete-datapush-vender  --appkey xxx --yd-rds-instance-id xxx --vender-id xxx
+            示例: jdc jmr describe-clusters 
         ''',
     )
-    def delete_datapush_vender(self):
-        client_factory = ClientFactory('yundingdatapush')
+    def describe_clusters(self):
+        client_factory = ClientFactory('jmr')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.yundingdatapush.apis.DeleteDatapushVenderRequest import DeleteDatapushVenderRequest
+            from jdcloud_sdk.services.jmr.apis.DescribeClustersRequest import DescribeClustersRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteDatapushVenderRequest(params_dict, headers)
+            req = DescribeClustersRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -142,29 +138,31 @@ class YundingdatapushController(BaseController):
 
     @expose(
         arguments=[
-            (['--appkey'], dict(help="""(string) appkey """, dest='appkey',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--cluster-spec'], dict(help="""(clusterSpec) 描述集群配置 """, dest='clusterSpec',  required=True)),
+            (['--client-token'], dict(help="""(string) 用于保证请求的幂等性。由客户端生成，长度不能超过64个字符。;  """, dest='clientToken',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询已绑定数据推送的数据库实例 ''',
+        help=''' 创建集群 ''',
         description='''
-            查询已绑定数据推送的数据库实例。
+            创建集群。
 
-            示例: jdc yundingdatapush describe-rds-instances  --appkey xxx
+            示例: jdc jmr create-cluster  --cluster-spec '{"":""}' --client-token xxx
         ''',
     )
-    def describe_rds_instances(self):
-        client_factory = ClientFactory('yundingdatapush')
+    def create_cluster(self):
+        client_factory = ClientFactory('jmr')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.yundingdatapush.apis.DescribeRdsInstancesRequest import DescribeRdsInstancesRequest
+            from jdcloud_sdk.services.jmr.apis.CreateClusterRequest import CreateClusterRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeRdsInstancesRequest(params_dict, headers)
+            req = CreateClusterRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -174,39 +172,7 @@ class YundingdatapushController(BaseController):
 
     @expose(
         arguments=[
-            (['--order-sync-spec'], dict(help="""(orderSyncSpec) 历史订单同步对象;  """, dest='orderSyncSpec',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建历史订单同步 ''',
-        description='''
-            创建历史订单同步。
-
-            示例: jdc yundingdatapush create-order-sync  --order-sync-spec '{"":""}'
-        ''',
-    )
-    def create_order_sync(self):
-        client_factory = ClientFactory('yundingdatapush')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.yundingdatapush.apis.CreateOrderSyncRequest import CreateOrderSyncRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateOrderSyncRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-datapush-venders','add-datapush-vender','delete-datapush-vender','describe-rds-instances','create-order-sync',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-cluster','delete-cluster','describe-clusters','create-cluster',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -216,5 +182,5 @@ class YundingdatapushController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('yundingdatapush', self.app.pargs.api)
+        skeleton = Skeleton('jmr', self.app.pargs.api)
         skeleton.show()

@@ -149,6 +149,9 @@
             "maxNode":"",
             "minNode":""
         },
+        "nodeGroupNetwork":{
+            "subnetId":""
+        },
         "regionId":""
     },
     "describe-node-group":{

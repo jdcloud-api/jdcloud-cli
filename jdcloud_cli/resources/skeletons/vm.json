@@ -9,6 +9,8 @@
     },
     "describe-images":{
         "imageSource":"",
+        "serviceCode":"",
+        "offline":"",
         "platform":"",
         "ids":[""],
         "rootDeviceType":"",
@@ -173,10 +175,25 @@
             "noPassword":"",
             "noKeyNames":"",
             "noElasticIp":"",
-            "userTags":[""]
+            "userTags":[""],
+            "chargeOnStopped":""
         },
         "maxCount":"",
         "clientToken":"",
+        "regionId":""
+    },
+    "describe-brief-instances":{
+        "pageNumber":"",
+        "pageSize":"",
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "regionId":""
     },
     "describe-instance":{
@@ -208,6 +225,7 @@
         "regionId":""
     },
     "stop-instance":{
+        "chargeOnStopped":"",
         "regionId":"",
         "instanceId":""
     },
@@ -363,12 +381,15 @@
                 "cloudDiskSpec":{
                     "diskType":"",
                     "diskSizeGB":"",
-                    "snapshotId":""
+                    "snapshotId":"",
+                    "encrypt":"",
+                    "iops":""
                 },
                 "deviceName":"",
                 "noDevice":""
             },
-            "dataDisks":[""]
+            "dataDisks":[""],
+            "chargeOnStopped":""
         },
         "name":"",
         "description":"",

@@ -77,14 +77,15 @@ class DiskController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--disk-spec'], dict(help="""(diskSpec) 创建云硬盘规格 """, dest='diskSpec',  required=True)),
             (['--max-count'], dict(help="""(int) 购买实例数量；取值范围：[1,100] """, dest='maxCount', type=int, required=True)),
+            (['--user-tags'], dict(help="""(array: tag) 用户标签 """, dest='userTags',  required=False)),
             (['--client-token'], dict(help="""(string) 幂等性校验参数 """, dest='clientToken',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' -   创建一块或多块按配置或者按使用时长付费的云硬盘。; -   云硬盘类型包括高效云盘(premium-hdd)、SSD云盘(ssd)、通用型SSD(ssd.gp1)、性能型SSD(ssd.io1)、容量型HDD(hdd.std1)。; -   计费方式默认为按配置付费。; -   创建完成后，云硬盘状态为 available。; -   可选参数快照 ID用于从快照创建新盘。; -   批量创建时，云硬盘的命名为 硬盘名称-数字，例如 myDisk-1，myDisk-2。; -   maxCount为最大努力，不保证一定能达到maxCount。;  ''',
+        help=''' -   创建一块或多块按配置或者按使用时长付费的云硬盘。; -   云硬盘类型包括高效云盘(premium-hdd)、SSD云盘(ssd)、通用型SSD(ssd.gp1)、性能型SSD(ssd.io1)、容量型HDD(hdd.std1)。; -   计费方式默认为按配置付费。; -   创建完成后，云硬盘状态为 available。; -   可选参数快照 ID用于从快照创建新盘。; -   批量创建时，云硬盘的命名为 硬盘名称-数字，例如 myDisk-1，myDisk-2。; -   maxCount为最大努力，不保证一定能达到maxCount。; -   userTags 为创建云盘时打的标签;  ''',
         description='''
-            -   创建一块或多块按配置或者按使用时长付费的云硬盘。; -   云硬盘类型包括高效云盘(premium-hdd)、SSD云盘(ssd)、通用型SSD(ssd.gp1)、性能型SSD(ssd.io1)、容量型HDD(hdd.std1)。; -   计费方式默认为按配置付费。; -   创建完成后，云硬盘状态为 available。; -   可选参数快照 ID用于从快照创建新盘。; -   批量创建时，云硬盘的命名为 硬盘名称-数字，例如 myDisk-1，myDisk-2。; -   maxCount为最大努力，不保证一定能达到maxCount。; 。
+            -   创建一块或多块按配置或者按使用时长付费的云硬盘。; -   云硬盘类型包括高效云盘(premium-hdd)、SSD云盘(ssd)、通用型SSD(ssd.gp1)、性能型SSD(ssd.io1)、容量型HDD(hdd.std1)。; -   计费方式默认为按配置付费。; -   创建完成后，云硬盘状态为 available。; -   可选参数快照 ID用于从快照创建新盘。; -   批量创建时，云硬盘的命名为 硬盘名称-数字，例如 myDisk-1，myDisk-2。; -   maxCount为最大努力，不保证一定能达到maxCount。; -   userTags 为创建云盘时打的标签; 。
 
             示例: jdc disk create-disks  --disk-spec '{"":""}' --max-count 0 --client-token xxx
         ''',
@@ -350,6 +351,39 @@ class DiskController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--snapshot-ids'], dict(help="""(array: string) 快照ID列表 """, dest='snapshotIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' -   删除云硬盘快照:快照状态必须为 available 或 error 状态。; -   快照独立于云硬盘生命周期，删除快照不会对创建快照的云硬盘有任何影响。; -   快照删除后不可恢复，请谨慎操作。;  ''',
+        description='''
+            -   删除云硬盘快照:快照状态必须为 available 或 error 状态。; -   快照独立于云硬盘生命周期，删除快照不会对创建快照的云硬盘有任何影响。; -   快照删除后不可恢复，请谨慎操作。; 。
+
+            示例: jdc disk delete-snapshots 
+        ''',
+    )
+    def delete_snapshots(self):
+        client_factory = ClientFactory('disk')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.disk.apis.DeleteSnapshotsRequest import DeleteSnapshotsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSnapshotsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--snapshot-id'], dict(help="""(string) 快照ID """, dest='snapshotId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -450,7 +484,7 @@ class DiskController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-disks','create-disks','describe-disk','modify-disk-attribute','delete-disk','restore-disk','extend-disk','describe-snapshots','create-snapshot','describe-snapshot','modify-snapshot-attribute','delete-snapshot',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-disks','create-disks','describe-disk','modify-disk-attribute','delete-disk','restore-disk','extend-disk','describe-snapshots','create-snapshot','delete-snapshots','describe-snapshot','modify-snapshot-attribute','delete-snapshot',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

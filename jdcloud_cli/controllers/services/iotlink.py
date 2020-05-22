@@ -30,7 +30,7 @@ class IotlinkController(BaseController):
         label = 'iotlink'
         help = '京东云iotlink接口'
         description = '''
-        iotlink cli 子命令，iotlink相关接口。
+        iotlink cli 子命令，iotlink接口。
         OpenAPI文档地址为：https://docs.jdcloud.com/cn/xxx/api/overview
         '''
         stacked_on = 'base'
@@ -302,7 +302,75 @@ class IotlinkController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['gprs-status','on-off-status','life-status','gprs-realtime-info','open-iot-card','close-iot-card','open-iot-flow','close-iot-flow',], required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--request-type'], dict(help="""(string) 物联网卡查询请求类型 """, dest='requestType',  required=True)),
+            (['--request-param'], dict(help="""(string) 物联网卡查询请求参数json串 """, dest='requestParam',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 物联网卡查询通用操作 ''',
+        description='''
+            物联网卡查询通用操作。
+
+            示例: jdc iotlink search  --request-type xxx --request-param xxx
+        ''',
+    )
+    def search(self):
+        client_factory = ClientFactory('iotlink')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iotlink.apis.SearchRequest import SearchRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SearchRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--request-type'], dict(help="""(string) 物联网卡操作请求类型 """, dest='requestType',  required=True)),
+            (['--request-param'], dict(help="""(string) 物联网卡操作请求参数json串 """, dest='requestParam',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 物联网卡卡操作通用操作 ''',
+        description='''
+            物联网卡卡操作通用操作。
+
+            示例: jdc iotlink operate  --request-type xxx --request-param xxx
+        ''',
+    )
+    def operate(self):
+        client_factory = ClientFactory('iotlink')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iotlink.apis.OperateRequest import OperateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = OperateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['gprs-status','on-off-status','life-status','gprs-realtime-info','open-iot-card','close-iot-card','open-iot-flow','close-iot-flow','search','operate',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -1,4 +1,121 @@
 {
+    "device-query":{
+        "deviceId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "thing-type-list":{
+        "deviceMetaId":"",
+        "deviceMetaName":"",
+        "nodeType":"",
+        "pageNo":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "thing-type-describe":{
+        "deviceMetaId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "discribe-thing-model":{
+        "thingModelId":"",
+        "thingModelVersion":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "device-register":{
+        "deviceInfoVO":{
+            "activateTime":"",
+            "connectAgentDeviceId":"",
+            "createTime":"",
+            "customProfiles":[""],
+            "deviceId":"",
+            "deviceName":"",
+            "deviceTagList":[""],
+            "globalProfiles":{
+                "dataType":"",
+                "editable":"",
+                "mandatory":"",
+                "profileCode":"",
+                "profileDesc":"",
+                "profileName":"",
+                "profileValue":"",
+                "scope":""
+            },
+            "lastConnectTime":"",
+            "lastDisconnectTime":"",
+            "latitude":"",
+            "longitude":"",
+            "macAddress":"",
+            "manufactureId":"",
+            "manufactureName":"",
+            "nodeType":"",
+            "lastReportTime":"",
+            "status":"",
+            "thingModelId":"",
+            "thingModelVersion":"",
+            "thingType":"",
+            "thingTypeCode":"",
+            "thingTypeName":"",
+            "uniqueId":"",
+            "updateTime":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
+    "download-certificate":{
+        "deviceId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "delete-device":{
+        "deviceId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "device-property-set":{
+        "devicePropertyVO":{
+            "cmd":"",
+            "deviceId":"",
+            "thingTypeName":"",
+            "deviceName":"",
+            "version":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
+    "invoke-function":{
+        "deviceFunctionVO":{
+            "deviceId":"",
+            "inParams":"",
+            "functionName":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
+    "event-list":{
+        "eventReportPageBo":{
+            "deviceId":"",
+            "order":"",
+            "orders":"",
+            "pageNo":"",
+            "pageSize":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
+    "function-list":{
+        "functionCallPageBo":{
+            "deviceId":"",
+            "order":"",
+            "orders":"",
+            "pageNo":"",
+            "pageSize":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
     "invoke-thing-topic":{
         "topicShortName":"",
         "topicMessage":"",
@@ -29,6 +146,13 @@
         "regionId":"",
         "identifier":"",
         "productKey":""
+    },
+    "add-device-links":{
+        "parentId":"",
+        "productKey":"",
+        "children":[""],
+        "instanceId":"",
+        "regionId":""
     },
     "query-device-page":{
         "deviceName":"",
@@ -72,6 +196,106 @@
         "instanceId":"",
         "regionId":"",
         "productKey":""
+    },
+    "elevator-operating-status":{
+        "identifier":"",
+        "instanceId":"",
+        "regionId":""
+    },
+    "collector-read-message":{
+        "identifier":"",
+        "protocol":"",
+        "instanceId":"",
+        "regionId":""
+    },
+    "collector-write-message":{
+        "identifier":"",
+        "protocol":"",
+        "data":"",
+        "instanceId":"",
+        "regionId":""
+    },
+    "update-loo-device":{
+        "model":"",
+        "manufacturer":"",
+        "description":"",
+        "status":"",
+        "identifier":"",
+        "deviceName":"",
+        "deviceType":"",
+        "instanceId":"",
+        "regionId":"",
+        "deviceId":""
+    },
+    "add-loo-device":{
+        "userPinParam":"",
+        "deviceName":"",
+        "productKey":"",
+        "model":"",
+        "manufacturer":"",
+        "identifier":"",
+        "description":"",
+        "deviceType":"",
+        "instanceId":"",
+        "regionId":"",
+        "preOrderId":""
+    },
+    "loongray-query-page":{
+        "deviceName":"",
+        "status":"",
+        "productKey":"",
+        "deviceType":"",
+        "nowPage":"",
+        "pageSize":"",
+        "order":"",
+        "direction":"",
+        "parentId":"",
+        "instanceId":"",
+        "regionId":""
+    },
+    "remove-loongray-device":{
+        "deviceName":"",
+        "instanceId":"",
+        "regionId":"",
+        "productKey":""
+    },
+    "describe-product-with-admin":{
+        "regionId":"",
+        "instanceId":"",
+        "productKey":""
+    },
+    "update-product-with-admin":{
+        "productName":"",
+        "productDescription":"",
+        "dynamicRegister":"",
+        "regionId":"",
+        "instanceId":"",
+        "productKey":""
+    },
+    "delete-product-with-admin":{
+        "regionId":"",
+        "instanceId":"",
+        "productKey":""
+    },
+    "list-products-with-admin":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-admin-product":{
+        "productName":"",
+        "productType":"",
+        "productDescription":"",
+        "templateId":"",
+        "internalTags":"",
+        "regionId":"",
+        "instanceId":""
     },
     "list-products":{
         "pageNumber":"",
@@ -134,6 +358,18 @@
         "instanceId":"",
         "productKey":""
     },
+    "describe-product-topics":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":"",
+        "instanceId":"",
+        "productKey":""
+    },
     "create-product-topic":{
         "topicShortName":"",
         "topicOperation":"",
@@ -141,5 +377,11 @@
         "regionId":"",
         "instanceId":"",
         "productKey":""
+    },
+    "describe-product-topic":{
+        "regionId":"",
+        "instanceId":"",
+        "productKey":"",
+        "topicId":""
     },
 }

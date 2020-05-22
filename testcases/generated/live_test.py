@@ -86,6 +86,15 @@ class LiveTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_live_bill_data(self):
+        cmd = """python ../../main.py live describe-live-bill-data """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_live_domain_certificate(self):
         cmd = """python ../../main.py live describe-live-domain-certificate  --play-domain 'xxx'"""
         with os.popen(cmd) as f:
@@ -411,7 +420,7 @@ class LiveTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_add_live_record_task(self):
-        cmd = """python ../../main.py live add-live-record-task  --publish-domain 'xxx' --app-name 'xxx' --stream-name 'xxx' --record-times '[{"":""}]' --record-file-type 'xxx'"""
+        cmd = """python ../../main.py live add-live-record-task  --publish-domain 'xxx' --app-name 'xxx' --stream-name 'xxx' --record-times '[{"":""}]' --save-bucket 'xxx' --save-endpoint 'xxx' --record-file-type 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -429,7 +438,7 @@ class LiveTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_describe_live_statistic_group_by_stream(self):
-        cmd = """python ../../main.py live describe-live-statistic-group-by-stream  --domain-name 'xxx' --app-name 'xxx' --stream-name 'xxx' --start-time 'xxx'"""
+        cmd = """python ../../main.py live describe-live-statistic-group-by-stream  --start-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

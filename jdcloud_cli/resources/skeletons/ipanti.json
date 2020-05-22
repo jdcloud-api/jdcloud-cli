@@ -68,6 +68,7 @@
     "create-forward-rule":{
         "forwardRuleSpec":{
             "protocol":"",
+            "serviceIp":"",
             "port":"",
             "algorithm":"",
             "originType":"",
@@ -87,6 +88,7 @@
     "modify-forward-rule":{
         "forwardRuleSpec":{
             "protocol":"",
+            "serviceIp":"",
             "port":"",
             "algorithm":"",
             "originType":"",
@@ -200,6 +202,9 @@
             "buyType":"",
             "carrier":"",
             "ipType":"",
+            "ipCount":"",
+            "portCount":"",
+            "domainCount":"",
             "bp":"",
             "ep":"",
             "bw":"",
@@ -307,6 +312,7 @@
     },
     "create-web-rule":{
         "webRuleSpec":{
+            "serviceIp":"",
             "domain":"",
             "protocol":{
                 "http":"",
@@ -323,9 +329,7 @@
             "customPortStatus":"",
             "httpOrigin":"",
             "webSocketStatus":"",
-            "httpsCertContent":"",
-            "httpsRsaKey":"",
-            "certId":""
+            "geoRsRoute":[""]
         },
         "regionId":"",
         "instanceId":""
@@ -337,6 +341,7 @@
     },
     "modify-web-rule":{
         "webRuleSpec":{
+            "serviceIp":"",
             "domain":"",
             "protocol":{
                 "http":"",
@@ -353,15 +358,19 @@
             "customPortStatus":"",
             "httpOrigin":"",
             "webSocketStatus":"",
-            "httpsCertContent":"",
-            "httpsRsaKey":"",
-            "certId":""
+            "geoRsRoute":[""]
         },
         "regionId":"",
         "instanceId":"",
         "webRuleId":""
     },
     "delete-web-rule":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "bind-cert":{
+        "certId":"",
         "regionId":"",
         "instanceId":"",
         "webRuleId":""
@@ -643,6 +652,9 @@
         "regionId":""
     },
     "describe-web-rule-white-list-geo-areas":{
+        "regionId":""
+    },
+    "describe-web-rule-rsgeo-areas":{
         "regionId":""
     },
 }
