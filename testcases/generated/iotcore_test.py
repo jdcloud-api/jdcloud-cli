@@ -50,8 +50,8 @@ class IotcoreTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_discribe_thing_model(self):
-        cmd = """python ../../main.py iotcore discribe-thing-model  --instance-id 'xxx' --thing-model-id 'xxx'"""
+    def test_describe_thing_model(self):
+        cmd = """python ../../main.py iotcore describe-thing-model  --instance-id 'xxx' --thing-model-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -222,7 +222,16 @@ class IotcoreTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_collector_read_message(self):
-        cmd = """python ../../main.py iotcore collector-read-message  --instance-id 'xxx'"""
+        cmd = """python ../../main.py iotcore collector-read-message  --instance-id 'xxx' --identifier 'xxx' --protocol 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_read_holding_registers(self):
+        cmd = """python ../../main.py iotcore read-holding-registers  --instance-id 'xxx' --identifier 'xxx' --address-of-first-register '5' --number-of-registers '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -231,7 +240,7 @@ class IotcoreTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_collector_write_message(self):
-        cmd = """python ../../main.py iotcore collector-write-message  --instance-id 'xxx'"""
+        cmd = """python ../../main.py iotcore collector-write-message  --instance-id 'xxx' --identifier 'xxx' --data '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

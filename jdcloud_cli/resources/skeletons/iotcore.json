@@ -18,7 +18,7 @@
         "regionId":"",
         "instanceId":""
     },
-    "discribe-thing-model":{
+    "describe-thing-model":{
         "thingModelId":"",
         "thingModelVersion":"",
         "regionId":"",
@@ -55,7 +55,6 @@
             "status":"",
             "thingModelId":"",
             "thingModelVersion":"",
-            "thingType":"",
             "thingTypeCode":"",
             "thingTypeName":"",
             "uniqueId":"",
@@ -164,6 +163,8 @@
         "order":"",
         "direction":"",
         "parentId":"",
+        "orderId":"",
+        "deviceCollectorType":"",
         "instanceId":"",
         "regionId":""
     },
@@ -205,6 +206,13 @@
     "collector-read-message":{
         "identifier":"",
         "protocol":"",
+        "instanceId":"",
+        "regionId":""
+    },
+    "read-holding-registers":{
+        "identifier":"",
+        "addressOfFirstRegister":"",
+        "numberOfRegisters":"",
         "instanceId":"",
         "regionId":""
     },
@@ -250,6 +258,8 @@
         "order":"",
         "direction":"",
         "parentId":"",
+        "orderId":"",
+        "deviceCollectorType":"",
         "instanceId":"",
         "regionId":""
     },

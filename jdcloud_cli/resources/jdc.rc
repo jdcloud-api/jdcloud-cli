@@ -178,7 +178,7 @@ _jdc_complete()
 
             "iotcore")
                 COMPREPLY=( $(compgen \
-                    -W "-v --version -h --help generate-skeleton device-query thing-type-list thing-type-describe discribe-thing-model device-register download-certificate delete-device device-property-set invoke-function event-list function-list invoke-thing-topic describe-thing-shadow update-thing-shadow invoke-thing-service add-device-links query-device-page update-device add-device query-device-detail remove-device elevator-operating-status collector-read-message collector-write-message update-loo-device add-loo-device loongray-query-page remove-loongray-device describe-product-with-admin update-product-with-admin delete-product-with-admin list-products-with-admin create-admin-product list-products create-product describe-product update-product delete-product list-product-abilities import-thing-model export-thing-model describe-product-topics create-product-topic describe-product-topic " -- $cur) )
+                    -W "-v --version -h --help generate-skeleton device-query thing-type-list thing-type-describe describe-thing-model device-register download-certificate delete-device device-property-set invoke-function event-list function-list invoke-thing-topic describe-thing-shadow update-thing-shadow invoke-thing-service add-device-links query-device-page update-device add-device query-device-detail remove-device elevator-operating-status collector-read-message read-holding-registers collector-write-message update-loo-device add-loo-device loongray-query-page remove-loongray-device describe-product-with-admin update-product-with-admin delete-product-with-admin list-products-with-admin create-admin-product list-products create-product describe-product update-product delete-product list-product-abilities import-thing-model export-thing-model describe-product-topics create-product-topic describe-product-topic " -- $cur) )
                 ;;
 
             "pod")
@@ -3852,7 +3852,7 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --device-meta-id " -- $cur) )
                         ;;
-                    "discribe-thing-model")
+                    "describe-thing-model")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --region-id --instance-id --thing-model-id --thing-model-version " -- $cur) )
                         ;;
@@ -3906,7 +3906,7 @@ _jdc_complete()
                         ;;
                     "query-device-page")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --instance-id --region-id --device-name --status --product-key --device-type --now-page --page-size --order --direction --parent-id " -- $cur) )
+                            -W "-h --help --headers --input-json --instance-id --region-id --device-name --status --product-key --device-type --now-page --page-size --order --direction --parent-id --order-id --device-collector-type " -- $cur) )
                         ;;
                     "update-device")
                         COMPREPLY=( $(compgen \
@@ -3932,6 +3932,10 @@ _jdc_complete()
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --instance-id --region-id --identifier --protocol " -- $cur) )
                         ;;
+                    "read-holding-registers")
+                        COMPREPLY=( $(compgen \
+                            -W "-h --help --headers --input-json --instance-id --region-id --identifier --address-of-first-register --number-of-registers " -- $cur) )
+                        ;;
                     "collector-write-message")
                         COMPREPLY=( $(compgen \
                             -W "-h --help --headers --input-json --instance-id --region-id --identifier --protocol --data " -- $cur) )
@@ -3946,7 +3950,7 @@ _jdc_complete()
                         ;;
                     "loongray-query-page")
                         COMPREPLY=( $(compgen \
-                            -W "-h --help --headers --input-json --instance-id --region-id --device-name --status --product-key --device-type --now-page --page-size --order --direction --parent-id " -- $cur) )
+                            -W "-h --help --headers --input-json --instance-id --region-id --device-name --status --product-key --device-type --now-page --page-size --order --direction --parent-id --order-id --device-collector-type " -- $cur) )
                         ;;
                     "remove-loongray-device")
                         COMPREPLY=( $(compgen \
