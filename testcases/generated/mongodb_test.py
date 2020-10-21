@@ -122,6 +122,42 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_restart_instance(self):
+        cmd = """python ../../main.py mongodb restart-instance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_sharding_instance(self):
+        cmd = """python ../../main.py mongodb create-sharding-instance  --sharding-instance-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_node_spec(self):
+        cmd = """python ../../main.py mongodb modify-node-spec  --instance-id 'xxx' --node-id 'xxx' --node-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_restart_node(self):
+        cmd = """python ../../main.py mongodb restart-node  --instance-id 'xxx' --node-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_backups(self):
         cmd = """python ../../main.py mongodb describe-backups """
         with os.popen(cmd) as f:
@@ -151,6 +187,33 @@ class MongodbTest(unittest.TestCase):
 
     def test_backup_download_url(self):
         cmd = """python ../../main.py mongodb backup-download-url  --backup-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_backup_synchronicities(self):
+        cmd = """python ../../main.py mongodb describe-backup-synchronicities """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_backup_synchronicity(self):
+        cmd = """python ../../main.py mongodb create-backup-synchronicity  --instance-id 'xxx' --src-region 'xxx' --dst-region 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_backup_synchronicities(self):
+        cmd = """python ../../main.py mongodb delete-backup-synchronicities  --service-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

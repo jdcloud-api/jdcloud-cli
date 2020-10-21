@@ -270,6 +270,38 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
+            (['--filters'], dict(help="""(array: filter) 传参字段描述:;   startTime(必填) : 2019-08-21T16:15:10Z;   endTime(必填)   : 2019-08-21T18:10:10Z;   billType(非必填)  :;     enum:;       - 1   (online);       - 2   (offline);   userPin(非必填)   : mt_test;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询直播计费账单用量数据; 允许通过条件过滤查询，支持的过滤字段如下：;   - startTime[eq]  账单开始时间;   - endTime[eq]    账单结束时间;   - billType[eq]   账单计费类型;   - userPin[like]  用户PIN;  ''',
+        description='''
+            查询直播计费账单用量数据; 允许通过条件过滤查询，支持的过滤字段如下：;   - startTime[eq]  账单开始时间;   - endTime[eq]    账单结束时间;   - billType[eq]   账单计费类型;   - userPin[like]  用户PIN; 。
+
+            示例: jdc live describe-live-bill-data 
+        ''',
+    )
+    def describe_live_bill_data(self):
+        client_factory = ClientFactory('live')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.live.apis.DescribeLiveBillDataRequest import DescribeLiveBillDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLiveBillDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--play-domain'], dict(help="""(string) (直播or时移)播放域名; - 仅支持精确匹配;  """, dest='playDomain',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -1465,11 +1497,11 @@ class LiveController(BaseController):
             (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
             (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=True)),
             (['--record-times'], dict(help="""(array: recordTime) 录制时间集合; - 最大支持10段,多段合并成一个文件; - 多段时间跨度最小不能小于10s; - 多段时间跨度最大不能超过8小时;  """, dest='recordTimes',  required=True)),
-            (['--save-bucket'], dict(help="""(string) 存储桶 """, dest='saveBucket',  required=False)),
-            (['--save-endpoint'], dict(help="""(string) 存储地址 """, dest='saveEndpoint',  required=False)),
-            (['--record-file-type'], dict(help="""(string) 录制文件类型:; - 取值: ts,flv,mp4 (多种类型之前用;隔开); - 不区分大小写;  """, dest='recordFileType',  required=True)),
-            (['--save-object'], dict(help="""(string) 录制文件存储路径:; - 默认地址: record/{Date}/{ServerId}/{AppName}/{StreamName}/{StartTime}_{EndTime};  """, dest='saveObject',  required=False)),
-            (['--task-external-id'], dict(help="""(string) 打点录制任务外键;  """, dest='taskExternalId',  required=False)),
+            (['--save-bucket'], dict(help="""(string) 存储桶 """, dest='saveBucket',  required=True)),
+            (['--save-endpoint'], dict(help="""(string) 存储地址 """, dest='saveEndpoint',  required=True)),
+            (['--record-file-type'], dict(help="""(string) 录制文件类型:; - 取值: ts,flv,mp4 (多种类型之间用;隔开); - 不区分大小写;  """, dest='recordFileType',  required=True)),
+            (['--save-object'], dict(help="""(string) 录制文件存储Object:; - 默认: /record/{Date}/{ServerId}/{AppName}/{StreamName}/{StartTime}_{EndTime};  """, dest='saveObject',  required=False)),
+            (['--task-external-id'], dict(help="""(string) 打点录制任务外部id(可传入您的id,在回调时会在该字段返回);  """, dest='taskExternalId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -1478,7 +1510,7 @@ class LiveController(BaseController):
         description='''
             添加打点录制任务; - 您可以调用此接口精确提取已录制的文件中所需要的部分; 。
 
-            示例: jdc live add-live-record-task  --publish-domain xxx --app-name xxx --stream-name xxx --record-times ['{"":""}'] --record-file-type xxx
+            示例: jdc live add-live-record-task  --publish-domain xxx --app-name xxx --stream-name xxx --record-times ['{"":""}'] --save-bucket xxx --save-endpoint xxx --record-file-type xxx
         ''',
     )
     def add_live_record_task(self):
@@ -1533,9 +1565,9 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
-            (['--domain-name'], dict(help="""(string) 播放域名 """, dest='domainName',  required=True)),
-            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
-            (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=True)),
+            (['--domain-name'], dict(help="""(string) 播放域名 """, dest='domainName',  required=False)),
+            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=False)),
+            (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=False)),
             (['--isp-name'], dict(help="""(string) 运营商;  """, dest='ispName',  required=False)),
             (['--location-name'], dict(help="""(string) 查询的区域，如beijing,shanghai。多个用逗号分隔;  """, dest='locationName',  required=False)),
             (['--period'], dict(help="""(string) 查询周期，当前取值范围：“oneMin,fiveMin,halfHour,hour,twoHour,sixHour,day,followTime”，分别表示1min，5min，半小时，1小时，2小时，6小时，1天，跟随时间。默认为空，表示fiveMin。当传入followTime时，表示按Endtime-StartTime的周期，只返回一个点;  """, dest='period',  required=False)),
@@ -1549,7 +1581,7 @@ class LiveController(BaseController):
         description='''
             查询流分组统计数据。
 
-            示例: jdc live describe-live-statistic-group-by-stream  --domain-name xxx --app-name xxx --stream-name xxx --start-time xxx
+            示例: jdc live describe-live-statistic-group-by-stream  --start-time xxx
         ''',
     )
     def describe_live_statistic_group_by_stream(self):
@@ -3376,7 +3408,7 @@ class LiveController(BaseController):
         arguments=[
             (['--page-num'], dict(help="""(int) 页码; - 取值范围 [1, 100000];  """, dest='pageNum', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小; - 取值范围 [10, 100];  """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) 转码模板查询过滤条件:;   - name:   template 录制模板自定义名称;   - value:  如果参数为空，则查询全部;   - 如果为空,则表示查询该用下所有自定义的转码模板;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) 转码模板查询过滤条件:;   - name:   template 转码模板自定义名称;   - value:  如果参数为空，则查询全部;   - 如果为空,则表示查询该用下所有自定义的转码模板;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -3410,7 +3442,7 @@ class LiveController(BaseController):
         arguments=[
             (['--page-num'], dict(help="""(int) 页码; - 取值范围 [1, 100000];  """, dest='pageNum', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小; - 取值范围 [10, 100];  """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) 转码模板查询过滤条件:;   - name:   template 录制模板自定义名称;   - value:  如果参数为空，则查询全部;   - 如果为空,则表示查询该用下所有自定义的转码模板;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) 转码模板查询过滤条件:;   - name:   template 转码模板自定义名称;   - value:  如果参数为空，则查询全部;   - 如果为空,则表示查询该用下所有自定义的转码模板;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
@@ -3946,7 +3978,7 @@ class LiveController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-live-app','add-live-app','stop-live-app','describe-live-play-auth-key','set-live-play-auth-key','describe-live-restart-auth-key','set-live-restart-auth-key','describe-live-domain-certificate','set-live-domain-certificate','describe-live-restart-domain-certificate','set-live-restart-domain-certificate','describe-live-domains','add-live-domain','start-live-domain','stop-live-domain','describe-live-domain-detail','delete-live-domain','add-live-restart-domain','add-custom-live-stream-quality-detection-template','describe-custom-live-stream-quality-detection-templates','add-live-stream-app-quality-detection','add-live-stream-domain-quality-detection','set-live-stream-quality-detection-notify-config','delete-custom-live-stream-quality-detection-template','delete-live-stream-app-quality-detection','delete-live-stream-domain-quality-detection','describe-live-stream-quality-detection-notify-config','delete-live-stream-quality-detection-notify-config','describe-quality-detection-binding','open-live-p2p','close-live-p2p','describe-live-p2p-configs','describe-custom-live-stream-record-templates','add-custom-live-stream-record-template','add-live-stream-app-record','add-live-stream-domain-record','describe-custom-live-stream-record-config','set-live-stream-record-notify-config','delete-custom-live-stream-record-template','delete-live-stream-app-record','delete-live-stream-domain-record','describe-live-stream-record-notify-config','delete-live-stream-record-notify-config','add-live-record-task','describe-record-binding','describe-live-statistic-group-by-stream','describe-live-statistic-group-by-area','describe-live-statistic-group-by-area-isp','describe-publish-stream-info-data','describe-live-stream-history-user-num','describe-live-publish-stream-num','describe-live-stream-player-ranking-data','describe-live-transcode-stream-list','describe-live-transcode-stream-num','describe-live-transcode-stream-player-user-num','describe-live-transcode-stream-bandwidth','describe-domain-online-stream','describe-domains-log','describe-url-ranking','describe-live-transcoding-duration-data','describe-live-file-storage-data','describe-live-stream-bandwidth-data','describe-live-stream-publish-bandwidth-data','describe-live-stream-traffic-data','describe-live-stream-publish-traffic-data','describe-live-snapshot-data','describe-live-porn-data','add-custom-live-stream-snapshot-template','describe-custom-live-stream-snapshot-config','describe-custom-live-stream-snapshot-templates','add-live-stream-app-snapshot','add-live-stream-domain-snapshot','set-live-stream-snapshot-notify-config','delete-custom-live-stream-snapshot-template','delete-live-stream-app-snapshot','delete-live-stream-domain-snapshot','describe-live-stream-snapshot-notify-config','delete-live-stream-snapshot-notify-config','describe-snapshot-binding','forbid-live-stream','resume-live-stream','interrupt-live-stream','describe-live-stream-info','set-live-stream-notify-config','describe-live-stream-notify-config','delete-live-stream-notify-config','describe-live-stream-online-list','describe-live-stream-publish-list','open-live-restart','close-live-restart','describe-live-restart-configs','open-live-timeshift','close-live-timeshift','describe-live-timeshift-configs','add-live-stream-domain-transcode','add-live-stream-app-transcode','add-custom-live-stream-transcode-template','describe-custom-live-stream-transcode-templates','describe-system-live-stream-transcode-templates','describe-live-stream-transcode-config','delete-live-stream-domain-transcode','delete-live-stream-app-transcode','describe-custom-live-stream-transcode-template','delete-custom-live-stream-transcode-template','describe-transcode-binding','add-custom-live-stream-watermark-template','describe-custom-live-stream-watermark-templates','add-live-stream-app-watermark','add-live-stream-domain-watermark','describe-custom-live-stream-watermark-config','delete-custom-live-stream-watermark-template','delete-live-stream-app-watermark','delete-live-stream-domain-watermark','describe-watermark-binding',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-live-app','add-live-app','stop-live-app','describe-live-play-auth-key','set-live-play-auth-key','describe-live-restart-auth-key','set-live-restart-auth-key','describe-live-bill-data','describe-live-domain-certificate','set-live-domain-certificate','describe-live-restart-domain-certificate','set-live-restart-domain-certificate','describe-live-domains','add-live-domain','start-live-domain','stop-live-domain','describe-live-domain-detail','delete-live-domain','add-live-restart-domain','add-custom-live-stream-quality-detection-template','describe-custom-live-stream-quality-detection-templates','add-live-stream-app-quality-detection','add-live-stream-domain-quality-detection','set-live-stream-quality-detection-notify-config','delete-custom-live-stream-quality-detection-template','delete-live-stream-app-quality-detection','delete-live-stream-domain-quality-detection','describe-live-stream-quality-detection-notify-config','delete-live-stream-quality-detection-notify-config','describe-quality-detection-binding','open-live-p2p','close-live-p2p','describe-live-p2p-configs','describe-custom-live-stream-record-templates','add-custom-live-stream-record-template','add-live-stream-app-record','add-live-stream-domain-record','describe-custom-live-stream-record-config','set-live-stream-record-notify-config','delete-custom-live-stream-record-template','delete-live-stream-app-record','delete-live-stream-domain-record','describe-live-stream-record-notify-config','delete-live-stream-record-notify-config','add-live-record-task','describe-record-binding','describe-live-statistic-group-by-stream','describe-live-statistic-group-by-area','describe-live-statistic-group-by-area-isp','describe-publish-stream-info-data','describe-live-stream-history-user-num','describe-live-publish-stream-num','describe-live-stream-player-ranking-data','describe-live-transcode-stream-list','describe-live-transcode-stream-num','describe-live-transcode-stream-player-user-num','describe-live-transcode-stream-bandwidth','describe-domain-online-stream','describe-domains-log','describe-url-ranking','describe-live-transcoding-duration-data','describe-live-file-storage-data','describe-live-stream-bandwidth-data','describe-live-stream-publish-bandwidth-data','describe-live-stream-traffic-data','describe-live-stream-publish-traffic-data','describe-live-snapshot-data','describe-live-porn-data','add-custom-live-stream-snapshot-template','describe-custom-live-stream-snapshot-config','describe-custom-live-stream-snapshot-templates','add-live-stream-app-snapshot','add-live-stream-domain-snapshot','set-live-stream-snapshot-notify-config','delete-custom-live-stream-snapshot-template','delete-live-stream-app-snapshot','delete-live-stream-domain-snapshot','describe-live-stream-snapshot-notify-config','delete-live-stream-snapshot-notify-config','describe-snapshot-binding','forbid-live-stream','resume-live-stream','interrupt-live-stream','describe-live-stream-info','set-live-stream-notify-config','describe-live-stream-notify-config','delete-live-stream-notify-config','describe-live-stream-online-list','describe-live-stream-publish-list','open-live-restart','close-live-restart','describe-live-restart-configs','open-live-timeshift','close-live-timeshift','describe-live-timeshift-configs','add-live-stream-domain-transcode','add-live-stream-app-transcode','add-custom-live-stream-transcode-template','describe-custom-live-stream-transcode-templates','describe-system-live-stream-transcode-templates','describe-live-stream-transcode-config','delete-live-stream-domain-transcode','delete-live-stream-app-transcode','describe-custom-live-stream-transcode-template','delete-custom-live-stream-transcode-template','describe-transcode-binding','add-custom-live-stream-watermark-template','describe-custom-live-stream-watermark-templates','add-live-stream-app-watermark','add-live-stream-domain-watermark','describe-custom-live-stream-watermark-config','delete-custom-live-stream-watermark-template','delete-live-stream-app-watermark','delete-live-stream-domain-watermark','describe-watermark-binding',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -1,4 +1,20 @@
 {
+    "query-domains-log":{
+        "domains":"",
+        "startTime":"",
+        "endTime":"",
+        "interval":"",
+        "logType":""
+    },
+    "query-domain-log":{
+        "startTime":"",
+        "endTime":"",
+        "interval":"",
+        "logType":"",
+        "pageSize":"",
+        "pageNumber":"",
+        "domain":""
+    },
     "query-online-billing-type":{
     },
     "set-online-billing-type":{
@@ -167,6 +183,14 @@
         "jumpType":"",
         "domain":""
     },
+    "query-domain-all-config-classify":{
+        "domain":""
+    },
+    "execute-domain-copy":{
+        "domain":"",
+        "copyDomains":"",
+        "configKeys":""
+    },
     "query-domain-group-list":{
         "shareCache":"",
         "pageNumber":"",
@@ -324,33 +348,6 @@
         "limit":"",
         "domain":""
     },
-    "operate-live-domain-ignore-query-string":{
-        "status":"",
-        "domain":""
-    },
-    "set-push-ip-white-list":{
-        "ipList":"",
-        "domain":""
-    },
-    "set-publish-normal-timeout":{
-        "timeout":"",
-        "domain":""
-    },
-    "set-stream-notify-info":{
-        "notifyUrl":"",
-        "notifyAuthKey":"",
-        "domain":""
-    },
-    "set-forward-authentication":{
-        "accesskeyType":"",
-        "accesskeyKey":"",
-        "domain":""
-    },
-    "set-origin-authentication":{
-        "accesskeyType":"",
-        "accesskeyKey":"",
-        "domain":""
-    },
     "batch-create-live-domain":{
         "playDomain":"",
         "publishDomain":"",
@@ -363,38 +360,7 @@
         "domainSource":[""],
         "accelerateRegion":""
     },
-    "create-live-domain":{
-        "playDomain":"",
-        "publishDomain":"",
-        "sourceType":"",
-        "backHttpType":"",
-        "defaultSourceHost":"",
-        "siteType":"",
-        "backSourceType":"",
-        "playProtocol":"",
-        "forwardCustomVhost":"",
-        "ipSource":[""],
-        "domainSource":[""],
-        "videoType":"",
-        "audioType":""
-    },
-    "bind-publish-domain":{
-        "domain":"",
-        "publishDomain":""
-    },
-    "modify-live-domain-forward-custom-vhost":{
-        "forwardCustomVhost":"",
-        "domain":""
-    },
     "query-live-domain-detail":{
-        "domain":""
-    },
-    "query-live-domain-detail-v2":{
-        "domain":""
-    },
-    "describe-publish-domains":{
-    },
-    "describebinded-domains":{
         "domain":""
     },
     "query-live-domain-apps":{
@@ -606,22 +572,6 @@
         "size":"",
         "topBy":""
     },
-    "query-domains-log":{
-        "domains":"",
-        "startTime":"",
-        "endTime":"",
-        "interval":"",
-        "logType":""
-    },
-    "query-domain-log":{
-        "startTime":"",
-        "endTime":"",
-        "interval":"",
-        "logType":"",
-        "pageSize":"",
-        "pageNumber":"",
-        "domain":""
-    },
     "query-statistics-top-url":{
         "startTime":"",
         "endTime":"",
@@ -629,6 +579,13 @@
         "subDomain":"",
         "size":"",
         "topBy":""
+    },
+    "query-dir-bandwidth":{
+        "startTime":"",
+        "endTime":"",
+        "domain":"",
+        "dirs":"",
+        "regions":""
     },
     "query-waf-switch":{
         "domain":""

@@ -31,6 +31,7 @@
             "key":"",
             "value":""
         }],
+        "ipType":"",
         "regionId":""
     },
     "describe-elastic-ip":{
@@ -313,6 +314,16 @@
         "regionId":"",
         "routeTableId":""
     },
+    "describe-edge-ip-providers":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
     "describe-subnets":{
         "pageNumber":"",
         "pageSize":"",
@@ -329,6 +340,8 @@
         "addressPrefix":"",
         "routeTableId":"",
         "description":"",
+        "subnetType":"",
+        "az":"",
         "regionId":""
     },
     "describe-subnet":{

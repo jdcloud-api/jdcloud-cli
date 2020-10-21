@@ -33,6 +33,10 @@
             "encrypt":""
         },
         "maxCount":"",
+        "userTags":[{
+            "key":"",
+            "value":""
+        }],
         "clientToken":"",
         "regionId":""
     },
@@ -79,6 +83,10 @@
             "diskId":""
         },
         "clientToken":"",
+        "regionId":""
+    },
+    "delete-snapshots":{
+        "snapshotIds":[""],
         "regionId":""
     },
     "describe-snapshot":{

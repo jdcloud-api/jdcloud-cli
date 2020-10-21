@@ -21,32 +21,34 @@ from jdcloud_cli.controllers.base_controller import BaseController
 from jdcloud_cli.controllers.configure_controller import ConfigureController
 from jdcloud_cli.controllers.services.rds import RdsController
 from jdcloud_cli.controllers.services.kubernetes import KubernetesController
+from jdcloud_cli.controllers.services.vqd import VqdController
 from jdcloud_cli.controllers.services.streamcomputer import StreamcomputerController
-from jdcloud_cli.controllers.services.ssl import SslController
 from jdcloud_cli.controllers.services.ipanti import IpantiController
+from jdcloud_cli.controllers.services.ssl import SslController
+from jdcloud_cli.controllers.services.domainservice import DomainserviceController
+from jdcloud_cli.controllers.services.jmr import JmrController
 from jdcloud_cli.controllers.services.oss import OssController
 from jdcloud_cli.controllers.services.redis import RedisController
-from jdcloud_cli.controllers.services.domainservice import DomainserviceController
 from jdcloud_cli.controllers.services.billing import BillingController
 from jdcloud_cli.controllers.services.deploy import DeployController
 from jdcloud_cli.controllers.services.sop import SopController
 from jdcloud_cli.controllers.services.function import FunctionController
 from jdcloud_cli.controllers.services.portal import PortalController
-from jdcloud_cli.controllers.services.logs import LogsController
 from jdcloud_cli.controllers.services.jdccs import JdccsController
+from jdcloud_cli.controllers.services.logs import LogsController
 from jdcloud_cli.controllers.services.clouddnsservice import ClouddnsserviceController
 from jdcloud_cli.controllers.services.cps import CpsController
 from jdcloud_cli.controllers.services.cdn import CdnController
 from jdcloud_cli.controllers.services.streambus import StreambusController
-from jdcloud_cli.controllers.services.httpdns import HttpdnsController
 from jdcloud_cli.controllers.services.apigateway import ApigatewayController
-from jdcloud_cli.controllers.services.mps import MpsController
+from jdcloud_cli.controllers.services.httpdns import HttpdnsController
 from jdcloud_cli.controllers.services.disk import DiskController
+from jdcloud_cli.controllers.services.sts import StsController
 from jdcloud_cli.controllers.services.nc import NcController
 from jdcloud_cli.controllers.services.vm import VmController
 from jdcloud_cli.controllers.services.nativecontainer import NativecontainerController
-from jdcloud_cli.controllers.services.pod import PodController
 from jdcloud_cli.controllers.services.iotcore import IotcoreController
+from jdcloud_cli.controllers.services.pod import PodController
 from jdcloud_cli.controllers.services.ams import AmsController
 from jdcloud_cli.controllers.services.jdro import JdroController
 from jdcloud_cli.controllers.services.zfs import ZfsController
@@ -60,20 +62,22 @@ from jdcloud_cli.controllers.services.iam import IamController
 from jdcloud_cli.controllers.services.iothub import IothubController
 from jdcloud_cli.controllers.services.sms import SmsController
 from jdcloud_cli.controllers.services.jcq import JcqController
+from jdcloud_cli.controllers.services.resourcetag import ResourcetagController
 from jdcloud_cli.controllers.services.baseanti import BaseantiController
 from jdcloud_cli.controllers.services.ias import IasController
 from jdcloud_cli.controllers.services.mongodb import MongodbController
-from jdcloud_cli.controllers.services.live import LiveController
 from jdcloud_cli.controllers.services.jdfusion import JdfusionController
+from jdcloud_cli.controllers.services.live import LiveController
 from jdcloud_cli.controllers.services.detection import DetectionController
-from jdcloud_cli.controllers.services.renewal import RenewalController
 from jdcloud_cli.controllers.services.iotlink import IotlinkController
+from jdcloud_cli.controllers.services.renewal import RenewalController
 from jdcloud_cli.controllers.services.yunding import YundingController
 from jdcloud_cli.controllers.services.vpc import VpcController
 from jdcloud_cli.controllers.services.monitor import MonitorController
 from jdcloud_cli.controllers.services.xdata import XdataController
 from jdcloud_cli.controllers.services.containerregistry import ContainerregistryController
 from jdcloud_cli.controllers.services.partner import PartnerController
+from jdcloud_cli.controllers.services.lb import LbController
 from jdcloud_cli.controllers.services.industrydata import IndustrydataController
 
 
@@ -90,32 +94,34 @@ def main():
         app.handler.register(ConfigureController)
         app.handler.register(RdsController)
         app.handler.register(KubernetesController)
+        app.handler.register(VqdController)
         app.handler.register(StreamcomputerController)
-        app.handler.register(SslController)
         app.handler.register(IpantiController)
+        app.handler.register(SslController)
+        app.handler.register(DomainserviceController)
+        app.handler.register(JmrController)
         app.handler.register(OssController)
         app.handler.register(RedisController)
-        app.handler.register(DomainserviceController)
         app.handler.register(BillingController)
         app.handler.register(DeployController)
         app.handler.register(SopController)
         app.handler.register(FunctionController)
         app.handler.register(PortalController)
-        app.handler.register(LogsController)
         app.handler.register(JdccsController)
+        app.handler.register(LogsController)
         app.handler.register(ClouddnsserviceController)
         app.handler.register(CpsController)
         app.handler.register(CdnController)
         app.handler.register(StreambusController)
-        app.handler.register(HttpdnsController)
         app.handler.register(ApigatewayController)
-        app.handler.register(MpsController)
+        app.handler.register(HttpdnsController)
         app.handler.register(DiskController)
+        app.handler.register(StsController)
         app.handler.register(NcController)
         app.handler.register(VmController)
         app.handler.register(NativecontainerController)
-        app.handler.register(PodController)
         app.handler.register(IotcoreController)
+        app.handler.register(PodController)
         app.handler.register(AmsController)
         app.handler.register(JdroController)
         app.handler.register(ZfsController)
@@ -129,20 +135,22 @@ def main():
         app.handler.register(IothubController)
         app.handler.register(SmsController)
         app.handler.register(JcqController)
+        app.handler.register(ResourcetagController)
         app.handler.register(BaseantiController)
         app.handler.register(IasController)
         app.handler.register(MongodbController)
-        app.handler.register(LiveController)
         app.handler.register(JdfusionController)
+        app.handler.register(LiveController)
         app.handler.register(DetectionController)
-        app.handler.register(RenewalController)
         app.handler.register(IotlinkController)
+        app.handler.register(RenewalController)
         app.handler.register(YundingController)
         app.handler.register(VpcController)
         app.handler.register(MonitorController)
         app.handler.register(XdataController)
         app.handler.register(ContainerregistryController)
         app.handler.register(PartnerController)
+        app.handler.register(LbController)
         app.handler.register(IndustrydataController)
 
         app.run()

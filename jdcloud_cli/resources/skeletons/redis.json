@@ -30,7 +30,8 @@
             },
             "cacheInstanceDescription":"",
             "redisVersion":"",
-            "ipv6On":""
+            "ipv6On":"",
+            "shardNumber":""
         },
         "charge":{
             "chargeMode":"",
@@ -57,6 +58,7 @@
     },
     "modify-cache-instance-class":{
         "cacheInstanceClass":"",
+        "shardNumber":"",
         "regionId":"",
         "cacheInstanceId":""
     },
@@ -76,6 +78,29 @@
         }],
         "regionId":"",
         "cacheInstanceId":""
+    },
+    "describe-analysis-time":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "modify-analysis-time":{
+        "analysisTime":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-cache-analysis-list":{
+        "date":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "create-cache-analysis":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-cache-analysis-result":{
+        "regionId":"",
+        "cacheInstanceId":"",
+        "taskId":""
     },
     "describe-backups":{
         "pageNumber":"",
@@ -116,6 +141,15 @@
         "regionId":"",
         "cacheInstanceId":""
     },
+    "describe-ip-white-list":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "modify-ip-white-list":{
+        "ipWhiteList":[""],
+        "regionId":"",
+        "cacheInstanceId":""
+    },
     "describe-slow-log":{
         "pageNumber":"",
         "pageSize":"",
@@ -130,6 +164,9 @@
         "regionId":""
     },
     "describe-user-quota":{
+        "regionId":""
+    },
+    "describe-spec-config":{
         "regionId":""
     },
 }

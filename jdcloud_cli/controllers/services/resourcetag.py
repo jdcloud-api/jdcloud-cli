@@ -25,12 +25,12 @@ from jdcloud_cli.printer import Printer
 from jdcloud_cli.skeleton import Skeleton
 
 
-class YundingdatapushController(BaseController):
+class ResourcetagController(BaseController):
     class Meta:
-        label = 'yundingdatapush'
-        help = '云鼎2.0数据推送 openApi'
+        label = 'resourcetag'
+        help = 'Resource-Tag API'
         description = '''
-        yundingdatapush cli 子命令，云鼎2.0数据推送 openApi 相关接口。
+        resourcetag cli 子命令，资源标签相关接口。
         OpenAPI文档地址为：https://docs.jdcloud.com/cn/xxx/api/overview
         '''
         stacked_on = 'base'
@@ -38,35 +38,30 @@ class YundingdatapushController(BaseController):
 
     @expose(
         arguments=[
-            (['--appkey'], dict(help="""(string) appkey """, dest='appkey',  required=True)),
-            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 页大小 """, dest='pageSize', type=int, required=False)),
-            (['--yd-rds-instance-id'], dict(help="""(string) 云鼎数据库实例ID """, dest='ydRdsInstanceId',  required=False)),
-            (['--rds-instance-name'], dict(help="""(string) 数据库实例名称 """, dest='rdsInstanceName',  required=False)),
-            (['--vender-id'], dict(help="""(string) 商家ID """, dest='venderId',  required=False)),
-            (['--vender-name'], dict(help="""(string) 商家店铺名称 """, dest='venderName',  required=False)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--resource-vo'], dict(help="""(resourceReqVo) 资源标签参数对象 """, dest='resourceVo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询已经开通的用户 ''',
+        help=''' 获得资源与对应标签列表详情，不含资源名称和可用区。<br/>; 注意查询cdn的资源时url中regionId必须指定为cn-all。<br/>; 该接口目前不支持分页功能。;  ''',
         description='''
-            查询已经开通的用户。
+            获得资源与对应标签列表详情，不含资源名称和可用区。<br/>; 注意查询cdn的资源时url中regionId必须指定为cn-all。<br/>; 该接口目前不支持分页功能。; 。
 
-            示例: jdc yundingdatapush describe-datapush-venders  --appkey xxx
+            示例: jdc resourcetag describe-resources  --resource-vo '{"":""}'
         ''',
     )
-    def describe_datapush_venders(self):
-        client_factory = ClientFactory('yundingdatapush')
+    def describe_resources(self):
+        client_factory = ClientFactory('resourcetag')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.yundingdatapush.apis.DescribeDatapushVendersRequest import DescribeDatapushVendersRequest
+            from jdcloud_sdk.services.resourcetag.apis.DescribeResourcesRequest import DescribeResourcesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeDatapushVendersRequest(params_dict, headers)
+            req = DescribeResourcesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -76,29 +71,30 @@ class YundingdatapushController(BaseController):
 
     @expose(
         arguments=[
-            (['--datapush-vender'], dict(help="""(vender) 添加数据推送用户对象;  """, dest='datapushVender',  required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--tag-keys-vo'], dict(help="""(tagsReqVo) 标签参数 """, dest='tagKeysVo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加数据推送用户 ''',
+        help=''' 获取资源标签。<br/>; 注意查询cdn资源的标签时url中regionId必须指定为cn-all。<br/>; 注意查询不限制地域时url中regionId必须指定为all-region。;  ''',
         description='''
-            添加数据推送用户。
+            获取资源标签。<br/>; 注意查询cdn资源的标签时url中regionId必须指定为cn-all。<br/>; 注意查询不限制地域时url中regionId必须指定为all-region。; 。
 
-            示例: jdc yundingdatapush add-datapush-vender  --datapush-vender '{"":""}'
+            示例: jdc resourcetag describe-tags  --tag-keys-vo '{"":""}'
         ''',
     )
-    def add_datapush_vender(self):
-        client_factory = ClientFactory('yundingdatapush')
+    def describe_tags(self):
+        client_factory = ClientFactory('resourcetag')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.yundingdatapush.apis.AddDatapushVenderRequest import AddDatapushVenderRequest
+            from jdcloud_sdk.services.resourcetag.apis.DescribeTagsRequest import DescribeTagsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddDatapushVenderRequest(params_dict, headers)
+            req = DescribeTagsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -108,31 +104,30 @@ class YundingdatapushController(BaseController):
 
     @expose(
         arguments=[
-            (['--appkey'], dict(help="""(string) appkey """, dest='appkey',  required=True)),
-            (['--yd-rds-instance-id'], dict(help="""(string) 云鼎数据库实例ID """, dest='ydRdsInstanceId',  required=True)),
-            (['--vender-id'], dict(help="""(string) 商家ID """, dest='venderId',  required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--tag-resources'], dict(help="""(tagResourcesReqVo) 绑定标签参数 """, dest='tagResources',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除数据推送用户 ''',
+        help=''' 资源标签绑定。<br/>; 注意cdn资源绑定标签时url中regionId必须指定为cn-all。;  ''',
         description='''
-            删除数据推送用户。
+            资源标签绑定。<br/>; 注意cdn资源绑定标签时url中regionId必须指定为cn-all。; 。
 
-            示例: jdc yundingdatapush delete-datapush-vender  --appkey xxx --yd-rds-instance-id xxx --vender-id xxx
+            示例: jdc resourcetag tag-resources  --tag-resources '{"":""}'
         ''',
     )
-    def delete_datapush_vender(self):
-        client_factory = ClientFactory('yundingdatapush')
+    def tag_resources(self):
+        client_factory = ClientFactory('resourcetag')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.yundingdatapush.apis.DeleteDatapushVenderRequest import DeleteDatapushVenderRequest
+            from jdcloud_sdk.services.resourcetag.apis.TagResourcesRequest import TagResourcesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteDatapushVenderRequest(params_dict, headers)
+            req = TagResourcesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -142,29 +137,30 @@ class YundingdatapushController(BaseController):
 
     @expose(
         arguments=[
-            (['--appkey'], dict(help="""(string) appkey """, dest='appkey',  required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--un-tag-resources'], dict(help="""(unTagResourcesReqVo) 解绑标签参数 """, dest='unTagResources',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询已绑定数据推送的数据库实例 ''',
+        help=''' 资源标签解绑。<br/>; 注意cdn资源解绑标签时url中regionId必须指定为cn-all。;  ''',
         description='''
-            查询已绑定数据推送的数据库实例。
+            资源标签解绑。<br/>; 注意cdn资源解绑标签时url中regionId必须指定为cn-all。; 。
 
-            示例: jdc yundingdatapush describe-rds-instances  --appkey xxx
+            示例: jdc resourcetag un-tag-resources  --un-tag-resources '{"":""}'
         ''',
     )
-    def describe_rds_instances(self):
-        client_factory = ClientFactory('yundingdatapush')
+    def un_tag_resources(self):
+        client_factory = ClientFactory('resourcetag')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.yundingdatapush.apis.DescribeRdsInstancesRequest import DescribeRdsInstancesRequest
+            from jdcloud_sdk.services.resourcetag.apis.UnTagResourcesRequest import UnTagResourcesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeRdsInstancesRequest(params_dict, headers)
+            req = UnTagResourcesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -174,29 +170,30 @@ class YundingdatapushController(BaseController):
 
     @expose(
         arguments=[
-            (['--order-sync-spec'], dict(help="""(orderSyncSpec) 历史订单同步对象;  """, dest='orderSyncSpec',  required=True)),
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--query-resource'], dict(help="""(queryResourceReqVo) 查找资源id的参数对象 """, dest='queryResource',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建历史订单同步 ''',
+        help=''' 根据标签查找资源。 <br/>; 若要查找cdn产品线的资源则url中的regionId必须指定为cn-all。;  ''',
         description='''
-            创建历史订单同步。
+            根据标签查找资源。 <br/>; 若要查找cdn产品线的资源则url中的regionId必须指定为cn-all。; 。
 
-            示例: jdc yundingdatapush create-order-sync  --order-sync-spec '{"":""}'
+            示例: jdc resourcetag query-resource  --query-resource '{"":""}'
         ''',
     )
-    def create_order_sync(self):
-        client_factory = ClientFactory('yundingdatapush')
+    def query_resource(self):
+        client_factory = ClientFactory('resourcetag')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.yundingdatapush.apis.CreateOrderSyncRequest import CreateOrderSyncRequest
+            from jdcloud_sdk.services.resourcetag.apis.QueryResourceRequest import QueryResourceRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateOrderSyncRequest(params_dict, headers)
+            req = QueryResourceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -206,7 +203,7 @@ class YundingdatapushController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-datapush-venders','add-datapush-vender','delete-datapush-vender','describe-rds-instances','create-order-sync',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-resources','describe-tags','tag-resources','un-tag-resources','query-resource',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',
@@ -216,5 +213,5 @@ class YundingdatapushController(BaseController):
             示例: jdc nc generate-skeleton --api describeContainer ''',
     )
     def generate_skeleton(self):
-        skeleton = Skeleton('yundingdatapush', self.app.pargs.api)
+        skeleton = Skeleton('resourcetag', self.app.pargs.api)
         skeleton.show()

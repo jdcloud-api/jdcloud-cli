@@ -41,15 +41,15 @@ class SmsController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--template-id'], dict(help="""(string) 模板Id """, dest='templateId',  required=True)),
             (['--sign-id'], dict(help="""(string) 签名Id """, dest='signId',  required=True)),
-            (['--phone-list'], dict(help="""(array: string) 群发的国内电话号码,群发时一次最多不要超过200个手机号 """, dest='phoneList',  required=False)),
+            (['--phone-list'], dict(help="""(array: string) 群发的国内电话号码,群发时一次最多不要超过100个手机号 """, dest='phoneList',  required=False)),
             (['--params'], dict(help="""(array: string) 短信模板变量对应的数据值,Array格式 """, dest='params',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 指定模板群发短信 ''',
+        help=''' 指定模板群发短信接口。接口调用需要使用京东云统一鉴权的SDK方式接入，以下文档仅是接口出参、入参描述，并不是最终程序实现逻辑的范例，具体接口实现请查看SDK参考：https://docs.jdcloud.com/cn/text-message/java ''',
         description='''
-            指定模板群发短信。
+            指定模板群发短信接口。接口调用需要使用京东云统一鉴权的SDK方式接入，以下文档仅是接口出参、入参描述，并不是最终程序实现逻辑的范例，具体接口实现请查看SDK参考：https://docs.jdcloud.com/cn/text-message/java。
 
             示例: jdc sms batch-send  --template-id xxx --sign-id xxx
         ''',
@@ -81,9 +81,9 @@ class SmsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 短信发送回执接口 ''',
+        help=''' 短信发送回执接口。接口调用需要使用京东云统一鉴权的SDK方式接入，以下文档仅是接口出参、入参描述，并不是最终程序实现逻辑的范例，具体接口实现请查看SDK参考：https://docs.jdcloud.com/cn/text-message/java ''',
         description='''
-            短信发送回执接口。
+            短信发送回执接口。接口调用需要使用京东云统一鉴权的SDK方式接入，以下文档仅是接口出参、入参描述，并不是最终程序实现逻辑的范例，具体接口实现请查看SDK参考：https://docs.jdcloud.com/cn/text-message/java。
 
             示例: jdc sms status-report  --sequence-number xxx
         ''',
@@ -116,9 +116,9 @@ class SmsController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 短信回复接口 ''',
+        help=''' 短信回复接口。 接口调用需要使用京东云统一鉴权的SDK方式接入，以下文档仅是接口出参、入参描述，并不是最终程序实现逻辑的范例，具体接口实现请查看SDK参考：https://docs.jdcloud.com/cn/text-message/java ''',
         description='''
-            短信回复接口。
+            短信回复接口。 接口调用需要使用京东云统一鉴权的SDK方式接入，以下文档仅是接口出参、入参描述，并不是最终程序实现逻辑的范例，具体接口实现请查看SDK参考：https://docs.jdcloud.com/cn/text-message/java。
 
             示例: jdc sms reply  --app-id xxx --data-date xxx
         ''',

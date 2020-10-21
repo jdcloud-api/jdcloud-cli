@@ -176,60 +176,6 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_test_metric_task(self):
-        cmd = """python ../../main.py logs test-metric-task  --logset-uid 'xxx' --logtopic-uid 'xxx' --aggregate 'xxx' --data-field 'xxx' --filter-open 'xxx' --filter-type 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_metric_tasks(self):
-        cmd = """python ../../main.py logs describe-metric-tasks  --logset-uid 'xxx' --logtopic-uid 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_metric_task(self):
-        cmd = """python ../../main.py logs create-metric-task  --logset-uid 'xxx' --logtopic-uid 'xxx' --aggregate 'xxx' --custom-unit 'xxx' --data-field 'xxx' --filter-open 'xxx' --filter-type 'xxx' --interval '5' --metric 'xxx' --name 'xxx' --unit 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_metric_task(self):
-        cmd = """python ../../main.py logs describe-metric-task  --logset-uid 'xxx' --logtopic-uid 'xxx' --logmetrictask-uid 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_metric_task(self):
-        cmd = """python ../../main.py logs update-metric-task  --logset-uid 'xxx' --logtopic-uid 'xxx' --logmetrictask-uid 'xxx' --custom-unit 'xxx' --filter-open 'xxx' --filter-type 'xxx' --name 'xxx' --unit 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_metric_task(self):
-        cmd = """python ../../main.py logs delete-metric-task  --logset-uid 'xxx' --logtopic-uid 'xxx' --logmetrictask-uid 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_put(self):
         cmd = """python ../../main.py logs put  --logtopic-uid 'xxx' --entries '[{"":""}]'"""
         with os.popen(cmd) as f:

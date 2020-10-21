@@ -41,6 +41,15 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_account_privilege(self):
+        cmd = """python ../../main.py rds describe-account-privilege  --instance-id 'xxx' --account-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_delete_account(self):
         cmd = """python ../../main.py rds delete-account  --instance-id 'xxx' --account-name 'xxx'"""
         with os.popen(cmd) as f:
@@ -79,6 +88,15 @@ class RdsTest(unittest.TestCase):
 
     def test_create_super_account(self):
         cmd = """python ../../main.py rds create-super-account  --instance-id 'xxx' --account-name 'xxx' --account-password 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_grant_account_privilege(self):
+        cmd = """python ../../main.py rds grant-account-privilege  --instance-id 'xxx' --account-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -286,6 +304,15 @@ class RdsTest(unittest.TestCase):
 
     def test_alter_table_with_online_ddl(self):
         cmd = """python ../../main.py rds alter-table-with-online-ddl  --instance-id 'xxx' --database 'xxx' --table 'xxx' --command 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_privilege(self):
+        cmd = """python ../../main.py rds describe-privilege  --engine 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -572,6 +599,42 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_modify_instance_az(self):
+        cmd = """python ../../main.py rds modify-instance-az  --instance-id 'xxx' --new-az-id '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ssl(self):
+        cmd = """python ../../main.py rds describe-ssl  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_ssl(self):
+        cmd = """python ../../main.py rds enable-ssl  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_restore_instance_by_time(self):
+        cmd = """python ../../main.py rds restore-instance-by-time  --instance-id 'xxx' --restore-time 'xxx' --restore-schema '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_enable_intercept(self):
         cmd = """python ../../main.py rds enable-intercept  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -772,6 +835,24 @@ class RdsTest(unittest.TestCase):
 
     def test_describe_active_query_performance(self):
         cmd = """python ../../main.py rds describe-active-query-performance  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_error_log(self):
+        cmd = """python ../../main.py rds describe-error-log  --instance-id 'xxx' --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_tables(self):
+        cmd = """python ../../main.py rds describe-tables  --instance-id 'xxx' --db-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -1,4 +1,20 @@
 {
+    "describe-alarms":{
+        "pageNumber":"",
+        "pageSize":"",
+        "resourceType":"",
+        "resourceId":""
+    },
+    "describe-alarm":{
+        "alarmId":""
+    },
+    "describe-alarm-history":{
+        "pageNumber":"",
+        "pageSize":"",
+        "alarmId":"",
+        "startTime":"",
+        "endTime":""
+    },
     "describe-metrics":{
     },
     "describe-metric-data":{
@@ -25,6 +41,11 @@
         "idc":"",
         "bandwidthId":""
     },
+    "describe-traffic-sampling":{
+        "resourceId":"",
+        "startTime":"",
+        "endTime":""
+    },
     "describe-idcs":{
         "pageNumber":"",
         "pageSize":""
@@ -48,5 +69,56 @@
             "values":""
         }],
         "idc":""
+    },
+    "describe-cabinet":{
+        "idc":"",
+        "cabinetId":""
+    },
+    "describe-devices":{
+        "pageNumber":"",
+        "pageSize":"",
+        "cabinetId":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "idc":""
+    },
+    "describe-device":{
+        "idc":"",
+        "deviceId":""
+    },
+    "describe-ips":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "idc":""
+    },
+    "describe-bandwidths":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "idc":""
+    },
+    "describe-bandwidth":{
+        "idc":"",
+        "bandwidthId":""
+    },
+    "describe-tickets":{
+        "pageNumber":"",
+        "pageSize":"",
+        "type":""
+    },
+    "describe-ticket":{
+        "ticketNo":""
     },
 }

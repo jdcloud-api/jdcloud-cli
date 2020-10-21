@@ -59,3 +59,12 @@ class YundingdatapushTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_create_order_sync(self):
+        cmd = """python ../../main.py yundingdatapush create-order-sync  --order-sync-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+

@@ -23,4 +23,11 @@
     "describe-rds-instances":{
         "appkey":""
     },
+    "create-order-sync":{
+        "orderSyncSpec":{
+            "appKey":"",
+            "venderId":"",
+            "days":""
+        }
+    },
 }

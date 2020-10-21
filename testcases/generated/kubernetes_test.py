@@ -132,7 +132,7 @@ class KubernetesTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_node_group(self):
-        cmd = """python ../../main.py kubernetes create-node-group  --name 'xxx' --cluster-id 'xxx' --node-config '{"":""}' --initial-node-count '5' --vpc-id 'xxx' --node-cidr 'xxx'"""
+        cmd = """python ../../main.py kubernetes create-node-group  --name 'xxx' --cluster-id 'xxx' --node-config '{"":""}' --initial-node-count '5' --vpc-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

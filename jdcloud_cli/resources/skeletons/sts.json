@@ -1,0 +1,10 @@
+{
+    "assume-role":{
+        "assumeRoleInfo":{
+            "roleJrn":"",
+            "roleSessionName":"",
+            "policy":"",
+            "durationSeconds":""
+        }
+    },
+}

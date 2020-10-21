@@ -79,6 +79,7 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
+            (['--auto-scaling-policy-id'], dict(help="""(string) 弹性伸缩组Id。注：仅ag\asg产品线内部使用 """, dest='autoScalingPolicyId',  required=False)),
             (['--base-contact'], dict(help="""(array: baseContact) 告警通知联系人 """, dest='baseContact',  required=False)),
             (['--client-token'], dict(help="""(string) 幂等性校验参数,最长36位,若两个请求clientToken相等，则返回第一次创建的规则id，只创建一次规则 """, dest='clientToken',  required=True)),
             (['--dimension'], dict(help="""(string) 资源维度，可用的维度请使用 describeProductsForAlarm接口查询 """, dest='dimension',  required=False)),
@@ -155,6 +156,7 @@ class MonitorController(BaseController):
     @expose(
         arguments=[
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId',  required=True)),
+            (['--auto-scaling-policy-id'], dict(help="""(string) 弹性伸缩组Id。注：仅ag\asg产品线内部使用 """, dest='autoScalingPolicyId',  required=False)),
             (['--base-contact'], dict(help="""(array: baseContact) 告警通知联系人 """, dest='baseContact',  required=False)),
             (['--dimension'], dict(help="""(string) 资源维度，可用的维度请使用 describeProductsForAlarm接口查询 """, dest='dimension',  required=False)),
             (['--enabled'], dict(help="""(int) 是否启用, 1表示启用规则，0表示禁用规则，默认为1 """, dest='enabled', type=int, required=False)),
@@ -370,6 +372,7 @@ class MonitorController(BaseController):
             (['--service-code'], dict(help="""(string) 产品线标识，同一个产品线下可能存在多个product，如(redis下有redis2.8cluster、redis4.0) """, dest='serviceCode',  required=False)),
             (['--product'], dict(help="""(string) 产品标识,默认返回该product下所有dimension的数据。eg:product=redis2.8cluster（redis2.8cluster产品下包含redis2.8-shard与redis2.8-proxy、redis2.8-instance多个维度)。 """, dest='product',  required=False)),
             (['--dimension'], dict(help="""(string) 维度标识、指定该参数时，查询只返回该维度的数据。如redis2.8cluster下存在实例、分片等多个维度 """, dest='dimension',  required=False)),
+            (['--region'], dict(help="""(string) 根据region筛选对应region的资源的报警历史 """, dest='region',  required=False)),
             (['--is-alarming'], dict(help="""(int) 正在报警, 取值为1 """, dest='isAlarming', type=int, required=False)),
             (['--status'], dict(help="""(int) 报警的状态,1为报警恢复、2为报警、4为报警恢复无数据 """, dest='status', type=int, required=False)),
             (['--start-time'], dict(help="""(string) 开始时间 """, dest='startTime',  required=False)),
@@ -408,7 +411,8 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等。<a href="https://docs.jdcloud.com/cn/monitoring/api/describeservices?content=API&SOP=JDCloud">describeServices</a>：查询己接入云监控的产品线列表，当产品线下有多个分组时，查询分组对应的监控项，serviceCode请传对应分组的groupCode字段值 """, dest='serviceCode',  required=True)),
+            (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等。<a href="https://docs.jdcloud.com/cn/monitoring/api/describeservices?content=API&SOP=JDCloud">describeServices</a>：查询己接入云监控的产品线列表 """, dest='serviceCode',  required=True)),
+            (['--dimension'], dict(help="""(string) NA """, dest='dimension',  required=False)),
             (['--type'], dict(help="""(int) metric的类型，取值0(控制台展示)、1(内部使用，控制台不展示)、2(所有).默认取0 """, dest='type', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -460,20 +464,20 @@ class MonitorController(BaseController):
         description='''
             根据不同的聚合方式将metric的数据聚合为一个点。downAggrType：last(最后一个点)、max(最大值)、min(最小值)、avg(平均值)。该接口返回值为上报metric的原始值，没有做单位转换。metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>。
 
-            示例: jdc monitor last-downsample  --metric xxx --service-code xxx --resource-id xxx
+            示例: jdc monitor describe-one-data-point  --metric xxx --service-code xxx --resource-id xxx
         ''',
     )
-    def last_downsample(self):
+    def describe_one_data_point(self):
         client_factory = ClientFactory('monitor')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.monitor.apis.LastDownsampleRequest import LastDownsampleRequest
+            from jdcloud_sdk.services.monitor.apis.DescribeOneDataPointRequest import DescribeOneDataPointRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = LastDownsampleRequest(params_dict, headers)
+            req = DescribeOneDataPointRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -569,10 +573,10 @@ class MonitorController(BaseController):
         description='''
             该接口为自定义监控数据上报的接口，方便您将自己采集的时序数据上报到云监控。不同region域名上报不同region的数据，参考：<a href="https://docs.jdcloud.com/cn/monitoring/reporting-monitoring-data">调用说明</a>可上报原始数据和已聚合的统计数据。支持批量上报方式。单次请求最多包含 50 个数据点；数据大小不超过 256k。。
 
-            示例: jdc monitor put-metric-data 
+            示例: jdc monitor put-custom-metric-data 
         ''',
     )
-    def put_metric_data(self):
+    def put_custom_metric_data(self):
         client_factory = ClientFactory('monitor')
         client = client_factory.get(self.app)
         if client is None:
@@ -592,7 +596,39 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-alarms','create-alarm','describe-alarm','update-alarm','delete-alarms','describe-alarm-contacts','describe-metrics-for-alarm','describe-products-for-alarm','enable-alarms','describe-alarm-history','describe-metrics','last-downsample','describe-metric-data','describe-services','put-metric-data',], required=True)),
+            (['--metric-data-list'], dict(help="""(array: metricDataCm) 数据参数 """, dest='metricDataList',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 该接口为自定义监控数据上报的接口，方便您将自己采集的时序数据上报到云监控。不同region域名上报不同region的数据，参考：<a href="https://docs.jdcloud.com/cn/monitoring/reporting-monitoring-data">调用说明</a>可上报原始数据和已聚合的统计数据。支持批量上报方式。单次请求最多包含 50 个数据点；数据大小不超过 256k。 ''',
+        description='''
+            该接口为自定义监控数据上报的接口，方便您将自己采集的时序数据上报到云监控。不同region域名上报不同region的数据，参考：<a href="https://docs.jdcloud.com/cn/monitoring/reporting-monitoring-data">调用说明</a>可上报原始数据和已聚合的统计数据。支持批量上报方式。单次请求最多包含 50 个数据点；数据大小不超过 256k。。
+
+            示例: jdc monitor put-custom-metric-data 
+        ''',
+    )
+    def put_custom_metric_data(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.PutCustomMetricDataRequest import PutCustomMetricDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = PutCustomMetricDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-alarms','create-alarm','describe-alarm','update-alarm','delete-alarms','describe-alarm-contacts','describe-metrics-for-alarm','describe-products-for-alarm','enable-alarms','describe-alarm-history','describe-metrics','describe-one-data-point','describe-metric-data','describe-services','put-custom-metric-data','put-custom-metric-data',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

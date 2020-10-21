@@ -104,6 +104,15 @@ class DiskTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_delete_snapshots(self):
+        cmd = """python ../../main.py disk delete-snapshots """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_snapshot(self):
         cmd = """python ../../main.py disk describe-snapshot  --snapshot-id 'xxx'"""
         with os.popen(cmd) as f:

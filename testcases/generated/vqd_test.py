@@ -21,10 +21,10 @@ import os
 import json
 
 
-class MonitorTest(unittest.TestCase):
+class VqdTest(unittest.TestCase):
 
-    def test_describe_alarms(self):
-        cmd = """python ../../main.py monitor describe-alarms """
+    def test_set_callback(self):
+        cmd = """python ../../main.py vqd set-callback  --callback-type 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_alarm(self):
-        cmd = """python ../../main.py monitor create-alarm  --client-token 'xxx' --product 'xxx' --resource-option '{"":""}' --rule-name 'xxx' --rule-option '{"":""}'"""
+    def test_query_callback(self):
+        cmd = """python ../../main.py vqd query-callback """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_alarm(self):
-        cmd = """python ../../main.py monitor describe-alarm  --alarm-id 'xxx'"""
+    def test_submit_vqd_task(self):
+        cmd = """python ../../main.py vqd submit-vqd-task  --media '{"":""}' --template-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_alarm(self):
-        cmd = """python ../../main.py monitor update-alarm  --alarm-id 'xxx' --product 'xxx' --resource-option '{"":""}' --rule-name 'xxx' --rule-option '{"":""}'"""
+    def test_batch_submit_vqd_tasks(self):
+        cmd = """python ../../main.py vqd batch-submit-vqd-tasks  --media-list '[{"":""}]' --template-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -59,8 +59,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_alarms(self):
-        cmd = """python ../../main.py monitor delete-alarms  --alarm-id 'xxx'"""
+    def test_list_vqd_tasks(self):
+        cmd = """python ../../main.py vqd list-vqd-tasks """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -68,8 +68,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_alarm_contacts(self):
-        cmd = """python ../../main.py monitor describe-alarm-contacts  --alarm-id 'xxx'"""
+    def test_get_vqd_task(self):
+        cmd = """python ../../main.py vqd get-vqd-task  --task-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -77,8 +77,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_metrics_for_alarm(self):
-        cmd = """python ../../main.py monitor describe-metrics-for-alarm """
+    def test_delete_vqd_task(self):
+        cmd = """python ../../main.py vqd delete-vqd-task  --task-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,8 +86,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_products_for_alarm(self):
-        cmd = """python ../../main.py monitor describe-products-for-alarm """
+    def test_query_vqd_task_result(self):
+        cmd = """python ../../main.py vqd query-vqd-task-result  --task-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -95,8 +95,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_enable_alarms(self):
-        cmd = """python ../../main.py monitor enable-alarms """
+    def test_batch_delete_vqd_tasks(self):
+        cmd = """python ../../main.py vqd batch-delete-vqd-tasks """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -104,8 +104,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_alarm_history(self):
-        cmd = """python ../../main.py monitor describe-alarm-history """
+    def test_list_vqd_templates(self):
+        cmd = """python ../../main.py vqd list-vqd-templates """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -113,8 +113,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_metrics(self):
-        cmd = """python ../../main.py monitor describe-metrics  --service-code 'xxx'"""
+    def test_create_vqd_template(self):
+        cmd = """python ../../main.py vqd create-vqd-template  --template-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -122,8 +122,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_one_data_point(self):
-        cmd = """python ../../main.py monitor describe-one-data-point  --metric 'xxx' --service-code 'xxx' --resource-id 'xxx'"""
+    def test_get_vqd_template(self):
+        cmd = """python ../../main.py vqd get-vqd-template  --template-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -131,8 +131,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_metric_data(self):
-        cmd = """python ../../main.py monitor describe-metric-data  --metric 'xxx' --resource-id 'xxx'"""
+    def test_update_vqd_template(self):
+        cmd = """python ../../main.py vqd update-vqd-template  --template-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -140,26 +140,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_services(self):
-        cmd = """python ../../main.py monitor describe-services """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_put_custom_metric_data(self):
-        cmd = """python ../../main.py monitor put-custom-metric-data """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_put_custom_metric_data(self):
-        cmd = """python ../../main.py monitor put-custom-metric-data """
+    def test_delete_vqd_template(self):
+        cmd = """python ../../main.py vqd delete-vqd-template  --template-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

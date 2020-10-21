@@ -31,7 +31,9 @@
             "password":"",
             "backupId":"",
             "originDBInstanceId":"",
-            "restoreTime":""
+            "restoreTime":"",
+            "instanceStorageType":"",
+            "storageEncrypted":""
         },
         "chargeSpec":{
             "chargeMode":"",
@@ -82,6 +84,54 @@
     "describe-available-zones":{
         "regionId":""
     },
+    "restart-instance":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-sharding-instance":{
+        "shardingInstanceSpec":{
+            "instanceName":"",
+            "engine":"",
+            "engineVersion":"",
+            "mongosNodeType":"",
+            "mongosNodeNumber":"",
+            "configserverNodeType":"",
+            "shardNodeType":"",
+            "shardNodeStorageGB":"",
+            "shardNodeNumber":"",
+            "multiAZ":"",
+            "mongosAzId":"",
+            "shardAzId":"",
+            "vpcId":"",
+            "subnetId":"",
+            "password":"",
+            "originDBInstanceId":"",
+            "restoreTime":"",
+            "instanceStorageType":"",
+            "storageEncrypted":"",
+            "serviceId":""
+        },
+        "chargeSpec":{
+            "chargeMode":"",
+            "chargeUnit":"",
+            "chargeDuration":"",
+            "autoRenew":"",
+            "buyScenario":""
+        },
+        "regionId":""
+    },
+    "modify-node-spec":{
+        "nodeType":"",
+        "nodeStorageGB":"",
+        "regionId":"",
+        "instanceId":"",
+        "nodeId":""
+    },
+    "restart-node":{
+        "regionId":"",
+        "instanceId":"",
+        "nodeId":""
+    },
     "describe-backups":{
         "pageNumber":"",
         "pageSize":"",
@@ -95,6 +145,7 @@
     "create-backup":{
         "instanceId":"",
         "backupName":"",
+        "backupMethod":"",
         "regionId":""
     },
     "delete-backup":{
@@ -104,6 +155,26 @@
     "backup-download-url":{
         "regionId":"",
         "backupId":""
+    },
+    "describe-backup-synchronicities":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-backup-synchronicity":{
+        "instanceId":"",
+        "srcRegion":"",
+        "dstRegion":"",
+        "regionId":""
+    },
+    "delete-backup-synchronicities":{
+        "regionId":"",
+        "serviceId":""
     },
     "describe-security-ips":{
         "regionId":"",

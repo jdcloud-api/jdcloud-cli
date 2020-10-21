@@ -410,6 +410,15 @@ class VpcTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_edge_ip_providers(self):
+        cmd = """python ../../main.py vpc describe-edge-ip-providers """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_subnets(self):
         cmd = """python ../../main.py vpc describe-subnets """
         with os.popen(cmd) as f:
