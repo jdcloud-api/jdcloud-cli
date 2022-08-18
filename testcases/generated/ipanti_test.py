@@ -23,78 +23,6 @@ import json
 
 class IpantiTest(unittest.TestCase):
 
-    def test_describe_ddo_sattack_logs(self):
-        cmd = """python ../../main.py ipanti describe-ddo-sattack-logs  --start-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_ccattack_logs(self):
-        cmd = """python ../../main.py ipanti describe-ccattack-logs  --start-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_ccattack_log_details(self):
-        cmd = """python ../../main.py ipanti describe-ccattack-log-details """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_attack_statistics(self):
-        cmd = """python ../../main.py ipanti describe-attack-statistics  --start-time 'xxx' --type '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_attack_type_count(self):
-        cmd = """python ../../main.py ipanti describe-attack-type-count  --start-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_ddo_sgraph(self):
-        cmd = """python ../../main.py ipanti describe-ddo-sgraph  --start-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_fwd_graph(self):
-        cmd = """python ../../main.py ipanti describe-fwd-graph  --start-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_ccgraph(self):
-        cmd = """python ../../main.py ipanti describe-ccgraph  --start-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_forward_rules(self):
         cmd = """python ../../main.py ipanti describe-forward-rules  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -106,6 +34,15 @@ class IpantiTest(unittest.TestCase):
 
     def test_create_forward_rule(self):
         cmd = """python ../../main.py ipanti create-forward-rule  --instance-id 'xxx' --forward-rule-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_forward_rules(self):
+        cmd = """python ../../main.py ipanti create-forward-rules  --instance-id 'xxx' --forward-rule-spec-list '[{"":""}]'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -257,6 +194,276 @@ class IpantiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_ddo_sgraph(self):
+        cmd = """python ../../main.py ipanti describe-ddo-sgraph  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_fwd_graph(self):
+        cmd = """python ../../main.py ipanti describe-fwd-graph  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_business_graph(self):
+        cmd = """python ../../main.py ipanti describe-business-graph  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ccgraph(self):
+        cmd = """python ../../main.py ipanti describe-ccgraph  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_status_graph(self):
+        cmd = """python ../../main.py ipanti describe-status-graph  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_conn_stat_graph(self):
+        cmd = """python ../../main.py ipanti describe-conn-stat-graph  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ddo_sattack_logs(self):
+        cmd = """python ../../main.py ipanti describe-ddo-sattack-logs  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ddo_sip_attack_logs(self):
+        cmd = """python ../../main.py ipanti describe-ddo-sip-attack-logs  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ccattack_logs(self):
+        cmd = """python ../../main.py ipanti describe-ccattack-logs  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ccattack_log_details(self):
+        cmd = """python ../../main.py ipanti describe-ccattack-log-details """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_attack_statistics(self):
+        cmd = """python ../../main.py ipanti describe-attack-statistics  --start-time 'xxx' --type '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_attack_type_count(self):
+        cmd = """python ../../main.py ipanti describe-attack-type-count  --start-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_dispatch_rules(self):
+        cmd = """python ../../main.py ipanti describe-dispatch-rules  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_dispatch_rule(self):
+        cmd = """python ../../main.py ipanti create-dispatch-rule  --instance-id 'xxx' --create-dispatch-rule-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_dispatch_rules(self):
+        cmd = """python ../../main.py ipanti create-dispatch-rules  --instance-id 'xxx' --dispatch-rule-spec-list '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_dispatch_rule(self):
+        cmd = """python ../../main.py ipanti modify-dispatch-rule  --instance-id 'xxx' --dispatch-rule-id 'xxx' --modify-dispatch-rule-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_dispatch_rule(self):
+        cmd = """python ../../main.py ipanti delete-dispatch-rule  --instance-id 'xxx' --dispatch-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_switch_dispatch_rule_protect(self):
+        cmd = """python ../../main.py ipanti switch-dispatch-rule-protect  --instance-id 'xxx' --dispatch-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_switch_dispatch_rule_origin(self):
+        cmd = """python ../../main.py ipanti switch-dispatch-rule-origin  --instance-id 'xxx' --dispatch-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_acl(self):
+        cmd = """python ../../main.py ipanti describe-instance-acl  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_instance_acl(self):
+        cmd = """python ../../main.py ipanti modify-instance-acl  --instance-id 'xxx' --instance-acl-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_recover_instance_acl(self):
+        cmd = """python ../../main.py ipanti recover-instance-acl  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_custom_pages(self):
+        cmd = """python ../../main.py ipanti describe-custom-pages  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_custom_page(self):
+        cmd = """python ../../main.py ipanti create-custom-page  --instance-id 'xxx' --custom-page-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_custom_page(self):
+        cmd = """python ../../main.py ipanti modify-custom-page  --instance-id 'xxx' --page-id 'xxx' --custom-page-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_custom_page(self):
+        cmd = """python ../../main.py ipanti delete-custom-page  --instance-id 'xxx' --page-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_instance_custom_page(self):
+        cmd = """python ../../main.py ipanti modify-instance-custom-page  --instance-id 'xxx' --page-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_instance_custom_page_default(self):
+        cmd = """python ../../main.py ipanti modify-instance-custom-page-default  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_instance_custom_page(self):
+        cmd = """python ../../main.py ipanti enable-instance-custom-page  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_instance_custom_page(self):
+        cmd = """python ../../main.py ipanti disable-instance-custom-page  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_instances(self):
         cmd = """python ../../main.py ipanti describe-instances """
         with os.popen(cmd) as f:
@@ -320,6 +527,33 @@ class IpantiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_origin_white_ip_list(self):
+        cmd = """python ../../main.py ipanti describe-origin-white-ip-list  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_service_ip_list(self):
+        cmd = """python ../../main.py ipanti describe-service-ip-list  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_id_by_resource_id(self):
+        cmd = """python ../../main.py ipanti describe-instance-id-by-resource-id  --resource-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_name_list(self):
         cmd = """python ../../main.py ipanti describe-name-list """
         with os.popen(cmd) as f:
@@ -331,6 +565,15 @@ class IpantiTest(unittest.TestCase):
 
     def test_describe_protection_statistics(self):
         cmd = """python ../../main.py ipanti describe-protection-statistics """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_protection_outline(self):
+        cmd = """python ../../main.py ipanti describe-protection-outline """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -358,6 +601,15 @@ class IpantiTest(unittest.TestCase):
 
     def test_describe_cps_ip_list(self):
         cmd = """python ../../main.py ipanti describe-cps-ip-list """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ccs_ip_list(self):
+        cmd = """python ../../main.py ipanti describe-ccs-ip-list """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -421,6 +673,15 @@ class IpantiTest(unittest.TestCase):
 
     def test_create_web_rule(self):
         cmd = """python ../../main.py ipanti create-web-rule  --instance-id 'xxx' --web-rule-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_web_rules(self):
+        cmd = """python ../../main.py ipanti create-web-rules  --instance-id 'xxx' --web-rule-spec-list '[{"":""}]'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -518,6 +779,87 @@ class IpantiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_js_pages_of_web_rule(self):
+        cmd = """python ../../main.py ipanti describe-js-pages-of-web-rule  --instance-id 'xxx' --web-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_js_page_of_web_rule(self):
+        cmd = """python ../../main.py ipanti create-js-page-of-web-rule  --instance-id 'xxx' --web-rule-id 'xxx' --js-page-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_js_pages_of_web_rule(self):
+        cmd = """python ../../main.py ipanti create-js-pages-of-web-rule  --instance-id 'xxx' --web-rule-id 'xxx' --js-pages-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_js_page_of_web_rule(self):
+        cmd = """python ../../main.py ipanti modify-js-page-of-web-rule  --instance-id 'xxx' --web-rule-id 'xxx' --js-page-id 'xxx' --js-page-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_js_page_of_web_rule(self):
+        cmd = """python ../../main.py ipanti delete-js-page-of-web-rule  --instance-id 'xxx' --web-rule-id 'xxx' --js-page-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_web_rule_js_page(self):
+        cmd = """python ../../main.py ipanti disable-web-rule-js-page  --instance-id 'xxx' --web-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_web_rule_js_page(self):
+        cmd = """python ../../main.py ipanti enable-web-rule-js-page  --instance-id 'xxx' --web-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_web_rule_js_page_to_all(self):
+        cmd = """python ../../main.py ipanti modify-web-rule-js-page-to-all  --instance-id 'xxx' --web-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_web_rule_js_page_to_custom(self):
+        cmd = """python ../../main.py ipanti modify-web-rule-js-page-to-custom  --instance-id 'xxx' --web-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_ccprotection_rules_of_web_rule(self):
         cmd = """python ../../main.py ipanti describe-ccprotection-rules-of-web-rule  --instance-id 'xxx' --web-rule-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -574,6 +916,24 @@ class IpantiTest(unittest.TestCase):
 
     def test_disable_ccprotection_rule_of_web_rule(self):
         cmd = """python ../../main.py ipanti disable-ccprotection-rule-of-web-rule  --instance-id 'xxx' --web-rule-id 'xxx' --cc-protection-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_web_rule_ccprotection_rule(self):
+        cmd = """python ../../main.py ipanti enable-web-rule-ccprotection-rule  --instance-id 'xxx' --web-rule-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_web_rule_ccprotection_rule(self):
+        cmd = """python ../../main.py ipanti disable-web-rule-ccprotection-rule  --instance-id 'xxx' --web-rule-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -23,6 +23,51 @@ import json
 
 class NativecontainerTest(unittest.TestCase):
 
+    def test_describe_secrets(self):
+        cmd = """python ../../main.py nativecontainer describe-secrets """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_secret(self):
+        cmd = """python ../../main.py nativecontainer create-secret  --name 'xxx' --secret-type 'xxx' --data '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_secret(self):
+        cmd = """python ../../main.py nativecontainer describe-secret  --name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_secret(self):
+        cmd = """python ../../main.py nativecontainer delete-secret  --name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_quota(self):
+        cmd = """python ../../main.py nativecontainer describe-quota  --resource-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_containers(self):
         cmd = """python ../../main.py nativecontainer describe-containers """
         with os.popen(cmd) as f:
@@ -160,51 +205,6 @@ class NativecontainerTest(unittest.TestCase):
 
     def test_describe_instance_types(self):
         cmd = """python ../../main.py nativecontainer describe-instance-types """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_quota(self):
-        cmd = """python ../../main.py nativecontainer describe-quota  --resource-type 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_secrets(self):
-        cmd = """python ../../main.py nativecontainer describe-secrets """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_secret(self):
-        cmd = """python ../../main.py nativecontainer create-secret  --name 'xxx' --secret-type 'xxx' --data '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_secret(self):
-        cmd = """python ../../main.py nativecontainer describe-secret  --name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_secret(self):
-        cmd = """python ../../main.py nativecontainer delete-secret  --name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

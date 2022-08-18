@@ -41,24 +41,6 @@ class DeployTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_deploy(self):
-        cmd = """python ../../main.py deploy create-deploy  --group-id 'xxx' --deploy-source '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_deploy(self):
-        cmd = """python ../../main.py deploy describe-deploy  --deploy-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_groups(self):
         cmd = """python ../../main.py deploy describe-groups """
         with os.popen(cmd) as f:
@@ -70,6 +52,24 @@ class DeployTest(unittest.TestCase):
 
     def test_describe_group(self):
         cmd = """python ../../main.py deploy describe-group  --group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_deploy(self):
+        cmd = """python ../../main.py deploy create-deploy  --group-id 'xxx' --deploy-source '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_deploy(self):
+        cmd = """python ../../main.py deploy describe-deploy  --deploy-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

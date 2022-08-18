@@ -39,12 +39,548 @@ class CpsController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--ipv6address-id'], dict(help="""(string) IPv6地址ID """, dest='ipv6AddressId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询IPv6地址例详情 ''',
+        description='''
+            查询IPv6地址例详情。
+
+            示例: jdc cps describe-ipv6address  --ipv6address-id xxx
+        ''',
+    )
+    def describe_ipv6address(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeIpv6AddressRequest import DescribeIpv6AddressRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeIpv6AddressRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
+            (['--ipv6gateway-id'], dict(help="""(string) IPv6网关ID """, dest='ipv6GatewayId',  required=False)),
+            (['--ipv6address'], dict(help="""(string) IPv6地址 """, dest='ipv6Address',  required=False)),
+            (['--enable-internet'], dict(help="""(bool) 是否已开通公网 """, dest='enableInternet', type=bool, required=False)),
+            (['--filters'], dict(help="""(array: filter) ipv6AddressId - IPv6地址ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询IPv6地址列表<br/>; 支持分页查询，默认每页20条<br/>;  ''',
+        description='''
+            查询IPv6地址列表<br/>; 支持分页查询，默认每页20条<br/>; 。
+
+            示例: jdc cps describe-ipv6addresses 
+        ''',
+    )
+    def describe_ipv6addresses(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeIpv6AddressesRequest import DescribeIpv6AddressesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeIpv6AddressesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--ipv6address-spec'], dict(help="""(ipv6AddressSpec) IPv6地址配置 """, dest='ipv6AddressSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 申请IPv6地址带宽;  ''',
+        description='''
+            申请IPv6地址带宽; 。
+
+            示例: jdc cps assign-ipv6addresses-bandwidth  --ipv6address-spec '{"":""}'
+        ''',
+    )
+    def assign_ipv6addresses_bandwidth(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.AssignIpv6AddressesBandwidthRequest import AssignIpv6AddressesBandwidthRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AssignIpv6AddressesBandwidthRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--ipv6address-id'], dict(help="""(string) IPv6地址ID """, dest='ipv6AddressId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--bandwidth'], dict(help="""(int) 带宽，单位Mbps，取值范围[1,200] """, dest='bandwidth', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改IPv6公网带宽;  ''',
+        description='''
+            修改IPv6公网带宽; 。
+
+            示例: jdc cps modify-ipv6address-bandwidth  --ipv6address-id xxx --bandwidth 5
+        ''',
+    )
+    def modify_ipv6address_bandwidth(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.ModifyIpv6AddressBandwidthRequest import ModifyIpv6AddressBandwidthRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyIpv6AddressBandwidthRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
+            (['--name'], dict(help="""(string) 证书名称 """, dest='name',  required=False)),
+            (['--filters'], dict(help="""(array: filter) certId - 证书ID，精确匹配，支持多个<br/>;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询证书列表<br/>; 支持分页查询，默认每页20条<br/>;  ''',
+        description='''
+            查询证书列表<br/>; 支持分页查询，默认每页20条<br/>; 。
+
+            示例: jdc cps describe-certs 
+        ''',
+    )
+    def describe_certs(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeCertsRequest import DescribeCertsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeCertsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--cert-spec'], dict(help="""(certSpec) 弹性公网IP配置 """, dest='certSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建证书;  ''',
+        description='''
+            创建证书; 。
+
+            示例: jdc cps create-cert  --cert-spec '{"":""}'
+        ''',
+    )
+    def create_cert(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.CreateCertRequest import CreateCertRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateCertRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--cert-id'], dict(help="""(string) 证书ID """, dest='certId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询证书详情 ''',
+        description='''
+            查询证书详情。
+
+            示例: jdc cps describe-cert  --cert-id xxx
+        ''',
+    )
+    def describe_cert(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeCertRequest import DescribeCertRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeCertRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--cert-id'], dict(help="""(string) 证书ID """, dest='certId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除证书 ''',
+        description='''
+            删除证书。
+
+            示例: jdc cps remove-cert  --cert-id xxx
+        ''',
+    )
+    def remove_cert(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.RemoveCertRequest import RemoveCertRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RemoveCertRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--cert-id'], dict(help="""(string) 证书ID """, dest='certId',  required=True)),
+            (['--name'], dict(help="""(string) 证书名称 """, dest='name',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改证书名称 ''',
+        description='''
+            修改证书名称。
+
+            示例: jdc cps modify-cert  --cert-id xxx
+        ''',
+    )
+    def modify_cert(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.ModifyCertRequest import ModifyCertRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyCertRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
+            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例ID """, dest='instanceId',  required=False)),
+            (['--cidr'], dict(help="""(string) CIDR段，模糊搜索 """, dest='cidr',  required=False)),
+            (['--filters'], dict(help="""(array: filter) aliasIpId - 别名IP id<br/>;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询别名IP列表 ''',
+        description='''
+            查询别名IP列表。
+
+            示例: jdc cps describe-alias-ips 
+        ''',
+    )
+    def describe_alias_ips(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeAliasIpsRequest import DescribeAliasIpsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAliasIpsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--alias-ip-spec'], dict(help="""(aliasIpSpec) 别名IP配置 """, dest='aliasIpSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加别名IP ''',
+        description='''
+            添加别名IP。
+
+            示例: jdc cps create-alias-ip  --alias-ip-spec '{"":""}'
+        ''',
+    )
+    def create_alias_ip(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.CreateAliasIpRequest import CreateAliasIpRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateAliasIpRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--alias-ip-id'], dict(help="""(string) 别名IP ID """, dest='aliasIpId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除别名IP ''',
+        description='''
+            删除别名IP。
+
+            示例: jdc cps delete-alias-ip  --alias-ip-id xxx
+        ''',
+    )
+    def delete_alias_ip(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DeleteAliasIpRequest import DeleteAliasIpRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteAliasIpRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询次要CIDR列表 ''',
+        description='''
+            查询次要CIDR列表。
+
+            示例: jdc cps describe-secondary-cidrs  --subnet-id xxx
+        ''',
+    )
+    def describe_secondary_cidrs(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeSecondaryCidrsRequest import DescribeSecondaryCidrsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSecondaryCidrsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--secondary-cidr-spec'], dict(help="""(secondaryCidrSpec) 次要cidr配置 """, dest='secondaryCidrSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加次要CIDR ''',
+        description='''
+            添加次要CIDR。
+
+            示例: jdc cps create-secondary-cidr  --secondary-cidr-spec '{"":""}'
+        ''',
+    )
+    def create_secondary_cidr(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.CreateSecondaryCidrRequest import CreateSecondaryCidrRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateSecondaryCidrRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--secondary-cidr-id'], dict(help="""(string) 次要CIDR ID """, dest='secondaryCidrId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除次要CIDR ''',
+        description='''
+            删除次要CIDR。
+
+            示例: jdc cps delete-secondary-cidr  --secondary-cidr-id xxx
+        ''',
+    )
+    def delete_secondary_cidr(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DeleteSecondaryCidrRequest import DeleteSecondaryCidrRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSecondaryCidrRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
             (['--status'], dict(help="""(string) 弹性公网IP状态，取值范围：associate、disassociate """, dest='status',  required=False)),
             (['--include-lb'], dict(help="""(string) 是否包含负载均衡 """, dest='includeLB',  required=False)),
+            (['--charge-mode'], dict(help="""(string) 支付模式，取值为：prepaid_by_duration表示预付费，postpaid_by_duration表示按配置后付费 """, dest='chargeMode',  required=False)),
+            (['--instance-id'], dict(help="""(string) 实例Id """, dest='instanceId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 子网Id """, dest='subnetId',  required=False)),
             (['--filters'], dict(help="""(array: filter) elasticIpId - 弹性公网IPID，精确匹配，支持多个<br/>; elasticIp - 弹性公网IP，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -79,6 +615,7 @@ class CpsController(BaseController):
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--elastic-ip-spec'], dict(help="""(elasticIpSpec) 弹性公网IP配置 """, dest='elasticIpSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -112,6 +649,7 @@ class CpsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--elastic-ip-id'], dict(help="""(string) 弹性公网IPID """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -147,6 +685,7 @@ class CpsController(BaseController):
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--bandwidth'], dict(help="""(int) 带宽，单位Mbps，取值范围[1,200] """, dest='bandwidth', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -154,7 +693,7 @@ class CpsController(BaseController):
         description='''
             修改弹性公网IP带宽; 。
 
-            示例: jdc cps modify-elastic-ip-bandwidth  --elastic-ip-id xxx --bandwidth 0
+            示例: jdc cps modify-elastic-ip-bandwidth  --elastic-ip-id xxx --bandwidth 5
         ''',
     )
     def modify_elastic_ip_bandwidth(self):
@@ -178,548 +717,30 @@ class CpsController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--az'], dict(help="""(string) 可用区，精确匹配 """, dest='az',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询云物理服务器实例类型 ''',
-        description='''
-            查询云物理服务器实例类型。
-
-            示例: jdc cps describe-device-types 
-        ''',
-    )
-    def describe_device_types(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeDeviceTypesRequest import DescribeDeviceTypesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeDeviceTypesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--device-type'], dict(help="""(string) 实例类型，可调用接口（describeDeviceTypes）获取指定地域的实例类型，例如：cps.c.normal """, dest='deviceType',  required=True)),
-            (['--os-type'], dict(help="""(string) 操作系统类型，取值范围：CentOS、Ubuntu """, dest='osType',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询云物理服务器支持的操作系统 ''',
-        description='''
-            查询云物理服务器支持的操作系统。
-
-            示例: jdc cps describe-os  --device-type xxx
-        ''',
-    )
-    def describe_os(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeOSRequest import DescribeOSRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeOSRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--device-type'], dict(help="""(string) 实例类型，可调用（describeDeviceTypes）接口获取指定地域的实例类型，例如：cps.c.normal """, dest='deviceType',  required=True)),
-            (['--volume-type'], dict(help="""(string) 磁盘类型，取值范围：system、data """, dest='volumeType',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询某种实例类型的云物理服务器支持的RAID类型，可查询系统盘RAID类型和数据盘RAID类型 ''',
-        description='''
-            查询某种实例类型的云物理服务器支持的RAID类型，可查询系统盘RAID类型和数据盘RAID类型。
-
-            示例: jdc cps describe-device-raids  --device-type xxx
-        ''',
-    )
-    def describe_device_raids(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeDeviceRaidsRequest import DescribeDeviceRaidsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeDeviceRaidsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询单台云物理服务器详细信息 ''',
-        description='''
-            查询单台云物理服务器详细信息。
-
-            示例: jdc cps describe-instance  --instance-id xxx
-        ''',
-    )
-    def describe_instance(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeInstanceRequest import DescribeInstanceRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeInstanceRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
-            (['--az'], dict(help="""(string) 可用区，精确匹配 """, dest='az',  required=False)),
-            (['--name'], dict(help="""(string) 云物理服务器名称，支持模糊匹配 """, dest='name',  required=False)),
-            (['--network-type'], dict(help="""(string) 网络类型，精确匹配，支持basic，vpc """, dest='networkType',  required=False)),
-            (['--device-type'], dict(help="""(string) 实例类型，精确匹配，调用接口（describeDeviceTypes）获取实例类型 """, dest='deviceType',  required=False)),
-            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=False)),
-            (['--keypair-id'], dict(help="""(string) 密钥对ID """, dest='keypairId',  required=False)),
-            (['--enable-internet'], dict(help="""(string) 是否启用外网, yes/no """, dest='enableInternet',  required=False)),
-            (['--private-ip'], dict(help="""(string) 内网ip """, dest='privateIp',  required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceId - 云物理服务器ID，精确匹配，支持多个<br/>; status - 云物理服务器状态，参考云物理服务器状态，精确匹配，支持多个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 批量查询云物理服务器详细信息<br/>; 支持分页查询，默认每页20条<br/>;  ''',
-        description='''
-            批量查询云物理服务器详细信息<br/>; 支持分页查询，默认每页20条<br/>; 。
-
-            示例: jdc cps describe-instances 
-        ''',
-    )
-    def describe_instances(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeInstancesRequest import DescribeInstancesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeInstancesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--instance-spec'], dict(help="""(instanceSpec) 描述云物理服务器配置 """, dest='instanceSpec',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建一台或多台指定配置的云物理服务器<br/>; - 地域与可用区<br/>;   - 调用接口（describeRegiones）获取云物理服务器支持的地域与可用区<br/>; - 实例类型<br/>;   - 调用接口（describeDeviceTypes）获取物理实例类型列表<br/>;   - 不能使用已下线、或已售馨的实例类型<br/>; - 操作系统<br/>;   - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表<br/>; - 存储<br/>;   - 数据盘多种RAID可选，可调用接口（describeDeviceRaids）获取服务器支持的RAID列表<br/>; - 网络<br/>;   - 网络类型目前支持basic、vpc<br/>;   - 线路目前只支持bgp<br/>;   - 支持不启用外网，如果启用外网，带宽范围[1,200] 单位Mbps<br/>; - 其他<br/>;   - 购买时长，可按年或月购买：月取值范围[1,9], 年取值范围[1,3]<br/>;   - 密码设置参考公共参数规范<br/>;  ''',
-        description='''
-            创建一台或多台指定配置的云物理服务器<br/>; - 地域与可用区<br/>;   - 调用接口（describeRegiones）获取云物理服务器支持的地域与可用区<br/>; - 实例类型<br/>;   - 调用接口（describeDeviceTypes）获取物理实例类型列表<br/>;   - 不能使用已下线、或已售馨的实例类型<br/>; - 操作系统<br/>;   - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表<br/>; - 存储<br/>;   - 数据盘多种RAID可选，可调用接口（describeDeviceRaids）获取服务器支持的RAID列表<br/>; - 网络<br/>;   - 网络类型目前支持basic、vpc<br/>;   - 线路目前只支持bgp<br/>;   - 支持不启用外网，如果启用外网，带宽范围[1,200] 单位Mbps<br/>; - 其他<br/>;   - 购买时长，可按年或月购买：月取值范围[1,9], 年取值范围[1,3]<br/>;   - 密码设置参考公共参数规范<br/>; 。
-
-            示例: jdc cps create-instances  --instance-spec '{"":""}'
-        ''',
-    )
-    def create_instances(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.CreateInstancesRequest import CreateInstancesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateInstancesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询云物理服务器名称 ''',
-        description='''
-            查询云物理服务器名称。
-
-            示例: jdc cps describe-instance-name  --instance-id xxx
-        ''',
-    )
-    def describe_instance_name(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeInstanceNameRequest import DescribeInstanceNameRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeInstanceNameRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--name'], dict(help="""(string) 云物理服务器名称 """, dest='name',  required=False)),
-            (['--description'], dict(help="""(string) 云物理服务器描述 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改云物理服务器部分信息，包括名称、描述 ''',
-        description='''
-            修改云物理服务器部分信息，包括名称、描述。
-
-            示例: jdc cps modify-instance  --instance-id xxx
-        ''',
-    )
-    def modify_instance(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.ModifyInstanceRequest import ModifyInstanceRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyInstanceRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个云物理服务器已安装的RAID信息，包括系统盘RAID信息和数据盘RAID信息 ''',
-        description='''
-            查询单个云物理服务器已安装的RAID信息，包括系统盘RAID信息和数据盘RAID信息。
-
-            示例: jdc cps describe-instance-raid  --instance-id xxx
-        ''',
-    )
-    def describe_instance_raid(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeInstanceRaidRequest import DescribeInstanceRaidRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeInstanceRaidRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个云物理服务器硬件监控信息 ''',
-        description='''
-            查询单个云物理服务器硬件监控信息。
-
-            示例: jdc cps describe-instance-status  --instance-id xxx
-        ''',
-    )
-    def describe_instance_status(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeInstanceStatusRequest import DescribeInstanceStatusRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeInstanceStatusRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 重启单台云物理服务器，只能重启running状态的服务器 [MFA enabled] ''',
-        description='''
-            重启单台云物理服务器，只能重启running状态的服务器 [MFA enabled]。
-
-            示例: jdc cps restart-instance  --instance-id xxx
-        ''',
-    )
-    def restart_instance(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.RestartInstanceRequest import RestartInstanceRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = RestartInstanceRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 对单台云物理服务器执行关机操作，只能停止running状态的服务器 [MFA enabled] ''',
-        description='''
-            对单台云物理服务器执行关机操作，只能停止running状态的服务器 [MFA enabled]。
-
-            示例: jdc cps stop-instance  --instance-id xxx
-        ''',
-    )
-    def stop_instance(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.StopInstanceRequest import StopInstanceRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = StopInstanceRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 对单台云物理服务器执行开机操作，只能启动stopped状态的服务器 ''',
-        description='''
-            对单台云物理服务器执行开机操作，只能启动stopped状态的服务器。
-
-            示例: jdc cps start-instance  --instance-id xxx
-        ''',
-    )
-    def start_instance(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.StartInstanceRequest import StartInstanceRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = StartInstanceRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--instance-spec'], dict(help="""(reinstallInstanceSpec) 云物理服务器配置 """, dest='instanceSpec',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 重装云物理服务器，只能重装stopped状态的服务器<br/>; - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表;  [MFA enabled] ''',
-        description='''
-            重装云物理服务器，只能重装stopped状态的服务器<br/>; - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表;  [MFA enabled]。
-
-            示例: jdc cps reinstall-instance  --instance-id xxx --instance-spec '{"":""}'
-        ''',
-    )
-    def reinstall_instance(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.ReinstallInstanceRequest import ReinstallInstanceRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ReinstallInstanceRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--bandwidth'], dict(help="""(int) 外网带宽，单位Mbps，取值范围[1,200] """, dest='bandwidth', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 升级云物理服务器外网带宽，只能操作running或者stopped状态的服务器<br/>; - 不支持未启用外网的服务器升级带宽; - 外网带宽不支持降级;  ''',
-        description='''
-            升级云物理服务器外网带宽，只能操作running或者stopped状态的服务器<br/>; - 不支持未启用外网的服务器升级带宽; - 外网带宽不支持降级; 。
-
-            示例: jdc cps modify-bandwidth  --instance-id xxx --bandwidth 0
-        ''',
-    )
-    def modify_bandwidth(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.ModifyBandwidthRequest import ModifyBandwidthRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyBandwidthRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--elastic-ip-id'], dict(help="""(string) 弹性公网IPID """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 绑定弹性公网IP;  ''',
+        help=''' 查询EIP名称 ''',
         description='''
-            绑定弹性公网IP; 。
+            查询EIP名称。
 
-            示例: jdc cps associate-elastic-ip  --instance-id xxx --elastic-ip-id xxx
+            示例: jdc cps describe-elastic-ip-name  --elastic-ip-id xxx
         ''',
     )
-    def associate_elastic_ip(self):
+    def describe_elastic_ip_name(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.AssociateElasticIpRequest import AssociateElasticIpRequest
+            from jdcloud_sdk.services.cps.apis.DescribeElasticIpNameRequest import DescribeElasticIpNameRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AssociateElasticIpRequest(params_dict, headers)
+            req = DescribeElasticIpNameRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -729,32 +750,70 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
+            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
+            (['--load-balancer-id'], dict(help="""(string) 负载均衡ID """, dest='loadBalancerId',  required=False)),
+            (['--filters'], dict(help="""(array: filter) serverGroupId   - 虚拟服务器组ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询虚拟服务器组列表 ''',
+        description='''
+            查询虚拟服务器组列表。
+
+            示例: jdc cps describe-server-groups 
+        ''',
+    )
+    def describe_server_groups(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeServerGroupsRequest import DescribeServerGroupsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeServerGroupsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--elastic-ip-id'], dict(help="""(string) 弹性公网IPId """, dest='elasticIpId',  required=True)),
+            (['--server-group-spec'], dict(help="""(serverGroupSpec) 虚拟服务器组配置 """, dest='serverGroupSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 解绑弹性公网IP;  ''',
+        help=''' 创建虚拟服务器组 ''',
         description='''
-            解绑弹性公网IP; 。
+            创建虚拟服务器组。
 
-            示例: jdc cps disassociate-elastic-ip  --instance-id xxx --elastic-ip-id xxx
+            示例: jdc cps create-server-group  --server-group-spec '{"":""}'
         ''',
     )
-    def disassociate_elastic_ip(self):
+    def create_server_group(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.DisassociateElasticIpRequest import DisassociateElasticIpRequest
+            from jdcloud_sdk.services.cps.apis.CreateServerGroupRequest import CreateServerGroupRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DisassociateElasticIpRequest(params_dict, headers)
+            req = CreateServerGroupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -764,32 +823,31 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--password'], dict(help="""(string) 密码 """, dest='password',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 重置云物理服务器密码;  ''',
+        help=''' 查询虚拟服务器组 ''',
         description='''
-            重置云物理服务器密码; 。
+            查询虚拟服务器组。
 
-            示例: jdc cps reset-password  --instance-id xxx --password xxx
+            示例: jdc cps describe-server-group  --server-group-id xxx
         ''',
     )
-    def reset_password(self):
+    def describe_server_group(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.ResetPasswordRequest import ResetPasswordRequest
+            from jdcloud_sdk.services.cps.apis.DescribeServerGroupRequest import DescribeServerGroupRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ResetPasswordRequest(params_dict, headers)
+            req = DescribeServerGroupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -799,33 +857,66 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
-            (['--start-time'], dict(help="""(int) 开始时间的时间戳，格式：1562915166551 """, dest='startTime', type=int, required=False)),
-            (['--end-time'], dict(help="""(int) 结束时间的时间戳，格式：1562915166551 """, dest='endTime', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) metric - 监控指标，精确匹配，支持多个，具体如下<br/>; cps.cpu.util - CPU使用率<br/>; cps.memory.util - 内存使用率<br/>; cps.memory.used - 内存使用量<br/>; cps.disk.used - 磁盘使用量<br/>; cps.disk.util - 磁盘使用率<br/>; cps.disk.bytes.read - 磁盘读流量<br/>; cps.disk.bytes.write - 磁盘写流量<br/>; cps.disk.counts.read - 磁盘读IOPS<br/>; cps.disk.counts.write - 磁盘写IOPS<br/>; cps.network.bytes.ingress - 网卡进流量<br/>; cps.network.bytes.egress - 网卡出流量<br/>; cps.network.packets.ingress - 网络进包量<br/>; cps.network.packets.egress - 网络出包量<br/>; cps.avg.load1 - CPU平均负载1min<br/>; cps.avg.load5 - CPU平均负载5min<br/>; cps.avg.load15 - CPU平均负载15min<br/>; cps.tcp.connect.total - TCP总连接数<br/>; cps.tcp.connect.established - TCP正常连接数<br/>; cps.process.total - 总进程数;  """, dest='filters',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
+            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询云物理服务器监控信息 ''',
+        help=''' 修改虚拟服务器组 ''',
         description='''
-            查询云物理服务器监控信息。
+            修改虚拟服务器组。
 
-            示例: jdc cps describe-instance-monitor-info  --instance-id xxx
+            示例: jdc cps modify-server-group  --server-group-id xxx
         ''',
     )
-    def describe_instance_monitor_info(self):
+    def modify_server_group(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.DescribeInstanceMonitorInfoRequest import DescribeInstanceMonitorInfoRequest
+            from jdcloud_sdk.services.cps.apis.ModifyServerGroupRequest import ModifyServerGroupRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeInstanceMonitorInfoRequest(params_dict, headers)
+            req = ModifyServerGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除虚拟服务器组 ''',
+        description='''
+            删除虚拟服务器组。
+
+            示例: jdc cps delete-server-group  --server-group-id xxx
+        ''',
+    )
+    def delete_server_group(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DeleteServerGroupRequest import DeleteServerGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteServerGroupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -841,6 +932,7 @@ class CpsController(BaseController):
             (['--name'], dict(help="""(string) 密钥对名称 """, dest='name',  required=False)),
             (['--filters'], dict(help="""(array: filter) keypairId  - 密钥对ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -875,6 +967,7 @@ class CpsController(BaseController):
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--name'], dict(help="""(string) 密钥对名称 """, dest='name',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -910,6 +1003,7 @@ class CpsController(BaseController):
             (['--name'], dict(help="""(string) 密钥对名称 """, dest='name',  required=True)),
             (['--public-key'], dict(help="""(string) 公钥 """, dest='publicKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -943,6 +1037,7 @@ class CpsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--keypair-id'], dict(help="""(string) 密钥对ID """, dest='keypairId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -976,6 +1071,7 @@ class CpsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--keypair-id'], dict(help="""(string) 密钥对ID """, dest='keypairId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1009,10 +1105,1045 @@ class CpsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
+            (['--status'], dict(help="""(string) 状态 """, dest='status',  required=False)),
+            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
+            (['--vpc-id'], dict(help="""(string) 私有网络ID，精确匹配 """, dest='vpcId',  required=False)),
+            (['--bind-eip'], dict(help="""(bool) 是否绑定eip """, dest='bindEip', type=bool, required=False)),
+            (['--filters'], dict(help="""(array: filter) loadBalancerId - 负载均衡实例ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询负载均衡实例列表 ''',
+        description='''
+            查询负载均衡实例列表。
+
+            示例: jdc cps describe-load-balancers 
+        ''',
+    )
+    def describe_load_balancers(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeLoadBalancersRequest import DescribeLoadBalancersRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLoadBalancersRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--load-balancer-spec'], dict(help="""(loadBalancerSpec) 负载均衡配置 """, dest='loadBalancerSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建负载均衡实例 ''',
+        description='''
+            创建负载均衡实例。
+
+            示例: jdc cps create-load-balancer  --load-balancer-spec '{"":""}'
+        ''',
+    )
+    def create_load_balancer(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.CreateLoadBalancerRequest import CreateLoadBalancerRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateLoadBalancerRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改负载均衡实例 ''',
+        description='''
+            修改负载均衡实例。
+
+            示例: jdc cps modify-load-balancer  --load-balancer-id xxx
+        ''',
+    )
+    def modify_load_balancer(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.ModifyLoadBalancerRequest import ModifyLoadBalancerRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyLoadBalancerRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询负载均衡实例详情 ''',
+        description='''
+            查询负载均衡实例详情。
+
+            示例: jdc cps describe-load-balancer  --load-balancer-id xxx
+        ''',
+    )
+    def describe_load_balancer(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeLoadBalancerRequest import DescribeLoadBalancerRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLoadBalancerRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 开启负载均衡实例 ''',
+        description='''
+            开启负载均衡实例。
+
+            示例: jdc cps start-load-balancer  --load-balancer-id xxx
+        ''',
+    )
+    def start_load_balancer(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.StartLoadBalancerRequest import StartLoadBalancerRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = StartLoadBalancerRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 关闭负载均衡实例 ''',
+        description='''
+            关闭负载均衡实例。
+
+            示例: jdc cps stop-load-balancer  --load-balancer-id xxx
+        ''',
+    )
+    def stop_load_balancer(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.StopLoadBalancerRequest import StopLoadBalancerRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = StopLoadBalancerRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--elastic-ip-id'], dict(help="""(string) 弹性公网IPId """, dest='elasticIpId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 绑定弹性公网IP ''',
+        description='''
+            绑定弹性公网IP。
+
+            示例: jdc cps associate-elastic-ip-lb  --load-balancer-id xxx --elastic-ip-id xxx
+        ''',
+    )
+    def associate_elastic_ip_lb(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.AssociateElasticIpLBRequest import AssociateElasticIpLBRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AssociateElasticIpLBRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--elastic-ip-id'], dict(help="""(string) 弹性公网IPId """, dest='elasticIpId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 解绑弹性公网IP ''',
+        description='''
+            解绑弹性公网IP。
+
+            示例: jdc cps disassociate-elastic-ip-lb  --load-balancer-id xxx --elastic-ip-id xxx
+        ''',
+    )
+    def disassociate_elastic_ip_lb(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DisassociateElasticIpLBRequest import DisassociateElasticIpLBRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisassociateElasticIpLBRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询SLB名称 ''',
+        description='''
+            查询SLB名称。
+
+            示例: jdc cps describe-slbs-name  --load-balancer-id xxx
+        ''',
+    )
+    def describe_slbs_name(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeSlbsNameRequest import DescribeSlbsNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSlbsNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
+            (['--listener-id'], dict(help="""(string) 监听器Id """, dest='listenerId',  required=False)),
+            (['--filters'], dict(help="""(array: filter) serverId - 后端服务器ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询后端服务器列表 ''',
+        description='''
+            查询后端服务器列表。
+
+            示例: jdc cps describe-servers  --server-group-id xxx
+        ''',
+    )
+    def describe_servers(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeServersRequest import DescribeServersRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeServersRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--server-spec'], dict(help="""(array: serverSpec) 后端服务器配置 """, dest='serverSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加后端服务器 ''',
+        description='''
+            添加后端服务器。
+
+            示例: jdc cps add-servers  --server-group-id xxx --server-spec ['{"":""}']
+        ''',
+    )
+    def add_servers(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.AddServersRequest import AddServersRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddServersRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
+            (['--server-id'], dict(help="""(string) 后端服务器ID """, dest='serverId',  required=True)),
+            (['--weight'], dict(help="""(int) 权重 """, dest='weight', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改后端服务器 ''',
+        description='''
+            修改后端服务器。
+
+            示例: jdc cps modify-server  --server-group-id xxx --server-id xxx
+        ''',
+    )
+    def modify_server(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.ModifyServerRequest import ModifyServerRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyServerRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
+            (['--server-id'], dict(help="""(string) 后端服务器ID """, dest='serverId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 移除后端服务器 ''',
+        description='''
+            移除后端服务器。
+
+            示例: jdc cps remove-server  --server-group-id xxx --server-id xxx
+        ''',
+    )
+    def remove_server(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.RemoveServerRequest import RemoveServerRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RemoveServerRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
+            (['--ipv6gateway-name'], dict(help="""(string) IPv6网关名称 """, dest='ipv6GatewayName',  required=False)),
+            (['--filters'], dict(help="""(array: filter) ipv6GatewayId - IPv6网关实例ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询IPv6网关实例列表 ''',
+        description='''
+            查询IPv6网关实例列表。
+
+            示例: jdc cps describe-ipv6gateways 
+        ''',
+    )
+    def describe_ipv6gateways(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeIpv6GatewaysRequest import DescribeIpv6GatewaysRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeIpv6GatewaysRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--ipv6gateway-id'], dict(help="""(string) IPv6网关ID """, dest='ipv6GatewayId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询IPv6网关实例详情 ''',
+        description='''
+            查询IPv6网关实例详情。
+
+            示例: jdc cps describe-ipv6gateway  --ipv6gateway-id xxx
+        ''',
+    )
+    def describe_ipv6gateway(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeIpv6GatewayRequest import DescribeIpv6GatewayRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeIpv6GatewayRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--ipv6gateway-id'], dict(help="""(string) IPv6网关ID """, dest='ipv6GatewayId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--ipv6gateway-name'], dict(help="""(string) IPv6网关实例名称 """, dest='ipv6GatewayName',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改IPv6网关实例 ''',
+        description='''
+            修改IPv6网关实例。
+
+            示例: jdc cps modify-ipv6gateway  --ipv6gateway-id xxx
+        ''',
+    )
+    def modify_ipv6gateway(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.ModifyIpv6GatewayRequest import ModifyIpv6GatewayRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyIpv6GatewayRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--az'], dict(help="""(string) 可用区, 如cn-east-1a；可调用接口（describeRegiones）获取云物理服务器在该地域支持的可用区 """, dest='az',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询基础网络子网 ''',
+        description='''
+            查询基础网络子网。
+
+            示例: jdc cps describe-basic-subnet  --az xxx
+        ''',
+    )
+    def describe_basic_subnet(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeBasicSubnetRequest import DescribeBasicSubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeBasicSubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
+            (['--az'], dict(help="""(string) 可用区，精确匹配 """, dest='az',  required=False)),
+            (['--name'], dict(help="""(string) 子网名称 """, dest='name',  required=False)),
+            (['--vpc-id'], dict(help="""(string) 私有网络ID，精确匹配 """, dest='vpcId',  required=False)),
+            (['--filters'], dict(help="""(array: filter) subnetId - 子网ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询子网列表 ''',
+        description='''
+            查询子网列表。
+
+            示例: jdc cps describe-subnets 
+        ''',
+    )
+    def describe_subnets(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeSubnetsRequest import DescribeSubnetsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSubnetsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--subnet-spec'], dict(help="""(subnetSpec) 子网配置 """, dest='subnetSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建子网 ''',
+        description='''
+            创建子网。
+
+            示例: jdc cps create-subnet  --subnet-spec '{"":""}'
+        ''',
+    )
+    def create_subnet(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.CreateSubnetRequest import CreateSubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateSubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--ipv6cidr'], dict(help="""(string) 子网IPv6 CIDR """, dest='ipv6Cidr',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 申请IPv6网段;  ''',
+        description='''
+            申请IPv6网段; 。
+
+            示例: jdc cps assign-ipv6cidr  --subnet-id xxx
+        ''',
+    )
+    def assign_ipv6cidr(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.AssignIpv6CidrRequest import AssignIpv6CidrRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AssignIpv6CidrRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询子网详情 ''',
+        description='''
+            查询子网详情。
+
+            示例: jdc cps describe-subnet  --subnet-id xxx
+        ''',
+    )
+    def describe_subnet(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeSubnetRequest import DescribeSubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=True)),
+            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改子网 ''',
+        description='''
+            修改子网。
+
+            示例: jdc cps modify-subnet  --subnet-id xxx
+        ''',
+    )
+    def modify_subnet(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.ModifySubnetRequest import ModifySubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifySubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除子网 ''',
+        description='''
+            删除子网。
+
+            示例: jdc cps delete-subnet  --subnet-id xxx
+        ''',
+    )
+    def delete_subnet(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DeleteSubnetRequest import DeleteSubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--vpc-id'], dict(help="""(string) 私有网络ID """, dest='vpcId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询私有网络详情 ''',
+        description='''
+            查询私有网络详情。
+
+            示例: jdc cps describe-vpc  --vpc-id xxx
+        ''',
+    )
+    def describe_vpc(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeVpcRequest import DescribeVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--vpc-id'], dict(help="""(string) 私有网络ID """, dest='vpcId',  required=True)),
+            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改私有网络;  ''',
+        description='''
+            修改私有网络; 。
+
+            示例: jdc cps modify-vpc  --vpc-id xxx
+        ''',
+    )
+    def modify_vpc(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.ModifyVpcRequest import ModifyVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--vpc-id'], dict(help="""(string) 私有网络ID """, dest='vpcId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除私有网络;  ''',
+        description='''
+            删除私有网络; 。
+
+            示例: jdc cps delete-vpc  --vpc-id xxx
+        ''',
+    )
+    def delete_vpc(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DeleteVpcRequest import DeleteVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
+            (['--name'], dict(help="""(string) 私有网络名称 """, dest='name',  required=False)),
+            (['--filters'], dict(help="""(array: filter) vpcId - 私有网络ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询私有网络列表 ''',
+        description='''
+            查询私有网络列表。
+
+            示例: jdc cps describe-vpcs 
+        ''',
+    )
+    def describe_vpcs(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeVpcsRequest import DescribeVpcsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeVpcsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--vpc-spec'], dict(help="""(vpcSpec) 子网配置 """, dest='vpcSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建私有网络 ''',
+        description='''
+            创建私有网络。
+
+            示例: jdc cps create-vpc  --vpc-spec '{"":""}'
+        ''',
+    )
+    def create_vpc(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.CreateVpcRequest import CreateVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--vpc-id'], dict(help="""(string) 私有网络ID """, dest='vpcId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 申请开通IPv6网关;  ''',
+        description='''
+            申请开通IPv6网关; 。
+
+            示例: jdc cps assign-ipv6gateway  --vpc-id xxx
+        ''',
+    )
+    def assign_ipv6gateway(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.AssignIpv6GatewayRequest import AssignIpv6GatewayRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AssignIpv6GatewayRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
             (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
             (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID，精确匹配 """, dest='loadBalancerId',  required=False)),
             (['--filters'], dict(help="""(array: filter) listenerId - 监听器ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1047,6 +2178,7 @@ class CpsController(BaseController):
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--listener-spec'], dict(help="""(listenerSpec) 监听器配置 """, dest='listenerSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1090,8 +2222,14 @@ class CpsController(BaseController):
             (['--healthy-threshold'], dict(help="""(int) 健康检查结果为success的阈值 """, dest='healthyThreshold', type=int, required=False)),
             (['--unhealthy-threshold'], dict(help="""(int) 健康检查结果为fail的阈值 """, dest='unhealthyThreshold', type=int, required=False)),
             (['--server-group-id'], dict(help="""(string) 服务器组id """, dest='serverGroupId',  required=False)),
+            (['--sticky-session-timeout'], dict(help="""(int) 会话保持超时时间，单位s """, dest='stickySessionTimeout', type=int, required=False)),
+            (['--cookie-type'], dict(help="""(string) 会话类型，植入Cookie or 重写Cookie """, dest='cookieType',  required=False)),
+            (['--health-check-uri'], dict(help="""(string) 检查路径 """, dest='healthCheckUri',  required=False)),
+            (['--health-check-http-code'], dict(help="""(string) 正常态码，要使用的Http状态码 """, dest='healthCheckHttpCode',  required=False)),
+            (['--certificate-id'], dict(help="""(string) 证书ID """, dest='certificateId',  required=False)),
+            (['--headers'], dict(help="""(array: string) 获取HTTP头字段：X-Forwarded-For、X-Forwarded-Proto、X- Forwarded-Port、X-Forwarded-LBIP """, dest='headers',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 修改监听器 ''',
@@ -1124,6 +2262,7 @@ class CpsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1157,6 +2296,7 @@ class CpsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1191,6 +2331,7 @@ class CpsController(BaseController):
             (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1225,6 +2366,7 @@ class CpsController(BaseController):
             (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1255,36 +2397,180 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--az'], dict(help="""(string) 可用区，精确匹配 """, dest='az',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询云物理服务器实例类型 ''',
+        description='''
+            查询云物理服务器实例类型。
+
+            示例: jdc cps describe-device-types 
+        ''',
+    )
+    def describe_device_types(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeDeviceTypesRequest import DescribeDeviceTypesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeDeviceTypesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--device-type'], dict(help="""(string) 实例类型，可调用接口（describeDeviceTypes）获取指定地域的实例类型，例如：cps.c.normal """, dest='deviceType',  required=True)),
+            (['--os-type'], dict(help="""(string) 操作系统类型，取值范围：CentOS、Ubuntu、Windows """, dest='osType',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询云物理服务器支持的操作系统 ''',
+        description='''
+            查询云物理服务器支持的操作系统。
+
+            示例: jdc cps describe-os  --device-type xxx
+        ''',
+    )
+    def describe_os(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeOSRequest import DescribeOSRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeOSRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--device-type'], dict(help="""(string) 实例类型，可调用（describeDeviceTypes）接口获取指定地域的实例类型，例如：cps.c.normal """, dest='deviceType',  required=True)),
+            (['--volume-type'], dict(help="""(string) 磁盘类型，取值范围：system、data """, dest='volumeType',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询某种实例类型的云物理服务器支持的RAID类型，可查询系统盘RAID类型和数据盘RAID类型 ''',
+        description='''
+            查询某种实例类型的云物理服务器支持的RAID类型，可查询系统盘RAID类型和数据盘RAID类型。
+
+            示例: jdc cps describe-device-raids  --device-type xxx
+        ''',
+    )
+    def describe_device_raids(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeDeviceRaidsRequest import DescribeDeviceRaidsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeDeviceRaidsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询单台云物理服务器详细信息 ''',
+        description='''
+            查询单台云物理服务器详细信息。
+
+            示例: jdc cps describe-instance  --instance-id xxx
+        ''',
+    )
+    def describe_instance(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeInstanceRequest import DescribeInstanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeInstanceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
-            (['--status'], dict(help="""(string) 状态 """, dest='status',  required=False)),
-            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
-            (['--vpc-id'], dict(help="""(string) 私有网络ID，精确匹配 """, dest='vpcId',  required=False)),
-            (['--bind-eip'], dict(help="""(bool) 是否绑定eip """, dest='bindEip',  required=False)),
-            (['--filters'], dict(help="""(array: filter) loadBalancerId - 负载均衡实例ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--az'], dict(help="""(string) 可用区，精确匹配 """, dest='az',  required=False)),
+            (['--name'], dict(help="""(string) 云物理服务器名称，支持模糊匹配 """, dest='name',  required=False)),
+            (['--network-type'], dict(help="""(string) 网络类型，精确匹配，支持basic（基础网络）、vpc（私有网络）、retail（零售中台网络） """, dest='networkType',  required=False)),
+            (['--device-type'], dict(help="""(string) 实例类型，精确匹配，调用接口（describeDeviceTypes）获取实例类型 """, dest='deviceType',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=False)),
+            (['--keypair-id'], dict(help="""(string) 密钥对ID """, dest='keypairId',  required=False)),
+            (['--enable-internet'], dict(help="""(string) 是否启用外网, yes、no """, dest='enableInternet',  required=False)),
+            (['--private-ip'], dict(help="""(string) 内网ip """, dest='privateIp',  required=False)),
+            (['--interface-mode'], dict(help="""(string) 实例网卡类型：bond（网卡bond）、dual（双网卡） """, dest='interfaceMode',  required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceId - 云物理服务器ID，精确匹配，支持多个<br/>; status - 云物理服务器状态，参考云物理服务器状态，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询负载均衡实例列表 ''',
+        help=''' 批量查询云物理服务器详细信息<br/>; 支持分页查询，默认每页20条<br/>;  ''',
         description='''
-            查询负载均衡实例列表。
+            批量查询云物理服务器详细信息<br/>; 支持分页查询，默认每页20条<br/>; 。
 
-            示例: jdc cps describe-load-balancers 
+            示例: jdc cps describe-instances 
         ''',
     )
-    def describe_load_balancers(self):
+    def describe_instances(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.DescribeLoadBalancersRequest import DescribeLoadBalancersRequest
+            from jdcloud_sdk.services.cps.apis.DescribeInstancesRequest import DescribeInstancesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeLoadBalancersRequest(params_dict, headers)
+            req = DescribeInstancesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1294,31 +2580,32 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--load-balancer-spec'], dict(help="""(loadBalancerSpec) 负载均衡配置 """, dest='loadBalancerSpec',  required=True)),
+            (['--instance-spec'], dict(help="""(instanceSpec) 描述云物理服务器配置 """, dest='instanceSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建负载均衡实例 ''',
+        help=''' 创建一台或多台指定配置的云物理服务器<br/>; - 地域与可用区<br/>;   - 调用接口（describeRegiones）获取云物理服务器支持的地域与可用区<br/>; - 实例类型<br/>;   - 调用接口（describeDeviceTypes）获取物理实例类型列表<br/>;   - 不能使用已下线、或已售馨的实例类型<br/>; - 操作系统<br/>;   - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表<br/>; - 存储<br/>;   - 数据盘多种RAID可选，可调用接口（describeDeviceRaids）获取服务器支持的RAID列表<br/>; - 网络<br/>;   - 网络类型目前支持basic、vpc<br/>;   - 线路目前只支持bgp<br/>;   - 支持不启用外网，如果启用外网，带宽范围[1,200] 单位Mbps<br/>; - 其他<br/>;   - 购买时长，可按年或月购买：月取值范围[1,9], 年取值范围[1,3]<br/>;   - 密码设置参考公共参数规范<br/>;  ''',
         description='''
-            创建负载均衡实例。
+            创建一台或多台指定配置的云物理服务器<br/>; - 地域与可用区<br/>;   - 调用接口（describeRegiones）获取云物理服务器支持的地域与可用区<br/>; - 实例类型<br/>;   - 调用接口（describeDeviceTypes）获取物理实例类型列表<br/>;   - 不能使用已下线、或已售馨的实例类型<br/>; - 操作系统<br/>;   - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表<br/>; - 存储<br/>;   - 数据盘多种RAID可选，可调用接口（describeDeviceRaids）获取服务器支持的RAID列表<br/>; - 网络<br/>;   - 网络类型目前支持basic、vpc<br/>;   - 线路目前只支持bgp<br/>;   - 支持不启用外网，如果启用外网，带宽范围[1,200] 单位Mbps<br/>; - 其他<br/>;   - 购买时长，可按年或月购买：月取值范围[1,9], 年取值范围[1,3]<br/>;   - 密码设置参考公共参数规范<br/>; 。
 
-            示例: jdc cps create-load-balancer  --load-balancer-spec '{"":""}'
+            示例: jdc cps create-instances  --instance-spec '{"":""}'
         ''',
     )
-    def create_load_balancer(self):
+    def create_instances(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.CreateLoadBalancerRequest import CreateLoadBalancerRequest
+            from jdcloud_sdk.services.cps.apis.CreateInstancesRequest import CreateInstancesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateLoadBalancerRequest(params_dict, headers)
+            req = CreateInstancesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1328,32 +2615,31 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
-            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
-            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改负载均衡实例 ''',
+        help=''' 查询云物理服务器名称 ''',
         description='''
-            修改负载均衡实例。
+            查询云物理服务器名称。
 
-            示例: jdc cps modify-load-balancer  --load-balancer-id xxx
+            示例: jdc cps describe-instance-name  --instance-id xxx
         ''',
     )
-    def modify_load_balancer(self):
+    def describe_instance_name(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.ModifyLoadBalancerRequest import ModifyLoadBalancerRequest
+            from jdcloud_sdk.services.cps.apis.DescribeInstanceNameRequest import DescribeInstanceNameRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ModifyLoadBalancerRequest(params_dict, headers)
+            req = DescribeInstanceNameRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1363,30 +2649,34 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--ipv6address'], dict(help="""(string) IPv6地址 """, dest='ipv6Address',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询负载均衡实例详情 ''',
+        help=''' 申请IPv6地址 ''',
         description='''
-            查询负载均衡实例详情。
+            申请IPv6地址。
 
-            示例: jdc cps describe-load-balancer  --load-balancer-id xxx
+            示例: jdc cps assign-ipv6address  --instance-id xxx --subnet-id xxx
         ''',
     )
-    def describe_load_balancer(self):
+    def assign_ipv6address(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.DescribeLoadBalancerRequest import DescribeLoadBalancerRequest
+            from jdcloud_sdk.services.cps.apis.AssignIpv6AddressRequest import AssignIpv6AddressRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeLoadBalancerRequest(params_dict, headers)
+            req = AssignIpv6AddressRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1396,31 +2686,136 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--name'], dict(help="""(string) 云物理服务器名称 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 云物理服务器描述 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改云物理服务器部分信息，包括名称、描述 ''',
+        description='''
+            修改云物理服务器部分信息，包括名称、描述。
+
+            示例: jdc cps modify-instance  --instance-id xxx
+        ''',
+    )
+    def modify_instance(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.ModifyInstanceRequest import ModifyInstanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyInstanceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询单个云物理服务器已安装的RAID信息，包括系统盘RAID信息和数据盘RAID信息 ''',
+        description='''
+            查询单个云物理服务器已安装的RAID信息，包括系统盘RAID信息和数据盘RAID信息。
+
+            示例: jdc cps describe-instance-raid  --instance-id xxx
+        ''',
+    )
+    def describe_instance_raid(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeInstanceRaidRequest import DescribeInstanceRaidRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeInstanceRaidRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询单个云物理服务器硬件监控信息 ''',
+        description='''
+            查询单个云物理服务器硬件监控信息。
+
+            示例: jdc cps describe-instance-status  --instance-id xxx
+        ''',
+    )
+    def describe_instance_status(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeInstanceStatusRequest import DescribeInstanceStatusRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeInstanceStatusRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 开启负载均衡实例 ''',
+        help=''' 重启单台云物理服务器，只能重启running状态的服务器 [MFA enabled] ''',
         description='''
-            开启负载均衡实例。
+            重启单台云物理服务器，只能重启running状态的服务器 [MFA enabled]。
 
-            示例: jdc cps start-load-balancer  --load-balancer-id xxx
+            示例: jdc cps restart-instance  --instance-id xxx
         ''',
     )
-    def start_load_balancer(self):
+    def restart_instance(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.StartLoadBalancerRequest import StartLoadBalancerRequest
+            from jdcloud_sdk.services.cps.apis.RestartInstanceRequest import RestartInstanceRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = StartLoadBalancerRequest(params_dict, headers)
+            req = RestartInstanceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1430,31 +2825,32 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 关闭负载均衡实例 ''',
+        help=''' 对单台云物理服务器执行关机操作，只能停止running状态的服务器 [MFA enabled] ''',
         description='''
-            关闭负载均衡实例。
+            对单台云物理服务器执行关机操作，只能停止running状态的服务器 [MFA enabled]。
 
-            示例: jdc cps stop-load-balancer  --load-balancer-id xxx
+            示例: jdc cps stop-instance  --instance-id xxx
         ''',
     )
-    def stop_load_balancer(self):
+    def stop_instance(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.StopLoadBalancerRequest import StopLoadBalancerRequest
+            from jdcloud_sdk.services.cps.apis.StopInstanceRequest import StopInstanceRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = StopLoadBalancerRequest(params_dict, headers)
+            req = StopInstanceRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1464,32 +2860,283 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 对单台云物理服务器执行开机操作，只能启动stopped状态的服务器 ''',
+        description='''
+            对单台云物理服务器执行开机操作，只能启动stopped状态的服务器。
+
+            示例: jdc cps start-instance  --instance-id xxx
+        ''',
+    )
+    def start_instance(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.StartInstanceRequest import StartInstanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = StartInstanceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--instance-ids'], dict(help="""(array: string) 资源id列表 """, dest='instanceIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 批量重启云物理服务器，只能重启running状态的服务器 [MFA enabled] ''',
+        description='''
+            批量重启云物理服务器，只能重启running状态的服务器 [MFA enabled]。
+
+            示例: jdc cps restart-instances 
+        ''',
+    )
+    def restart_instances(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.RestartInstancesRequest import RestartInstancesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RestartInstancesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--instance-ids'], dict(help="""(array: string) 资源id列表 """, dest='instanceIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 批量关闭云物理服务器，只能停止running状态的服务器 [MFA enabled] ''',
+        description='''
+            批量关闭云物理服务器，只能停止running状态的服务器 [MFA enabled]。
+
+            示例: jdc cps stop-instances 
+        ''',
+    )
+    def stop_instances(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.StopInstancesRequest import StopInstancesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = StopInstancesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--instance-ids'], dict(help="""(array: string) 资源id列表 """, dest='instanceIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 批量开启云物理服务器，只能启动stopped状态的服务器 ''',
+        description='''
+            批量开启云物理服务器，只能启动stopped状态的服务器。
+
+            示例: jdc cps start-instances 
+        ''',
+    )
+    def start_instances(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.StartInstancesRequest import StartInstancesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = StartInstancesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--instance-spec'], dict(help="""(reinstallInstanceSpec) 云物理服务器配置 """, dest='instanceSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 重装云物理服务器，只能重装stopped状态的服务器<br/>; - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表;  [MFA enabled] ''',
+        description='''
+            重装云物理服务器，只能重装stopped状态的服务器<br/>; - 可调用接口（describeOS）获取云物理服务器支持的操作系统列表;  [MFA enabled]。
+
+            示例: jdc cps reinstall-instance  --instance-id xxx --instance-spec '{"":""}'
+        ''',
+    )
+    def reinstall_instance(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.ReinstallInstanceRequest import ReinstallInstanceRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ReinstallInstanceRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--bandwidth'], dict(help="""(int) 外网带宽，单位Mbps，取值范围[1,200] """, dest='bandwidth', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 升级云物理服务器外网带宽，只能操作running或者stopped状态的服务器<br/>; - 不支持未启用外网的服务器升级带宽; - 外网带宽不支持降级;  ''',
+        description='''
+            升级云物理服务器外网带宽，只能操作running或者stopped状态的服务器<br/>; - 不支持未启用外网的服务器升级带宽; - 外网带宽不支持降级; 。
+
+            示例: jdc cps modify-bandwidth  --instance-id xxx --bandwidth 5
+        ''',
+    )
+    def modify_bandwidth(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.ModifyBandwidthRequest import ModifyBandwidthRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyBandwidthRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
+            (['--elastic-ip-id'], dict(help="""(string) 弹性公网IPID """, dest='elasticIpId',  required=True)),
+            (['--target-ip'], dict(help="""(string) 私有IP """, dest='targetIp',  required=False)),
+            (['--subnet-id'], dict(help="""(string) 主网口或辅网口的子网ID，多网口实例必填 """, dest='subnetId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 绑定弹性公网IP;  ''',
+        description='''
+            绑定弹性公网IP; 。
+
+            示例: jdc cps associate-elastic-ip  --instance-id xxx --elastic-ip-id xxx
+        ''',
+    )
+    def associate_elastic_ip(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.AssociateElasticIpRequest import AssociateElasticIpRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AssociateElasticIpRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
             (['--elastic-ip-id'], dict(help="""(string) 弹性公网IPId """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 绑定弹性公网IP ''',
+        help=''' 解绑弹性公网IP;  ''',
         description='''
-            绑定弹性公网IP。
+            解绑弹性公网IP; 。
 
-            示例: jdc cps associate-elastic-ip-lb  --load-balancer-id xxx --elastic-ip-id xxx
+            示例: jdc cps disassociate-elastic-ip  --instance-id xxx --elastic-ip-id xxx
         ''',
     )
-    def associate_elastic_ip_lb(self):
+    def disassociate_elastic_ip(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.AssociateElasticIpLBRequest import AssociateElasticIpLBRequest
+            from jdcloud_sdk.services.cps.apis.DisassociateElasticIpRequest import DisassociateElasticIpRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AssociateElasticIpLBRequest(params_dict, headers)
+            req = DisassociateElasticIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1499,32 +3146,33 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--load-balancer-id'], dict(help="""(string) 负载均衡实例ID """, dest='loadBalancerId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
             (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--elastic-ip-id'], dict(help="""(string) 弹性公网IPId """, dest='elasticIpId',  required=True)),
+            (['--password'], dict(help="""(string) 密码 """, dest='password',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 解绑弹性公网IP ''',
+        help=''' 重置云物理服务器密码;  ''',
         description='''
-            解绑弹性公网IP。
+            重置云物理服务器密码; 。
 
-            示例: jdc cps disassociate-elastic-ip-lb  --load-balancer-id xxx --elastic-ip-id xxx
+            示例: jdc cps reset-password  --instance-id xxx --password xxx
         ''',
     )
-    def disassociate_elastic_ip_lb(self):
+    def reset_password(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.DisassociateElasticIpLBRequest import DisassociateElasticIpLBRequest
+            from jdcloud_sdk.services.cps.apis.ResetPasswordRequest import ResetPasswordRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DisassociateElasticIpLBRequest(params_dict, headers)
+            req = ResetPasswordRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1534,29 +3182,32 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--network-type'], dict(help="""(string) 网络类型basic/vpc, 默认basic """, dest='networkType',  required=False)),
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--subnet-id'], dict(help="""(string) 主网口或者辅网口的子网id """, dest='subnetId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询云物理服务器地域列表 ''',
+        help=''' 查询可用的私有IP列表 ''',
         description='''
-            查询云物理服务器地域列表。
+            查询可用的私有IP列表。
 
-            示例: jdc cps describe-regiones 
+            示例: jdc cps describe-available-private-ip  --instance-id xxx --subnet-id xxx
         ''',
     )
-    def describe_regiones(self):
+    def describe_available_private_ip(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.DescribeRegionesRequest import DescribeRegionesRequest
+            from jdcloud_sdk.services.cps.apis.DescribeAvailablePrivateIpRequest import DescribeAvailablePrivateIpRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeRegionesRequest(params_dict, headers)
+            req = DescribeAvailablePrivateIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1566,28 +3217,70 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--start-time'], dict(help="""(int) 开始时间的时间戳，格式：1562915166551 """, dest='startTime', type=int, required=False)),
+            (['--end-time'], dict(help="""(int) 结束时间的时间戳，格式：1562915166551 """, dest='endTime', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) metric - 监控指标，精确匹配，支持多个，具体如下<br/>; cps.cpu.util - CPU使用率<br/>; cps.memory.util - 内存使用率<br/>; cps.memory.used - 内存使用量<br/>; cps.disk.used - 磁盘使用量<br/>; cps.disk.util - 磁盘使用率<br/>; cps.disk.bytes.read - 磁盘读流量<br/>; cps.disk.bytes.write - 磁盘写流量<br/>; cps.disk.counts.read - 磁盘读IOPS<br/>; cps.disk.counts.write - 磁盘写IOPS<br/>; cps.network.bytes.ingress - 网卡进流量<br/>; cps.network.bytes.egress - 网卡出流量<br/>; cps.network.packets.ingress - 网络进包量<br/>; cps.network.packets.egress - 网络出包量<br/>; cps.avg.load1 - CPU平均负载1min<br/>; cps.avg.load5 - CPU平均负载5min<br/>; cps.avg.load15 - CPU平均负载15min<br/>; cps.tcp.connect.total - TCP总连接数<br/>; cps.tcp.connect.established - TCP正常连接数<br/>; cps.process.total - 总进程数;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询负载均衡地域列表 ''',
+        help=''' 查询云物理服务器监控信息 ''',
         description='''
-            查询负载均衡地域列表。
+            查询云物理服务器监控信息。
 
-            示例: jdc cps describe-cpslbregions 
+            示例: jdc cps describe-instance-monitor-info  --instance-id xxx
         ''',
     )
-    def describe_cpslbregions(self):
+    def describe_instance_monitor_info(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.DescribeCPSLBRegionsRequest import DescribeCPSLBRegionsRequest
+            from jdcloud_sdk.services.cps.apis.DescribeInstanceMonitorInfoRequest import DescribeInstanceMonitorInfoRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeCPSLBRegionsRequest(params_dict, headers)
+            req = DescribeInstanceMonitorInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
+            (['--instance-id'], dict(help="""(string) 云物理服务器ID """, dest='instanceId',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询云物理服务器监控报警日志信息 ''',
+        description='''
+            查询云物理服务器监控报警日志信息。
+
+            示例: jdc cps describe-event-logs  --instance-id xxx
+        ''',
+    )
+    def describe_event_logs(self):
+        client_factory = ClientFactory('cps')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.cps.apis.DescribeEventLogsRequest import DescribeEventLogsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeEventLogsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1600,6 +3293,7 @@ class CpsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
             (['--route-table-id'], dict(help="""(string) 路由表ID """, dest='routeTableId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1637,6 +3331,7 @@ class CpsController(BaseController):
             (['--vpc-id'], dict(help="""(string) 私有网络ID，精确匹配 """, dest='vpcId',  required=False)),
             (['--filters'], dict(help="""(array: filter) routeTableId - 路由表ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1667,34 +3362,30 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
-            (['--listener-id'], dict(help="""(string) 监听器Id """, dest='listenerId',  required=False)),
-            (['--filters'], dict(help="""(array: filter) serverId - 后端服务器ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--network-type'], dict(help="""(string) 网络类型basic（基础网络）、vpc（私有网络）、retail（零售中台网络）, 默认basic """, dest='networkType',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询后端服务器列表 ''',
+        help=''' 查询云物理服务器地域列表 ''',
         description='''
-            查询后端服务器列表。
+            查询云物理服务器地域列表。
 
-            示例: jdc cps describe-servers  --server-group-id xxx
+            示例: jdc cps describe-regiones 
         ''',
     )
-    def describe_servers(self):
+    def describe_regiones(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.DescribeServersRequest import DescribeServersRequest
+            from jdcloud_sdk.services.cps.apis.DescribeRegionesRequest import DescribeRegionesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeServersRequest(params_dict, headers)
+            req = DescribeRegionesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1704,32 +3395,29 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--server-spec'], dict(help="""(array: serverSpec) 后端服务器配置 """, dest='serverSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加后端服务器 ''',
+        help=''' 查询负载均衡地域列表 ''',
         description='''
-            添加后端服务器。
+            查询负载均衡地域列表。
 
-            示例: jdc cps add-servers  --server-group-id xxx --server-spec ['{"":""}']
+            示例: jdc cps describe-cpslbregions 
         ''',
     )
-    def add_servers(self):
+    def describe_cpslbregions(self):
         client_factory = ClientFactory('cps')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.cps.apis.AddServersRequest import AddServersRequest
+            from jdcloud_sdk.services.cps.apis.DescribeCPSLBRegionsRequest import DescribeCPSLBRegionsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddServersRequest(params_dict, headers)
+            req = DescribeCPSLBRegionsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1739,626 +3427,7 @@ class CpsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
-            (['--server-id'], dict(help="""(string) 后端服务器ID """, dest='serverId',  required=True)),
-            (['--weight'], dict(help="""(int) 权重 """, dest='weight', type=int, required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改后端服务器 ''',
-        description='''
-            修改后端服务器。
-
-            示例: jdc cps modify-server  --server-group-id xxx --server-id xxx
-        ''',
-    )
-    def modify_server(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.ModifyServerRequest import ModifyServerRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyServerRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
-            (['--server-id'], dict(help="""(string) 后端服务器ID """, dest='serverId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 移除后端服务器 ''',
-        description='''
-            移除后端服务器。
-
-            示例: jdc cps remove-server  --server-group-id xxx --server-id xxx
-        ''',
-    )
-    def remove_server(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.RemoveServerRequest import RemoveServerRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = RemoveServerRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
-            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
-            (['--load-balancer-id'], dict(help="""(string) 负载均衡ID """, dest='loadBalancerId',  required=False)),
-            (['--filters'], dict(help="""(array: filter) serverGroupId   - 虚拟服务器组ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询虚拟服务器组列表 ''',
-        description='''
-            查询虚拟服务器组列表。
-
-            示例: jdc cps describe-server-groups 
-        ''',
-    )
-    def describe_server_groups(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeServerGroupsRequest import DescribeServerGroupsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeServerGroupsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--server-group-spec'], dict(help="""(serverGroupSpec) 虚拟服务器组配置 """, dest='serverGroupSpec',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建虚拟服务器组 ''',
-        description='''
-            创建虚拟服务器组。
-
-            示例: jdc cps create-server-group  --server-group-spec '{"":""}'
-        ''',
-    )
-    def create_server_group(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.CreateServerGroupRequest import CreateServerGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateServerGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询虚拟服务器组 ''',
-        description='''
-            查询虚拟服务器组。
-
-            示例: jdc cps describe-server-group  --server-group-id xxx
-        ''',
-    )
-    def describe_server_group(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeServerGroupRequest import DescribeServerGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeServerGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
-            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改虚拟服务器组 ''',
-        description='''
-            修改虚拟服务器组。
-
-            示例: jdc cps modify-server-group  --server-group-id xxx
-        ''',
-    )
-    def modify_server_group(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.ModifyServerGroupRequest import ModifyServerGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyServerGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeCPSLBRegions）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--server-group-id'], dict(help="""(string) 服务器组ID """, dest='serverGroupId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除虚拟服务器组 ''',
-        description='''
-            删除虚拟服务器组。
-
-            示例: jdc cps delete-server-group  --server-group-id xxx
-        ''',
-    )
-    def delete_server_group(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DeleteServerGroupRequest import DeleteServerGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteServerGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--az'], dict(help="""(string) 可用区, 如cn-east-1a；可调用接口（describeRegiones）获取云物理服务器在该地域支持的可用区 """, dest='az',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询基础网络子网 ''',
-        description='''
-            查询基础网络子网。
-
-            示例: jdc cps describe-basic-subnet  --az xxx
-        ''',
-    )
-    def describe_basic_subnet(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeBasicSubnetRequest import DescribeBasicSubnetRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeBasicSubnetRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
-            (['--az'], dict(help="""(string) 可用区，精确匹配 """, dest='az',  required=False)),
-            (['--name'], dict(help="""(string) 子网名称 """, dest='name',  required=False)),
-            (['--vpc-id'], dict(help="""(string) 私有网络ID，精确匹配 """, dest='vpcId',  required=False)),
-            (['--filters'], dict(help="""(array: filter) subnetId - 子网ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询子网列表 ''',
-        description='''
-            查询子网列表。
-
-            示例: jdc cps describe-subnets 
-        ''',
-    )
-    def describe_subnets(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeSubnetsRequest import DescribeSubnetsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSubnetsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--subnet-spec'], dict(help="""(subnetSpec) 子网配置 """, dest='subnetSpec',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建子网 ''',
-        description='''
-            创建子网。
-
-            示例: jdc cps create-subnet  --subnet-spec '{"":""}'
-        ''',
-    )
-    def create_subnet(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.CreateSubnetRequest import CreateSubnetRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateSubnetRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询子网详情 ''',
-        description='''
-            查询子网详情。
-
-            示例: jdc cps describe-subnet  --subnet-id xxx
-        ''',
-    )
-    def describe_subnet(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeSubnetRequest import DescribeSubnetRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSubnetRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=True)),
-            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
-            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改子网 ''',
-        description='''
-            修改子网。
-
-            示例: jdc cps modify-subnet  --subnet-id xxx
-        ''',
-    )
-    def modify_subnet(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.ModifySubnetRequest import ModifySubnetRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifySubnetRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--subnet-id'], dict(help="""(string) 子网ID """, dest='subnetId',  required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除子网 ''',
-        description='''
-            删除子网。
-
-            示例: jdc cps delete-subnet  --subnet-id xxx
-        ''',
-    )
-    def delete_subnet(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DeleteSubnetRequest import DeleteSubnetRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteSubnetRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--vpc-id'], dict(help="""(string) 私有网络ID """, dest='vpcId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询私有网络详情 ''',
-        description='''
-            查询私有网络详情。
-
-            示例: jdc cps describe-vpc  --vpc-id xxx
-        ''',
-    )
-    def describe_vpc(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeVpcRequest import DescribeVpcRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeVpcRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--vpc-id'], dict(help="""(string) 私有网络ID """, dest='vpcId',  required=True)),
-            (['--name'], dict(help="""(string) 名称 """, dest='name',  required=False)),
-            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改私有网络;  ''',
-        description='''
-            修改私有网络; 。
-
-            示例: jdc cps modify-vpc  --vpc-id xxx
-        ''',
-    )
-    def modify_vpc(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.ModifyVpcRequest import ModifyVpcRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyVpcRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--vpc-id'], dict(help="""(string) 私有网络ID """, dest='vpcId',  required=True)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除私有网络;  ''',
-        description='''
-            删除私有网络; 。
-
-            示例: jdc cps delete-vpc  --vpc-id xxx
-        ''',
-    )
-    def delete_vpc(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DeleteVpcRequest import DeleteVpcRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteVpcRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[20, 100] """, dest='pageSize', type=int, required=False)),
-            (['--name'], dict(help="""(string) 私有网络名称 """, dest='name',  required=False)),
-            (['--filters'], dict(help="""(array: filter) vpcId - 私有网络ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询私有网络列表 ''',
-        description='''
-            查询私有网络列表。
-
-            示例: jdc cps describe-vpcs 
-        ''',
-    )
-    def describe_vpcs(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.DescribeVpcsRequest import DescribeVpcsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeVpcsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID，可调用接口（describeRegiones）获取云物理服务器支持的地域 """, dest='regionId',  required=False)),
-            (['--client-token'], dict(help="""(string) 由客户端生成，用于保证请求的幂等性，长度不能超过36个字符；<br/>; 如果多个请求使用了相同的clientToken，只会执行第一个请求，之后的请求直接返回第一个请求的结果<br/>;  """, dest='clientToken',  required=False)),
-            (['--vpc-spec'], dict(help="""(vpcSpec) 子网配置 """, dest='vpcSpec',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建私有网络 ''',
-        description='''
-            创建私有网络。
-
-            示例: jdc cps create-vpc  --vpc-spec '{"":""}'
-        ''',
-    )
-    def create_vpc(self):
-        client_factory = ClientFactory('cps')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.cps.apis.CreateVpcRequest import CreateVpcRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateVpcRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-elastic-ips','apply-elastic-ips','describe-elastic-ip','modify-elastic-ip-bandwidth','describe-device-types','describe-os','describe-device-raids','describe-instance','describe-instances','create-instances','describe-instance-name','modify-instance','describe-instance-raid','describe-instance-status','restart-instance','stop-instance','start-instance','reinstall-instance','modify-bandwidth','associate-elastic-ip','disassociate-elastic-ip','reset-password','describe-instance-monitor-info','describe-keypairs','create-keypairs','import-keypairs','describe-keypair','delete-keypairs','describe-listeners','create-listener','modify-listener','describe-listener','delete-listener','start-listener','stop-listener','describe-load-balancers','create-load-balancer','modify-load-balancer','describe-load-balancer','start-load-balancer','stop-load-balancer','associate-elastic-ip-lb','disassociate-elastic-ip-lb','describe-regiones','describe-cpslbregions','describe-route-table','describe-route-tables','describe-servers','add-servers','modify-server','remove-server','describe-server-groups','create-server-group','describe-server-group','modify-server-group','delete-server-group','describe-basic-subnet','describe-subnets','create-subnet','describe-subnet','modify-subnet','delete-subnet','describe-vpc','modify-vpc','delete-vpc','describe-vpcs','create-vpc',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-ipv6address','describe-ipv6addresses','assign-ipv6addresses-bandwidth','modify-ipv6address-bandwidth','describe-certs','create-cert','describe-cert','remove-cert','modify-cert','describe-alias-ips','create-alias-ip','delete-alias-ip','describe-secondary-cidrs','create-secondary-cidr','delete-secondary-cidr','describe-elastic-ips','apply-elastic-ips','describe-elastic-ip','modify-elastic-ip-bandwidth','describe-elastic-ip-name','describe-server-groups','create-server-group','describe-server-group','modify-server-group','delete-server-group','describe-keypairs','create-keypairs','import-keypairs','describe-keypair','delete-keypairs','describe-load-balancers','create-load-balancer','modify-load-balancer','describe-load-balancer','start-load-balancer','stop-load-balancer','associate-elastic-ip-lb','disassociate-elastic-ip-lb','describe-slbs-name','describe-servers','add-servers','modify-server','remove-server','describe-ipv6gateways','describe-ipv6gateway','modify-ipv6gateway','describe-basic-subnet','describe-subnets','create-subnet','assign-ipv6cidr','describe-subnet','modify-subnet','delete-subnet','describe-vpc','modify-vpc','delete-vpc','describe-vpcs','create-vpc','assign-ipv6gateway','describe-listeners','create-listener','modify-listener','describe-listener','delete-listener','start-listener','stop-listener','describe-device-types','describe-os','describe-device-raids','describe-instance','describe-instances','create-instances','describe-instance-name','assign-ipv6address','modify-instance','describe-instance-raid','describe-instance-status','restart-instance','stop-instance','start-instance','restart-instances','stop-instances','start-instances','reinstall-instance','modify-bandwidth','associate-elastic-ip','disassociate-elastic-ip','reset-password','describe-available-private-ip','describe-instance-monitor-info','describe-event-logs','describe-route-table','describe-route-tables','describe-regiones','describe-cpslbregions',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

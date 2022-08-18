@@ -39,31 +39,33 @@ class ApigatewayController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) auth_user_type - 授权类型，默认为 全部类型; auth_user_id - 用户标识，精确匹配，jd_cloud（京东云用户）, jd_apikms（api网关签名密钥）, jd_subscription_key（订阅密钥）,jd_cloud_pin（激活用户）;  """, dest='filters',  required=False)),
+            (['--order-by'], dict(help="""(string) 排序类型 """, dest='orderBy',  required=False)),
+            (['--api-group-id'], dict(help="""(string) api分组id """, dest='apiGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询访问授权列表 ''',
+        help=''' 查询domian列表 ''',
         description='''
-            查询访问授权列表。
+            查询domian列表。
 
-            示例: jdc apigateway query-access-auths 
+            示例: jdc apigateway query-user-domains  --api-group-id xxx
         ''',
     )
-    def query_access_auths(self):
+    def query_user_domains(self):
         client_factory = ClientFactory('apigateway')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.apigateway.apis.QueryAccessAuthsRequest import QueryAccessAuthsRequest
+            from jdcloud_sdk.services.apigateway.apis.QueryUserDomainsRequest import QueryUserDomainsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryAccessAuthsRequest(params_dict, headers)
+            req = QueryUserDomainsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -74,29 +76,32 @@ class ApigatewayController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-auth-view'], dict(help="""(accessAuthView) api分组 """, dest='accessAuthView',  required=False)),
+            (['--domain'], dict(help="""(string) 域名 """, dest='domain',  required=True)),
+            (['--protocol'], dict(help="""(string) 协议 """, dest='protocol',  required=False)),
+            (['--api-group-id'], dict(help="""(string) api分组id """, dest='apiGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建访问授权 ''',
+        help=''' 添加用户域名 ''',
         description='''
-            创建访问授权。
+            添加用户域名。
 
-            示例: jdc apigateway create-access-auth 
+            示例: jdc apigateway create-user-domain  --domain xxx --api-group-id xxx
         ''',
     )
-    def create_access_auth(self):
+    def create_user_domain(self):
         client_factory = ClientFactory('apigateway')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.apigateway.apis.CreateAccessAuthRequest import CreateAccessAuthRequest
+            from jdcloud_sdk.services.apigateway.apis.CreateUserDomainRequest import CreateUserDomainRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateAccessAuthRequest(params_dict, headers)
+            req = CreateUserDomainRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -107,1109 +112,31 @@ class ApigatewayController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-key'], dict(help="""(string) NA """, dest='accessKey',  required=True)),
-            (['--auth-user-type'], dict(help="""(string) NA """, dest='authUserType',  required=True)),
+            (['--domain-ids'], dict(help="""(string) 要删除domain的id集合，以,分隔 """, dest='domainIds',  required=True)),
+            (['--api-group-id'], dict(help="""(string) api分组id """, dest='apiGroupId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 检查accessAuth是否重复 ''',
+        help=''' 删除用户域名接口 ''',
         description='''
-            检查accessAuth是否重复。
+            删除用户域名接口。
 
-            示例: jdc apigateway check-auth-exist  --access-key xxx --auth-user-type xxx
+            示例: jdc apigateway delete-user-domain  --domain-ids xxx
         ''',
     )
-    def check_auth_exist(self):
+    def delete_user_domain(self):
         client_factory = ClientFactory('apigateway')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.apigateway.apis.CheckAuthExistRequest import CheckAuthExistRequest
+            from jdcloud_sdk.services.apigateway.apis.DeleteUserDomainRequest import DeleteUserDomainRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CheckAuthExistRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-auth-id'], dict(help="""(string) 访问授权ID """, dest='accessAuthId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个访问授权 ''',
-        description='''
-            查询单个访问授权。
-
-            示例: jdc apigateway query-access-auth  --access-auth-id xxx
-        ''',
-    )
-    def query_access_auth(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryAccessAuthRequest import QueryAccessAuthRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryAccessAuthRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-auth-id'], dict(help="""(string) 访问授权ID """, dest='accessAuthId',  required=True)),
-            (['--access-auth-view'], dict(help="""(accessAuthView) 访问授权详情 """, dest='accessAuthView',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 更新访问授权 ''',
-        description='''
-            更新访问授权。
-
-            示例: jdc apigateway update-access-auth  --access-auth-id xxx
-        ''',
-    )
-    def update_access_auth(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.UpdateAccessAuthRequest import UpdateAccessAuthRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateAccessAuthRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-auth-id'], dict(help="""(string) 访问授权ID """, dest='accessAuthId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除访问授权 ''',
-        description='''
-            删除访问授权。
-
-            示例: jdc apigateway delete-access-auth  --access-auth-id xxx
-        ''',
-    )
-    def delete_access_auth(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.DeleteAccessAuthRequest import DeleteAccessAuthRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteAccessAuthRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-auth-id'], dict(help="""(string) 访问授权ID """, dest='accessAuthId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询已绑定详情 ''',
-        description='''
-            查询已绑定详情。
-
-            示例: jdc apigateway query-bind-group-auth  --access-auth-id xxx
-        ''',
-    )
-    def query_bind_group_auth(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryBindGroupAuthRequest import QueryBindGroupAuthRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryBindGroupAuthRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-auth-id'], dict(help="""(string) 访问授权ID """, dest='accessAuthId',  required=True)),
-            (['--deployment-ids'], dict(help="""(string) 待绑定的部署ids逗号隔开 """, dest='deploymentIds',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 绑定分组 ''',
-        description='''
-            绑定分组。
-
-            示例: jdc apigateway bind-group-auth  --access-auth-id xxx --deployment-ids xxx
-        ''',
-    )
-    def bind_group_auth(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.BindGroupAuthRequest import BindGroupAuthRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = BindGroupAuthRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--auth-user-type'], dict(help="""(string) 待绑定的用户类型 """, dest='authUserType',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询可绑定部署列表 ''',
-        description='''
-            查询可绑定部署列表。
-
-            示例: jdc apigateway query-auth-group-list  --auth-user-type xxx
-        ''',
-    )
-    def query_auth_group_list(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryAuthGroupListRequest import QueryAuthGroupListRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryAuthGroupListRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) apiGroupName - 名称，模糊匹配;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询所有已授权api分组列表 ''',
-        description='''
-            查询所有已授权api分组列表。
-
-            示例: jdc apigateway authorized-api-group-list 
-        ''',
-    )
-    def authorized_api_group_list(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.AuthorizedApiGroupListRequest import AuthorizedApiGroupListRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = AuthorizedApiGroupListRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) description - 名称，模糊匹配; accessKey - accesskey，模糊匹配;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询密钥列表 ''',
-        description='''
-            查询密钥列表。
-
-            示例: jdc apigateway query-access-keys 
-        ''',
-    )
-    def query_access_keys(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryAccessKeysRequest import QueryAccessKeysRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryAccessKeysRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
-            (['--access-key-type'], dict(help="""(string) 密钥类型 """, dest='accessKeyType',  required=False)),
-            (['--access-key'], dict(help="""(string) Access Key """, dest='accessKey',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建密钥 ''',
-        description='''
-            创建密钥。
-
-            示例: jdc apigateway create-access-key 
-        ''',
-    )
-    def create_access_key(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CreateAccessKeyRequest import CreateAccessKeyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateAccessKeyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-key'], dict(help="""(string) NA """, dest='accessKey',  required=True)),
-            (['--access-key-type'], dict(help="""(string) NA """, dest='accessKeyType',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 检查AccessKey是否重复 ''',
-        description='''
-            检查AccessKey是否重复。
-
-            示例: jdc apigateway check-key-exist  --access-key xxx --access-key-type xxx
-        ''',
-    )
-    def check_key_exist(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CheckKeyExistRequest import CheckKeyExistRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CheckKeyExistRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个密钥 ''',
-        description='''
-            查询单个密钥。
-
-            示例: jdc apigateway query-access-key  --access-key-id xxx
-        ''',
-    )
-    def query_access_key(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryAccessKeyRequest import QueryAccessKeyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryAccessKeyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
-            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
-            (['--access-key-type'], dict(help="""(string) 密钥类型 """, dest='accessKeyType',  required=False)),
-            (['--access-key'], dict(help="""(string) Access Key """, dest='accessKey',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 更新密钥 ''',
-        description='''
-            更新密钥。
-
-            示例: jdc apigateway update-access-key  --access-key-id xxx
-        ''',
-    )
-    def update_access_key(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.UpdateAccessKeyRequest import UpdateAccessKeyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateAccessKeyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除密钥 ''',
-        description='''
-            删除密钥。
-
-            示例: jdc apigateway delete-access-key  --access-key-id xxx
-        ''',
-    )
-    def delete_access_key(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.DeleteAccessKeyRequest import DeleteAccessKeyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteAccessKeyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询绑定分组详情 ''',
-        description='''
-            查询绑定分组详情。
-
-            示例: jdc apigateway query-bind-group-key  --access-key-id xxx
-        ''',
-    )
-    def query_bind_group_key(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryBindGroupKeyRequest import QueryBindGroupKeyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryBindGroupKeyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
-            (['--deployment-ids'], dict(help="""(string) 待绑定的部署ids用逗号隔开 """, dest='deploymentIds',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 绑定分组 ''',
-        description='''
-            绑定分组。
-
-            示例: jdc apigateway bind-group-key  --access-key-id xxx --deployment-ids xxx
-        ''',
-    )
-    def bind_group_key(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.BindGroupKeyRequest import BindGroupKeyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = BindGroupKeyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询可绑定部署列表 ''',
-        description='''
-            查询可绑定部署列表。
-
-            示例: jdc apigateway query-key-group-list  --access-key-id xxx
-        ''',
-    )
-    def query_key_group_list(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryKeyGroupListRequest import QueryKeyGroupListRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryKeyGroupListRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) apiName - API名称，模糊匹配，支持单个; action - 动作，精确匹配，支持多个; backServiceType- 后端服务类型，精确匹配，支持多个; path - 路径，模糊匹配，支持单个; description - 描述，模糊匹配，支持单个; isApiProduct - 是否API产品，精确匹配，1为是;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询api列表 ''',
-        description='''
-            查询api列表。
-
-            示例: jdc apigateway query-apis  --api-group-id xxx --revision xxx
-        ''',
-    )
-    def query_apis(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryApisRequest import QueryApisRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryApisRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
-            (['--api'], dict(help="""(createApi) api """, dest='api',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建api ''',
-        description='''
-            创建api。
-
-            示例: jdc apigateway create-apis  --api-group-id xxx --revision xxx
-        ''',
-    )
-    def create_apis(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CreateApisRequest import CreateApisRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateApisRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
-            (['--api-name'], dict(help="""(string) API名称 """, dest='apiName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建API时，检查API名称是否重复,返回重复的apiId,如果没有返回空 ''',
-        description='''
-            创建API时，检查API名称是否重复,返回重复的apiId,如果没有返回空。
-
-            示例: jdc apigateway check-api-name-exist  --api-group-id xxx --revision xxx --api-name xxx
-        ''',
-    )
-    def check_api_name_exist(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CheckApiNameExistRequest import CheckApiNameExistRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CheckApiNameExistRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
-            (['--api-id'], dict(help="""(string) 接口ID """, dest='apiId',  required=True)),
-            (['--filters'], dict(help="""(array: filter) isApiProduct - 是否API产品，精确匹配，1为是;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个api ''',
-        description='''
-            查询单个api。
-
-            示例: jdc apigateway query-api  --api-group-id xxx --revision xxx --api-id xxx
-        ''',
-    )
-    def query_api(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryApiRequest import QueryApiRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryApiRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
-            (['--api-id'], dict(help="""(string) 接口ID """, dest='apiId',  required=True)),
-            (['--api'], dict(help="""(createApi) api """, dest='api',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改api ''',
-        description='''
-            修改api。
-
-            示例: jdc apigateway update-api  --api-group-id xxx --revision xxx --api-id xxx
-        ''',
-    )
-    def update_api(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.UpdateApiRequest import UpdateApiRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateApiRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
-            (['--api-id'], dict(help="""(string) 接口ID """, dest='apiId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除api ''',
-        description='''
-            删除api。
-
-            示例: jdc apigateway delete-api  --api-group-id xxx --revision xxx --api-id xxx
-        ''',
-    )
-    def delete_api(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.DeleteApiRequest import DeleteApiRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteApiRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
-            (['--api-name'], dict(help="""(string) NA """, dest='apiName',  required=True)),
-            (['--api'], dict(help="""(createApi) api """, dest='api',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改api ''',
-        description='''
-            修改api。
-
-            示例: jdc apigateway update-api-by-name  --api-group-id xxx --revision xxx --api-name xxx
-        ''',
-    )
-    def update_api_by_name(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.UpdateApiByNameRequest import UpdateApiByNameRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateApiByNameRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
-            (['--api-name'], dict(help="""(string) NA """, dest='apiName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除api ''',
-        description='''
-            删除api。
-
-            示例: jdc apigateway delete-api-by-name  --api-group-id xxx --revision xxx --api-name xxx
-        ''',
-    )
-    def delete_api_by_name(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.DeleteApiByNameRequest import DeleteApiByNameRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteApiByNameRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) groupName - 分组名称，模糊匹配，支持单个; description - 描述信息，模糊匹配，支持单个; groupId - 分组ID，精确匹配; domain - 域名，模糊匹配; jdsfId - 微服务网关ID，精确匹配;  """, dest='filters',  required=False)),
-            (['--tag-filters'], dict(help="""(array: tagFilter) 标签查询条件 """, dest='tagFilters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询分组 ''',
-        description='''
-            查询分组。
-
-            示例: jdc apigateway describe-api-groups 
-        ''',
-    )
-    def describe_api_groups(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.DescribeApiGroupsRequest import DescribeApiGroupsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeApiGroupsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--group-name'], dict(help="""(string) 名称 """, dest='groupName',  required=True)),
-            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
-            (['--prefix'], dict(help="""(string) 分组路径前缀，无需添加/ """, dest='prefix',  required=False)),
-            (['--key-check'], dict(help="""(string) 密钥验证方式：check_exist（密钥必须在访问授权中已配置）、no_check_exist（无需事先配置） """, dest='keyCheck',  required=False)),
-            (['--auth-type'], dict(help="""(string) 访问授权方式：None（免鉴权）、jd_cloud（开启访问授权，且必须使用京东云的AK、SK验签）、hufu（虎符用户） """, dest='authType',  required=True)),
-            (['--prefix-strip'], dict(help="""(int) 是否转发分组路径到后端服务：0（不转发）、1（转发）默认为1 """, dest='prefixStrip', type=int, required=False)),
-            (['--group-type'], dict(help="""(string) 分组类型：api_group（api分组）、jdsf_group（微服务分组）默认为 api_group """, dest='groupType',  required=False)),
-            (['--jdsf-name'], dict(help="""(string) 微服务网关名称 """, dest='jdsfName',  required=False)),
-            (['--jdsf-registry-name'], dict(help="""(string) 微服务注册中心ID """, dest='jdsfRegistryName',  required=False)),
-            (['--jdsf-id'], dict(help="""(string) 微服务网关ID """, dest='jdsfId',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建API分组 ''',
-        description='''
-            创建API分组。
-
-            示例: jdc apigateway create-api-group  --group-name xxx --auth-type xxx
-        ''',
-    )
-    def create_api_group(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CreateApiGroupRequest import CreateApiGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateApiGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--group-name'], dict(help="""(string) 分组名称 """, dest='groupName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 检查分组名称是否重复,返回重复的apiGroupId,如果没有返回空 ''',
-        description='''
-            检查分组名称是否重复,返回重复的apiGroupId,如果没有返回空。
-
-            示例: jdc apigateway check-group-name-exist  --group-name xxx
-        ''',
-    )
-    def check_group_name_exist(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CheckGroupNameExistRequest import CheckGroupNameExistRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CheckGroupNameExistRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询API分组详情 ''',
-        description='''
-            查询API分组详情。
-
-            示例: jdc apigateway describe-api-group  --api-group-id xxx
-        ''',
-    )
-    def describe_api_group(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.DescribeApiGroupRequest import DescribeApiGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeApiGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--group-name'], dict(help="""(string) 名称 """, dest='groupName',  required=False)),
-            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
-            (['--prefix'], dict(help="""(string) 分组路径前缀 """, dest='prefix',  required=False)),
-            (['--key-check'], dict(help="""(string) 密钥验证方式：check_exist（密钥必须在访问授权中已配置）、no_check_exist（无需事先配置） """, dest='keyCheck',  required=False)),
-            (['--auth-type'], dict(help="""(string) 访问授权方式：None（免鉴权）、jd_cloud（开启访问授权，且必须使用京东云的AK、SK验签）、hufu（虎符用户） """, dest='authType',  required=False)),
-            (['--prefix-strip'], dict(help="""(int) 是否转发分组路径到后端服务：0（不转发）、1（转发）默认为1 """, dest='prefixStrip', type=int, required=False)),
-            (['--group-type'], dict(help="""(string) 分组类型：api_group（api分组）、jdsf_group（微服务分组）默认为 api_group """, dest='groupType',  required=False)),
-            (['--jdsf-name'], dict(help="""(string) 微服务网关名称 """, dest='jdsfName',  required=False)),
-            (['--jdsf-registry-name'], dict(help="""(string) 微服务注册中心ID """, dest='jdsfRegistryName',  required=False)),
-            (['--jdsf-id'], dict(help="""(string) 微服务网关ID """, dest='jdsfId',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改API分组信息 ''',
-        description='''
-            修改API分组信息。
-
-            示例: jdc apigateway modify-api-group-attribute  --api-group-id xxx
-        ''',
-    )
-    def modify_api_group_attribute(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.ModifyApiGroupAttributeRequest import ModifyApiGroupAttributeRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyApiGroupAttributeRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除单个API分组 ''',
-        description='''
-            删除单个API分组。
-
-            示例: jdc apigateway delete-api-group  --api-group-id xxx
-        ''',
-    )
-    def delete_api_group(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.DeleteApiGroupRequest import DeleteApiGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteApiGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--filters'], dict(help="""(array: filter) deployStatus - 发布状态，已发布：1，未发布：0;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询分组 ''',
-        description='''
-            查询分组。
-
-            示例: jdc apigateway describe-is-deploy-api-groups 
-        ''',
-    )
-    def describe_is_deploy_api_groups(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.DescribeIsDeployApiGroupsRequest import DescribeIsDeployApiGroupsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeIsDeployApiGroupsRequest(params_dict, headers)
+            req = DeleteUserDomainRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1237,6 +164,7 @@ class ApigatewayController(BaseController):
             (['--jdsf-region'], dict(help="""(string) vpc网关所属region """, dest='jdsfRegion',  required=False)),
             (['--jdsf-pin'], dict(help="""(string) vpc网关创建者的pin """, dest='jdsfPin',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1244,7 +172,7 @@ class ApigatewayController(BaseController):
         description='''
             开通后端配置。
 
-            示例: jdc apigateway create-backend-config  --api-group-id xxx --environment xxx --backend-service-type xxx --sort 0
+            示例: jdc apigateway create-backend-config  --api-group-id xxx --environment xxx --backend-service-type xxx --sort 5
         ''',
     )
     def create_backend_config(self):
@@ -1274,6 +202,7 @@ class ApigatewayController(BaseController):
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) sort - 路由排序，赋值0时为默认的后端配置;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1308,6 +237,7 @@ class ApigatewayController(BaseController):
             (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
             (['--backend-config-id'], dict(help="""(string) backendConfigId """, dest='backendConfigId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1356,6 +286,7 @@ class ApigatewayController(BaseController):
             (['--jdsf-region'], dict(help="""(string) vpc网关所属region """, dest='jdsfRegion',  required=False)),
             (['--jdsf-pin'], dict(help="""(string) vpc网关创建者的pin """, dest='jdsfPin',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1363,7 +294,7 @@ class ApigatewayController(BaseController):
         description='''
             修改后端配置。
 
-            示例: jdc apigateway update-backend-config  --api-group-id xxx --backend-config-id xxx --environment xxx --backend-service-type xxx --sort 0
+            示例: jdc apigateway update-backend-config  --api-group-id xxx --backend-config-id xxx --environment xxx --backend-service-type xxx --sort 5
         ''',
     )
     def update_backend_config(self):
@@ -1390,6 +321,7 @@ class ApigatewayController(BaseController):
             (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
             (['--backend-config-id'], dict(help="""(string) backendConfigId """, dest='backendConfigId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1421,9 +353,1610 @@ class ApigatewayController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) accessKey - accesskey，精确匹配;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询密钥列表 ''',
+        description='''
+            查询密钥列表。
+
+            示例: jdc apigateway query-uc-access-keys 
+        ''',
+    )
+    def query_uc_access_keys(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryUcAccessKeysRequest import QueryUcAccessKeysRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryUcAccessKeysRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--order-by'], dict(help="""(string) 排序类型 """, dest='orderBy',  required=False)),
+            (['--user-type'], dict(help="""(string) 用户类型 """, dest='userType',  required=False)),
+            (['--key-id'], dict(help="""(string) 密钥Id """, dest='keyId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询key列表 ''',
+        description='''
+            查询key列表。
+
+            示例: jdc apigateway query-keys 
+        ''',
+    )
+    def query_keys(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryKeysRequest import QueryKeysRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryKeysRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--key-name'], dict(help="""(string) key 名称 """, dest='keyName',  required=False)),
+            (['--key-desc'], dict(help="""(string) key 描述 """, dest='keyDesc',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建key ''',
+        description='''
+            创建key。
+
+            示例: jdc apigateway create-key 
+        ''',
+    )
+    def create_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CreateKeyRequest import CreateKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--key-id'], dict(help="""(string) keyId """, dest='keyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 重置key的acesskey和secretkey ''',
+        description='''
+            重置key的acesskey和secretkey。
+
+            示例: jdc apigateway reset-key  --key-id xxx
+        ''',
+    )
+    def reset_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.ResetKeyRequest import ResetKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ResetKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--key-id'], dict(help="""(string) keyid """, dest='keyId',  required=True)),
+            (['--key-name'], dict(help="""(string) key 名称 """, dest='keyName',  required=False)),
+            (['--key-desc'], dict(help="""(string) NA """, dest='keyDesc',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改key信息 ''',
+        description='''
+            修改key信息。
+
+            示例: jdc apigateway update-key  --key-id xxx
+        ''',
+    )
+    def update_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.UpdateKeyRequest import UpdateKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--key-id'], dict(help="""(string) keyId """, dest='keyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询key详情 ''',
+        description='''
+            查询key详情。
+
+            示例: jdc apigateway query-key-info  --key-id xxx
+        ''',
+    )
+    def query_key_info(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryKeyInfoRequest import QueryKeyInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryKeyInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) groupName - 分组名称，模糊匹配，支持单个; description - 描述信息，模糊匹配，支持单个; groupId - 分组ID，精确匹配; domain - 域名，模糊匹配; jdsfId - 微服务网关ID，精确匹配;  """, dest='filters',  required=False)),
+            (['--tag-filters'], dict(help="""(array: tagFilter) 标签查询条件 """, dest='tagFilters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询分组 ''',
+        description='''
+            查询分组。
+
+            示例: jdc apigateway describe-api-groups 
+        ''',
+    )
+    def describe_api_groups(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.DescribeApiGroupsRequest import DescribeApiGroupsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeApiGroupsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--group-name'], dict(help="""(string) 名称 """, dest='groupName',  required=True)),
+            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--prefix'], dict(help="""(string) 分组路径前缀，无需添加/ """, dest='prefix',  required=False)),
+            (['--key-check'], dict(help="""(string) 密钥验证方式：check_exist（密钥必须在访问授权中已配置）、no_check_exist（无需事先配置） """, dest='keyCheck',  required=False)),
+            (['--auth-type'], dict(help="""(string) 访问授权方式：None（免鉴权）、jd_cloud（开启访问授权，且必须使用京东云的AK、SK验签）、hufu（虎符用户） """, dest='authType',  required=True)),
+            (['--prefix-strip'], dict(help="""(int) 是否转发分组路径到后端服务：0（不转发）、1（转发）默认为1 """, dest='prefixStrip', type=int, required=False)),
+            (['--group-type'], dict(help="""(string) 分组类型：api_group（api分组）、jdsf_group（微服务分组）默认为 api_group """, dest='groupType',  required=False)),
+            (['--jdsf-name'], dict(help="""(string) 微服务网关名称 """, dest='jdsfName',  required=False)),
+            (['--jdsf-registry-name'], dict(help="""(string) 微服务注册中心ID """, dest='jdsfRegistryName',  required=False)),
+            (['--jdsf-id'], dict(help="""(string) 微服务网关ID """, dest='jdsfId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建API分组 ''',
+        description='''
+            创建API分组。
+
+            示例: jdc apigateway create-api-group  --group-name xxx --auth-type xxx
+        ''',
+    )
+    def create_api_group(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CreateApiGroupRequest import CreateApiGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateApiGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--group-name'], dict(help="""(string) 分组名称 """, dest='groupName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 检查分组名称是否重复,返回重复的apiGroupId,如果没有返回空 ''',
+        description='''
+            检查分组名称是否重复,返回重复的apiGroupId,如果没有返回空。
+
+            示例: jdc apigateway check-group-name-exist  --group-name xxx
+        ''',
+    )
+    def check_group_name_exist(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CheckGroupNameExistRequest import CheckGroupNameExistRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CheckGroupNameExistRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询API分组详情 ''',
+        description='''
+            查询API分组详情。
+
+            示例: jdc apigateway describe-api-group  --api-group-id xxx
+        ''',
+    )
+    def describe_api_group(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.DescribeApiGroupRequest import DescribeApiGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeApiGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--group-name'], dict(help="""(string) 名称 """, dest='groupName',  required=False)),
+            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--prefix'], dict(help="""(string) 分组路径前缀 """, dest='prefix',  required=False)),
+            (['--key-check'], dict(help="""(string) 密钥验证方式：check_exist（密钥必须在访问授权中已配置）、no_check_exist（无需事先配置） """, dest='keyCheck',  required=False)),
+            (['--auth-type'], dict(help="""(string) 访问授权方式：None（免鉴权）、jd_cloud（开启访问授权，且必须使用京东云的AK、SK验签）、hufu（虎符用户） """, dest='authType',  required=False)),
+            (['--prefix-strip'], dict(help="""(int) 是否转发分组路径到后端服务：0（不转发）、1（转发）默认为1 """, dest='prefixStrip', type=int, required=False)),
+            (['--group-type'], dict(help="""(string) 分组类型：api_group（api分组）、jdsf_group（微服务分组）默认为 api_group """, dest='groupType',  required=False)),
+            (['--jdsf-name'], dict(help="""(string) 微服务网关名称 """, dest='jdsfName',  required=False)),
+            (['--jdsf-registry-name'], dict(help="""(string) 微服务注册中心ID """, dest='jdsfRegistryName',  required=False)),
+            (['--jdsf-id'], dict(help="""(string) 微服务网关ID """, dest='jdsfId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改API分组信息 ''',
+        description='''
+            修改API分组信息。
+
+            示例: jdc apigateway modify-api-group-attribute  --api-group-id xxx
+        ''',
+    )
+    def modify_api_group_attribute(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.ModifyApiGroupAttributeRequest import ModifyApiGroupAttributeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyApiGroupAttributeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除单个API分组 ''',
+        description='''
+            删除单个API分组。
+
+            示例: jdc apigateway delete-api-group  --api-group-id xxx
+        ''',
+    )
+    def delete_api_group(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.DeleteApiGroupRequest import DeleteApiGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteApiGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--filters'], dict(help="""(array: filter) deployStatus - 发布状态，已发布：1，未发布：0;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询分组 ''',
+        description='''
+            查询分组。
+
+            示例: jdc apigateway describe-is-deploy-api-groups 
+        ''',
+    )
+    def describe_is_deploy_api_groups(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.DescribeIsDeployApiGroupsRequest import DescribeIsDeployApiGroupsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeIsDeployApiGroupsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) policyName - 策略名称，模糊匹配;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询流控策略列表 ''',
+        description='''
+            查询流控策略列表。
+
+            示例: jdc apigateway query-rate-limit-policies 
+        ''',
+    )
+    def query_rate_limit_policies(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryRateLimitPoliciesRequest import QueryRateLimitPoliciesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryRateLimitPoliciesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--rate-limit-policy-view'], dict(help="""(rateLimitPolicyView) 流控策略详情 """, dest='rateLimitPolicyView',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建流控策略 ''',
+        description='''
+            创建流控策略。
+
+            示例: jdc apigateway create-rate-limit-policy 
+        ''',
+    )
+    def create_rate_limit_policy(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CreateRateLimitPolicyRequest import CreateRateLimitPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateRateLimitPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--policy-name'], dict(help="""(string) NA """, dest='policyName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 检查策略名是否重复 ''',
+        description='''
+            检查策略名是否重复。
+
+            示例: jdc apigateway check-policy-name  --policy-name xxx
+        ''',
+    )
+    def check_policy_name(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CheckPolicyNameRequest import CheckPolicyNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CheckPolicyNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询单个流控策略 ''',
+        description='''
+            查询单个流控策略。
+
+            示例: jdc apigateway query-rate-limit-policy  --policy-id xxx
+        ''',
+    )
+    def query_rate_limit_policy(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryRateLimitPolicyRequest import QueryRateLimitPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryRateLimitPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
+            (['--rate-limit-policy-view'], dict(help="""(rateLimitPolicyView) 流控策略详情 """, dest='rateLimitPolicyView',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改流控策略 ''',
+        description='''
+            修改流控策略。
+
+            示例: jdc apigateway update-rate-limit-policy  --policy-id xxx
+        ''',
+    )
+    def update_rate_limit_policy(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.UpdateRateLimitPolicyRequest import UpdateRateLimitPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateRateLimitPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除单个流控策略 ''',
+        description='''
+            删除单个流控策略。
+
+            示例: jdc apigateway delete-rate-limit-policy  --policy-id xxx
+        ''',
+    )
+    def delete_rate_limit_policy(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.DeleteRateLimitPolicyRequest import DeleteRateLimitPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteRateLimitPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询绑定部署详情 ''',
+        description='''
+            查询绑定部署详情。
+
+            示例: jdc apigateway query-bind-group-policy  --policy-id xxx
+        ''',
+    )
+    def query_bind_group_policy(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryBindGroupPolicyRequest import QueryBindGroupPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryBindGroupPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
+            (['--deployment-ids'], dict(help="""(string) 待绑定的部署ids逗号隔开 """, dest='deploymentIds',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 绑定 ''',
+        description='''
+            绑定。
+
+            示例: jdc apigateway bind-group-policy  --policy-id xxx --deployment-ids xxx
+        ''',
+    )
+    def bind_group_policy(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.BindGroupPolicyRequest import BindGroupPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = BindGroupPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可绑定部署列表 ''',
+        description='''
+            查询可绑定部署列表。
+
+            示例: jdc apigateway query-policy-group-list  --policy-id xxx
+        ''',
+    )
+    def query_policy_group_list(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryPolicyGroupListRequest import QueryPolicyGroupListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryPolicyGroupListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) description - 名称，模糊匹配; subscriptionKeyId - subscriptionKeyId，精确匹配; orderBy - 排序类型 desc asc;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询密钥列表 ''',
+        description='''
+            查询密钥列表。
+
+            示例: jdc apigateway query-subscription-keys 
+        ''',
+    )
+    def query_subscription_keys(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QuerySubscriptionKeysRequest import QuerySubscriptionKeysRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QuerySubscriptionKeysRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--name'], dict(help="""(string) 密钥名称 """, dest='name',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建密钥 ''',
+        description='''
+            创建密钥。
+
+            示例: jdc apigateway create-subscription-key 
+        ''',
+    )
+    def create_subscription_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CreateSubscriptionKeyRequest import CreateSubscriptionKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateSubscriptionKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--subscription-key-id'], dict(help="""(string) subscription key id """, dest='subscriptionKeyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询单个密钥 ''',
+        description='''
+            查询单个密钥。
+
+            示例: jdc apigateway query-subscription-key  --subscription-key-id xxx
+        ''',
+    )
+    def query_subscription_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QuerySubscriptionKeyRequest import QuerySubscriptionKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QuerySubscriptionKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--subscription-key-id'], dict(help="""(string) subscription key id """, dest='subscriptionKeyId',  required=True)),
+            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--name'], dict(help="""(string) 密钥名称 """, dest='name',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 更新密钥 ''',
+        description='''
+            更新密钥。
+
+            示例: jdc apigateway update-subscription-key  --subscription-key-id xxx
+        ''',
+    )
+    def update_subscription_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.UpdateSubscriptionKeyRequest import UpdateSubscriptionKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateSubscriptionKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--subscription-key-id'], dict(help="""(string) subscription key id """, dest='subscriptionKeyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除密钥 ''',
+        description='''
+            删除密钥。
+
+            示例: jdc apigateway delete-subscription-key  --subscription-key-id xxx
+        ''',
+    )
+    def delete_subscription_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.DeleteSubscriptionKeyRequest import DeleteSubscriptionKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSubscriptionKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) description - 名称，模糊匹配; accessKey - accesskey，模糊匹配;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询密钥列表 ''',
+        description='''
+            查询密钥列表。
+
+            示例: jdc apigateway query-access-keys 
+        ''',
+    )
+    def query_access_keys(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryAccessKeysRequest import QueryAccessKeysRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryAccessKeysRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--access-key-type'], dict(help="""(string) 密钥类型 """, dest='accessKeyType',  required=False)),
+            (['--access-key'], dict(help="""(string) Access Key """, dest='accessKey',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建密钥 ''',
+        description='''
+            创建密钥。
+
+            示例: jdc apigateway create-access-key 
+        ''',
+    )
+    def create_access_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CreateAccessKeyRequest import CreateAccessKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateAccessKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--access-key'], dict(help="""(string) NA """, dest='accessKey',  required=True)),
+            (['--access-key-type'], dict(help="""(string) NA """, dest='accessKeyType',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 检查AccessKey是否重复 ''',
+        description='''
+            检查AccessKey是否重复。
+
+            示例: jdc apigateway check-key-exist  --access-key xxx --access-key-type xxx
+        ''',
+    )
+    def check_key_exist(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CheckKeyExistRequest import CheckKeyExistRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CheckKeyExistRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询单个密钥 ''',
+        description='''
+            查询单个密钥。
+
+            示例: jdc apigateway query-access-key  --access-key-id xxx
+        ''',
+    )
+    def query_access_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryAccessKeyRequest import QueryAccessKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryAccessKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
+            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--access-key-type'], dict(help="""(string) 密钥类型 """, dest='accessKeyType',  required=False)),
+            (['--access-key'], dict(help="""(string) Access Key """, dest='accessKey',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 更新密钥 ''',
+        description='''
+            更新密钥。
+
+            示例: jdc apigateway update-access-key  --access-key-id xxx
+        ''',
+    )
+    def update_access_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.UpdateAccessKeyRequest import UpdateAccessKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateAccessKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除密钥 ''',
+        description='''
+            删除密钥。
+
+            示例: jdc apigateway delete-access-key  --access-key-id xxx
+        ''',
+    )
+    def delete_access_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.DeleteAccessKeyRequest import DeleteAccessKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteAccessKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询绑定分组详情 ''',
+        description='''
+            查询绑定分组详情。
+
+            示例: jdc apigateway query-bind-group-key  --access-key-id xxx
+        ''',
+    )
+    def query_bind_group_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryBindGroupKeyRequest import QueryBindGroupKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryBindGroupKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
+            (['--deployment-ids'], dict(help="""(string) 待绑定的部署ids用逗号隔开 """, dest='deploymentIds',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 绑定分组 ''',
+        description='''
+            绑定分组。
+
+            示例: jdc apigateway bind-group-key  --access-key-id xxx --deployment-ids xxx
+        ''',
+    )
+    def bind_group_key(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.BindGroupKeyRequest import BindGroupKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = BindGroupKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--access-key-id'], dict(help="""(string) access key id """, dest='accessKeyId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可绑定部署列表 ''',
+        description='''
+            查询可绑定部署列表。
+
+            示例: jdc apigateway query-key-group-list  --access-key-id xxx
+        ''',
+    )
+    def query_key_group_list(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryKeyGroupListRequest import QueryKeyGroupListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryKeyGroupListRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--pin'], dict(help="""(string) 京东云pin """, dest='pin',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 校验pin是否存在 ''',
+        description='''
+            校验pin是否存在。
+
+            示例: jdc apigateway check-pin  --pin xxx
+        ''',
+    )
+    def check_pin(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CheckPinRequest import CheckPinRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CheckPinRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) apiName - API名称，模糊匹配，支持单个; action - 动作，精确匹配，支持多个; backServiceType- 后端服务类型，精确匹配，支持多个; path - 路径，模糊匹配，支持单个; description - 描述，模糊匹配，支持单个; isApiProduct - 是否API产品，精确匹配，1为是;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询api列表 ''',
+        description='''
+            查询api列表。
+
+            示例: jdc apigateway query-apis  --api-group-id xxx --revision xxx
+        ''',
+    )
+    def query_apis(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryApisRequest import QueryApisRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryApisRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
+            (['--api'], dict(help="""(createApi) api """, dest='api',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建api ''',
+        description='''
+            创建api。
+
+            示例: jdc apigateway create-apis  --api-group-id xxx --revision xxx
+        ''',
+    )
+    def create_apis(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CreateApisRequest import CreateApisRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateApisRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
+            (['--api-name'], dict(help="""(string) API名称 """, dest='apiName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建API时，检查API名称是否重复,返回重复的apiId,如果没有返回空 ''',
+        description='''
+            创建API时，检查API名称是否重复,返回重复的apiId,如果没有返回空。
+
+            示例: jdc apigateway check-api-name-exist  --api-group-id xxx --revision xxx --api-name xxx
+        ''',
+    )
+    def check_api_name_exist(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.CheckApiNameExistRequest import CheckApiNameExistRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CheckApiNameExistRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
+            (['--api-id'], dict(help="""(string) 接口ID """, dest='apiId',  required=True)),
+            (['--filters'], dict(help="""(array: filter) isApiProduct - 是否API产品，精确匹配，1为是;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询单个api ''',
+        description='''
+            查询单个api。
+
+            示例: jdc apigateway query-api  --api-group-id xxx --revision xxx --api-id xxx
+        ''',
+    )
+    def query_api(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryApiRequest import QueryApiRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryApiRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
+            (['--api-id'], dict(help="""(string) 接口ID """, dest='apiId',  required=True)),
+            (['--api'], dict(help="""(createApi) api """, dest='api',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改api ''',
+        description='''
+            修改api。
+
+            示例: jdc apigateway update-api  --api-group-id xxx --revision xxx --api-id xxx
+        ''',
+    )
+    def update_api(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.UpdateApiRequest import UpdateApiRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateApiRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
+            (['--api-id'], dict(help="""(string) 接口ID """, dest='apiId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除api ''',
+        description='''
+            删除api。
+
+            示例: jdc apigateway delete-api  --api-group-id xxx --revision xxx --api-id xxx
+        ''',
+    )
+    def delete_api(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.DeleteApiRequest import DeleteApiRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteApiRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
+            (['--api-name'], dict(help="""(string) NA """, dest='apiName',  required=True)),
+            (['--api'], dict(help="""(createApi) api """, dest='api',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改api ''',
+        description='''
+            修改api。
+
+            示例: jdc apigateway update-api-by-name  --api-group-id xxx --revision xxx --api-name xxx
+        ''',
+    )
+    def update_api_by_name(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.UpdateApiByNameRequest import UpdateApiByNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateApiByNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
+            (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
+            (['--api-name'], dict(help="""(string) NA """, dest='apiName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除api ''',
+        description='''
+            删除api。
+
+            示例: jdc apigateway delete-api-by-name  --api-group-id xxx --revision xxx --api-name xxx
+        ''',
+    )
+    def delete_api_by_name(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.DeleteApiByNameRequest import DeleteApiByNameRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteApiByNameRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
             (['--filters'], dict(help="""(array: filter) isApiProduct - 是否API产品，精确匹配，1为是;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1465,6 +1998,7 @@ class ApigatewayController(BaseController):
             (['--jdsf-registry-name'], dict(help="""(string) 微服务注册中心ID """, dest='jdsfRegistryName',  required=False)),
             (['--jdsf-id'], dict(help="""(string) 微服务ID """, dest='jdsfId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1499,6 +2033,7 @@ class ApigatewayController(BaseController):
             (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
             (['--deployment-id'], dict(help="""(string) 部署ID """, dest='deploymentId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1533,6 +2068,7 @@ class ApigatewayController(BaseController):
             (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
             (['--deployment-id'], dict(help="""(string) 部署ID """, dest='deploymentId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1567,6 +2103,7 @@ class ApigatewayController(BaseController):
             (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
             (['--deployment-ids'], dict(help="""(string) 要删除的部署ID集合，以,分隔 """, dest='deploymentIds',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1598,484 +2135,12 @@ class ApigatewayController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--order-by'], dict(help="""(string) 排序类型 """, dest='orderBy',  required=False)),
-            (['--user-type'], dict(help="""(string) 用户类型 """, dest='userType',  required=False)),
-            (['--key-id'], dict(help="""(string) 密钥Id """, dest='keyId',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询key列表 ''',
-        description='''
-            查询key列表。
-
-            示例: jdc apigateway query-keys 
-        ''',
-    )
-    def query_keys(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryKeysRequest import QueryKeysRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryKeysRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--key-name'], dict(help="""(string) key 名称 """, dest='keyName',  required=False)),
-            (['--key-desc'], dict(help="""(string) key 描述 """, dest='keyDesc',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建key ''',
-        description='''
-            创建key。
-
-            示例: jdc apigateway create-key 
-        ''',
-    )
-    def create_key(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CreateKeyRequest import CreateKeyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateKeyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--key-id'], dict(help="""(string) keyId """, dest='keyId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 重置key的acesskey和secretkey ''',
-        description='''
-            重置key的acesskey和secretkey。
-
-            示例: jdc apigateway reset-key  --key-id xxx
-        ''',
-    )
-    def reset_key(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.ResetKeyRequest import ResetKeyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ResetKeyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--key-id'], dict(help="""(string) keyid """, dest='keyId',  required=True)),
-            (['--key-name'], dict(help="""(string) key 名称 """, dest='keyName',  required=False)),
-            (['--key-desc'], dict(help="""(string) NA """, dest='keyDesc',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改key信息 ''',
-        description='''
-            修改key信息。
-
-            示例: jdc apigateway update-key  --key-id xxx
-        ''',
-    )
-    def update_key(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.UpdateKeyRequest import UpdateKeyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateKeyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--key-id'], dict(help="""(string) keyId """, dest='keyId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询key详情 ''',
-        description='''
-            查询key详情。
-
-            示例: jdc apigateway query-key-info  --key-id xxx
-        ''',
-    )
-    def query_key_info(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryKeyInfoRequest import QueryKeyInfoRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryKeyInfoRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) policyName - 策略名称，模糊匹配;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询流控策略列表 ''',
-        description='''
-            查询流控策略列表。
-
-            示例: jdc apigateway query-rate-limit-policies 
-        ''',
-    )
-    def query_rate_limit_policies(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryRateLimitPoliciesRequest import QueryRateLimitPoliciesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryRateLimitPoliciesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--rate-limit-policy-view'], dict(help="""(rateLimitPolicyView) 流控策略详情 """, dest='rateLimitPolicyView',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建流控策略 ''',
-        description='''
-            创建流控策略。
-
-            示例: jdc apigateway create-rate-limit-policy 
-        ''',
-    )
-    def create_rate_limit_policy(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CreateRateLimitPolicyRequest import CreateRateLimitPolicyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateRateLimitPolicyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--policy-name'], dict(help="""(string) NA """, dest='policyName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 检查策略名是否重复 ''',
-        description='''
-            检查策略名是否重复。
-
-            示例: jdc apigateway check-policy-name  --policy-name xxx
-        ''',
-    )
-    def check_policy_name(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CheckPolicyNameRequest import CheckPolicyNameRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CheckPolicyNameRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个流控策略 ''',
-        description='''
-            查询单个流控策略。
-
-            示例: jdc apigateway query-rate-limit-policy  --policy-id xxx
-        ''',
-    )
-    def query_rate_limit_policy(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryRateLimitPolicyRequest import QueryRateLimitPolicyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryRateLimitPolicyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
-            (['--rate-limit-policy-view'], dict(help="""(rateLimitPolicyView) 流控策略详情 """, dest='rateLimitPolicyView',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改流控策略 ''',
-        description='''
-            修改流控策略。
-
-            示例: jdc apigateway update-rate-limit-policy  --policy-id xxx
-        ''',
-    )
-    def update_rate_limit_policy(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.UpdateRateLimitPolicyRequest import UpdateRateLimitPolicyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateRateLimitPolicyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除单个流控策略 ''',
-        description='''
-            删除单个流控策略。
-
-            示例: jdc apigateway delete-rate-limit-policy  --policy-id xxx
-        ''',
-    )
-    def delete_rate_limit_policy(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.DeleteRateLimitPolicyRequest import DeleteRateLimitPolicyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteRateLimitPolicyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询绑定部署详情 ''',
-        description='''
-            查询绑定部署详情。
-
-            示例: jdc apigateway query-bind-group-policy  --policy-id xxx
-        ''',
-    )
-    def query_bind_group_policy(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryBindGroupPolicyRequest import QueryBindGroupPolicyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryBindGroupPolicyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
-            (['--deployment-ids'], dict(help="""(string) 待绑定的部署ids逗号隔开 """, dest='deploymentIds',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 绑定 ''',
-        description='''
-            绑定。
-
-            示例: jdc apigateway bind-group-policy  --policy-id xxx --deployment-ids xxx
-        ''',
-    )
-    def bind_group_policy(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.BindGroupPolicyRequest import BindGroupPolicyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = BindGroupPolicyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--policy-id'], dict(help="""(string) 限流策略ID """, dest='policyId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询可绑定部署列表 ''',
-        description='''
-            查询可绑定部署列表。
-
-            示例: jdc apigateway query-policy-group-list  --policy-id xxx
-        ''',
-    )
-    def query_policy_group_list(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryPolicyGroupListRequest import QueryPolicyGroupListRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryPolicyGroupListRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) revision - 修订版本号，精确匹配; environment - 发布环境，模糊匹配; revisionNote - 修订备注，精确匹配;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -2112,6 +2177,7 @@ class ApigatewayController(BaseController):
             (['--base-revision'], dict(help="""(string) 基于此版本，如果创建版本时传回修订版本，此为必填项 """, dest='baseRevision',  required=False)),
             (['--revision-note'], dict(help="""(string) 修订备注 """, dest='revisionNote',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -2145,6 +2211,7 @@ class ApigatewayController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -2179,6 +2246,7 @@ class ApigatewayController(BaseController):
             (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
             (['--revision'], dict(help="""(string) 版本号 """, dest='revision',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -2216,6 +2284,7 @@ class ApigatewayController(BaseController):
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) revision - 修订版本号，模糊匹配; environment - 发布环境，模糊匹配; revisionNote - 修订备注，模糊匹配;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -2251,6 +2320,7 @@ class ApigatewayController(BaseController):
             (['--revision-id'], dict(help="""(string) 版本ID """, dest='revisionId',  required=True)),
             (['--revision-note'], dict(help="""(string) 修订备注 """, dest='revisionNote',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -2285,6 +2355,7 @@ class ApigatewayController(BaseController):
             (['--api-group-id'], dict(help="""(string) 分组ID """, dest='apiGroupId',  required=True)),
             (['--revision-id'], dict(help="""(string) 版本ID """, dest='revisionId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -2318,29 +2389,30 @@ class ApigatewayController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) description - 名称，模糊匹配; subscriptionKeyId - subscriptionKeyId，精确匹配; orderBy - 排序类型 desc asc;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) auth_user_type - 授权类型，默认为 全部类型; auth_user_id - 用户标识，精确匹配，jd_cloud（京东云用户）, jd_apikms（api网关签名密钥）, jd_subscription_key（订阅密钥）,jd_cloud_pin（激活用户）;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询密钥列表 ''',
+        help=''' 查询访问授权列表 ''',
         description='''
-            查询密钥列表。
+            查询访问授权列表。
 
-            示例: jdc apigateway query-subscription-keys 
+            示例: jdc apigateway query-access-auths 
         ''',
     )
-    def query_subscription_keys(self):
+    def query_access_auths(self):
         client_factory = ClientFactory('apigateway')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.apigateway.apis.QuerySubscriptionKeysRequest import QuerySubscriptionKeysRequest
+            from jdcloud_sdk.services.apigateway.apis.QueryAccessAuthsRequest import QueryAccessAuthsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QuerySubscriptionKeysRequest(params_dict, headers)
+            req = QueryAccessAuthsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2351,30 +2423,30 @@ class ApigatewayController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
-            (['--name'], dict(help="""(string) 密钥名称 """, dest='name',  required=False)),
+            (['--access-auth-view'], dict(help="""(accessAuthView) api分组 """, dest='accessAuthView',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建密钥 ''',
+        help=''' 创建访问授权 ''',
         description='''
-            创建密钥。
+            创建访问授权。
 
-            示例: jdc apigateway create-subscription-key 
+            示例: jdc apigateway create-access-auth 
         ''',
     )
-    def create_subscription_key(self):
+    def create_access_auth(self):
         client_factory = ClientFactory('apigateway')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.apigateway.apis.CreateSubscriptionKeyRequest import CreateSubscriptionKeyRequest
+            from jdcloud_sdk.services.apigateway.apis.CreateAccessAuthRequest import CreateAccessAuthRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateSubscriptionKeyRequest(params_dict, headers)
+            req = CreateAccessAuthRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2385,29 +2457,31 @@ class ApigatewayController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--subscription-key-id'], dict(help="""(string) subscription key id """, dest='subscriptionKeyId',  required=True)),
+            (['--access-key'], dict(help="""(string) NA """, dest='accessKey',  required=True)),
+            (['--auth-user-type'], dict(help="""(string) NA """, dest='authUserType',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个密钥 ''',
+        help=''' 检查accessAuth是否重复 ''',
         description='''
-            查询单个密钥。
+            检查accessAuth是否重复。
 
-            示例: jdc apigateway query-subscription-key  --subscription-key-id xxx
+            示例: jdc apigateway check-auth-exist  --access-key xxx --auth-user-type xxx
         ''',
     )
-    def query_subscription_key(self):
+    def check_auth_exist(self):
         client_factory = ClientFactory('apigateway')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.apigateway.apis.QuerySubscriptionKeyRequest import QuerySubscriptionKeyRequest
+            from jdcloud_sdk.services.apigateway.apis.CheckAuthExistRequest import CheckAuthExistRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QuerySubscriptionKeyRequest(params_dict, headers)
+            req = CheckAuthExistRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2418,31 +2492,30 @@ class ApigatewayController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--subscription-key-id'], dict(help="""(string) subscription key id """, dest='subscriptionKeyId',  required=True)),
-            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
-            (['--name'], dict(help="""(string) 密钥名称 """, dest='name',  required=False)),
+            (['--access-auth-id'], dict(help="""(string) 访问授权ID """, dest='accessAuthId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 更新密钥 ''',
+        help=''' 查询单个访问授权 ''',
         description='''
-            更新密钥。
+            查询单个访问授权。
 
-            示例: jdc apigateway update-subscription-key  --subscription-key-id xxx
+            示例: jdc apigateway query-access-auth  --access-auth-id xxx
         ''',
     )
-    def update_subscription_key(self):
+    def query_access_auth(self):
         client_factory = ClientFactory('apigateway')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.apigateway.apis.UpdateSubscriptionKeyRequest import UpdateSubscriptionKeyRequest
+            from jdcloud_sdk.services.apigateway.apis.QueryAccessAuthRequest import QueryAccessAuthRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateSubscriptionKeyRequest(params_dict, headers)
+            req = QueryAccessAuthRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2453,29 +2526,168 @@ class ApigatewayController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--subscription-key-id'], dict(help="""(string) subscription key id """, dest='subscriptionKeyId',  required=True)),
+            (['--access-auth-id'], dict(help="""(string) 访问授权ID """, dest='accessAuthId',  required=True)),
+            (['--access-auth-view'], dict(help="""(accessAuthView) 访问授权详情 """, dest='accessAuthView',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除密钥 ''',
+        help=''' 更新访问授权 ''',
         description='''
-            删除密钥。
+            更新访问授权。
 
-            示例: jdc apigateway delete-subscription-key  --subscription-key-id xxx
+            示例: jdc apigateway update-access-auth  --access-auth-id xxx
         ''',
     )
-    def delete_subscription_key(self):
+    def update_access_auth(self):
         client_factory = ClientFactory('apigateway')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.apigateway.apis.DeleteSubscriptionKeyRequest import DeleteSubscriptionKeyRequest
+            from jdcloud_sdk.services.apigateway.apis.UpdateAccessAuthRequest import UpdateAccessAuthRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteSubscriptionKeyRequest(params_dict, headers)
+            req = UpdateAccessAuthRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--access-auth-id'], dict(help="""(string) 访问授权ID """, dest='accessAuthId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除访问授权 ''',
+        description='''
+            删除访问授权。
+
+            示例: jdc apigateway delete-access-auth  --access-auth-id xxx
+        ''',
+    )
+    def delete_access_auth(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.DeleteAccessAuthRequest import DeleteAccessAuthRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteAccessAuthRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--access-auth-id'], dict(help="""(string) 访问授权ID """, dest='accessAuthId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询已绑定详情 ''',
+        description='''
+            查询已绑定详情。
+
+            示例: jdc apigateway query-bind-group-auth  --access-auth-id xxx
+        ''',
+    )
+    def query_bind_group_auth(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryBindGroupAuthRequest import QueryBindGroupAuthRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryBindGroupAuthRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--access-auth-id'], dict(help="""(string) 访问授权ID """, dest='accessAuthId',  required=True)),
+            (['--deployment-ids'], dict(help="""(string) 待绑定的部署ids逗号隔开 """, dest='deploymentIds',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 绑定分组 ''',
+        description='''
+            绑定分组。
+
+            示例: jdc apigateway bind-group-auth  --access-auth-id xxx --deployment-ids xxx
+        ''',
+    )
+    def bind_group_auth(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.BindGroupAuthRequest import BindGroupAuthRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = BindGroupAuthRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--auth-user-type'], dict(help="""(string) 待绑定的用户类型 """, dest='authUserType',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可绑定部署列表 ''',
+        description='''
+            查询可绑定部署列表。
+
+            示例: jdc apigateway query-auth-group-list  --auth-user-type xxx
+        ''',
+    )
+    def query_auth_group_list(self):
+        client_factory = ClientFactory('apigateway')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.apigateway.apis.QueryAuthGroupListRequest import QueryAuthGroupListRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = QueryAuthGroupListRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2488,29 +2700,30 @@ class ApigatewayController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞) """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) accessKey - accesskey，精确匹配;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) apiGroupName - 名称，模糊匹配;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询密钥列表 ''',
+        help=''' 查询所有已授权api分组列表 ''',
         description='''
-            查询密钥列表。
+            查询所有已授权api分组列表。
 
-            示例: jdc apigateway query-uc-access-keys 
+            示例: jdc apigateway authorized-api-group-list 
         ''',
     )
-    def query_uc_access_keys(self):
+    def authorized_api_group_list(self):
         client_factory = ClientFactory('apigateway')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.apigateway.apis.QueryUcAccessKeysRequest import QueryUcAccessKeysRequest
+            from jdcloud_sdk.services.apigateway.apis.AuthorizedApiGroupListRequest import AuthorizedApiGroupListRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = QueryUcAccessKeysRequest(params_dict, headers)
+            req = AuthorizedApiGroupListRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -2520,145 +2733,7 @@ class ApigatewayController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--pin'], dict(help="""(string) 京东云pin """, dest='pin',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 校验pin是否存在 ''',
-        description='''
-            校验pin是否存在。
-
-            示例: jdc apigateway check-pin  --pin xxx
-        ''',
-    )
-    def check_pin(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CheckPinRequest import CheckPinRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CheckPinRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--order-by'], dict(help="""(string) 排序类型 """, dest='orderBy',  required=False)),
-            (['--api-group-id'], dict(help="""(string) api分组id """, dest='apiGroupId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询domian列表 ''',
-        description='''
-            查询domian列表。
-
-            示例: jdc apigateway query-user-domains  --api-group-id xxx
-        ''',
-    )
-    def query_user_domains(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.QueryUserDomainsRequest import QueryUserDomainsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = QueryUserDomainsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--domain'], dict(help="""(string) 域名 """, dest='domain',  required=True)),
-            (['--protocol'], dict(help="""(string) 协议 """, dest='protocol',  required=False)),
-            (['--api-group-id'], dict(help="""(string) api分组id """, dest='apiGroupId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 添加用户域名 ''',
-        description='''
-            添加用户域名。
-
-            示例: jdc apigateway create-user-domain  --domain xxx --api-group-id xxx
-        ''',
-    )
-    def create_user_domain(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.CreateUserDomainRequest import CreateUserDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateUserDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--domain-ids'], dict(help="""(string) 要删除domain的id集合，以,分隔 """, dest='domainIds',  required=True)),
-            (['--api-group-id'], dict(help="""(string) api分组id """, dest='apiGroupId',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除用户域名接口 ''',
-        description='''
-            删除用户域名接口。
-
-            示例: jdc apigateway delete-user-domain  --domain-ids xxx
-        ''',
-    )
-    def delete_user_domain(self):
-        client_factory = ClientFactory('apigateway')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.apigateway.apis.DeleteUserDomainRequest import DeleteUserDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteUserDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['query-access-auths','create-access-auth','check-auth-exist','query-access-auth','update-access-auth','delete-access-auth','query-bind-group-auth','bind-group-auth','query-auth-group-list','authorized-api-group-list','query-access-keys','create-access-key','check-key-exist','query-access-key','update-access-key','delete-access-key','query-bind-group-key','bind-group-key','query-key-group-list','query-apis','create-apis','check-api-name-exist','query-api','update-api','delete-api','update-api-by-name','delete-api-by-name','describe-api-groups','create-api-group','check-group-name-exist','describe-api-group','modify-api-group-attribute','delete-api-group','describe-is-deploy-api-groups','create-backend-config','describe-backend-configs','describe-backend-config','update-backend-config','delete-backend-config','describe-deployments','deploy','describe-deployment','offline','batch-offline','query-keys','create-key','reset-key','update-key','query-key-info','query-rate-limit-policies','create-rate-limit-policy','check-policy-name','query-rate-limit-policy','update-rate-limit-policy','delete-rate-limit-policy','query-bind-group-policy','bind-group-policy','query-policy-group-list','describe-revisions','create-revision','get-revision-ids','check-revision-exist','query-revision','modify-revision','delete-revision','query-subscription-keys','create-subscription-key','query-subscription-key','update-subscription-key','delete-subscription-key','query-uc-access-keys','check-pin','query-user-domains','create-user-domain','delete-user-domain',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['query-user-domains','create-user-domain','delete-user-domain','create-backend-config','describe-backend-configs','describe-backend-config','update-backend-config','delete-backend-config','query-uc-access-keys','query-keys','create-key','reset-key','update-key','query-key-info','describe-api-groups','create-api-group','check-group-name-exist','describe-api-group','modify-api-group-attribute','delete-api-group','describe-is-deploy-api-groups','query-rate-limit-policies','create-rate-limit-policy','check-policy-name','query-rate-limit-policy','update-rate-limit-policy','delete-rate-limit-policy','query-bind-group-policy','bind-group-policy','query-policy-group-list','query-subscription-keys','create-subscription-key','query-subscription-key','update-subscription-key','delete-subscription-key','query-access-keys','create-access-key','check-key-exist','query-access-key','update-access-key','delete-access-key','query-bind-group-key','bind-group-key','query-key-group-list','check-pin','query-apis','create-apis','check-api-name-exist','query-api','update-api','delete-api','update-api-by-name','delete-api-by-name','describe-deployments','deploy','describe-deployment','offline','batch-offline','describe-revisions','create-revision','get-revision-ids','check-revision-exist','query-revision','modify-revision','delete-revision','query-access-auths','create-access-auth','check-auth-exist','query-access-auth','update-access-auth','delete-access-auth','query-bind-group-auth','bind-group-auth','query-auth-group-list','authorized-api-group-list',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

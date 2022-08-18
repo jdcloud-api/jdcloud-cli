@@ -28,7 +28,7 @@ class Skeleton(object):
     def show(self):
         project_dir = os.path.dirname(os.path.abspath(__file__))
         json_file = '%s/resources/skeletons/%s.json' % (project_dir, self.__service)
-        obj = yaml.load(open(json_file).read())
+        obj = yaml.load(open(json_file).read(), Loader=yaml.FullLoader)
 
         if self.__api in obj:
             print(json.dumps(obj[self.__api], indent=4))

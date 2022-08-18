@@ -23,8 +23,8 @@ import json
 
 class LbTest(unittest.TestCase):
 
-    def test_describe_backends(self):
-        cmd = """python ../../main.py lb describe-backends """
+    def test_describe_url_maps(self):
+        cmd = """python ../../main.py lb describe-url-maps """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_backend(self):
-        cmd = """python ../../main.py lb create-backend  --backend-name 'xxx' --load-balancer-id 'xxx' --protocol 'xxx' --port '5' --health-check-spec '{"":""}'"""
+    def test_create_url_map(self):
+        cmd = """python ../../main.py lb create-url-map  --url-map-name 'xxx' --load-balancer-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_backend(self):
-        cmd = """python ../../main.py lb describe-backend  --backend-id 'xxx'"""
+    def test_describe_url_map(self):
+        cmd = """python ../../main.py lb describe-url-map  --url-map-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_backend(self):
-        cmd = """python ../../main.py lb update-backend  --backend-id 'xxx'"""
+    def test_update_url_map(self):
+        cmd = """python ../../main.py lb update-url-map  --url-map-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -59,8 +59,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_backend(self):
-        cmd = """python ../../main.py lb delete-backend  --backend-id 'xxx'"""
+    def test_delete_url_map(self):
+        cmd = """python ../../main.py lb delete-url-map  --url-map-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -68,8 +68,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_target_health(self):
-        cmd = """python ../../main.py lb describe-target-health  --backend-id 'xxx'"""
+    def test_add_rules(self):
+        cmd = """python ../../main.py lb add-rules  --url-map-id 'xxx' --rule-specs '[{"":""}]'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -77,8 +77,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_listeners(self):
-        cmd = """python ../../main.py lb describe-listeners """
+    def test_update_rules(self):
+        cmd = """python ../../main.py lb update-rules  --url-map-id 'xxx' --rule-update-specs '[{"":""}]'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,116 +86,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_listener(self):
-        cmd = """python ../../main.py lb create-listener  --listener-name 'xxx' --protocol 'xxx' --port '5' --backend-id 'xxx' --load-balancer-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_listener(self):
-        cmd = """python ../../main.py lb describe-listener  --listener-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_listener(self):
-        cmd = """python ../../main.py lb update-listener  --listener-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_listener(self):
-        cmd = """python ../../main.py lb delete-listener  --listener-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_load_balancers(self):
-        cmd = """python ../../main.py lb describe-load-balancers """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_load_balancer(self):
-        cmd = """python ../../main.py lb create-load-balancer  --load-balancer-name 'xxx' --subnet-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_load_balancer(self):
-        cmd = """python ../../main.py lb describe-load-balancer  --load-balancer-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_load_balancer(self):
-        cmd = """python ../../main.py lb update-load-balancer  --load-balancer-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_load_balancer(self):
-        cmd = """python ../../main.py lb delete-load-balancer  --load-balancer-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_associate_elastic_ip(self):
-        cmd = """python ../../main.py lb associate-elastic-ip  --load-balancer-id 'xxx' --elastic-ip-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_disassociate_elastic_ip(self):
-        cmd = """python ../../main.py lb disassociate-elastic-ip  --load-balancer-id 'xxx' --elastic-ip-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_associate_security_group(self):
-        cmd = """python ../../main.py lb associate-security-group  --load-balancer-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_disassociate_security_group(self):
-        cmd = """python ../../main.py lb disassociate-security-group  --load-balancer-id 'xxx'"""
+    def test_delete_rules(self):
+        cmd = """python ../../main.py lb delete-rules  --url-map-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -284,8 +176,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_url_maps(self):
-        cmd = """python ../../main.py lb describe-url-maps """
+    def test_describe_backends(self):
+        cmd = """python ../../main.py lb describe-backends """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -293,8 +185,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_url_map(self):
-        cmd = """python ../../main.py lb create-url-map  --url-map-name 'xxx' --load-balancer-id 'xxx'"""
+    def test_create_backend(self):
+        cmd = """python ../../main.py lb create-backend  --backend-name 'xxx' --load-balancer-id 'xxx' --protocol 'xxx' --port '5' --health-check-spec '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -302,8 +194,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_url_map(self):
-        cmd = """python ../../main.py lb describe-url-map  --url-map-id 'xxx'"""
+    def test_describe_backend(self):
+        cmd = """python ../../main.py lb describe-backend  --backend-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -311,8 +203,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_url_map(self):
-        cmd = """python ../../main.py lb update-url-map  --url-map-id 'xxx'"""
+    def test_update_backend(self):
+        cmd = """python ../../main.py lb update-backend  --backend-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -320,8 +212,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_url_map(self):
-        cmd = """python ../../main.py lb delete-url-map  --url-map-id 'xxx'"""
+    def test_delete_backend(self):
+        cmd = """python ../../main.py lb delete-backend  --backend-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -329,8 +221,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_add_rules(self):
-        cmd = """python ../../main.py lb add-rules  --url-map-id 'xxx' --rule-specs '[{"":""}]'"""
+    def test_describe_target_health(self):
+        cmd = """python ../../main.py lb describe-target-health  --backend-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -338,8 +230,8 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_rules(self):
-        cmd = """python ../../main.py lb update-rules  --url-map-id 'xxx' --rule-update-specs '[{"":""}]'"""
+    def test_describe_load_balancers(self):
+        cmd = """python ../../main.py lb describe-load-balancers """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -347,8 +239,143 @@ class LbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_rules(self):
-        cmd = """python ../../main.py lb delete-rules  --url-map-id 'xxx'"""
+    def test_create_load_balancer(self):
+        cmd = """python ../../main.py lb create-load-balancer  --load-balancer-name 'xxx' --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_load_balancer(self):
+        cmd = """python ../../main.py lb describe-load-balancer  --load-balancer-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_load_balancer(self):
+        cmd = """python ../../main.py lb update-load-balancer  --load-balancer-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_load_balancer(self):
+        cmd = """python ../../main.py lb delete-load-balancer  --load-balancer-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_associate_elastic_ip(self):
+        cmd = """python ../../main.py lb associate-elastic-ip  --load-balancer-id 'xxx' --elastic-ip-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disassociate_elastic_ip(self):
+        cmd = """python ../../main.py lb disassociate-elastic-ip  --load-balancer-id 'xxx' --elastic-ip-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_associate_security_group(self):
+        cmd = """python ../../main.py lb associate-security-group  --load-balancer-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disassociate_security_group(self):
+        cmd = """python ../../main.py lb disassociate-security-group  --load-balancer-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_listeners(self):
+        cmd = """python ../../main.py lb describe-listeners """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_listener(self):
+        cmd = """python ../../main.py lb create-listener  --listener-name 'xxx' --protocol 'xxx' --port '5' --backend-id 'xxx' --load-balancer-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_listener(self):
+        cmd = """python ../../main.py lb describe-listener  --listener-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_listener(self):
+        cmd = """python ../../main.py lb update-listener  --listener-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_listener(self):
+        cmd = """python ../../main.py lb delete-listener  --listener-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_listener_certificates(self):
+        cmd = """python ../../main.py lb add-listener-certificates  --listener-id 'xxx' --certificates '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_listener_certificates(self):
+        cmd = """python ../../main.py lb update-listener-certificates  --listener-id 'xxx' --certificates '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_listener_certificates(self):
+        cmd = """python ../../main.py lb delete-listener-certificates  --listener-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

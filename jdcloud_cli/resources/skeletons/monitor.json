@@ -2,6 +2,7 @@
     "describe-alarms":{
         "pageNumber":"",
         "pageSize":"",
+        "dataOwner":"",
         "serviceCode":"",
         "product":"",
         "dimension":"",
@@ -21,8 +22,15 @@
             "referenceType":""
         }],
         "clientToken":"",
+        "dataOwner":"",
         "dimension":"",
         "enabled":"",
+        "multiWebHook":[{
+            "webHookContent":"",
+            "webHookProtocol":"",
+            "webHookSecret":"",
+            "webHookUrl":""
+        }],
         "noticeOption":[{
             "effectiveIntervalEnd":"",
             "effectiveIntervalStart":"",
@@ -36,7 +44,9 @@
             "tagsOption":{
                 "operator":"",
                 "tags":[""]
-            }
+            },
+            "resourceGroups":"",
+            "resourceFilterType":""
         },
         "ruleName":"",
         "ruleOption":{
@@ -64,8 +74,15 @@
             "referenceId":"",
             "referenceType":""
         }],
+        "dataOwner":"",
         "dimension":"",
         "enabled":"",
+        "multiWebHook":[{
+            "webHookContent":"",
+            "webHookProtocol":"",
+            "webHookSecret":"",
+            "webHookUrl":""
+        }],
         "noticeOption":[{
             "effectiveIntervalEnd":"",
             "effectiveIntervalStart":"",
@@ -79,7 +96,9 @@
             "tagsOption":{
                 "operator":"",
                 "tags":[""]
-            }
+            },
+            "resourceGroups":"",
+            "resourceFilterType":""
         },
         "ruleName":"",
         "ruleOption":{
@@ -125,6 +144,7 @@
     "describe-alarm-history":{
         "pageNumber":"",
         "pageSize":"",
+        "dataOwner":"",
         "serviceCode":"",
         "product":"",
         "dimension":"",
@@ -145,7 +165,7 @@
         "dimension":"",
         "type":""
     },
-    "describe-one-data-point":{
+    "last-downsample":{
         "serviceCode":"",
         "dimension":"",
         "resourceId":"",
@@ -158,6 +178,7 @@
         "timeInterval":"",
         "aggrType":"",
         "downAggrType":"",
+        "timeOffset":"",
         "regionId":"",
         "metric":""
     },
@@ -179,6 +200,20 @@
         "regionId":"",
         "metric":""
     },
+    "describe-tag-values":{
+        "serviceCode":"",
+        "resourceId":"",
+        "metric":"",
+        "startTime":"",
+        "endTime":"",
+        "timeInterval":"",
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
+        "regionId":"",
+        "tagKey":""
+    },
     "describe-services":{
         "filters":[{
             "Name":"",
@@ -186,6 +221,30 @@
         }],
         "productType":""
     },
+    "put-product-metric-data":{
+        "appCode":"",
+        "serviceCode":"",
+        "region":"",
+        "resourceId":"",
+        "dataPoints":[{
+            "metric":"",
+            "tags":"",
+            "timestamp":"",
+            "value":""
+        }]
+    },
+    "put-product-metric-data":{
+        "appCode":"",
+        "serviceCode":"",
+        "region":"",
+        "resourceId":"",
+        "dataPoints":[{
+            "metric":"",
+            "tags":"",
+            "timestamp":"",
+            "value":""
+        }]
+    },
     "put-custom-metric-data":{
         "metricDataList":[{
             "namespace":"",
@@ -207,5 +266,18 @@
             "values":"",
             "unit":""
         }]
+    },
+    "describe-custom-metric-data":{
+        "endTime":"",
+        "query":{
+            "aggrType":"",
+            "dimensions":[""],
+            "downSampleType":"",
+            "metric":""
+        },
+        "startTime":"",
+        "timeInterval":"",
+        "regionId":"",
+        "namespaceUID":""
     },
 }

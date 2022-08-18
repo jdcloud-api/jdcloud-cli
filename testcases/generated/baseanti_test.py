@@ -23,42 +23,6 @@ import json
 
 class BaseantiTest(unittest.TestCase):
 
-    def test_describe_attack_logs(self):
-        cmd = """python ../../main.py baseanti describe-attack-logs  --start-time 'xxx' --end-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_attack_statistics(self):
-        cmd = """python ../../main.py baseanti describe-attack-statistics  --start-time 'xxx' --end-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_attack_type_count(self):
-        cmd = """python ../../main.py baseanti describe-attack-type-count  --start-time 'xxx' --end-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_ip_monitor_flow(self):
-        cmd = """python ../../main.py baseanti describe-ip-monitor-flow  --start-time 'xxx' --end-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_ip_resources(self):
         cmd = """python ../../main.py baseanti describe-ip-resources """
         with os.popen(cmd) as f:
@@ -88,6 +52,15 @@ class BaseantiTest(unittest.TestCase):
 
     def test_describe_ccs_ip_resources(self):
         cmd = """python ../../main.py baseanti describe-ccs-ip-resources """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_waf_ip_resources(self):
+        cmd = """python ../../main.py baseanti describe-waf-ip-resources """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -151,6 +124,42 @@ class BaseantiTest(unittest.TestCase):
 
     def test_describe_ip_resource_flow(self):
         cmd = """python ../../main.py baseanti describe-ip-resource-flow  --ip 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_attack_logs(self):
+        cmd = """python ../../main.py baseanti describe-attack-logs  --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_attack_statistics(self):
+        cmd = """python ../../main.py baseanti describe-attack-statistics  --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_attack_type_count(self):
+        cmd = """python ../../main.py baseanti describe-attack-type-count  --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ip_monitor_flow(self):
+        cmd = """python ../../main.py baseanti describe-ip-monitor-flow  --start-time 'xxx' --end-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

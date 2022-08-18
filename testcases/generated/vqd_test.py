@@ -41,6 +41,51 @@ class VqdTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_list_vqd_templates(self):
+        cmd = """python ../../main.py vqd list-vqd-templates """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_vqd_template(self):
+        cmd = """python ../../main.py vqd create-vqd-template  --template-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_vqd_template(self):
+        cmd = """python ../../main.py vqd get-vqd-template  --template-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_vqd_template(self):
+        cmd = """python ../../main.py vqd update-vqd-template  --template-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_vqd_template(self):
+        cmd = """python ../../main.py vqd delete-vqd-template  --template-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_submit_vqd_task(self):
         cmd = """python ../../main.py vqd submit-vqd-task  --media '{"":""}' --template-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -97,51 +142,6 @@ class VqdTest(unittest.TestCase):
 
     def test_batch_delete_vqd_tasks(self):
         cmd = """python ../../main.py vqd batch-delete-vqd-tasks """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_list_vqd_templates(self):
-        cmd = """python ../../main.py vqd list-vqd-templates """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_vqd_template(self):
-        cmd = """python ../../main.py vqd create-vqd-template  --template-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_vqd_template(self):
-        cmd = """python ../../main.py vqd get-vqd-template  --template-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_vqd_template(self):
-        cmd = """python ../../main.py vqd update-vqd-template  --template-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_vqd_template(self):
-        cmd = """python ../../main.py vqd delete-vqd-template  --template-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

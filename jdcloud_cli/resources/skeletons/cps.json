@@ -1,9 +1,127 @@
 {
+    "describe-ipv6address":{
+        "regionId":"",
+        "ipv6AddressId":""
+    },
+    "describe-ipv6addresses":{
+        "pageNumber":"",
+        "pageSize":"",
+        "ipv6GatewayId":"",
+        "ipv6Address":"",
+        "enableInternet":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "assign-ipv6addresses-bandwidth":{
+        "clientToken":"",
+        "ipv6AddressSpec":{
+            "bandwidth":"",
+            "ipv6Addresses":"",
+            "charge":{
+                "chargeMode":"",
+                "chargeUnit":"",
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
+            }
+        },
+        "regionId":""
+    },
+    "modify-ipv6address-bandwidth":{
+        "clientToken":"",
+        "bandwidth":"",
+        "regionId":"",
+        "ipv6AddressId":""
+    },
+    "describe-certs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "name":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-cert":{
+        "clientToken":"",
+        "certSpec":{
+            "name":"",
+            "certificate":"",
+            "privateKey":""
+        },
+        "regionId":""
+    },
+    "describe-cert":{
+        "regionId":"",
+        "certId":""
+    },
+    "remove-cert":{
+        "regionId":"",
+        "certId":""
+    },
+    "modify-cert":{
+        "name":"",
+        "regionId":"",
+        "certId":""
+    },
+    "describe-alias-ips":{
+        "pageNumber":"",
+        "pageSize":"",
+        "subnetId":"",
+        "instanceId":"",
+        "cidr":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-alias-ip":{
+        "clientToken":"",
+        "aliasIpSpec":{
+            "instanceId":"",
+            "aliasIps":[""]
+        },
+        "regionId":""
+    },
+    "delete-alias-ip":{
+        "clientToken":"",
+        "regionId":"",
+        "aliasIpId":""
+    },
+    "describe-secondary-cidrs":{
+        "subnetId":"",
+        "regionId":""
+    },
+    "create-secondary-cidr":{
+        "clientToken":"",
+        "secondaryCidrSpec":{
+            "subnetId":"",
+            "cidr":"",
+            "name":""
+        },
+        "regionId":""
+    },
+    "delete-secondary-cidr":{
+        "clientToken":"",
+        "regionId":"",
+        "secondaryCidrId":""
+    },
     "describe-elastic-ips":{
         "pageNumber":"",
         "pageSize":"",
         "status":"",
         "includeLB":"",
+        "chargeMode":"",
+        "instanceId":"",
+        "subnetId":"",
         "filters":[{
             "name":"",
             "operator":"",
@@ -22,7 +140,8 @@
                 "chargeDuration":"",
                 "autoRenew":"",
                 "buyScenario":""
-            }
+            },
+            "resourceTags":[""]
         },
         "regionId":""
     },
@@ -36,35 +155,15 @@
         "regionId":"",
         "elasticIpId":""
     },
-    "describe-device-types":{
-        "az":"",
-        "regionId":""
-    },
-    "describe-os":{
-        "deviceType":"",
-        "osType":"",
-        "regionId":""
-    },
-    "describe-device-raids":{
-        "deviceType":"",
-        "volumeType":"",
-        "regionId":""
-    },
-    "describe-instance":{
+    "describe-elastic-ip-name":{
         "regionId":"",
-        "instanceId":""
+        "elasticIpId":""
     },
-    "describe-instances":{
+    "describe-server-groups":{
         "pageNumber":"",
         "pageSize":"",
-        "az":"",
         "name":"",
-        "networkType":"",
-        "deviceType":"",
-        "subnetId":"",
-        "keypairId":"",
-        "enableInternet":"",
-        "privateIp":"",
+        "loadBalancerId":"",
         "filters":[{
             "name":"",
             "operator":"",
@@ -72,124 +171,26 @@
         }],
         "regionId":""
     },
-    "create-instances":{
+    "create-server-group":{
         "clientToken":"",
-        "instanceSpec":{
-            "az":"",
-            "deviceType":"",
-            "hostname":"",
-            "imageType":"",
-            "osTypeId":"",
-            "sysRaidTypeId":"",
-            "dataRaidTypeId":"",
-            "subnetId":"",
-            "enableInternet":"",
-            "enableIpv6":"",
-            "networkType":"",
-            "cidr":"",
-            "privateIp":"",
-            "lineType":"",
-            "bandwidth":"",
-            "name":"",
-            "description":"",
-            "password":"",
-            "count":"",
-            "userData":"",
-            "keypairId":"",
-            "charge":{
-                "chargeMode":"",
-                "chargeUnit":"",
-                "chargeDuration":"",
-                "autoRenew":"",
-                "buyScenario":""
-            }
+        "serverGroupSpec":{
+            "loadBalancerId":"",
+            "name":""
         },
         "regionId":""
     },
-    "describe-instance-name":{
+    "describe-server-group":{
         "regionId":"",
-        "instanceId":""
+        "serverGroupId":""
     },
-    "modify-instance":{
+    "modify-server-group":{
         "name":"",
-        "description":"",
         "regionId":"",
-        "instanceId":""
+        "serverGroupId":""
     },
-    "describe-instance-raid":{
+    "delete-server-group":{
         "regionId":"",
-        "instanceId":""
-    },
-    "describe-instance-status":{
-        "regionId":"",
-        "instanceId":""
-    },
-    "restart-instance":{
-        "clientToken":"",
-        "regionId":"",
-        "instanceId":""
-    },
-    "stop-instance":{
-        "clientToken":"",
-        "regionId":"",
-        "instanceId":""
-    },
-    "start-instance":{
-        "clientToken":"",
-        "regionId":"",
-        "instanceId":""
-    },
-    "reinstall-instance":{
-        "clientToken":"",
-        "instanceSpec":{
-            "az":"",
-            "imageType":"",
-            "osTypeId":"",
-            "sysRaidTypeId":"",
-            "keepData":"",
-            "dataRaidTypeId":"",
-            "password":"",
-            "hostname":"",
-            "userData":"",
-            "keypairId":""
-        },
-        "regionId":"",
-        "instanceId":""
-    },
-    "modify-bandwidth":{
-        "clientToken":"",
-        "bandwidth":"",
-        "regionId":"",
-        "instanceId":""
-    },
-    "associate-elastic-ip":{
-        "clientToken":"",
-        "elasticIpId":"",
-        "regionId":"",
-        "instanceId":""
-    },
-    "disassociate-elastic-ip":{
-        "clientToken":"",
-        "elasticIpId":"",
-        "regionId":"",
-        "instanceId":""
-    },
-    "reset-password":{
-        "clientToken":"",
-        "password":"",
-        "regionId":"",
-        "instanceId":""
-    },
-    "describe-instance-monitor-info":{
-        "startTime":"",
-        "endTime":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":"",
-        "instanceId":""
+        "serverGroupId":""
     },
     "describe-keypairs":{
         "pageNumber":"",
@@ -221,71 +222,6 @@
         "regionId":"",
         "keypairId":""
     },
-    "describe-listeners":{
-        "pageNumber":"",
-        "pageSize":"",
-        "name":"",
-        "loadBalancerId":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-listener":{
-        "clientToken":"",
-        "listenerSpec":{
-            "loadBalancerId":"",
-            "protocol":"",
-            "port":"",
-            "algorithm":"",
-            "stickySession":"",
-            "realIp":"",
-            "name":"",
-            "description":"",
-            "healthCheck":"",
-            "healthCheckTimeout":"",
-            "healthCheckInterval":"",
-            "healthyThreshold":"",
-            "unhealthyThreshold":"",
-            "serverGroupId":""
-        },
-        "regionId":""
-    },
-    "modify-listener":{
-        "algorithm":"",
-        "stickySession":"",
-        "realIp":"",
-        "name":"",
-        "description":"",
-        "healthCheck":"",
-        "healthCheckTimeout":"",
-        "healthCheckInterval":"",
-        "healthyThreshold":"",
-        "unhealthyThreshold":"",
-        "serverGroupId":"",
-        "regionId":"",
-        "listenerId":""
-    },
-    "describe-listener":{
-        "regionId":"",
-        "listenerId":""
-    },
-    "delete-listener":{
-        "regionId":"",
-        "listenerId":""
-    },
-    "start-listener":{
-        "clientToken":"",
-        "regionId":"",
-        "listenerId":""
-    },
-    "stop-listener":{
-        "clientToken":"",
-        "regionId":"",
-        "listenerId":""
-    },
     "describe-load-balancers":{
         "pageNumber":"",
         "pageSize":"",
@@ -316,7 +252,8 @@
                 "chargeDuration":"",
                 "autoRenew":"",
                 "buyScenario":""
-            }
+            },
+            "resourceTags":[""]
         },
         "regionId":""
     },
@@ -352,26 +289,9 @@
         "regionId":"",
         "loadBalancerId":""
     },
-    "describe-regiones":{
-        "networkType":""
-    },
-    "describe-cpslbregions":{
-    },
-    "describe-route-table":{
+    "describe-slbs-name":{
         "regionId":"",
-        "routeTableId":""
-    },
-    "describe-route-tables":{
-        "pageNumber":"",
-        "pageSize":"",
-        "name":"",
-        "vpcId":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
+        "loadBalancerId":""
     },
     "describe-servers":{
         "pageNumber":"",
@@ -390,7 +310,10 @@
         "serverSpec":[{
             "instanceId":"",
             "port":"",
-            "weight":""
+            "weight":"",
+            "aliasip":"",
+            "rip":"",
+            "networkPort":""
         }],
         "regionId":"",
         "serverGroupId":""
@@ -406,11 +329,10 @@
         "serverGroupId":"",
         "serverId":""
     },
-    "describe-server-groups":{
+    "describe-ipv6gateways":{
         "pageNumber":"",
         "pageSize":"",
-        "name":"",
-        "loadBalancerId":"",
+        "ipv6GatewayName":"",
         "filters":[{
             "name":"",
             "operator":"",
@@ -418,26 +340,15 @@
         }],
         "regionId":""
     },
-    "create-server-group":{
+    "describe-ipv6gateway":{
+        "regionId":"",
+        "ipv6GatewayId":""
+    },
+    "modify-ipv6gateway":{
         "clientToken":"",
-        "serverGroupSpec":{
-            "loadBalancerId":"",
-            "name":""
-        },
-        "regionId":""
-    },
-    "describe-server-group":{
+        "ipv6GatewayName":"",
         "regionId":"",
-        "serverGroupId":""
-    },
-    "modify-server-group":{
-        "name":"",
-        "regionId":"",
-        "serverGroupId":""
-    },
-    "delete-server-group":{
-        "regionId":"",
-        "serverGroupId":""
+        "ipv6GatewayId":""
     },
     "describe-basic-subnet":{
         "az":"",
@@ -462,10 +373,19 @@
             "az":"",
             "vpcId":"",
             "cidr":"",
+            "ipv6Cidr":"",
             "name":"",
-            "description":""
+            "description":"",
+            "secondaryCidr":"",
+            "secondaryCidrName":""
         },
         "regionId":""
+    },
+    "assign-ipv6cidr":{
+        "clientToken":"",
+        "ipv6Cidr":"",
+        "regionId":"",
+        "subnetId":""
     },
     "describe-subnet":{
         "regionId":"",
@@ -513,8 +433,317 @@
         "vpcSpec":{
             "cidr":"",
             "name":"",
+            "enableIpv6":"",
             "description":""
         },
         "regionId":""
+    },
+    "assign-ipv6gateway":{
+        "clientToken":"",
+        "regionId":"",
+        "vpcId":""
+    },
+    "describe-listeners":{
+        "pageNumber":"",
+        "pageSize":"",
+        "name":"",
+        "loadBalancerId":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-listener":{
+        "clientToken":"",
+        "listenerSpec":{
+            "loadBalancerId":"",
+            "protocol":"",
+            "port":"",
+            "algorithm":"",
+            "stickySession":"",
+            "realIp":"",
+            "name":"",
+            "description":"",
+            "healthCheck":"",
+            "healthCheckTimeout":"",
+            "healthCheckInterval":"",
+            "healthyThreshold":"",
+            "unhealthyThreshold":"",
+            "serverGroupId":"",
+            "stickySessionTimeout":"",
+            "cookieType":"",
+            "healthCheckUri":"",
+            "healthCheckHttpCode":"",
+            "certificateId":"",
+            "headers":""
+        },
+        "regionId":""
+    },
+    "modify-listener":{
+        "algorithm":"",
+        "stickySession":"",
+        "realIp":"",
+        "name":"",
+        "description":"",
+        "healthCheck":"",
+        "healthCheckTimeout":"",
+        "healthCheckInterval":"",
+        "healthyThreshold":"",
+        "unhealthyThreshold":"",
+        "serverGroupId":"",
+        "stickySessionTimeout":"",
+        "cookieType":"",
+        "healthCheckUri":"",
+        "healthCheckHttpCode":"",
+        "certificateId":"",
+        "headers":[""],
+        "regionId":"",
+        "listenerId":""
+    },
+    "describe-listener":{
+        "regionId":"",
+        "listenerId":""
+    },
+    "delete-listener":{
+        "regionId":"",
+        "listenerId":""
+    },
+    "start-listener":{
+        "clientToken":"",
+        "regionId":"",
+        "listenerId":""
+    },
+    "stop-listener":{
+        "clientToken":"",
+        "regionId":"",
+        "listenerId":""
+    },
+    "describe-device-types":{
+        "az":"",
+        "regionId":""
+    },
+    "describe-os":{
+        "deviceType":"",
+        "osType":"",
+        "regionId":""
+    },
+    "describe-device-raids":{
+        "deviceType":"",
+        "volumeType":"",
+        "regionId":""
+    },
+    "describe-instance":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-instances":{
+        "pageNumber":"",
+        "pageSize":"",
+        "az":"",
+        "name":"",
+        "networkType":"",
+        "deviceType":"",
+        "subnetId":"",
+        "keypairId":"",
+        "enableInternet":"",
+        "privateIp":"",
+        "interfaceMode":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-instances":{
+        "clientToken":"",
+        "instanceSpec":{
+            "az":"",
+            "deviceType":"",
+            "hostname":"",
+            "imageType":"",
+            "osTypeId":"",
+            "sysRaidTypeId":"",
+            "dataRaidTypeId":"",
+            "subnetId":"",
+            "enableInternet":"",
+            "internetChargeMode":"",
+            "enableIpv6":"",
+            "ipv6Address":"",
+            "networkType":"",
+            "cidr":"",
+            "privateIp":"",
+            "aliasIps":[""],
+            "lineType":"",
+            "bandwidth":"",
+            "name":"",
+            "description":"",
+            "password":"",
+            "count":"",
+            "userData":"",
+            "keypairId":"",
+            "charge":{
+                "chargeMode":"",
+                "chargeUnit":"",
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
+            },
+            "interfaceMode":"",
+            "extensionEnableIpv6":"",
+            "extensionIpv6Address":"",
+            "extensionSubnetId":"",
+            "extensionPrivateIp":"",
+            "extensionAliasIps":[""],
+            "extensionEnableInternet":"",
+            "extensionLineType":"",
+            "extensionBandwidth":"",
+            "extensionInternetChargeMode":"",
+            "resourceTags":[""]
+        },
+        "regionId":""
+    },
+    "describe-instance-name":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "assign-ipv6address":{
+        "clientToken":"",
+        "ipv6Address":"",
+        "subnetId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-instance":{
+        "name":"",
+        "description":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-instance-raid":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-instance-status":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "restart-instance":{
+        "clientToken":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "stop-instance":{
+        "clientToken":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "start-instance":{
+        "clientToken":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "restart-instances":{
+        "clientToken":"",
+        "instanceIds":[""],
+        "regionId":""
+    },
+    "stop-instances":{
+        "clientToken":"",
+        "instanceIds":[""],
+        "regionId":""
+    },
+    "start-instances":{
+        "clientToken":"",
+        "instanceIds":[""],
+        "regionId":""
+    },
+    "reinstall-instance":{
+        "clientToken":"",
+        "instanceSpec":{
+            "az":"",
+            "imageType":"",
+            "osTypeId":"",
+            "sysRaidTypeId":"",
+            "keepData":"",
+            "dataRaidTypeId":"",
+            "password":"",
+            "hostname":"",
+            "userData":"",
+            "keypairId":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-bandwidth":{
+        "clientToken":"",
+        "bandwidth":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "associate-elastic-ip":{
+        "clientToken":"",
+        "elasticIpId":"",
+        "targetIp":"",
+        "subnetId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "disassociate-elastic-ip":{
+        "clientToken":"",
+        "elasticIpId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "reset-password":{
+        "clientToken":"",
+        "password":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-available-private-ip":{
+        "subnetId":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-instance-monitor-info":{
+        "startTime":"",
+        "endTime":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-event-logs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-route-table":{
+        "regionId":"",
+        "routeTableId":""
+    },
+    "describe-route-tables":{
+        "pageNumber":"",
+        "pageSize":"",
+        "name":"",
+        "vpcId":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "describe-regiones":{
+        "networkType":""
+    },
+    "describe-cpslbregions":{
     },
 }

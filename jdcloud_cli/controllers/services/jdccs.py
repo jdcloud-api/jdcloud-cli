@@ -38,110 +38,8 @@ class JdccsController(BaseController):
 
     @expose(
         arguments=[
-            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
-            (['--resource-type'], dict(help="""(string) 资源类型 bandwidth:带宽 """, dest='resourceType',  required=False)),
-            (['--resource-id'], dict(help="""(string) 资源ID，指定resourceId时须指定resourceType """, dest='resourceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询报警规则列表 ''',
-        description='''
-            查询报警规则列表。
-
-            示例: jdc jdccs describe-alarms 
-        ''',
-    )
-    def describe_alarms(self):
-        client_factory = ClientFactory('jdccs')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.jdccs.apis.DescribeAlarmsRequest import DescribeAlarmsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAlarmsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--alarm-id'], dict(help="""(string) 报警规则ID """, dest='alarmId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询报警规则详情 ''',
-        description='''
-            查询报警规则详情。
-
-            示例: jdc jdccs describe-alarm  --alarm-id xxx
-        ''',
-    )
-    def describe_alarm(self):
-        client_factory = ClientFactory('jdccs')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.jdccs.apis.DescribeAlarmRequest import DescribeAlarmRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAlarmRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
-            (['--alarm-id'], dict(help="""(string) 报警规则ID """, dest='alarmId',  required=False)),
-            (['--start-time'], dict(help="""(int) 查询时间范围的开始时间， UNIX时间戳 """, dest='startTime', type=int, required=False)),
-            (['--end-time'], dict(help="""(int) 查询时间范围的结束时间， UNIX时间戳 """, dest='endTime', type=int, required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 报警历史列表 ''',
-        description='''
-            报警历史列表。
-
-            示例: jdc jdccs describe-alarm-history 
-        ''',
-    )
-    def describe_alarm_history(self):
-        client_factory = ClientFactory('jdccs')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.jdccs.apis.DescribeAlarmHistoryRequest import DescribeAlarmHistoryRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAlarmHistoryRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -177,10 +75,11 @@ class JdccsController(BaseController):
             (['--resource-id'], dict(help="""(string) 资源ID """, dest='resourceId',  required=True)),
             (['--start-time'], dict(help="""(int) 查询时间范围的开始时间， UNIX时间戳，（机柜电流最多支持最近90天数据查询、带宽流量最多支持最近30天数据查询） """, dest='startTime', type=int, required=True)),
             (['--end-time'], dict(help="""(int) 查询时间范围的结束时间， UNIX时间戳，（机柜电流最多支持最近90天数据查询、带宽流量最多支持最近30天数据查询） """, dest='endTime', type=int, required=True)),
-            (['--time-interval'], dict(help="""(string) 时间间隔：分钟m、小时h、天d，如： 10分钟=10m、1小时=1h，3天=3d；默认5m，最小支持5m，最大90d 目前带宽上、下行流量查询，会根据时间范围是否超过2小时，设定时间间隔为1m或5m """, dest='timeInterval',  required=False)),
+            (['--time-interval'], dict(help="""(string) 时间间隔：分钟m、小时h、天d，如： 10分钟=10m、1小时=1h，3天=3d；默认5m，最小支持5m，最大90d 目前带宽上、下行流量查询，时间间隔：1m、5m，默认5m。1m时间间隔支持的最大时间范围为2小时 """, dest='timeInterval',  required=False)),
             (['--ip'], dict(help="""(string) 交换机IP，指定ip时须同时指定port """, dest='ip',  required=False)),
             (['--port'], dict(help="""(string) 端口，指定port时须同时指定ip """, dest='port',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -188,7 +87,7 @@ class JdccsController(BaseController):
         description='''
             查看某资源单个监控项数据。
 
-            示例: jdc jdccs describe-metric-data  --idc xxx --metric xxx --resource-id xxx --start-time 0 --end-time 0
+            示例: jdc jdccs describe-metric-data  --idc xxx --metric xxx --resource-id xxx --start-time 5 --end-time 5
         ''',
     )
     def describe_metric_data(self):
@@ -215,6 +114,7 @@ class JdccsController(BaseController):
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
             (['--resource-id'], dict(help="""(string) 资源ID，支持多个resourceId批量查询，每个id用英文竖线分隔 """, dest='resourceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -248,7 +148,9 @@ class JdccsController(BaseController):
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
+            (['--bandwidth-name'], dict(help="""(string) 带宽（出口）名称 """, dest='bandwidthName',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -282,6 +184,7 @@ class JdccsController(BaseController):
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--bandwidth-id'], dict(help="""(string) 带宽（出口）实例ID """, dest='bandwidthId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -316,6 +219,7 @@ class JdccsController(BaseController):
             (['--start-time'], dict(help="""(int) 查询时间范围的开始时间， UNIX时间戳，（支持查询最近30分钟数据且时间范围不超过5分钟） """, dest='startTime', type=int, required=True)),
             (['--end-time'], dict(help="""(int) 查询时间范围的结束时间， UNIX时间戳，（支持查询最近30分钟数据且时间范围不超过5分钟） """, dest='endTime', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -323,7 +227,7 @@ class JdccsController(BaseController):
         description='''
             根据IP网段查询流量采样数据。
 
-            示例: jdc jdccs describe-traffic-sampling  --resource-id xxx --start-time 0 --end-time 0
+            示例: jdc jdccs describe-traffic-sampling  --resource-id xxx --start-time 5 --end-time 5
         ''',
     )
     def describe_traffic_sampling(self):
@@ -346,9 +250,538 @@ class JdccsController(BaseController):
 
     @expose(
         arguments=[
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询开放设备列表 ''',
+        description='''
+            查询开放设备列表。
+
+            示例: jdc jdccs describe-open-devices 
+        ''',
+    )
+    def describe_open_devices(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DescribeOpenDevicesRequest import DescribeOpenDevicesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeOpenDevicesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--device-codes'], dict(help="""(string) 设备编码,支持多个deviceCode批量查询，每个id用英文竖线分隔 """, dest='deviceCodes',  required=False)),
+            (['--device-type'], dict(help="""(string) 设备类型 """, dest='deviceType',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询开放设备数据信息接口 ''',
+        description='''
+            查询开放设备数据信息接口。
+
+            示例: jdc jdccs describe-open-devices-data  --device-type xxx
+        ''',
+    )
+    def describe_open_devices_data(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DescribeOpenDevicesDataRequest import DescribeOpenDevicesDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeOpenDevicesDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
+            (['--resource-id'], dict(help="""(string) 机柜资源ID """, dest='resourceId',  required=True)),
+            (['--start-time'], dict(help="""(int) 查询时间范围的开始时间， UNIX时间戳，（最多支持最近90天数据查询） """, dest='startTime', type=int, required=True)),
+            (['--end-time'], dict(help="""(int) 查询时间范围的结束时间， UNIX时间戳，（最多支持最近90天数据查询） """, dest='endTime', type=int, required=True)),
+            (['--time-interval'], dict(help="""(string) 时间间隔：分钟m、小时h、天d，如： 10分钟=10m、1小时=1h，3天=3d；默认5m，最小支持5m，最大90d 目前带宽上、下行流量查询，时间间隔：1m、5m，默认5m。时间间隔支持的最大时间范围为2小时 """, dest='timeInterval',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 按照时间段查询单个机柜AB路电流 ''',
+        description='''
+            按照时间段查询单个机柜AB路电流。
+
+            示例: jdc jdccs describe-rangetime-cabinet-current  --idc xxx --resource-id xxx --start-time 5 --end-time 5
+        ''',
+    )
+    def describe_rangetime_cabinet_current(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DescribeRangetimeCabinetCurrentRequest import DescribeRangetimeCabinetCurrentRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeRangetimeCabinetCurrentRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
+            (['--resource-id'], dict(help="""(string) 资源ID，支持多个resourceId批量查询，每个id用英文竖线分隔 """, dest='resourceId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询多个机柜AB路实时电流 ''',
+        description='''
+            查询多个机柜AB路实时电流。
+
+            示例: jdc jdccs describe-realtime-cabinet-current  --idc xxx --resource-id xxx
+        ''',
+    )
+    def describe_realtime_cabinet_current(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DescribeRealtimeCabinetCurrentRequest import DescribeRealtimeCabinetCurrentRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeRealtimeCabinetCurrentRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
+            (['--resource-type'], dict(help="""(string) 资源类型 bandwidth:带宽 """, dest='resourceType',  required=False)),
+            (['--resource-id'], dict(help="""(string) 资源ID，指定resourceId时须指定resourceType """, dest='resourceId',  required=False)),
+            (['--idc'], dict(help="""(string) 机房英文标识 """, dest='idc',  required=False)),
+            (['--status'], dict(help="""(string) 规则状态 disabled:禁用 enabled:启用 """, dest='status',  required=False)),
+            (['--filters'], dict(help="""(array: filter) alarmId - 规则实施ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询报警规则列表 ''',
+        description='''
+            查询报警规则列表。
+
+            示例: jdc jdccs describe-alarms 
+        ''',
+    )
+    def describe_alarms(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DescribeAlarmsRequest import DescribeAlarmsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAlarmsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--idc'], dict(help="""(string) idc机房实例ID """, dest='idc',  required=False)),
+            (['--resource-type'], dict(help="""(string) 资源类型，bandwidth:带宽 """, dest='resourceType',  required=False)),
+            (['--resource-id'], dict(help="""(string) 带宽实例ID """, dest='resourceId',  required=False)),
+            (['--name'], dict(help="""(string) 规则名称 """, dest='name',  required=False)),
+            (['--metric'], dict(help="""(string) 监控项，bandwidthTrafficIn:上行实时流量 bandwidthTrafficOut:下行实时流量 """, dest='metric',  required=False)),
+            (['--period'], dict(help="""(int) 统计周期（单位：分钟） """, dest='period', type=int, required=False)),
+            (['--statistic-method'], dict(help="""(string) 统计方法：平均值=avg、最大值=max、最小值=min """, dest='statisticMethod',  required=False)),
+            (['--operator'], dict(help="""(string) 计算方式 >=、>、<、<=、=、！= """, dest='operator',  required=False)),
+            (['--threshold'], dict(help="""(float) 阈值 """, dest='threshold',  required=False)),
+            (['--times'], dict(help="""(int) 连续多少次后报警 """, dest='times', type=int, required=False)),
+            (['--notice-period'], dict(help="""(int) 通知周期 单位：小时 """, dest='noticePeriod', type=int, required=False)),
+            (['--status'], dict(help="""(string) 规则状态 disabled:禁用 enabled:启用 """, dest='status',  required=False)),
+            (['--notice-method'], dict(help="""(string) 通知方式 all:全部 sms：短信 email:邮件 """, dest='noticeMethod',  required=False)),
+            (['--notice-obj'], dict(help="""(string) 通知对象 all:全部 persons：个人 groups:角色组 """, dest='noticeObj',  required=False)),
+            (['--user-id'], dict(help="""(string) 通知对象用户ID,若多个用逗号分隔 """, dest='userId',  required=False)),
+            (['--group-id'], dict(help="""(string) 通知对象组ID """, dest='groupId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建报警 ''',
+        description='''
+            创建报警。
+
+            示例: jdc jdccs create-alarm 
+        ''',
+    )
+    def create_alarm(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.CreateAlarmRequest import CreateAlarmRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateAlarmRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--alarm-id'], dict(help="""(string) 报警规则ID """, dest='alarmId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询报警规则详情 ''',
+        description='''
+            查询报警规则详情。
+
+            示例: jdc jdccs describe-alarm  --alarm-id xxx
+        ''',
+    )
+    def describe_alarm(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DescribeAlarmRequest import DescribeAlarmRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAlarmRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--alarm-id'], dict(help="""(string) 报警规则ID """, dest='alarmId',  required=True)),
+            (['--name'], dict(help="""(string) 规则名称 """, dest='name',  required=False)),
+            (['--metric'], dict(help="""(string) 监控项，bandwidthTrafficIn:上行实时流量 bandwidthTrafficOut:下行实时流量 """, dest='metric',  required=False)),
+            (['--period'], dict(help="""(int) 统计周期（单位：分钟） """, dest='period', type=int, required=False)),
+            (['--statistic-method'], dict(help="""(string) 统计方法：平均值=avg、最大值=max、最小值=min """, dest='statisticMethod',  required=False)),
+            (['--operator'], dict(help="""(string) 计算方式 >=、>、<、<=、=、！= """, dest='operator',  required=False)),
+            (['--threshold'], dict(help="""(float) 阈值 """, dest='threshold',  required=False)),
+            (['--times'], dict(help="""(int) 连续多少次后报警 """, dest='times', type=int, required=False)),
+            (['--notice-period'], dict(help="""(int) 通知周期 单位：小时 """, dest='noticePeriod', type=int, required=False)),
+            (['--status'], dict(help="""(string) 规则状态 disabled:禁用 enabled:启用 """, dest='status',  required=False)),
+            (['--notice-method'], dict(help="""(string) 通知方式 all:全部 sms：短信 email:邮件 """, dest='noticeMethod',  required=False)),
+            (['--user-id'], dict(help="""(string) 通知对象用户ID,若多个用逗号分隔 """, dest='userId',  required=False)),
+            (['--group-id'], dict(help="""(string) 通知对象组ID """, dest='groupId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改报警规则 ''',
+        description='''
+            修改报警规则。
+
+            示例: jdc jdccs update-alarm  --alarm-id xxx
+        ''',
+    )
+    def update_alarm(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.UpdateAlarmRequest import UpdateAlarmRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateAlarmRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--alarm-id'], dict(help="""(string) 报警规则ID """, dest='alarmId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除报警 ''',
+        description='''
+            删除报警。
+
+            示例: jdc jdccs delete-alarm  --alarm-id xxx
+        ''',
+    )
+    def delete_alarm(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DeleteAlarmRequest import DeleteAlarmRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteAlarmRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
+            (['--alarm-id'], dict(help="""(string) 报警规则ID """, dest='alarmId',  required=False)),
+            (['--idc'], dict(help="""(string) 机房英文标识 """, dest='idc',  required=False)),
+            (['--start-time'], dict(help="""(int) 查询时间范围的开始时间， UNIX时间戳 """, dest='startTime', type=int, required=False)),
+            (['--end-time'], dict(help="""(int) 查询时间范围的结束时间， UNIX时间戳 """, dest='endTime', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 报警历史列表 ''',
+        description='''
+            报警历史列表。
+
+            示例: jdc jdccs describe-alarm-history 
+        ''',
+    )
+    def describe_alarm_history(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DescribeAlarmHistoryRequest import DescribeAlarmHistoryRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAlarmHistoryRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--alarm-id'], dict(help="""(string) 报警规则ID """, dest='alarmId',  required=True)),
+            (['--status'], dict(help="""(string) 规则状态 disabled:禁用 enabled:启用 """, dest='status',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启用、禁用报警 ''',
+        description='''
+            启用、禁用报警。
+
+            示例: jdc jdccs switch-alarm  --alarm-id xxx
+        ''',
+    )
+    def switch_alarm(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.SwitchAlarmRequest import SwitchAlarmRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SwitchAlarmRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
+            (['--type'], dict(help="""(string) 工单TAB类型 pendingProcess:待我处理 pendingReview:待审核 processing:处理中 all:全部(默认) """, dest='type',  required=False)),
+            (['--ticket-type-name'], dict(help="""(string) 工单类型 """, dest='ticketTypeName',  required=False)),
+            (['--status'], dict(help="""(string) 工单状态 pendingReview:待审核 revoked:已撤销 processing:处理中 pendingVerification:待核验 pendingClose:待关单 rejected:已拒绝 completed:已完成 cancelled:已取消 draft:草稿中 """, dest='status',  required=False)),
+            (['--ticket-no'], dict(help="""(string) 工单编号 """, dest='ticketNo',  required=False)),
+            (['--ticket-template-name'], dict(help="""(string) 工单名称 """, dest='ticketTemplateName',  required=False)),
+            (['--description'], dict(help="""(string) 描述 """, dest='description',  required=False)),
+            (['--start-time'], dict(help="""(string) 创建开始时间，遵循ISO8601标准，使用UTC时间，格式为：yyyy-MM-ddTHH:mm:ssZ """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 创建结束时间，遵循ISO8601标准，使用UTC时间，格式为：yyyy-MM-ddTHH:mm:ssZ """, dest='endTime',  required=False)),
+            (['--filters'], dict(help="""(array: filter) ticketNo - 工单编号，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--sorts'], dict(help="""(array: sort) createdTime - 创建时间 closedTime - 关闭时间 """, dest='sorts',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询工单列表 ''',
+        description='''
+            查询工单列表。
+
+            示例: jdc jdccs describe-tickets 
+        ''',
+    )
+    def describe_tickets(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DescribeTicketsRequest import DescribeTicketsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeTicketsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--ticket-no'], dict(help="""(string) 工单编号 """, dest='ticketNo',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询工单详情 ''',
+        description='''
+            查询工单详情。
+
+            示例: jdc jdccs describe-ticket  --ticket-no xxx
+        ''',
+    )
+    def describe_ticket(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.DescribeTicketRequest import DescribeTicketRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeTicketRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--phone'], dict(help="""(string) 提单人手机号 """, dest='phone',  required=False)),
+            (['--email'], dict(help="""(string) 提单人邮箱 """, dest='email',  required=False)),
+            (['--idc'], dict(help="""(string) idc机房实例id """, dest='idc',  required=False)),
+            (['--is-external-idc'], dict(help="""(bool) 是否是商业化外部机房 """, dest='isExternalIdc', type=bool, required=False)),
+            (['--count'], dict(help="""(int) 数量 """, dest='count', type=int, required=False)),
+            (['--external-idc-address'], dict(help="""(string) 外部机房地址 """, dest='externalIdcAddress',  required=False)),
+            (['--external-idc-contact-person'], dict(help="""(string) 外部机房联系人 """, dest='externalIdcContactPerson',  required=False)),
+            (['--external-idc-contact-phone'], dict(help="""(string) 外部机房联系电话 """, dest='externalIdcContactPhone',  required=False)),
+            (['--remarks'], dict(help="""(string) 描述 """, dest='remarks',  required=False)),
+            (['--attach'], dict(help="""(array: attach) 附件 """, dest='attach',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 提交通用服务工单 ''',
+        description='''
+            提交通用服务工单。
+
+            示例: jdc jdccs create-general-services-ticket 
+        ''',
+    )
+    def create_general_services_ticket(self):
+        client_factory = ClientFactory('jdccs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.jdccs.apis.CreateGeneralServicesTicketRequest import CreateGeneralServicesTicketRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateGeneralServicesTicketRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
+            (['--all'], dict(help="""(int) 是否查询全部，默认分页 """, dest='all', type=int, required=False)),
+            (['--include-external-idc'], dict(help="""(string) 是否强制包含外部机房 yes/no """, dest='includeExternalIdc',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -382,8 +815,10 @@ class JdccsController(BaseController):
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
+            (['--all'], dict(help="""(int) 是否查询全部，默认分页 """, dest='all', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) roomNo - 房间号，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -417,8 +852,13 @@ class JdccsController(BaseController):
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) roomNo - 房间号，精确匹配，支持多个; cabinetId - 机柜ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--cabinet-type'], dict(help="""(string) 机柜类型 formal:正式机柜 reserved:预留机柜 """, dest='cabinetType',  required=False)),
+            (['--cabinet-open-status'], dict(help="""(string) 机柜开通状态 disabled:未开通 enabling:开通中 enabled:已开通 disabling:关电中 """, dest='cabinetOpenStatus',  required=False)),
+            (['--cabinet-no'], dict(help="""(string) 机柜编码 """, dest='cabinetNo',  required=False)),
+            (['--filters'], dict(help="""(array: filter) roomNo - 房间号，精确匹配，支持多个; cabinetId - 机柜ID，精确匹配，支持多个; cabinetNo - 机柜编码，精确匹配，支持多个; cabinetOpenStatus - 机柜开通状态，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--sorts'], dict(help="""(array: sort) cabinetNo - 机柜编码 roomNo - 房间号 """, dest='sorts',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -452,6 +892,7 @@ class JdccsController(BaseController):
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--cabinet-id'], dict(help="""(string) 机柜实例ID """, dest='cabinetId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -486,8 +927,15 @@ class JdccsController(BaseController):
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
             (['--cabinet-id'], dict(help="""(string) 机柜ID """, dest='cabinetId',  required=False)),
-            (['--filters'], dict(help="""(array: filter) deviceId - 设备实例ID，精确匹配，支持多个; snNo - 设备SN号，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--device-type'], dict(help="""(string) 设备类型 server:服务器 network:网络设备 storage:存储设备 other:其他设备 """, dest='deviceType',  required=False)),
+            (['--asset-status'], dict(help="""(string) 资产状态 launched:已上架 opened:已开通 canceling:退订中 operating:操作中 modifing:变更中 """, dest='assetStatus',  required=False)),
+            (['--asset-belong'], dict(help="""(string) 资产归属 own:自备 lease:租赁 """, dest='assetBelong',  required=False)),
+            (['--device-no'], dict(help="""(string) 设备编码 """, dest='deviceNo',  required=False)),
+            (['--sn-no'], dict(help="""(string) 设备SN号 """, dest='snNo',  required=False)),
+            (['--filters'], dict(help="""(array: filter) deviceId - 设备实例ID，精确匹配，支持多个; snNo - 设备SN号，精确匹配，支持多个; deviceNo - 设备编码，精确匹配，支持多个; cabinetNo - 机柜编码，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--sorts'], dict(help="""(array: sort) deviceNo - 设备编码 cabinetNo - 机柜编码 """, dest='sorts',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -521,6 +969,7 @@ class JdccsController(BaseController):
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--device-id'], dict(help="""(string) 设备实例ID """, dest='deviceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -554,8 +1003,13 @@ class JdccsController(BaseController):
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
+            (['--line-type'], dict(help="""(string) 线路类型 dynamicBGP:动态BGP thirdLineBGP:三线BGP telecom:电信单线 unicom:联通单线 mobile:移动单线 """, dest='lineType',  required=False)),
+            (['--status'], dict(help="""(string) 状态 normal:正常 abnormal:异常 """, dest='status',  required=False)),
+            (['--cidr-addr'], dict(help="""(string) IP地址段 """, dest='cidrAddr',  required=False)),
             (['--filters'], dict(help="""(array: filter) ipId - 公网IP实例ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--sorts'], dict(help="""(array: sort) null """, dest='sorts',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -589,8 +1043,14 @@ class JdccsController(BaseController):
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) bandwidthId - 带宽实例IID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--line-type'], dict(help="""(string) 线路类型 dynamicBGP:动态BGP thirdLineBGP:三线BGP telecom:电信单线 unicom:联通单线 mobile:移动单线 """, dest='lineType',  required=False)),
+            (['--charge-type'], dict(help="""(string) 计费方式 fixedBandwidth:固定带宽 95thPercentile:95峰值 merge95thPercentile:合并95峰值 """, dest='chargeType',  required=False)),
+            (['--bandwidth-name'], dict(help="""(string) 带宽（出口）名称 """, dest='bandwidthName',  required=False)),
+            (['--related-ip'], dict(help="""(string) 关联的公网IP """, dest='relatedIp',  required=False)),
+            (['--filters'], dict(help="""(array: filter) bandwidthId - 带宽实例ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--sorts'], dict(help="""(array: sort) null """, dest='sorts',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -624,6 +1084,7 @@ class JdccsController(BaseController):
             (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--bandwidth-id'], dict(help="""(string) 带宽（出口）实例ID """, dest='bandwidthId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -654,31 +1115,30 @@ class JdccsController(BaseController):
 
     @expose(
         arguments=[
-            (['--page-number'], dict(help="""(int) 页码, 默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20 """, dest='pageSize', type=int, required=False)),
-            (['--type'], dict(help="""(string) 工单TAB类型 pendingProcess:待我处理 pendingReview:待审核 processing:处理中 all:全部(默认) """, dest='type',  required=False)),
+            (['--idc'], dict(help="""(string) IDC机房ID """, dest='idc',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询工单列表 ''',
+        help=''' 查询机房资源概览 ''',
         description='''
-            查询工单列表。
+            查询机房资源概览。
 
-            示例: jdc jdccs describe-tickets 
+            示例: jdc jdccs describe-idc-overview  --idc xxx
         ''',
     )
-    def describe_tickets(self):
+    def describe_idc_overview(self):
         client_factory = ClientFactory('jdccs')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.jdccs.apis.DescribeTicketsRequest import DescribeTicketsRequest
+            from jdcloud_sdk.services.jdccs.apis.DescribeIdcOverviewRequest import DescribeIdcOverviewRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeTicketsRequest(params_dict, headers)
+            req = DescribeIdcOverviewRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -688,39 +1148,7 @@ class JdccsController(BaseController):
 
     @expose(
         arguments=[
-            (['--ticket-no'], dict(help="""(string) 工单编号 """, dest='ticketNo',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询工单详情 ''',
-        description='''
-            查询工单详情。
-
-            示例: jdc jdccs describe-ticket  --ticket-no xxx
-        ''',
-    )
-    def describe_ticket(self):
-        client_factory = ClientFactory('jdccs')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.jdccs.apis.DescribeTicketRequest import DescribeTicketRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeTicketRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-alarms','describe-alarm','describe-alarm-history','describe-metrics','describe-metric-data','last-downsample','describe-bandwidth-traffics','describe-bandwidth-traffic','describe-traffic-sampling','describe-idcs','describe-rooms','describe-cabinets','describe-cabinet','describe-devices','describe-device','describe-ips','describe-bandwidths','describe-bandwidth','describe-tickets','describe-ticket',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-metrics','describe-metric-data','last-downsample','describe-bandwidth-traffics','describe-bandwidth-traffic','describe-traffic-sampling','describe-open-devices','describe-open-devices-data','describe-rangetime-cabinet-current','describe-realtime-cabinet-current','describe-alarms','create-alarm','describe-alarm','update-alarm','delete-alarm','describe-alarm-history','switch-alarm','describe-tickets','describe-ticket','create-general-services-ticket','describe-idcs','describe-rooms','describe-cabinets','describe-cabinet','describe-devices','describe-device','describe-ips','describe-bandwidths','describe-bandwidth','describe-idc-overview',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

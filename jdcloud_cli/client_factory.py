@@ -18,66 +18,66 @@
 
 from jdcloud_sdk.core.config import Config
 from jdcloud_sdk.core.credential import Credential
-from jdcloud_sdk.services.rds.client.RdsClient import RdsClient
-from jdcloud_sdk.services.kubernetes.client.KubernetesClient import KubernetesClient
 from jdcloud_sdk.services.vqd.client.VqdClient import VqdClient
 from jdcloud_sdk.services.streamcomputer.client.StreamcomputerClient import StreamcomputerClient
-from jdcloud_sdk.services.ipanti.client.IpantiClient import IpantiClient
 from jdcloud_sdk.services.ssl.client.SslClient import SslClient
 from jdcloud_sdk.services.domainservice.client.DomainserviceClient import DomainserviceClient
-from jdcloud_sdk.services.jmr.client.JmrClient import JmrClient
 from jdcloud_sdk.services.oss.client.OssClient import OssClient
 from jdcloud_sdk.services.redis.client.RedisClient import RedisClient
 from jdcloud_sdk.services.billing.client.BillingClient import BillingClient
-from jdcloud_sdk.services.deploy.client.DeployClient import DeployClient
-from jdcloud_sdk.services.sop.client.SopClient import SopClient
-from jdcloud_sdk.services.function.client.FunctionClient import FunctionClient
 from jdcloud_sdk.services.portal.client.PortalClient import PortalClient
-from jdcloud_sdk.services.jdccs.client.JdccsClient import JdccsClient
-from jdcloud_sdk.services.logs.client.LogsClient import LogsClient
 from jdcloud_sdk.services.clouddnsservice.client.ClouddnsserviceClient import ClouddnsserviceClient
-from jdcloud_sdk.services.cps.client.CpsClient import CpsClient
 from jdcloud_sdk.services.cdn.client.CdnClient import CdnClient
 from jdcloud_sdk.services.streambus.client.StreambusClient import StreambusClient
 from jdcloud_sdk.services.apigateway.client.ApigatewayClient import ApigatewayClient
-from jdcloud_sdk.services.httpdns.client.HttpdnsClient import HttpdnsClient
-from jdcloud_sdk.services.disk.client.DiskClient import DiskClient
 from jdcloud_sdk.services.sts.client.StsClient import StsClient
-from jdcloud_sdk.services.nc.client.NcClient import NcClient
-from jdcloud_sdk.services.vm.client.VmClient import VmClient
 from jdcloud_sdk.services.nativecontainer.client.NativecontainerClient import NativecontainerClient
-from jdcloud_sdk.services.iotcore.client.IotcoreClient import IotcoreClient
 from jdcloud_sdk.services.pod.client.PodClient import PodClient
-from jdcloud_sdk.services.ams.client.AmsClient import AmsClient
-from jdcloud_sdk.services.jdro.client.JdroClient import JdroClient
-from jdcloud_sdk.services.zfs.client.ZfsClient import ZfsClient
-from jdcloud_sdk.services.vod.client.VodClient import VodClient
-from jdcloud_sdk.services.yundingdatapush.client.YundingdatapushClient import YundingdatapushClient
 from jdcloud_sdk.services.datastar.client.DatastarClient import DatastarClient
 from jdcloud_sdk.services.kms.client.KmsClient import KmsClient
 from jdcloud_sdk.services.elite.client.EliteClient import EliteClient
-from jdcloud_sdk.services.ossopenapi.client.OssopenapiClient import OssopenapiClient
 from jdcloud_sdk.services.iam.client.IamClient import IamClient
 from jdcloud_sdk.services.iothub.client.IothubClient import IothubClient
 from jdcloud_sdk.services.sms.client.SmsClient import SmsClient
-from jdcloud_sdk.services.jcq.client.JcqClient import JcqClient
 from jdcloud_sdk.services.resourcetag.client.ResourcetagClient import ResourcetagClient
-from jdcloud_sdk.services.baseanti.client.BaseantiClient import BaseantiClient
+from jdcloud_sdk.services.jcq.client.JcqClient import JcqClient
 from jdcloud_sdk.services.ias.client.IasClient import IasClient
-from jdcloud_sdk.services.mongodb.client.MongodbClient import MongodbClient
 from jdcloud_sdk.services.jdfusion.client.JdfusionClient import JdfusionClient
-from jdcloud_sdk.services.live.client.LiveClient import LiveClient
 from jdcloud_sdk.services.detection.client.DetectionClient import DetectionClient
 from jdcloud_sdk.services.iotlink.client.IotlinkClient import IotlinkClient
 from jdcloud_sdk.services.renewal.client.RenewalClient import RenewalClient
 from jdcloud_sdk.services.yunding.client.YundingClient import YundingClient
-from jdcloud_sdk.services.vpc.client.VpcClient import VpcClient
-from jdcloud_sdk.services.monitor.client.MonitorClient import MonitorClient
-from jdcloud_sdk.services.xdata.client.XdataClient import XdataClient
 from jdcloud_sdk.services.containerregistry.client.ContainerregistryClient import ContainerregistryClient
 from jdcloud_sdk.services.partner.client.PartnerClient import PartnerClient
 from jdcloud_sdk.services.lb.client.LbClient import LbClient
 from jdcloud_sdk.services.industrydata.client.IndustrydataClient import IndustrydataClient
+from jdcloud_sdk.services.rds.client.RdsClient import RdsClient
+from jdcloud_sdk.services.kubernetes.client.KubernetesClient import KubernetesClient
+from jdcloud_sdk.services.ipanti.client.IpantiClient import IpantiClient
+from jdcloud_sdk.services.jmr.client.JmrClient import JmrClient
+from jdcloud_sdk.services.deploy.client.DeployClient import DeployClient
+from jdcloud_sdk.services.sop.client.SopClient import SopClient
+from jdcloud_sdk.services.function.client.FunctionClient import FunctionClient
+from jdcloud_sdk.services.jdccs.client.JdccsClient import JdccsClient
+from jdcloud_sdk.services.logs.client.LogsClient import LogsClient
+from jdcloud_sdk.services.cps.client.CpsClient import CpsClient
+from jdcloud_sdk.services.httpdns.client.HttpdnsClient import HttpdnsClient
+from jdcloud_sdk.services.disk.client.DiskClient import DiskClient
+from jdcloud_sdk.services.nc.client.NcClient import NcClient
+from jdcloud_sdk.services.vm.client.VmClient import VmClient
+from jdcloud_sdk.services.iotcore.client.IotcoreClient import IotcoreClient
+from jdcloud_sdk.services.zfs.client.ZfsClient import ZfsClient
+from jdcloud_sdk.services.ams.client.AmsClient import AmsClient
+from jdcloud_sdk.services.jdro.client.JdroClient import JdroClient
+from jdcloud_sdk.services.vod.client.VodClient import VodClient
+from jdcloud_sdk.services.yundingdatapush.client.YundingdatapushClient import YundingdatapushClient
+from jdcloud_sdk.services.ossopenapi.client.OssopenapiClient import OssopenapiClient
+from jdcloud_sdk.services.baseanti.client.BaseantiClient import BaseantiClient
+from jdcloud_sdk.services.mongodb.client.MongodbClient import MongodbClient
+from jdcloud_sdk.services.live.client.LiveClient import LiveClient
+from jdcloud_sdk.services.vpc.client.VpcClient import VpcClient
+from jdcloud_sdk.services.monitor.client.MonitorClient import MonitorClient
+from jdcloud_sdk.services.xdata.client.XdataClient import XdataClient
 from jdcloud_cli.config import ProfileManager
 from jdcloud_cli.logger import get_logger
 
@@ -89,66 +89,66 @@ class ClientFactory(object):
 
     def get(self, app):
         client_map = {
-            'rds': RdsClient,
-            'kubernetes': KubernetesClient,
             'vqd': VqdClient,
             'streamcomputer': StreamcomputerClient,
-            'ipanti': IpantiClient,
             'ssl': SslClient,
             'domainservice': DomainserviceClient,
-            'jmr': JmrClient,
             'oss': OssClient,
             'redis': RedisClient,
             'billing': BillingClient,
-            'deploy': DeployClient,
-            'sop': SopClient,
-            'function': FunctionClient,
             'portal': PortalClient,
-            'jdccs': JdccsClient,
-            'logs': LogsClient,
             'clouddnsservice': ClouddnsserviceClient,
-            'cps': CpsClient,
             'cdn': CdnClient,
             'streambus': StreambusClient,
             'apigateway': ApigatewayClient,
-            'httpdns': HttpdnsClient,
-            'disk': DiskClient,
             'sts': StsClient,
-            'nc': NcClient,
-            'vm': VmClient,
             'nativecontainer': NativecontainerClient,
-            'iotcore': IotcoreClient,
             'pod': PodClient,
-            'ams': AmsClient,
-            'jdro': JdroClient,
-            'zfs': ZfsClient,
-            'vod': VodClient,
-            'yundingdatapush': YundingdatapushClient,
             'datastar': DatastarClient,
             'kms': KmsClient,
             'elite': EliteClient,
-            'ossopenapi': OssopenapiClient,
             'iam': IamClient,
             'iothub': IothubClient,
             'sms': SmsClient,
-            'jcq': JcqClient,
             'resourcetag': ResourcetagClient,
-            'baseanti': BaseantiClient,
+            'jcq': JcqClient,
             'ias': IasClient,
-            'mongodb': MongodbClient,
             'jdfusion': JdfusionClient,
-            'live': LiveClient,
             'detection': DetectionClient,
             'iotlink': IotlinkClient,
             'renewal': RenewalClient,
             'yunding': YundingClient,
-            'vpc': VpcClient,
-            'monitor': MonitorClient,
-            'xdata': XdataClient,
             'containerregistry': ContainerregistryClient,
             'partner': PartnerClient,
             'lb': LbClient,
             'industrydata': IndustrydataClient,
+            'rds': RdsClient,
+            'kubernetes': KubernetesClient,
+            'ipanti': IpantiClient,
+            'jmr': JmrClient,
+            'deploy': DeployClient,
+            'sop': SopClient,
+            'function': FunctionClient,
+            'jdccs': JdccsClient,
+            'logs': LogsClient,
+            'cps': CpsClient,
+            'httpdns': HttpdnsClient,
+            'disk': DiskClient,
+            'nc': NcClient,
+            'vm': VmClient,
+            'iotcore': IotcoreClient,
+            'zfs': ZfsClient,
+            'ams': AmsClient,
+            'jdro': JdroClient,
+            'vod': VodClient,
+            'yundingdatapush': YundingdatapushClient,
+            'ossopenapi': OssopenapiClient,
+            'baseanti': BaseantiClient,
+            'mongodb': MongodbClient,
+            'live': LiveClient,
+            'vpc': VpcClient,
+            'monitor': MonitorClient,
+            'xdata': XdataClient,
         }
 
         profile_manager = ProfileManager()

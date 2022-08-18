@@ -1,15 +1,105 @@
 {
+    "put-product-metric-data":{
+        "appCode":"",
+        "serviceCode":"",
+        "region":"",
+        "resourceId":"",
+        "dataPoints":[{
+            "metric":"",
+            "tags":"",
+            "timestamp":"",
+            "value":""
+        }],
+        "regionId":""
+    },
+    "put-product-metric-data":{
+        "appCode":"",
+        "serviceCode":"",
+        "region":"",
+        "resourceId":"",
+        "dataPoints":[{
+            "metric":"",
+            "tags":"",
+            "timestamp":"",
+            "value":""
+        }],
+        "regionId":""
+    },
+    "describe-subnets":{
+        "pageNumber":"",
+        "pageSize":"",
+        "type":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-subnet":{
+        "vpcId":"",
+        "subnetName":"",
+        "addressPrefix":"",
+        "routeTableId":"",
+        "description":"",
+        "ipMaskLen":"",
+        "regionId":""
+    },
+    "describe-subnet":{
+        "regionId":"",
+        "subnetId":""
+    },
+    "delete-subnet":{
+        "regionId":"",
+        "subnetId":""
+    },
     "assign-secondary-ips":{
         "force":"",
         "secondaryIps":[""],
         "secondaryIpCount":"",
+        "secondaryIpMaskLen":"",
+        "secondaryIpAddress":"",
         "regionId":"",
         "networkInterfaceId":""
     },
     "unassign-secondary-ips":{
         "secondaryIps":[""],
+        "secondaryCidrs":[""],
         "regionId":"",
         "networkInterfaceId":""
+    },
+    "describe-network-interface":{
+        "regionId":"",
+        "networkInterfaceId":""
+    },
+    "delete-network-interface":{
+        "regionId":"",
+        "networkInterfaceId":""
+    },
+    "describe-network-interfaces":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-network-interface":{
+        "subnetId":"",
+        "az":"",
+        "networkInterfaceName":"",
+        "primaryIpAddress":"",
+        "secondaryIpAddresses":[""],
+        "secondaryIpCount":"",
+        "securityGroups":[""],
+        "sanityCheck":"",
+        "description":"",
+        "regionId":""
+    },
+    "describe-tasks":{
+        "instanceId":""
     },
     "describe-rds-instances":{
         "pageNumber":"",
@@ -61,6 +151,12 @@
             "dbName":"",
             "privilege":""
         }],
+        "regionId":"",
+        "instanceId":"",
+        "accountName":""
+    },
+    "revoke-privilege":{
+        "dbNames":[""],
         "regionId":"",
         "instanceId":"",
         "accountName":""

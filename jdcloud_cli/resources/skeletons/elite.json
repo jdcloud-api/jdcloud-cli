@@ -3,31 +3,10 @@
         "orderNumber":"",
         "regionId":""
     },
-    "jdx-report-order":{
-        "reportOrderInfo":{
-            "orderNumber":"",
-            "distributorAccount":"",
-            "distributorName":"",
-            "extraInfo":""
-        },
-        "regionId":""
-    },
-    "jdx-create-order":{
-        "createOrderInfo":{
-            "productId":"",
-            "skuId":"",
-            "buyNum":"",
-            "remark":"",
-            "cartExtraChargeVos":[""]
-        },
-        "regionId":""
-    },
-    "jdx-query-price":{
-        "queryPriceParam":{
-            "cmd":"",
-            "packageCount":"",
-            "orderList":[""]
-        },
+    "get-store-service":{
+        "buyerPin":"",
+        "businessData":"",
+        "queryAll":"",
         "regionId":""
     },
     "jdx-query-product":{
@@ -55,10 +34,31 @@
         },
         "regionId":""
     },
-    "get-store-service":{
-        "buyerPin":"",
-        "businessData":"",
-        "queryAll":"",
+    "jdx-report-order":{
+        "reportOrderInfo":{
+            "orderNumber":"",
+            "distributorAccount":"",
+            "distributorName":"",
+            "extraInfo":""
+        },
+        "regionId":""
+    },
+    "jdx-create-order":{
+        "createOrderInfo":{
+            "productId":"",
+            "skuId":"",
+            "buyNum":"",
+            "remark":"",
+            "cartExtraChargeVos":[""]
+        },
+        "regionId":""
+    },
+    "jdx-query-price":{
+        "queryPriceParam":{
+            "cmd":"",
+            "packageCount":"",
+            "orderList":[""]
+        },
         "regionId":""
     },
 }

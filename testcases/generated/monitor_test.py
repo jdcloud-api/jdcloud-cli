@@ -122,8 +122,8 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_one_data_point(self):
-        cmd = """python ../../main.py monitor describe-one-data-point  --metric 'xxx' --service-code 'xxx' --resource-id 'xxx'"""
+    def test_last_downsample(self):
+        cmd = """python ../../main.py monitor last-downsample  --metric 'xxx' --service-code 'xxx' --resource-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -140,6 +140,15 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_tag_values(self):
+        cmd = """python ../../main.py monitor describe-tag-values  --tag-key 'xxx' --service-code 'xxx' --resource-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_services(self):
         cmd = """python ../../main.py monitor describe-services """
         with os.popen(cmd) as f:
@@ -149,6 +158,24 @@ class MonitorTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_put_product_metric_data(self):
+        cmd = """python ../../main.py monitor put-product-metric-data  --app-code 'xxx' --service-code 'xxx' --region 'xxx' --resource-id 'xxx' --data-points '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_put_product_metric_data(self):
+        cmd = """python ../../main.py monitor put-product-metric-data  --app-code 'xxx' --service-code 'xxx' --region 'xxx' --resource-id 'xxx' --data-points '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_put_custom_metric_data(self):
         cmd = """python ../../main.py monitor put-custom-metric-data """
         with os.popen(cmd) as f:
@@ -160,6 +187,15 @@ class MonitorTest(unittest.TestCase):
 
     def test_put_custom_metric_data(self):
         cmd = """python ../../main.py monitor put-custom-metric-data """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_custom_metric_data(self):
+        cmd = """python ../../main.py monitor describe-custom-metric-data  --namespace-uid 'xxx' --query '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

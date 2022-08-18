@@ -111,9 +111,6 @@
             "secretData":""
         }
     },
-    "import-secret":{
-        "secretPackage":""
-    },
     "describe-secret-version-list":{
         "pageNumber":"",
         "pageSize":"",
@@ -143,9 +140,6 @@
                 "expireTime":""
             }
         },
-        "secretId":""
-    },
-    "export-secret":{
         "secretId":""
     },
     "describe-secret-version-info":{

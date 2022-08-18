@@ -1,6 +1,8 @@
 import unittest
 import os
 
+import yaml
+
 
 class ConfigTest(unittest.TestCase):
 
@@ -66,3 +68,11 @@ class ConfigTest(unittest.TestCase):
 
     def test_use_not_exist_profile(self):
         self._use_profile('xxx', 'Profile xxx do not exist')
+
+    def test_yaml_load(self):
+        json_data='{"az":"cn-north-1","name":"lishijun-test","diskType":"ssd","diskSizeGB":20}'
+        try:
+            obj = yaml.load(json_data, Loader=yaml.FullLoader)
+            return obj
+        except ValueError:
+            print ValueError

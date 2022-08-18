@@ -28,7 +28,7 @@ from jdcloud_cli.skeleton import Skeleton
 class LbController(BaseController):
     class Meta:
         label = 'lb'
-        help = '京东云负载均衡'
+        help = '负载均衡'
         description = '''
         lb cli 子命令，负载均衡相关API。
         OpenAPI文档地址为：https://docs.jdcloud.com/cn/xxx/api/overview
@@ -41,8 +41,609 @@ class LbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) backendIds - 后端服务Id列表，支持多个; backendNames - 后端服务名称列表，支持多个; loadBalancerId - 负载均衡器Id，支持单个; agId - 高可用组Id，支持单个; loadBalancerType - 负载均衡类型，取值为：alb、nlb、dnlb，默认alb，支持单个; protocol - 后端服务的协议【alb】支持Http、Tcp，【nlb&dnlb】支持Tcp，默认查询所有，支持单个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) urlMapIds - 转发规则组Id列表，支持多个; urlMapNames -转发规则组名称列表，支持多个; loadBalancerId - 负载均衡器Id，支持单个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询转发规则组列表详情 ''',
+        description='''
+            查询转发规则组列表详情。
+
+            示例: jdc lb describe-url-maps 
+        ''',
+    )
+    def describe_url_maps(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.DescribeUrlMapsRequest import DescribeUrlMapsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeUrlMapsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--url-map-name'], dict(help="""(string) 转发规则组名称，同一个负载均衡下，名称不能重复,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='urlMapName',  required=True)),
+            (['--load-balancer-id'], dict(help="""(string) 转发规则组所属负载均衡的Id """, dest='loadBalancerId',  required=True)),
+            (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建转发规则组,仅alb支持 ''',
+        description='''
+            创建转发规则组,仅alb支持。
+
+            示例: jdc lb create-url-map  --url-map-name xxx --load-balancer-id xxx
+        ''',
+    )
+    def create_url_map(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.CreateUrlMapRequest import CreateUrlMapRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateUrlMapRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询转发规则组详情 ''',
+        description='''
+            查询转发规则组详情。
+
+            示例: jdc lb describe-url-map  --url-map-id xxx
+        ''',
+    )
+    def describe_url_map(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.DescribeUrlMapRequest import DescribeUrlMapRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeUrlMapRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
+            (['--description'], dict(help="""(string) 转发规则组描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
+            (['--url-map-name'], dict(help="""(string) 转发规则组名称，同一个负载均衡下，名称不能重复,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='urlMapName',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改转发规则组 ''',
+        description='''
+            修改转发规则组。
+
+            示例: jdc lb update-url-map  --url-map-id xxx
+        ''',
+    )
+    def update_url_map(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.UpdateUrlMapRequest import UpdateUrlMapRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateUrlMapRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除转发规则组 ''',
+        description='''
+            删除转发规则组。
+
+            示例: jdc lb delete-url-map  --url-map-id xxx
+        ''',
+    )
+    def delete_url_map(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.DeleteUrlMapRequest import DeleteUrlMapRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteUrlMapRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
+            (['--rule-specs'], dict(help="""(array: ruleSpec) 转发规则的信息 """, dest='ruleSpecs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 往转发规则组加入转发规则 ''',
+        description='''
+            往转发规则组加入转发规则。
+
+            示例: jdc lb add-rules  --url-map-id xxx --rule-specs ['{"":""}']
+        ''',
+    )
+    def add_rules(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.AddRulesRequest import AddRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
+            (['--rule-update-specs'], dict(help="""(array: ruleUpdateSpec) 更新转发规则rules信息 """, dest='ruleUpdateSpecs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改转发规则 ''',
+        description='''
+            修改转发规则。
+
+            示例: jdc lb update-rules  --url-map-id xxx --rule-update-specs ['{"":""}']
+        ''',
+    )
+    def update_rules(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.UpdateRulesRequest import UpdateRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
+            (['--rule-ids'], dict(help="""(array: string) rule Id列表 """, dest='ruleIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除转发规则 ''',
+        description='''
+            删除转发规则。
+
+            示例: jdc lb delete-rules  --url-map-id xxx
+        ''',
+    )
+    def delete_rules(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.DeleteRulesRequest import DeleteRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) targetGroupIds - TargetGroup ID列表，支持多个; targetGroupNames - TargetGroup名称列表，支持多个; loadBalancerId － TargetGroup所属负载均衡的Id，支持单个; loadBalancerType - 负载均衡类型，取值为：alb、nlb、dnlb，默认alb，支持单个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询虚拟服务器组列表详情，返回target详情功能3个月后将会下线，建议用户直接使用describeTargets接口查询target详情 ''',
+        description='''
+            查询虚拟服务器组列表详情，返回target详情功能3个月后将会下线，建议用户直接使用describeTargets接口查询target详情。
+
+            示例: jdc lb describe-target-groups 
+        ''',
+    )
+    def describe_target_groups(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.DescribeTargetGroupsRequest import DescribeTargetGroupsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeTargetGroupsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--target-group-name'], dict(help="""(string) 虚拟服务器组名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='targetGroupName',  required=True)),
+            (['--load-balancer-id'], dict(help="""(string) 负载均衡的Id """, dest='loadBalancerId',  required=True)),
+            (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
+            (['--type'], dict(help="""(string) 类型，取值为instance或ip """, dest='type',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建一个虚拟服务器组 ''',
+        description='''
+            创建一个虚拟服务器组。
+
+            示例: jdc lb create-target-group  --target-group-name xxx --load-balancer-id xxx
+        ''',
+    )
+    def create_target_group(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.CreateTargetGroupRequest import CreateTargetGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateTargetGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询TargetGroup详情，返回target详情功能3个月后将会下线，建议用户直接使用describeTargets接口查询target详情 ''',
+        description='''
+            查询TargetGroup详情，返回target详情功能3个月后将会下线，建议用户直接使用describeTargets接口查询target详情。
+
+            示例: jdc lb describe-target-group  --target-group-id xxx
+        ''',
+    )
+    def describe_target_group(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.DescribeTargetGroupRequest import DescribeTargetGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeTargetGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
+            (['--description'], dict(help="""(string) 虚拟服务器组描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
+            (['--target-group-name'], dict(help="""(string) 虚拟服务器组名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='targetGroupName',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改一个虚拟服务器组的信息 ''',
+        description='''
+            修改一个虚拟服务器组的信息。
+
+            示例: jdc lb update-target-group  --target-group-id xxx
+        ''',
+    )
+    def update_target_group(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.UpdateTargetGroupRequest import UpdateTargetGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateTargetGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除一个虚拟服务器组 ''',
+        description='''
+            删除一个虚拟服务器组。
+
+            示例: jdc lb delete-target-group  --target-group-id xxx
+        ''',
+    )
+    def delete_target_group(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.DeleteTargetGroupRequest import DeleteTargetGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteTargetGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
+            (['--target-specs'], dict(help="""(array: targetSpec) 注册Target列表 """, dest='targetSpecs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 往TargetGroup中加入Target ''',
+        description='''
+            往TargetGroup中加入Target。
+
+            示例: jdc lb register-targets  --target-group-id xxx --target-specs ['{"":""}']
+        ''',
+    )
+    def register_targets(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.RegisterTargetsRequest import RegisterTargetsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RegisterTargetsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
+            (['--target-ids'], dict(help="""(array: string) Target Id列表 """, dest='targetIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 从TargetGroup中移除一个或多个Target，失败则全部回滚。 成功移除的target将不会再接收来自loadbalancer新建连接的流量 ''',
+        description='''
+            从TargetGroup中移除一个或多个Target，失败则全部回滚。 成功移除的target将不会再接收来自loadbalancer新建连接的流量。
+
+            示例: jdc lb de-register-targets  --target-group-id xxx
+        ''',
+    )
+    def de_register_targets(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.DeRegisterTargetsRequest import DeRegisterTargetsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeRegisterTargetsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
+            (['--target-update-specs'], dict(help="""(array: targetUpdateSpec) 修改target信息 """, dest='targetUpdateSpecs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改target信息 ''',
+        description='''
+            修改target信息。
+
+            示例: jdc lb update-targets  --target-group-id xxx --target-update-specs ['{"":""}']
+        ''',
+    )
+    def update_targets(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.UpdateTargetsRequest import UpdateTargetsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateTargetsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) targetIds - Target ID列表，支持多个; instanceId - Instance ID,仅支持单个; type － vm, container, ip,仅支持单个; port - 端口,仅支持单个; ipAddress - ip地址,仅支持单个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询Target列表详情 ''',
+        description='''
+            查询Target列表详情。
+
+            示例: jdc lb describe-targets  --target-group-id xxx
+        ''',
+    )
+    def describe_targets(self):
+        client_factory = ClientFactory('lb')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.lb.apis.DescribeTargetsRequest import DescribeTargetsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeTargetsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) backendIds - 后端服务Id列表，支持多个; backendNames - 后端服务名字列表，支持多个; loadBalancerId - 负载均衡器Id，支持单个; agId - 可用性组Id，支持单个; loadBalancerType - 负载均衡类型，取值为：alb、nlb、dnlb，默认alb，支持单个; protocol - 后端服务的协议【alb】支持Http、Tcp和Udp，【nlb】支持Tcp、Udp，【dnlb】支持Tcp、Udp，默认查询所有，支持单个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -76,23 +677,25 @@ class LbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--backend-name'], dict(help="""(string) 后端服务名字,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='backendName',  required=True)),
             (['--load-balancer-id'], dict(help="""(string) 后端服务所属负载均衡的Id """, dest='loadBalancerId',  required=True)),
-            (['--protocol'], dict(help="""(string) 后端服务的协议 <br>【alb】取值范围：Http、Tcp <br>【nlb】取值范围：Tcp <br>【dnlb】取值范围：Tcp """, dest='protocol',  required=True)),
+            (['--protocol'], dict(help="""(string) 后端服务的协议 <br>【alb】取值范围：Http、Tcp、Udp <br>【nlb】取值范围：Tcp、Udp <br>【dnlb】取值范围：Tcp、Udp """, dest='protocol',  required=True)),
             (['--port'], dict(help="""(int) 后端服务的端口，取值范围为[1, 65535]，如指定了TargetSpec中的port，实际按照target指定的port进行转发 """, dest='port', type=int, required=True)),
             (['--health-check-spec'], dict(help="""(healthCheckSpec) 健康检查信息 """, dest='healthCheckSpec',  required=True)),
             (['--algorithm'], dict(help="""(string) 调度算法 <br>【alb,nlb】取值范围为[IpHash, RoundRobin, LeastConn]（取值范围的含义：加权源Ip哈希，加权轮询和加权最小连接），alb和nlb默认为加权轮询 <br>【dnlb】取值范围为[IpHash, QuintupleHash]（取值范围的含义分别为：加权源Ip哈希和加权五元组哈希），dnlb默认为加权源Ip哈希 """, dest='algorithm',  required=False)),
             (['--target-group-ids'], dict(help="""(array: string) 虚拟服务器组的Id列表，目前只支持一个，且与agIds不能同时存在 """, dest='targetGroupIds',  required=False)),
             (['--ag-ids'], dict(help="""(array: string) 高可用组的Id列表，目前只支持一个，且与targetGroupIds不能同时存在 """, dest='agIds',  required=False)),
-            (['--proxy-protocol'], dict(help="""(bool) 【alb Tcp协议】获取真实ip, 取值为False(不获取)或者True(获取,支持Proxy Protocol v1版本)，默认为False """, dest='proxyProtocol',  required=False)),
+            (['--proxy-protocol'], dict(help="""(bool) 【alb Tcp、Udp协议】获取真实ip, 取值为False(不获取)或者True(获取,支持Proxy Protocol v1版本)，默认为False """, dest='proxyProtocol', type=bool, required=False)),
             (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
-            (['--session-stickiness'], dict(help="""(bool) 会话保持, 取值为false(不开启)或者true(开启)，默认为false <br>【alb Http协议，RoundRobin算法】支持基于cookie的会话保持 <br>【nlb】支持基于报文源目的IP的会话保持 """, dest='sessionStickiness',  required=False)),
+            (['--session-stickiness'], dict(help="""(bool) 会话保持, 取值为false(不开启)或者true(开启)，默认为false <br>【alb Http协议，RoundRobin算法】支持基于cookie的会话保持 <br>【nlb】支持基于报文源目的IP的会话保持 """, dest='sessionStickiness', type=bool, required=False)),
             (['--session-sticky-timeout'], dict(help="""(int) 【nlb】会话保持超时时间，sessionStickiness开启时生效，默认300s, 取值范围[1-3600] """, dest='sessionStickyTimeout', type=int, required=False)),
             (['--connection-draining-seconds'], dict(help="""(int) 【nlb】连接耗尽超时。移除target前，连接的最大保持时间，默认300s，取值范围[0-3600] """, dest='connectionDrainingSeconds', type=int, required=False)),
             (['--http-cookie-expire-seconds'], dict(help="""(int) 【alb Http协议】cookie的过期时间,sessionStickiness开启时生效，取值范围为[0-86400], 默认为0（表示cookie与浏览器同生命周期） """, dest='httpCookieExpireSeconds', type=int, required=False)),
-            (['--http-forwarded-protocol'], dict(help="""(bool) 【alb Http协议】获取负载均衡的协议, 取值为False(不获取)或True(获取), 默认为False """, dest='httpForwardedProtocol',  required=False)),
-            (['--http-forwarded-port'], dict(help="""(bool) 【alb Http协议】获取负载均衡的端口, 取值为False(不获取)或True(获取), 默认为False """, dest='httpForwardedPort',  required=False)),
-            (['--http-forwarded-host'], dict(help="""(bool) 【alb Http协议】获取负载均衡的host信息, 取值为False(不获取)或True(获取), 默认为False """, dest='httpForwardedHost',  required=False)),
-            (['--http-forwarded-vip'], dict(help="""(bool) 【alb Http协议】获取负载均衡的vip, 取值为False(不获取)或True(获取), 默认为False """, dest='httpForwardedVip',  required=False)),
+            (['--http-forwarded-protocol'], dict(help="""(bool) 【alb Http协议】获取负载均衡的协议, 取值为False(不获取)或True(获取), 默认为False """, dest='httpForwardedProtocol', type=bool, required=False)),
+            (['--http-forwarded-port'], dict(help="""(bool) 【alb Http协议】获取负载均衡的端口, 取值为False(不获取)或True(获取), 默认为False """, dest='httpForwardedPort', type=bool, required=False)),
+            (['--http-forwarded-host'], dict(help="""(bool) 【alb Http协议】获取负载均衡的host信息, 取值为False(不获取)或True(获取), 默认为False """, dest='httpForwardedHost', type=bool, required=False)),
+            (['--http-forwarded-vip'], dict(help="""(bool) 【alb Http协议】获取负载均衡的vip, 取值为False(不获取)或True(获取), 默认为False """, dest='httpForwardedVip', type=bool, required=False)),
+            (['--http-forwarded-client-port'], dict(help="""(bool) 【alb Http协议】获取请求端使用的端口, 取值为False(不获取)或True(获取), 默认为False """, dest='httpForwardedClientPort', type=bool, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -100,7 +703,7 @@ class LbController(BaseController):
         description='''
             创建一个后端服务。
 
-            示例: jdc lb create-backend  --backend-name xxx --load-balancer-id xxx --protocol xxx --port 0 --health-check-spec '{"":""}'
+            示例: jdc lb create-backend  --backend-name xxx --load-balancer-id xxx --protocol xxx --port 5 --health-check-spec '{"":""}'
         ''',
     )
     def create_backend(self):
@@ -126,6 +729,7 @@ class LbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--backend-id'], dict(help="""(string) Backend Id """, dest='backendId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -163,18 +767,20 @@ class LbController(BaseController):
             (['--algorithm'], dict(help="""(string) 调度算法 <br>【alb,nlb】取值范围为[IpHash, RoundRobin, LeastConn]（含义分别为：加权源Ip哈希，加权轮询和加权最小连接） <br>【dnlb】取值范围为[IpHash, QuintupleHash]（含义分别为：加权源Ip哈希和加权五元组哈希） """, dest='algorithm',  required=False)),
             (['--target-group-ids'], dict(help="""(array: string) 虚拟服务器组的Id列表，目前只支持一个，且与agIds不能同时存在 """, dest='targetGroupIds',  required=False)),
             (['--ag-ids'], dict(help="""(array: string) 高可用组的Id列表，目前只支持一个，且与targetGroupIds不能同时存在 """, dest='agIds',  required=False)),
-            (['--proxy-protocol'], dict(help="""(bool) 【alb Tcp协议】是否启用Proxy ProtocolV1协议获取真实源ip, 取值为false(不开启)或者true(开启), 默认为false """, dest='proxyProtocol',  required=False)),
+            (['--proxy-protocol'], dict(help="""(bool) 【alb Tcp、Udp协议】是否启用Proxy ProtocolV1协议获取真实源ip, 取值为false(不开启)或者true(开启), 默认为false """, dest='proxyProtocol', type=bool, required=False)),
             (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
-            (['--session-stickiness'], dict(help="""(bool) 会话保持, 取值为false(不开启)或者true(开启)，默认为false <br>【alb Http协议，RoundRobin算法】支持基于cookie的会话保持 <br>【nlb】支持基于报文源目的IP的会话保持 """, dest='sessionStickiness',  required=False)),
+            (['--session-stickiness'], dict(help="""(bool) 会话保持, 取值为false(不开启)或者true(开启)，默认为false <br>【alb Http协议，RoundRobin算法】支持基于cookie的会话保持 <br>【nlb】支持基于报文源目的IP的会话保持 """, dest='sessionStickiness', type=bool, required=False)),
             (['--session-sticky-timeout'], dict(help="""(int) 【nlb】会话保持超时时间，sessionStickiness开启时生效, 取值范围[1-3600] """, dest='sessionStickyTimeout', type=int, required=False)),
             (['--connection-draining-seconds'], dict(help="""(int) 【nlb】连接耗尽超时，移除target前，连接的最大保持时间，默认300s，取值范围[0-3600] """, dest='connectionDrainingSeconds', type=int, required=False)),
             (['--http-cookie-expire-seconds'], dict(help="""(int) 【alb Http协议】cookie的过期时间,sessionStickiness开启时生效，取值范围为[0-86400], 0表示cookie与浏览器同生命周期 """, dest='httpCookieExpireSeconds', type=int, required=False)),
-            (['--http-forwarded-protocol'], dict(help="""(bool) 【alb Http协议】获取负载均衡的协议, 取值为False(不获取)或True(获取) """, dest='httpForwardedProtocol',  required=False)),
-            (['--http-forwarded-port'], dict(help="""(bool) 【alb Http协议】获取负载均衡的端口, 取值为False(不获取)或True(获取) """, dest='httpForwardedPort',  required=False)),
-            (['--http-forwarded-host'], dict(help="""(bool) 【alb Http协议】获取负载均衡的host信息, 取值为False(不获取)或True(获取) """, dest='httpForwardedHost',  required=False)),
-            (['--http-forwarded-vip'], dict(help="""(bool) 【alb Http协议】获取负载均衡的vip, 取值为False(不获取)或True(获取) """, dest='httpForwardedVip',  required=False)),
-            (['--close-health-check'], dict(help="""(bool) 【alb,dnlb】关闭健康检查，取值为false(不关闭)或true(关闭) """, dest='closeHealthCheck',  required=False)),
+            (['--http-forwarded-protocol'], dict(help="""(bool) 【alb Http协议】获取负载均衡的协议, 取值为False(不获取)或True(获取) """, dest='httpForwardedProtocol', type=bool, required=False)),
+            (['--http-forwarded-port'], dict(help="""(bool) 【alb Http协议】获取负载均衡的端口, 取值为False(不获取)或True(获取) """, dest='httpForwardedPort', type=bool, required=False)),
+            (['--http-forwarded-host'], dict(help="""(bool) 【alb Http协议】获取负载均衡的host信息, 取值为False(不获取)或True(获取) """, dest='httpForwardedHost', type=bool, required=False)),
+            (['--http-forwarded-vip'], dict(help="""(bool) 【alb Http协议】获取负载均衡的vip, 取值为False(不获取)或True(获取) """, dest='httpForwardedVip', type=bool, required=False)),
+            (['--http-forwarded-client-port'], dict(help="""(bool) 【alb Http协议】获取请求端使用的端口, 取值为False(不获取)或True(获取) """, dest='httpForwardedClientPort', type=bool, required=False)),
+            (['--close-health-check'], dict(help="""(bool) 【alb,dnlb】关闭健康检查，取值为false(不关闭)或true(关闭) """, dest='closeHealthCheck', type=bool, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -208,6 +814,7 @@ class LbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--backend-id'], dict(help="""(string) Backend Id """, dest='backendId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -241,6 +848,7 @@ class LbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--backend-id'], dict(help="""(string) Backend Id """, dest='backendId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -274,191 +882,10 @@ class LbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) listenerNames - 监听器名称列表，支持多个; listenerIds - 监听器Id列表，支持多个; loadBalancerId - 负载均衡器Id，支持单个; loadBalancerType - 负载均衡类型，取值为：alb、nlb、dnlb，默认alb，支持单个; urlMapIds - 【仅alb支持】转发规则组Id列表，支持多个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) loadBalancerType - 负载均衡类型，取值为：alb、nlb、dnlb，默认alb，支持单个; loadBalancerIds - 负载均衡ID列表，支持多个; loadBalancerNames - 负载均衡名称列表，支持多个; vpcId - 负载均衡所在Vpc的Id，支持单个; azType - 负载均衡所在可用区类型，取值包括：all(全部可用区)、standard(标准可用区)、edge(边缘可用区)。默认standard ，支持单个; azs - 边缘可用区，支持多个;  """, dest='filters',  required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询监听器列表 ''',
-        description='''
-            查询监听器列表。
-
-            示例: jdc lb describe-listeners 
-        ''',
-    )
-    def describe_listeners(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.DescribeListenersRequest import DescribeListenersRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeListenersRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--listener-name'], dict(help="""(string) Listener的名字,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='listenerName',  required=True)),
-            (['--protocol'], dict(help="""(string) 监听协议, 取值为Tcp, Tls, Http, Https <br>【alb】支持Http, Https，Tcp和Tls <br>【nlb】支持Tcp  <br>【dnlb】支持Tcp """, dest='protocol',  required=True)),
-            (['--port'], dict(help="""(int) 监听端口，取值范围为[1, 65535] """, dest='port', type=int, required=True)),
-            (['--backend-id'], dict(help="""(string) 默认的后端服务Id """, dest='backendId',  required=True)),
-            (['--load-balancer-id'], dict(help="""(string) Listener所属loadBalancer的Id """, dest='loadBalancerId',  required=True)),
-            (['--url-map-id'], dict(help="""(string) 【alb Https和Http协议】转发规则组Id """, dest='urlMapId',  required=False)),
-            (['--action'], dict(help="""(string) 默认后端服务的转发策略,取值为Forward或Redirect, 现只支持Forward, 默认为Forward """, dest='action',  required=False)),
-            (['--certificate-specs'], dict(help="""(array: certificateSpec) 【alb Https和Tls协议】ssl server证书列表，现只支持一个证书 """, dest='certificateSpecs',  required=False)),
-            (['--connection-idle-time-seconds'], dict(help="""(int) 【alb、nlb】空闲连接超时时间, 范围为[1,86400]。 <br>（Tcp和Tls协议）默认为：1800s <br>（Http和Https协议）默认为：60s <br>【dnlb】不支持 """, dest='connectionIdleTimeSeconds', type=int, required=False)),
-            (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建一个监听器 ''',
-        description='''
-            创建一个监听器。
-
-            示例: jdc lb create-listener  --listener-name xxx --protocol xxx --port 0 --backend-id xxx --load-balancer-id xxx
-        ''',
-    )
-    def create_listener(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.CreateListenerRequest import CreateListenerRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateListenerRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询监听器详情 ''',
-        description='''
-            查询监听器详情。
-
-            示例: jdc lb describe-listener  --listener-id xxx
-        ''',
-    )
-    def describe_listener(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.DescribeListenerRequest import DescribeListenerRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeListenerRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
-            (['--listener-name'], dict(help="""(string) 监听器名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='listenerName',  required=False)),
-            (['--status'], dict(help="""(string) Listener状态, 取值为On或者为Off """, dest='status',  required=False)),
-            (['--certificate-specs'], dict(help="""(array: certificateSpec) 【alb Https和Tls协议】ssl server证书列表，现只支持一个证书 """, dest='certificateSpecs',  required=False)),
-            (['--connection-idle-time-seconds'], dict(help="""(int) 【alb、nlb】空闲连接超时时间, 范围为[1,86400]。 <br>（Tcp和Tls协议）默认为：1800s <br>（Http和Https协议）默认为：60s <br>【dnlb】不支持该功能 """, dest='connectionIdleTimeSeconds', type=int, required=False)),
-            (['--backend-id'], dict(help="""(string) 默认后端服务Id """, dest='backendId',  required=False)),
-            (['--url-map-id'], dict(help="""(string) 【alb Https和Http协议】转发规则组Id """, dest='urlMapId',  required=False)),
-            (['--description'], dict(help="""(string) 监听器描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改一个监听器的信息 ''',
-        description='''
-            修改一个监听器的信息。
-
-            示例: jdc lb update-listener  --listener-id xxx
-        ''',
-    )
-    def update_listener(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.UpdateListenerRequest import UpdateListenerRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateListenerRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除一个监听器 ''',
-        description='''
-            删除一个监听器。
-
-            示例: jdc lb delete-listener  --listener-id xxx
-        ''',
-    )
-    def delete_listener(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.DeleteListenerRequest import DeleteListenerRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteListenerRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) loadBalancerType - 负载均衡类型，取值为：alb、nlb、dnlb，默认alb，支持单个; loadBalancerIds - 负载均衡ID列表，支持多个; loadBalancerNames - 负载均衡名称列表，支持多个; vpcId - 负载均衡所在Vpc的Id，支持单个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -493,13 +920,16 @@ class LbController(BaseController):
             (['--load-balancer-name'], dict(help="""(string) LoadBalancer的名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='loadBalancerName',  required=True)),
             (['--subnet-id'], dict(help="""(string) LoadBalancer所属子网的Id """, dest='subnetId',  required=True)),
             (['--type'], dict(help="""(string) LoadBalancer的类型，取值：alb、nlb、dnlb，默认为alb """, dest='type',  required=False)),
-            (['--azs'], dict(help="""(array: string) 【alb，nlb】LoadBalancer所属availability Zone列表,对于alb,nlb是必选参数 <br>【dnlb】全可用区可用，不必传该参数 """, dest='azs',  required=False)),
+            (['--azs'], dict(help="""(array: string) 【alb，nlb】LoadBalancer所属availability Zone列表,对于alb,nlb是必选参数，可用区个数不能超过2个 <br>【dnlb】中心可用区，dnlb不需要传该参数，全可用区可用；边缘可用区，仅支持传入单可用区 """, dest='azs',  required=False)),
             (['--charge-spec'], dict(help="""(chargeSpec) 【alb】支持按用量计费，默认为按用量。【nlb】支持按用量计费。【dnlb】支持按配置计费 """, dest='chargeSpec',  required=False)),
             (['--elastic-ip'], dict(help="""(elasticIpSpec) 负载均衡关联的弹性IP规格 """, dest='elasticIp',  required=False)),
+            (['--private-ip-address'], dict(help="""(string) 指定LoadBalancer的VIP(内网IPv4地址)，需要属于指定的子网并且未被占用 """, dest='privateIpAddress',  required=False)),
             (['--security-group-ids'], dict(help="""(array: string) 【alb】 安全组 ID列表 """, dest='securityGroupIds',  required=False)),
             (['--description'], dict(help="""(string) LoadBalancer的描述信息,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
-            (['--delete-protection'], dict(help="""(bool) 删除保护，取值为True(开启)或False(关闭)，默认为False """, dest='deleteProtection',  required=False)),
+            (['--delete-protection'], dict(help="""(bool) 删除保护，取值为True(开启)或False(关闭)，默认为False """, dest='deleteProtection', type=bool, required=False)),
+            (['--user-tags'], dict(help="""(array: tag) 用户tag 信息 """, dest='userTags',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -533,6 +963,7 @@ class LbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--load-balancer-id'], dict(help="""(string) LB ID """, dest='loadBalancerId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -568,8 +999,11 @@ class LbController(BaseController):
             (['--load-balancer-name'], dict(help="""(string) LoadBalancer的名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='loadBalancerName',  required=False)),
             (['--action'], dict(help="""(string) 启用或停止LoadBalancer，取值为Start(启用)或Stop(停止) """, dest='action',  required=False)),
             (['--description'], dict(help="""(string) LoadBalancer的描述信息,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
-            (['--delete-protection'], dict(help="""(bool) 删除保护，取值为True(开启)或False(关闭)，默认为False """, dest='deleteProtection',  required=False)),
+            (['--domain-enable'], dict(help="""(bool) 是否绑定域名，包括外网和内网，缺省为不改变原值 """, dest='domainEnable', type=bool, required=False)),
+            (['--delete-protection'], dict(help="""(bool) 删除保护，取值为True(开启)或False(关闭)，默认为False """, dest='deleteProtection', type=bool, required=False)),
+            (['--private-ip-address'], dict(help="""(string) 变更loadBalancer的vip地址，新地址只允许是loadBalancer本子网中的空闲ip地址，缺省为不改变原值 """, dest='privateIpAddress',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -603,6 +1037,7 @@ class LbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--load-balancer-id'], dict(help="""(string) LB ID """, dest='loadBalancerId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -637,6 +1072,7 @@ class LbController(BaseController):
             (['--load-balancer-id'], dict(help="""(string) LB ID """, dest='loadBalancerId',  required=True)),
             (['--elastic-ip-id'], dict(help="""(string) 弹性公网IP ID """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -671,6 +1107,7 @@ class LbController(BaseController):
             (['--load-balancer-id'], dict(help="""(string) LB ID """, dest='loadBalancerId',  required=True)),
             (['--elastic-ip-id'], dict(help="""(string) 弹性公网IP ID """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -705,6 +1142,7 @@ class LbController(BaseController):
             (['--load-balancer-id'], dict(help="""(string) LB ID """, dest='loadBalancerId',  required=True)),
             (['--security-group-ids'], dict(help="""(array: string) 安全组 ID列表 """, dest='securityGroupIds',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -739,6 +1177,7 @@ class LbController(BaseController):
             (['--load-balancer-id'], dict(help="""(string) LB ID """, dest='loadBalancerId',  required=True)),
             (['--security-group-ids'], dict(help="""(array: string) 安全组 ID列表 """, dest='securityGroupIds',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -772,29 +1211,30 @@ class LbController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) targetGroupIds - TargetGroup ID列表，支持多个; targetGroupNames - TargetGroup名称列表，支持多个; loadBalancerId － TargetGroup所属负载均衡的Id，支持单个; loadBalancerType - 负载均衡类型，取值为：alb、nlb、dnlb，默认alb，支持单个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) listenerNames - 监听器名称列表，支持多个; listenerIds - 监听器Id列表，支持多个; loadBalancerId - 负载均衡器Id，支持单个; loadBalancerType - 负载均衡类型，取值为：alb、nlb、dnlb，默认alb，支持单个; urlMapIds - 【仅alb支持】转发规则组Id列表，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询虚拟服务器组列表详情 ''',
+        help=''' 查询监听器列表 ''',
         description='''
-            查询虚拟服务器组列表详情。
+            查询监听器列表。
 
-            示例: jdc lb describe-target-groups 
+            示例: jdc lb describe-listeners 
         ''',
     )
-    def describe_target_groups(self):
+    def describe_listeners(self):
         client_factory = ClientFactory('lb')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.lb.apis.DescribeTargetGroupsRequest import DescribeTargetGroupsRequest
+            from jdcloud_sdk.services.lb.apis.DescribeListenersRequest import DescribeListenersRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeTargetGroupsRequest(params_dict, headers)
+            req = DescribeListenersRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -805,31 +1245,41 @@ class LbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--target-group-name'], dict(help="""(string) 虚拟服务器组名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='targetGroupName',  required=True)),
-            (['--load-balancer-id'], dict(help="""(string) 负载均衡的Id """, dest='loadBalancerId',  required=True)),
+            (['--listener-name'], dict(help="""(string) Listener的名字,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='listenerName',  required=True)),
+            (['--protocol'], dict(help="""(string) 监听协议, 取值为Tcp, Tls, Http, Https, Udp <br>【alb】支持Http, Https，Tcp、Tls和Udp <br>【nlb】支持Tcp, Udp  <br>【dnlb】支持Tcp, Udp """, dest='protocol',  required=True)),
+            (['--hsts-enable'], dict(help="""(bool) 【alb使用https时支持】是否开启HSTS，True(开启)， False(关闭)，缺省为False """, dest='hstsEnable', type=bool, required=False)),
+            (['--hsts-max-age'], dict(help="""(int) 【alb使用https时支持】HSTS过期时间(秒)，取值范围为[1, 94608000(3年)]，缺省为31536000(1年) """, dest='hstsMaxAge', type=int, required=False)),
+            (['--port'], dict(help="""(int) 监听端口，取值范围为[1, 65535] """, dest='port', type=int, required=True)),
+            (['--backend-id'], dict(help="""(string) 默认的后端服务Id """, dest='backendId',  required=True)),
+            (['--load-balancer-id'], dict(help="""(string) Listener所属loadBalancer的Id """, dest='loadBalancerId',  required=True)),
+            (['--url-map-id'], dict(help="""(string) 【alb Https和Http协议】转发规则组Id """, dest='urlMapId',  required=False)),
+            (['--action'], dict(help="""(string) 默认后端服务的转发策略,取值为Forward或Redirect, 现只支持Forward, 默认为Forward """, dest='action',  required=False)),
+            (['--certificate-specs'], dict(help="""(array: certificateSpec) 【alb Https和Tls协议】Listener绑定的默认证书，最多支持两个，两个证书的加密算法需要不同 """, dest='certificateSpecs',  required=False)),
+            (['--connection-idle-time-seconds'], dict(help="""(int) 【alb、nlb】空闲连接超时时间, 范围为[1,86400]。 <br>（Tcp和Tls协议）默认为：1800s <br>（Udp协议）默认为：300s <br>（Http和Https协议）默认为：60s <br>【dnlb】不支持 """, dest='connectionIdleTimeSeconds', type=int, required=False)),
             (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一个虚拟服务器组 ''',
+        help=''' 创建一个监听器 ''',
         description='''
-            创建一个虚拟服务器组。
+            创建一个监听器。
 
-            示例: jdc lb create-target-group  --target-group-name xxx --load-balancer-id xxx
+            示例: jdc lb create-listener  --listener-name xxx --protocol xxx --port 5 --backend-id xxx --load-balancer-id xxx
         ''',
     )
-    def create_target_group(self):
+    def create_listener(self):
         client_factory = ClientFactory('lb')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.lb.apis.CreateTargetGroupRequest import CreateTargetGroupRequest
+            from jdcloud_sdk.services.lb.apis.CreateListenerRequest import CreateListenerRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateTargetGroupRequest(params_dict, headers)
+            req = CreateListenerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -840,29 +1290,30 @@ class LbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
+            (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询TargetGroup详情 ''',
+        help=''' 查询监听器详情 ''',
         description='''
-            查询TargetGroup详情。
+            查询监听器详情。
 
-            示例: jdc lb describe-target-group  --target-group-id xxx
+            示例: jdc lb describe-listener  --listener-id xxx
         ''',
     )
-    def describe_target_group(self):
+    def describe_listener(self):
         client_factory = ClientFactory('lb')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.lb.apis.DescribeTargetGroupRequest import DescribeTargetGroupRequest
+            from jdcloud_sdk.services.lb.apis.DescribeListenerRequest import DescribeListenerRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeTargetGroupRequest(params_dict, headers)
+            req = DescribeListenerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -873,31 +1324,39 @@ class LbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
-            (['--description'], dict(help="""(string) 虚拟服务器组描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
-            (['--target-group-name'], dict(help="""(string) 虚拟服务器组名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='targetGroupName',  required=False)),
+            (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
+            (['--listener-name'], dict(help="""(string) 监听器名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='listenerName',  required=False)),
+            (['--status'], dict(help="""(string) Listener状态, 取值为On或者为Off """, dest='status',  required=False)),
+            (['--hsts-enable'], dict(help="""(bool) 【alb使用https时支持】是否开启HSTS，True(开启)， False(关闭)，缺省为不改变原值 """, dest='hstsEnable', type=bool, required=False)),
+            (['--hsts-max-age'], dict(help="""(int) 【alb使用https时支持】HSTS过期时间(秒)，取值范围为[1, 94608000(3年)]，缺省为不改变原值 """, dest='hstsMaxAge', type=int, required=False)),
+            (['--certificate-specs'], dict(help="""(array: certificateSpec) 【alb Https和Tls协议】Listener绑定的默认证书，最多支持两个，两个证书的加密算法需要不同 """, dest='certificateSpecs',  required=False)),
+            (['--connection-idle-time-seconds'], dict(help="""(int) 【alb、nlb】空闲连接超时时间, 范围为[1,86400]。 <br>（Tcp和Tls协议）默认为：1800s <br>（Http和Https协议）默认为：60s <br>【dnlb】不支持该功能 """, dest='connectionIdleTimeSeconds', type=int, required=False)),
+            (['--backend-id'], dict(help="""(string) 默认后端服务Id """, dest='backendId',  required=False)),
+            (['--url-map-id'], dict(help="""(string) 【alb Https和Http协议】转发规则组Id """, dest='urlMapId',  required=False)),
+            (['--description'], dict(help="""(string) 监听器描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改一个虚拟服务器组的信息 ''',
+        help=''' 修改一个监听器的信息 ''',
         description='''
-            修改一个虚拟服务器组的信息。
+            修改一个监听器的信息。
 
-            示例: jdc lb update-target-group  --target-group-id xxx
+            示例: jdc lb update-listener  --listener-id xxx
         ''',
     )
-    def update_target_group(self):
+    def update_listener(self):
         client_factory = ClientFactory('lb')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.lb.apis.UpdateTargetGroupRequest import UpdateTargetGroupRequest
+            from jdcloud_sdk.services.lb.apis.UpdateListenerRequest import UpdateListenerRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateTargetGroupRequest(params_dict, headers)
+            req = UpdateListenerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -908,29 +1367,30 @@ class LbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
+            (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除一个虚拟服务器组 ''',
+        help=''' 删除一个监听器 ''',
         description='''
-            删除一个虚拟服务器组。
+            删除一个监听器。
 
-            示例: jdc lb delete-target-group  --target-group-id xxx
+            示例: jdc lb delete-listener  --listener-id xxx
         ''',
     )
-    def delete_target_group(self):
+    def delete_listener(self):
         client_factory = ClientFactory('lb')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.lb.apis.DeleteTargetGroupRequest import DeleteTargetGroupRequest
+            from jdcloud_sdk.services.lb.apis.DeleteListenerRequest import DeleteListenerRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteTargetGroupRequest(params_dict, headers)
+            req = DeleteListenerRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -941,30 +1401,31 @@ class LbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
-            (['--target-specs'], dict(help="""(array: targetSpec) 注册Target列表 """, dest='targetSpecs',  required=True)),
+            (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
+            (['--certificates'], dict(help="""(array: extCertificateSpec) 【alb Https和Tls协议】ssl server证书列表 """, dest='certificates',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 往TargetGroup中加入Target ''',
+        help=''' listener批量添加扩展证书 ''',
         description='''
-            往TargetGroup中加入Target。
+            listener批量添加扩展证书。
 
-            示例: jdc lb register-targets  --target-group-id xxx --target-specs ['{"":""}']
+            示例: jdc lb add-listener-certificates  --listener-id xxx --certificates ['{"":""}']
         ''',
     )
-    def register_targets(self):
+    def add_listener_certificates(self):
         client_factory = ClientFactory('lb')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.lb.apis.RegisterTargetsRequest import RegisterTargetsRequest
+            from jdcloud_sdk.services.lb.apis.AddListenerCertificatesRequest import AddListenerCertificatesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = RegisterTargetsRequest(params_dict, headers)
+            req = AddListenerCertificatesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -975,30 +1436,31 @@ class LbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
-            (['--target-ids'], dict(help="""(array: string) Target Id列表 """, dest='targetIds',  required=False)),
+            (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
+            (['--certificates'], dict(help="""(array: extCertificateUpdateSpec) 【alb Https和Tls协议】Listener绑定的扩展证书列表 """, dest='certificates',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 从TargetGroup中移除一个或多个Target，失败则全部回滚。 成功移除后，所有target将不会再接收来自loadbalancer新建连接的流量 ''',
+        help=''' listener批量修改扩展证书 ''',
         description='''
-            从TargetGroup中移除一个或多个Target，失败则全部回滚。 成功移除后，所有target将不会再接收来自loadbalancer新建连接的流量。
+            listener批量修改扩展证书。
 
-            示例: jdc lb de-register-targets  --target-group-id xxx
+            示例: jdc lb update-listener-certificates  --listener-id xxx --certificates ['{"":""}']
         ''',
     )
-    def de_register_targets(self):
+    def update_listener_certificates(self):
         client_factory = ClientFactory('lb')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.lb.apis.DeRegisterTargetsRequest import DeRegisterTargetsRequest
+            from jdcloud_sdk.services.lb.apis.UpdateListenerCertificatesRequest import UpdateListenerCertificatesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeRegisterTargetsRequest(params_dict, headers)
+            req = UpdateListenerCertificatesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1009,30 +1471,31 @@ class LbController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
-            (['--target-update-specs'], dict(help="""(array: targetUpdateSpec) 修改target信息 """, dest='targetUpdateSpecs',  required=True)),
+            (['--listener-id'], dict(help="""(string) 监听器ID """, dest='listenerId',  required=True)),
+            (['--certificate-bind-ids'], dict(help="""(array: string) 【alb Https和Tls协议】扩展证书绑定Id """, dest='certificateBindIds',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改target信息 ''',
+        help=''' listener批量删除扩展证书 ''',
         description='''
-            修改target信息。
+            listener批量删除扩展证书。
 
-            示例: jdc lb update-targets  --target-group-id xxx --target-update-specs ['{"":""}']
+            示例: jdc lb delete-listener-certificates  --listener-id xxx
         ''',
     )
-    def update_targets(self):
+    def delete_listener_certificates(self):
         client_factory = ClientFactory('lb')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.lb.apis.UpdateTargetsRequest import UpdateTargetsRequest
+            from jdcloud_sdk.services.lb.apis.DeleteListenerCertificatesRequest import DeleteListenerCertificatesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateTargetsRequest(params_dict, headers)
+            req = DeleteListenerCertificatesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1042,316 +1505,7 @@ class LbController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--target-group-id'], dict(help="""(string) TargetGroup Id """, dest='targetGroupId',  required=True)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) targetIds - Target ID列表，支持多个; instanceId - Instance ID，支持单个; port - Target提供服务的端口，支持单个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询Target列表详情 ''',
-        description='''
-            查询Target列表详情。
-
-            示例: jdc lb describe-targets  --target-group-id xxx
-        ''',
-    )
-    def describe_targets(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.DescribeTargetsRequest import DescribeTargetsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeTargetsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) urlMapIds - 转发规则组Id列表，支持多个; urlMapNames -转发规则组名称列表，支持多个; loadBalancerId - 负载均衡器Id，支持单个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询转发规则组列表详情 ''',
-        description='''
-            查询转发规则组列表详情。
-
-            示例: jdc lb describe-url-maps 
-        ''',
-    )
-    def describe_url_maps(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.DescribeUrlMapsRequest import DescribeUrlMapsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeUrlMapsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--url-map-name'], dict(help="""(string) 转发规则组名称，同一个负载均衡下，名称不能重复,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='urlMapName',  required=True)),
-            (['--load-balancer-id'], dict(help="""(string) 转发规则组所属负载均衡的Id """, dest='loadBalancerId',  required=True)),
-            (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建转发规则组,仅alb支持 ''',
-        description='''
-            创建转发规则组,仅alb支持。
-
-            示例: jdc lb create-url-map  --url-map-name xxx --load-balancer-id xxx
-        ''',
-    )
-    def create_url_map(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.CreateUrlMapRequest import CreateUrlMapRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateUrlMapRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询转发规则组详情 ''',
-        description='''
-            查询转发规则组详情。
-
-            示例: jdc lb describe-url-map  --url-map-id xxx
-        ''',
-    )
-    def describe_url_map(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.DescribeUrlMapRequest import DescribeUrlMapRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeUrlMapRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
-            (['--description'], dict(help="""(string) 转发规则组描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
-            (['--url-map-name'], dict(help="""(string) 转发规则组名称，同一个负载均衡下，名称不能重复,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='urlMapName',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改转发规则组 ''',
-        description='''
-            修改转发规则组。
-
-            示例: jdc lb update-url-map  --url-map-id xxx
-        ''',
-    )
-    def update_url_map(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.UpdateUrlMapRequest import UpdateUrlMapRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateUrlMapRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除转发规则组 ''',
-        description='''
-            删除转发规则组。
-
-            示例: jdc lb delete-url-map  --url-map-id xxx
-        ''',
-    )
-    def delete_url_map(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.DeleteUrlMapRequest import DeleteUrlMapRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteUrlMapRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
-            (['--rule-specs'], dict(help="""(array: ruleSpec) 转发规则的信息 """, dest='ruleSpecs',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 往转发规则组加入转发规则 ''',
-        description='''
-            往转发规则组加入转发规则。
-
-            示例: jdc lb add-rules  --url-map-id xxx --rule-specs ['{"":""}']
-        ''',
-    )
-    def add_rules(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.AddRulesRequest import AddRulesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = AddRulesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
-            (['--rule-update-specs'], dict(help="""(array: ruleUpdateSpec) 更新转发规则rules信息 """, dest='ruleUpdateSpecs',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改转发规则 ''',
-        description='''
-            修改转发规则。
-
-            示例: jdc lb update-rules  --url-map-id xxx --rule-update-specs ['{"":""}']
-        ''',
-    )
-    def update_rules(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.UpdateRulesRequest import UpdateRulesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateRulesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--url-map-id'], dict(help="""(string) 转发规则组Id """, dest='urlMapId',  required=True)),
-            (['--rule-ids'], dict(help="""(array: string) rule Id列表 """, dest='ruleIds',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除转发规则 ''',
-        description='''
-            删除转发规则。
-
-            示例: jdc lb delete-rules  --url-map-id xxx
-        ''',
-    )
-    def delete_rules(self):
-        client_factory = ClientFactory('lb')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.lb.apis.DeleteRulesRequest import DeleteRulesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteRulesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-backends','create-backend','describe-backend','update-backend','delete-backend','describe-target-health','describe-listeners','create-listener','describe-listener','update-listener','delete-listener','describe-load-balancers','create-load-balancer','describe-load-balancer','update-load-balancer','delete-load-balancer','associate-elastic-ip','disassociate-elastic-ip','associate-security-group','disassociate-security-group','describe-target-groups','create-target-group','describe-target-group','update-target-group','delete-target-group','register-targets','de-register-targets','update-targets','describe-targets','describe-url-maps','create-url-map','describe-url-map','update-url-map','delete-url-map','add-rules','update-rules','delete-rules',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-url-maps','create-url-map','describe-url-map','update-url-map','delete-url-map','add-rules','update-rules','delete-rules','describe-target-groups','create-target-group','describe-target-group','update-target-group','delete-target-group','register-targets','de-register-targets','update-targets','describe-targets','describe-backends','create-backend','describe-backend','update-backend','delete-backend','describe-target-health','describe-load-balancers','create-load-balancer','describe-load-balancer','update-load-balancer','delete-load-balancer','associate-elastic-ip','disassociate-elastic-ip','associate-security-group','disassociate-security-group','describe-listeners','create-listener','describe-listener','update-listener','delete-listener','add-listener-certificates','update-listener-certificates','delete-listener-certificates',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

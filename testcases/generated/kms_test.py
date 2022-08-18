@@ -221,15 +221,6 @@ class KmsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_import_secret(self):
-        cmd = """python ../../main.py kms import-secret """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_secret_version_list(self):
         cmd = """python ../../main.py kms describe-secret-version-list  --secret-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -277,15 +268,6 @@ class KmsTest(unittest.TestCase):
 
     def test_create_secret_version(self):
         cmd = """python ../../main.py kms create-secret-version  --secret-id 'xxx' --secret-version-cfg '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_export_secret(self):
-        cmd = """python ../../main.py kms export-secret  --secret-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

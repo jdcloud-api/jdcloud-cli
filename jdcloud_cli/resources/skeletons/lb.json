@@ -1,4 +1,143 @@
 {
+    "describe-url-maps":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-url-map":{
+        "urlMapName":"",
+        "loadBalancerId":"",
+        "description":"",
+        "regionId":""
+    },
+    "describe-url-map":{
+        "regionId":"",
+        "urlMapId":""
+    },
+    "update-url-map":{
+        "description":"",
+        "urlMapName":"",
+        "regionId":"",
+        "urlMapId":""
+    },
+    "delete-url-map":{
+        "regionId":"",
+        "urlMapId":""
+    },
+    "add-rules":{
+        "ruleSpecs":[{
+            "host":"",
+            "path":"",
+            "action":"",
+            "backendId":"",
+            "redirectActionSpec":{
+                "protocol":"",
+                "port":"",
+                "host":"",
+                "path":"",
+                "query":"",
+                "statusCode":""
+            }
+        }],
+        "regionId":"",
+        "urlMapId":""
+    },
+    "update-rules":{
+        "ruleUpdateSpecs":[{
+            "ruleId":"",
+            "host":"",
+            "path":"",
+            "action":"",
+            "backendId":"",
+            "redirectActionSpec":{
+                "protocol":"",
+                "port":"",
+                "host":"",
+                "path":"",
+                "query":"",
+                "statusCode":""
+            }
+        }],
+        "regionId":"",
+        "urlMapId":""
+    },
+    "delete-rules":{
+        "ruleIds":[""],
+        "regionId":"",
+        "urlMapId":""
+    },
+    "describe-target-groups":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-target-group":{
+        "targetGroupName":"",
+        "loadBalancerId":"",
+        "description":"",
+        "type":"",
+        "regionId":""
+    },
+    "describe-target-group":{
+        "regionId":"",
+        "targetGroupId":""
+    },
+    "update-target-group":{
+        "description":"",
+        "targetGroupName":"",
+        "regionId":"",
+        "targetGroupId":""
+    },
+    "delete-target-group":{
+        "regionId":"",
+        "targetGroupId":""
+    },
+    "register-targets":{
+        "targetSpecs":[{
+            "instanceId":"",
+            "type":"",
+            "port":"",
+            "weight":"",
+            "ipAddress":""
+        }],
+        "regionId":"",
+        "targetGroupId":""
+    },
+    "de-register-targets":{
+        "targetIds":[""],
+        "regionId":"",
+        "targetGroupId":""
+    },
+    "update-targets":{
+        "targetUpdateSpecs":[{
+            "targetId":"",
+            "port":"",
+            "weight":""
+        }],
+        "regionId":"",
+        "targetGroupId":""
+    },
+    "describe-targets":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":"",
+        "targetGroupId":""
+    },
     "describe-backends":{
         "pageNumber":"",
         "pageSize":"",
@@ -38,6 +177,7 @@
         "httpForwardedPort":"",
         "httpForwardedHost":"",
         "httpForwardedVip":"",
+        "httpForwardedClientPort":"",
         "regionId":""
     },
     "describe-backend":{
@@ -70,6 +210,7 @@
         "httpForwardedPort":"",
         "httpForwardedHost":"",
         "httpForwardedVip":"",
+        "httpForwardedClientPort":"",
         "closeHealthCheck":"",
         "regionId":"",
         "backendId":""
@@ -82,7 +223,7 @@
         "regionId":"",
         "backendId":""
     },
-    "describe-listeners":{
+    "describe-load-balancers":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
@@ -90,52 +231,8 @@
             "operator":"",
             "values":""
         }],
-        "regionId":""
-    },
-    "create-listener":{
-        "listenerName":"",
-        "protocol":"",
-        "port":"",
-        "backendId":"",
-        "loadBalancerId":"",
-        "urlMapId":"",
-        "action":"",
-        "certificateSpecs":[{
-            "certificateId":"",
-            "isDefault":""
-        }],
-        "connectionIdleTimeSeconds":"",
-        "description":"",
-        "regionId":""
-    },
-    "describe-listener":{
-        "regionId":"",
-        "listenerId":""
-    },
-    "update-listener":{
-        "listenerName":"",
-        "status":"",
-        "certificateSpecs":[{
-            "certificateId":"",
-            "isDefault":""
-        }],
-        "connectionIdleTimeSeconds":"",
-        "backendId":"",
-        "urlMapId":"",
-        "description":"",
-        "regionId":"",
-        "listenerId":""
-    },
-    "delete-listener":{
-        "regionId":"",
-        "listenerId":""
-    },
-    "describe-load-balancers":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
+        "tags":[{
+            "key":"",
             "values":""
         }],
         "regionId":""
@@ -163,9 +260,14 @@
                 "buyScenario":""
             }
         },
+        "privateIpAddress":"",
         "securityGroupIds":[""],
         "description":"",
         "deleteProtection":"",
+        "userTags":[{
+            "key":"",
+            "value":""
+        }],
         "regionId":""
     },
     "describe-load-balancer":{
@@ -176,7 +278,9 @@
         "loadBalancerName":"",
         "action":"",
         "description":"",
+        "domainEnable":"",
         "deleteProtection":"",
+        "privateIpAddress":"",
         "regionId":"",
         "loadBalancerId":""
     },
@@ -204,7 +308,7 @@
         "regionId":"",
         "loadBalancerId":""
     },
-    "describe-target-groups":{
+    "describe-listeners":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
@@ -214,115 +318,68 @@
         }],
         "regionId":""
     },
-    "create-target-group":{
-        "targetGroupName":"",
+    "create-listener":{
+        "listenerName":"",
+        "protocol":"",
+        "hstsEnable":"",
+        "hstsMaxAge":"",
+        "port":"",
+        "backendId":"",
         "loadBalancerId":"",
+        "urlMapId":"",
+        "action":"",
+        "certificateSpecs":[{
+            "certificateId":"",
+            "isDefault":""
+        }],
+        "connectionIdleTimeSeconds":"",
         "description":"",
         "regionId":""
     },
-    "describe-target-group":{
+    "describe-listener":{
         "regionId":"",
-        "targetGroupId":""
+        "listenerId":""
     },
-    "update-target-group":{
+    "update-listener":{
+        "listenerName":"",
+        "status":"",
+        "hstsEnable":"",
+        "hstsMaxAge":"",
+        "certificateSpecs":[{
+            "certificateId":"",
+            "isDefault":""
+        }],
+        "connectionIdleTimeSeconds":"",
+        "backendId":"",
+        "urlMapId":"",
         "description":"",
-        "targetGroupName":"",
         "regionId":"",
-        "targetGroupId":""
+        "listenerId":""
     },
-    "delete-target-group":{
+    "delete-listener":{
         "regionId":"",
-        "targetGroupId":""
+        "listenerId":""
     },
-    "register-targets":{
-        "targetSpecs":[{
-            "instanceId":"",
-            "type":"",
-            "port":"",
-            "weight":""
+    "add-listener-certificates":{
+        "certificates":[{
+            "certificateId":"",
+            "domain":""
         }],
         "regionId":"",
-        "targetGroupId":""
+        "listenerId":""
     },
-    "de-register-targets":{
-        "targetIds":[""],
-        "regionId":"",
-        "targetGroupId":""
-    },
-    "update-targets":{
-        "targetUpdateSpecs":[{
-            "targetId":"",
-            "port":"",
-            "weight":""
+    "update-listener-certificates":{
+        "certificates":[{
+            "certificateBindId":"",
+            "certificateId":"",
+            "domain":""
         }],
         "regionId":"",
-        "targetGroupId":""
+        "listenerId":""
     },
-    "describe-targets":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
+    "delete-listener-certificates":{
+        "certificateBindIds":[""],
         "regionId":"",
-        "targetGroupId":""
-    },
-    "describe-url-maps":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-url-map":{
-        "urlMapName":"",
-        "loadBalancerId":"",
-        "description":"",
-        "regionId":""
-    },
-    "describe-url-map":{
-        "regionId":"",
-        "urlMapId":""
-    },
-    "update-url-map":{
-        "description":"",
-        "urlMapName":"",
-        "regionId":"",
-        "urlMapId":""
-    },
-    "delete-url-map":{
-        "regionId":"",
-        "urlMapId":""
-    },
-    "add-rules":{
-        "ruleSpecs":[{
-            "host":"",
-            "path":"",
-            "action":"",
-            "backendId":""
-        }],
-        "regionId":"",
-        "urlMapId":""
-    },
-    "update-rules":{
-        "ruleUpdateSpecs":[{
-            "ruleId":"",
-            "host":"",
-            "path":"",
-            "action":"",
-            "backendId":""
-        }],
-        "regionId":"",
-        "urlMapId":""
-    },
-    "delete-rules":{
-        "ruleIds":[""],
-        "regionId":"",
-        "urlMapId":""
+        "listenerId":""
     },
 }

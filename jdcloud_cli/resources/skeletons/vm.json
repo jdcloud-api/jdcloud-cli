@@ -1,21 +1,191 @@
 {
+    "describe-instance-templates":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-instance-template":{
+        "instanceTemplateData":{
+            "instanceType":"",
+            "imageId":"",
+            "password":"",
+            "keyNames":"",
+            "metadata":[""],
+            "userdata":[""],
+            "elasticIp":{
+                "bandwidthMbps":"",
+                "provider":"",
+                "chargeMode":""
+            },
+            "primaryNetworkInterface":{
+                "deviceIndex":"",
+                "autoDelete":"",
+                "networkInterface":{
+                    "subnetId":"",
+                    "securityGroups":"",
+                    "sanityCheck":"",
+                    "ipv6AddressCount":""
+                }
+            },
+            "systemDisk":{
+                "diskCategory":"",
+                "autoDelete":"",
+                "cloudDiskSpec":{
+                    "diskType":"",
+                    "diskSizeGB":"",
+                    "snapshotId":"",
+                    "policyId":"",
+                    "encrypt":"",
+                    "iops":""
+                },
+                "deviceName":"",
+                "noDevice":""
+            },
+            "dataDisks":[""],
+            "chargeOnStopped":"",
+            "autoImagePolicyId":"",
+            "passWordAuth":"",
+            "imageInherit":"",
+            "burstSpec":{
+                "burstMode":""
+            }
+        },
+        "name":"",
+        "description":"",
+        "regionId":""
+    },
+    "describe-instance-template":{
+        "regionId":"",
+        "instanceTemplateId":""
+    },
+    "update-instance-template":{
+        "name":"",
+        "description":"",
+        "instanceTemplateData":{
+            "instanceType":"",
+            "imageId":"",
+            "password":"",
+            "keyNames":"",
+            "metadata":[""],
+            "userdata":[""],
+            "elasticIp":{
+                "bandwidthMbps":"",
+                "provider":"",
+                "chargeMode":""
+            },
+            "primaryNetworkInterface":{
+                "deviceIndex":"",
+                "autoDelete":"",
+                "networkInterface":{
+                    "subnetId":"",
+                    "securityGroups":"",
+                    "sanityCheck":"",
+                    "ipv6AddressCount":""
+                }
+            },
+            "systemDisk":{
+                "diskCategory":"",
+                "autoDelete":"",
+                "cloudDiskSpec":{
+                    "diskType":"",
+                    "diskSizeGB":"",
+                    "snapshotId":"",
+                    "policyId":"",
+                    "encrypt":"",
+                    "iops":""
+                },
+                "deviceName":"",
+                "noDevice":""
+            },
+            "dataDisks":[""],
+            "chargeOnStopped":"",
+            "autoImagePolicyId":"",
+            "passWordAuth":"",
+            "imageInherit":"",
+            "noPassword":"",
+            "noElasticIp":"",
+            "burstSpec":{
+                "burstMode":""
+            }
+        },
+        "regionId":"",
+        "instanceTemplateId":""
+    },
+    "delete-instance-template":{
+        "regionId":"",
+        "instanceTemplateId":""
+    },
+    "verify-instance-template":{
+        "regionId":"",
+        "instanceTemplateId":""
+    },
+    "describe-instance-templates-customdata":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "describe-keypairs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-keypair":{
+        "keyName":"",
+        "regionId":""
+    },
+    "import-keypair":{
+        "keyName":"",
+        "publicKey":"",
+        "regionId":""
+    },
+    "delete-keypair":{
+        "regionId":"",
+        "keyName":""
+    },
+    "attach-keypair":{
+        "instanceIds":[""],
+        "passWordAuth":"",
+        "regionId":"",
+        "keyName":""
+    },
+    "detach-keypair":{
+        "instanceIds":[""],
+        "regionId":"",
+        "keyName":""
+    },
     "describe-image":{
         "regionId":"",
         "imageId":""
     },
     "delete-image":{
+        "deleteSnapshot":"",
         "regionId":"",
         "imageId":""
     },
     "describe-images":{
         "imageSource":"",
-        "serviceCode":"",
         "offline":"",
         "platform":"",
         "ids":[""],
+        "imageName":"",
         "rootDeviceType":"",
         "launchPermission":"",
         "status":"",
+        "serviceCode":"",
+        "architecture":"",
         "pageNumber":"",
         "pageSize":"",
         "regionId":""
@@ -93,9 +263,22 @@
         "pageSize":"",
         "regionId":""
     },
+    "describe-quotas":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "imageId":"",
+        "regionId":""
+    },
     "describe-instances":{
         "pageNumber":"",
         "pageSize":"",
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
         "filters":[{
             "name":"",
             "operator":"",
@@ -105,12 +288,18 @@
     },
     "create-instances":{
         "instanceSpec":{
+            "dedicatedPoolId":"",
+            "dedicatedHostId":"",
             "agId":"",
             "instanceTemplateId":"",
             "az":"",
             "instanceType":"",
+            "burstSpec":{
+                "burstMode":""
+            },
             "imageId":"",
             "name":"",
+            "hostname":"",
             "password":"",
             "keyNames":"",
             "elasticIp":{
@@ -126,6 +315,7 @@
             },
             "primaryNetworkInterface":{
                 "deviceIndex":"",
+                "autoDelete":"",
                 "networkInterface":{
                     "subnetId":"",
                     "az":"",
@@ -135,9 +325,11 @@
                     "secondaryIpCount":"",
                     "securityGroups":"",
                     "sanityCheck":"",
-                    "description":""
+                    "description":"",
+                    "ipv6AddressCount":""
                 }
             },
+            "secondaryNetworkInterfaces":[""],
             "systemDisk":{
                 "diskCategory":"",
                 "autoDelete":"",
@@ -149,6 +341,7 @@
                     "diskSizeGB":"",
                     "iops":"",
                     "snapshotId":"",
+                    "policyId":"",
                     "charge":{
                         "chargeMode":"",
                         "chargeUnit":"",
@@ -170,13 +363,19 @@
                 "autoRenew":"",
                 "buyScenario":""
             },
+            "metadata":[""],
             "userdata":[""],
             "description":"",
             "noPassword":"",
             "noKeyNames":"",
             "noElasticIp":"",
             "userTags":[""],
-            "chargeOnStopped":""
+            "chargeOnStopped":"",
+            "autoImagePolicyId":"",
+            "passwordAuth":"",
+            "imageInherit":"",
+            "resourceGroupId":"",
+            "localDeviceIds":""
         },
         "maxCount":"",
         "clientToken":"",
@@ -280,6 +479,7 @@
                 "diskSizeGB":"",
                 "iops":"",
                 "snapshotId":"",
+                "policyId":"",
                 "charge":{
                     "chargeMode":"",
                     "chargeUnit":"",
@@ -320,6 +520,23 @@
     "modify-instance-attribute":{
         "name":"",
         "description":"",
+        "hostname":"",
+        "metadata":[{
+            "key":"",
+            "value":""
+        }],
+        "userdata":[{
+            "key":"",
+            "value":""
+        }],
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-instance-vpc-attribute":{
+        "subnetId":"",
+        "assignIpv6":"",
+        "privateIpAddress":"",
+        "securityGroups":[""],
         "regionId":"",
         "instanceId":""
     },
@@ -342,10 +559,21 @@
         "password":"",
         "imageId":"",
         "keyNames":[""],
+        "hostname":"",
+        "metadata":[{
+            "key":"",
+            "value":""
+        }],
+        "userdata":[{
+            "key":"",
+            "value":""
+        }],
+        "passWordAuth":"",
+        "imageInherit":"",
         "regionId":"",
         "instanceId":""
     },
-    "describe-instance-templates":{
+    "describe-instances-custom-data":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
@@ -355,63 +583,12 @@
         }],
         "regionId":""
     },
-    "create-instance-template":{
-        "instanceTemplateData":{
-            "instanceType":"",
-            "imageId":"",
-            "password":"",
-            "keyNames":"",
-            "elasticIp":{
-                "bandwidthMbps":"",
-                "provider":"",
-                "chargeMode":""
-            },
-            "primaryNetworkInterface":{
-                "deviceIndex":"",
-                "autoDelete":"",
-                "networkInterface":{
-                    "subnetId":"",
-                    "securityGroups":"",
-                    "sanityCheck":""
-                }
-            },
-            "systemDisk":{
-                "diskCategory":"",
-                "autoDelete":"",
-                "cloudDiskSpec":{
-                    "diskType":"",
-                    "diskSizeGB":"",
-                    "snapshotId":"",
-                    "encrypt":"",
-                    "iops":""
-                },
-                "deviceName":"",
-                "noDevice":""
-            },
-            "dataDisks":[""],
-            "chargeOnStopped":""
-        },
-        "name":"",
-        "description":"",
-        "regionId":""
-    },
-    "describe-instance-template":{
+    "modify-instance-placement":{
+        "agId":"",
+        "balance":"",
+        "clearLocalDisk":"",
         "regionId":"",
-        "instanceTemplateId":""
-    },
-    "update-instance-template":{
-        "description":"",
-        "name":"",
-        "regionId":"",
-        "instanceTemplateId":""
-    },
-    "delete-instance-template":{
-        "regionId":"",
-        "instanceTemplateId":""
-    },
-    "verify-instance-template":{
-        "regionId":"",
-        "instanceTemplateId":""
+        "instanceId":""
     },
     "describe-instance-types":{
         "serviceName":"",
@@ -420,38 +597,6 @@
             "operator":"",
             "values":""
         }],
-        "regionId":""
-    },
-    "describe-keypairs":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-keypair":{
-        "keyName":"",
-        "regionId":""
-    },
-    "import-keypair":{
-        "keyName":"",
-        "publicKey":"",
-        "regionId":""
-    },
-    "delete-keypair":{
-        "regionId":"",
-        "keyName":""
-    },
-    "describe-quotas":{
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "imageId":"",
         "regionId":""
     },
 }

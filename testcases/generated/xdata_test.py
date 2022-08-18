@@ -23,44 +23,44 @@ import json
 
 class XdataTest(unittest.TestCase):
 
-    def test_list_database_info(self):
-        cmd = """python ../../main.py xdata list-database-info  --instance-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_database_info(self):
-        cmd = """python ../../main.py xdata get-database-info  --database-name 'xxx' --instance-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_database(self):
-        cmd = """python ../../main.py xdata create-database  --database-name 'xxx' --instance-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_database(self):
-        cmd = """python ../../main.py xdata delete-database  --database-name 'xxx' --instance-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_list_instance_info(self):
         cmd = """python ../../main.py xdata list-instance-info """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_table_info(self):
+        cmd = """python ../../main.py xdata list-table-info  --instance-name 'xxx' --database-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_table(self):
+        cmd = """python ../../main.py xdata create-table  --instance-name 'xxx' --db-model-dbtable '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_table_info(self):
+        cmd = """python ../../main.py xdata get-table-info  --table-name 'xxx' --instance-name 'xxx' --database-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_table(self):
+        cmd = """python ../../main.py xdata delete-table  --table-name 'xxx' --instance-name 'xxx' --database-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -149,8 +149,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_list_table_info(self):
-        cmd = """python ../../main.py xdata list-table-info  --instance-name 'xxx' --database-name 'xxx'"""
+    def test_list_database_info(self):
+        cmd = """python ../../main.py xdata list-database-info  --instance-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -158,8 +158,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_table(self):
-        cmd = """python ../../main.py xdata create-table  --instance-name 'xxx' --db-model-dbtable '{"":""}'"""
+    def test_get_database_info(self):
+        cmd = """python ../../main.py xdata get-database-info  --database-name 'xxx' --instance-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -167,8 +167,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_table_info(self):
-        cmd = """python ../../main.py xdata get-table-info  --table-name 'xxx' --instance-name 'xxx' --database-name 'xxx'"""
+    def test_create_database(self):
+        cmd = """python ../../main.py xdata create-database  --database-name 'xxx' --instance-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -176,8 +176,8 @@ class XdataTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_table(self):
-        cmd = """python ../../main.py xdata delete-table  --table-name 'xxx' --instance-name 'xxx' --database-name 'xxx'"""
+    def test_delete_database(self):
+        cmd = """python ../../main.py xdata delete-database  --database-name 'xxx' --instance-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

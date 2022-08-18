@@ -1,4 +1,13 @@
 {
+    "describe-spec-config":{
+        "regionId":""
+    },
+    "describe-available-resource":{
+        "regionId":""
+    },
+    "describe-available-resource2":{
+        "regionId":""
+    },
     "describe-cache-instances":{
         "pageNumber":"",
         "pageSize":"",
@@ -15,6 +24,7 @@
             "key":"",
             "values":""
         }],
+        "resourceGroupIds":[""],
         "regionId":""
     },
     "create-cache-instance":{
@@ -25,13 +35,28 @@
             "cacheInstanceClass":"",
             "password":"",
             "azId":{
+                "azSpecifyType":"",
+                "azsForCluster":"",
                 "master":"",
                 "slave":""
             },
             "cacheInstanceDescription":"",
             "redisVersion":"",
             "ipv6On":"",
-            "shardNumber":""
+            "shardNumber":"",
+            "userTags":[""],
+            "resourceGroupId":"",
+            "dbNum":"",
+            "slaveAppendonly":"",
+            "maxmemoryPolicy":"",
+            "cacheInstanceType":"",
+            "replicaNumber":"",
+            "enableSmartProxy":"",
+            "port":"",
+            "extension":{
+                "exposeType":""
+            },
+            "cpuArchType":""
         },
         "charge":{
             "chargeMode":"",
@@ -74,7 +99,13 @@
     "modify-instance-config":{
         "instanceConfig":[{
             "configName":"",
-            "configValue":""
+            "configValue":"",
+            "configDefaultValue":"",
+            "configValueType":"",
+            "configValueMin":"",
+            "configValueMax":"",
+            "configValueOptional":"",
+            "configValueOutputBuffer":""
         }],
         "regionId":"",
         "cacheInstanceId":""
@@ -102,6 +133,15 @@
         "cacheInstanceId":"",
         "taskId":""
     },
+    "describe-client-list":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-client-ip-detail":{
+        "ip":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
     "describe-backups":{
         "pageNumber":"",
         "pageSize":"",
@@ -122,6 +162,7 @@
         "cacheInstanceId":""
     },
     "modify-backup-policy":{
+        "autoBackup":"",
         "backupTime":"",
         "backupPeriod":"",
         "regionId":"",
@@ -156,6 +197,179 @@
         "startTime":"",
         "endTime":"",
         "shardId":"",
+        "shardAddr":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-task-progress-list":{
+        "taskType":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "get-disable-commands":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "set-disable-commands":{
+        "disableCommands":[{
+            "isDisable":"",
+            "commandName":""
+        }],
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-accounts":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "create-account":{
+        "accountName":"",
+        "accountPassword":"",
+        "accountPrivilege":"",
+        "accountDescription":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "modify-account":{
+        "accountName":"",
+        "accountPassword":"",
+        "accountPrivilege":"",
+        "accountDescription":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "delete-account":{
+        "accountName":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "modify-accounts":{
+        "accounts":[{
+            "accountName":"",
+            "accountPassword":"",
+            "accountPrivilege":"",
+            "accountDescription":""
+        }],
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "start-clear-data":{
+        "clearType":"",
+        "keyPattern":"",
+        "keyFilter":[{
+            "filterType":"",
+            "operator":"",
+            "value":""
+        }],
+        "qpsLimit":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "stop-clear-data":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-clear-data":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-big-key-list":{
+        "date":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "create-big-key-analysis":{
+        "stringSize":"",
+        "listSize":"",
+        "hashSize":"",
+        "setSize":"",
+        "zsetSize":"",
+        "top":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-big-key-detail":{
+        "taskId":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-big-key-analysis-time":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "modify-big-key-analysis-time":{
+        "analysisTime":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "stop-cache-analysis":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-analysis-threshold":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "modify-analysis-threshold":{
+        "stringSize":"",
+        "listSize":"",
+        "hashSize":"",
+        "setSize":"",
+        "zsetSize":"",
+        "top":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "create-big-key-analysis2":{
+        "stringSize":"",
+        "listSize":"",
+        "hashSize":"",
+        "setSize":"",
+        "zsetSize":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-big-key-list2":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-big-key-detail2":{
+        "taskId":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-big-key-analysis-time2":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "modify-big-key-analysis-time2":{
+        "analysisTime":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-analysis-threshold2":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "modify-analysis-threshold2":{
+        "stringSize":"",
+        "listSize":"",
+        "hashSize":"",
+        "setSize":"",
+        "zsetSize":"",
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-hot-key-result2":{
+        "regionId":"",
+        "cacheInstanceId":""
+    },
+    "describe-hot-key-detail2":{
+        "nodeId":"",
+        "pageNumber":"",
+        "pageSize":"",
         "regionId":"",
         "cacheInstanceId":""
     },
@@ -163,10 +377,10 @@
         "redisVersion":"",
         "regionId":""
     },
-    "describe-user-quota":{
+    "describe-available-region":{
         "regionId":""
     },
-    "describe-spec-config":{
+    "describe-user-quota":{
         "regionId":""
     },
 }

@@ -23,6 +23,123 @@ import json
 
 class VmTest(unittest.TestCase):
 
+    def test_describe_instance_templates(self):
+        cmd = """python ../../main.py vm describe-instance-templates """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_instance_template(self):
+        cmd = """python ../../main.py vm create-instance-template  --instance-template-data '{"":""}' --name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_template(self):
+        cmd = """python ../../main.py vm describe-instance-template  --instance-template-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_instance_template(self):
+        cmd = """python ../../main.py vm update-instance-template  --instance-template-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_instance_template(self):
+        cmd = """python ../../main.py vm delete-instance-template  --instance-template-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_verify_instance_template(self):
+        cmd = """python ../../main.py vm verify-instance-template  --instance-template-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_templates_customdata(self):
+        cmd = """python ../../main.py vm describe-instance-templates-customdata """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_keypairs(self):
+        cmd = """python ../../main.py vm describe-keypairs """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_keypair(self):
+        cmd = """python ../../main.py vm create-keypair  --key-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_import_keypair(self):
+        cmd = """python ../../main.py vm import-keypair  --key-name 'xxx' --public-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_keypair(self):
+        cmd = """python ../../main.py vm delete-keypair  --key-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_attach_keypair(self):
+        cmd = """python ../../main.py vm attach-keypair  --key-name 'xxx' --pass-word-auth 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_detach_keypair(self):
+        cmd = """python ../../main.py vm detach-keypair  --key-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_image(self):
         cmd = """python ../../main.py vm describe-image  --image-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -150,7 +267,16 @@ class VmTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_image_tasks(self):
-        cmd = """python ../../main.py vm image-tasks  --task-action 'xxx'"""
+        cmd = """python ../../main.py vm image-tasks """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_quotas(self):
+        cmd = """python ../../main.py vm describe-quotas """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -267,7 +393,7 @@ class VmTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_modify_instance_network_attribute(self):
-        cmd = """python ../../main.py vm modify-instance-network-attribute  --instance-id 'xxx'"""
+        cmd = """python ../../main.py vm modify-instance-network-attribute  --instance-id 'xxx' --networks '[{"":""}]'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -338,6 +464,15 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_modify_instance_vpc_attribute(self):
+        cmd = """python ../../main.py vm modify-instance-vpc-attribute  --instance-id 'xxx' --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_modify_instance_password(self):
         cmd = """python ../../main.py vm modify-instance-password  --instance-id 'xxx' --password 'xxx'"""
         with os.popen(cmd) as f:
@@ -366,7 +501,7 @@ class VmTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_rebuild_instance(self):
-        cmd = """python ../../main.py vm rebuild-instance  --instance-id 'xxx' --password 'xxx'"""
+        cmd = """python ../../main.py vm rebuild-instance  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -374,8 +509,8 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_instance_templates(self):
-        cmd = """python ../../main.py vm describe-instance-templates """
+    def test_describe_instances_custom_data(self):
+        cmd = """python ../../main.py vm describe-instances-custom-data """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -383,44 +518,8 @@ class VmTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_instance_template(self):
-        cmd = """python ../../main.py vm create-instance-template  --instance-template-data '{"":""}' --name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_instance_template(self):
-        cmd = """python ../../main.py vm describe-instance-template  --instance-template-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_instance_template(self):
-        cmd = """python ../../main.py vm update-instance-template  --instance-template-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_instance_template(self):
-        cmd = """python ../../main.py vm delete-instance-template  --instance-template-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_verify_instance_template(self):
-        cmd = """python ../../main.py vm verify-instance-template  --instance-template-id 'xxx'"""
+    def test_modify_instance_placement(self):
+        cmd = """python ../../main.py vm modify-instance-placement  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -430,51 +529,6 @@ class VmTest(unittest.TestCase):
 
     def test_describe_instance_types(self):
         cmd = """python ../../main.py vm describe-instance-types """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_keypairs(self):
-        cmd = """python ../../main.py vm describe-keypairs """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_keypair(self):
-        cmd = """python ../../main.py vm create-keypair  --key-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_import_keypair(self):
-        cmd = """python ../../main.py vm import-keypair  --key-name 'xxx' --public-key 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_keypair(self):
-        cmd = """python ../../main.py vm delete-keypair  --key-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_quotas(self):
-        cmd = """python ../../main.py vm describe-quotas """
         with os.popen(cmd) as f:
             content = f.read()
 

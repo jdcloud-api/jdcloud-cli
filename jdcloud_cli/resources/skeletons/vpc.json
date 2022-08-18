@@ -1,5 +1,5 @@
 {
-    "describe-elastic-ips":{
+    "describe-vpc-peerings":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
@@ -7,45 +7,130 @@
             "operator":"",
             "values":""
         }],
-        "tags":[{
-            "key":"",
+        "regionId":""
+    },
+    "create-vpc-peering":{
+        "vpcPeeringName":"",
+        "vpcId":"",
+        "remoteVpcId":"",
+        "description":"",
+        "regionId":""
+    },
+    "describe-vpc-peering":{
+        "regionId":"",
+        "vpcPeeringId":""
+    },
+    "modify-vpc-peering":{
+        "vpcPeeringName":"",
+        "description":"",
+        "regionId":"",
+        "vpcPeeringId":""
+    },
+    "delete-vpc-peering":{
+        "regionId":"",
+        "vpcPeeringId":""
+    },
+    "describe-route-tables":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
             "values":""
         }],
         "regionId":""
     },
-    "create-elastic-ips":{
-        "maxCount":"",
-        "elasticIpAddress":"",
-        "elasticIpSpec":{
-            "bandwidthMbps":"",
-            "provider":"",
-            "chargeSpec":{
-                "chargeMode":"",
-                "chargeUnit":"",
-                "chargeDuration":"",
-                "autoRenew":"",
-                "buyScenario":""
-            }
-        },
-        "userTags":[{
-            "key":"",
-            "value":""
-        }],
-        "ipType":"",
+    "create-route-table":{
+        "vpcId":"",
+        "routeTableName":"",
+        "description":"",
         "regionId":""
     },
-    "describe-elastic-ip":{
+    "describe-route-table":{
         "regionId":"",
-        "elasticIpId":""
+        "routeTableId":""
     },
-    "modify-elastic-ip":{
-        "bandwidthMbps":"",
+    "modify-route-table":{
+        "routeTableName":"",
+        "description":"",
         "regionId":"",
-        "elasticIpId":""
+        "routeTableId":""
     },
-    "delete-elastic-ip":{
+    "delete-route-table":{
         "regionId":"",
-        "elasticIpId":""
+        "routeTableId":""
+    },
+    "add-route-table-rules":{
+        "routeTableRuleSpecs":[{
+            "nextHopType":"",
+            "nextHopId":"",
+            "addressPrefix":"",
+            "priority":"",
+            "description":""
+        }],
+        "regionId":"",
+        "routeTableId":""
+    },
+    "remove-route-table-rules":{
+        "ruleIds":[""],
+        "regionId":"",
+        "routeTableId":""
+    },
+    "modify-route-table-rules":{
+        "modifyRouteTableRuleSpecs":[{
+            "ruleId":"",
+            "priority":"",
+            "nextHopType":"",
+            "nextHopId":"",
+            "addressPrefix":"",
+            "description":""
+        }],
+        "regionId":"",
+        "routeTableId":""
+    },
+    "associate-route-table":{
+        "subnetIds":[""],
+        "regionId":"",
+        "routeTableId":""
+    },
+    "disassociate-route-table":{
+        "subnetId":"",
+        "regionId":"",
+        "routeTableId":""
+    },
+    "describe-subnets":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-subnet":{
+        "vpcId":"",
+        "subnetName":"",
+        "addressPrefix":"",
+        "routeTableId":"",
+        "description":"",
+        "ipMaskLen":"",
+        "regionId":""
+    },
+    "describe-subnet":{
+        "regionId":"",
+        "subnetId":""
+    },
+    "modify-subnet":{
+        "subnetName":"",
+        "description":"",
+        "ipMaskLen":"",
+        "regionId":"",
+        "subnetId":""
+    },
+    "delete-subnet":{
+        "regionId":"",
+        "subnetId":""
     },
     "describe-network-acls":{
         "pageNumber":"",
@@ -120,6 +205,38 @@
         "regionId":"",
         "networkAclId":""
     },
+    "describe-vpcs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-vpc":{
+        "vpcName":"",
+        "addressPrefix":"",
+        "description":"",
+        "azType":"",
+        "az":"",
+        "regionId":""
+    },
+    "describe-vpc":{
+        "regionId":"",
+        "vpcId":""
+    },
+    "modify-vpc":{
+        "vpcName":"",
+        "description":"",
+        "regionId":"",
+        "vpcId":""
+    },
+    "delete-vpc":{
+        "regionId":"",
+        "vpcId":""
+    },
     "describe-network-interfaces":{
         "pageNumber":"",
         "pageSize":"",
@@ -174,13 +291,88 @@
         "force":"",
         "secondaryIps":[""],
         "secondaryIpCount":"",
+        "secondaryIpMaskLen":"",
+        "secondaryIpAddress":"",
         "regionId":"",
         "networkInterfaceId":""
     },
     "unassign-secondary-ips":{
         "secondaryIps":[""],
+        "secondaryCidrs":[""],
         "regionId":"",
         "networkInterfaceId":""
+    },
+    "describe-bandwidth-packages":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
+        "resourceGroupIds":[""],
+        "regionId":""
+    },
+    "create-bandwidth-package":{
+        "name":"",
+        "description":"",
+        "bandwidthMbps":"",
+        "provider":"",
+        "chargeSpec":{
+            "chargeMode":"",
+            "chargeUnit":"",
+            "chargeDuration":"",
+            "autoRenew":"",
+            "buyScenario":""
+        },
+        "userTags":[{
+            "key":"",
+            "value":""
+        }],
+        "resourceGroupId":"",
+        "regionId":""
+    },
+    "describe-bandwidth-package":{
+        "regionId":"",
+        "bandwidthPackageId":""
+    },
+    "modify-bandwidth-package":{
+        "bandwidthMbps":"",
+        "name":"",
+        "description":"",
+        "regionId":"",
+        "bandwidthPackageId":""
+    },
+    "delete-bandwidth-package":{
+        "regionId":"",
+        "bandwidthPackageId":""
+    },
+    "add-bandwidth-package-ip":{
+        "bandwidthPackageIPSpecs":[{
+            "publicIpId":"",
+            "bandwidthMbps":""
+        }],
+        "regionId":"",
+        "bandwidthPackageId":""
+    },
+    "remove-bandwidth-package-ip":{
+        "bandwidthPackageIPSpecs":[{
+            "publicIpId":""
+        }],
+        "regionId":"",
+        "bandwidthPackageId":""
+    },
+    "modify-bandwidth-package-ip-bandwidth":{
+        "bandwidthPackageIPSpecs":[{
+            "publicIpId":"",
+            "bandwidthMbps":""
+        }],
+        "regionId":"",
+        "bandwidthPackageId":""
     },
     "describe-network-security-groups":{
         "pageNumber":"",
@@ -246,7 +438,7 @@
         "parentResourceId":"",
         "regionId":""
     },
-    "describe-route-tables":{
+    "describe-elastic-ips":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
@@ -254,65 +446,48 @@
             "operator":"",
             "values":""
         }],
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
+        "resourceGroupIds":[""],
         "regionId":""
     },
-    "create-route-table":{
-        "vpcId":"",
-        "routeTableName":"",
-        "description":"",
+    "create-elastic-ips":{
+        "maxCount":"",
+        "elasticIpAddress":"",
+        "elasticIpSpec":{
+            "bandwidthMbps":"",
+            "provider":"",
+            "chargeSpec":{
+                "chargeMode":"",
+                "chargeUnit":"",
+                "chargeDuration":"",
+                "autoRenew":"",
+                "buyScenario":""
+            }
+        },
+        "userTags":[{
+            "key":"",
+            "value":""
+        }],
+        "ipType":"",
+        "resourceGroupId":"",
+        "dryRun":"",
         "regionId":""
     },
-    "describe-route-table":{
+    "describe-elastic-ip":{
         "regionId":"",
-        "routeTableId":""
+        "elasticIpId":""
     },
-    "modify-route-table":{
-        "routeTableName":"",
-        "description":"",
+    "modify-elastic-ip":{
+        "bandwidthMbps":"",
         "regionId":"",
-        "routeTableId":""
+        "elasticIpId":""
     },
-    "delete-route-table":{
+    "delete-elastic-ip":{
         "regionId":"",
-        "routeTableId":""
-    },
-    "add-route-table-rules":{
-        "routeTableRuleSpecs":[{
-            "nextHopType":"",
-            "nextHopId":"",
-            "addressPrefix":"",
-            "priority":"",
-            "description":""
-        }],
-        "regionId":"",
-        "routeTableId":""
-    },
-    "remove-route-table-rules":{
-        "ruleIds":[""],
-        "regionId":"",
-        "routeTableId":""
-    },
-    "modify-route-table-rules":{
-        "modifyRouteTableRuleSpecs":[{
-            "ruleId":"",
-            "priority":"",
-            "nextHopType":"",
-            "nextHopId":"",
-            "addressPrefix":"",
-            "description":""
-        }],
-        "regionId":"",
-        "routeTableId":""
-    },
-    "associate-route-table":{
-        "subnetIds":[""],
-        "regionId":"",
-        "routeTableId":""
-    },
-    "disassociate-route-table":{
-        "subnetId":"",
-        "regionId":"",
-        "routeTableId":""
+        "elasticIpId":""
     },
     "describe-edge-ip-providers":{
         "pageNumber":"",
@@ -323,100 +498,5 @@
             "values":""
         }],
         "regionId":""
-    },
-    "describe-subnets":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-subnet":{
-        "vpcId":"",
-        "subnetName":"",
-        "addressPrefix":"",
-        "routeTableId":"",
-        "description":"",
-        "subnetType":"",
-        "az":"",
-        "regionId":""
-    },
-    "describe-subnet":{
-        "regionId":"",
-        "subnetId":""
-    },
-    "modify-subnet":{
-        "subnetName":"",
-        "description":"",
-        "regionId":"",
-        "subnetId":""
-    },
-    "delete-subnet":{
-        "regionId":"",
-        "subnetId":""
-    },
-    "describe-vpcs":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-vpc":{
-        "vpcName":"",
-        "addressPrefix":"",
-        "description":"",
-        "regionId":""
-    },
-    "describe-vpc":{
-        "regionId":"",
-        "vpcId":""
-    },
-    "modify-vpc":{
-        "vpcName":"",
-        "description":"",
-        "regionId":"",
-        "vpcId":""
-    },
-    "delete-vpc":{
-        "regionId":"",
-        "vpcId":""
-    },
-    "describe-vpc-peerings":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-vpc-peering":{
-        "vpcPeeringName":"",
-        "vpcId":"",
-        "remoteVpcId":"",
-        "description":"",
-        "regionId":""
-    },
-    "describe-vpc-peering":{
-        "regionId":"",
-        "vpcPeeringId":""
-    },
-    "modify-vpc-peering":{
-        "vpcPeeringName":"",
-        "description":"",
-        "regionId":"",
-        "vpcPeeringId":""
-    },
-    "delete-vpc-peering":{
-        "regionId":"",
-        "vpcPeeringId":""
     },
 }

@@ -1,20 +1,4 @@
 {
-    "describe-alarms":{
-        "pageNumber":"",
-        "pageSize":"",
-        "resourceType":"",
-        "resourceId":""
-    },
-    "describe-alarm":{
-        "alarmId":""
-    },
-    "describe-alarm-history":{
-        "pageNumber":"",
-        "pageSize":"",
-        "alarmId":"",
-        "startTime":"",
-        "endTime":""
-    },
     "describe-metrics":{
     },
     "describe-metric-data":{
@@ -35,6 +19,7 @@
     "describe-bandwidth-traffics":{
         "pageNumber":"",
         "pageSize":"",
+        "bandwidthName":"",
         "idc":""
     },
     "describe-bandwidth-traffic":{
@@ -46,13 +31,136 @@
         "startTime":"",
         "endTime":""
     },
+    "describe-open-devices":{
+    },
+    "describe-open-devices-data":{
+        "deviceCodes":"",
+        "deviceType":""
+    },
+    "describe-rangetime-cabinet-current":{
+        "resourceId":"",
+        "startTime":"",
+        "endTime":"",
+        "timeInterval":"",
+        "idc":""
+    },
+    "describe-realtime-cabinet-current":{
+        "resourceId":"",
+        "idc":""
+    },
+    "describe-alarms":{
+        "pageNumber":"",
+        "pageSize":"",
+        "resourceType":"",
+        "resourceId":"",
+        "idc":"",
+        "status":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }]
+    },
+    "create-alarm":{
+        "idc":"",
+        "resourceType":"",
+        "resourceId":"",
+        "name":"",
+        "metric":"",
+        "period":"",
+        "statisticMethod":"",
+        "operator":"",
+        "threshold":"",
+        "times":"",
+        "noticePeriod":"",
+        "status":"",
+        "noticeMethod":"",
+        "noticeObj":"",
+        "userId":"",
+        "groupId":""
+    },
+    "describe-alarm":{
+        "alarmId":""
+    },
+    "update-alarm":{
+        "name":"",
+        "metric":"",
+        "period":"",
+        "statisticMethod":"",
+        "operator":"",
+        "threshold":"",
+        "times":"",
+        "noticePeriod":"",
+        "status":"",
+        "noticeMethod":"",
+        "userId":"",
+        "groupId":"",
+        "alarmId":""
+    },
+    "delete-alarm":{
+        "alarmId":""
+    },
+    "describe-alarm-history":{
+        "pageNumber":"",
+        "pageSize":"",
+        "alarmId":"",
+        "idc":"",
+        "startTime":"",
+        "endTime":""
+    },
+    "switch-alarm":{
+        "status":"",
+        "alarmId":""
+    },
+    "describe-tickets":{
+        "pageNumber":"",
+        "pageSize":"",
+        "type":"",
+        "ticketTypeName":"",
+        "status":"",
+        "ticketNo":"",
+        "ticketTemplateName":"",
+        "description":"",
+        "startTime":"",
+        "endTime":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "sorts":[{
+            "name":"",
+            "direction":""
+        }]
+    },
+    "describe-ticket":{
+        "ticketNo":""
+    },
+    "create-general-services-ticket":{
+        "phone":"",
+        "email":"",
+        "idc":"",
+        "isExternalIdc":"",
+        "count":"",
+        "externalIdcAddress":"",
+        "externalIdcContactPerson":"",
+        "externalIdcContactPhone":"",
+        "remarks":"",
+        "attach":[{
+            "attachName":"",
+            "attachPath":""
+        }]
+    },
     "describe-idcs":{
         "pageNumber":"",
-        "pageSize":""
+        "pageSize":"",
+        "all":"",
+        "includeExternalIdc":""
     },
     "describe-rooms":{
         "pageNumber":"",
         "pageSize":"",
+        "all":"",
         "filters":[{
             "name":"",
             "operator":"",
@@ -63,10 +171,17 @@
     "describe-cabinets":{
         "pageNumber":"",
         "pageSize":"",
+        "cabinetType":"",
+        "cabinetOpenStatus":"",
+        "cabinetNo":"",
         "filters":[{
             "name":"",
             "operator":"",
             "values":""
+        }],
+        "sorts":[{
+            "name":"",
+            "direction":""
         }],
         "idc":""
     },
@@ -78,10 +193,19 @@
         "pageNumber":"",
         "pageSize":"",
         "cabinetId":"",
+        "deviceType":"",
+        "assetStatus":"",
+        "assetBelong":"",
+        "deviceNo":"",
+        "snNo":"",
         "filters":[{
             "name":"",
             "operator":"",
             "values":""
+        }],
+        "sorts":[{
+            "name":"",
+            "direction":""
         }],
         "idc":""
     },
@@ -92,20 +216,35 @@
     "describe-ips":{
         "pageNumber":"",
         "pageSize":"",
+        "lineType":"",
+        "status":"",
+        "cidrAddr":"",
         "filters":[{
             "name":"",
             "operator":"",
             "values":""
+        }],
+        "sorts":[{
+            "name":"",
+            "direction":""
         }],
         "idc":""
     },
     "describe-bandwidths":{
         "pageNumber":"",
         "pageSize":"",
+        "lineType":"",
+        "chargeType":"",
+        "bandwidthName":"",
+        "relatedIp":"",
         "filters":[{
             "name":"",
             "operator":"",
             "values":""
+        }],
+        "sorts":[{
+            "name":"",
+            "direction":""
         }],
         "idc":""
     },
@@ -113,12 +252,7 @@
         "idc":"",
         "bandwidthId":""
     },
-    "describe-tickets":{
-        "pageNumber":"",
-        "pageSize":"",
-        "type":""
-    },
-    "describe-ticket":{
-        "ticketNo":""
+    "describe-idc-overview":{
+        "idc":""
     },
 }

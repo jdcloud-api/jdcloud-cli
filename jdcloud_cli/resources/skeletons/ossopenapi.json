@@ -42,4 +42,31 @@
         "regionId":"",
         "bucketName":""
     },
+    "get-historical-replicat-task":{
+        "regionId":"",
+        "bucketName":"",
+        "taskId":""
+    },
+    "abort-historical-replicat-task":{
+        "regionId":"",
+        "bucketName":"",
+        "taskId":""
+    },
+    "list-historical-replicat-tasks":{
+        "marker":"",
+        "limit":"",
+        "regionId":"",
+        "bucketName":""
+    },
+    "create-historical-replicat-task":{
+        "action":"",
+        "bucketName":"",
+        "bucketRegion":"",
+        "targetBucketName":"",
+        "targetBucketRegion":"",
+        "storageClass":"",
+        "prefixSet":[""],
+        "regionId":"",
+        "bucketName":""
+    },
 }

@@ -32,8 +32,35 @@ class JcqTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_consumer_group_ids(self):
-        cmd = """python ../../main.py jcq describe-consumer-group-ids """
+    def test_describe_topics(self):
+        cmd = """python ../../main.py jcq describe-topics """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_topic(self):
+        cmd = """python ../../main.py jcq create-topic  --topic-name 'xxx' --type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_topic(self):
+        cmd = """python ../../main.py jcq describe-topic  --topic-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_topic(self):
+        cmd = """python ../../main.py jcq delete-topic  --topic-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,42 +113,6 @@ class JcqTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_messages(self):
-        cmd = """python ../../main.py jcq describe-messages  --topic-name 'xxx' --start-time 'xxx' --end-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_message(self):
-        cmd = """python ../../main.py jcq describe-message  --topic-name 'xxx' --message-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_message_trace(self):
-        cmd = """python ../../main.py jcq describe-message-trace  --topic-name 'xxx' --message-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_messages_by_business_id(self):
-        cmd = """python ../../main.py jcq describe-messages-by-business-id  --topic-name 'xxx' --business-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_permission(self):
         cmd = """python ../../main.py jcq describe-permission  --topic-name 'xxx'"""
         with os.popen(cmd) as f:
@@ -142,6 +133,15 @@ class JcqTest(unittest.TestCase):
 
     def test_remove_permission(self):
         cmd = """python ../../main.py jcq remove-permission  --topic-name 'xxx' --permission 'xxx' --target-user-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_consumer_group_ids(self):
+        cmd = """python ../../main.py jcq describe-consumer-group-ids """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -212,8 +212,8 @@ class JcqTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_topics(self):
-        cmd = """python ../../main.py jcq describe-topics """
+    def test_describe_messages(self):
+        cmd = """python ../../main.py jcq describe-messages  --topic-name 'xxx' --start-time 'xxx' --end-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -221,8 +221,8 @@ class JcqTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_topic(self):
-        cmd = """python ../../main.py jcq create-topic  --topic-name 'xxx' --type 'xxx'"""
+    def test_describe_message(self):
+        cmd = """python ../../main.py jcq describe-message  --topic-name 'xxx' --message-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -230,8 +230,8 @@ class JcqTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_topic(self):
-        cmd = """python ../../main.py jcq describe-topic  --topic-name 'xxx'"""
+    def test_describe_message_trace(self):
+        cmd = """python ../../main.py jcq describe-message-trace  --topic-name 'xxx' --message-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -239,8 +239,8 @@ class JcqTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_topic(self):
-        cmd = """python ../../main.py jcq delete-topic  --topic-name 'xxx'"""
+    def test_describe_messages_by_business_id(self):
+        cmd = """python ../../main.py jcq describe-messages-by-business-id  --topic-name 'xxx' --business-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

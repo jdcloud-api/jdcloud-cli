@@ -1,31 +1,257 @@
 {
-    "list-categories":{
+    "list-transcode-template-groups":{
         "pageNumber":"",
         "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }]
+    },
+    "create-transcode-template-group":{
+        "groupName":"",
+        "templates":[{
+            "templateId":"",
+            "templateName":"",
+            "video":{
+                "codec":"",
+                "bitrate":"",
+                "fps":"",
+                "width":"",
+                "height":""
+            },
+            "audio":{
+                "codec":"",
+                "bitrate":"",
+                "sampleRate":"",
+                "channels":"",
+                "comfortable":""
+            },
+            "container":{
+                "format":""
+            },
+            "definition":"",
+            "templateType":"",
+            "packageType":"",
+            "createTime":"",
+            "updateTime":""
+        }]
+    },
+    "get-transcode-template-group":{
+        "groupId":""
+    },
+    "update-transcode-template-group":{
+        "groupName":"",
+        "templates":[{
+            "templateId":"",
+            "templateName":"",
+            "video":{
+                "codec":"",
+                "bitrate":"",
+                "fps":"",
+                "width":"",
+                "height":""
+            },
+            "audio":{
+                "codec":"",
+                "bitrate":"",
+                "sampleRate":"",
+                "channels":"",
+                "comfortable":""
+            },
+            "container":{
+                "format":""
+            },
+            "definition":"",
+            "templateType":"",
+            "packageType":"",
+            "createTime":"",
+            "updateTime":""
+        }],
+        "groupId":""
+    },
+    "delete-transcode-template-group":{
+        "groupId":""
+    },
+    "delete-grouped-transcode-templates":{
+        "groupId":"",
+        "templateIds":""
+    },
+    "list-quality-detection-templates":{
+        "pageNumber":"",
+        "pageSize":""
+    },
+    "create-quality-detection-template":{
+        "name":"",
+        "templateType":"",
+        "detections":[""]
+    },
+    "get-quality-detection-template":{
+        "templateId":""
+    },
+    "update-quality-detection-template":{
+        "name":"",
+        "detections":[""],
+        "templateId":""
+    },
+    "delete-quality-detection-template":{
+        "templateId":""
+    },
+    "create-video-upload-task":{
+        "httpMethod":"",
+        "title":"",
+        "fileName":"",
+        "fileSize":"",
+        "coverUrl":"",
+        "description":"",
+        "categoryId":"",
+        "tags":[""],
+        "transcodeTemplateGroupId":"",
+        "transcodeTemplateIds":[""],
+        "watermarkIds":[""],
+        "userData":""
+    },
+    "refresh-video-upload-task":{
+        "videoId":""
+    },
+    "create-image-upload-task":{
+        "httpMethod":"",
+        "fileName":"",
+        "fileSize":""
+    },
+    "create-live-to-vod-task":{
+        "title":"",
+        "fileName":"",
+        "fileSize":"",
+        "coverUrl":"",
+        "description":"",
+        "categoryId":"",
+        "tags":[""],
+        "transcodeTemplateGroupId":"",
+        "transcodeTemplateIds":[""],
+        "watermarkIds":[""],
+        "publishDomain":"",
+        "appName":"",
+        "streamName":"",
+        "recordTimes":[{
+            "startTime":"",
+            "endTime":""
+        }],
+        "recordFileType":"",
+        "taskExternalId":"",
+        "priority":""
+    },
+    "list-videos":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
         "sorts":[{
             "name":"",
             "direction":""
         }]
     },
-    "create-category":{
+    "get-video":{
+        "videoId":""
+    },
+    "update-video":{
         "name":"",
-        "parentId":"",
-        "description":""
-    },
-    "get-category-with-children":{
-        "categoryId":""
-    },
-    "get-category":{
-        "categoryId":""
-    },
-    "update-category":{
-        "name":"",
-        "parentId":"",
+        "categoryId":"",
+        "tags":[""],
+        "coverUrl":"",
         "description":"",
-        "categoryId":""
+        "videoId":""
     },
-    "delete-category":{
-        "categoryId":""
+    "delete-video":{
+        "videoId":""
+    },
+    "batch-delete-videos":{
+        "videoIds":[""]
+    },
+    "batch-update-videos":{
+        "bulkItems":[{
+            "videoId":"",
+            "name":"",
+            "categoryId":"",
+            "tags":"",
+            "coverUrl":"",
+            "description":""
+        }]
+    },
+    "get-video-play-info":{
+        "videoId":""
+    },
+    "delete-video-streams":{
+        "taskIds":[""],
+        "videoId":""
+    },
+    "video-audit":{
+        "auditResult":"",
+        "videoId":""
+    },
+    "get-video-source-info":{
+        "videoId":""
+    },
+    "submit-quality-detection-job":{
+        "mediaId":"",
+        "templateIds":[""]
+    },
+    "batch-submit-quality-detection-jobs":{
+        "bulkItems":[{
+            "mediaId":"",
+            "templateIds":""
+        }]
+    },
+    "create-vedit-job":{
+        "projectName":"",
+        "description":"",
+        "timeline":{
+            "trackList":[""]
+        },
+        "mediaMetadata":{
+            "title":""
+        },
+        "userData":""
+    },
+    "submit-vedit-job":{
+        "projectId":"",
+        "mediaMetadata":{
+            "title":""
+        },
+        "userData":""
+    },
+    "list-vedit-projects":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }]
+    },
+    "create-vedit-project":{
+        "projectName":"",
+        "description":"",
+        "timeline":{
+            "trackList":[""]
+        }
+    },
+    "get-vedit-project":{
+        "projectId":""
+    },
+    "update-vedit-project":{
+        "projectName":"",
+        "description":"",
+        "timeline":{
+            "trackList":[""]
+        },
+        "projectId":""
+    },
+    "delete-vedit-project":{
+        "projectId":""
     },
     "list-domains":{
         "pageNumber":"",
@@ -112,88 +338,49 @@
     "get-http-ssl":{
         "domainId":""
     },
-    "create-live-to-vod-task":{
-        "title":"",
-        "fileName":"",
-        "fileSize":"",
-        "coverUrl":"",
-        "description":"",
-        "categoryId":"",
-        "tags":[""],
-        "transcodeTemplateIds":[""],
-        "watermarkIds":[""],
-        "publishDomain":"",
-        "appName":"",
-        "streamName":"",
-        "recordTimes":[{
-            "startTime":"",
-            "endTime":""
-        }],
-        "recordFileType":"",
-        "taskExternalId":"",
-        "priority":""
-    },
-    "create-video-upload-task":{
-        "httpMethod":"",
-        "title":"",
-        "fileName":"",
-        "fileSize":"",
-        "coverUrl":"",
-        "description":"",
-        "categoryId":"",
-        "tags":[""],
-        "transcodeTemplateIds":[""],
-        "watermarkIds":[""],
-        "userData":""
-    },
-    "refresh-video-upload-task":{
-        "videoId":""
-    },
-    "create-image-upload-task":{
-        "httpMethod":"",
-        "fileName":"",
-        "fileSize":""
-    },
-    "submit-quality-detection-job":{
-        "mediaId":"",
-        "templateIds":[""]
-    },
-    "batch-submit-quality-detection-jobs":{
-        "bulkItems":[{
-            "mediaId":"",
-            "templateIds":""
+    "list-categories":{
+        "pageNumber":"",
+        "pageSize":"",
+        "sorts":[{
+            "name":"",
+            "direction":""
         }]
     },
-    "list-quality-detection-templates":{
+    "create-category":{
+        "name":"",
+        "parentId":"",
+        "description":""
+    },
+    "list-all-categories":{
+        "flatMode":"",
+        "treeMode":""
+    },
+    "get-category-with-children":{
+        "categoryId":""
+    },
+    "get-category":{
+        "categoryId":""
+    },
+    "update-category":{
+        "name":"",
+        "parentId":"",
+        "description":"",
+        "categoryId":""
+    },
+    "delete-category":{
+        "categoryId":""
+    },
+    "submit-snapshot-task":{
+        "videoIds":[""],
+        "templateIds":[""]
+    },
+    "list-snapshot-tasks":{
         "pageNumber":"",
-        "pageSize":""
-    },
-    "create-quality-detection-template":{
-        "name":"",
-        "templateType":"",
-        "detections":[""]
-    },
-    "get-quality-detection-template":{
-        "templateId":""
-    },
-    "update-quality-detection-template":{
-        "name":"",
-        "detections":[""],
-        "templateId":""
-    },
-    "delete-quality-detection-template":{
-        "templateId":""
-    },
-    "submit-transcode-job":{
-        "videoId":"",
-        "templateIds":[""],
-        "watermarkIds":[""]
-    },
-    "batch-submit-transcode-jobs":{
-        "bulkItems":[{
-            "videoId":"",
-            "templateIds":"",
-            "watermarkIds":""
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
         }]
     },
     "list-transcode-templates":{
@@ -224,6 +411,9 @@
         "encapsulation":{
             "format":""
         },
+        "outFile":{
+            "filePath":""
+        },
         "definition":"",
         "templateType":""
     },
@@ -249,6 +439,9 @@
         "encapsulation":{
             "format":""
         },
+        "outFile":{
+            "filePath":""
+        },
         "definition":"",
         "templateType":"",
         "templateId":""
@@ -256,56 +449,94 @@
     "delete-transcode-template":{
         "templateId":""
     },
-    "list-videos":{
+    "list-snapshot-templates":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
             "name":"",
             "operator":"",
             "values":""
-        }],
-        "sorts":[{
-            "name":"",
-            "direction":""
         }]
     },
-    "get-video":{
-        "videoId":""
+    "create-snapshot-template":{
+        "templateName":"",
+        "snapshotType":"",
+        "imageSampleConfig":{
+            "startTime":"",
+            "intervalTime":"",
+            "frameType":"",
+            "format":"",
+            "number":"",
+            "width":"",
+            "height":"",
+            "fillType":""
+        },
+        "imageSpriteConfig":{
+            "startTime":"",
+            "intervalTime":"",
+            "frameType":"",
+            "format":"",
+            "rows":"",
+            "columns":"",
+            "cellWidth":"",
+            "cellHeight":"",
+            "doKeepShots":""
+        }
     },
-    "update-video":{
-        "name":"",
-        "categoryId":"",
-        "tags":[""],
-        "coverUrl":"",
-        "description":"",
-        "videoId":""
+    "get-snapshot-template":{
+        "templateId":""
     },
-    "delete-video":{
-        "videoId":""
+    "update-snapshot-template":{
+        "templateName":"",
+        "snapshotType":"",
+        "imageSampleConfig":{
+            "startTime":"",
+            "intervalTime":"",
+            "frameType":"",
+            "format":"",
+            "number":"",
+            "width":"",
+            "height":"",
+            "fillType":""
+        },
+        "imageSpriteConfig":{
+            "startTime":"",
+            "intervalTime":"",
+            "frameType":"",
+            "format":"",
+            "rows":"",
+            "columns":"",
+            "cellWidth":"",
+            "cellHeight":"",
+            "doKeepShots":""
+        },
+        "templateId":""
     },
-    "batch-delete-videos":{
-        "videoIds":[""]
+    "delete-snapshot-template":{
+        "templateId":""
     },
-    "batch-update-videos":{
+    "submit-transcode-job":{
+        "videoId":"",
+        "templateGroupId":"",
+        "templateIds":[""],
+        "watermarkIds":[""]
+    },
+    "batch-submit-transcode-jobs":{
         "bulkItems":[{
             "videoId":"",
-            "name":"",
-            "categoryId":"",
-            "tags":"",
-            "coverUrl":"",
-            "description":""
+            "templateGroupId":"",
+            "templateIds":"",
+            "watermarkIds":""
         }]
     },
-    "get-video-play-info":{
-        "videoId":""
+    "get-transcode-summaries":{
+        "videoIds":[""]
     },
-    "delete-video-streams":{
-        "taskIds":[""],
-        "videoId":""
+    "get-transcode-job-summaries":{
+        "jobIds":[""]
     },
-    "video-audit":{
-        "auditResult":"",
-        "videoId":""
+    "get-transcode-task-summaries":{
+        "taskIds":[""]
     },
     "list-watermarks":{
         "pageNumber":"",
@@ -317,6 +548,8 @@
         "width":"",
         "height":"",
         "sizeUnit":"",
+        "widthRef":"",
+        "heightRef":"",
         "position":"",
         "offsetX":"",
         "offsetY":"",
@@ -331,6 +564,8 @@
         "width":"",
         "height":"",
         "sizeUnit":"",
+        "widthRef":"",
+        "heightRef":"",
         "position":"",
         "offsetX":"",
         "offsetY":"",
@@ -339,5 +574,17 @@
     },
     "delete-watermark":{
         "watermarkId":""
+    },
+    "submit-transcode-job":{
+        "videoId":"",
+        "templateIds":[""],
+        "watermarkIds":[""]
+    },
+    "batch-submit-transcode-jobs":{
+        "bulkItems":[{
+            "videoId":"",
+            "templateIds":"",
+            "watermarkIds":""
+        }]
     },
 }

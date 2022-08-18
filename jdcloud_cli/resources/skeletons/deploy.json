@@ -13,6 +13,20 @@
         "regionId":"",
         "appId":""
     },
+    "describe-groups":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "describe-group":{
+        "regionId":"",
+        "groupId":""
+    },
     "create-deploy":{
         "groupId":"",
         "desc":"",
@@ -33,19 +47,5 @@
     "describe-deploy":{
         "regionId":"",
         "deployId":""
-    },
-    "describe-groups":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "describe-group":{
-        "regionId":"",
-        "groupId":""
     },
 }

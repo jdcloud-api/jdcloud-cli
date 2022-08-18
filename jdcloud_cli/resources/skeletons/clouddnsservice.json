@@ -1,53 +1,4 @@
 {
-    "get-action-log":{
-        "pageNumber":"",
-        "pageSize":"",
-        "startTime":"",
-        "endTime":"",
-        "keyWord":"",
-        "success":"",
-        "type":"",
-        "regionId":""
-    },
-    "get-domains":{
-        "pageNumber":"",
-        "pageSize":"",
-        "domainName":"",
-        "regionId":""
-    },
-    "add-domain":{
-        "packId":"",
-        "domainName":"",
-        "domainId":"",
-        "buyType":"",
-        "timeSpan":"",
-        "timeUnit":"",
-        "billingType":"",
-        "regionId":""
-    },
-    "del-domain":{
-        "domainId":"",
-        "regionId":""
-    },
-    "update-domain":{
-        "domainName":"",
-        "id":"",
-        "regionId":""
-    },
-    "get-domain-query-count":{
-        "domainName":"",
-        "start":"",
-        "end":"",
-        "regionId":"",
-        "domainId":""
-    },
-    "get-domain-query-traffic":{
-        "domainName":"",
-        "start":"",
-        "end":"",
-        "regionId":"",
-        "domainId":""
-    },
     "search-rr":{
         "pageNumber":"",
         "pageSize":"",
@@ -113,6 +64,55 @@
             "weight":"",
             "viewValue":""
         }],
+        "regionId":""
+    },
+    "get-domains":{
+        "pageNumber":"",
+        "pageSize":"",
+        "domainName":"",
+        "regionId":""
+    },
+    "add-domain":{
+        "packId":"",
+        "domainName":"",
+        "domainId":"",
+        "buyType":"",
+        "timeSpan":"",
+        "timeUnit":"",
+        "billingType":"",
+        "regionId":""
+    },
+    "del-domain":{
+        "domainId":"",
+        "regionId":""
+    },
+    "update-domain":{
+        "domainName":"",
+        "id":"",
+        "regionId":""
+    },
+    "get-domain-query-count":{
+        "domainName":"",
+        "start":"",
+        "end":"",
+        "regionId":"",
+        "domainId":""
+    },
+    "get-domain-query-traffic":{
+        "domainName":"",
+        "start":"",
+        "end":"",
+        "regionId":"",
+        "domainId":""
+    },
+    "get-action-log":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "keyWord":"",
+        "success":"",
+        "type":"",
         "regionId":""
     },
     "add-user-view":{

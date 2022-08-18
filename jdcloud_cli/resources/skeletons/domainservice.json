@@ -1,54 +1,4 @@
 {
-    "describe-action-log":{
-        "pageNumber":"",
-        "pageSize":"",
-        "startTime":"",
-        "endTime":"",
-        "keyWord":"",
-        "success":"",
-        "type":"",
-        "regionId":""
-    },
-    "describe-domains":{
-        "pageNumber":"",
-        "pageSize":"",
-        "domainName":"",
-        "domainId":"",
-        "regionId":""
-    },
-    "create-domain":{
-        "packId":"",
-        "domainName":"",
-        "domainId":"",
-        "buyType":"",
-        "timeSpan":"",
-        "timeUnit":"",
-        "billingType":"",
-        "regionId":""
-    },
-    "modify-domain":{
-        "domainName":"",
-        "regionId":"",
-        "domainId":""
-    },
-    "delete-domain":{
-        "regionId":"",
-        "domainId":""
-    },
-    "describe-domain-query-count":{
-        "domainName":"",
-        "start":"",
-        "end":"",
-        "regionId":"",
-        "domainId":""
-    },
-    "describe-domain-query-traffic":{
-        "domainName":"",
-        "start":"",
-        "end":"",
-        "regionId":"",
-        "domainId":""
-    },
     "describe-resource-record":{
         "pageNumber":"",
         "pageSize":"",
@@ -121,6 +71,56 @@
         }],
         "regionId":"",
         "domainId":""
+    },
+    "describe-domains":{
+        "pageNumber":"",
+        "pageSize":"",
+        "domainName":"",
+        "domainId":"",
+        "regionId":""
+    },
+    "create-domain":{
+        "packId":"",
+        "domainName":"",
+        "domainId":"",
+        "buyType":"",
+        "timeSpan":"",
+        "timeUnit":"",
+        "billingType":"",
+        "regionId":""
+    },
+    "modify-domain":{
+        "domainName":"",
+        "regionId":"",
+        "domainId":""
+    },
+    "delete-domain":{
+        "regionId":"",
+        "domainId":""
+    },
+    "describe-domain-query-count":{
+        "domainName":"",
+        "start":"",
+        "end":"",
+        "regionId":"",
+        "domainId":""
+    },
+    "describe-domain-query-traffic":{
+        "domainName":"",
+        "start":"",
+        "end":"",
+        "regionId":"",
+        "domainId":""
+    },
+    "describe-action-log":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "keyWord":"",
+        "success":"",
+        "type":"",
+        "regionId":""
     },
     "describe-user-view":{
         "viewId":"",

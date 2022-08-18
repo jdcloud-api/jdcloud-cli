@@ -23,8 +23,8 @@ import json
 
 class ContainerregistryTest(unittest.TestCase):
 
-    def test_get_authorization_token(self):
-        cmd = """python ../../main.py containerregistry get-authorization-token  --registry-name 'xxx'"""
+    def test_create_repository(self):
+        cmd = """python ../../main.py containerregistry create-repository  --registry-name 'xxx' --repository-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class ContainerregistryTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_authorization_tokens(self):
-        cmd = """python ../../main.py containerregistry describe-authorization-tokens  --registry-name 'xxx'"""
+    def test_describe_repositories(self):
+        cmd = """python ../../main.py containerregistry describe-repositories """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,17 @@ class ContainerregistryTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_release_authorization_token(self):
-        cmd = """python ../../main.py containerregistry release-authorization-token  --registry-name 'xxx'"""
+    def test_delete_repository(self):
+        cmd = """python ../../main.py containerregistry delete-repository  --registry-name 'xxx' --repository-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_check_repository_name(self):
+        cmd = """python ../../main.py containerregistry check-repository-name  --registry-name 'xxx' --repository-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -61,15 +70,6 @@ class ContainerregistryTest(unittest.TestCase):
 
     def test_delete_image(self):
         cmd = """python ../../main.py containerregistry delete-image  --registry-name 'xxx' --repository-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_quotas(self):
-        cmd = """python ../../main.py containerregistry describe-quotas """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -122,8 +122,8 @@ class ContainerregistryTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_repository(self):
-        cmd = """python ../../main.py containerregistry create-repository  --registry-name 'xxx' --repository-name 'xxx'"""
+    def test_describe_quotas(self):
+        cmd = """python ../../main.py containerregistry describe-quotas """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -131,8 +131,8 @@ class ContainerregistryTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_repositories(self):
-        cmd = """python ../../main.py containerregistry describe-repositories """
+    def test_get_authorization_token(self):
+        cmd = """python ../../main.py containerregistry get-authorization-token  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -140,8 +140,8 @@ class ContainerregistryTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_repository(self):
-        cmd = """python ../../main.py containerregistry delete-repository  --registry-name 'xxx' --repository-name 'xxx'"""
+    def test_describe_authorization_tokens(self):
+        cmd = """python ../../main.py containerregistry describe-authorization-tokens  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -149,8 +149,8 @@ class ContainerregistryTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_check_repository_name(self):
-        cmd = """python ../../main.py containerregistry check-repository-name  --registry-name 'xxx' --repository-name 'xxx'"""
+    def test_release_authorization_token(self):
+        cmd = """python ../../main.py containerregistry release-authorization-token  --registry-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -44,7 +44,176 @@ class NativecontainerController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) containerId - 实例ID，精确匹配，支持多个; privateIpAddress - 主网卡IP地址，精确匹配，支持单个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 容器状态，精确匹配，支持多个; name - 容器名称，模糊匹配，支持单个; subnetId - 子网ID，精确匹配，支持多个; securityGroups - 安全组 id，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) name - secret名称，支持模糊搜索;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询 secret 列表。<br> ; 此接口支持分页查询，默认每页20条。;  ''',
+        description='''
+            查询 secret 列表。<br> ; 此接口支持分页查询，默认每页20条。; 
+
+            示例: jdc nativecontainer describe-secrets 
+        ''',
+    )
+    def describe_secrets(self):
+        client_factory = ClientFactory('nativecontainer')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.nativecontainer.apis.DescribeSecretsRequest import DescribeSecretsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSecretsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) 镜像仓库认证信息名称，不能重复;  """, dest='name',  required=True)),
+            (['--secret-type'], dict(help="""(string) 镜像仓库认证信息类型，目前仅支持：docker-registry 类型，用来和docker registry认证的类型。;  """, dest='secretType',  required=True)),
+            (['--data'], dict(help="""(dockerRegistryData) 镜像仓库认证信息数据。<br>; 必须包含server、username、password 字段，email 字段是可选的。<br>;  """, dest='data',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建一个 secret，用于存放镜像仓库认证信息。;  ''',
+        description='''
+            创建一个 secret，用于存放镜像仓库认证信息。; 
+
+            示例: jdc nativecontainer create-secret  --name xxx --secret-type xxx --data {"":""}
+        ''',
+    )
+    def create_secret(self):
+        client_factory = ClientFactory('nativecontainer')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.nativecontainer.apis.CreateSecretRequest import CreateSecretRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateSecretRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) Secret Name """, dest='name',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询单个 secret 详情;  ''',
+        description='''
+            查询单个 secret 详情; 
+
+            示例: jdc nativecontainer describe-secret  --name xxx
+        ''',
+    )
+    def describe_secret(self):
+        client_factory = ClientFactory('nativecontainer')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.nativecontainer.apis.DescribeSecretRequest import DescribeSecretRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSecretRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) Secret Name """, dest='name',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除单个 secret;  ''',
+        description='''
+            删除单个 secret; 
+
+            示例: jdc nativecontainer delete-secret  --name xxx
+        ''',
+    )
+    def delete_secret(self):
+        client_factory = ClientFactory('nativecontainer')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.nativecontainer.apis.DeleteSecretRequest import DeleteSecretRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSecretRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--resource-type'], dict(help="""(string) resourceType - 资源类型，支持 [container, pod, secret];  """, dest='resourceType',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询资源的配额，支持：原生容器 pod 和 secret.;  ''',
+        description='''
+            查询资源的配额，支持：原生容器 pod 和 secret.; 
+
+            示例: jdc nativecontainer describe-quota  --resource-type xxx
+        ''',
+    )
+    def describe_quota(self):
+        client_factory = ClientFactory('nativecontainer')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.nativecontainer.apis.DescribeQuotaRequest import DescribeQuotaRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeQuotaRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) containerId - 实例ID，精确匹配，支持多个; privateIpAddress - 主网卡IP地址，模糊匹配，支持单个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; status - 容器状态，精确匹配，支持多个; name - 容器名称，模糊匹配，支持单个; subnetId - 子网ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -89,7 +258,7 @@ class NativecontainerController(BaseController):
         description='''
             创建一台或多台指定配置容器; - 创建容器需要通过实名认证; - 镜像;   - 容器的镜像通过镜像名称来确定;   - nginx:tag, mysql/mysql-server:tag这样命名的镜像表示docker hub官方镜像;   - container-registry/image:tag这样命名的镜像表示私有仓储的镜像;   - 私有仓储必须兼容docker registry认证机制，并通过secret来保存机密信息; - hostname规范;   - 支持两种方式：以标签方式书写或以完整主机名方式书写;   - 标签规范;     - 0-9，a-z(不分大小写)和-（减号），其他的都是无效的字符串;     - 不能以减号开始，也不能以减号结尾;     - 最小1个字符，最大63个字符;   - 完整的主机名由一系列标签与点连接组成;     - 标签与标签之间使用“.”(点)进行连接;     - 不能以“.”(点)开始，也不能以“.”(点)结尾;     - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符; - 网络配置;   - 指定主网卡配置信息;     - 必须指定vpcId、subnetId、securityGroupIds;     - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-200]Mbps，步进1Mbps;     - 可以指定网卡的主IP(primaryIpAddress)和辅助IP(secondaryIpAddresses)，此时maxCount只能为1;     - 可以指定希望的辅助IP个数(secondaryIpAddressCount)让系统自动创建内网IP;     - 可以设置网卡的自动删除autoDelete属性，指明是否删除实例时自动删除网卡;     - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;     - 每个容器至多指定5个安全组;     - 主网卡deviceIndex设置为0; - 存储;   - volume分为root volume和data volume，root volume的挂载目录是/，data volume的挂载目录可以随意指定;   - volume的底层存储介质当前只支持cloud类别，也就是云硬盘;   - 云盘类型为 ssd.io1 时，用户可以指定 iops，其他类型云盘无效，对已经存在的云盘无效，具体规则如下;     - 步长 10;     - 范围 [200，min(32000，size*50)];     - 默认值 size*30;   - root volume;     - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;     - 磁盘大小;       - 所有类型：范围[10,100]GB，步长为10G;     - 自动删除;       - 默认自动删除;     - 可以选择已存在的云硬盘;   - data volume;     - data volume当前只能选择cloud类别;     - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;     - 磁盘大小;       - 所有类型：范围[20,2000]GB，步长为10G;     - 自动删除;       - 默认自动删除;     - 可以选择已存在的云硬盘;     - 可以从快照创建磁盘;     - 单个容器可以挂载7个data volume; - 容器日志;   - default：默认在本地分配10MB的存储空间，自动rotate; - 其他;   - 创建完成后，容器状态为running;   - maxCount为最大努力，不保证一定能达到maxCount; 
 
-            示例: jdc nativecontainer create-containers  --container-spec {"":""} --max-count 0
+            示例: jdc nativecontainer create-containers  --container-spec {"":""} --max-count 5
         ''',
     )
     def create_containers(self):
@@ -539,7 +708,7 @@ class NativecontainerController(BaseController):
         description='''
             调整TTY大小; 
 
-            示例: jdc nativecontainer resize-tty  --container-id xxx --height 0 --width 0
+            示例: jdc nativecontainer resize-tty  --container-id xxx --height 5 --width 5
         ''',
     )
     def resize_tty(self):
@@ -586,175 +755,6 @@ class NativecontainerController(BaseController):
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
             req = DescribeInstanceTypesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--resource-type'], dict(help="""(string) resourceType - 资源类型，支持 [container, pod, secret];  """, dest='resourceType',  required=True)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询资源的配额，支持：原生容器 pod 和 secret.;  ''',
-        description='''
-            查询资源的配额，支持：原生容器 pod 和 secret.; 
-
-            示例: jdc nativecontainer describe-quota  --resource-type xxx
-        ''',
-    )
-    def describe_quota(self):
-        client_factory = ClientFactory('nativecontainer')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.nativecontainer.apis.DescribeQuotaRequest import DescribeQuotaRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeQuotaRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) name - secret名称，支持模糊搜索;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询 secret 列表。<br> ; 此接口支持分页查询，默认每页20条。;  ''',
-        description='''
-            查询 secret 列表。<br> ; 此接口支持分页查询，默认每页20条。; 
-
-            示例: jdc nativecontainer describe-secrets 
-        ''',
-    )
-    def describe_secrets(self):
-        client_factory = ClientFactory('nativecontainer')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.nativecontainer.apis.DescribeSecretsRequest import DescribeSecretsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSecretsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) 镜像仓库认证信息名称，不能重复;  """, dest='name',  required=True)),
-            (['--secret-type'], dict(help="""(string) 镜像仓库认证信息类型，目前仅支持：docker-registry 类型，用来和docker registry认证的类型。;  """, dest='secretType',  required=True)),
-            (['--data'], dict(help="""(dockerRegistryData) 镜像仓库认证信息数据。<br>; 必须包含server、username、password 字段，email 字段是可选的。<br>;  """, dest='data',  required=True)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建一个 secret，用于存放镜像仓库认证信息。;  ''',
-        description='''
-            创建一个 secret，用于存放镜像仓库认证信息。; 
-
-            示例: jdc nativecontainer create-secret  --name xxx --secret-type xxx --data {"":""}
-        ''',
-    )
-    def create_secret(self):
-        client_factory = ClientFactory('nativecontainer')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.nativecontainer.apis.CreateSecretRequest import CreateSecretRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateSecretRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) Secret Name """, dest='name',  required=True)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个 secret 详情;  ''',
-        description='''
-            查询单个 secret 详情; 
-
-            示例: jdc nativecontainer describe-secret  --name xxx
-        ''',
-    )
-    def describe_secret(self):
-        client_factory = ClientFactory('nativecontainer')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.nativecontainer.apis.DescribeSecretRequest import DescribeSecretRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSecretRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) Secret Name """, dest='name',  required=True)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除单个 secret;  ''',
-        description='''
-            删除单个 secret; 
-
-            示例: jdc nativecontainer delete-secret  --name xxx
-        ''',
-    )
-    def delete_secret(self):
-        client_factory = ClientFactory('nativecontainer')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.nativecontainer.apis.DeleteSecretRequest import DeleteSecretRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteSecretRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -809,7 +809,7 @@ class NativecontainerController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-containers','create-containers','describe-container','delete-container','start-container','stop-container','modify-container-attribute','associate-elastic-ip','disassociate-elastic-ip','get-logs','rebuild-container','resize-container','exec-create','exec-get-exit-code','resize-tty','describe-instance-types','describe-quota','describe-secrets','create-secret','describe-secret','delete-secret',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-secrets','create-secret','describe-secret','delete-secret','describe-quota','describe-containers','create-containers','describe-container','delete-container','start-container','stop-container','modify-container-attribute','associate-elastic-ip','disassociate-elastic-ip','get-logs','rebuild-container','resize-container','exec-create','exec-get-exit-code','resize-tty','describe-instance-types',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

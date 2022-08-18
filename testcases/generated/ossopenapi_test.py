@@ -59,3 +59,39 @@ class OssopenapiTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_get_historical_replicat_task(self):
+        cmd = """python ../../main.py ossopenapi get-historical-replicat-task  --bucket-name 'xxx' --task-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_abort_historical_replicat_task(self):
+        cmd = """python ../../main.py ossopenapi abort-historical-replicat-task  --bucket-name 'xxx' --task-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_historical_replicat_tasks(self):
+        cmd = """python ../../main.py ossopenapi list-historical-replicat-tasks  --bucket-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_historical_replicat_task(self):
+        cmd = """python ../../main.py ossopenapi create-historical-replicat-task  --bucket-name 'xxx' --action 'xxx' --bucket-name 'xxx' --bucket-region 'xxx' --target-bucket-name 'xxx' --target-bucket-region 'xxx' --storage-class 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+

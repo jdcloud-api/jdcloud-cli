@@ -41,6 +41,7 @@ class LogsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--collect-info-uid'], dict(help="""(string) 采集配置 UID """, dest='collectInfoUID',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -73,14 +74,22 @@ class LogsController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--collect-info-uid'], dict(help="""(string) 采集配置 UID """, dest='collectInfoUID',  required=True)),
-            (['--enabled'], dict(help="""(bool) 采集状态，0-禁用，1-启用 """, dest='enabled',  required=True)),
-            (['--resource-type'], dict(help="""(string) 采集实例类型, 只能是 all/part  当选择all时，传入的实例列表无效 """, dest='resourceType',  required=True)),
-            (['--resources'], dict(help="""(array: resource) 采集实例列表（存在上限限制20） """, dest='resources',  required=False)),
-            (['--log-path'], dict(help="""(string) 日志路径。当appcode为custom时为必填。目前仅支持对 Linux 云主机上的日志进行采集，路径支持通配符“*”和“？”，文件路径应符合 Linux 的文件路径规则 """, dest='logPath',  required=False)),
+            (['--ag-resource'], dict(help="""(array: agResource) 高可用组资源 """, dest='agResource',  required=False)),
+            (['--enabled'], dict(help="""(bool) 采集状态，0-禁用，1-启用 """, dest='enabled', type=bool, required=True)),
+            (['--filter-enabled'], dict(help="""(bool) 过滤器是否启用。当appcode为custom时必填 """, dest='filterEnabled', type=bool, required=False)),
+            (['--log-custom-target'], dict(help="""(string) 自定义日志转发目的地, 只支持业务应用日志。支持类型："kafka"，"es" """, dest='logCustomTarget',  required=False)),
+            (['--log-custom-target-conf'], dict(help="""(object) 自定义日志转发目的地配置，KV 结构，具体配置参考 LogCustomTargetKafkaConf 和 LogCustomTargetEsConf """, dest='logCustomTargetConf',  required=False)),
             (['--log-file'], dict(help="""(string) 日志文件名。当appcode为custom时为必填。日志文件名支持正则表达式。 """, dest='logFile',  required=False)),
             (['--log-filters'], dict(help="""(array: string) 过滤器。设置过滤器后可根据用户设定的关键词采集部分日志，如仅采集 Error 的日志。目前最大允许5个。 """, dest='logFilters',  required=False)),
-            (['--filter-enabled'], dict(help="""(bool) 过滤器是否启用。当appcode为custom时必填 """, dest='filterEnabled',  required=False)),
+            (['--log-path'], dict(help="""(string) 日志路径。当appcode为custom时为必填。目前仅支持对 Linux 云主机上的日志进行采集，路径支持通配符“*”和“？”，文件路径应符合 Linux 的文件路径规则 """, dest='logPath',  required=False)),
+            (['--logtopic-enabled'], dict(help="""(bool) 目的地是否是日志服务logtopic，只支持业务应用日志 """, dest='logtopicEnabled', type=bool, required=False)),
+            (['--regexp-str'], dict(help="""(string) 首行正则 """, dest='regexpStr',  required=False)),
+            (['--resource-mode'], dict(help="""(int) 采集资源时选择的模式，1.正常的选择实例模式（默认模式）；2.选择标签tag模式 3.选择高可用组ag模式 """, dest='resourceMode', type=int, required=False)),
+            (['--resource-type'], dict(help="""(string) 采集实例类型, 只能是 all/part  当选择all时，传入的实例列表无效 """, dest='resourceType',  required=True)),
+            (['--resources'], dict(help="""(array: resource) 采集实例列表（存在上限限制） """, dest='resources',  required=False)),
+            (['--tag-resource'], dict(help="""(tagResource) NA """, dest='tagResource',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -116,6 +125,7 @@ class LogsController(BaseController):
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -149,8 +159,9 @@ class LogsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--collect-info-uid'], dict(help="""(string) 采集配置 UID """, dest='collectInfoUID',  required=True)),
             (['--action'], dict(help="""(string) action """, dest='action',  required=True)),
-            (['--resources'], dict(help="""(array: resource) 采集实例列表（系统日志存在上限限制20） """, dest='resources',  required=False)),
+            (['--resources'], dict(help="""(array: resource) 采集实例列表（系统日志存在上限限制） """, dest='resources',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -183,17 +194,25 @@ class LogsController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
-            (['--enabled'], dict(help="""(bool) 采集状态，0-禁用，1-启用 """, dest='enabled',  required=True)),
+            (['--ag-resource'], dict(help="""(array: agResource) 高可用组资源 """, dest='agResource',  required=False)),
             (['--app-code'], dict(help="""(string) 日志来源，只能是 custom/jdcloud """, dest='appCode',  required=True)),
-            (['--service-code'], dict(help="""(string) 产品线,当日志来源为jdcloud时，必填 """, dest='serviceCode',  required=True)),
-            (['--resource-type'], dict(help="""(string) 采集实例类型, 只能是 all/part  当选择all时，传入的实例列表无效；custom类型的采集配置目前仅支持part方式，即用户指定实例列表； """, dest='resourceType',  required=True)),
-            (['--resources'], dict(help="""(array: resource) 采集实例列表：jdcloud类型最多添加20个资源；custom类型支持的资源数量不限； """, dest='resources',  required=False)),
-            (['--template-uid'], dict(help="""(string) 日志类型。当appcode为jdcloud时为必填 """, dest='templateUID',  required=False)),
-            (['--log-path'], dict(help="""(string) 日志路径。当appcode为custom时为必填。目前仅支持对 Linux 云主机上的日志进行采集，路径支持通配符“*”和“？”，文件路径应符合 Linux 的文件路径规则 """, dest='logPath',  required=False)),
+            (['--enabled'], dict(help="""(bool) 采集状态，0-禁用，1-启用 """, dest='enabled', type=bool, required=True)),
+            (['--filter-enabled'], dict(help="""(bool) 过滤器是否启用。当appcode为custom时必填 """, dest='filterEnabled', type=bool, required=False)),
+            (['--log-custom-target'], dict(help="""(string) 自定义日志转发目的地, 只支持业务应用日志。支持类型："kafka"，"es"，默认为空:不进行自定义目的上报 """, dest='logCustomTarget',  required=False)),
+            (['--log-custom-target-conf'], dict(help="""(object) 自定义日志转发目的地配置，KV 结构，具体配置参考 LogCustomTargetKafkaConf 和 LogCustomTargetEsConf """, dest='logCustomTargetConf',  required=False)),
             (['--log-file'], dict(help="""(string) 日志文件名。当appcode为custom时为必填。日志文件名支持正则表达式。 """, dest='logFile',  required=False)),
             (['--log-filters'], dict(help="""(array: string) 过滤器。设置过滤器后可根据用户设定的关键词采集部分日志，如仅采集 Error 的日志。目前最大允许5个。 """, dest='logFilters',  required=False)),
-            (['--filter-enabled'], dict(help="""(bool) 过滤器是否启用。当appcode为custom时必填 """, dest='filterEnabled',  required=False)),
+            (['--log-path'], dict(help="""(string) 日志路径。当appcode为custom时为必填。目前仅支持对 Linux 云主机上的日志进行采集，路径支持通配符“*”和“？”，文件路径应符合 Linux 的文件路径规则 """, dest='logPath',  required=False)),
+            (['--logtopic-enabled'], dict(help="""(bool) 目的地是否是日志服务logtopic，只支持业务应用日志 """, dest='logtopicEnabled', type=bool, required=False)),
+            (['--regexp-str'], dict(help="""(string) 首行正则 """, dest='regexpStr',  required=False)),
+            (['--resource-mode'], dict(help="""(int) 采集资源时选择的模式，1.正常的选择实例模式（默认模式）；2.选择标签tag模式 3.选择高可用组ag模式 """, dest='resourceMode', type=int, required=False)),
+            (['--resource-type'], dict(help="""(string) 采集实例类型, 只能是 all/part  当选择all时，传入的实例列表无效；custom类型的采集配置目前仅支持part方式，即用户指定实例列表； """, dest='resourceType',  required=True)),
+            (['--resources'], dict(help="""(array: resource) 采集实例列表：jdcloud类型最多添加20个资源；custom类型支持的资源数量不限； """, dest='resources',  required=False)),
+            (['--service-code'], dict(help="""(string) 产品线,当日志来源为jdcloud时，必填 """, dest='serviceCode',  required=True)),
+            (['--tag-resource'], dict(help="""(tagResource) NA """, dest='tagResource',  required=False)),
+            (['--template-uid'], dict(help="""(string) 日志类型。当appcode为jdcloud时为必填 """, dest='templateUID',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -201,7 +220,7 @@ class LogsController(BaseController):
         description='''
             创建采集配置，支持基于云产品模板生成采集模板；支持用于自定义采集配置。。
 
-            示例: jdc logs create-collect-info  --logtopic-uid xxx --enabled true --app-code xxx --service-code xxx --resource-type xxx
+            示例: jdc logs create-collect-info  --logtopic-uid xxx --app-code xxx --enabled true --resource-type xxx --service-code xxx
         ''',
     )
     def create_collect_info(self):
@@ -224,63 +243,36 @@ class LogsController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) region """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) instanceId """, dest='instanceId',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--parser-fields'], dict(help="""(array: parserField) NA """, dest='parserFields',  required=True)),
+            (['--parser-mode'], dict(help="""(string) 解析类型。oneline - 单行，split - 分割， json - json， regexp - regexp """, dest='parserMode',  required=True)),
+            (['--parser-pattern'], dict(help="""(string) 解析语法 """, dest='parserPattern',  required=False)),
+            (['--parser-sample'], dict(help="""(string) 日志样例 """, dest='parserSample',  required=False)),
+            (['--pipelines'], dict(help="""(array: pipelineSpec) 预处理任务列表。按照数组的顺序执行。 """, dest='pipelines',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 返回特定有效期的证书 ''',
+        help=''' 创建日志的解析配置。 ''',
         description='''
-            返回特定有效期的证书。
+            创建日志的解析配置。。
 
-            示例: jdc logs describe-logd-ca  --instance-id xxx
+            示例: jdc logs create-parser  --logtopic-uid xxx --parser-fields ['{"":""}'] --parser-mode xxx
         ''',
     )
-    def describe_logd_ca(self):
+    def create_parser(self):
         client_factory = ClientFactory('logs')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.logs.apis.DescribeLogdCARequest import DescribeLogdCARequest
+            from jdcloud_sdk.services.logs.apis.CreateParserRequest import CreateParserRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeLogdCARequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) region """, dest='regionId',  required=False)),
-            (['--instance-id'], dict(help="""(string) instanceId """, dest='instanceId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询当前实例的采集配置列表：此接口会生成agent心跳监控数据，用以表征agent的可用性。请求中若添加了X-Jdcloud-Logs-md5的header，将按照md5的方式处理返回值。 ''',
-        description='''
-            查询当前实例的采集配置列表：此接口会生成agent心跳监控数据，用以表征agent的可用性。请求中若添加了X-Jdcloud-Logs-md5的header，将按照md5的方式处理返回值。。
-
-            示例: jdc logs describe-instance-collect-confs  --instance-id xxx
-        ''',
-    )
-    def describe_instance_collect_confs(self):
-        client_factory = ClientFactory('logs')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.logs.apis.DescribeInstanceCollectConfsRequest import DescribeInstanceCollectConfsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeInstanceCollectConfsRequest(params_dict, headers)
+            req = CreateParserRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -291,31 +283,30 @@ class LogsController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
-            (['--name'], dict(help="""(string) 日志集名称 """, dest='name',  required=False)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询日志集列表。支持按照名称进行模糊查询。结果中包含了该日志集是否存在日志主题的信息。存在日志主题的日志集不允许删除。 ''',
+        help=''' 获取解析配置 ''',
         description='''
-            查询日志集列表。支持按照名称进行模糊查询。结果中包含了该日志集是否存在日志主题的信息。存在日志主题的日志集不允许删除。。
+            获取解析配置。
 
-            示例: jdc logs describe-logsets 
+            示例: jdc logs describe-parser  --logtopic-uid xxx
         ''',
     )
-    def describe_logsets(self):
+    def describe_parser(self):
         client_factory = ClientFactory('logs')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.logs.apis.DescribeLogsetsRequest import DescribeLogsetsRequest
+            from jdcloud_sdk.services.logs.apis.DescribeParserRequest import DescribeParserRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeLogsetsRequest(params_dict, headers)
+            req = DescribeParserRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -326,31 +317,71 @@ class LogsController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) 日志集名称 """, dest='name',  required=True)),
-            (['--description'], dict(help="""(string) 日志集描述 """, dest='description',  required=False)),
-            (['--life-cycle'], dict(help="""(int) 保存周期，只能是 7， 15， 30 """, dest='lifeCycle', type=int, required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--parser-fields'], dict(help="""(array: parserField) NA """, dest='parserFields',  required=True)),
+            (['--parser-mode'], dict(help="""(string) 解析类型。oneline - 单行，split - 分割， json - json， regexp - regexp """, dest='parserMode',  required=True)),
+            (['--parser-pattern'], dict(help="""(string) 解析语法 """, dest='parserPattern',  required=False)),
+            (['--parser-sample'], dict(help="""(string) 日志样例 """, dest='parserSample',  required=False)),
+            (['--pipelines'], dict(help="""(array: pipelineSpec) 预处理任务列表。按照数组的顺序执行。 """, dest='pipelines',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建日志集。名称不可重复。 ''',
+        help=''' 更新解析配置 ''',
         description='''
-            创建日志集。名称不可重复。。
+            更新解析配置。
 
-            示例: jdc logs create-logset  --name xxx --life-cycle 0
+            示例: jdc logs update-parser  --logtopic-uid xxx --parser-fields ['{"":""}'] --parser-mode xxx
         ''',
     )
-    def create_logset(self):
+    def update_parser(self):
         client_factory = ClientFactory('logs')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.logs.apis.CreateLogsetRequest import CreateLogsetRequest
+            from jdcloud_sdk.services.logs.apis.UpdateParserRequest import UpdateParserRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateLogsetRequest(params_dict, headers)
+            req = UpdateParserRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--parser-mode'], dict(help="""(string) 解析类型。oneline - 单行，split - 分割， json - json， regexp - regexp """, dest='parserMode',  required=True)),
+            (['--parser-pattern'], dict(help="""(string) 解析语法 """, dest='parserPattern',  required=False)),
+            (['--parser-sample'], dict(help="""(string) 日志样例 """, dest='parserSample',  required=False)),
+            (['--pipelines'], dict(help="""(array: pipelineSpec) 预处理任务列表。按照数组的顺序执行。 """, dest='pipelines',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 验证日志解析语法 ''',
+        description='''
+            验证日志解析语法。
+
+            示例: jdc logs validate-parser  --parser-mode xxx
+        ''',
+    )
+    def validate_parser(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.ValidateParserRequest import ValidateParserRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ValidateParserRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -361,29 +392,36 @@ class LogsController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--logset-uid'], dict(help="""(string) 日志集ID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题ID """, dest='logtopicUID',  required=True)),
+            (['--action'], dict(help="""(string) "preview"表示预览, "fulltext"表示全文检索, "advance"表示按照搜索语句检索 """, dest='action',  required=True)),
+            (['--expr'], dict(help="""(string) Base64编码的搜索表达式, """, dest='expr',  required=False)),
+            (['--case-sensitive'], dict(help="""(bool) 搜索关键字大小写敏感， 默认false """, dest='caseSensitive', type=bool, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间。格式 “YYYY-MM-DDThh:mm:ssTZD”, 比如 “2018-11-09T15:34:46+0800”.当action != preview时，必填 """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 结束时间。格式 “YYYY-MM-DDThh:mm:ssTZD”, 比如 “2018-11-09T15:34:46+0800”.当action != preview时，必填 """, dest='endTime',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询日志集详情。 ''',
+        help=''' 日志检索结果直方图 ''',
         description='''
-            查询日志集详情。。
+            日志检索结果直方图。
 
-            示例: jdc logs describe-logset  --logset-uid xxx
+            示例: jdc logs histograms  --logset-uid xxx --logtopic-uid xxx --action xxx
         ''',
     )
-    def describe_logset(self):
+    def histograms(self):
         client_factory = ClientFactory('logs')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.logs.apis.DescribeLogsetRequest import DescribeLogsetRequest
+            from jdcloud_sdk.services.logs.apis.HistogramsRequest import HistogramsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeLogsetRequest(params_dict, headers)
+            req = HistogramsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -394,31 +432,37 @@ class LogsController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
-            (['--description'], dict(help="""(string) 日志集描述 """, dest='description',  required=False)),
-            (['--life-cycle'], dict(help="""(int) 保存周期，只能是 7， 15， 30 """, dest='lifeCycle', type=int, required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集ID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题ID """, dest='logtopicUID',  required=True)),
+            (['--task-id'], dict(help="""(string) 扫描任务ID。 第一次调用传入空值即可。后续调用需传入该任务ID，以连续读取剩余日志。 """, dest='taskID',  required=False)),
+            (['--expr'], dict(help="""(string) Base64编码的搜索表达式, """, dest='expr',  required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间。格式 “YYYY-MM-DDThh:mm:ssTZD”, 比如 “2018-11-09T15:34:46+0800”.必填 """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 结束时间。格式 “YYYY-MM-DDThh:mm:ssTZD”, 比如 “2018-11-09T15:34:46+0800”.必填 """, dest='endTime',  required=False)),
+            (['--sort'], dict(help="""(string) 返回排序,不填或者为空，默认为desc，"asc":按照时间正序返回结果，"desc":按照时间倒序返回结果 """, dest='sort',  required=False)),
+            (['--filters'], dict(help="""(array: filter) 指定返回字段，只对系统日志生效，不填默认按照产品线配置返回字段，Name支持：key，Values填入返回字段 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 更新日志集。日志集名称不可更新。 ''',
+        help=''' 扫描日志 ''',
         description='''
-            更新日志集。日志集名称不可更新。。
+            扫描日志。
 
-            示例: jdc logs update-logset  --logset-uid xxx
+            示例: jdc logs get-logs  --logset-uid xxx --logtopic-uid xxx
         ''',
     )
-    def update_logset(self):
+    def get_logs(self):
         client_factory = ClientFactory('logs')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.logs.apis.UpdateLogsetRequest import UpdateLogsetRequest
+            from jdcloud_sdk.services.logs.apis.GetLogsRequest import GetLogsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateLogsetRequest(params_dict, headers)
+            req = GetLogsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -429,29 +473,40 @@ class LogsController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--logset-uids'], dict(help="""(string) 日志集ID，多个日志集ID以逗号分割 """, dest='logsetUIDs',  required=True)),
+            (['--logset-uid'], dict(help="""(string) 日志集ID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题ID """, dest='logtopicUID',  required=True)),
+            (['--action'], dict(help="""(string) "preview"表示预览, "fulltext"表示全文检索, "advance"表示按照搜索语句检索 """, dest='action',  required=True)),
+            (['--expr'], dict(help="""(string) Base64编码的搜索表达式, """, dest='expr',  required=False)),
+            (['--case-sensitive'], dict(help="""(bool) 搜索关键字大小写敏感， 默认false """, dest='caseSensitive', type=bool, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间。格式 “YYYY-MM-DDThh:mm:ssTZD”, 比如 “2018-11-09T15:34:46+0800”.当action != preview时，必填 """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 结束时间。格式 “YYYY-MM-DDThh:mm:ssTZD”, 比如 “2018-11-09T15:34:46+0800”.当action != preview时，必填 """, dest='endTime',  required=False)),
+            (['--page-number'], dict(help="""(int) 页数。 最小为1，最大为99 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 每页个数。默认为10，最大100 """, dest='pageSize', type=int, required=False)),
+            (['--sort'], dict(help="""(string) 返回排序,不填或者为空，默认为desc，"asc":按照时间正序返回结果，"desc":按照时间倒序返回结果 """, dest='sort',  required=False)),
+            (['--filters'], dict(help="""(array: filter) 指定返回字段，只对系统日志生效，不填默认按照产品线配置返回字段，Name支持：key，Values填入返回字段 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除日志集,删除多个日志集时，任意的日志集包含了日志主题的，将导致全部删除失败。 ''',
+        help=''' 搜索日志 ''',
         description='''
-            删除日志集,删除多个日志集时，任意的日志集包含了日志主题的，将导致全部删除失败。。
+            搜索日志。
 
-            示例: jdc logs delete-logset  --logset-uids xxx
+            示例: jdc logs search  --logset-uid xxx --logtopic-uid xxx --action xxx
         ''',
     )
-    def delete_logset(self):
+    def search(self):
         client_factory = ClientFactory('logs')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.logs.apis.DeleteLogsetRequest import DeleteLogsetRequest
+            from jdcloud_sdk.services.logs.apis.SearchRequest import SearchRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteLogsetRequest(params_dict, headers)
+            req = SearchRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -466,7 +521,9 @@ class LogsController(BaseController):
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
             (['--name'], dict(help="""(string) 日志主题名称 """, dest='name',  required=False)),
+            (['--app-name'], dict(help="""(string) 日志主题采集的日志类型 """, dest='appName',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -502,6 +559,7 @@ class LogsController(BaseController):
             (['--name'], dict(help="""(string) 日志主题名称 """, dest='name',  required=True)),
             (['--description'], dict(help="""(string) 日志集描述 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -536,6 +594,7 @@ class LogsController(BaseController):
             (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
             (['--logtopic-uids'], dict(help="""(string) 日志主题ID，多个日志主题ID以逗号分割 """, dest='logtopicUIDs',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -569,6 +628,7 @@ class LogsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -603,6 +663,7 @@ class LogsController(BaseController):
             (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
             (['--description'], dict(help="""(string) 日志主题描述 """, dest='description',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -633,33 +694,41 @@ class LogsController(BaseController):
 
     @expose(
         arguments=[
-            (['--logtopic-uid'], dict(help="""(string) 日志主题uid """, dest='logtopicUID',  required=True)),
-            (['--stream'], dict(help="""(string) 全局 strean 日志流标识符（建议起能唯一界定一个文件的名字，如 /i-iqnvqpinkjiq/app.log），不传则写入default日志流中（会导致很多文件混合在一起，不推荐） """, dest='stream',  required=False)),
-            (['--timestamp'], dict(help="""(string) 全局时间戳，UTC格式，最多支持到纳秒级别，不传入则取服务器时间。如 2019-04-08T03:08:04.437670934Z、2019-04-08T03:08:04Z、2019-04-08T03:08:04.123Z """, dest='timestamp',  required=False)),
-            (['--tags'], dict(help="""(object) 全局标签 map[string]string """, dest='tags',  required=False)),
-            (['--entries'], dict(help="""(array: entry) 日志数据 """, dest='entries',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--aggregate'], dict(help="""(string) 聚合函数,支持 count sum max min avg; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='aggregate',  required=False)),
+            (['--content'], dict(help="""(array: string) 测试内容 """, dest='content',  required=False)),
+            (['--data-field'], dict(help="""(string) 查询字段,支持 英文字母 数字 下划线 中划线 点（中文日志原文和各产品线的key）; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='dataField',  required=False)),
+            (['--filter-content'], dict(help="""(string) 过滤语法，可以为空 """, dest='filterContent',  required=False)),
+            (['--filter-open'], dict(help="""(string) 是否打开过滤; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='filterOpen',  required=False)),
+            (['--filter-type'], dict(help="""(string) 过滤类型，只能是fulltext和 advance; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='filterType',  required=False)),
+            (['--metric'], dict(help="""(string) 监控项 , 支持大小写英文字母 下划线 数字 点，且不超过255byte（不支持中划线）; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='metric',  required=False)),
+            (['--setting-type'], dict(help="""(string) 配置方式: 可选参数；枚举值 visual，sql；分别代表可视化配置及sql配置方式，传空表示可视化配置； """, dest='settingType',  required=False)),
+            (['--sql-spec'], dict(help="""(metricTaskSqlSpec) NA """, dest='sqlSpec',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 自定义日志上报。 ''',
+        help=''' 日志测试，根据用户输入的日志筛选条件以及监控指标设置进行模拟监控统计 ''',
         description='''
-            自定义日志上报。。
+            日志测试，根据用户输入的日志筛选条件以及监控指标设置进行模拟监控统计。
 
-            示例: jdc logs put  --logtopic-uid xxx --entries ['{"":""}']
+            示例: jdc logs test-metric-task  --logset-uid xxx --logtopic-uid xxx
         ''',
     )
-    def put(self):
+    def test_metric_task(self):
         client_factory = ClientFactory('logs')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.logs.apis.PutRequest import PutRequest
+            from jdcloud_sdk.services.logs.apis.TestMetricTaskRequest import TestMetricTaskRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = PutRequest(params_dict, headers)
+            req = TestMetricTaskRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -672,34 +741,31 @@ class LogsController(BaseController):
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
             (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
             (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
-            (['--anchor'], dict(help="""(array: object) 查询anchor,基于该值偏移进行上下文检索 """, dest='anchor',  required=True)),
-            (['--direction'], dict(help="""(string) 搜索方向,默认both,可取值:up,down,both """, dest='direction',  required=False)),
-            (['--filters'], dict(help="""(array: filter) 指定返回字段，只对系统日志生效，不填默认按照产品线配置返回字段，Name支持：key，Values填入返回字段 """, dest='filters',  required=False)),
-            (['--id'], dict(help="""(string) 日志记录ID """, dest='id',  required=True)),
-            (['--line-size'], dict(help="""(int) 查看上下文行数大小，最大支持200 """, dest='lineSize', type=int, required=True)),
-            (['--time'], dict(help="""(int) 查询日志时返回的时间戳 """, dest='time', type=int, required=True)),
+            (['--page-number'], dict(help="""(int) 当前所在页，默认为1; in: query """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100]; in: query """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 搜索日志上下文 ''',
+        help=''' 查询监控任务列表，返回该主题下的所有监控任务信息。 ''',
         description='''
-            搜索日志上下文。
+            查询监控任务列表，返回该主题下的所有监控任务信息。。
 
-            示例: jdc logs search-log-context  --logset-uid xxx --logtopic-uid xxx --anchor ['{"":""}'] --id xxx --line-size 0 --time 0
+            示例: jdc logs describe-metric-tasks  --logset-uid xxx --logtopic-uid xxx
         ''',
     )
-    def search_log_context(self):
+    def describe_metric_tasks(self):
         client_factory = ClientFactory('logs')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.logs.apis.SearchLogContextRequest import SearchLogContextRequest
+            from jdcloud_sdk.services.logs.apis.DescribeMetricTasksRequest import DescribeMetricTasksRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = SearchLogContextRequest(params_dict, headers)
+            req = DescribeMetricTasksRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -710,39 +776,43 @@ class LogsController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
-            (['--logset-uid'], dict(help="""(string) 日志集ID """, dest='logsetUID',  required=True)),
-            (['--logtopic-uid'], dict(help="""(string) 日志主题ID """, dest='logtopicUID',  required=True)),
-            (['--action'], dict(help="""(string) "preview"表示预览, "fulltext"表示全文检索, "advance"表示按照搜索语句检索 """, dest='action',  required=True)),
-            (['--expr'], dict(help="""(string) Base64编码的搜索表达式, """, dest='expr',  required=False)),
-            (['--case-sensitive'], dict(help="""(bool) 搜索关键字大小写敏感， 默认false """, dest='caseSensitive',  required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间。格式 “YYYY-MM-DDThh:mm:ssTZD”, 比如 “2018-11-09T15:34:46+0800” 当action != preview时，必填 """, dest='startTime',  required=False)),
-            (['--end-time'], dict(help="""(string) 结束时间。格式 “YYYY-MM-DDThh:mm:ssTZD”, 比如 “2018-11-09T15:34:46+0800” 当action != preview时，必填 """, dest='endTime',  required=False)),
-            (['--page-number'], dict(help="""(int) 页数。 最小为1，最大为99 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 每页个数。默认为10，最大100 """, dest='pageSize', type=int, required=False)),
-            (['--sort'], dict(help="""(string) 返回排序,不填或者为空，默认为desc，"asc":按照时间正序返回结果，"desc":按照时间倒序返回结果 """, dest='sort',  required=False)),
-            (['--filters'], dict(help="""(array: filter) 指定返回字段，只对系统日志生效，不填默认按照产品线配置返回字段，Name支持：key，Values填入返回字段 """, dest='filters',  required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--aggregate'], dict(help="""(string) 聚合函数,支持 count sum max min avg; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='aggregate',  required=False)),
+            (['--custom-unit'], dict(help="""(string) 自定义单位 """, dest='customUnit',  required=True)),
+            (['--data-field'], dict(help="""(string) 查询字段,支持 英文字母 数字 下划线 中划线 点（中文日志原文和各产品线的key）; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='dataField',  required=False)),
+            (['--filter-content'], dict(help="""(string) 过滤语法，可以为空 """, dest='filterContent',  required=False)),
+            (['--filter-open'], dict(help="""(string) 是否打开过滤; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='filterOpen',  required=False)),
+            (['--filter-type'], dict(help="""(string) 过滤类型，只能是fulltext和 advance; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='filterType',  required=False)),
+            (['--interval'], dict(help="""(int) 时间周期，固定60s """, dest='interval', type=int, required=True)),
+            (['--metric'], dict(help="""(string) 监控项 , 支持大小写英文字母 下划线 数字 点，且不超过255byte（不支持中划线）; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='metric',  required=False)),
+            (['--name'], dict(help="""(string) 监控任务名称,同一个日志主题下唯一，支持中文 大小写英文字母 下划线 中划线 数字，且不超过32字符 """, dest='name',  required=True)),
+            (['--setting-type'], dict(help="""(string) 配置方式: 可选参数；枚举值 visual，sql；分别代表可视化配置及sql配置方式，传空表示可视化配置； """, dest='settingType',  required=False)),
+            (['--sql-spec'], dict(help="""(metricTaskSqlSpec) NA """, dest='sqlSpec',  required=False)),
+            (['--unit'], dict(help="""(string) 单位 """, dest='unit',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 搜索日志 ''',
+        help=''' 创建监控任务，不可与当前日志主题下现有日志监控任务重名。 ''',
         description='''
-            搜索日志。
+            创建监控任务，不可与当前日志主题下现有日志监控任务重名。。
 
-            示例: jdc logs search  --logset-uid xxx --logtopic-uid xxx --action xxx
+            示例: jdc logs create-metric-task  --logset-uid xxx --logtopic-uid xxx --custom-unit xxx --interval 5 --name xxx --unit xxx
         ''',
     )
-    def search(self):
+    def create_metric_task(self):
         client_factory = ClientFactory('logs')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.logs.apis.SearchRequest import SearchRequest
+            from jdcloud_sdk.services.logs.apis.CreateMetricTaskRequest import CreateMetricTaskRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = SearchRequest(params_dict, headers)
+            req = CreateMetricTaskRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -752,7 +822,447 @@ class LogsController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-collect-info','update-collect-info','describe-collect-resources','update-collect-resources','create-collect-info','describe-logd-ca','describe-instance-collect-confs','describe-logsets','create-logset','describe-logset','update-logset','delete-logset','describe-logtopics','create-logtopic','delete-logtopic','describe-logtopic','update-logtopic','put','search-log-context','search',], required=True)),
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--logmetrictask-uid'], dict(help="""(string) NA """, dest='logmetrictaskUID',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询指定监控任务的详情信息 ''',
+        description='''
+            查询指定监控任务的详情信息。
+
+            示例: jdc logs describe-metric-task  --logset-uid xxx --logtopic-uid xxx --logmetrictask-uid xxx
+        ''',
+    )
+    def describe_metric_task(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.DescribeMetricTaskRequest import DescribeMetricTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeMetricTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--logmetrictask-uid'], dict(help="""(string) NA """, dest='logmetrictaskUID',  required=True)),
+            (['--aggregate'], dict(help="""(string) 聚合函数,支持 count sum max min avg; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='aggregate',  required=False)),
+            (['--custom-unit'], dict(help="""(string) 自定义单位 """, dest='customUnit',  required=True)),
+            (['--data-field'], dict(help="""(string) 查询字段,支持 英文字母 数字 下划线 中划线 点（中文日志原文和各产品线的key）; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='dataField',  required=False)),
+            (['--filter-content'], dict(help="""(string) 过滤语法，可以为空 """, dest='filterContent',  required=False)),
+            (['--filter-open'], dict(help="""(string) 是否打开过滤; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='filterOpen',  required=False)),
+            (['--filter-type'], dict(help="""(string) 过滤类型，只能是fulltext和 advance; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='filterType',  required=False)),
+            (['--metric'], dict(help="""(string) 监控项 , 支持大小写英文字母 下划线 数字 点，且不超过255byte（不支持中划线）; 配置方式(SettingType) 为 空或visual 时，必填； """, dest='metric',  required=False)),
+            (['--name'], dict(help="""(string) 监控任务名称,同一日志主题下唯一，支持中文 大小写英文字母 下划线 中划线 数字，且不超过32 """, dest='name',  required=True)),
+            (['--setting-type'], dict(help="""(string) 配置方式: 可选参数；枚举值 visual，sql；分别代表可视化配置及sql配置方式，传空表示可视化配置； """, dest='settingType',  required=False)),
+            (['--sql-spec'], dict(help="""(metricTaskSqlSpec) NA """, dest='sqlSpec',  required=False)),
+            (['--unit'], dict(help="""(string) 单位 """, dest='unit',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 更新监控任务，日志监控任务不许重名。 ''',
+        description='''
+            更新监控任务，日志监控任务不许重名。。
+
+            示例: jdc logs update-metric-task  --logset-uid xxx --logtopic-uid xxx --logmetrictask-uid xxx --custom-unit xxx --name xxx --unit xxx
+        ''',
+    )
+    def update_metric_task(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.UpdateMetricTaskRequest import UpdateMetricTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateMetricTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--logmetrictask-uid'], dict(help="""(string) NA """, dest='logmetrictaskUID',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除指定监控任务。 ''',
+        description='''
+            删除指定监控任务。。
+
+            示例: jdc logs delete-metric-task  --logset-uid xxx --logtopic-uid xxx --logmetrictask-uid xxx
+        ''',
+    )
+    def delete_metric_task(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.DeleteMetricTaskRequest import DeleteMetricTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteMetricTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--parser-fields'], dict(help="""(array: parserField) NA """, dest='parserFields',  required=True)),
+            (['--parser-mode'], dict(help="""(string) 解析类型。oneline - 单行，split - 分割， json - json， regexp - regexp """, dest='parserMode',  required=True)),
+            (['--parser-pattern'], dict(help="""(string) 解析语法 """, dest='parserPattern',  required=False)),
+            (['--parser-sample'], dict(help="""(string) 日志样例 """, dest='parserSample',  required=False)),
+            (['--pipelines'], dict(help="""(array: pipelineSpec) 预处理任务列表。按照数组的顺序执行。 """, dest='pipelines',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建日志的解析配置。 ''',
+        description='''
+            创建日志的解析配置。。
+
+            示例: jdc logs create-parser  --logtopic-uid xxx --parser-fields ['{"":""}'] --parser-mode xxx
+        ''',
+    )
+    def create_parser(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.CreateParserRequest import CreateParserRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateParserRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 日志消费信息 ''',
+        description='''
+            日志消费信息。
+
+            示例: jdc logs describe-subscribe  --logset-uid xxx --logtopic-uid xxx
+        ''',
+    )
+    def describe_subscribe(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.DescribeSubscribeRequest import DescribeSubscribeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSubscribeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建日志消费 ''',
+        description='''
+            创建日志消费。
+
+            示例: jdc logs create-subscribe  --logset-uid xxx --logtopic-uid xxx
+        ''',
+    )
+    def create_subscribe(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.CreateSubscribeRequest import CreateSubscribeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateSubscribeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--logtopic-uid'], dict(help="""(string) 日志主题 UID """, dest='logtopicUID',  required=True)),
+            (['--status'], dict(help="""(int) 日志订阅状态，0表示未创建，1表示刚创建，2表示开启，3表示关闭 """, dest='status', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 更新日志消费 ''',
+        description='''
+            更新日志消费。
+
+            示例: jdc logs update-subscribe  --logset-uid xxx --logtopic-uid xxx
+        ''',
+    )
+    def update_subscribe(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.UpdateSubscribeRequest import UpdateSubscribeRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateSubscribeRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
+            (['--name'], dict(help="""(string) 日志集名称 """, dest='name',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询日志集列表。支持按照名称进行模糊查询。结果中包含了该日志集是否存在日志主题的信息。存在日志主题的日志集不允许删除。 ''',
+        description='''
+            查询日志集列表。支持按照名称进行模糊查询。结果中包含了该日志集是否存在日志主题的信息。存在日志主题的日志集不允许删除。。
+
+            示例: jdc logs describe-logsets 
+        ''',
+    )
+    def describe_logsets(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.DescribeLogsetsRequest import DescribeLogsetsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLogsetsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) 日志集名称 """, dest='name',  required=True)),
+            (['--description'], dict(help="""(string) 日志集描述 """, dest='description',  required=False)),
+            (['--life-cycle'], dict(help="""(int) 保存周期，只能是 7， 15， 30 """, dest='lifeCycle', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建日志集。名称不可重复。 ''',
+        description='''
+            创建日志集。名称不可重复。。
+
+            示例: jdc logs create-logset  --name xxx --life-cycle 5
+        ''',
+    )
+    def create_logset(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.CreateLogsetRequest import CreateLogsetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateLogsetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询日志集详情。 ''',
+        description='''
+            查询日志集详情。。
+
+            示例: jdc logs describe-logset  --logset-uid xxx
+        ''',
+    )
+    def describe_logset(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.DescribeLogsetRequest import DescribeLogsetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeLogsetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logset-uid'], dict(help="""(string) 日志集 UID """, dest='logsetUID',  required=True)),
+            (['--description'], dict(help="""(string) 日志集描述 """, dest='description',  required=False)),
+            (['--life-cycle'], dict(help="""(int) 保存周期，只能是 7， 15， 30 """, dest='lifeCycle', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 更新日志集。日志集名称不可更新。 ''',
+        description='''
+            更新日志集。日志集名称不可更新。。
+
+            示例: jdc logs update-logset  --logset-uid xxx
+        ''',
+    )
+    def update_logset(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.UpdateLogsetRequest import UpdateLogsetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateLogsetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域 Id """, dest='regionId',  required=False)),
+            (['--logset-uids'], dict(help="""(string) 日志集ID，多个日志集ID以逗号分割 """, dest='logsetUIDs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除日志集,删除多个日志集时，任意的日志集包含了日志主题的，将导致全部删除失败。 ''',
+        description='''
+            删除日志集,删除多个日志集时，任意的日志集包含了日志主题的，将导致全部删除失败。。
+
+            示例: jdc logs delete-logset  --logset-uids xxx
+        ''',
+    )
+    def delete_logset(self):
+        client_factory = ClientFactory('logs')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.logs.apis.DeleteLogsetRequest import DeleteLogsetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteLogsetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-collect-info','update-collect-info','describe-collect-resources','update-collect-resources','create-collect-info','create-parser','describe-parser','update-parser','validate-parser','histograms','get-logs','search','describe-logtopics','create-logtopic','delete-logtopic','describe-logtopic','update-logtopic','test-metric-task','describe-metric-tasks','create-metric-task','describe-metric-task','update-metric-task','delete-metric-task','create-parser','describe-subscribe','create-subscribe','update-subscribe','describe-logsets','create-logset','describe-logset','update-logset','delete-logset',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

@@ -38,30 +38,30 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--sub-user'], dict(help="""(string) 子用户名称 """, dest='subUser',  required=True)),
-            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
+            (['--create-sub-user-info'], dict(help="""(createSubUserInfo) 子用户信息 """, dest='createSubUserInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 启用子用户AccessKey ''',
+        help=''' 创建子用户 ''',
         description='''
-            启用子用户AccessKey。
+            创建子用户。
 
-            示例: jdc iam enable-sub-user-access-key  --sub-user xxx --access-key xxx
+            示例: jdc iam create-sub-user  --create-sub-user-info '{"":""}'
         ''',
     )
-    def enable_sub_user_access_key(self):
+    def create_sub_user(self):
         client_factory = ClientFactory('iam')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iam.apis.EnableSubUserAccessKeyRequest import EnableSubUserAccessKeyRequest
+            from jdcloud_sdk.services.iam.apis.CreateSubUserRequest import CreateSubUserRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = EnableSubUserAccessKeyRequest(params_dict, headers)
+            req = CreateSubUserRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -71,30 +71,30 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--sub-user'], dict(help="""(string) 子用户名称 """, dest='subUser',  required=True)),
-            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
+            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 禁用子用户的AccessKey ''',
+        help=''' 查询子用户信息 ''',
         description='''
-            禁用子用户的AccessKey。
+            查询子用户信息。
 
-            示例: jdc iam disable-sub-user-access-key  --sub-user xxx --access-key xxx
+            示例: jdc iam describe-sub-user  --sub-user xxx
         ''',
     )
-    def disable_sub_user_access_key(self):
+    def describe_sub_user(self):
         client_factory = ClientFactory('iam')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iam.apis.DisableSubUserAccessKeyRequest import DisableSubUserAccessKeyRequest
+            from jdcloud_sdk.services.iam.apis.DescribeSubUserRequest import DescribeSubUserRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DisableSubUserAccessKeyRequest(params_dict, headers)
+            req = DescribeSubUserRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -104,30 +104,31 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--sub-user'], dict(help="""(string) 子用户名称 """, dest='subUser',  required=True)),
-            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
+            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
+            (['--update-sub-user-info'], dict(help="""(updateSubUserInfo) 子用户信息 """, dest='updateSubUserInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除子用户的AccessKey ''',
+        help=''' 修改子用户信息 ''',
         description='''
-            删除子用户的AccessKey。
+            修改子用户信息。
 
-            示例: jdc iam delete-sub-user-access-key  --sub-user xxx --access-key xxx
+            示例: jdc iam update-sub-user  --sub-user xxx --update-sub-user-info '{"":""}'
         ''',
     )
-    def delete_sub_user_access_key(self):
+    def update_sub_user(self):
         client_factory = ClientFactory('iam')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iam.apis.DeleteSubUserAccessKeyRequest import DeleteSubUserAccessKeyRequest
+            from jdcloud_sdk.services.iam.apis.UpdateSubUserRequest import UpdateSubUserRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteSubUserAccessKeyRequest(params_dict, headers)
+            req = UpdateSubUserRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -137,160 +138,30 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--create-group-info'], dict(help="""(createGroupInfo) NA """, dest='createGroupInfo',  required=True)),
+            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建用户组 ''',
+        help=''' 删除子用户信息 ''',
         description='''
-            创建用户组。
+            删除子用户信息。
 
-            示例: jdc iam create-group  --create-group-info '{"":""}'
+            示例: jdc iam delete-sub-user  --sub-user xxx
         ''',
     )
-    def create_group(self):
+    def delete_sub_user(self):
         client_factory = ClientFactory('iam')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iam.apis.CreateGroupRequest import CreateGroupRequest
+            from jdcloud_sdk.services.iam.apis.DeleteSubUserRequest import DeleteSubUserRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询用户组详情 ''',
-        description='''
-            查询用户组详情。
-
-            示例: jdc iam describe-group  --group-name xxx
-        ''',
-    )
-    def describe_group(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DescribeGroupRequest import DescribeGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
-            (['--update-group-info'], dict(help="""(updateGroupInfo) NA """, dest='updateGroupInfo',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改用户组 ''',
-        description='''
-            修改用户组。
-
-            示例: jdc iam update-group  --group-name xxx --update-group-info '{"":""}'
-        ''',
-    )
-    def update_group(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.UpdateGroupRequest import UpdateGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除用户组 ''',
-        description='''
-            删除用户组。
-
-            示例: jdc iam delete-group  --group-name xxx
-        ''',
-    )
-    def delete_group(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DeleteGroupRequest import DeleteGroupRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteGroupRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
-            (['--page-number'], dict(help="""(int) 页码，默认1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认50，取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询用户组内的子用户列表  ''',
-        description='''
-            查询用户组内的子用户列表 。
-
-            示例: jdc iam describe-group-sub-users  --group-name xxx
-        ''',
-    )
-    def describe_group_sub_users(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DescribeGroupSubUsersRequest import DescribeGroupSubUsersRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeGroupSubUsersRequest(params_dict, headers)
+            req = DeleteSubUserRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -305,27 +176,28 @@ class IamController(BaseController):
             (['--keyword'], dict(help="""(string) 关键字 """, dest='keyword',  required=False)),
             (['--sort'], dict(help="""(int) 排序规则：0-创建时间顺序排序，1-创建时间倒序排序 """, dest='sort', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询用户组列表 ''',
+        help=''' 查询子用户列表 ''',
         description='''
-            查询用户组列表。
+            查询子用户列表。
 
-            示例: jdc iam describe-groups 
+            示例: jdc iam describe-sub-users 
         ''',
     )
-    def describe_groups(self):
+    def describe_sub_users(self):
         client_factory = ClientFactory('iam')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iam.apis.DescribeGroupsRequest import DescribeGroupsRequest
+            from jdcloud_sdk.services.iam.apis.DescribeSubUsersRequest import DescribeSubUsersRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeGroupsRequest(params_dict, headers)
+            req = DescribeSubUsersRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -335,128 +207,30 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 列举用户组的策略 ''',
-        description='''
-            列举用户组的策略。
-
-            示例: jdc iam describe-attached-group-policies  --group-name xxx
-        ''',
-    )
-    def describe_attached_group_policies(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DescribeAttachedGroupPoliciesRequest import DescribeAttachedGroupPoliciesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAttachedGroupPoliciesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
-            (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 为用户组解绑策略 ''',
-        description='''
-            为用户组解绑策略。
-
-            示例: jdc iam detach-group-policy  --group-name xxx --policy-name xxx
-        ''',
-    )
-    def detach_group_policy(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DetachGroupPolicyRequest import DetachGroupPolicyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DetachGroupPolicyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
-            (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 为用户组绑定策略 ''',
-        description='''
-            为用户组绑定策略。
-
-            示例: jdc iam attach-group-policy  --group-name xxx --policy-name xxx
-        ''',
-    )
-    def attach_group_policy(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.AttachGroupPolicyRequest import AttachGroupPolicyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = AttachGroupPolicyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
             (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 将子用户从组中删除 ''',
+        help=''' 查询子用户所属的所有组 ''',
         description='''
-            将子用户从组中删除。
+            查询子用户所属的所有组。
 
-            示例: jdc iam remove-sub-user-from-group  --group-name xxx --sub-user xxx
+            示例: jdc iam describe-sub-user-groups  --sub-user xxx
         ''',
     )
-    def remove_sub_user_from_group(self):
+    def describe_sub_user_groups(self):
         client_factory = ClientFactory('iam')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iam.apis.RemoveSubUserFromGroupRequest import RemoveSubUserFromGroupRequest
+            from jdcloud_sdk.services.iam.apis.DescribeSubUserGroupsRequest import DescribeSubUserGroupsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = RemoveSubUserFromGroupRequest(params_dict, headers)
+            req = DescribeSubUserGroupsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -466,30 +240,98 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
             (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加子用户到用户组中 ''',
+        help=''' 查询子用户绑定的策略列表 ''',
         description='''
-            添加子用户到用户组中。
+            查询子用户绑定的策略列表。
 
-            示例: jdc iam add-sub-user-to-group  --group-name xxx --sub-user xxx
+            示例: jdc iam describe-attached-sub-user-policies  --sub-user xxx
         ''',
     )
-    def add_sub_user_to_group(self):
+    def describe_attached_sub_user_policies(self):
         client_factory = ClientFactory('iam')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.iam.apis.AddSubUserToGroupRequest import AddSubUserToGroupRequest
+            from jdcloud_sdk.services.iam.apis.DescribeAttachedSubUserPoliciesRequest import DescribeAttachedSubUserPoliciesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = AddSubUserToGroupRequest(params_dict, headers)
+            req = DescribeAttachedSubUserPoliciesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
+            (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 为子用户解绑策略 ''',
+        description='''
+            为子用户解绑策略。
+
+            示例: jdc iam detach-sub-user-policy  --sub-user xxx --policy-name xxx
+        ''',
+    )
+    def detach_sub_user_policy(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DetachSubUserPolicyRequest import DetachSubUserPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DetachSubUserPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
+            (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 为子用户绑定策略 ''',
+        description='''
+            为子用户绑定策略。
+
+            示例: jdc iam attach-sub-user-policy  --sub-user xxx --policy-name xxx
+        ''',
+    )
+    def attach_sub_user_policy(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.AttachSubUserPolicyRequest import AttachSubUserPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AttachSubUserPolicyRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -502,6 +344,7 @@ class IamController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--create-permission-info'], dict(help="""(createPermissionInfo) 权限信息 """, dest='createPermissionInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -535,6 +378,7 @@ class IamController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--permission-id'], dict(help="""(int) 权限id """, dest='permissionId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -569,6 +413,7 @@ class IamController(BaseController):
             (['--permission-id'], dict(help="""(int) 权限id """, dest='permissionId', type=int, required=True)),
             (['--update-permission-info'], dict(help="""(updatePermissionInfo) 权限信息 """, dest='updatePermissionInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -605,6 +450,7 @@ class IamController(BaseController):
             (['--keyword'], dict(help="""(string) 关键字 """, dest='keyword',  required=False)),
             (['--query-type'], dict(help="""(int) 权限类型,0-全部，1-系统权限，2-自定义权限 """, dest='queryType', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -612,7 +458,7 @@ class IamController(BaseController):
         description='''
             查询策略列表。
 
-            示例: jdc iam describe-permissions  --page-number 0 --page-size 0 --query-type 0
+            示例: jdc iam describe-permissions  --page-number 5 --page-size 5 --query-type 5
         ''',
     )
     def describe_permissions(self):
@@ -640,6 +486,7 @@ class IamController(BaseController):
             (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=True)),
             (['--page-size'], dict(help="""(int) 每页显示数目 """, dest='pageSize', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -647,7 +494,7 @@ class IamController(BaseController):
         description='''
             查询子用户策略列表。
 
-            示例: jdc iam describe-sub-user-permissions  --sub-user xxx --page-number 0 --page-size 0
+            示例: jdc iam describe-sub-user-permissions  --sub-user xxx --page-number 5 --page-size 5
         ''',
     )
     def describe_sub_user_permissions(self):
@@ -674,6 +521,7 @@ class IamController(BaseController):
             (['--sub-user'], dict(help="""(string) 子用户用户名 """, dest='subUser',  required=True)),
             (['--add-permissions-info'], dict(help="""(addPermissionsInfo) 权限信息 """, dest='addPermissionsInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -708,6 +556,7 @@ class IamController(BaseController):
             (['--permission-id'], dict(help="""(int) 权限id """, dest='permissionId', type=int, required=True)),
             (['--sub-user'], dict(help="""(string) 子用户用户名 """, dest='subUser',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -738,8 +587,111 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
+            (['--sub-user'], dict(help="""(string) 子用户名称 """, dest='subUser',  required=True)),
+            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启用子用户AccessKey ''',
+        description='''
+            启用子用户AccessKey。
+
+            示例: jdc iam enable-sub-user-access-key  --sub-user xxx --access-key xxx
+        ''',
+    )
+    def enable_sub_user_access_key(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.EnableSubUserAccessKeyRequest import EnableSubUserAccessKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableSubUserAccessKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--sub-user'], dict(help="""(string) 子用户名称 """, dest='subUser',  required=True)),
+            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 禁用子用户的AccessKey ''',
+        description='''
+            禁用子用户的AccessKey。
+
+            示例: jdc iam disable-sub-user-access-key  --sub-user xxx --access-key xxx
+        ''',
+    )
+    def disable_sub_user_access_key(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DisableSubUserAccessKeyRequest import DisableSubUserAccessKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableSubUserAccessKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--sub-user'], dict(help="""(string) 子用户名称 """, dest='subUser',  required=True)),
+            (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除子用户的AccessKey ''',
+        description='''
+            删除子用户的AccessKey。
+
+            示例: jdc iam delete-sub-user-access-key  --sub-user xxx --access-key xxx
+        ''',
+    )
+    def delete_sub_user_access_key(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DeleteSubUserAccessKeyRequest import DeleteSubUserAccessKeyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSubUserAccessKeyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--create-policy-info'], dict(help="""(createPolicyInfo) 策略信息 """, dest='createPolicyInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -772,6 +724,7 @@ class IamController(BaseController):
         arguments=[
             (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -805,6 +758,7 @@ class IamController(BaseController):
             (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
             (['--update-policy-info'], dict(help="""(updatePolicyInfo) 策略文档信息 """, dest='updatePolicyInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -837,6 +791,7 @@ class IamController(BaseController):
         arguments=[
             (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -870,6 +825,7 @@ class IamController(BaseController):
             (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
             (['--update-policy-description-info'], dict(help="""(updatePolicyDescriptionInfo) 策略描述信息 """, dest='updatePolicyDescriptionInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -906,6 +862,7 @@ class IamController(BaseController):
             (['--query-type'], dict(help="""(int) 策略类型：0-全部（默认），1-系统策略，2-自定义策略 """, dest='queryType', type=int, required=False)),
             (['--sort'], dict(help="""(int) 排序规则：0-创建时间顺序排序，1-创建时间倒序排序 """, dest='sort', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -936,8 +893,382 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
+            (['--create-group-info'], dict(help="""(createGroupInfo) NA """, dest='createGroupInfo',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建用户组 ''',
+        description='''
+            创建用户组。
+
+            示例: jdc iam create-group  --create-group-info '{"":""}'
+        ''',
+    )
+    def create_group(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.CreateGroupRequest import CreateGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询用户组详情 ''',
+        description='''
+            查询用户组详情。
+
+            示例: jdc iam describe-group  --group-name xxx
+        ''',
+    )
+    def describe_group(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DescribeGroupRequest import DescribeGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
+            (['--update-group-info'], dict(help="""(updateGroupInfo) NA """, dest='updateGroupInfo',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改用户组 ''',
+        description='''
+            修改用户组。
+
+            示例: jdc iam update-group  --group-name xxx --update-group-info '{"":""}'
+        ''',
+    )
+    def update_group(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.UpdateGroupRequest import UpdateGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除用户组 ''',
+        description='''
+            删除用户组。
+
+            示例: jdc iam delete-group  --group-name xxx
+        ''',
+    )
+    def delete_group(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DeleteGroupRequest import DeleteGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
+            (['--page-number'], dict(help="""(int) 页码，默认1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认50，取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询用户组内的子用户列表  ''',
+        description='''
+            查询用户组内的子用户列表 。
+
+            示例: jdc iam describe-group-sub-users  --group-name xxx
+        ''',
+    )
+    def describe_group_sub_users(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DescribeGroupSubUsersRequest import DescribeGroupSubUsersRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeGroupSubUsersRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码，默认1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认50，取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--keyword'], dict(help="""(string) 关键字 """, dest='keyword',  required=False)),
+            (['--sort'], dict(help="""(int) 排序规则：0-创建时间顺序排序，1-创建时间倒序排序 """, dest='sort', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询用户组列表 ''',
+        description='''
+            查询用户组列表。
+
+            示例: jdc iam describe-groups 
+        ''',
+    )
+    def describe_groups(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DescribeGroupsRequest import DescribeGroupsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeGroupsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 列举用户组的策略 ''',
+        description='''
+            列举用户组的策略。
+
+            示例: jdc iam describe-attached-group-policies  --group-name xxx
+        ''',
+    )
+    def describe_attached_group_policies(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DescribeAttachedGroupPoliciesRequest import DescribeAttachedGroupPoliciesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAttachedGroupPoliciesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
+            (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 为用户组解绑策略 ''',
+        description='''
+            为用户组解绑策略。
+
+            示例: jdc iam detach-group-policy  --group-name xxx --policy-name xxx
+        ''',
+    )
+    def detach_group_policy(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.DetachGroupPolicyRequest import DetachGroupPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DetachGroupPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
+            (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 为用户组绑定策略 ''',
+        description='''
+            为用户组绑定策略。
+
+            示例: jdc iam attach-group-policy  --group-name xxx --policy-name xxx
+        ''',
+    )
+    def attach_group_policy(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.AttachGroupPolicyRequest import AttachGroupPolicyRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AttachGroupPolicyRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
+            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 将子用户从组中删除 ''',
+        description='''
+            将子用户从组中删除。
+
+            示例: jdc iam remove-sub-user-from-group  --group-name xxx --sub-user xxx
+        ''',
+    )
+    def remove_sub_user_from_group(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.RemoveSubUserFromGroupRequest import RemoveSubUserFromGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RemoveSubUserFromGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--group-name'], dict(help="""(string) 用户组名称 """, dest='groupName',  required=True)),
+            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加子用户到用户组中 ''',
+        description='''
+            添加子用户到用户组中。
+
+            示例: jdc iam add-sub-user-to-group  --group-name xxx --sub-user xxx
+        ''',
+    )
+    def add_sub_user_to_group(self):
+        client_factory = ClientFactory('iam')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.iam.apis.AddSubUserToGroupRequest import AddSubUserToGroupRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddSubUserToGroupRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--create-role-info'], dict(help="""(createRoleInfo) 角色信息 """, dest='createRoleInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -970,6 +1301,7 @@ class IamController(BaseController):
         arguments=[
             (['--role-name'], dict(help="""(string) 角色名称 """, dest='roleName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1002,6 +1334,7 @@ class IamController(BaseController):
         arguments=[
             (['--role-name'], dict(help="""(string) 角色名称 """, dest='roleName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1035,6 +1368,7 @@ class IamController(BaseController):
             (['--role-name'], dict(help="""(string) 角色名称 """, dest='roleName',  required=True)),
             (['--update-assume-role-policy-info'], dict(help="""(updateAssumeRolePolicyInfo) 角色权限信息 """, dest='updateAssumeRolePolicyInfo',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1071,6 +1405,7 @@ class IamController(BaseController):
             (['--type'], dict(help="""(int) 角色类型，默认查找所有类型，2-服务相关角色，3-服务角色，4-用户角色 """, dest='type', type=int, required=False)),
             (['--sort'], dict(help="""(int) 排序策略,0-按创建时间顺序排序,1-按创建时间倒序排序 """, dest='sort', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1104,6 +1439,7 @@ class IamController(BaseController):
             (['--role-name'], dict(help="""(string) 角色名称 """, dest='roleName',  required=True)),
             (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1137,6 +1473,7 @@ class IamController(BaseController):
             (['--role-name'], dict(help="""(string) 角色名称 """, dest='roleName',  required=True)),
             (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1173,6 +1510,7 @@ class IamController(BaseController):
             (['--keyword'], dict(help="""(string) 关键字 """, dest='keyword',  required=False)),
             (['--sort'], dict(help="""(int) 排序策略,0-按创建时间顺序排序  1-按创建时间倒序 """, dest='sort', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1180,7 +1518,7 @@ class IamController(BaseController):
         description='''
             查询角色授权策略列表。
 
-            示例: jdc iam describe-role-policies  --role-name xxx --sort 0
+            示例: jdc iam describe-role-policies  --role-name xxx --sort 5
         ''',
     )
     def describe_role_policies(self):
@@ -1203,302 +1541,9 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--create-sub-user-info'], dict(help="""(createSubUserInfo) 子用户信息 """, dest='createSubUserInfo',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建子用户 ''',
-        description='''
-            创建子用户。
-
-            示例: jdc iam create-sub-user  --create-sub-user-info '{"":""}'
-        ''',
-    )
-    def create_sub_user(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.CreateSubUserRequest import CreateSubUserRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateSubUserRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询子用户信息 ''',
-        description='''
-            查询子用户信息。
-
-            示例: jdc iam describe-sub-user  --sub-user xxx
-        ''',
-    )
-    def describe_sub_user(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DescribeSubUserRequest import DescribeSubUserRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSubUserRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
-            (['--update-sub-user-info'], dict(help="""(updateSubUserInfo) 子用户信息 """, dest='updateSubUserInfo',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改子用户信息 ''',
-        description='''
-            修改子用户信息。
-
-            示例: jdc iam update-sub-user  --sub-user xxx --update-sub-user-info '{"":""}'
-        ''',
-    )
-    def update_sub_user(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.UpdateSubUserRequest import UpdateSubUserRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateSubUserRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除子用户信息 ''',
-        description='''
-            删除子用户信息。
-
-            示例: jdc iam delete-sub-user  --sub-user xxx
-        ''',
-    )
-    def delete_sub_user(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DeleteSubUserRequest import DeleteSubUserRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteSubUserRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--page-number'], dict(help="""(int) 页码，默认1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认50，取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--keyword'], dict(help="""(string) 关键字 """, dest='keyword',  required=False)),
-            (['--sort'], dict(help="""(int) 排序规则：0-创建时间顺序排序，1-创建时间倒序排序 """, dest='sort', type=int, required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询子用户列表 ''',
-        description='''
-            查询子用户列表。
-
-            示例: jdc iam describe-sub-users 
-        ''',
-    )
-    def describe_sub_users(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DescribeSubUsersRequest import DescribeSubUsersRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSubUsersRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询子用户所属的所有组 ''',
-        description='''
-            查询子用户所属的所有组。
-
-            示例: jdc iam describe-sub-user-groups  --sub-user xxx
-        ''',
-    )
-    def describe_sub_user_groups(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DescribeSubUserGroupsRequest import DescribeSubUserGroupsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSubUserGroupsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询子用户绑定的策略列表 ''',
-        description='''
-            查询子用户绑定的策略列表。
-
-            示例: jdc iam describe-attached-sub-user-policies  --sub-user xxx
-        ''',
-    )
-    def describe_attached_sub_user_policies(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DescribeAttachedSubUserPoliciesRequest import DescribeAttachedSubUserPoliciesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAttachedSubUserPoliciesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
-            (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 为子用户解绑策略 ''',
-        description='''
-            为子用户解绑策略。
-
-            示例: jdc iam detach-sub-user-policy  --sub-user xxx --policy-name xxx
-        ''',
-    )
-    def detach_sub_user_policy(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.DetachSubUserPolicyRequest import DetachSubUserPolicyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DetachSubUserPolicyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--sub-user'], dict(help="""(string) 子用户名 """, dest='subUser',  required=True)),
-            (['--policy-name'], dict(help="""(string) 策略名称 """, dest='policyName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 为子用户绑定策略 ''',
-        description='''
-            为子用户绑定策略。
-
-            示例: jdc iam attach-sub-user-policy  --sub-user xxx --policy-name xxx
-        ''',
-    )
-    def attach_sub_user_policy(self):
-        client_factory = ClientFactory('iam')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.iam.apis.AttachSubUserPolicyRequest import AttachSubUserPolicyRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = AttachSubUserPolicyRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1531,6 +1576,7 @@ class IamController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1564,6 +1610,7 @@ class IamController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1597,6 +1644,7 @@ class IamController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1630,6 +1678,7 @@ class IamController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--access-key'], dict(help="""(string) accessKey """, dest='accessKey',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1660,7 +1709,7 @@ class IamController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['enable-sub-user-access-key','disable-sub-user-access-key','delete-sub-user-access-key','create-group','describe-group','update-group','delete-group','describe-group-sub-users','describe-groups','describe-attached-group-policies','detach-group-policy','attach-group-policy','remove-sub-user-from-group','add-sub-user-to-group','create-permission','describe-permission-detail','update-permission','describe-permissions','describe-sub-user-permissions','add-permissions-to-sub-user','remove-permission-of-sub-user','create-policy','describe-policy','update-policy','delete-policy','update-policy-description','describe-policies','create-role','describe-role','delete-role','update-assume-role-policy','describe-roles','attach-role-policy','detach-role-policy','describe-role-policies','create-sub-user','describe-sub-user','update-sub-user','delete-sub-user','describe-sub-users','describe-sub-user-groups','describe-attached-sub-user-policies','detach-sub-user-policy','attach-sub-user-policy','describe-user-access-keys','create-user-access-key','enabled-user-access-key','disabled-user-access-key','delete-user-access-key',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['create-sub-user','describe-sub-user','update-sub-user','delete-sub-user','describe-sub-users','describe-sub-user-groups','describe-attached-sub-user-policies','detach-sub-user-policy','attach-sub-user-policy','create-permission','describe-permission-detail','update-permission','describe-permissions','describe-sub-user-permissions','add-permissions-to-sub-user','remove-permission-of-sub-user','enable-sub-user-access-key','disable-sub-user-access-key','delete-sub-user-access-key','create-policy','describe-policy','update-policy','delete-policy','update-policy-description','describe-policies','create-group','describe-group','update-group','delete-group','describe-group-sub-users','describe-groups','describe-attached-group-policies','detach-group-policy','attach-group-policy','remove-sub-user-from-group','add-sub-user-to-group','create-role','describe-role','delete-role','update-assume-role-policy','describe-roles','attach-role-policy','detach-role-policy','describe-role-policies','describe-user-access-keys','create-user-access-key','enabled-user-access-key','disabled-user-access-key','delete-user-access-key',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

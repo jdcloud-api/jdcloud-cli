@@ -1,32 +1,4 @@
 {
-    "list-alias":{
-        "regionId":"",
-        "functionName":""
-    },
-    "create-alias":{
-        "aliasName":"",
-        "description":"",
-        "version":"",
-        "regionId":"",
-        "functionName":""
-    },
-    "get-alias":{
-        "regionId":"",
-        "functionName":"",
-        "aliasName":""
-    },
-    "update-alias":{
-        "description":"",
-        "version":"",
-        "regionId":"",
-        "functionName":"",
-        "aliasName":""
-    },
-    "delete-alias":{
-        "regionId":"",
-        "functionName":"",
-        "aliasName":""
-    },
     "list-function":{
         "listAll":"",
         "pageNumber":"",
@@ -104,12 +76,6 @@
         "functionName":"",
         "versionName":""
     },
-    "get-trigger":{
-        "triggerId":"",
-        "regionId":"",
-        "functionName":"",
-        "versionName":""
-    },
     "list-version":{
         "regionId":"",
         "functionName":""
@@ -125,6 +91,40 @@
         "versionName":""
     },
     "delete-version":{
+        "regionId":"",
+        "functionName":"",
+        "versionName":""
+    },
+    "list-alias":{
+        "regionId":"",
+        "functionName":""
+    },
+    "create-alias":{
+        "aliasName":"",
+        "description":"",
+        "version":"",
+        "regionId":"",
+        "functionName":""
+    },
+    "get-alias":{
+        "regionId":"",
+        "functionName":"",
+        "aliasName":""
+    },
+    "update-alias":{
+        "description":"",
+        "version":"",
+        "regionId":"",
+        "functionName":"",
+        "aliasName":""
+    },
+    "delete-alias":{
+        "regionId":"",
+        "functionName":"",
+        "aliasName":""
+    },
+    "get-trigger":{
+        "triggerId":"",
         "regionId":"",
         "functionName":"",
         "versionName":""

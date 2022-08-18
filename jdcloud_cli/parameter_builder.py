@@ -32,16 +32,22 @@ def collect_user_args(app):
 
         params_dict.update(input_dict)
     _append_region_id(params_dict)
+    if 'input_json' in params_dict.keys():
+        del params_dict["input_json"]
+    if 'jdcloudHeaders' in params_dict.keys():
+        del params_dict["jdcloudHeaders"]
     return params_dict
 
 
 def collect_user_headers(app):
-    headers = app.pargs.headers
+    headers = app.pargs.jdcloudHeaders
+    if headers is None:
+        headers = app.pargs.headers
     if headers is None:
         return None
 
     try:
-        obj = yaml.load(headers)
+        obj = yaml.load(headers, Loader=yaml.FullLoader)
         if not isinstance(obj, dict):
             raise yaml.YAMLError
     except yaml.YAMLError:
@@ -74,12 +80,12 @@ def _get_input_args(pargs_dict):
     return result
 
 
-def _parse_json(string):
+def _parse_json(json_data):
     try:
-        obj = yaml.load(string)
+        obj = yaml.load(json_data, Loader=yaml.FullLoader)
         return obj
     except ValueError:
-        return string
+        return json_data
 
 
 def _append_region_id(param_dict):

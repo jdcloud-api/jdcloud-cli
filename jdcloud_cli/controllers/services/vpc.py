@@ -41,30 +41,30 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) elasticIpIds - elasticip id数组条件，支持多个; elasticIpAddress - eip的IP地址，支持单个; chargeStatus	- eip的费用支付状态,normal(正常状态) or overdue(预付费已到期) or arrear(欠费状态)，支持单个; ipType - eip类型，取值：all(所有类型)、standard(标准弹性IP)、edge(边缘弹性IP)，默认standard，支持单个; azs - eip可用区，支持多个;  """, dest='filters',  required=False)),
-            (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
+            (['--filters'], dict(help="""(array: filter) vpcPeeringIds - vpcPeering ID，支持多个; vpcPeeringNames - vpcPeering名称列表，支持多个; vpcId	- vpcPeering本端Vpc Id，支持单个; remoteVpcId - vpcPeering对端Vpc Id，支持单个; azType - vpcPeering本端VPC az类型，取值：all(全部类型)，standard(标准VPC)，edge(边缘VPC)，默认standard ，支持单个; azs - vpcPeering本端VPC可用区，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询弹性公网IP列表 ''',
+        help=''' 查询VpcPeering资源列表 ''',
         description='''
-            查询弹性公网IP列表。
+            查询VpcPeering资源列表。
 
-            示例: jdc vpc describe-elastic-ips 
+            示例: jdc vpc describe-vpc-peerings 
         ''',
     )
-    def describe_elastic_ips(self):
+    def describe_vpc_peerings(self):
         client_factory = ClientFactory('vpc')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vpc.apis.DescribeElasticIpsRequest import DescribeElasticIpsRequest
+            from jdcloud_sdk.services.vpc.apis.DescribeVpcPeeringsRequest import DescribeVpcPeeringsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeElasticIpsRequest(params_dict, headers)
+            req = DescribeVpcPeeringsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -75,33 +75,33 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--max-count'], dict(help="""(int) 购买弹性ip数量；取值范围：[1,100] """, dest='maxCount', type=int, required=True)),
-            (['--elastic-ip-address'], dict(help="""(string) 指定弹性ip地址进行创建，当申请创建多个弹性ip时，必须为空 """, dest='elasticIpAddress',  required=False)),
-            (['--elastic-ip-spec'], dict(help="""(elasticIpSpec) 弹性ip规格 """, dest='elasticIpSpec',  required=True)),
-            (['--user-tags'], dict(help="""(array: tag) 用户标签 """, dest='userTags',  required=False)),
-            (['--ip-type'], dict(help="""(string) 弹性ip类型，取值：standard(标准公网IP)，edge(边缘公网IP)，默认为standard """, dest='ipType',  required=False)),
+            (['--vpc-peering-name'], dict(help="""(string) VpcPeering的名字,不为空。名称取值范围：1-32个中文、英文大小写的字母、数字和下划线分隔符 """, dest='vpcPeeringName',  required=True)),
+            (['--vpc-id'], dict(help="""(string) VpcPeering本端Vpc的Id """, dest='vpcId',  required=True)),
+            (['--remote-vpc-id'], dict(help="""(string) VpcPeering对端Vpc的Id """, dest='remoteVpcId',  required=True)),
+            (['--description'], dict(help="""(string) VpcPeering 描述，取值范围：0-256个中文、英文大小写的字母、数字和下划线分隔符 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一个或者多个弹性公网IP ''',
+        help=''' 创建VpcPeering接口 ''',
         description='''
-            创建一个或者多个弹性公网IP。
+            创建VpcPeering接口。
 
-            示例: jdc vpc create-elastic-ips  --max-count 0 --elastic-ip-spec '{"":""}'
+            示例: jdc vpc create-vpc-peering  --vpc-peering-name xxx --vpc-id xxx --remote-vpc-id xxx
         ''',
     )
-    def create_elastic_ips(self):
+    def create_vpc_peering(self):
         client_factory = ClientFactory('vpc')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vpc.apis.CreateElasticIpsRequest import CreateElasticIpsRequest
+            from jdcloud_sdk.services.vpc.apis.CreateVpcPeeringRequest import CreateVpcPeeringRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateElasticIpsRequest(params_dict, headers)
+            req = CreateVpcPeeringRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -112,29 +112,30 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--elastic-ip-id'], dict(help="""(string) ElasticIp ID """, dest='elasticIpId',  required=True)),
+            (['--vpc-peering-id'], dict(help="""(string) vpcPeeringId ID """, dest='vpcPeeringId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' ElasticIp资源信息详情 ''',
+        help=''' 查询VpcPeering资源详情 ''',
         description='''
-            ElasticIp资源信息详情。
+            查询VpcPeering资源详情。
 
-            示例: jdc vpc describe-elastic-ip  --elastic-ip-id xxx
+            示例: jdc vpc describe-vpc-peering  --vpc-peering-id xxx
         ''',
     )
-    def describe_elastic_ip(self):
+    def describe_vpc_peering(self):
         client_factory = ClientFactory('vpc')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vpc.apis.DescribeElasticIpRequest import DescribeElasticIpRequest
+            from jdcloud_sdk.services.vpc.apis.DescribeVpcPeeringRequest import DescribeVpcPeeringRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeElasticIpRequest(params_dict, headers)
+            req = DescribeVpcPeeringRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -145,30 +146,32 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--elastic-ip-id'], dict(help="""(string) ElasticIp ID """, dest='elasticIpId',  required=True)),
-            (['--bandwidth-mbps'], dict(help="""(int) 弹性公网IP的限速（单位：Mbps），取值范围为[1-200] """, dest='bandwidthMbps', type=int, required=True)),
+            (['--vpc-peering-id'], dict(help="""(string) vpcPeeringId ID """, dest='vpcPeeringId',  required=True)),
+            (['--vpc-peering-name'], dict(help="""(string) VpcPeering的名字,不为空。名称取值范围：1-32个中文、英文大小写的字母、数字和下划线分隔符 """, dest='vpcPeeringName',  required=False)),
+            (['--description'], dict(help="""(string) VpcPeering 描述，取值范围：0-256个中文、英文大小写的字母、数字和下划线分隔符 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改弹性公网IP ''',
+        help=''' 修改VpcPeering接口 ''',
         description='''
-            修改弹性公网IP。
+            修改VpcPeering接口。
 
-            示例: jdc vpc modify-elastic-ip  --elastic-ip-id xxx --bandwidth-mbps 0
+            示例: jdc vpc modify-vpc-peering  --vpc-peering-id xxx
         ''',
     )
-    def modify_elastic_ip(self):
+    def modify_vpc_peering(self):
         client_factory = ClientFactory('vpc')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vpc.apis.ModifyElasticIpRequest import ModifyElasticIpRequest
+            from jdcloud_sdk.services.vpc.apis.ModifyVpcPeeringRequest import ModifyVpcPeeringRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ModifyElasticIpRequest(params_dict, headers)
+            req = ModifyVpcPeeringRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -179,29 +182,561 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--elastic-ip-id'], dict(help="""(string) ElasticIp ID """, dest='elasticIpId',  required=True)),
+            (['--vpc-peering-id'], dict(help="""(string) vpcPeeringId ID """, dest='vpcPeeringId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除弹性公网IP ''',
+        help=''' 删除VpcPeering接口 ''',
         description='''
-            删除弹性公网IP。
+            删除VpcPeering接口。
 
-            示例: jdc vpc delete-elastic-ip  --elastic-ip-id xxx
+            示例: jdc vpc delete-vpc-peering  --vpc-peering-id xxx
         ''',
     )
-    def delete_elastic_ip(self):
+    def delete_vpc_peering(self):
         client_factory = ClientFactory('vpc')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vpc.apis.DeleteElasticIpRequest import DeleteElasticIpRequest
+            from jdcloud_sdk.services.vpc.apis.DeleteVpcPeeringRequest import DeleteVpcPeeringRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteElasticIpRequest(params_dict, headers)
+            req = DeleteVpcPeeringRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) routeTableIds - 路由表ID列表，支持多个; routeTableNames - 路由表名称列表，支持多个; vpcId	- 路由表所属vpc Id，支持单个; azType - 路由表az类型，取值：all(全部类型)，standard(标准路由表)，edge(边缘路由表)，默认standard ，支持单个; azs - 可用区，支持多个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询路由表列表 ''',
+        description='''
+            查询路由表列表。
+
+            示例: jdc vpc describe-route-tables 
+        ''',
+    )
+    def describe_route_tables(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeRouteTablesRequest import DescribeRouteTablesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeRouteTablesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--vpc-id'], dict(help="""(string) 路由表所属的私有网络ID """, dest='vpcId',  required=True)),
+            (['--route-table-name'], dict(help="""(string) 路由表名称，只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='routeTableName',  required=True)),
+            (['--description'], dict(help="""(string) 描述,​ 允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建路由表 ''',
+        description='''
+            创建路由表。
+
+            示例: jdc vpc create-route-table  --vpc-id xxx --route-table-name xxx
+        ''',
+    )
+    def create_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.CreateRouteTableRequest import CreateRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询路由表信息详情 ''',
+        description='''
+            查询路由表信息详情。
+
+            示例: jdc vpc describe-route-table  --route-table-id xxx
+        ''',
+    )
+    def describe_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeRouteTableRequest import DescribeRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
+            (['--route-table-name'], dict(help="""(string) 路由表的名字。名称取值范围：1-32个中文、英文大小写的字母、数字和下划线分隔符 """, dest='routeTableName',  required=False)),
+            (['--description'], dict(help="""(string) 路由表的描述，取值范围：0-256个UTF-8编码下的全部字符 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改路由表属性 ''',
+        description='''
+            修改路由表属性。
+
+            示例: jdc vpc modify-route-table  --route-table-id xxx
+        ''',
+    )
+    def modify_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifyRouteTableRequest import ModifyRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除路由表 ''',
+        description='''
+            删除路由表。
+
+            示例: jdc vpc delete-route-table  --route-table-id xxx
+        ''',
+    )
+    def delete_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DeleteRouteTableRequest import DeleteRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
+            (['--route-table-rule-specs'], dict(help="""(array: addRouteTableRules) 路由表规则信息 """, dest='routeTableRuleSpecs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加路由表规则 ''',
+        description='''
+            添加路由表规则。
+
+            示例: jdc vpc add-route-table-rules  --route-table-id xxx --route-table-rule-specs ['{"":""}']
+        ''',
+    )
+    def add_route_table_rules(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.AddRouteTableRulesRequest import AddRouteTableRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddRouteTableRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
+            (['--rule-ids'], dict(help="""(array: string) 路由表规则Id列表 """, dest='ruleIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 移除路由表规则 ''',
+        description='''
+            移除路由表规则。
+
+            示例: jdc vpc remove-route-table-rules  --route-table-id xxx
+        ''',
+    )
+    def remove_route_table_rules(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.RemoveRouteTableRulesRequest import RemoveRouteTableRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RemoveRouteTableRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
+            (['--modify-route-table-rule-specs'], dict(help="""(array: modifyRouteTableRules) 路由表规则信息 """, dest='modifyRouteTableRuleSpecs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改路由表规则 ''',
+        description='''
+            修改路由表规则。
+
+            示例: jdc vpc modify-route-table-rules  --route-table-id xxx --modify-route-table-rule-specs ['{"":""}']
+        ''',
+    )
+    def modify_route_table_rules(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifyRouteTableRulesRequest import ModifyRouteTableRulesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyRouteTableRulesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
+            (['--subnet-ids'], dict(help="""(array: string) 路由表要绑定的子网ID列表, subnet已被其他路由表绑定时，自动解绑。路由表绑定的子网属性要相同，或者都是标准子网，或者都是相同边缘可用区的边缘子网。 """, dest='subnetIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 路由表绑定子网接口 ''',
+        description='''
+            路由表绑定子网接口。
+
+            示例: jdc vpc associate-route-table  --route-table-id xxx
+        ''',
+    )
+    def associate_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.AssociateRouteTableRequest import AssociateRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AssociateRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
+            (['--subnet-id'], dict(help="""(string) 路由表要解绑的子网ID，解绑后子网绑定默认路由表 """, dest='subnetId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 给路由表解绑子网接口 ''',
+        description='''
+            给路由表解绑子网接口。
+
+            示例: jdc vpc disassociate-route-table  --route-table-id xxx --subnet-id xxx
+        ''',
+    )
+    def disassociate_route_table(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DisassociateRouteTableRequest import DisassociateRouteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisassociateRouteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) subnetIds - subnet ID列表，支持多个; subnetNames - subnet名称列表，支持多个; routeTableId	- 子网关联路由表Id，支持单个; aclId - 子网关联acl Id，支持单个; vpcId - 子网所属VPC Id，支持单个; subnetType - 子网类型，取值：all(全部类型)，standard(标准子网)，edge(边缘子网)，默认standard ，支持单个; azs - 可用区，支持多个; azType - VPC az类型，取值：all(全部类型)，standard(标准可用区子网)，edge(边缘可用区子网)，默认standard ，支持单个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询子网列表 ''',
+        description='''
+            查询子网列表。
+
+            示例: jdc vpc describe-subnets 
+        ''',
+    )
+    def describe_subnets(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeSubnetsRequest import DescribeSubnetsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSubnetsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--vpc-id'], dict(help="""(string) 子网所属vpc的Id """, dest='vpcId',  required=True)),
+            (['--subnet-name'], dict(help="""(string) 子网名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='subnetName',  required=True)),
+            (['--address-prefix'], dict(help="""(string) 子网网段，vpc内子网网段不能重叠，cidr的取值范围：10.0.0.0/8、172.16.0.0/12和192.168.0.0/16及它们包含的子网，且子网掩码长度为16-28之间，如果vpc含有cidr，则必须为vpc所在cidr的子网 """, dest='addressPrefix',  required=True)),
+            (['--route-table-id'], dict(help="""(string) 子网关联的路由表Id, 默认为vpc的默认路由表,子网关联路由表需检查路由表中已绑定的子网与本子网类型是否一致（一致标准为：或者都为标准子网，或者都为相同边缘可用区的边缘子网） """, dest='routeTableId',  required=False)),
+            (['--description'], dict(help="""(string) 子网描述信息,允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description',  required=False)),
+            (['--ip-mask-len'], dict(help="""(int) 子网内预留网段掩码长度，此网段IP地址按照单个申请，子网内其余部分IP地址以网段形式分配。此参数非必选，缺省值为0，代表子网内所有IP地址都按照单个申请 """, dest='ipMaskLen', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建子网 ''',
+        description='''
+            创建子网。
+
+            示例: jdc vpc create-subnet  --vpc-id xxx --subnet-name xxx --address-prefix xxx
+        ''',
+    )
+    def create_subnet(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.CreateSubnetRequest import CreateSubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateSubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) Subnet ID """, dest='subnetId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询子网信息详情 ''',
+        description='''
+            查询子网信息详情。
+
+            示例: jdc vpc describe-subnet  --subnet-id xxx
+        ''',
+    )
+    def describe_subnet(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeSubnetRequest import DescribeSubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) Subnet ID """, dest='subnetId',  required=True)),
+            (['--subnet-name'], dict(help="""(string) 子网名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='subnetName',  required=False)),
+            (['--description'], dict(help="""(string) 子网描述信息，允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description',  required=False)),
+            (['--ip-mask-len'], dict(help="""(int) 子网内预留网段掩码长度，此网段IP地址按照单个申请，子网内其余部分IP地址以网段形式分配。此参数非必选，缺省值为0，代表子网内所有IP地址都按照单个申请 """, dest='ipMaskLen', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改子网接口 ''',
+        description='''
+            修改子网接口。
+
+            示例: jdc vpc modify-subnet  --subnet-id xxx
+        ''',
+    )
+    def modify_subnet(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifySubnetRequest import ModifySubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifySubnetRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--subnet-id'], dict(help="""(string) Subnet ID """, dest='subnetId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除子网 ''',
+        description='''
+            删除子网。
+
+            示例: jdc vpc delete-subnet  --subnet-id xxx
+        ''',
+    )
+    def delete_subnet(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DeleteSubnetRequest import DeleteSubnetRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSubnetRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -216,6 +751,7 @@ class VpcController(BaseController):
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) NA """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -251,6 +787,7 @@ class VpcController(BaseController):
             (['--network-acl-name'], dict(help="""(string) networkAcl名称 """, dest='networkAclName',  required=True)),
             (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -284,6 +821,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -319,6 +857,7 @@ class VpcController(BaseController):
             (['--network-acl-name'], dict(help="""(string) networkAcl名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符 """, dest='networkAclName',  required=False)),
             (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -352,6 +891,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -386,6 +926,7 @@ class VpcController(BaseController):
             (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId',  required=True)),
             (['--subnet-ids'], dict(help="""(array: string) networkAcl要绑定的子网ID列表, subnet已被其他networkAcl绑定时，自动解绑 """, dest='subnetIds',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -420,6 +961,7 @@ class VpcController(BaseController):
             (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId',  required=True)),
             (['--subnet-id'], dict(help="""(string) networkAcl要解绑的子网ID """, dest='subnetId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -454,6 +996,7 @@ class VpcController(BaseController):
             (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId',  required=True)),
             (['--network-acl-rule-specs'], dict(help="""(array: addNetworkAclRuleSpec) networkAcl规则列表 """, dest='networkAclRuleSpecs',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -488,6 +1031,7 @@ class VpcController(BaseController):
             (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId',  required=True)),
             (['--rule-ids'], dict(help="""(array: string) networkAcl规则ID列表 """, dest='ruleIds',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -522,6 +1066,7 @@ class VpcController(BaseController):
             (['--network-acl-id'], dict(help="""(string) networkAclId ID """, dest='networkAclId',  required=True)),
             (['--modify-network-acl-rule-specs'], dict(help="""(array: modifyNetworkAclRuleSpec) networkAcl规则列表 """, dest='modifyNetworkAclRuleSpecs',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -555,8 +1100,187 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) networkInterfaceIds - 弹性网卡ID列表，支持多个; networkInterfaceNames - 弹性网卡名称列表，支持多个; vpcId - 弹性网卡所属vpc Id，支持单个; subnetId	- 弹性网卡所属子网Id，支持单个; role - 网卡角色，取值范围：Primary（主网卡）、Secondary（辅助网卡）、Managed （受管网卡），支持单个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) vpcIds - vpc ID列表，支持多个; vpcNames - vpc名称列表,支持多个; azType - VPC az类型，取值：all(全部类型)，standard(标准VPC)，edge(边缘VPC)，默认standard ，支持单个; azs - 可用区，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询私有网络列表 ''',
+        description='''
+            查询私有网络列表。
+
+            示例: jdc vpc describe-vpcs 
+        ''',
+    )
+    def describe_vpcs(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeVpcsRequest import DescribeVpcsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeVpcsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--vpc-name'], dict(help="""(string) 私有网络名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='vpcName',  required=True)),
+            (['--address-prefix'], dict(help="""(string) 如果为空，则不限制网段，如果不为空，10.0.0.0/8、172.16.0.0/12和192.168.0.0/16及它们包含的子网，且子网掩码长度为16-28之间 """, dest='addressPrefix',  required=False)),
+            (['--description'], dict(help="""(string) vpc描述，允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description',  required=False)),
+            (['--az-type'], dict(help="""(string) VPC az类型，取值：standard(标准VPC)，edge(边缘VPC) """, dest='azType',  required=False)),
+            (['--az'], dict(help="""(string) VPC可用区，边缘VPC必须指定可用区 """, dest='az',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建私有网络 ''',
+        description='''
+            创建私有网络。
+
+            示例: jdc vpc create-vpc  --vpc-name xxx
+        ''',
+    )
+    def create_vpc(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.CreateVpcRequest import CreateVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--vpc-id'], dict(help="""(string) Vpc ID """, dest='vpcId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询虚拟网络信息详情 ''',
+        description='''
+            查询虚拟网络信息详情。
+
+            示例: jdc vpc describe-vpc  --vpc-id xxx
+        ''',
+    )
+    def describe_vpc(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeVpcRequest import DescribeVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--vpc-id'], dict(help="""(string) Vpc ID """, dest='vpcId',  required=True)),
+            (['--vpc-name'], dict(help="""(string) 私有网络名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='vpcName',  required=False)),
+            (['--description'], dict(help="""(string) vpc描述，允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改私有网络接口 ''',
+        description='''
+            修改私有网络接口。
+
+            示例: jdc vpc modify-vpc  --vpc-id xxx
+        ''',
+    )
+    def modify_vpc(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifyVpcRequest import ModifyVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--vpc-id'], dict(help="""(string) Vpc ID """, dest='vpcId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除私有网络 ''',
+        description='''
+            删除私有网络。
+
+            示例: jdc vpc delete-vpc  --vpc-id xxx
+        ''',
+    )
+    def delete_vpc(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DeleteVpcRequest import DeleteVpcRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteVpcRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) networkInterfaceIds - 弹性网卡ID列表，支持多个; networkInterfaceNames - 弹性网卡名称列表，支持多个; vpcId - 弹性网卡所属vpc Id，支持单个; subnetId	- 弹性网卡所属子网Id，支持单个; role - 网卡角色，取值范围：Primary（主网卡）、Secondary（辅助网卡）、Managed （受管网卡），支持单个; azType - 网卡 az类型，取值：all(全部类型)，standard(标准Az网卡)，edge(边缘Az网卡)，默认为all，支持单个; azs - 可用区 az名，支持多个;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -598,6 +1322,7 @@ class VpcController(BaseController):
             (['--sanity-check'], dict(help="""(int) 源和目标IP地址校验，取值为0或者1,默认为1 """, dest='sanityCheck', type=int, required=False)),
             (['--description'], dict(help="""(string) 描述,​ 允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -631,6 +1356,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--network-interface-id'], dict(help="""(string) networkInterface ID """, dest='networkInterfaceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -667,12 +1393,13 @@ class VpcController(BaseController):
             (['--description'], dict(help="""(string) 描述,允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
             (['--security-groups'], dict(help="""(array: string) 以覆盖原有安全组的方式更新的安全组。如果更新安全组ID列表，最多5个安全组 """, dest='securityGroups',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改弹性网卡接口 ''',
+        help=''' 修改弹性网卡信息 ''',
         description='''
-            修改弹性网卡接口。
+            修改弹性网卡信息。
 
             示例: jdc vpc modify-network-interface  --network-interface-id xxx
         ''',
@@ -700,12 +1427,13 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--network-interface-id'], dict(help="""(string) networkInterface ID """, dest='networkInterfaceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除弹性网卡接口 ''',
+        help=''' 删除弹性网卡 ''',
         description='''
-            删除弹性网卡接口。
+            删除弹性网卡。
 
             示例: jdc vpc delete-network-interface  --network-interface-id xxx
         ''',
@@ -736,6 +1464,7 @@ class VpcController(BaseController):
             (['--private-ip-address'], dict(help="""(string) 绑定弹性Ip到指定的privateIp """, dest='privateIpAddress',  required=False)),
             (['--elastic-ip-address'], dict(help="""(string) 绑定的弹性Ip地址 """, dest='elasticIpAddress',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -771,6 +1500,7 @@ class VpcController(BaseController):
             (['--elastic-ip-id'], dict(help="""(string) 指定解绑的弹性Ip Id """, dest='elasticIpId',  required=False)),
             (['--elastic-ip-address'], dict(help="""(string) 指定解绑的弹性Ip地址 """, dest='elasticIpAddress',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -803,16 +1533,19 @@ class VpcController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--network-interface-id'], dict(help="""(string) networkInterface ID """, dest='networkInterfaceId',  required=True)),
-            (['--force'], dict(help="""(bool) secondary ip被其他接口占用时，是否抢占。false：非抢占重分配，true：抢占重分配，默认抢占重分配。默认值：true """, dest='force',  required=False)),
+            (['--force'], dict(help="""(bool) secondary ip被其他接口占用时，是否抢占。false：非抢占重分配，true：抢占重分配；按网段分配时，默认非抢占重分配，指定IP或者个数时，默认抢占重分配。 """, dest='force', type=bool, required=False)),
             (['--secondary-ips'], dict(help="""(array: string) 指定分配的secondaryIp地址 """, dest='secondaryIps',  required=False)),
             (['--secondary-ip-count'], dict(help="""(int) 指定自动分配的secondaryIp个数 """, dest='secondaryIpCount', type=int, required=False)),
+            (['--secondary-ip-mask-len'], dict(help="""(int) 指定分配的网段掩码长度, 支持24-28位掩码长度，不能与secondaryIpCount或secondaryIps同时指定，不支持抢占重分配 """, dest='secondaryIpMaskLen', type=int, required=False)),
+            (['--secondary-ip-address'], dict(help="""(string) 指定分配的网段中第一个secondaryIp地址，不能与secondaryIpCount或secondaryIps同时指定，secondaryIpAddress与secondaryIpMaskLen需要保持一致，否则无法创建 """, dest='secondaryIpAddress',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 给网卡分配secondaryIp接口 ''',
+        help=''' 给网卡分配secondaryIp ''',
         description='''
-            给网卡分配secondaryIp接口。
+            给网卡分配secondaryIp。
 
             示例: jdc vpc assign-secondary-ips  --network-interface-id xxx
         ''',
@@ -840,13 +1573,15 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--network-interface-id'], dict(help="""(string) networkInterface ID """, dest='networkInterfaceId',  required=True)),
             (['--secondary-ips'], dict(help="""(array: string) 指定删除的secondaryIp地址 """, dest='secondaryIps',  required=False)),
+            (['--secondary-cidrs'], dict(help="""(array: string) 指定删除的secondaryIp网段 """, dest='secondaryCidrs',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 给网卡删除secondaryIp接口 ''',
+        help=''' 给网卡删除secondaryIp ''',
         description='''
-            给网卡删除secondaryIp接口。
+            给网卡删除secondaryIp。
 
             示例: jdc vpc unassign-secondary-ips  --network-interface-id xxx
         ''',
@@ -873,9 +1608,298 @@ class VpcController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围为[10,100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) bwpIds - 共享带宽包ID，支持多个进行精确搜索; name - 共享带宽包名称，支持单个进行精确搜索;  """, dest='filters',  required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
+            (['--resource-group-ids'], dict(help="""(array: string) 资源组筛选条件 """, dest='resourceGroupIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' ; 查询共享带宽包列表; ; ## 接口说明; ; - 使用 `filters` 过滤器进行条件筛选，每个 `filter` 之间的关系为逻辑与（AND）的关系。; ; - 如果使用子帐号查询，只会查询到该子帐号有权限的云主机实例。关于资源权限请参考 [IAM概述](https://docs.jdcloud.com/cn/iam/product-overview)。; ; - 单次查询最大可查询100条共享带宽包数据。; ; - 尽量一次调用接口查询多条数据，不建议使用该批量查询接口一次查询一条数据，如果使用不当导致查询过于密集，可能导致网关触发限流。; ; - 由于该接口为 `GET` 方式请求，最终参数会转换为 `URL` 上的参数，但是 `HTTP` 协议下的 `GET` 请求参数长度是有大小限制的，使用者需要注意参数超长的问题。;  ''',
+        description='''
+            ; 查询共享带宽包列表; ; ## 接口说明; ; - 使用 `filters` 过滤器进行条件筛选，每个 `filter` 之间的关系为逻辑与（AND）的关系。; ; - 如果使用子帐号查询，只会查询到该子帐号有权限的云主机实例。关于资源权限请参考 [IAM概述](https://docs.jdcloud.com/cn/iam/product-overview)。; ; - 单次查询最大可查询100条共享带宽包数据。; ; - 尽量一次调用接口查询多条数据，不建议使用该批量查询接口一次查询一条数据，如果使用不当导致查询过于密集，可能导致网关触发限流。; ; - 由于该接口为 `GET` 方式请求，最终参数会转换为 `URL` 上的参数，但是 `HTTP` 协议下的 `GET` 请求参数长度是有大小限制的，使用者需要注意参数超长的问题。; 。
+
+            示例: jdc vpc describe-bandwidth-packages 
+        ''',
+    )
+    def describe_bandwidth_packages(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeBandwidthPackagesRequest import DescribeBandwidthPackagesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeBandwidthPackagesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) 名称，只支持中文、数字、大小写字母、英文下划线“_”及中划线“-”，且长度不超过32个字符 """, dest='name',  required=True)),
+            (['--description'], dict(help="""(string) 描述，长度不超过256个字符 """, dest='description',  required=False)),
+            (['--bandwidth-mbps'], dict(help="""(int) 共享带宽包带宽上限，取值范围200-5000，单位为Mbps，保底带宽 = 共享带宽包带宽上限 * 20% """, dest='bandwidthMbps', type=int, required=True)),
+            (['--provider'], dict(help="""(string) 线路信息，默认bgp，目前只支持中心节点的BGP线路 """, dest='provider',  required=False)),
+            (['--charge-spec'], dict(help="""(chargeSpec) 计费配置。支持包年包月、按配置、按用量计费模式 """, dest='chargeSpec',  required=False)),
+            (['--user-tags'], dict(help="""(array: tag) 用户标签 """, dest='userTags',  required=False)),
+            (['--resource-group-id'], dict(help="""(string) 资源所属资源组ID """, dest='resourceGroupId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 指定地域创建共享带宽包实例。; ; ## 接口说明; ; - 需要接口完成实名认证、支付方式确认、计费类型选择等准备工作。; ; - 各地域下包年包月和按配置计费的共享带宽包不受配额限制，按用量计费的共享带宽包可创建数量受配额限制，创建前请通过 [DescribeQuotas](https://docs.jdcloud.com/cn/shared-bandwidth-package/api/describequotas?content=API) 确认配额，如须提升请[提交工单](https://ticket.jdcloud.com/applyorder/submit)或联系京东云客服。; ; - 通过本接口创建包年包月资源时将自动从账户扣款（代金券优先），如需使用第三方支付方式请通过控制台创建。; ; - 按用量计费模式需提工单申请使用权限，默认支持增强95消峰计费。;  ''',
+        description='''
+            指定地域创建共享带宽包实例。; ; ## 接口说明; ; - 需要接口完成实名认证、支付方式确认、计费类型选择等准备工作。; ; - 各地域下包年包月和按配置计费的共享带宽包不受配额限制，按用量计费的共享带宽包可创建数量受配额限制，创建前请通过 [DescribeQuotas](https://docs.jdcloud.com/cn/shared-bandwidth-package/api/describequotas?content=API) 确认配额，如须提升请[提交工单](https://ticket.jdcloud.com/applyorder/submit)或联系京东云客服。; ; - 通过本接口创建包年包月资源时将自动从账户扣款（代金券优先），如需使用第三方支付方式请通过控制台创建。; ; - 按用量计费模式需提工单申请使用权限，默认支持增强95消峰计费。; 。
+
+            示例: jdc vpc create-bandwidth-package  --name xxx --bandwidth-mbps 5
+        ''',
+    )
+    def create_bandwidth_package(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.CreateBandwidthPackageRequest import CreateBandwidthPackageRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateBandwidthPackageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--bandwidth-package-id'], dict(help="""(string) 共享带宽包ID """, dest='bandwidthPackageId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' ; 共享带宽包资源信息详情; ; ## 接口说明; ; - 该接口与查询共享带宽包列表返回的信息一致。; ; - 只需要查询单个共享带宽包详细信息的时候可以调用该接口。;  ''',
+        description='''
+            ; 共享带宽包资源信息详情; ; ## 接口说明; ; - 该接口与查询共享带宽包列表返回的信息一致。; ; - 只需要查询单个共享带宽包详细信息的时候可以调用该接口。; 。
+
+            示例: jdc vpc describe-bandwidth-package  --bandwidth-package-id xxx
+        ''',
+    )
+    def describe_bandwidth_package(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DescribeBandwidthPackageRequest import DescribeBandwidthPackageRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeBandwidthPackageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--bandwidth-package-id'], dict(help="""(string) 共享带宽包ID """, dest='bandwidthPackageId',  required=True)),
+            (['--bandwidth-mbps'], dict(help="""(int) 共享带宽包带宽上限，取值范围200-5000，单位为Mbps，且不能低于共享带宽包内公网IP带宽上限 """, dest='bandwidthMbps', type=int, required=False)),
+            (['--name'], dict(help="""(string) 名称，只支持中文、数字、大小写字母、英文下划线“_”及中划线“-”，且长度不超过32个字符 """, dest='name',  required=False)),
+            (['--description'], dict(help="""(string) 描述，长度不超过256个字符 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' ; 修改共享带宽包信息，包括带宽上限及共享带宽包名称、描述信息。; ; ## 接口说明; ; - 如共享带宽包中的弹性公网 IP 有单独限速。共享带宽包的带宽上限值不能低于其包含任一弹性公网IP的带宽上限值。; ; - 欠费或到期的共享带宽包资源不支持修改带宽上限。;  ''',
+        description='''
+            ; 修改共享带宽包信息，包括带宽上限及共享带宽包名称、描述信息。; ; ## 接口说明; ; - 如共享带宽包中的弹性公网 IP 有单独限速。共享带宽包的带宽上限值不能低于其包含任一弹性公网IP的带宽上限值。; ; - 欠费或到期的共享带宽包资源不支持修改带宽上限。; 。
+
+            示例: jdc vpc modify-bandwidth-package  --bandwidth-package-id xxx
+        ''',
+    )
+    def modify_bandwidth_package(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifyBandwidthPackageRequest import ModifyBandwidthPackageRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyBandwidthPackageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--bandwidth-package-id'], dict(help="""(string) 共享带宽包ID """, dest='bandwidthPackageId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除共享带宽包; ; ## 接口说明; ; - 当共享带宽包内有公网IP存在时、包年包月类型的共享带宽包未到期时、按用量计费的共享带宽包使用时长未满一个完整的自然月时均不支持删除共享带宽包;  ''',
+        description='''
+            删除共享带宽包; ; ## 接口说明; ; - 当共享带宽包内有公网IP存在时、包年包月类型的共享带宽包未到期时、按用量计费的共享带宽包使用时长未满一个完整的自然月时均不支持删除共享带宽包; 。
+
+            示例: jdc vpc delete-bandwidth-package  --bandwidth-package-id xxx
+        ''',
+    )
+    def delete_bandwidth_package(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.DeleteBandwidthPackageRequest import DeleteBandwidthPackageRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteBandwidthPackageRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--bandwidth-package-id'], dict(help="""(string) 共享带宽包ID """, dest='bandwidthPackageId',  required=True)),
+            (['--bandwidth-package-ipspecs'], dict(help="""(array: addBandwidthPackageIPSpec) Ip列表 """, dest='bandwidthPackageIPSpecs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' ; 向共享带宽包内增加公网IP; ; ## 接口说明 ; ; - 确保已有至少一个共享带宽包资源。; ; - 添加弹性公网IP前，需确保弹性公网IP所在地域与共享带宽包地域和线路相同，弹性公网IP的计费模式为按配置或按用量计费，且未加入其他的共享带宽包资源。; ; - 已欠费的、包年包月的公网IP不能加入共享带宽包。; ; - 一个公网IP同时只能加入一个共享带宽包。; ; - 共享带宽包中可添加的弹性公网IP受配额限制，添加前请通过 [DescribeQuotas](https://docs.jdcloud.com/cn/shared-bandwidth-package/api/describequotas?content=API) 确认配额，如须提升请[提交工单](https://ticket.jdcloud.com/applyorder/submit)或联系京东云客服。; ; - 弹性公网IP加入共享带宽包后，弹性公网 IP 会原有的计费和带宽上限暂时失效，已共享带宽包进行计费，带宽上限默认为共享带宽包的带宽上限，可通过[modifyBandwidthPackageIpBandwidth](https://docs.jdcloud.com/cn/shared-bandwidth-package/api/modifybandwidthpackageIpbandwidth)进行修改。; ; - 共享带宽包欠费或到期停服后不支持添加弹性公网IP。;  ''',
+        description='''
+            ; 向共享带宽包内增加公网IP; ; ## 接口说明 ; ; - 确保已有至少一个共享带宽包资源。; ; - 添加弹性公网IP前，需确保弹性公网IP所在地域与共享带宽包地域和线路相同，弹性公网IP的计费模式为按配置或按用量计费，且未加入其他的共享带宽包资源。; ; - 已欠费的、包年包月的公网IP不能加入共享带宽包。; ; - 一个公网IP同时只能加入一个共享带宽包。; ; - 共享带宽包中可添加的弹性公网IP受配额限制，添加前请通过 [DescribeQuotas](https://docs.jdcloud.com/cn/shared-bandwidth-package/api/describequotas?content=API) 确认配额，如须提升请[提交工单](https://ticket.jdcloud.com/applyorder/submit)或联系京东云客服。; ; - 弹性公网IP加入共享带宽包后，弹性公网 IP 会原有的计费和带宽上限暂时失效，已共享带宽包进行计费，带宽上限默认为共享带宽包的带宽上限，可通过[modifyBandwidthPackageIpBandwidth](https://docs.jdcloud.com/cn/shared-bandwidth-package/api/modifybandwidthpackageIpbandwidth)进行修改。; ; - 共享带宽包欠费或到期停服后不支持添加弹性公网IP。; 。
+
+            示例: jdc vpc add-bandwidth-package-ip  --bandwidth-package-id xxx --bandwidth-package-ipspecs ['{"":""}']
+        ''',
+    )
+    def add_bandwidth_package_ip(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.AddBandwidthPackageIPRequest import AddBandwidthPackageIPRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddBandwidthPackageIPRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--bandwidth-package-id'], dict(help="""(string) 共享带宽包ID """, dest='bandwidthPackageId',  required=True)),
+            (['--bandwidth-package-ipspecs'], dict(help="""(array: removeBandwidthPackageIPSpec) 公网IP列表 """, dest='bandwidthPackageIPSpecs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' ; 从共享带宽包内移除公网IP; ; ## 接口说明; ; -  弹性公网IP从共享带宽包中移除后，恢复原有的计费模式和带宽上限。; ; -  共享带宽包是否计费与共享带宽包中有无弹性公网IP无关，如共享带宽包中无弹性公网IP资源时请及时删除资源，避免产生额外费用;  ''',
+        description='''
+            ; 从共享带宽包内移除公网IP; ; ## 接口说明; ; -  弹性公网IP从共享带宽包中移除后，恢复原有的计费模式和带宽上限。; ; -  共享带宽包是否计费与共享带宽包中有无弹性公网IP无关，如共享带宽包中无弹性公网IP资源时请及时删除资源，避免产生额外费用; 。
+
+            示例: jdc vpc remove-bandwidth-package-ip  --bandwidth-package-id xxx --bandwidth-package-ipspecs ['{"":""}']
+        ''',
+    )
+    def remove_bandwidth_package_ip(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.RemoveBandwidthPackageIPRequest import RemoveBandwidthPackageIPRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = RemoveBandwidthPackageIPRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--bandwidth-package-id'], dict(help="""(string) 共享带宽包ID """, dest='bandwidthPackageId',  required=True)),
+            (['--bandwidth-package-ipspecs'], dict(help="""(array: modifyBandwidthPackageIpBandwidthSpec) Ip列表 """, dest='bandwidthPackageIPSpecs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' ; 修改共享带宽包内弹性公网 IP 的带宽上限。; ; ## 接口说明; ; - 共享带宽包中弹性公网IP的带宽上限不能高于共享带宽包的带宽上限。;  ''',
+        description='''
+            ; 修改共享带宽包内弹性公网 IP 的带宽上限。; ; ## 接口说明; ; - 共享带宽包中弹性公网IP的带宽上限不能高于共享带宽包的带宽上限。; 。
+
+            示例: jdc vpc modify-bandwidth-package-ip-bandwidth  --bandwidth-package-id xxx --bandwidth-package-ipspecs ['{"":""}']
+        ''',
+    )
+    def modify_bandwidth_package_ip_bandwidth(self):
+        client_factory = ClientFactory('vpc')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vpc.apis.ModifyBandwidthPackageIpBandwidthRequest import ModifyBandwidthPackageIpBandwidthRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ModifyBandwidthPackageIpBandwidthRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) networkSecurityGroupIds - 安全组ID列表，支持多个; networkSecurityGroupNames - 安全组名称列表，支持多个; vpcId	- 安全组所属vpc Id，支持单个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -911,6 +1935,7 @@ class VpcController(BaseController):
             (['--network-security-group-name'], dict(help="""(string) 安全组名称，只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='networkSecurityGroupName',  required=True)),
             (['--description'], dict(help="""(string) 描述,​ 允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -944,6 +1969,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--network-security-group-id'], dict(help="""(string) NetworkSecurityGroup ID """, dest='networkSecurityGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -979,6 +2005,7 @@ class VpcController(BaseController):
             (['--network-security-group-name'], dict(help="""(string) 安全组的名字。名称取值范围：1-32个中文、英文大小写的字母、数字和下划线分隔符 """, dest='networkSecurityGroupName',  required=False)),
             (['--description'], dict(help="""(string) 安全组的描述，取值范围：0-256个UTF-8编码下的全部字符 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1012,6 +2039,7 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--network-security-group-id'], dict(help="""(string) NetworkSecurityGroup ID """, dest='networkSecurityGroupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1046,6 +2074,7 @@ class VpcController(BaseController):
             (['--network-security-group-id'], dict(help="""(string) NetworkSecurityGroup ID """, dest='networkSecurityGroupId',  required=True)),
             (['--network-security-group-rule-specs'], dict(help="""(array: addSecurityGroupRules) 安全组规则信息 """, dest='networkSecurityGroupRuleSpecs',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1080,6 +2109,7 @@ class VpcController(BaseController):
             (['--network-security-group-id'], dict(help="""(string) NetworkSecurityGroup ID """, dest='networkSecurityGroupId',  required=True)),
             (['--rule-ids'], dict(help="""(array: string) 安全组规则Id列表 """, dest='ruleIds',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1114,6 +2144,7 @@ class VpcController(BaseController):
             (['--network-security-group-id'], dict(help="""(string) NetworkSecurityGroup ID """, dest='networkSecurityGroupId',  required=True)),
             (['--modify-security-group-rule-specs'], dict(help="""(array: modifySecurityGroupRules) 安全组规则信息 """, dest='modifySecurityGroupRuleSpecs',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1145,9 +2176,10 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--type'], dict(help="""(string) 资源类型，取值范围：vpc、elastic_ip、subnet、security_group、vpcpeering、network_interface（配额只统计辅助网卡）、acl、aclRule、routeTable、staticRoute、propagatedRoute、securityGroupRule """, dest='type',  required=True)),
-            (['--parent-resource-id'], dict(help="""(string) type为vpc、elastic_ip、network_interface不设置, type为subnet、security_group、vpcpeering、acl、routeTable设置为vpcId, type为aclRule设置为aclId, type为staticRoute、propagatedRoute设置为routeTableId, type为securityGroupRule为securityGroupId """, dest='parentResourceId',  required=False)),
+            (['--type'], dict(help="""(string) 资源类型，取值范围：vpc、elastic_ip、subnet、security_group、vpcpeering、network_interface（配额只统计辅助网卡）、acl、aclRule、routeTable、staticRoute、propagatedRoute、securityGroupRule、network_interface_cidr、bwpByUsage、bandwidthPackageIp、natGateway """, dest='type',  required=True)),
+            (['--parent-resource-id'], dict(help="""(string) type为vpc、elastic_ip、network_interface、bwpByUsage、natGateway不设置, type为subnet、security_group、vpcpeering、acl、routeTable设置为vpcId, type为aclRule设置为aclId, type为staticRoute、propagatedRoute设置为routeTableId, type为securityGroupRule为securityGroupId, type为network_interface_cidr设置为networkInterfaceId，type为bandwidthPackageIp设置为bandwidthPackageId """, dest='parentResourceId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1181,29 +2213,32 @@ class VpcController(BaseController):
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) routeTableIds - 路由表ID列表，支持多个; routeTableNames - 路由表名称列表，支持多个; vpcId	- 路由表所属vpc Id，支持单个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) elasticIpIds - elasticip id数组条件，支持多个; elasticIpAddress - eip的IP地址，支持单个; chargeStatus	- eip的费用支付状态,normal(正常状态) or overdue(预付费已到期) or arrear(欠费状态)，支持单个; ipType - eip类型，取值：all(所有类型)、standard(标准弹性IP)、edge(边缘弹性IP)，默认standard，支持单个; azs - eip可用区，支持多个; bandwidthPackageId - 共享带宽包ID，支持单个; status - IP是否被绑定，取值：ASSOCIATED（被绑定）、NOT_ASSOCIATED（未被绑定）、ALL（全部）。支持单个;  """, dest='filters',  required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
+            (['--resource-group-ids'], dict(help="""(array: string) 资源组筛选条件 """, dest='resourceGroupIds',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询路由表列表 ''',
+        help=''' 查询弹性公网IP列表 ''',
         description='''
-            查询路由表列表。
+            查询弹性公网IP列表。
 
-            示例: jdc vpc describe-route-tables 
+            示例: jdc vpc describe-elastic-ips 
         ''',
     )
-    def describe_route_tables(self):
+    def describe_elastic_ips(self):
         client_factory = ClientFactory('vpc')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vpc.apis.DescribeRouteTablesRequest import DescribeRouteTablesRequest
+            from jdcloud_sdk.services.vpc.apis.DescribeElasticIpsRequest import DescribeElasticIpsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeRouteTablesRequest(params_dict, headers)
+            req = DescribeElasticIpsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1214,31 +2249,36 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--vpc-id'], dict(help="""(string) 路由表所属的私有网络ID """, dest='vpcId',  required=True)),
-            (['--route-table-name'], dict(help="""(string) 路由表名称，只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='routeTableName',  required=True)),
-            (['--description'], dict(help="""(string) 描述,​ 允许输入UTF-8编码下的全部字符，不超过256字符 """, dest='description',  required=False)),
+            (['--max-count'], dict(help="""(int) 购买弹性ip数量；取值范围：[1,100] """, dest='maxCount', type=int, required=True)),
+            (['--elastic-ip-address'], dict(help="""(string) 指定弹性ip地址进行创建，当申请创建多个弹性ip时，必须为空 """, dest='elasticIpAddress',  required=False)),
+            (['--elastic-ip-spec'], dict(help="""(elasticIpSpec) 弹性ip规格 """, dest='elasticIpSpec',  required=True)),
+            (['--user-tags'], dict(help="""(array: tag) 用户标签 """, dest='userTags',  required=False)),
+            (['--ip-type'], dict(help="""(string) 弹性ip类型，取值：standard(标准公网IP)，edge(边缘公网IP)，默认为standard """, dest='ipType',  required=False)),
+            (['--resource-group-id'], dict(help="""(string) 资源所属资源组ID """, dest='resourceGroupId',  required=False)),
+            (['--dry-run'], dict(help="""(bool) 预检标识，默认false，dryRun为true时只作检查，不做变更 """, dest='dryRun', type=bool, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建路由表 ''',
+        help=''' 创建一个或者多个弹性公网IP ''',
         description='''
-            创建路由表。
+            创建一个或者多个弹性公网IP。
 
-            示例: jdc vpc create-route-table  --vpc-id xxx --route-table-name xxx
+            示例: jdc vpc create-elastic-ips  --max-count 5 --elastic-ip-spec '{"":""}'
         ''',
     )
-    def create_route_table(self):
+    def create_elastic_ips(self):
         client_factory = ClientFactory('vpc')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vpc.apis.CreateRouteTableRequest import CreateRouteTableRequest
+            from jdcloud_sdk.services.vpc.apis.CreateElasticIpsRequest import CreateElasticIpsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateRouteTableRequest(params_dict, headers)
+            req = CreateElasticIpsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1249,29 +2289,30 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
+            (['--elastic-ip-id'], dict(help="""(string) ElasticIp ID """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询路由表信息详情 ''',
+        help=''' ElasticIp资源信息详情 ''',
         description='''
-            查询路由表信息详情。
+            ElasticIp资源信息详情。
 
-            示例: jdc vpc describe-route-table  --route-table-id xxx
+            示例: jdc vpc describe-elastic-ip  --elastic-ip-id xxx
         ''',
     )
-    def describe_route_table(self):
+    def describe_elastic_ip(self):
         client_factory = ClientFactory('vpc')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vpc.apis.DescribeRouteTableRequest import DescribeRouteTableRequest
+            from jdcloud_sdk.services.vpc.apis.DescribeElasticIpRequest import DescribeElasticIpRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeRouteTableRequest(params_dict, headers)
+            req = DescribeElasticIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1282,31 +2323,31 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
-            (['--route-table-name'], dict(help="""(string) 路由表的名字。名称取值范围：1-32个中文、英文大小写的字母、数字和下划线分隔符 """, dest='routeTableName',  required=False)),
-            (['--description'], dict(help="""(string) 路由表的描述，取值范围：0-256个UTF-8编码下的全部字符 """, dest='description',  required=False)),
+            (['--elastic-ip-id'], dict(help="""(string) ElasticIp ID """, dest='elasticIpId',  required=True)),
+            (['--bandwidth-mbps'], dict(help="""(int) 弹性公网IP的限速（单位：Mbps），取值范围为[1-200] """, dest='bandwidthMbps', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改路由表属性 ''',
+        help=''' 修改弹性公网IP，当弹性公网IP加入共享带宽包后，此公网IP限速需要调用共享带宽包的接口（修改共享带宽包内公网IP带宽上限） ''',
         description='''
-            修改路由表属性。
+            修改弹性公网IP，当弹性公网IP加入共享带宽包后，此公网IP限速需要调用共享带宽包的接口（修改共享带宽包内公网IP带宽上限）。
 
-            示例: jdc vpc modify-route-table  --route-table-id xxx
+            示例: jdc vpc modify-elastic-ip  --elastic-ip-id xxx --bandwidth-mbps 5
         ''',
     )
-    def modify_route_table(self):
+    def modify_elastic_ip(self):
         client_factory = ClientFactory('vpc')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vpc.apis.ModifyRouteTableRequest import ModifyRouteTableRequest
+            from jdcloud_sdk.services.vpc.apis.ModifyElasticIpRequest import ModifyElasticIpRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ModifyRouteTableRequest(params_dict, headers)
+            req = ModifyElasticIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1317,199 +2358,30 @@ class VpcController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
+            (['--elastic-ip-id'], dict(help="""(string) ElasticIp ID """, dest='elasticIpId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除路由表 ''',
+        help=''' 删除弹性公网IP，已加入共享带宽包的公网IP不能删除，需要先从共享带宽包移出 ''',
         description='''
-            删除路由表。
+            删除弹性公网IP，已加入共享带宽包的公网IP不能删除，需要先从共享带宽包移出。
 
-            示例: jdc vpc delete-route-table  --route-table-id xxx
+            示例: jdc vpc delete-elastic-ip  --elastic-ip-id xxx
         ''',
     )
-    def delete_route_table(self):
+    def delete_elastic_ip(self):
         client_factory = ClientFactory('vpc')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vpc.apis.DeleteRouteTableRequest import DeleteRouteTableRequest
+            from jdcloud_sdk.services.vpc.apis.DeleteElasticIpRequest import DeleteElasticIpRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteRouteTableRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
-            (['--route-table-rule-specs'], dict(help="""(array: addRouteTableRules) 路由表规则信息 """, dest='routeTableRuleSpecs',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 添加路由表规则 ''',
-        description='''
-            添加路由表规则。
-
-            示例: jdc vpc add-route-table-rules  --route-table-id xxx --route-table-rule-specs ['{"":""}']
-        ''',
-    )
-    def add_route_table_rules(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.AddRouteTableRulesRequest import AddRouteTableRulesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = AddRouteTableRulesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
-            (['--rule-ids'], dict(help="""(array: string) 路由表规则Id列表 """, dest='ruleIds',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 移除路由表规则 ''',
-        description='''
-            移除路由表规则。
-
-            示例: jdc vpc remove-route-table-rules  --route-table-id xxx
-        ''',
-    )
-    def remove_route_table_rules(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.RemoveRouteTableRulesRequest import RemoveRouteTableRulesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = RemoveRouteTableRulesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
-            (['--modify-route-table-rule-specs'], dict(help="""(array: modifyRouteTableRules) 路由表规则信息 """, dest='modifyRouteTableRuleSpecs',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改路由表规则 ''',
-        description='''
-            修改路由表规则。
-
-            示例: jdc vpc modify-route-table-rules  --route-table-id xxx --modify-route-table-rule-specs ['{"":""}']
-        ''',
-    )
-    def modify_route_table_rules(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.ModifyRouteTableRulesRequest import ModifyRouteTableRulesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyRouteTableRulesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
-            (['--subnet-ids'], dict(help="""(array: string) 路由表要绑定的子网ID列表, subnet已被其他路由表绑定时，自动解绑。路由表绑定的子网属性要相同，或者都是标准子网，或者都是相同边缘可用区的边缘子网。 """, dest='subnetIds',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 路由表绑定子网接口 ''',
-        description='''
-            路由表绑定子网接口。
-
-            示例: jdc vpc associate-route-table  --route-table-id xxx
-        ''',
-    )
-    def associate_route_table(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.AssociateRouteTableRequest import AssociateRouteTableRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = AssociateRouteTableRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--route-table-id'], dict(help="""(string) RouteTable ID """, dest='routeTableId',  required=True)),
-            (['--subnet-id'], dict(help="""(string) 路由表要解绑的子网ID，解绑后子网绑定默认路由表 """, dest='subnetId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 给路由表解绑子网接口 ''',
-        description='''
-            给路由表解绑子网接口。
-
-            示例: jdc vpc disassociate-route-table  --route-table-id xxx --subnet-id xxx
-        ''',
-    )
-    def disassociate_route_table(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.DisassociateRouteTableRequest import DisassociateRouteTableRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DisassociateRouteTableRequest(params_dict, headers)
+            req = DeleteElasticIpRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1524,6 +2396,7 @@ class VpcController(BaseController):
             (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) providers - 边缘公网IP的线路，命名规则：[线路接入区].[资源关联范围].[服务类型]，示例如cn-n1-jinan1.ez.bgp，支持多个; pointsOfAccess - 边缘公网IP的线路接入区，提供线路接入区具体位置信息，支持多个; associationScope	- 边缘公网IP的资源关联范围，取值ez(边缘可用区)和az(中心可用区，暂不支持),支持单个; serviceTypes - 边缘公网IP的服务类型，取值：bgp(动态)，unicom(联通)，telecom(电信)，mobile(移动)，支持多个; azs - 边缘公网IP的可用区，分为全可用区（暂不支持）和边缘可用区ID(同线路接入区])，示例如cn-n1-sqxx1，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1554,525 +2427,7 @@ class VpcController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) subnetIds - subnet ID列表，支持多个; subnetNames - subnet名称列表，支持多个; routeTableId	- 子网关联路由表Id，支持单个; aclId - 子网关联acl Id，支持单个; vpcId - 子网所属VPC Id，支持单个; subnetType - 子网类型，取值：all(全部类型)，standard(标准子网)，edge(边缘子网)，默认standard ，支持单个; azs - 可用区，支持多个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询子网列表 ''',
-        description='''
-            查询子网列表。
-
-            示例: jdc vpc describe-subnets 
-        ''',
-    )
-    def describe_subnets(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.DescribeSubnetsRequest import DescribeSubnetsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSubnetsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--vpc-id'], dict(help="""(string) 子网所属vpc的Id """, dest='vpcId',  required=True)),
-            (['--subnet-name'], dict(help="""(string) 子网名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='subnetName',  required=True)),
-            (['--address-prefix'], dict(help="""(string) 子网网段，vpc内子网网段不能重叠，cidr的取值范围：10.0.0.0/8、172.16.0.0/12和192.168.0.0/16及它们包含的子网，且子网掩码长度为16-28之间，如果vpc含有cidr，则必须为vpc所在cidr的子网 """, dest='addressPrefix',  required=True)),
-            (['--route-table-id'], dict(help="""(string) 子网关联的路由表Id, 默认为vpc的默认路由表,子网关联路由表需检查路由表中已绑定的子网与本子网类型是否一致（一致标准为：或者都为标准子网，或者都为相同边缘可用区的边缘子网） """, dest='routeTableId',  required=False)),
-            (['--description'], dict(help="""(string) 子网描述信息,允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description',  required=False)),
-            (['--subnet-type'], dict(help="""(string) 子网类型，取值：standard(标准子网)，edge(边缘子网) """, dest='subnetType',  required=False)),
-            (['--az'], dict(help="""(string) 子网可用区，边缘子网必须指定可用区 """, dest='az',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建子网 ''',
-        description='''
-            创建子网。
-
-            示例: jdc vpc create-subnet  --vpc-id xxx --subnet-name xxx --address-prefix xxx
-        ''',
-    )
-    def create_subnet(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.CreateSubnetRequest import CreateSubnetRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateSubnetRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--subnet-id'], dict(help="""(string) Subnet ID """, dest='subnetId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询子网信息详情 ''',
-        description='''
-            查询子网信息详情。
-
-            示例: jdc vpc describe-subnet  --subnet-id xxx
-        ''',
-    )
-    def describe_subnet(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.DescribeSubnetRequest import DescribeSubnetRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSubnetRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--subnet-id'], dict(help="""(string) Subnet ID """, dest='subnetId',  required=True)),
-            (['--subnet-name'], dict(help="""(string) 子网名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='subnetName',  required=False)),
-            (['--description'], dict(help="""(string) 子网描述信息，允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改子网接口 ''',
-        description='''
-            修改子网接口。
-
-            示例: jdc vpc modify-subnet  --subnet-id xxx
-        ''',
-    )
-    def modify_subnet(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.ModifySubnetRequest import ModifySubnetRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifySubnetRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--subnet-id'], dict(help="""(string) Subnet ID """, dest='subnetId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除子网 ''',
-        description='''
-            删除子网。
-
-            示例: jdc vpc delete-subnet  --subnet-id xxx
-        ''',
-    )
-    def delete_subnet(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.DeleteSubnetRequest import DeleteSubnetRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteSubnetRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) vpcIds - vpc ID列表，支持多个; vpcNames - vpc名称列表,支持多个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询私有网络列表 ''',
-        description='''
-            查询私有网络列表。
-
-            示例: jdc vpc describe-vpcs 
-        ''',
-    )
-    def describe_vpcs(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.DescribeVpcsRequest import DescribeVpcsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeVpcsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--vpc-name'], dict(help="""(string) 私有网络名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='vpcName',  required=True)),
-            (['--address-prefix'], dict(help="""(string) 如果为空，则不限制网段，如果不为空，10.0.0.0/8、172.16.0.0/12和192.168.0.0/16及它们包含的子网，且子网掩码长度为16-28之间 """, dest='addressPrefix',  required=False)),
-            (['--description'], dict(help="""(string) vpc描述，允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建私有网络 ''',
-        description='''
-            创建私有网络。
-
-            示例: jdc vpc create-vpc  --vpc-name xxx
-        ''',
-    )
-    def create_vpc(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.CreateVpcRequest import CreateVpcRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateVpcRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--vpc-id'], dict(help="""(string) Vpc ID """, dest='vpcId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询Vpc信息详情 ''',
-        description='''
-            查询Vpc信息详情。
-
-            示例: jdc vpc describe-vpc  --vpc-id xxx
-        ''',
-    )
-    def describe_vpc(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.DescribeVpcRequest import DescribeVpcRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeVpcRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--vpc-id'], dict(help="""(string) Vpc ID """, dest='vpcId',  required=True)),
-            (['--vpc-name'], dict(help="""(string) 私有网络名称,只允许输入中文、数字、大小写字母、英文下划线“_”及中划线“-”，不允许为空且不超过32字符。 """, dest='vpcName',  required=False)),
-            (['--description'], dict(help="""(string) vpc描述，允许输入UTF-8编码下的全部字符，不超过256字符。 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改私有网络接口 ''',
-        description='''
-            修改私有网络接口。
-
-            示例: jdc vpc modify-vpc  --vpc-id xxx
-        ''',
-    )
-    def modify_vpc(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.ModifyVpcRequest import ModifyVpcRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyVpcRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--vpc-id'], dict(help="""(string) Vpc ID """, dest='vpcId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除私有网络 ''',
-        description='''
-            删除私有网络。
-
-            示例: jdc vpc delete-vpc  --vpc-id xxx
-        ''',
-    )
-    def delete_vpc(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.DeleteVpcRequest import DeleteVpcRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteVpcRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码, 默认为1, 取值范围：[1,∞), 页码超过总页数时, 显示最后一页 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小，默认为20，取值范围：[10,100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) vpcPeeringIds - vpcPeering ID，支持多个; vpcPeeringNames - vpcPeering名称列表，支持多个; vpcId	- vpcPeering本端Vpc Id，支持单个; remoteVpcId - vpcPeering对端Vpc Id，支持单个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询VpcPeering资源列表 ''',
-        description='''
-            查询VpcPeering资源列表。
-
-            示例: jdc vpc describe-vpc-peerings 
-        ''',
-    )
-    def describe_vpc_peerings(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.DescribeVpcPeeringsRequest import DescribeVpcPeeringsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeVpcPeeringsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--vpc-peering-name'], dict(help="""(string) VpcPeering的名字,不为空。名称取值范围：1-32个中文、英文大小写的字母、数字和下划线分隔符 """, dest='vpcPeeringName',  required=True)),
-            (['--vpc-id'], dict(help="""(string) VpcPeering本端Vpc的Id """, dest='vpcId',  required=True)),
-            (['--remote-vpc-id'], dict(help="""(string) VpcPeering对端Vpc的Id """, dest='remoteVpcId',  required=True)),
-            (['--description'], dict(help="""(string) VpcPeering 描述，取值范围：0-256个中文、英文大小写的字母、数字和下划线分隔符 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建VpcPeering接口 ''',
-        description='''
-            创建VpcPeering接口。
-
-            示例: jdc vpc create-vpc-peering  --vpc-peering-name xxx --vpc-id xxx --remote-vpc-id xxx
-        ''',
-    )
-    def create_vpc_peering(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.CreateVpcPeeringRequest import CreateVpcPeeringRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateVpcPeeringRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--vpc-peering-id'], dict(help="""(string) vpcPeeringId ID """, dest='vpcPeeringId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询VpcPeering资源详情 ''',
-        description='''
-            查询VpcPeering资源详情。
-
-            示例: jdc vpc describe-vpc-peering  --vpc-peering-id xxx
-        ''',
-    )
-    def describe_vpc_peering(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.DescribeVpcPeeringRequest import DescribeVpcPeeringRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeVpcPeeringRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--vpc-peering-id'], dict(help="""(string) vpcPeeringId ID """, dest='vpcPeeringId',  required=True)),
-            (['--vpc-peering-name'], dict(help="""(string) VpcPeering的名字,不为空。名称取值范围：1-32个中文、英文大小写的字母、数字和下划线分隔符 """, dest='vpcPeeringName',  required=False)),
-            (['--description'], dict(help="""(string) VpcPeering 描述，取值范围：0-256个中文、英文大小写的字母、数字和下划线分隔符 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改VpcPeering接口 ''',
-        description='''
-            修改VpcPeering接口。
-
-            示例: jdc vpc modify-vpc-peering  --vpc-peering-id xxx
-        ''',
-    )
-    def modify_vpc_peering(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.ModifyVpcPeeringRequest import ModifyVpcPeeringRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ModifyVpcPeeringRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--vpc-peering-id'], dict(help="""(string) vpcPeeringId ID """, dest='vpcPeeringId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除VpcPeering接口 ''',
-        description='''
-            删除VpcPeering接口。
-
-            示例: jdc vpc delete-vpc-peering  --vpc-peering-id xxx
-        ''',
-    )
-    def delete_vpc_peering(self):
-        client_factory = ClientFactory('vpc')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vpc.apis.DeleteVpcPeeringRequest import DeleteVpcPeeringRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteVpcPeeringRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-elastic-ips','create-elastic-ips','describe-elastic-ip','modify-elastic-ip','delete-elastic-ip','describe-network-acls','create-network-acl','describe-network-acl','modify-network-acl','delete-network-acl','associate-network-acl','disassociate-network-acl','add-network-acl-rules','remove-network-acl-rules','modify-network-acl-rules','describe-network-interfaces','create-network-interface','describe-network-interface','modify-network-interface','delete-network-interface','associate-elastic-ip','disassociate-elastic-ip','assign-secondary-ips','unassign-secondary-ips','describe-network-security-groups','create-network-security-group','describe-network-security-group','modify-network-security-group','delete-network-security-group','add-network-security-group-rules','remove-network-security-group-rules','modify-network-security-group-rules','describe-quota','describe-route-tables','create-route-table','describe-route-table','modify-route-table','delete-route-table','add-route-table-rules','remove-route-table-rules','modify-route-table-rules','associate-route-table','disassociate-route-table','describe-edge-ip-providers','describe-subnets','create-subnet','describe-subnet','modify-subnet','delete-subnet','describe-vpcs','create-vpc','describe-vpc','modify-vpc','delete-vpc','describe-vpc-peerings','create-vpc-peering','describe-vpc-peering','modify-vpc-peering','delete-vpc-peering',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-vpc-peerings','create-vpc-peering','describe-vpc-peering','modify-vpc-peering','delete-vpc-peering','describe-route-tables','create-route-table','describe-route-table','modify-route-table','delete-route-table','add-route-table-rules','remove-route-table-rules','modify-route-table-rules','associate-route-table','disassociate-route-table','describe-subnets','create-subnet','describe-subnet','modify-subnet','delete-subnet','describe-network-acls','create-network-acl','describe-network-acl','modify-network-acl','delete-network-acl','associate-network-acl','disassociate-network-acl','add-network-acl-rules','remove-network-acl-rules','modify-network-acl-rules','describe-vpcs','create-vpc','describe-vpc','modify-vpc','delete-vpc','describe-network-interfaces','create-network-interface','describe-network-interface','modify-network-interface','delete-network-interface','associate-elastic-ip','disassociate-elastic-ip','assign-secondary-ips','unassign-secondary-ips','describe-bandwidth-packages','create-bandwidth-package','describe-bandwidth-package','modify-bandwidth-package','delete-bandwidth-package','add-bandwidth-package-ip','remove-bandwidth-package-ip','modify-bandwidth-package-ip-bandwidth','describe-network-security-groups','create-network-security-group','describe-network-security-group','modify-network-security-group','delete-network-security-group','add-network-security-group-rules','remove-network-security-group-rules','modify-network-security-group-rules','describe-quota','describe-elastic-ips','create-elastic-ips','describe-elastic-ip','modify-elastic-ip','delete-elastic-ip','describe-edge-ip-providers',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

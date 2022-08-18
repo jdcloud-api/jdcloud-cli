@@ -1,4 +1,37 @@
 {
+    "describe-secrets":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-secret":{
+        "name":"",
+        "secretType":"",
+        "data":{
+            "server":"",
+            "username":"",
+            "password":"",
+            "email":""
+        },
+        "regionId":""
+    },
+    "describe-secret":{
+        "regionId":"",
+        "name":""
+    },
+    "delete-secret":{
+        "regionId":"",
+        "name":""
+    },
+    "describe-quota":{
+        "resourceType":"",
+        "regionId":""
+    },
     "describe-containers":{
         "pageNumber":"",
         "pageSize":"",
@@ -40,6 +73,7 @@
                     "diskSizeGB":"",
                     "iops":"",
                     "snapshotId":"",
+                    "policyId":"",
                     "charge":{
                         "chargeMode":"",
                         "chargeUnit":"",
@@ -90,7 +124,8 @@
                 "chargeDuration":"",
                 "autoRenew":"",
                 "buyScenario":""
-            }
+            },
+            "userTags":[""]
         },
         "maxCount":"",
         "clientToken":"",
@@ -179,38 +214,5 @@
             "values":""
         }],
         "regionId":""
-    },
-    "describe-quota":{
-        "resourceType":"",
-        "regionId":""
-    },
-    "describe-secrets":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-secret":{
-        "name":"",
-        "secretType":"",
-        "data":{
-            "server":"",
-            "username":"",
-            "password":"",
-            "email":""
-        },
-        "regionId":""
-    },
-    "describe-secret":{
-        "regionId":"",
-        "name":""
-    },
-    "delete-secret":{
-        "regionId":"",
-        "name":""
     },
 }

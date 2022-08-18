@@ -1,4 +1,24 @@
 {
+    "list-product-abilities":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":"",
+        "productKey":""
+    },
+    "import-thing-model":{
+        "thingModel":"",
+        "regionId":"",
+        "productKey":""
+    },
+    "export-thing-model":{
+        "regionId":"",
+        "productKey":""
+    },
     "describe-thing-shadow":{
         "regionId":"",
         "identifier":"",
@@ -74,7 +94,6 @@
         "productName":"",
         "productType":"",
         "productDescription":"",
-        "templateId":"",
         "regionId":""
     },
     "describe-product":{
@@ -89,26 +108,6 @@
         "productKey":""
     },
     "delete-product":{
-        "regionId":"",
-        "productKey":""
-    },
-    "list-product-abilities":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":"",
-        "productKey":""
-    },
-    "import-thing-model":{
-        "thingModel":"",
-        "regionId":"",
-        "productKey":""
-    },
-    "export-thing-model":{
         "regionId":"",
         "productKey":""
     },
