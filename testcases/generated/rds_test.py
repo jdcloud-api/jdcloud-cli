@@ -23,6 +23,33 @@ import json
 
 class RdsTest(unittest.TestCase):
 
+    def test_describe_binlogs(self):
+        cmd = """python ../../main.py rds describe-binlogs  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_binlog_download_url(self):
+        cmd = """python ../../main.py rds describe-binlog-download-url  --instance-id 'xxx' --binlog-backup-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_clear_binlogs(self):
+        cmd = """python ../../main.py rds clear-binlogs  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_accounts(self):
         cmd = """python ../../main.py rds describe-accounts  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -104,8 +131,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_audit(self):
-        cmd = """python ../../main.py rds describe-audit  --instance-id 'xxx'"""
+    def test_describe_accounts_for_ops(self):
+        cmd = """python ../../main.py rds describe-accounts-for-ops  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -113,8 +140,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_audit(self):
-        cmd = """python ../../main.py rds create-audit  --instance-id 'xxx' --enabled 'xxx'"""
+    def test_create_account_for_ops(self):
+        cmd = """python ../../main.py rds create-account-for-ops  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -122,296 +149,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_audit(self):
-        cmd = """python ../../main.py rds delete-audit  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_audit_options(self):
-        cmd = """python ../../main.py rds describe-audit-options  --instance-id 'xxx' --name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_modify_audit(self):
-        cmd = """python ../../main.py rds modify-audit  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_audit_files(self):
-        cmd = """python ../../main.py rds describe-audit-files  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_audit_download_url(self):
-        cmd = """python ../../main.py rds describe-audit-download-url  --instance-id 'xxx' --file-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_enable_audit(self):
-        cmd = """python ../../main.py rds enable-audit  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_disable_audit(self):
-        cmd = """python ../../main.py rds disable-audit  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_audit_result(self):
-        cmd = """python ../../main.py rds describe-audit-result  --instance-id 'xxx' --start-time 'xxx' --end-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_azs(self):
-        cmd = """python ../../main.py rds describe-azs  --engine 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_backups(self):
-        cmd = """python ../../main.py rds describe-backups  --instance-id 'xxx' --page-number '5' --page-size '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_backup(self):
-        cmd = """python ../../main.py rds create-backup """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_backup(self):
-        cmd = """python ../../main.py rds delete-backup  --backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_backup_download_url(self):
-        cmd = """python ../../main.py rds describe-backup-download-url  --backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_backup_synchronicities(self):
-        cmd = """python ../../main.py rds describe-backup-synchronicities """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_backup_synchronicity(self):
-        cmd = """python ../../main.py rds create-backup-synchronicity  --instance-id 'xxx' --dest-region 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_backup_synchronicity(self):
-        cmd = """python ../../main.py rds delete-backup-synchronicity  --service-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_instance_by_time_in_cross_region(self):
-        cmd = """python ../../main.py rds create-instance-by-time-in-cross-region  --restore-time 'xxx' --service-id 'xxx' --instance-spec '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_binlogs(self):
-        cmd = """python ../../main.py rds describe-binlogs  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_binlog_download_url(self):
-        cmd = """python ../../main.py rds describe-binlog-download-url  --instance-id 'xxx' --binlog-backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_clear_binlogs(self):
-        cmd = """python ../../main.py rds clear-binlogs  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_alter_table_with_online_ddl(self):
-        cmd = """python ../../main.py rds alter-table-with-online-ddl  --instance-id 'xxx' --database 'xxx' --table 'xxx' --command 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_privilege(self):
-        cmd = """python ../../main.py rds describe-privilege  --engine 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_databases(self):
-        cmd = """python ../../main.py rds describe-databases  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_database(self):
-        cmd = """python ../../main.py rds create-database  --instance-id 'xxx' --db-name 'xxx' --character-set-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_database(self):
-        cmd = """python ../../main.py rds delete-database  --instance-id 'xxx' --db-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_restore_database_from_backup(self):
-        cmd = """python ../../main.py rds restore-database-from-backup  --instance-id 'xxx' --db-name 'xxx' --backup-id 'xxx' --backup-file-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_restore_database_from_file(self):
-        cmd = """python ../../main.py rds restore-database-from-file  --instance-id 'xxx' --db-name 'xxx' --file-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_restore_database_from_oss(self):
-        cmd = """python ../../main.py rds restore-database-from-oss  --instance-id 'xxx' --db-name 'xxx' --oss-url 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_error_logs(self):
-        cmd = """python ../../main.py rds describe-error-logs  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_import_files(self):
-        cmd = """python ../../main.py rds describe-import-files  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_upload_key(self):
-        cmd = """python ../../main.py rds get-upload-key  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_set_import_file_shared(self):
-        cmd = """python ../../main.py rds set-import-file-shared  --instance-id 'xxx' --file-name 'xxx' --shared 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_import_file(self):
-        cmd = """python ../../main.py rds delete-import-file  --instance-id 'xxx' --file-name 'xxx'"""
+    def test_modify_account_for_ops(self):
+        cmd = """python ../../main.py rds modify-account-for-ops  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -466,6 +205,33 @@ class RdsTest(unittest.TestCase):
 
     def test_modify_backup_policy(self):
         cmd = """python ../../main.py rds modify-backup-policy  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_enhanced_backup(self):
+        cmd = """python ../../main.py rds enable-enhanced-backup  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_backup_space(self):
+        cmd = """python ../../main.py rds describe-backup-space  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_backup_charge(self):
+        cmd = """python ../../main.py rds describe-backup-charge  --engine 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -626,8 +392,206 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_disable_ssl(self):
+        cmd = """python ../../main.py rds disable-ssl  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_restore_instance_by_time(self):
         cmd = """python ../../main.py rds restore-instance-by-time  --instance-id 'xxx' --restore-time 'xxx' --restore-schema '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_active_directory(self):
+        cmd = """python ../../main.py rds modify-active-directory  --instance-id 'xxx' --ad-resource-id 'xxx' --force-restart 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_instance_maintain_time(self):
+        cmd = """python ../../main.py rds modify-instance-maintain-time  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_instance_maintain_time(self):
+        cmd = """python ../../main.py rds describe-instance-maintain-time  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_switch_for_modifying_instance_spec(self):
+        cmd = """python ../../main.py rds switch-for-modifying-instance-spec  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_upgrade_versions(self):
+        cmd = """python ../../main.py rds describe-upgrade-versions  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_upgrade_plan(self):
+        cmd = """python ../../main.py rds describe-upgrade-plan  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_upgrade_engine_version(self):
+        cmd = """python ../../main.py rds upgrade-engine-version  --instance-id 'xxx' --upgrade-schedule '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_import_files(self):
+        cmd = """python ../../main.py rds describe-import-files  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_upload_key(self):
+        cmd = """python ../../main.py rds get-upload-key  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_import_file_shared(self):
+        cmd = """python ../../main.py rds set-import-file-shared  --instance-id 'xxx' --file-name 'xxx' --shared 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_import_file(self):
+        cmd = """python ../../main.py rds delete-import-file  --instance-id 'xxx' --file-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_logs(self):
+        cmd = """python ../../main.py rds describe-logs  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_log_download_urlinternal(self):
+        cmd = """python ../../main.py rds update-log-download-urlinternal  --instance-id 'xxx' --log-id 'xxx' --seconds '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_log_download_url(self):
+        cmd = """python ../../main.py rds describe-log-download-url  --instance-id 'xxx' --log-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_databases(self):
+        cmd = """python ../../main.py rds describe-databases  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_database(self):
+        cmd = """python ../../main.py rds create-database  --instance-id 'xxx' --db-name 'xxx' --character-set-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_database(self):
+        cmd = """python ../../main.py rds delete-database  --instance-id 'xxx' --db-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_restore_database_from_backup(self):
+        cmd = """python ../../main.py rds restore-database-from-backup  --instance-id 'xxx' --db-name 'xxx' --backup-id 'xxx' --backup-file-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_restore_database_from_file(self):
+        cmd = """python ../../main.py rds restore-database-from-file  --instance-id 'xxx' --db-name 'xxx' --file-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_restore_database_from_oss(self):
+        cmd = """python ../../main.py rds restore-database-from-oss  --instance-id 'xxx' --db-name 'xxx' --oss-url 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_database_comment(self):
+        cmd = """python ../../main.py rds modify-database-comment  --instance-id 'xxx' --db-name 'xxx' --comment 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -671,8 +635,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_logs(self):
-        cmd = """python ../../main.py rds describe-logs  --instance-id 'xxx'"""
+    def test_describe_read_write_proxies(self):
+        cmd = """python ../../main.py rds describe-read-write-proxies  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -680,8 +644,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_log_download_urlinternal(self):
-        cmd = """python ../../main.py rds update-log-download-urlinternal  --instance-id 'xxx' --log-id 'xxx' --seconds '5'"""
+    def test_create_read_write_proxy(self):
+        cmd = """python ../../main.py rds create-read-write-proxy  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -689,8 +653,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_log_download_url(self):
-        cmd = """python ../../main.py rds describe-log-download-url  --instance-id 'xxx' --log-id 'xxx'"""
+    def test_describe_read_write_proxy_attribute(self):
+        cmd = """python ../../main.py rds describe-read-write-proxy-attribute  --read-write-proxy-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -698,8 +662,8 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_parameters(self):
-        cmd = """python ../../main.py rds describe-parameters  --instance-id 'xxx'"""
+    def test_delete_read_write_proxy(self):
+        cmd = """python ../../main.py rds delete-read-write-proxy  --read-write-proxy-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -707,8 +671,26 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_modify_parameters(self):
-        cmd = """python ../../main.py rds modify-parameters  --instance-id 'xxx' --parameters '[{"":""}]'"""
+    def test_enable_read_write_proxy_internet_access(self):
+        cmd = """python ../../main.py rds enable-read-write-proxy-internet-access  --read-write-proxy-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_read_write_proxy_internet_access(self):
+        cmd = """python ../../main.py rds disable-read-write-proxy-internet-access  --read-write-proxy-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_read_write_proxy(self):
+        cmd = """python ../../main.py rds modify-read-write-proxy  --read-write-proxy-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -797,6 +779,267 @@ class RdsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_backups(self):
+        cmd = """python ../../main.py rds describe-backups  --instance-id 'xxx' --page-number '5' --page-size '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_backup(self):
+        cmd = """python ../../main.py rds create-backup """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_backup(self):
+        cmd = """python ../../main.py rds delete-backup  --backup-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_backup_download_url(self):
+        cmd = """python ../../main.py rds describe-backup-download-url  --backup-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_tables(self):
+        cmd = """python ../../main.py rds describe-tables  --instance-id 'xxx' --db-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_tde(self):
+        cmd = """python ../../main.py rds describe-tde  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_tde(self):
+        cmd = """python ../../main.py rds enable-tde  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_white_list(self):
+        cmd = """python ../../main.py rds describe-white-list  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_white_list(self):
+        cmd = """python ../../main.py rds modify-white-list  --instance-id 'xxx' --ips 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_audit(self):
+        cmd = """python ../../main.py rds describe-audit  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_audit(self):
+        cmd = """python ../../main.py rds create-audit  --instance-id 'xxx' --enabled 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_audit(self):
+        cmd = """python ../../main.py rds delete-audit  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_audit_options(self):
+        cmd = """python ../../main.py rds describe-audit-options  --instance-id 'xxx' --name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_audit(self):
+        cmd = """python ../../main.py rds modify-audit  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_audit_files(self):
+        cmd = """python ../../main.py rds describe-audit-files  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_audit_download_url(self):
+        cmd = """python ../../main.py rds describe-audit-download-url  --instance-id 'xxx' --file-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_audit(self):
+        cmd = """python ../../main.py rds enable-audit  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_disable_audit(self):
+        cmd = """python ../../main.py rds disable-audit  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_audit_result(self):
+        cmd = """python ../../main.py rds describe-audit-result  --instance-id 'xxx' --start-time 'xxx' --end-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_azs(self):
+        cmd = """python ../../main.py rds describe-azs  --engine 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_alter_table_with_online_ddl(self):
+        cmd = """python ../../main.py rds alter-table-with-online-ddl  --instance-id 'xxx' --database 'xxx' --table 'xxx' --command 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_parameters(self):
+        cmd = """python ../../main.py rds describe-parameters  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_parameters(self):
+        cmd = """python ../../main.py rds modify-parameters  --instance-id 'xxx' --parameters '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_backup_synchronicities(self):
+        cmd = """python ../../main.py rds describe-backup-synchronicities """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_backup_synchronicity(self):
+        cmd = """python ../../main.py rds create-backup-synchronicity  --instance-id 'xxx' --dest-region 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_backup_synchronicity(self):
+        cmd = """python ../../main.py rds delete-backup-synchronicity  --service-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_instance_by_time_in_cross_region(self):
+        cmd = """python ../../main.py rds create-instance-by-time-in-cross-region  --restore-time 'xxx' --service-id 'xxx' --instance-spec '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_error_logs(self):
+        cmd = """python ../../main.py rds describe-error-logs  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_privilege(self):
+        cmd = """python ../../main.py rds describe-privilege  --engine 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_index_performance(self):
         cmd = """python ../../main.py rds describe-index-performance  --instance-id 'xxx' --query-type 'xxx'"""
         with os.popen(cmd) as f:
@@ -844,51 +1087,6 @@ class RdsTest(unittest.TestCase):
 
     def test_describe_error_log(self):
         cmd = """python ../../main.py rds describe-error-log  --instance-id 'xxx' --start-time 'xxx' --end-time 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_tables(self):
-        cmd = """python ../../main.py rds describe-tables  --instance-id 'xxx' --db-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_tde(self):
-        cmd = """python ../../main.py rds describe-tde  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_enable_tde(self):
-        cmd = """python ../../main.py rds enable-tde  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_white_list(self):
-        cmd = """python ../../main.py rds describe-white-list  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_modify_white_list(self):
-        cmd = """python ../../main.py rds modify-white-list  --instance-id 'xxx' --ips 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

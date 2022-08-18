@@ -23,51 +23,6 @@ import json
 
 class FunctionTest(unittest.TestCase):
 
-    def test_list_alias(self):
-        cmd = """python ../../main.py function list-alias  --function-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_alias(self):
-        cmd = """python ../../main.py function create-alias  --function-name 'xxx' --alias-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_alias(self):
-        cmd = """python ../../main.py function get-alias  --function-name 'xxx' --alias-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_alias(self):
-        cmd = """python ../../main.py function update-alias  --function-name 'xxx' --alias-name 'xxx' --description 'xxx' --version 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_alias(self):
-        cmd = """python ../../main.py function delete-alias  --function-name 'xxx' --alias-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_list_function(self):
         cmd = """python ../../main.py function list-function  --list-all 'true'"""
         with os.popen(cmd) as f:
@@ -131,15 +86,6 @@ class FunctionTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_trigger(self):
-        cmd = """python ../../main.py function get-trigger  --function-name 'xxx' --version-name 'xxx' --trigger-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_list_version(self):
         cmd = """python ../../main.py function list-version  --function-name 'xxx'"""
         with os.popen(cmd) as f:
@@ -169,6 +115,60 @@ class FunctionTest(unittest.TestCase):
 
     def test_delete_version(self):
         cmd = """python ../../main.py function delete-version  --function-name 'xxx' --version-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_alias(self):
+        cmd = """python ../../main.py function list-alias  --function-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_alias(self):
+        cmd = """python ../../main.py function create-alias  --function-name 'xxx' --alias-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_alias(self):
+        cmd = """python ../../main.py function get-alias  --function-name 'xxx' --alias-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_alias(self):
+        cmd = """python ../../main.py function update-alias  --function-name 'xxx' --alias-name 'xxx' --description 'xxx' --version 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_alias(self):
+        cmd = """python ../../main.py function delete-alias  --function-name 'xxx' --alias-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_trigger(self):
+        cmd = """python ../../main.py function get-trigger  --function-name 'xxx' --version-name 'xxx' --trigger-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

@@ -1,5 +1,95 @@
 {
-    "query-access-auths":{
+    "query-user-domains":{
+        "pageNumber":"",
+        "pageSize":"",
+        "orderBy":"",
+        "apiGroupId":"",
+        "regionId":""
+    },
+    "create-user-domain":{
+        "domain":"",
+        "protocol":"",
+        "apiGroupId":"",
+        "regionId":""
+    },
+    "delete-user-domain":{
+        "domainIds":"",
+        "apiGroupId":"",
+        "regionId":""
+    },
+    "create-backend-config":{
+        "backendConfigId":"",
+        "baseGroupId":"",
+        "environment":"",
+        "backendUrl":"",
+        "backendServiceType":"",
+        "headerParams":[{
+            "name":"",
+            "value":""
+        }],
+        "queryParams":[{
+            "name":"",
+            "value":""
+        }],
+        "description":"",
+        "createTime":"",
+        "sort":"",
+        "userSort":"",
+        "jdsfId":"",
+        "jdsfParam":"",
+        "jdsfRegion":"",
+        "jdsfPin":"",
+        "regionId":"",
+        "apiGroupId":""
+    },
+    "describe-backend-configs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":"",
+        "apiGroupId":"",
+        "environment":""
+    },
+    "describe-backend-config":{
+        "regionId":"",
+        "apiGroupId":"",
+        "backendConfigId":""
+    },
+    "update-backend-config":{
+        "baseGroupId":"",
+        "environment":"",
+        "backendUrl":"",
+        "backendServiceType":"",
+        "headerParams":[{
+            "name":"",
+            "value":""
+        }],
+        "queryParams":[{
+            "name":"",
+            "value":""
+        }],
+        "description":"",
+        "createTime":"",
+        "sort":"",
+        "userSort":"",
+        "jdsfId":"",
+        "jdsfParam":"",
+        "jdsfRegion":"",
+        "jdsfPin":"",
+        "regionId":"",
+        "apiGroupId":"",
+        "backendConfigId":""
+    },
+    "delete-backend-config":{
+        "regionId":"",
+        "apiGroupId":"",
+        "backendConfigId":""
+    },
+    "query-uc-access-keys":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
@@ -9,52 +99,153 @@
         }],
         "regionId":""
     },
-    "create-access-auth":{
-        "accessAuthView":{
-            "authUserType":"",
-            "accessKey":"",
-            "deploymentIds":"",
+    "query-keys":{
+        "pageNumber":"",
+        "pageSize":"",
+        "orderBy":"",
+        "userType":"",
+        "keyId":"",
+        "regionId":""
+    },
+    "create-key":{
+        "keyName":"",
+        "keyDesc":"",
+        "regionId":""
+    },
+    "reset-key":{
+        "keyId":"",
+        "regionId":""
+    },
+    "update-key":{
+        "keyId":"",
+        "keyName":"",
+        "keyDesc":"",
+        "regionId":""
+    },
+    "query-key-info":{
+        "regionId":"",
+        "keyId":""
+    },
+    "describe-api-groups":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "tagFilters":[{
+            "key":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-api-group":{
+        "groupName":"",
+        "description":"",
+        "prefix":"",
+        "keyCheck":"",
+        "authType":"",
+        "prefixStrip":"",
+        "groupType":"",
+        "jdsfName":"",
+        "jdsfRegistryName":"",
+        "jdsfId":"",
+        "regionId":""
+    },
+    "check-group-name-exist":{
+        "groupName":"",
+        "regionId":""
+    },
+    "describe-api-group":{
+        "regionId":"",
+        "apiGroupId":""
+    },
+    "modify-api-group-attribute":{
+        "groupName":"",
+        "description":"",
+        "prefix":"",
+        "keyCheck":"",
+        "authType":"",
+        "prefixStrip":"",
+        "groupType":"",
+        "jdsfName":"",
+        "jdsfRegistryName":"",
+        "jdsfId":"",
+        "regionId":"",
+        "apiGroupId":""
+    },
+    "delete-api-group":{
+        "regionId":"",
+        "apiGroupId":""
+    },
+    "describe-is-deploy-api-groups":{
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "query-rate-limit-policies":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-rate-limit-policy":{
+        "rateLimitPolicyView":{
+            "policyName":"",
+            "timeUnit":"",
+            "apiLimitCount":"",
+            "userLimitCount":"",
+            "appLimitCount":"",
             "description":""
         },
         "regionId":""
     },
-    "check-auth-exist":{
-        "accessKey":"",
-        "authUserType":"",
+    "check-policy-name":{
+        "policyName":"",
         "regionId":""
     },
-    "query-access-auth":{
+    "query-rate-limit-policy":{
         "regionId":"",
-        "accessAuthId":""
+        "policyId":""
     },
-    "update-access-auth":{
-        "accessAuthView":{
-            "authUserType":"",
-            "accessKey":"",
-            "deploymentIds":"",
+    "update-rate-limit-policy":{
+        "rateLimitPolicyView":{
+            "policyName":"",
+            "timeUnit":"",
+            "apiLimitCount":"",
+            "userLimitCount":"",
+            "appLimitCount":"",
             "description":""
         },
         "regionId":"",
-        "accessAuthId":""
+        "policyId":""
     },
-    "delete-access-auth":{
+    "delete-rate-limit-policy":{
         "regionId":"",
-        "accessAuthId":""
+        "policyId":""
     },
-    "query-bind-group-auth":{
+    "query-bind-group-policy":{
         "regionId":"",
-        "accessAuthId":""
+        "policyId":""
     },
-    "bind-group-auth":{
+    "bind-group-policy":{
         "deploymentIds":"",
         "regionId":"",
-        "accessAuthId":""
+        "policyId":""
     },
-    "query-auth-group-list":{
-        "authUserType":"",
-        "regionId":""
+    "query-policy-group-list":{
+        "regionId":"",
+        "policyId":""
     },
-    "authorized-api-group-list":{
+    "query-subscription-keys":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
@@ -63,6 +254,25 @@
             "values":""
         }],
         "regionId":""
+    },
+    "create-subscription-key":{
+        "description":"",
+        "name":"",
+        "regionId":""
+    },
+    "query-subscription-key":{
+        "regionId":"",
+        "subscriptionKeyId":""
+    },
+    "update-subscription-key":{
+        "description":"",
+        "name":"",
+        "regionId":"",
+        "subscriptionKeyId":""
+    },
+    "delete-subscription-key":{
+        "regionId":"",
+        "subscriptionKeyId":""
     },
     "query-access-keys":{
         "pageNumber":"",
@@ -112,6 +322,10 @@
     "query-key-group-list":{
         "regionId":"",
         "accessKeyId":""
+    },
+    "check-pin":{
+        "regionId":"",
+        "pin":""
     },
     "query-apis":{
         "pageNumber":"",
@@ -258,139 +472,6 @@
         "revision":"",
         "apiName":""
     },
-    "describe-api-groups":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "tagFilters":[{
-            "key":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-api-group":{
-        "groupName":"",
-        "description":"",
-        "prefix":"",
-        "keyCheck":"",
-        "authType":"",
-        "prefixStrip":"",
-        "groupType":"",
-        "jdsfName":"",
-        "jdsfRegistryName":"",
-        "jdsfId":"",
-        "regionId":""
-    },
-    "check-group-name-exist":{
-        "groupName":"",
-        "regionId":""
-    },
-    "describe-api-group":{
-        "regionId":"",
-        "apiGroupId":""
-    },
-    "modify-api-group-attribute":{
-        "groupName":"",
-        "description":"",
-        "prefix":"",
-        "keyCheck":"",
-        "authType":"",
-        "prefixStrip":"",
-        "groupType":"",
-        "jdsfName":"",
-        "jdsfRegistryName":"",
-        "jdsfId":"",
-        "regionId":"",
-        "apiGroupId":""
-    },
-    "delete-api-group":{
-        "regionId":"",
-        "apiGroupId":""
-    },
-    "describe-is-deploy-api-groups":{
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-backend-config":{
-        "backendConfigId":"",
-        "baseGroupId":"",
-        "environment":"",
-        "backendUrl":"",
-        "backendServiceType":"",
-        "headerParams":[{
-            "name":"",
-            "value":""
-        }],
-        "queryParams":[{
-            "name":"",
-            "value":""
-        }],
-        "description":"",
-        "createTime":"",
-        "sort":"",
-        "userSort":"",
-        "jdsfId":"",
-        "jdsfParam":"",
-        "jdsfRegion":"",
-        "jdsfPin":"",
-        "regionId":"",
-        "apiGroupId":""
-    },
-    "describe-backend-configs":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":"",
-        "apiGroupId":"",
-        "environment":""
-    },
-    "describe-backend-config":{
-        "regionId":"",
-        "apiGroupId":"",
-        "backendConfigId":""
-    },
-    "update-backend-config":{
-        "baseGroupId":"",
-        "environment":"",
-        "backendUrl":"",
-        "backendServiceType":"",
-        "headerParams":[{
-            "name":"",
-            "value":""
-        }],
-        "queryParams":[{
-            "name":"",
-            "value":""
-        }],
-        "description":"",
-        "createTime":"",
-        "sort":"",
-        "userSort":"",
-        "jdsfId":"",
-        "jdsfParam":"",
-        "jdsfRegion":"",
-        "jdsfPin":"",
-        "regionId":"",
-        "apiGroupId":"",
-        "backendConfigId":""
-    },
-    "delete-backend-config":{
-        "regionId":"",
-        "apiGroupId":"",
-        "backendConfigId":""
-    },
     "describe-deployments":{
         "filters":[{
             "name":"",
@@ -426,91 +507,6 @@
         "deploymentIds":"",
         "regionId":"",
         "apiGroupId":""
-    },
-    "query-keys":{
-        "pageNumber":"",
-        "pageSize":"",
-        "orderBy":"",
-        "userType":"",
-        "keyId":"",
-        "regionId":""
-    },
-    "create-key":{
-        "keyName":"",
-        "keyDesc":"",
-        "regionId":""
-    },
-    "reset-key":{
-        "keyId":"",
-        "regionId":""
-    },
-    "update-key":{
-        "keyId":"",
-        "keyName":"",
-        "keyDesc":"",
-        "regionId":""
-    },
-    "query-key-info":{
-        "regionId":"",
-        "keyId":""
-    },
-    "query-rate-limit-policies":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-rate-limit-policy":{
-        "rateLimitPolicyView":{
-            "policyName":"",
-            "timeUnit":"",
-            "apiLimitCount":"",
-            "userLimitCount":"",
-            "appLimitCount":"",
-            "description":""
-        },
-        "regionId":""
-    },
-    "check-policy-name":{
-        "policyName":"",
-        "regionId":""
-    },
-    "query-rate-limit-policy":{
-        "regionId":"",
-        "policyId":""
-    },
-    "update-rate-limit-policy":{
-        "rateLimitPolicyView":{
-            "policyName":"",
-            "timeUnit":"",
-            "apiLimitCount":"",
-            "userLimitCount":"",
-            "appLimitCount":"",
-            "description":""
-        },
-        "regionId":"",
-        "policyId":""
-    },
-    "delete-rate-limit-policy":{
-        "regionId":"",
-        "policyId":""
-    },
-    "query-bind-group-policy":{
-        "regionId":"",
-        "policyId":""
-    },
-    "bind-group-policy":{
-        "deploymentIds":"",
-        "regionId":"",
-        "policyId":""
-    },
-    "query-policy-group-list":{
-        "regionId":"",
-        "policyId":""
     },
     "describe-revisions":{
         "pageNumber":"",
@@ -562,7 +558,7 @@
         "apiGroupId":"",
         "revisionId":""
     },
-    "query-subscription-keys":{
+    "query-access-auths":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
@@ -572,26 +568,52 @@
         }],
         "regionId":""
     },
-    "create-subscription-key":{
-        "description":"",
-        "name":"",
+    "create-access-auth":{
+        "accessAuthView":{
+            "authUserType":"",
+            "accessKey":"",
+            "deploymentIds":"",
+            "description":""
+        },
         "regionId":""
     },
-    "query-subscription-key":{
-        "regionId":"",
-        "subscriptionKeyId":""
+    "check-auth-exist":{
+        "accessKey":"",
+        "authUserType":"",
+        "regionId":""
     },
-    "update-subscription-key":{
-        "description":"",
-        "name":"",
+    "query-access-auth":{
         "regionId":"",
-        "subscriptionKeyId":""
+        "accessAuthId":""
     },
-    "delete-subscription-key":{
+    "update-access-auth":{
+        "accessAuthView":{
+            "authUserType":"",
+            "accessKey":"",
+            "deploymentIds":"",
+            "description":""
+        },
         "regionId":"",
-        "subscriptionKeyId":""
+        "accessAuthId":""
     },
-    "query-uc-access-keys":{
+    "delete-access-auth":{
+        "regionId":"",
+        "accessAuthId":""
+    },
+    "query-bind-group-auth":{
+        "regionId":"",
+        "accessAuthId":""
+    },
+    "bind-group-auth":{
+        "deploymentIds":"",
+        "regionId":"",
+        "accessAuthId":""
+    },
+    "query-auth-group-list":{
+        "authUserType":"",
+        "regionId":""
+    },
+    "authorized-api-group-list":{
         "pageNumber":"",
         "pageSize":"",
         "filters":[{
@@ -599,28 +621,6 @@
             "operator":"",
             "values":""
         }],
-        "regionId":""
-    },
-    "check-pin":{
-        "regionId":"",
-        "pin":""
-    },
-    "query-user-domains":{
-        "pageNumber":"",
-        "pageSize":"",
-        "orderBy":"",
-        "apiGroupId":"",
-        "regionId":""
-    },
-    "create-user-domain":{
-        "domain":"",
-        "protocol":"",
-        "apiGroupId":"",
-        "regionId":""
-    },
-    "delete-user-domain":{
-        "domainIds":"",
-        "apiGroupId":"",
         "regionId":""
     },
 }

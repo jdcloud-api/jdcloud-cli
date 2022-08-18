@@ -60,7 +60,7 @@ class LogsTest(unittest.TestCase):
         self.assertIsInstance(result, dict)
 
     def test_create_collect_info(self):
-        cmd = """python ../../main.py logs create-collect-info  --logtopic-uid 'xxx' --enabled 'true' --app-code 'xxx' --service-code 'xxx' --resource-type 'xxx'"""
+        cmd = """python ../../main.py logs create-collect-info  --logtopic-uid 'xxx' --app-code 'xxx' --enabled 'true' --resource-type 'xxx' --service-code 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -68,8 +68,8 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_logd_ca(self):
-        cmd = """python ../../main.py logs describe-logd-ca  --instance-id 'xxx'"""
+    def test_create_parser(self):
+        cmd = """python ../../main.py logs create-parser  --logtopic-uid 'xxx' --parser-fields '[{"":""}]' --parser-mode 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -77,8 +77,8 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_instance_collect_confs(self):
-        cmd = """python ../../main.py logs describe-instance-collect-confs  --instance-id 'xxx'"""
+    def test_describe_parser(self):
+        cmd = """python ../../main.py logs describe-parser  --logtopic-uid 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,8 +86,8 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_logsets(self):
-        cmd = """python ../../main.py logs describe-logsets """
+    def test_update_parser(self):
+        cmd = """python ../../main.py logs update-parser  --logtopic-uid 'xxx' --parser-fields '[{"":""}]' --parser-mode 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -95,8 +95,8 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_logset(self):
-        cmd = """python ../../main.py logs create-logset  --name 'xxx' --life-cycle '5'"""
+    def test_validate_parser(self):
+        cmd = """python ../../main.py logs validate-parser  --parser-mode 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -104,8 +104,8 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_logset(self):
-        cmd = """python ../../main.py logs describe-logset  --logset-uid 'xxx'"""
+    def test_histograms(self):
+        cmd = """python ../../main.py logs histograms  --logset-uid 'xxx' --logtopic-uid 'xxx' --action 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -113,8 +113,8 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_logset(self):
-        cmd = """python ../../main.py logs update-logset  --logset-uid 'xxx'"""
+    def test_get_logs(self):
+        cmd = """python ../../main.py logs get-logs  --logset-uid 'xxx' --logtopic-uid 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -122,8 +122,8 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_logset(self):
-        cmd = """python ../../main.py logs delete-logset  --logset-uids 'xxx'"""
+    def test_search(self):
+        cmd = """python ../../main.py logs search  --logset-uid 'xxx' --logtopic-uid 'xxx' --action 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -176,8 +176,8 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_put(self):
-        cmd = """python ../../main.py logs put  --logtopic-uid 'xxx' --entries '[{"":""}]'"""
+    def test_test_metric_task(self):
+        cmd = """python ../../main.py logs test-metric-task  --logset-uid 'xxx' --logtopic-uid 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -185,8 +185,8 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_search_log_context(self):
-        cmd = """python ../../main.py logs search-log-context  --logset-uid 'xxx' --logtopic-uid 'xxx' --anchor '[{"":""}]' --id 'xxx' --line-size '5' --time '5'"""
+    def test_describe_metric_tasks(self):
+        cmd = """python ../../main.py logs describe-metric-tasks  --logset-uid 'xxx' --logtopic-uid 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -194,8 +194,116 @@ class LogsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_search(self):
-        cmd = """python ../../main.py logs search  --logset-uid 'xxx' --logtopic-uid 'xxx' --action 'xxx'"""
+    def test_create_metric_task(self):
+        cmd = """python ../../main.py logs create-metric-task  --logset-uid 'xxx' --logtopic-uid 'xxx' --custom-unit 'xxx' --interval '5' --name 'xxx' --unit 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_metric_task(self):
+        cmd = """python ../../main.py logs describe-metric-task  --logset-uid 'xxx' --logtopic-uid 'xxx' --logmetrictask-uid 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_metric_task(self):
+        cmd = """python ../../main.py logs update-metric-task  --logset-uid 'xxx' --logtopic-uid 'xxx' --logmetrictask-uid 'xxx' --custom-unit 'xxx' --name 'xxx' --unit 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_metric_task(self):
+        cmd = """python ../../main.py logs delete-metric-task  --logset-uid 'xxx' --logtopic-uid 'xxx' --logmetrictask-uid 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_parser(self):
+        cmd = """python ../../main.py logs create-parser  --logtopic-uid 'xxx' --parser-fields '[{"":""}]' --parser-mode 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_subscribe(self):
+        cmd = """python ../../main.py logs describe-subscribe  --logset-uid 'xxx' --logtopic-uid 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_subscribe(self):
+        cmd = """python ../../main.py logs create-subscribe  --logset-uid 'xxx' --logtopic-uid 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_subscribe(self):
+        cmd = """python ../../main.py logs update-subscribe  --logset-uid 'xxx' --logtopic-uid 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_logsets(self):
+        cmd = """python ../../main.py logs describe-logsets """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_logset(self):
+        cmd = """python ../../main.py logs create-logset  --name 'xxx' --life-cycle '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_logset(self):
+        cmd = """python ../../main.py logs describe-logset  --logset-uid 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_logset(self):
+        cmd = """python ../../main.py logs update-logset  --logset-uid 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_logset(self):
+        cmd = """python ../../main.py logs delete-logset  --logset-uids 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

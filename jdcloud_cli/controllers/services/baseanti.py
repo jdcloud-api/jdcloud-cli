@@ -38,147 +38,10 @@ class BaseantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小 """, dest='pageSize', type=int, required=False)),
-            (['--start-time'], dict(help="""(string) 开始时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
-            (['--ip'], dict(help="""(array: string) 基础防护已防护的公网 IP, ip 不为空时, 查询 ip 对应的攻击记录, ip 为空时, 查询用户所有攻击记录<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询攻击记录 ''',
-        description='''
-            查询攻击记录。
-
-            示例: jdc baseanti describe-attack-logs  --start-time xxx --end-time xxx
-        ''',
-    )
-    def describe_attack_logs(self):
-        client_factory = ClientFactory('baseanti')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.baseanti.apis.DescribeAttackLogsRequest import DescribeAttackLogsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAttackLogsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--start-time'], dict(help="""(string) 开始时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
-            (['--ip'], dict(help="""(array: string) 基础防护已防护的公网 IP, ip 不为空时, 统计 ip 对应的攻击情况, ip 为空时, 统计用户所有公网 IP 的攻击情况. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 攻击情况统计 ''',
-        description='''
-            攻击情况统计。
-
-            示例: jdc baseanti describe-attack-statistics  --start-time xxx --end-time xxx
-        ''',
-    )
-    def describe_attack_statistics(self):
-        client_factory = ClientFactory('baseanti')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.baseanti.apis.DescribeAttackStatisticsRequest import DescribeAttackStatisticsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAttackStatisticsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--start-time'], dict(help="""(string) 开始时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
-            (['--ip'], dict(help="""(array: string) 基础防护已防护的公网 IP, ip 不为空时, 查询 ip 对应的各类型攻击次数, ip 为空时, 查询用户所有公网 IP 的各类型攻击次数. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询各类型攻击次数 ''',
-        description='''
-            查询各类型攻击次数。
-
-            示例: jdc baseanti describe-attack-type-count  --start-time xxx --end-time xxx
-        ''',
-    )
-    def describe_attack_type_count(self):
-        client_factory = ClientFactory('baseanti')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.baseanti.apis.DescribeAttackTypeCountRequest import DescribeAttackTypeCountRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAttackTypeCountRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--start-time'], dict(help="""(string) 开始时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
-            (['--ip'], dict(help="""(array: string) 基础防护已防护的公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询多个公网 IP 的监控流量, 支持 ipv4 和 ipv6 ''',
-        description='''
-            查询多个公网 IP 的监控流量, 支持 ipv4 和 ipv6。
-
-            示例: jdc baseanti describe-ip-monitor-flow  --start-time xxx --end-time xxx
-        ''',
-    )
-    def describe_ip_monitor_flow(self):
-        client_factory = ClientFactory('baseanti')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.baseanti.apis.DescribeIpMonitorFlowRequest import DescribeIpMonitorFlowRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeIpMonitorFlowRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
             (['--region-id'], dict(help="""(string) 地域编码. 基础防护已支持华北-北京, 华东-宿迁, 华东-上海, 华南-广州 """, dest='regionId',  required=False)),
             (['--ip'], dict(help="""(string) IP 模糊匹配 """, dest='ip',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -212,7 +75,9 @@ class BaseantiController(BaseController):
             (['--region-id'], dict(help="""(string) 地域编码. 基础防护已支持华北-北京, 华东-宿迁, 华东-上海, 华南-广州 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小 """, dest='pageSize', type=int, required=False)),
+            (['--ip'], dict(help="""(string) IP 模糊匹配 """, dest='ip',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -246,7 +111,9 @@ class BaseantiController(BaseController):
             (['--region-id'], dict(help="""(string) 地域编码. 基础防护已支持华北-北京, 华东-宿迁, 华东-上海, 华南-广州 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小 """, dest='pageSize', type=int, required=False)),
+            (['--ip'], dict(help="""(string) IP 模糊匹配 """, dest='ip',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -280,7 +147,9 @@ class BaseantiController(BaseController):
             (['--region-id'], dict(help="""(string) 地域编码. 基础防护已支持华北-北京, 华东-宿迁, 华东-上海, 华南-广州 """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小 """, dest='pageSize', type=int, required=False)),
+            (['--ip'], dict(help="""(string) IP 模糊匹配 """, dest='ip',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -312,8 +181,45 @@ class BaseantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域编码. 基础防护已支持华北-北京, 华东-宿迁, 华东-上海, 华南-广州 """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小 """, dest='pageSize', type=int, required=False)),
+            (['--ip'], dict(help="""(string) IP 模糊匹配 """, dest='ip',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询基础防护已防护的Web应用防火墙 IP 的安全信息 ''',
+        description='''
+            查询基础防护已防护的Web应用防火墙 IP 的安全信息。
+
+            示例: jdc baseanti describe-waf-ip-resources 
+        ''',
+    )
+    def describe_waf_ip_resources(self):
+        client_factory = ClientFactory('baseanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.baseanti.apis.DescribeWafIpResourcesRequest import DescribeWafIpResourcesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeWafIpResourcesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域编码. 基础防护已支持华北-北京, 华东-宿迁, 华东-上海, 华南-广州 """, dest='regionId',  required=False)),
             (['--ip'], dict(help="""(string) 基础防护已防护的公网 IP, 仅支持 ipv4 格式. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网 IP 和 弹性公网 IP<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -345,8 +251,9 @@ class BaseantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域编码. 基础防护已支持华北-北京, 华东-宿迁, 华东-上海, 华南-广州 """, dest='regionId',  required=False)),
-            (['--ip'], dict(help="""(string) 基础防护已防护公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=True)),
+            (['--ip'], dict(help="""(string) 基础防护已防护公网 IP, 支持 ipv4 和 ipv6. ; <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP; <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP; <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describewafipresources'>describeWafIpResources</a> 接口查询基础防护已防护的Web应用防火墙 IP; <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP;  """, dest='ip',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -381,6 +288,7 @@ class BaseantiController(BaseController):
             (['--ip'], dict(help="""(string) 基础防护已防护的公网 IP, 仅支持 ipv4 格式. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网 IP 和 弹性公网 IP<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=True)),
             (['--clean-threshold-spec'], dict(help="""(cleanThresholdSpec) 请求参数 """, dest='cleanThresholdSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -414,6 +322,7 @@ class BaseantiController(BaseController):
             (['--region-id'], dict(help="""(string) 地域编码. 基础防护已支持华北-北京, 华东-宿迁, 华东-上海, 华南-广州 """, dest='regionId',  required=False)),
             (['--ip-clean-threshold-spec'], dict(help="""(ipCleanThresholdSpec) 请求参数 """, dest='ipCleanThresholdSpec',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -445,8 +354,9 @@ class BaseantiController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域编码. 基础防护已支持华北-北京, 华东-宿迁, 华东-上海, 华南-广州 """, dest='regionId',  required=False)),
-            (['--ip'], dict(help="""(string) 基础防护已防护公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=True)),
+            (['--ip'], dict(help="""(string) 基础防护已防护公网 IP, 支持 ipv4 和 ipv6. ; <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP; <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP; <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describewafipresources'>describeWafIpResources</a> 接口查询基础防护已防护的Web应用防火墙 IP; <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP;  """, dest='ip',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -482,6 +392,7 @@ class BaseantiController(BaseController):
             (['--start'], dict(help="""(int) 限制查询的开始范围 """, dest='start', type=int, required=False)),
             (['--limit'], dict(help="""(int) 限制查询的记录数 """, dest='limit', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -516,6 +427,7 @@ class BaseantiController(BaseController):
             (['--ip'], dict(help="""(string) 基础防护已防护的公网 IP, 仅支持 ipv4 格式. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网 IP 和 弹性公网 IP<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=True)),
             (['--end-time'], dict(help="""(string) 查询的结束时间, UTC时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ, 为空时查询当前时间之前 15 分钟内监控流量 """, dest='endTime',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -546,7 +458,149 @@ class BaseantiController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-attack-logs','describe-attack-statistics','describe-attack-type-count','describe-ip-monitor-flow','describe-ip-resources','describe-elastic-ip-resources','describe-cps-ip-resources','describe-ccs-ip-resources','describe-ip-resource-info','describe-ip-safety-info','set-clean-threshold','set-ip-clean-threshold','describe-ip-clean-threshold-range','describe-ip-resource-protect-info','describe-ip-resource-flow',], required=True)),
+            (['--page-number'], dict(help="""(int) 页码 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小 """, dest='pageSize', type=int, required=False)),
+            (['--start-time'], dict(help="""(string) 开始时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--ip'], dict(help="""(array: string) 基础防护已防护的公网 IP, ip 不为空时, 查询 ip 对应的攻击记录, ip 为空时, 查询用户所有攻击记录<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP<br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询攻击记录 ''',
+        description='''
+            查询攻击记录。
+
+            示例: jdc baseanti describe-attack-logs  --start-time xxx --end-time xxx
+        ''',
+    )
+    def describe_attack_logs(self):
+        client_factory = ClientFactory('baseanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.baseanti.apis.DescribeAttackLogsRequest import DescribeAttackLogsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAttackLogsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 开始时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--ip'], dict(help="""(array: string) 基础防护已防护的公网 IP, ip 不为空时, 统计 ip 对应的攻击情况, ip 为空时, 统计用户所有公网 IP 的攻击情况. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 攻击情况统计 ''',
+        description='''
+            攻击情况统计。
+
+            示例: jdc baseanti describe-attack-statistics  --start-time xxx --end-time xxx
+        ''',
+    )
+    def describe_attack_statistics(self):
+        client_factory = ClientFactory('baseanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.baseanti.apis.DescribeAttackStatisticsRequest import DescribeAttackStatisticsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAttackStatisticsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 开始时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--ip'], dict(help="""(array: string) 基础防护已防护的公网 IP, ip 不为空时, 查询 ip 对应的各类型攻击次数, ip 为空时, 查询用户所有公网 IP 的各类型攻击次数. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询各类型攻击次数 ''',
+        description='''
+            查询各类型攻击次数。
+
+            示例: jdc baseanti describe-attack-type-count  --start-time xxx --end-time xxx
+        ''',
+    )
+    def describe_attack_type_count(self):
+        client_factory = ClientFactory('baseanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.baseanti.apis.DescribeAttackTypeCountRequest import DescribeAttackTypeCountRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAttackTypeCountRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--start-time'], dict(help="""(string) 开始时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 结束时间, UTC 时间, 格式: yyyy-MM-dd'T'HH:mm:ssZ """, dest='endTime',  required=True)),
+            (['--ip'], dict(help="""(array: string) 基础防护已防护的公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeelasticipresources'>describeElasticIpResources</a> 接口查询基础防护已防护的私有网络弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describecpsipresources'>describeCpsIpResources</a> 接口查询基础防护已防护的云物理服务器公网IP 和 弹性公网 IP. <br>- 使用 <a href='http://docs.jdcloud.com/anti-ddos-basic/api/describeccsipresources'>describeCcsIpResources</a> 接口查询基础防护已防护的托管区公网 IP """, dest='ip',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询多个公网 IP 的监控流量, 支持 ipv4 和 ipv6 ''',
+        description='''
+            查询多个公网 IP 的监控流量, 支持 ipv4 和 ipv6。
+
+            示例: jdc baseanti describe-ip-monitor-flow  --start-time xxx --end-time xxx
+        ''',
+    )
+    def describe_ip_monitor_flow(self):
+        client_factory = ClientFactory('baseanti')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.baseanti.apis.DescribeIpMonitorFlowRequest import DescribeIpMonitorFlowRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeIpMonitorFlowRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-ip-resources','describe-elastic-ip-resources','describe-cps-ip-resources','describe-ccs-ip-resources','describe-waf-ip-resources','describe-ip-resource-info','describe-ip-safety-info','set-clean-threshold','set-ip-clean-threshold','describe-ip-clean-threshold-range','describe-ip-resource-protect-info','describe-ip-resource-flow','describe-attack-logs','describe-attack-statistics','describe-attack-type-count','describe-ip-monitor-flow',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

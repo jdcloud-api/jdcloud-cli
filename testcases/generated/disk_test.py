@@ -86,6 +86,24 @@ class DiskTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_volumes_ignore_service_code(self):
+        cmd = """python ../../main.py disk describe-volumes-ignore-service-code """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_quota(self):
+        cmd = """python ../../main.py disk describe-quota  --type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_snapshots(self):
         cmd = """python ../../main.py disk describe-snapshots """
         with os.popen(cmd) as f:
@@ -133,6 +151,96 @@ class DiskTest(unittest.TestCase):
 
     def test_delete_snapshot(self):
         cmd = """python ../../main.py disk delete-snapshot  --snapshot-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_snapshots_capacity(self):
+        cmd = """python ../../main.py disk describe-snapshots-capacity """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_snapshot_chain(self):
+        cmd = """python ../../main.py disk describe-snapshot-chain """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_soldout(self):
+        cmd = """python ../../main.py disk describe-soldout """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_snapshot_policy(self):
+        cmd = """python ../../main.py disk create-snapshot-policy  --name 'xxx' --interval '5' --effective-time 'xxx' --snapshot-lifecycle '5' --status '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_snapshot_policy(self):
+        cmd = """python ../../main.py disk update-snapshot-policy  --policy-id 'xxx' --name 'xxx' --interval '5' --effective-time 'xxx' --snapshot-lifecycle '5' --status '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_snapshot_policy(self):
+        cmd = """python ../../main.py disk delete-snapshot-policy  --policy-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_snapshot_policies(self):
+        cmd = """python ../../main.py disk describe-snapshot-policies """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_snap_polices(self):
+        cmd = """python ../../main.py disk describe-snap-polices """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_apply_snapshot_policies(self):
+        cmd = """python ../../main.py disk apply-snapshot-policies """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_snapshot_policy_disk_relations(self):
+        cmd = """python ../../main.py disk describe-snapshot-policy-disk-relations """
         with os.popen(cmd) as f:
             content = f.read()
 

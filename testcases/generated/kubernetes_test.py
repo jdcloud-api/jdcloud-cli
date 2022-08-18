@@ -23,6 +23,150 @@ import json
 
 class KubernetesTest(unittest.TestCase):
 
+    def test_describe_node_groups(self):
+        cmd = """python ../../main.py kubernetes describe-node-groups """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_node_group(self):
+        cmd = """python ../../main.py kubernetes create-node-group  --name 'xxx' --cluster-id 'xxx' --node-config '{"":""}' --initial-node-count '5' --vpc-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_node_group(self):
+        cmd = """python ../../main.py kubernetes describe-node-group  --node-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_node_group(self):
+        cmd = """python ../../main.py kubernetes modify-node-group  --node-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_node_group(self):
+        cmd = """python ../../main.py kubernetes delete-node-group  --node-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_node_group_size(self):
+        cmd = """python ../../main.py kubernetes set-node-group-size  --node-group-id 'xxx' --expect-count '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_auto_repair(self):
+        cmd = """python ../../main.py kubernetes set-auto-repair  --node-group-id 'xxx' --enabled 'true'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_rollback_node_group_upgrade(self):
+        cmd = """python ../../main.py kubernetes rollback-node-group-upgrade  --node-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_node_group_ca(self):
+        cmd = """python ../../main.py kubernetes set-node-group-ca  --node-group-id 'xxx' --ca-config '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_node_instances(self):
+        cmd = """python ../../main.py kubernetes delete-node-instances  --node-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_server_config(self):
+        cmd = """python ../../main.py kubernetes describe-server-config """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_versions(self):
+        cmd = """python ../../main.py kubernetes describe-versions """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_node_version(self):
+        cmd = """python ../../main.py kubernetes describe-node-version  --node-version 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_upgradable_master_versions(self):
+        cmd = """python ../../main.py kubernetes describe-upgradable-master-versions  --cluster-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_upgradable_node_versions(self):
+        cmd = """python ../../main.py kubernetes describe-upgradable-node-versions  --cluster-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_quotas(self):
+        cmd = """python ../../main.py kubernetes describe-quotas """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_clusters(self):
         cmd = """python ../../main.py kubernetes describe-clusters """
         with os.popen(cmd) as f:
@@ -115,150 +259,6 @@ class KubernetesTest(unittest.TestCase):
 
     def test_set_addons(self):
         cmd = """python ../../main.py kubernetes set-addons  --cluster-id 'xxx' --addons-config '[{"":""}]'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_node_groups(self):
-        cmd = """python ../../main.py kubernetes describe-node-groups """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_node_group(self):
-        cmd = """python ../../main.py kubernetes create-node-group  --name 'xxx' --cluster-id 'xxx' --node-config '{"":""}' --initial-node-count '5' --vpc-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_node_group(self):
-        cmd = """python ../../main.py kubernetes describe-node-group  --node-group-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_modify_node_group(self):
-        cmd = """python ../../main.py kubernetes modify-node-group  --node-group-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_node_group(self):
-        cmd = """python ../../main.py kubernetes delete-node-group  --node-group-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_set_node_group_size(self):
-        cmd = """python ../../main.py kubernetes set-node-group-size  --node-group-id 'xxx' --expect-count '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_set_auto_repair(self):
-        cmd = """python ../../main.py kubernetes set-auto-repair  --node-group-id 'xxx' --enabled 'true'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_rollback_node_group_upgrade(self):
-        cmd = """python ../../main.py kubernetes rollback-node-group-upgrade  --node-group-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_set_node_group_ca(self):
-        cmd = """python ../../main.py kubernetes set-node-group-ca  --node-group-id 'xxx' --ca-config '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_node_instances(self):
-        cmd = """python ../../main.py kubernetes delete-node-instances  --node-group-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_quotas(self):
-        cmd = """python ../../main.py kubernetes describe-quotas """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_server_config(self):
-        cmd = """python ../../main.py kubernetes describe-server-config """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_versions(self):
-        cmd = """python ../../main.py kubernetes describe-versions """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_node_version(self):
-        cmd = """python ../../main.py kubernetes describe-node-version  --node-version 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_upgradable_master_versions(self):
-        cmd = """python ../../main.py kubernetes describe-upgradable-master-versions  --cluster-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_upgradable_node_versions(self):
-        cmd = """python ../../main.py kubernetes describe-upgradable-node-versions  --cluster-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

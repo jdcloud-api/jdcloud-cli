@@ -1,4 +1,38 @@
 {
+    "describe-security-ips":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-security-ips":{
+        "modifyMode":"",
+        "securityIps":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-backups":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-backup":{
+        "instanceId":"",
+        "backupName":"",
+        "backupMethod":"",
+        "regionId":""
+    },
+    "delete-backup":{
+        "regionId":"",
+        "backupId":""
+    },
+    "backup-download-url":{
+        "regionId":"",
+        "backupId":""
+    },
     "describe-instances":{
         "pageNumber":"",
         "pageSize":"",
@@ -132,30 +166,6 @@
         "instanceId":"",
         "nodeId":""
     },
-    "describe-backups":{
-        "pageNumber":"",
-        "pageSize":"",
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-backup":{
-        "instanceId":"",
-        "backupName":"",
-        "backupMethod":"",
-        "regionId":""
-    },
-    "delete-backup":{
-        "regionId":"",
-        "backupId":""
-    },
-    "backup-download-url":{
-        "regionId":"",
-        "backupId":""
-    },
     "describe-backup-synchronicities":{
         "pageNumber":"",
         "pageSize":"",
@@ -175,15 +185,5 @@
     "delete-backup-synchronicities":{
         "regionId":"",
         "serviceId":""
-    },
-    "describe-security-ips":{
-        "regionId":"",
-        "instanceId":""
-    },
-    "modify-security-ips":{
-        "modifyMode":"",
-        "securityIps":"",
-        "regionId":"",
-        "instanceId":""
     },
 }

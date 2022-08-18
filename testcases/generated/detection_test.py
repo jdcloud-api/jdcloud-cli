@@ -23,6 +23,87 @@ import json
 
 class DetectionTest(unittest.TestCase):
 
+    def test_get_site_monitor(self):
+        cmd = """python ../../main.py detection get-site-monitor """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_site_monitor(self):
+        cmd = """python ../../main.py detection create-site-monitor  --address 'xxx' --cycle '5' --name 'xxx' --source '[{"":""}]' --task-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_site_monitor(self):
+        cmd = """python ../../main.py detection update-site-monitor  --address 'xxx' --cycle '5' --name 'xxx' --source '[{"":""}]' --task-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_site_monitor(self):
+        cmd = """python ../../main.py detection delete-site-monitor """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_enable_site_monitor(self):
+        cmd = """python ../../main.py detection enable-site-monitor """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_validate_site_monitor_address(self):
+        cmd = """python ../../main.py detection validate-site-monitor-address """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_site_monitor_data_points(self):
+        cmd = """python ../../main.py detection get-site-monitor-data-points """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_site_monitor_source(self):
+        cmd = """python ../../main.py detection get-site-monitor-source """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_test_site_monitor(self):
+        cmd = """python ../../main.py detection test-site-monitor  --address 'xxx' --cycle '5' --name 'xxx' --source '[{"":""}]' --task-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_agent_status(self):
         cmd = """python ../../main.py detection describe-agent-status  --filters '[{"":""}]'"""
         with os.popen(cmd) as f:
@@ -106,87 +187,6 @@ class DetectionTest(unittest.TestCase):
 
     def test_describe_probe_tasks(self):
         cmd = """python ../../main.py detection describe-probe-tasks """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_site_monitor(self):
-        cmd = """python ../../main.py detection get-site-monitor """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_site_monitor(self):
-        cmd = """python ../../main.py detection create-site-monitor  --address 'xxx' --cycle '5' --name 'xxx' --source '[{"":""}]' --task-type 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_site_monitor(self):
-        cmd = """python ../../main.py detection update-site-monitor  --address 'xxx' --cycle '5' --name 'xxx' --source '[{"":""}]' --task-type 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_site_monitor(self):
-        cmd = """python ../../main.py detection delete-site-monitor """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_enable_site_monitor(self):
-        cmd = """python ../../main.py detection enable-site-monitor """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_validate_site_monitor_address(self):
-        cmd = """python ../../main.py detection validate-site-monitor-address """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_site_monitor_data_points(self):
-        cmd = """python ../../main.py detection get-site-monitor-data-points """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_site_monitor_source(self):
-        cmd = """python ../../main.py detection get-site-monitor-source """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_test_site_monitor(self):
-        cmd = """python ../../main.py detection test-site-monitor  --address 'xxx' --cycle '5' --name 'xxx' --source '[{"":""}]' --task-type 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

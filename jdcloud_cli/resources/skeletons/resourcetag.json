@@ -4,6 +4,7 @@
             "serviceCodes":"",
             "resourceIds":"",
             "tagFilters":[""],
+            "showTagStatus":"",
             "orderCondition":"",
             "descOrAsc":"",
             "pageSize":"",
@@ -15,6 +16,21 @@
         "tagKeysVo":{
             "serviceCodes":"",
             "kind":"",
+            "tagFilters":[""],
+            "showTagStatus":""
+        },
+        "regionId":""
+    },
+    "describe-keys":{
+        "tagKeysVo":{
+            "serviceCodes":"",
+            "tagFilters":[""],
+            "showTagStatus":""
+        },
+        "regionId":""
+    },
+    "describe-values":{
+        "tagValuesVo":{
             "tagFilters":[""]
         },
         "regionId":""

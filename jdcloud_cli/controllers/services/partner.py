@@ -47,6 +47,7 @@ class PartnerController(BaseController):
             (['--page-index'], dict(help="""(int) 当前页序号 """, dest='pageIndex', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 当前条数 """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -81,6 +82,7 @@ class PartnerController(BaseController):
             (['--start-time'], dict(help="""(string) 按月查询开始时间（yyyy/MM/dd） """, dest='startTime',  required=True)),
             (['--end-time'], dict(help="""(string) 按月查询结束时间（yyyy/MM/dd） """, dest='endTime',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -118,6 +120,7 @@ class PartnerController(BaseController):
             (['--page-size'], dict(help="""(int) 每页条数 """, dest='pageSize', type=int, required=True)),
             (['--page-index'], dict(help="""(int) 第几页 """, dest='pageIndex', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -125,7 +128,7 @@ class PartnerController(BaseController):
         description='''
             查询服务商下每个客户总消费数据。
 
-            示例: jdc partner get-each-consumption  --start-time xxx --end-time xxx --page-size 0 --page-index 0
+            示例: jdc partner get-each-consumption  --start-time xxx --end-time xxx --page-size 5 --page-index 5
         ''',
     )
     def get_each_consumption(self):
@@ -155,6 +158,7 @@ class PartnerController(BaseController):
             (['--page-size'], dict(help="""(int) 每页条数,不超过100 """, dest='pageSize', type=int, required=True)),
             (['--page-index'], dict(help="""(int) 第几页 """, dest='pageIndex', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -162,7 +166,7 @@ class PartnerController(BaseController):
         description='''
             查询服务商相关pin下每个产品的消费数据。
 
-            示例: jdc partner describe-customer-bill-by-product  --start-time xxx --end-time xxx --page-size 0 --page-index 0
+            示例: jdc partner describe-customer-bill-by-product  --start-time xxx --end-time xxx --page-size 5 --page-index 5
         ''',
     )
     def describe_customer_bill_by_product(self):

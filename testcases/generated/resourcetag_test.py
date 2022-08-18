@@ -41,6 +41,24 @@ class ResourcetagTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_keys(self):
+        cmd = """python ../../main.py resourcetag describe-keys  --tag-keys-vo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_values(self):
+        cmd = """python ../../main.py resourcetag describe-values  --tag-values-vo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_tag_resources(self):
         cmd = """python ../../main.py resourcetag tag-resources  --tag-resources '{"":""}'"""
         with os.popen(cmd) as f:

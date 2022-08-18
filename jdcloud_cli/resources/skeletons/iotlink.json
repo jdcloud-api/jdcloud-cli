@@ -1,4 +1,28 @@
 {
+    "card-info":{
+        "iccid":"",
+        "regionId":""
+    },
+    "real-name-query-iot":{
+        "iccid":"",
+        "regionId":""
+    },
+    "gprs-status-by-imsi":{
+        "imsi":"",
+        "regionId":""
+    },
+    "on-off-status-by-imsi":{
+        "imsi":"",
+        "regionId":""
+    },
+    "life-status-by-imsi":{
+        "imsi":"",
+        "regionId":""
+    },
+    "gprs-realtime-info-by-imsi":{
+        "imsi":"",
+        "regionId":""
+    },
     "gprs-status":{
         "iccid":"",
         "regionId":""

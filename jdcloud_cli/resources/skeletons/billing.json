@@ -48,6 +48,9 @@
         "clientType":"",
         "packageCount":"",
         "processType":"",
+        "renewMode":"",
+        "unifyExpireDay":"",
+        "totalPriceRule":"",
         "regionId":""
     },
 }

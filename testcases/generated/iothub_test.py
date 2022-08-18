@@ -23,6 +23,33 @@ import json
 
 class IothubTest(unittest.TestCase):
 
+    def test_list_product_abilities(self):
+        cmd = """python ../../main.py iothub list-product-abilities  --product-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_import_thing_model(self):
+        cmd = """python ../../main.py iothub import-thing-model  --product-key 'xxx' --thing-model '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_export_thing_model(self):
+        cmd = """python ../../main.py iothub export-thing-model  --product-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_thing_shadow(self):
         cmd = """python ../../main.py iothub describe-thing-shadow  --identifier 'xxx' --product-key 'xxx'"""
         with os.popen(cmd) as f:
@@ -142,33 +169,6 @@ class IothubTest(unittest.TestCase):
 
     def test_delete_product(self):
         cmd = """python ../../main.py iothub delete-product  --product-key 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_list_product_abilities(self):
-        cmd = """python ../../main.py iothub list-product-abilities  --product-key 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_import_thing_model(self):
-        cmd = """python ../../main.py iothub import-thing-model  --product-key 'xxx' --thing-model '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_export_thing_model(self):
-        cmd = """python ../../main.py iothub export-thing-model  --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

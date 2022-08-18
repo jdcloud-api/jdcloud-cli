@@ -32,26 +32,8 @@ class EliteTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_jdx_report_order(self):
-        cmd = """python ../../main.py elite jdx-report-order  --report-order-info '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_jdx_create_order(self):
-        cmd = """python ../../main.py elite jdx-create-order  --create-order-info '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_jdx_query_price(self):
-        cmd = """python ../../main.py elite jdx-query-price  --query-price-param '{"":""}'"""
+    def test_get_store_service(self):
+        cmd = """python ../../main.py elite get-store-service  --buyer-pin 'xxx' --business-data 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -95,8 +77,26 @@ class EliteTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_store_service(self):
-        cmd = """python ../../main.py elite get-store-service  --buyer-pin 'xxx' --business-data 'xxx'"""
+    def test_jdx_report_order(self):
+        cmd = """python ../../main.py elite jdx-report-order  --report-order-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_jdx_create_order(self):
+        cmd = """python ../../main.py elite jdx-create-order  --create-order-info '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_jdx_query_price(self):
+        cmd = """python ../../main.py elite jdx-query-price  --query-price-param '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

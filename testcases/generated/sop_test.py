@@ -23,8 +23,8 @@ import json
 
 class SopTest(unittest.TestCase):
 
-    def test_get_security_token(self):
-        cmd = """python ../../main.py sop get-security-token  --get-security-token-info '{"":""}'"""
+    def test_get_sensitive_op_setting(self):
+        cmd = """python ../../main.py sop get-sensitive-op-setting  --action 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class SopTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_sensitive_op_setting(self):
-        cmd = """python ../../main.py sop get-sensitive-op-setting  --action 'xxx'"""
+    def test_get_security_token(self):
+        cmd = """python ../../main.py sop get-security-token  --get-security-token-info '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

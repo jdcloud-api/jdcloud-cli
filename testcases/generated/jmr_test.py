@@ -23,8 +23,8 @@ import json
 
 class JmrTest(unittest.TestCase):
 
-    def test_describe_cluster(self):
-        cmd = """python ../../main.py jmr describe-cluster  --cluster-id 'xxx'"""
+    def test_idata_cluster(self):
+        cmd = """python ../../main.py jmr idata-cluster """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,35 @@ class JmrTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_cluster(self):
-        cmd = """python ../../main.py jmr delete-cluster  --cluster-id 'xxx'"""
+    def test_get_software_info(self):
+        cmd = """python ../../main.py jmr get-software-info  --version 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_jmr_version_list(self):
+        cmd = """python ../../main.py jmr get-jmr-version-list """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_monitor_label_list(self):
+        cmd = """python ../../main.py jmr monitor-label-list  --cluster-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_cluster(self):
+        cmd = """python ../../main.py jmr describe-cluster  --cluster-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +77,35 @@ class JmrTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_release_cluster(self):
+        cmd = """python ../../main.py jmr release-cluster  --cluster-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_cluster_expansion(self):
+        cmd = """python ../../main.py jmr cluster-expansion  --cluster-expansion '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_cluster_reduction(self):
+        cmd = """python ../../main.py jmr cluster-reduction  --cluster-reduction '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_create_cluster(self):
-        cmd = """python ../../main.py jmr create-cluster  --cluster-spec '{"":""}' --client-token 'xxx'"""
+        cmd = """python ../../main.py jmr create-cluster  --cluster-spec '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

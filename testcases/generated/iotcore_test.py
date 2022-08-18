@@ -23,8 +23,8 @@ import json
 
 class IotcoreTest(unittest.TestCase):
 
-    def test_device_query(self):
-        cmd = """python ../../main.py iotcore device-query  --instance-id 'xxx' --device-id 'xxx'"""
+    def test_list_product_abilities(self):
+        cmd = """python ../../main.py iotcore list-product-abilities  --instance-id 'xxx' --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class IotcoreTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_thing_type_list(self):
-        cmd = """python ../../main.py iotcore thing-type-list  --instance-id 'xxx'"""
+    def test_import_thing_model(self):
+        cmd = """python ../../main.py iotcore import-thing-model  --instance-id 'xxx' --product-key 'xxx' --thing-model '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,80 +41,8 @@ class IotcoreTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_thing_type_describe(self):
-        cmd = """python ../../main.py iotcore thing-type-describe  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_thing_model(self):
-        cmd = """python ../../main.py iotcore describe-thing-model  --instance-id 'xxx' --thing-model-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_device_register(self):
-        cmd = """python ../../main.py iotcore device-register  --instance-id 'xxx' --device-info-vo '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_download_certificate(self):
-        cmd = """python ../../main.py iotcore download-certificate  --instance-id 'xxx' --device-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_device(self):
-        cmd = """python ../../main.py iotcore delete-device  --instance-id 'xxx' --device-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_device_property_set(self):
-        cmd = """python ../../main.py iotcore device-property-set  --instance-id 'xxx' --device-property-vo '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_invoke_function(self):
-        cmd = """python ../../main.py iotcore invoke-function  --instance-id 'xxx' --device-function-vo '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_event_list(self):
-        cmd = """python ../../main.py iotcore event-list  --instance-id 'xxx' --event-report-page-bo '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_function_list(self):
-        cmd = """python ../../main.py iotcore function-list  --instance-id 'xxx' --function-call-page-bo '{"":""}'"""
+    def test_export_thing_model(self):
+        cmd = """python ../../main.py iotcore export-thing-model  --instance-id 'xxx' --product-key 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -212,123 +140,6 @@ class IotcoreTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_elevator_operating_status(self):
-        cmd = """python ../../main.py iotcore elevator-operating-status  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_collector_read_message(self):
-        cmd = """python ../../main.py iotcore collector-read-message  --instance-id 'xxx' --identifier 'xxx' --protocol 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_read_holding_registers(self):
-        cmd = """python ../../main.py iotcore read-holding-registers  --instance-id 'xxx' --identifier 'xxx' --address-of-first-register '5' --number-of-registers '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_collector_write_message(self):
-        cmd = """python ../../main.py iotcore collector-write-message  --instance-id 'xxx' --identifier 'xxx' --data '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_loo_device(self):
-        cmd = """python ../../main.py iotcore update-loo-device  --instance-id 'xxx' --device-id 'xxx' --device-type 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_add_loo_device(self):
-        cmd = """python ../../main.py iotcore add-loo-device  --instance-id 'xxx' --pre-order-id 'xxx' --user-pin-param 'xxx' --device-type 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_loongray_query_page(self):
-        cmd = """python ../../main.py iotcore loongray-query-page  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_remove_loongray_device(self):
-        cmd = """python ../../main.py iotcore remove-loongray-device  --device-name 'xxx' --instance-id 'xxx' --product-key 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_product_with_admin(self):
-        cmd = """python ../../main.py iotcore describe-product-with-admin  --instance-id 'xxx' --product-key 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_product_with_admin(self):
-        cmd = """python ../../main.py iotcore update-product-with-admin  --instance-id 'xxx' --product-key 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_product_with_admin(self):
-        cmd = """python ../../main.py iotcore delete-product-with-admin  --instance-id 'xxx' --product-key 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_list_products_with_admin(self):
-        cmd = """python ../../main.py iotcore list-products-with-admin  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_admin_product(self):
-        cmd = """python ../../main.py iotcore create-admin-product  --instance-id 'xxx' --product-name 'xxx' --product-type '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_list_products(self):
         cmd = """python ../../main.py iotcore list-products  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -374,8 +185,8 @@ class IotcoreTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_list_product_abilities(self):
-        cmd = """python ../../main.py iotcore list-product-abilities  --instance-id 'xxx' --product-key 'xxx'"""
+    def test_update_loo_device(self):
+        cmd = """python ../../main.py iotcore update-loo-device  --instance-id 'xxx' --device-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -383,8 +194,8 @@ class IotcoreTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_import_thing_model(self):
-        cmd = """python ../../main.py iotcore import-thing-model  --instance-id 'xxx' --product-key 'xxx' --thing-model '{"":""}'"""
+    def test_add_loo_device(self):
+        cmd = """python ../../main.py iotcore add-loo-device  --instance-id 'xxx' --pre-order-id 'xxx' --user-pin-param 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -392,8 +203,224 @@ class IotcoreTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_export_thing_model(self):
-        cmd = """python ../../main.py iotcore export-thing-model  --instance-id 'xxx' --product-key 'xxx'"""
+    def test_loongray_query_page(self):
+        cmd = """python ../../main.py iotcore loongray-query-page  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_admin_statistics(self):
+        cmd = """python ../../main.py iotcore query-admin-statistics  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_remove_loongray_device(self):
+        cmd = """python ../../main.py iotcore remove-loongray-device  --device-name 'xxx' --instance-id 'xxx' --product-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_register_device(self):
+        cmd = """python ../../main.py iotcore register-device  --instance-id 'xxx' --device-info-vo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_download_device_certificate(self):
+        cmd = """python ../../main.py iotcore download-device-certificate  --instance-id 'xxx' --device-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_device(self):
+        cmd = """python ../../main.py iotcore delete-device  --instance-id 'xxx' --device-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_device(self):
+        cmd = """python ../../main.py iotcore describe-device  --instance-id 'xxx' --device-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_thing_type_list(self):
+        cmd = """python ../../main.py iotcore describe-thing-type-list  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_thing_type(self):
+        cmd = """python ../../main.py iotcore describe-thing-type  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_thing_model(self):
+        cmd = """python ../../main.py iotcore describe-thing-model  --instance-id 'xxx' --thing-type-code 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_device_property(self):
+        cmd = """python ../../main.py iotcore set-device-property  --instance-id 'xxx' --device-property-vo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_invoke_function(self):
+        cmd = """python ../../main.py iotcore invoke-function  --instance-id 'xxx' --device-function-vo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_event_list(self):
+        cmd = """python ../../main.py iotcore describe-event-list  --instance-id 'xxx' --event-report-page-bo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_function_list(self):
+        cmd = """python ../../main.py iotcore describe-function-list  --instance-id 'xxx' --function-call-page-bo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_property(self):
+        cmd = """python ../../main.py iotcore describe-property  --instance-id 'xxx' --device-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_property_snapshot(self):
+        cmd = """python ../../main.py iotcore describe-property-snapshot  --instance-id 'xxx' --device-snapshot-request-vo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_device_topo(self):
+        cmd = """python ../../main.py iotcore create-device-topo  --instance-id 'xxx' --device-topo-info-vo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_device_topo(self):
+        cmd = """python ../../main.py iotcore describe-device-topo  --instance-id 'xxx' --device-topo-page-bo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_device_topo(self):
+        cmd = """python ../../main.py iotcore update-device-topo  --instance-id 'xxx' --device-topo-info-vo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_device_topo(self):
+        cmd = """python ../../main.py iotcore delete-device-topo  --instance-id 'xxx' --device-topo-info-vo '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_product_with_admin(self):
+        cmd = """python ../../main.py iotcore describe-product-with-admin  --instance-id 'xxx' --product-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_product_with_admin(self):
+        cmd = """python ../../main.py iotcore update-product-with-admin  --instance-id 'xxx' --product-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_product_with_admin(self):
+        cmd = """python ../../main.py iotcore delete-product-with-admin  --instance-id 'xxx' --product-key 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_products_with_admin(self):
+        cmd = """python ../../main.py iotcore list-products-with-admin  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_admin_product(self):
+        cmd = """python ../../main.py iotcore create-admin-product  --instance-id 'xxx' --product-name 'xxx' --product-type '5' --coll-device-type 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -421,6 +448,69 @@ class IotcoreTest(unittest.TestCase):
 
     def test_describe_product_topic(self):
         cmd = """python ../../main.py iotcore describe-product-topic  --instance-id 'xxx' --product-key 'xxx' --topic-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_device_group(self):
+        cmd = """python ../../main.py iotcore get-device-group  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_device_group_list(self):
+        cmd = """python ../../main.py iotcore get-device-group-list  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_find_device_group_link_page(self):
+        cmd = """python ../../main.py iotcore find-device-group-link-page  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_elevator_operating_status(self):
+        cmd = """python ../../main.py iotcore elevator-operating-status  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_collector_read_message(self):
+        cmd = """python ../../main.py iotcore collector-read-message  --instance-id 'xxx' --identifier 'xxx' --protocol 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_read_holding_registers(self):
+        cmd = """python ../../main.py iotcore read-holding-registers  --instance-id 'xxx' --identifier 'xxx' --address-of-first-register '5' --number-of-registers '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_collector_write_message(self):
+        cmd = """python ../../main.py iotcore collector-write-message  --instance-id 'xxx' --identifier 'xxx' --data '{"":""}'"""
         with os.popen(cmd) as f:
             content = f.read()
 

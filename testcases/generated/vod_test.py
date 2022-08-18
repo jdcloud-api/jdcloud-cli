@@ -23,8 +23,8 @@ import json
 
 class VodTest(unittest.TestCase):
 
-    def test_list_categories(self):
-        cmd = """python ../../main.py vod list-categories """
+    def test_list_transcode_template_groups(self):
+        cmd = """python ../../main.py vod list-transcode-template-groups """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_category(self):
-        cmd = """python ../../main.py vod create-category  --name 'xxx'"""
+    def test_create_transcode_template_group(self):
+        cmd = """python ../../main.py vod create-transcode-template-group """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_category_with_children(self):
-        cmd = """python ../../main.py vod get-category-with-children  --category-id '5'"""
+    def test_get_transcode_template_group(self):
+        cmd = """python ../../main.py vod get-transcode-template-group  --group-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_category(self):
-        cmd = """python ../../main.py vod get-category  --category-id '5'"""
+    def test_update_transcode_template_group(self):
+        cmd = """python ../../main.py vod update-transcode-template-group  --group-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -59,8 +59,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_category(self):
-        cmd = """python ../../main.py vod update-category  --category-id '5'"""
+    def test_delete_transcode_template_group(self):
+        cmd = """python ../../main.py vod delete-transcode-template-group  --group-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -68,8 +68,260 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_category(self):
-        cmd = """python ../../main.py vod delete-category  --category-id '5'"""
+    def test_delete_grouped_transcode_templates(self):
+        cmd = """python ../../main.py vod delete-grouped-transcode-templates """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_quality_detection_templates(self):
+        cmd = """python ../../main.py vod list-quality-detection-templates """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_quality_detection_template(self):
+        cmd = """python ../../main.py vod create-quality-detection-template  --name 'xxx' --template-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_quality_detection_template(self):
+        cmd = """python ../../main.py vod get-quality-detection-template  --template-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_quality_detection_template(self):
+        cmd = """python ../../main.py vod update-quality-detection-template  --template-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_quality_detection_template(self):
+        cmd = """python ../../main.py vod delete-quality-detection-template  --template-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_video_upload_task(self):
+        cmd = """python ../../main.py vod create-video-upload-task  --title 'xxx' --file-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_refresh_video_upload_task(self):
+        cmd = """python ../../main.py vod refresh-video-upload-task  --video-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_image_upload_task(self):
+        cmd = """python ../../main.py vod create-image-upload-task  --file-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_live_to_vod_task(self):
+        cmd = """python ../../main.py vod create-live-to-vod-task  --title 'xxx' --file-name 'xxx' --publish-domain 'xxx' --app-name 'xxx' --stream-name 'xxx' --record-times '[{"":""}]' --record-file-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_videos(self):
+        cmd = """python ../../main.py vod list-videos """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_video(self):
+        cmd = """python ../../main.py vod get-video  --video-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_video(self):
+        cmd = """python ../../main.py vod update-video  --video-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_video(self):
+        cmd = """python ../../main.py vod delete-video  --video-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_batch_delete_videos(self):
+        cmd = """python ../../main.py vod batch-delete-videos """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_batch_update_videos(self):
+        cmd = """python ../../main.py vod batch-update-videos  --bulk-items '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_video_play_info(self):
+        cmd = """python ../../main.py vod get-video-play-info  --video-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_video_streams(self):
+        cmd = """python ../../main.py vod delete-video-streams  --video-id 'xxx' --task-ids '[5]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_video_audit(self):
+        cmd = """python ../../main.py vod video-audit  --video-id 'xxx' --audit-result 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_video_source_info(self):
+        cmd = """python ../../main.py vod get-video-source-info  --video-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_submit_quality_detection_job(self):
+        cmd = """python ../../main.py vod submit-quality-detection-job """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_batch_submit_quality_detection_jobs(self):
+        cmd = """python ../../main.py vod batch-submit-quality-detection-jobs """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_vedit_job(self):
+        cmd = """python ../../main.py vod create-vedit-job  --project-name 'xxx' --timeline '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_submit_vedit_job(self):
+        cmd = """python ../../main.py vod submit-vedit-job  --project-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_list_vedit_projects(self):
+        cmd = """python ../../main.py vod list-vedit-projects """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_vedit_project(self):
+        cmd = """python ../../main.py vod create-vedit-project  --project-name 'xxx' --timeline '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_vedit_project(self):
+        cmd = """python ../../main.py vod get-vedit-project  --project-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_vedit_project(self):
+        cmd = """python ../../main.py vod update-vedit-project  --project-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_vedit_project(self):
+        cmd = """python ../../main.py vod delete-vedit-project  --project-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -239,8 +491,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_live_to_vod_task(self):
-        cmd = """python ../../main.py vod create-live-to-vod-task  --title 'xxx' --file-name 'xxx' --publish-domain 'xxx' --app-name 'xxx' --stream-name 'xxx' --record-times '[{"":""}]' --record-file-type 'xxx'"""
+    def test_list_categories(self):
+        cmd = """python ../../main.py vod list-categories """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -248,8 +500,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_video_upload_task(self):
-        cmd = """python ../../main.py vod create-video-upload-task  --title 'xxx' --file-name 'xxx'"""
+    def test_create_category(self):
+        cmd = """python ../../main.py vod create-category  --name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -257,8 +509,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_refresh_video_upload_task(self):
-        cmd = """python ../../main.py vod refresh-video-upload-task  --video-id 'xxx'"""
+    def test_list_all_categories(self):
+        cmd = """python ../../main.py vod list-all-categories """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -266,8 +518,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_image_upload_task(self):
-        cmd = """python ../../main.py vod create-image-upload-task  --file-name 'xxx'"""
+    def test_get_category_with_children(self):
+        cmd = """python ../../main.py vod get-category-with-children  --category-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -275,8 +527,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_submit_quality_detection_job(self):
-        cmd = """python ../../main.py vod submit-quality-detection-job """
+    def test_get_category(self):
+        cmd = """python ../../main.py vod get-category  --category-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -284,8 +536,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_batch_submit_quality_detection_jobs(self):
-        cmd = """python ../../main.py vod batch-submit-quality-detection-jobs """
+    def test_update_category(self):
+        cmd = """python ../../main.py vod update-category  --category-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -293,8 +545,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_list_quality_detection_templates(self):
-        cmd = """python ../../main.py vod list-quality-detection-templates """
+    def test_delete_category(self):
+        cmd = """python ../../main.py vod delete-category  --category-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -302,8 +554,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_quality_detection_template(self):
-        cmd = """python ../../main.py vod create-quality-detection-template  --name 'xxx' --template-type 'xxx'"""
+    def test_submit_snapshot_task(self):
+        cmd = """python ../../main.py vod submit-snapshot-task """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -311,44 +563,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_quality_detection_template(self):
-        cmd = """python ../../main.py vod get-quality-detection-template  --template-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_quality_detection_template(self):
-        cmd = """python ../../main.py vod update-quality-detection-template  --template-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_quality_detection_template(self):
-        cmd = """python ../../main.py vod delete-quality-detection-template  --template-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_submit_transcode_job(self):
-        cmd = """python ../../main.py vod submit-transcode-job """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_batch_submit_transcode_jobs(self):
-        cmd = """python ../../main.py vod batch-submit-transcode-jobs """
+    def test_list_snapshot_tasks(self):
+        cmd = """python ../../main.py vod list-snapshot-tasks """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -401,8 +617,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_list_videos(self):
-        cmd = """python ../../main.py vod list-videos """
+    def test_list_snapshot_templates(self):
+        cmd = """python ../../main.py vod list-snapshot-templates """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -410,8 +626,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_video(self):
-        cmd = """python ../../main.py vod get-video  --video-id 'xxx'"""
+    def test_create_snapshot_template(self):
+        cmd = """python ../../main.py vod create-snapshot-template  --template-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -419,8 +635,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_video(self):
-        cmd = """python ../../main.py vod update-video  --video-id 'xxx'"""
+    def test_get_snapshot_template(self):
+        cmd = """python ../../main.py vod get-snapshot-template  --template-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -428,8 +644,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_video(self):
-        cmd = """python ../../main.py vod delete-video  --video-id 'xxx'"""
+    def test_update_snapshot_template(self):
+        cmd = """python ../../main.py vod update-snapshot-template  --template-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -437,8 +653,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_batch_delete_videos(self):
-        cmd = """python ../../main.py vod batch-delete-videos """
+    def test_delete_snapshot_template(self):
+        cmd = """python ../../main.py vod delete-snapshot-template  --template-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -446,8 +662,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_batch_update_videos(self):
-        cmd = """python ../../main.py vod batch-update-videos  --bulk-items '[{"":""}]'"""
+    def test_submit_transcode_job(self):
+        cmd = """python ../../main.py vod submit-transcode-job """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -455,8 +671,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_get_video_play_info(self):
-        cmd = """python ../../main.py vod get-video-play-info  --video-id 'xxx'"""
+    def test_batch_submit_transcode_jobs(self):
+        cmd = """python ../../main.py vod batch-submit-transcode-jobs """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -464,8 +680,8 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_video_streams(self):
-        cmd = """python ../../main.py vod delete-video-streams  --video-id 'xxx' --task-ids '[5]'"""
+    def test_get_transcode_summaries(self):
+        cmd = """python ../../main.py vod get-transcode-summaries """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -473,8 +689,17 @@ class VodTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_video_audit(self):
-        cmd = """python ../../main.py vod video-audit  --video-id 'xxx' --audit-result 'xxx'"""
+    def test_get_transcode_job_summaries(self):
+        cmd = """python ../../main.py vod get-transcode-job-summaries """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_transcode_task_summaries(self):
+        cmd = """python ../../main.py vod get-transcode-task-summaries """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -520,6 +745,24 @@ class VodTest(unittest.TestCase):
 
     def test_delete_watermark(self):
         cmd = """python ../../main.py vod delete-watermark  --watermark-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_submit_transcode_job(self):
+        cmd = """python ../../main.py vod submit-transcode-job """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_batch_submit_transcode_jobs(self):
+        cmd = """python ../../main.py vod batch-submit-transcode-jobs """
         with os.popen(cmd) as f:
             content = f.read()
 

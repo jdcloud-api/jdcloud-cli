@@ -23,6 +23,60 @@ import json
 
 class MongodbTest(unittest.TestCase):
 
+    def test_describe_security_ips(self):
+        cmd = """python ../../main.py mongodb describe-security-ips  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_security_ips(self):
+        cmd = """python ../../main.py mongodb modify-security-ips  --instance-id 'xxx' --modify-mode 'xxx' --security-ips 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_backups(self):
+        cmd = """python ../../main.py mongodb describe-backups """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_backup(self):
+        cmd = """python ../../main.py mongodb create-backup  --instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_backup(self):
+        cmd = """python ../../main.py mongodb delete-backup  --backup-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_backup_download_url(self):
+        cmd = """python ../../main.py mongodb backup-download-url  --backup-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_instances(self):
         cmd = """python ../../main.py mongodb describe-instances """
         with os.popen(cmd) as f:
@@ -158,42 +212,6 @@ class MongodbTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_backups(self):
-        cmd = """python ../../main.py mongodb describe-backups """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_backup(self):
-        cmd = """python ../../main.py mongodb create-backup  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_backup(self):
-        cmd = """python ../../main.py mongodb delete-backup  --backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_backup_download_url(self):
-        cmd = """python ../../main.py mongodb backup-download-url  --backup-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_backup_synchronicities(self):
         cmd = """python ../../main.py mongodb describe-backup-synchronicities """
         with os.popen(cmd) as f:
@@ -214,24 +232,6 @@ class MongodbTest(unittest.TestCase):
 
     def test_delete_backup_synchronicities(self):
         cmd = """python ../../main.py mongodb delete-backup-synchronicities  --service-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_security_ips(self):
-        cmd = """python ../../main.py mongodb describe-security-ips  --instance-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_modify_security_ips(self):
-        cmd = """python ../../main.py mongodb modify-security-ips  --instance-id 'xxx' --modify-mode 'xxx' --security-ips 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

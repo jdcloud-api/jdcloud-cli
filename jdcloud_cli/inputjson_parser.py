@@ -36,7 +36,7 @@ class JsonStringParser(InputJsonParser):
 
     def get_param_obj(self):
         try:
-            return yaml.load(self.input_json)
+            return yaml.load(self.input_json, Loader=yaml.FullLoader)
         except yaml.YAMLError:
             print('Json is invalid!')
             sys.exit(1)
@@ -52,7 +52,7 @@ class JsonFileParser(InputJsonParser):
         try:
             with open(file_path) as f:
                 content = f.read()
-            return yaml.load(content)
+            return yaml.load(content, Loader=yaml.FullLoader)
         except IOError:
             print('File is not accessible!')
             sys.exit(1)

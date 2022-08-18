@@ -39,143 +39,8 @@ class XdataController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询用户实例的所有数据库信息 ''',
-        description='''
-            查询用户实例的所有数据库信息。
-
-            示例: jdc xdata list-database-info  --instance-name xxx
-        ''',
-    )
-    def list_database_info(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.ListDatabaseInfoRequest import ListDatabaseInfoRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ListDatabaseInfoRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName',  required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询用户实例的指定数据库信息 ''',
-        description='''
-            查询用户实例的指定数据库信息。
-
-            示例: jdc xdata get-database-info  --database-name xxx --instance-name xxx
-        ''',
-    )
-    def get_database_info(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.GetDatabaseInfoRequest import GetDatabaseInfoRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetDatabaseInfoRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName',  required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
-            (['--description'], dict(help="""(string) 数据库描述信息 """, dest='description',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建属于用户实例的数据库 ''',
-        description='''
-            创建属于用户实例的数据库。
-
-            示例: jdc xdata create-database  --database-name xxx --instance-name xxx
-        ''',
-    )
-    def create_database(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.CreateDatabaseRequest import CreateDatabaseRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateDatabaseRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName',  required=True)),
-            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除用户实例的指定数据库 ''',
-        description='''
-            删除用户实例的指定数据库。
-
-            示例: jdc xdata delete-database  --database-name xxx --instance-name xxx
-        ''',
-    )
-    def delete_database(self):
-        client_factory = ClientFactory('xdata')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.xdata.apis.DeleteDatabaseRequest import DeleteDatabaseRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteDatabaseRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -207,6 +72,148 @@ class XdataController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询用户实例指定数据库下的所有数据表信息 ''',
+        description='''
+            查询用户实例指定数据库下的所有数据表信息。
+
+            示例: jdc xdata list-table-info  --instance-name xxx --database-name xxx
+        ''',
+    )
+    def list_table_info(self):
+        client_factory = ClientFactory('xdata')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.xdata.apis.ListTableInfoRequest import ListTableInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListTableInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--db-model-dbtable'], dict(help="""(dwTableDesc) 数据表描述信息 """, dest='dbModelDBTable',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建用户实例的数据表 ''',
+        description='''
+            创建用户实例的数据表。
+
+            示例: jdc xdata create-table  --instance-name xxx --db-model-dbtable '{"":""}'
+        ''',
+    )
+    def create_table(self):
+        client_factory = ClientFactory('xdata')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.xdata.apis.CreateTableRequest import CreateTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--table-name'], dict(help="""(string) 数据表名 """, dest='tableName',  required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询用户实例的指定数据表信息 ''',
+        description='''
+            查询用户实例的指定数据表信息。
+
+            示例: jdc xdata get-table-info  --table-name xxx --instance-name xxx --database-name xxx
+        ''',
+    )
+    def get_table_info(self):
+        client_factory = ClientFactory('xdata')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.xdata.apis.GetTableInfoRequest import GetTableInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTableInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--table-name'], dict(help="""(string) 数据表名 """, dest='tableName',  required=True)),
+            (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
+            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除用户实例的指定数据表 ''',
+        description='''
+            删除用户实例的指定数据表。
+
+            示例: jdc xdata delete-table  --table-name xxx --instance-name xxx --database-name xxx
+        ''',
+    )
+    def delete_table(self):
+        client_factory = ClientFactory('xdata')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.xdata.apis.DeleteTableRequest import DeleteTableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteTableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=False)),
             (['--sql'], dict(help="""(string) sql脚本 """, dest='sql',  required=True)),
             (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
@@ -217,6 +224,7 @@ class XdataController(BaseController):
             (['--instance-owner-name'], dict(help="""(string) 实例拥有者名称 """, dest='instanceOwnerName',  required=False)),
             (['--is-explain'], dict(help="""(string) 是否需要解释 """, dest='isExplain',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -254,6 +262,7 @@ class XdataController(BaseController):
             (['--instance-owner-name'], dict(help="""(string) 实例拥有者名称 """, dest='instanceOwnerName',  required=False)),
             (['--script-type'], dict(help="""(string) 脚本类型名称 """, dest='scriptType',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -288,6 +297,7 @@ class XdataController(BaseController):
             (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
             (['--query-id'], dict(help="""(string) 查询id名称 """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -322,6 +332,7 @@ class XdataController(BaseController):
             (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
             (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -356,6 +367,7 @@ class XdataController(BaseController):
             (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
             (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -390,6 +402,7 @@ class XdataController(BaseController):
             (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
             (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -424,6 +437,7 @@ class XdataController(BaseController):
             (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
             (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -458,6 +472,7 @@ class XdataController(BaseController):
             (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
             (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -492,6 +507,7 @@ class XdataController(BaseController):
             (['--user-name'], dict(help="""(string) 用户名称 """, dest='userName',  required=True)),
             (['--query-id'], dict(help="""(string) 查询id """, dest='queryId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -524,29 +540,29 @@ class XdataController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询用户实例指定数据库下的所有数据表信息 ''',
+        help=''' 查询用户实例的所有数据库信息 ''',
         description='''
-            查询用户实例指定数据库下的所有数据表信息。
+            查询用户实例的所有数据库信息。
 
-            示例: jdc xdata list-table-info  --instance-name xxx --database-name xxx
+            示例: jdc xdata list-database-info  --instance-name xxx
         ''',
     )
-    def list_table_info(self):
+    def list_database_info(self):
         client_factory = ClientFactory('xdata')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.ListTableInfoRequest import ListTableInfoRequest
+            from jdcloud_sdk.services.xdata.apis.ListDatabaseInfoRequest import ListDatabaseInfoRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ListTableInfoRequest(params_dict, headers)
+            req = ListDatabaseInfoRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -557,30 +573,31 @@ class XdataController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName',  required=True)),
             (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
-            (['--db-model-dbtable'], dict(help="""(dwTableDesc) 数据表描述信息 """, dest='dbModelDBTable',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建用户实例的数据表 ''',
+        help=''' 查询用户实例的指定数据库信息 ''',
         description='''
-            创建用户实例的数据表。
+            查询用户实例的指定数据库信息。
 
-            示例: jdc xdata create-table  --instance-name xxx --db-model-dbtable '{"":""}'
+            示例: jdc xdata get-database-info  --database-name xxx --instance-name xxx
         ''',
     )
-    def create_table(self):
+    def get_database_info(self):
         client_factory = ClientFactory('xdata')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.CreateTableRequest import CreateTableRequest
+            from jdcloud_sdk.services.xdata.apis.GetDatabaseInfoRequest import GetDatabaseInfoRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateTableRequest(params_dict, headers)
+            req = GetDatabaseInfoRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -591,31 +608,32 @@ class XdataController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--table-name'], dict(help="""(string) 数据表名 """, dest='tableName',  required=True)),
+            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName',  required=True)),
             (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=True)),
+            (['--description'], dict(help="""(string) 数据库描述信息 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询用户实例的指定数据表信息 ''',
+        help=''' 创建属于用户实例的数据库 ''',
         description='''
-            查询用户实例的指定数据表信息。
+            创建属于用户实例的数据库。
 
-            示例: jdc xdata get-table-info  --table-name xxx --instance-name xxx --database-name xxx
+            示例: jdc xdata create-database  --database-name xxx --instance-name xxx
         ''',
     )
-    def get_table_info(self):
+    def create_database(self):
         client_factory = ClientFactory('xdata')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.GetTableInfoRequest import GetTableInfoRequest
+            from jdcloud_sdk.services.xdata.apis.CreateDatabaseRequest import CreateDatabaseRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetTableInfoRequest(params_dict, headers)
+            req = CreateDatabaseRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -626,31 +644,31 @@ class XdataController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--table-name'], dict(help="""(string) 数据表名 """, dest='tableName',  required=True)),
+            (['--database-name'], dict(help="""(string) 数据库名 """, dest='databaseName',  required=True)),
             (['--instance-name'], dict(help="""(string) 实例名称 """, dest='instanceName',  required=True)),
-            (['--database-name'], dict(help="""(string) 数据库名称 """, dest='databaseName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除用户实例的指定数据表 ''',
+        help=''' 删除用户实例的指定数据库 ''',
         description='''
-            删除用户实例的指定数据表。
+            删除用户实例的指定数据库。
 
-            示例: jdc xdata delete-table  --table-name xxx --instance-name xxx --database-name xxx
+            示例: jdc xdata delete-database  --database-name xxx --instance-name xxx
         ''',
     )
-    def delete_table(self):
+    def delete_database(self):
         client_factory = ClientFactory('xdata')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.xdata.apis.DeleteTableRequest import DeleteTableRequest
+            from jdcloud_sdk.services.xdata.apis.DeleteDatabaseRequest import DeleteDatabaseRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteTableRequest(params_dict, headers)
+            req = DeleteDatabaseRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -660,7 +678,7 @@ class XdataController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['list-database-info','get-database-info','create-database','delete-database','list-instance-info','execute-ras-query','execute-py-spark-query','get-ras-query-state','get-py-spark-execute-state','get-ras-query-log','get-ras-query-result','get-py-spark-execute-result','cancel-ras-query','cancel-py-spark-job','list-table-info','create-table','get-table-info','delete-table',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['list-instance-info','list-table-info','create-table','get-table-info','delete-table','execute-ras-query','execute-py-spark-query','get-ras-query-state','get-py-spark-execute-state','get-ras-query-log','get-ras-query-result','get-py-spark-execute-result','cancel-ras-query','cancel-py-spark-job','list-database-info','get-database-info','create-database','delete-database',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

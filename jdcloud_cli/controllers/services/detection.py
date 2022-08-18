@@ -38,349 +38,6 @@ class DetectionController(BaseController):
 
     @expose(
         arguments=[
-            (['--filters'], dict(help="""(array: filter) agent id列表; uuid - agent id，精确匹配，支持多个 """, dest='filters',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询可用性监控agent状态 ''',
-        description='''
-            查询可用性监控agent状态。
-
-            示例: jdc detection describe-agent-status  --filters ['{"":""}']
-        ''',
-    )
-    def describe_agent_status(self):
-        client_factory = ClientFactory('detection')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.detection.apis.DescribeAgentStatusRequest import DescribeAgentStatusRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeAgentStatusRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--resource-id'], dict(help="""(string) 资源的uuid """, dest='resourceId',  required=True)),
-            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800（早于30d时，将被重置为30d）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='startTime',  required=False)),
-            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12-11T00:00:00+0800（为空时，将由startTime与timeInterval计算得出）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='endTime',  required=False)),
-            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval 与 endTime 至少填一项 """, dest='timeInterval',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查看可用性监控任务的监控数据 ''',
-        description='''
-            查看可用性监控任务的监控数据。
-
-            示例: jdc detection describe-metric-data-am  --resource-id xxx
-        ''',
-    )
-    def describe_metric_data_am(self):
-        client_factory = ClientFactory('detection')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.detection.apis.DescribeMetricDataAmRequest import DescribeMetricDataAmRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeMetricDataAmRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--client-token'], dict(help="""(string) 幂等性校验参数,最长36位 """, dest='clientToken',  required=True)),
-            (['--create-probe-task-spec'], dict(help="""(createProbeTaskParam) NA """, dest='createProbeTaskSpec',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建可用性监控任务 ''',
-        description='''
-            创建可用性监控任务。
-
-            示例: jdc detection create-probe-task  --client-token xxx --create-probe-task-spec '{"":""}'
-        ''',
-    )
-    def create_probe_task(self):
-        client_factory = ClientFactory('detection')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.detection.apis.CreateProbeTaskRequest import CreateProbeTaskRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateProbeTaskRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--probe-task-ids'], dict(help="""(string) 探测任务的task_id,多个taskId用|分隔 """, dest='probeTaskIDs',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除可用性监控任务 ''',
-        description='''
-            删除可用性监控任务。
-
-            示例: jdc detection delete-probe-task  --probe-task-ids xxx
-        ''',
-    )
-    def delete_probe_task(self):
-        client_factory = ClientFactory('detection')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.detection.apis.DeleteProbeTaskRequest import DeleteProbeTaskRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteProbeTaskRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--probe-task-id'], dict(help="""(string) 探测任务的task_id """, dest='probeTaskID',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询可用性监控任务信息 ''',
-        description='''
-            查询可用性监控任务信息。
-
-            示例: jdc detection describe-probe-task  --probe-task-id xxx
-        ''',
-    )
-    def describe_probe_task(self):
-        client_factory = ClientFactory('detection')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.detection.apis.DescribeProbeTaskRequest import DescribeProbeTaskRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeProbeTaskRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--probe-task-id'], dict(help="""(string) 探测任务的task_id """, dest='probeTaskID',  required=True)),
-            (['--http-body'], dict(help="""(string) http body：选择探测类型为1=http时有效，最长不超过1024字节 """, dest='httpBody',  required=False)),
-            (['--http-cookie'], dict(help="""(array: keyValue) http cookie：选择探测类型为1=http时有效，最大允许20个key、value对，最长不超过1024字节 """, dest='httpCookie',  required=False)),
-            (['--http-header'], dict(help="""(array: keyValue) http header：选择探测类型为1=http时有效，最大允许20个key、value对，最长不超过1024字节 """, dest='httpHeader',  required=False)),
-            (['--http-type'], dict(help="""(int) http探测方法,可选值：1:get、2:post、3:head """, dest='httpType', type=int, required=False)),
-            (['--name'], dict(help="""(string) task名称，不允许重复，长度不超过32字符，只允许中英文、数字、下划线_、中划线-, [0-9][a-z] [A-Z] [- _ ] """, dest='name',  required=False)),
-            (['--probes'], dict(help="""(array: probe) 探测源（发起对探测目标探测的云主机，需安装相应的agent才能探测） """, dest='probes',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改可用性监控任务 ''',
-        description='''
-            修改可用性监控任务。
-
-            示例: jdc detection update-probe-task  --probe-task-id xxx --probes ['{"":""}']
-        ''',
-    )
-    def update_probe_task(self):
-        client_factory = ClientFactory('detection')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.detection.apis.UpdateProbeTaskRequest import UpdateProbeTaskRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateProbeTaskRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--probe-task-id'], dict(help="""(string) 可用性监控task_id, id长度(0,50] """, dest='probeTaskID',  required=True)),
-            (['--probe-id'], dict(help="""(string) 探测源id，  id长度（0,50] """, dest='probeID',  required=True)),
-            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800（默认为当前时间往前三天，早于3d时，将被重置为3d）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='startTime',  required=False)),
-            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12-11T00:00:00+0800（为空时，默认为当前时间）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='endTime',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询可用性监控任务的指定探测源的异常探测历史 ''',
-        description='''
-            查询可用性监控任务的指定探测源的异常探测历史。
-
-            示例: jdc detection describe-probe-history  --probe-task-id xxx --probe-id xxx
-        ''',
-    )
-    def describe_probe_history(self):
-        client_factory = ClientFactory('detection')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.detection.apis.DescribeProbeHistoryRequest import DescribeProbeHistoryRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeProbeHistoryRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--probe-task-id'], dict(help="""(string) 探测任务的task_id """, dest='probeTaskID',  required=True)),
-            (['--filters'], dict(help="""(array: filter) 自定义标签 """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询可用性监控任务的探测源列表 ''',
-        description='''
-            查询可用性监控任务的探测源列表。
-
-            示例: jdc detection discribe-probes  --probe-task-id xxx
-        ''',
-    )
-    def discribe_probes(self):
-        client_factory = ClientFactory('detection')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.detection.apis.DiscribeProbesRequest import DiscribeProbesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DiscribeProbesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--enabled'], dict(help="""(bool) 默认：禁用； true：启用，false：禁用 """, dest='enabled',  required=False)),
-            (['--task-id'], dict(help="""(array: string) 要启用或禁用的探测任务的task_id列表，列表长度[1，100) """, dest='taskId',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 启用、禁用可用性监控任务 ''',
-        description='''
-            启用、禁用可用性监控任务。
-
-            示例: jdc detection probe-task-enable 
-        ''',
-    )
-    def probe_task_enable(self):
-        client_factory = ClientFactory('detection')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.detection.apis.ProbeTaskEnableRequest import ProbeTaskEnableRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ProbeTaskEnableRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
-            (['--name'], dict(help="""(string) 根据探测任务的名称查询，支持模糊查询 """, dest='name',  required=False)),
-            (['--type'], dict(help="""(int) 根据探测任务的类型查询，1、http 2、telnet """, dest='type', type=int, required=False)),
-            (['--time-interval'], dict(help="""(string) 查询的可用率、响应时间的时间间隔，为空时默认查询最新点,最大不超过30天，支持分钟级别,小时级别，天级别，例如：1m、1h、1d """, dest='timeInterval',  required=False)),
-            (['--with-stats'], dict(help="""(bool) 是否查询可用率、响应时间 """, dest='withStats',  required=False)),
-            (['--with-deleted'], dict(help="""(bool) 是否包含被删除的task """, dest='withDeleted',  required=False)),
-            (['--enabled'], dict(help="""(int) 任务状态：1为启用，0为禁用。默认为查所有的 """, dest='enabled', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) taskId - taskId，精确匹配，支持多个; name - task名称或探测地址，糊模匹配，支持单个 """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询可用性监控任务列表 ''',
-        description='''
-            查询可用性监控任务列表。
-
-            示例: jdc detection describe-probe-tasks 
-        ''',
-    )
-    def describe_probe_tasks(self):
-        client_factory = ClientFactory('detection')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.detection.apis.DescribeProbeTasksRequest import DescribeProbeTasksRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeProbeTasksRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
             (['--name-or-addr'], dict(help="""(string) NA """, dest='nameOrAddr',  required=False)),
             (['--name'], dict(help="""(string) NA """, dest='name',  required=False)),
             (['--id'], dict(help="""(array: string) NA """, dest='id',  required=False)),
@@ -392,6 +49,7 @@ class DetectionController(BaseController):
             (['--time-interval'], dict(help="""(string) 查询的可用率、响应时间的时间间隔，最大不超过30天，支持分钟级别,小时级别，天级别，例如：1m、1h、1d """, dest='timeInterval',  required=False)),
             (['--filters'], dict(help="""(array: filter) name为'id' - 站点监控id """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -447,6 +105,7 @@ class DetectionController(BaseController):
             (['--udp-option'], dict(help="""(siteMonitorUdpOption) NA """, dest='udpOption',  required=False)),
             (['--updated-time'], dict(help="""(int) NA """, dest='updatedTime', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -454,7 +113,7 @@ class DetectionController(BaseController):
         description='''
             创建站点监控任务。
 
-            示例: jdc detection create-site-monitor  --address xxx --cycle 0 --name xxx --source ['{"":""}'] --task-type xxx
+            示例: jdc detection create-site-monitor  --address xxx --cycle 5 --name xxx --source ['{"":""}'] --task-type xxx
         ''',
     )
     def create_site_monitor(self):
@@ -502,6 +161,7 @@ class DetectionController(BaseController):
             (['--udp-option'], dict(help="""(siteMonitorUdpOption) NA """, dest='udpOption',  required=False)),
             (['--updated-time'], dict(help="""(int) NA """, dest='updatedTime', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -509,7 +169,7 @@ class DetectionController(BaseController):
         description='''
             修改站点监控任务。
 
-            示例: jdc detection update-site-monitor  --address xxx --cycle 0 --name xxx --source ['{"":""}'] --task-type xxx
+            示例: jdc detection update-site-monitor  --address xxx --cycle 5 --name xxx --source ['{"":""}'] --task-type xxx
         ''',
     )
     def update_site_monitor(self):
@@ -534,6 +194,7 @@ class DetectionController(BaseController):
         arguments=[
             (['--filters'], dict(help="""(array: filter) name为'list' - 站点监控id """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -566,6 +227,7 @@ class DetectionController(BaseController):
         arguments=[
             (['--list'], dict(help="""(array: enableSiteMonitorReqItem) NA """, dest='list',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -598,6 +260,7 @@ class DetectionController(BaseController):
         arguments=[
             (['--address'], dict(help="""(string) NA """, dest='address',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -632,6 +295,7 @@ class DetectionController(BaseController):
             (['--start-time'], dict(help="""(string) NA """, dest='startTime',  required=False)),
             (['--end-time'], dict(help="""(string) NA """, dest='endTime',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -663,6 +327,7 @@ class DetectionController(BaseController):
     @expose(
         arguments=[
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -718,6 +383,7 @@ class DetectionController(BaseController):
             (['--udp-option'], dict(help="""(siteMonitorUdpOption) NA """, dest='udpOption',  required=False)),
             (['--updated-time'], dict(help="""(int) NA """, dest='updatedTime', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -725,7 +391,7 @@ class DetectionController(BaseController):
         description='''
             测试站点监控参数。
 
-            示例: jdc detection test-site-monitor  --address xxx --cycle 0 --name xxx --source ['{"":""}'] --task-type xxx
+            示例: jdc detection test-site-monitor  --address xxx --cycle 5 --name xxx --source ['{"":""}'] --task-type xxx
         ''',
     )
     def test_site_monitor(self):
@@ -748,7 +414,360 @@ class DetectionController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-agent-status','describe-metric-data-am','create-probe-task','delete-probe-task','describe-probe-task','update-probe-task','describe-probe-history','discribe-probes','probe-task-enable','describe-probe-tasks','get-site-monitor','create-site-monitor','update-site-monitor','delete-site-monitor','enable-site-monitor','validate-site-monitor-address','get-site-monitor-data-points','get-site-monitor-source','test-site-monitor',], required=True)),
+            (['--filters'], dict(help="""(array: filter) agent id列表; uuid - agent id，精确匹配，支持多个 """, dest='filters',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可用性监控agent状态 ''',
+        description='''
+            查询可用性监控agent状态。
+
+            示例: jdc detection describe-agent-status  --filters ['{"":""}']
+        ''',
+    )
+    def describe_agent_status(self):
+        client_factory = ClientFactory('detection')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.detection.apis.DescribeAgentStatusRequest import DescribeAgentStatusRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeAgentStatusRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--resource-id'], dict(help="""(string) 资源的uuid """, dest='resourceId',  required=True)),
+            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800（早于30d时，将被重置为30d）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12-11T00:00:00+0800（为空时，将由startTime与timeInterval计算得出）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='endTime',  required=False)),
+            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval 与 endTime 至少填一项 """, dest='timeInterval',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看可用性监控任务的监控数据 ''',
+        description='''
+            查看可用性监控任务的监控数据。
+
+            示例: jdc detection describe-metric-data-am  --resource-id xxx
+        ''',
+    )
+    def describe_metric_data_am(self):
+        client_factory = ClientFactory('detection')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.detection.apis.DescribeMetricDataAmRequest import DescribeMetricDataAmRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeMetricDataAmRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--client-token'], dict(help="""(string) 幂等性校验参数,最长36位 """, dest='clientToken',  required=True)),
+            (['--create-probe-task-spec'], dict(help="""(createProbeTaskParam) NA """, dest='createProbeTaskSpec',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建可用性监控任务 ''',
+        description='''
+            创建可用性监控任务。
+
+            示例: jdc detection create-probe-task  --client-token xxx --create-probe-task-spec '{"":""}'
+        ''',
+    )
+    def create_probe_task(self):
+        client_factory = ClientFactory('detection')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.detection.apis.CreateProbeTaskRequest import CreateProbeTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateProbeTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--probe-task-ids'], dict(help="""(string) 探测任务的task_id,多个taskId用|分隔 """, dest='probeTaskIDs',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除可用性监控任务 ''',
+        description='''
+            删除可用性监控任务。
+
+            示例: jdc detection delete-probe-task  --probe-task-ids xxx
+        ''',
+    )
+    def delete_probe_task(self):
+        client_factory = ClientFactory('detection')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.detection.apis.DeleteProbeTaskRequest import DeleteProbeTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteProbeTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--probe-task-id'], dict(help="""(string) 探测任务的task_id """, dest='probeTaskID',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可用性监控任务信息 ''',
+        description='''
+            查询可用性监控任务信息。
+
+            示例: jdc detection describe-probe-task  --probe-task-id xxx
+        ''',
+    )
+    def describe_probe_task(self):
+        client_factory = ClientFactory('detection')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.detection.apis.DescribeProbeTaskRequest import DescribeProbeTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeProbeTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--probe-task-id'], dict(help="""(string) 探测任务的task_id """, dest='probeTaskID',  required=True)),
+            (['--http-body'], dict(help="""(string) http body：选择探测类型为1=http时有效，最长不超过1024字节 """, dest='httpBody',  required=False)),
+            (['--http-cookie'], dict(help="""(array: keyValue) http cookie：选择探测类型为1=http时有效，最大允许20个key、value对，最长不超过1024字节 """, dest='httpCookie',  required=False)),
+            (['--http-header'], dict(help="""(array: keyValue) http header：选择探测类型为1=http时有效，最大允许20个key、value对，最长不超过1024字节 """, dest='httpHeader',  required=False)),
+            (['--http-type'], dict(help="""(int) http探测方法,可选值：1:get、2:post、3:head """, dest='httpType', type=int, required=False)),
+            (['--name'], dict(help="""(string) task名称，不允许重复，长度不超过32字符，只允许中英文、数字、下划线_、中划线-, [0-9][a-z] [A-Z] [- _ ] """, dest='name',  required=False)),
+            (['--probes'], dict(help="""(array: probe) 探测源（发起对探测目标探测的云主机，需安装相应的agent才能探测） """, dest='probes',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改可用性监控任务 ''',
+        description='''
+            修改可用性监控任务。
+
+            示例: jdc detection update-probe-task  --probe-task-id xxx --probes ['{"":""}']
+        ''',
+    )
+    def update_probe_task(self):
+        client_factory = ClientFactory('detection')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.detection.apis.UpdateProbeTaskRequest import UpdateProbeTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateProbeTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--probe-task-id'], dict(help="""(string) 可用性监控task_id, id长度(0,50] """, dest='probeTaskID',  required=True)),
+            (['--probe-id'], dict(help="""(string) 探测源id，  id长度（0,50] """, dest='probeID',  required=True)),
+            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800（默认为当前时间往前三天，早于3d时，将被重置为3d）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12-11T00:00:00+0800（为空时，默认为当前时间）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='endTime',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可用性监控任务的指定探测源的异常探测历史 ''',
+        description='''
+            查询可用性监控任务的指定探测源的异常探测历史。
+
+            示例: jdc detection describe-probe-history  --probe-task-id xxx --probe-id xxx
+        ''',
+    )
+    def describe_probe_history(self):
+        client_factory = ClientFactory('detection')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.detection.apis.DescribeProbeHistoryRequest import DescribeProbeHistoryRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeProbeHistoryRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--probe-task-id'], dict(help="""(string) 探测任务的task_id """, dest='probeTaskID',  required=True)),
+            (['--filters'], dict(help="""(array: filter) 自定义标签 """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可用性监控任务的探测源列表 ''',
+        description='''
+            查询可用性监控任务的探测源列表。
+
+            示例: jdc detection discribe-probes  --probe-task-id xxx
+        ''',
+    )
+    def discribe_probes(self):
+        client_factory = ClientFactory('detection')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.detection.apis.DiscribeProbesRequest import DiscribeProbesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DiscribeProbesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--enabled'], dict(help="""(bool) 默认：禁用； true：启用，false：禁用 """, dest='enabled', type=bool, required=False)),
+            (['--task-id'], dict(help="""(array: string) 要启用或禁用的探测任务的task_id列表，列表长度[1，100) """, dest='taskId',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启用、禁用可用性监控任务 ''',
+        description='''
+            启用、禁用可用性监控任务。
+
+            示例: jdc detection probe-task-enable 
+        ''',
+    )
+    def probe_task_enable(self):
+        client_factory = ClientFactory('detection')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.detection.apis.ProbeTaskEnableRequest import ProbeTaskEnableRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ProbeTaskEnableRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
+            (['--name'], dict(help="""(string) 根据探测任务的名称查询，支持模糊查询 """, dest='name',  required=False)),
+            (['--type'], dict(help="""(int) 根据探测任务的类型查询，1、http 2、telnet """, dest='type', type=int, required=False)),
+            (['--time-interval'], dict(help="""(string) 查询的可用率、响应时间的时间间隔，为空时默认查询最新点,最大不超过30天，支持分钟级别,小时级别，天级别，例如：1m、1h、1d """, dest='timeInterval',  required=False)),
+            (['--with-stats'], dict(help="""(bool) 是否查询可用率、响应时间 """, dest='withStats', type=bool, required=False)),
+            (['--with-deleted'], dict(help="""(bool) 是否包含被删除的task """, dest='withDeleted', type=bool, required=False)),
+            (['--enabled'], dict(help="""(int) 任务状态：1为启用，0为禁用。默认为查所有的 """, dest='enabled', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) taskId - taskId，精确匹配，支持多个; name - task名称或探测地址，糊模匹配，支持单个 """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询可用性监控任务列表 ''',
+        description='''
+            查询可用性监控任务列表。
+
+            示例: jdc detection describe-probe-tasks 
+        ''',
+    )
+    def describe_probe_tasks(self):
+        client_factory = ClientFactory('detection')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.detection.apis.DescribeProbeTasksRequest import DescribeProbeTasksRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeProbeTasksRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['get-site-monitor','create-site-monitor','update-site-monitor','delete-site-monitor','enable-site-monitor','validate-site-monitor-address','get-site-monitor-data-points','get-site-monitor-source','test-site-monitor','describe-agent-status','describe-metric-data-am','create-probe-task','delete-probe-task','describe-probe-task','update-probe-task','describe-probe-history','discribe-probes','probe-task-enable','describe-probe-tasks',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

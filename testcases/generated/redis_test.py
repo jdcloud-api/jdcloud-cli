@@ -23,6 +23,33 @@ import json
 
 class RedisTest(unittest.TestCase):
 
+    def test_describe_spec_config(self):
+        cmd = """python ../../main.py redis describe-spec-config """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_available_resource(self):
+        cmd = """python ../../main.py redis describe-available-resource """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_available_resource2(self):
+        cmd = """python ../../main.py redis describe-available-resource2 """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_cache_instances(self):
         cmd = """python ../../main.py redis describe-cache-instances """
         with os.popen(cmd) as f:
@@ -149,6 +176,24 @@ class RedisTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_client_list(self):
+        cmd = """python ../../main.py redis describe-client-list  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_client_ip_detail(self):
+        cmd = """python ../../main.py redis describe-client-ip-detail  --cache-instance-id 'xxx' --ip 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_backups(self):
         cmd = """python ../../main.py redis describe-backups  --cache-instance-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -239,6 +284,258 @@ class RedisTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_describe_task_progress_list(self):
+        cmd = """python ../../main.py redis describe-task-progress-list  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_disable_commands(self):
+        cmd = """python ../../main.py redis get-disable-commands  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_set_disable_commands(self):
+        cmd = """python ../../main.py redis set-disable-commands  --cache-instance-id 'xxx' --disable-commands '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_accounts(self):
+        cmd = """python ../../main.py redis describe-accounts  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_account(self):
+        cmd = """python ../../main.py redis create-account  --cache-instance-id 'xxx' --account-name 'xxx' --account-password 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_account(self):
+        cmd = """python ../../main.py redis modify-account  --cache-instance-id 'xxx' --account-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_account(self):
+        cmd = """python ../../main.py redis delete-account  --cache-instance-id 'xxx' --account-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_accounts(self):
+        cmd = """python ../../main.py redis modify-accounts  --cache-instance-id 'xxx' --accounts '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_start_clear_data(self):
+        cmd = """python ../../main.py redis start-clear-data  --cache-instance-id 'xxx' --clear-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_stop_clear_data(self):
+        cmd = """python ../../main.py redis stop-clear-data  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_clear_data(self):
+        cmd = """python ../../main.py redis describe-clear-data  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_big_key_list(self):
+        cmd = """python ../../main.py redis describe-big-key-list  --cache-instance-id 'xxx' --date 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_big_key_analysis(self):
+        cmd = """python ../../main.py redis create-big-key-analysis  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_big_key_detail(self):
+        cmd = """python ../../main.py redis describe-big-key-detail  --cache-instance-id 'xxx' --task-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_big_key_analysis_time(self):
+        cmd = """python ../../main.py redis describe-big-key-analysis-time  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_big_key_analysis_time(self):
+        cmd = """python ../../main.py redis modify-big-key-analysis-time  --cache-instance-id 'xxx' --analysis-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_stop_cache_analysis(self):
+        cmd = """python ../../main.py redis stop-cache-analysis  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_analysis_threshold(self):
+        cmd = """python ../../main.py redis describe-analysis-threshold  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_analysis_threshold(self):
+        cmd = """python ../../main.py redis modify-analysis-threshold  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_big_key_analysis2(self):
+        cmd = """python ../../main.py redis create-big-key-analysis2  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_big_key_list2(self):
+        cmd = """python ../../main.py redis describe-big-key-list2  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_big_key_detail2(self):
+        cmd = """python ../../main.py redis describe-big-key-detail2  --cache-instance-id 'xxx' --task-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_big_key_analysis_time2(self):
+        cmd = """python ../../main.py redis describe-big-key-analysis-time2  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_big_key_analysis_time2(self):
+        cmd = """python ../../main.py redis modify-big-key-analysis-time2  --cache-instance-id 'xxx' --analysis-time 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_analysis_threshold2(self):
+        cmd = """python ../../main.py redis describe-analysis-threshold2  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_analysis_threshold2(self):
+        cmd = """python ../../main.py redis modify-analysis-threshold2  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_hot_key_result2(self):
+        cmd = """python ../../main.py redis describe-hot-key-result2  --cache-instance-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_hot_key_detail2(self):
+        cmd = """python ../../main.py redis describe-hot-key-detail2  --cache-instance-id 'xxx' --node-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_instance_class(self):
         cmd = """python ../../main.py redis describe-instance-class """
         with os.popen(cmd) as f:
@@ -248,8 +545,8 @@ class RedisTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_user_quota(self):
-        cmd = """python ../../main.py redis describe-user-quota """
+    def test_describe_available_region(self):
+        cmd = """python ../../main.py redis describe-available-region """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -257,8 +554,8 @@ class RedisTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_spec_config(self):
-        cmd = """python ../../main.py redis describe-spec-config """
+    def test_describe_user_quota(self):
+        cmd = """python ../../main.py redis describe-user-quota """
         with os.popen(cmd) as f:
             content = f.read()
 

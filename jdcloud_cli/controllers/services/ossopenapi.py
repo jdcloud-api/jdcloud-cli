@@ -46,6 +46,7 @@ class OssopenapiController(BaseController):
             (['--period-type'], dict(help="""(int) 查询数据的聚合方式:<br><code>0</code>:all, 最大查询区间365天 <br><code>1</code>:hour，最大查询区间31天。默认1<br><code>2</code>:day, 最大查询区间365天。 """, dest='periodType', type=int, required=False)),
             (['--method'], dict(help="""(int) 返回数据的方式： <code>1</code>:recent(区间值), <code>2</code>:current(当前值。method = 2 时如果查询当前值时传入beginTime，则按照beginTime时间来进行查询；如果不传beginTime，则按照后端系统时间查询。) """, dest='method', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -53,7 +54,7 @@ class OssopenapiController(BaseController):
         description='''
             根据type获取指定bucket用量数据。
 
-            示例: jdc ossopenapi get-single-bucket-capacity  --bucket-name xxx --capacity-types [0] --method 0
+            示例: jdc ossopenapi get-single-bucket-capacity  --bucket-name xxx --capacity-types [5] --method 5
         ''',
     )
     def get_single_bucket_capacity(self):
@@ -79,6 +80,7 @@ class OssopenapiController(BaseController):
             (['--region-id'], dict(help="""(string) 区域ID """, dest='regionId',  required=False)),
             (['--bucket-name'], dict(help="""(string) Bucket名称 """, dest='bucketName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -113,6 +115,7 @@ class OssopenapiController(BaseController):
             (['--bucket-name'], dict(help="""(string) Bucket名称 """, dest='bucketName',  required=True)),
             (['--back-source-rules'], dict(help="""(array: backSourceRule) 回源配置规则 """, dest='backSourceRules',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -146,6 +149,7 @@ class OssopenapiController(BaseController):
             (['--region-id'], dict(help="""(string) 区域ID """, dest='regionId',  required=False)),
             (['--bucket-name'], dict(help="""(string) Bucket名称 """, dest='bucketName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -176,7 +180,153 @@ class OssopenapiController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-single-bucket-capacity','get-back-source-configuration','put-back-source-configuration','delete-back-source-configuration',], required=True)),
+            (['--region-id'], dict(help="""(string) 区域ID """, dest='regionId',  required=False)),
+            (['--bucket-name'], dict(help="""(string) Bucket名称 """, dest='bucketName',  required=True)),
+            (['--task-id'], dict(help="""(string) 任务ID """, dest='taskId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据bucket名称获取该bucket下的同步任务 ''',
+        description='''
+            根据bucket名称获取该bucket下的同步任务。
+
+            示例: jdc ossopenapi get-historical-replicat-task  --bucket-name xxx --task-id xxx
+        ''',
+    )
+    def get_historical_replicat_task(self):
+        client_factory = ClientFactory('ossopenapi')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ossopenapi.apis.GetHistoricalReplicatTaskRequest import GetHistoricalReplicatTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetHistoricalReplicatTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域ID """, dest='regionId',  required=False)),
+            (['--bucket-name'], dict(help="""(string) Bucket名称 """, dest='bucketName',  required=True)),
+            (['--task-id'], dict(help="""(string) 任务ID """, dest='taskId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 停止bucket名称获取该bucket下的同步任务 ''',
+        description='''
+            停止bucket名称获取该bucket下的同步任务。
+
+            示例: jdc ossopenapi abort-historical-replicat-task  --bucket-name xxx --task-id xxx
+        ''',
+    )
+    def abort_historical_replicat_task(self):
+        client_factory = ClientFactory('ossopenapi')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ossopenapi.apis.AbortHistoricalReplicatTaskRequest import AbortHistoricalReplicatTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AbortHistoricalReplicatTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域ID """, dest='regionId',  required=False)),
+            (['--bucket-name'], dict(help="""(string) Bucket名称 """, dest='bucketName',  required=True)),
+            (['--marker'], dict(help="""(string) 同步任务列表开始的key """, dest='marker',  required=False)),
+            (['--limit'], dict(help="""(int) 每次查询返回的结果数，默认为1000 """, dest='limit', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 根据bucket名称获取该bucket下的同步任务列表 ''',
+        description='''
+            根据bucket名称获取该bucket下的同步任务列表。
+
+            示例: jdc ossopenapi list-historical-replicat-tasks  --bucket-name xxx
+        ''',
+    )
+    def list_historical_replicat_tasks(self):
+        client_factory = ClientFactory('ossopenapi')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ossopenapi.apis.ListHistoricalReplicatTasksRequest import ListHistoricalReplicatTasksRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListHistoricalReplicatTasksRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 区域ID """, dest='regionId',  required=False)),
+            (['--bucket-name'], dict(help="""(string) Bucket名称 """, dest='bucketName',  required=True)),
+            (['--action'], dict(help="""(string) 是否覆盖 """, dest='action',  required=True)),
+            (['--bucket-region'], dict(help="""(string) bucket所属区域 """, dest='bucketRegion',  required=True)),
+            (['--target-bucket-name'], dict(help="""(string) 目标bucket名称 """, dest='targetBucketName',  required=True)),
+            (['--target-bucket-region'], dict(help="""(string) 目标bucket所属区域 """, dest='targetBucketRegion',  required=True)),
+            (['--storage-class'], dict(help="""(string) 存储类型 """, dest='storageClass',  required=True)),
+            (['--prefix-set'], dict(help="""(array: string) NA """, dest='prefixSet',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建历史同步任务 ''',
+        description='''
+            创建历史同步任务。
+
+            示例: jdc ossopenapi create-historical-replicat-task  --bucket-name xxx --action xxx --bucket-region xxx --target-bucket-name xxx --target-bucket-region xxx --storage-class xxx
+        ''',
+    )
+    def create_historical_replicat_task(self):
+        client_factory = ClientFactory('ossopenapi')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.ossopenapi.apis.CreateHistoricalReplicatTaskRequest import CreateHistoricalReplicatTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateHistoricalReplicatTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['get-single-bucket-capacity','get-back-source-configuration','put-back-source-configuration','delete-back-source-configuration','get-historical-replicat-task','abort-historical-replicat-task','list-historical-replicat-tasks','create-historical-replicat-task',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

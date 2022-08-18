@@ -23,8 +23,62 @@ import json
 
 class DomainserviceTest(unittest.TestCase):
 
-    def test_describe_action_log(self):
-        cmd = """python ../../main.py domainservice describe-action-log  --page-number '5' --page-size '5' --start-time 'xxx' --end-time 'xxx'"""
+    def test_describe_resource_record(self):
+        cmd = """python ../../main.py domainservice describe-resource-record  --domain-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_resource_record(self):
+        cmd = """python ../../main.py domainservice create-resource-record  --domain-id 'xxx' --req '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_resource_record(self):
+        cmd = """python ../../main.py domainservice modify-resource-record  --domain-id 'xxx' --resource-record-id 'xxx' --req '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_resource_record(self):
+        cmd = """python ../../main.py domainservice delete-resource-record  --domain-id 'xxx' --resource-record-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_modify_resource_record_status(self):
+        cmd = """python ../../main.py domainservice modify-resource-record-status  --domain-id 'xxx' --resource-record-id 'xxx' --action 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_view_tree(self):
+        cmd = """python ../../main.py domainservice describe-view-tree  --domain-id 'xxx' --pack-id '5' --view-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_batch_set_resource_records(self):
+        cmd = """python ../../main.py domainservice batch-set-resource-records  --domain-id 'xxx' --req '[{"":""}]'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,62 +140,8 @@ class DomainserviceTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_resource_record(self):
-        cmd = """python ../../main.py domainservice describe-resource-record  --domain-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_resource_record(self):
-        cmd = """python ../../main.py domainservice create-resource-record  --domain-id 'xxx' --req '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_modify_resource_record(self):
-        cmd = """python ../../main.py domainservice modify-resource-record  --domain-id 'xxx' --resource-record-id 'xxx' --req '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_resource_record(self):
-        cmd = """python ../../main.py domainservice delete-resource-record  --domain-id 'xxx' --resource-record-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_modify_resource_record_status(self):
-        cmd = """python ../../main.py domainservice modify-resource-record-status  --domain-id 'xxx' --resource-record-id 'xxx' --action 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_view_tree(self):
-        cmd = """python ../../main.py domainservice describe-view-tree  --domain-id 'xxx' --pack-id '5' --view-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_batch_set_resource_records(self):
-        cmd = """python ../../main.py domainservice batch-set-resource-records  --domain-id 'xxx' --req '[{"":""}]'"""
+    def test_describe_action_log(self):
+        cmd = """python ../../main.py domainservice describe-action-log  --page-number '5' --page-size '5' --start-time 'xxx' --end-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

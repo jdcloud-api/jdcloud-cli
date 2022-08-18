@@ -40,29 +40,30 @@ class VodController(BaseController):
         arguments=[
             (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--sorts'], dict(help="""(array: sort) NA """, dest='sorts',  required=False)),
+            (['--filters'], dict(help="""(array: filter) NA """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询分类列表。按照分页方式，返回分类列表信息。 ''',
+        help=''' 查询转码模板组列表。;  ''',
         description='''
-            查询分类列表。按照分页方式，返回分类列表信息。。
+            查询转码模板组列表。; 。
 
-            示例: jdc vod list-categories 
+            示例: jdc vod list-transcode-template-groups 
         ''',
     )
-    def list_categories(self):
+    def list_transcode_template_groups(self):
         client_factory = ClientFactory('vod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vod.apis.ListCategoriesRequest import ListCategoriesRequest
+            from jdcloud_sdk.services.vod.apis.ListTranscodeTemplateGroupsRequest import ListTranscodeTemplateGroupsRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ListCategoriesRequest(params_dict, headers)
+            req = ListTranscodeTemplateGroupsRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -72,31 +73,31 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--name'], dict(help="""(string) 分类名称 """, dest='name',  required=True)),
-            (['--parent-id'], dict(help="""(int) 父分类ID，取值为 0 或 null 时，表示该分类为一级分类;  """, dest='parentId', type=int, required=False)),
-            (['--description'], dict(help="""(string) 分类描述信息 """, dest='description',  required=False)),
+            (['--group-name'], dict(help="""(string) 转码模板组名称 """, dest='groupName',  required=False)),
+            (['--templates'], dict(help="""(array: groupedTranscodeTemplateData) NA """, dest='templates',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 添加分类 ''',
+        help=''' 创建转码模板组 ''',
         description='''
-            添加分类。
+            创建转码模板组。
 
-            示例: jdc vod create-category  --name xxx
+            示例: jdc vod create-transcode-template-group 
         ''',
     )
-    def create_category(self):
+    def create_transcode_template_group(self):
         client_factory = ClientFactory('vod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vod.apis.CreateCategoryRequest import CreateCategoryRequest
+            from jdcloud_sdk.services.vod.apis.CreateTranscodeTemplateGroupRequest import CreateTranscodeTemplateGroupRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateCategoryRequest(params_dict, headers)
+            req = CreateTranscodeTemplateGroupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -106,29 +107,30 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=True)),
+            (['--group-id'], dict(help="""(string) 模板组ID """, dest='groupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询分类及其子分类，若指定的分类ID为0，则返回一个根分类及其子分类（即一级分类）. ''',
+        help=''' 查询转码模板组 ''',
         description='''
-            查询分类及其子分类，若指定的分类ID为0，则返回一个根分类及其子分类（即一级分类）.。
+            查询转码模板组。
 
-            示例: jdc vod get-category-with-children  --category-id 5
+            示例: jdc vod get-transcode-template-group  --group-id xxx
         ''',
     )
-    def get_category_with_children(self):
+    def get_transcode_template_group(self):
         client_factory = ClientFactory('vod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vod.apis.GetCategoryWithChildrenRequest import GetCategoryWithChildrenRequest
+            from jdcloud_sdk.services.vod.apis.GetTranscodeTemplateGroupRequest import GetTranscodeTemplateGroupRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetCategoryWithChildrenRequest(params_dict, headers)
+            req = GetTranscodeTemplateGroupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -138,29 +140,32 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=True)),
+            (['--group-id'], dict(help="""(string) 模板组ID """, dest='groupId',  required=True)),
+            (['--group-name'], dict(help="""(string) 转码模板组名称 """, dest='groupName',  required=False)),
+            (['--templates'], dict(help="""(array: groupedTranscodeTemplateData) NA """, dest='templates',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询分类 ''',
+        help=''' 修改转码模板组 ''',
         description='''
-            查询分类。
+            修改转码模板组。
 
-            示例: jdc vod get-category  --category-id 5
+            示例: jdc vod update-transcode-template-group  --group-id xxx
         ''',
     )
-    def get_category(self):
+    def update_transcode_template_group(self):
         client_factory = ClientFactory('vod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vod.apis.GetCategoryRequest import GetCategoryRequest
+            from jdcloud_sdk.services.vod.apis.UpdateTranscodeTemplateGroupRequest import UpdateTranscodeTemplateGroupRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = GetCategoryRequest(params_dict, headers)
+            req = UpdateTranscodeTemplateGroupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -170,32 +175,30 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=True)),
-            (['--name'], dict(help="""(string) 分类名称 """, dest='name',  required=False)),
-            (['--parent-id'], dict(help="""(int) 父分类ID，取值为 0 或 null 时，表示该分类为一级分类;  """, dest='parentId', type=int, required=False)),
-            (['--description'], dict(help="""(string) 分类描述信息 """, dest='description',  required=False)),
+            (['--group-id'], dict(help="""(string) 模板组ID """, dest='groupId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 修改分类 ''',
+        help=''' 删除转码模板组 ''',
         description='''
-            修改分类。
+            删除转码模板组。
 
-            示例: jdc vod update-category  --category-id 5
+            示例: jdc vod delete-transcode-template-group  --group-id xxx
         ''',
     )
-    def update_category(self):
+    def delete_transcode_template_group(self):
         client_factory = ClientFactory('vod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vod.apis.UpdateCategoryRequest import UpdateCategoryRequest
+            from jdcloud_sdk.services.vod.apis.DeleteTranscodeTemplateGroupRequest import DeleteTranscodeTemplateGroupRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = UpdateCategoryRequest(params_dict, headers)
+            req = DeleteTranscodeTemplateGroupRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -205,844 +208,31 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=True)),
+            (['--group-id'], dict(help="""(string) 模板组ID """, dest='groupId',  required=False)),
+            (['--template-ids'], dict(help="""(int) 待删除的模板ID列表 """, dest='templateIds', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 删除分类 ''',
+        help=''' 删除转码模板组中的模板。;  ''',
         description='''
-            删除分类。
+            删除转码模板组中的模板。; 。
 
-            示例: jdc vod delete-category  --category-id 5
+            示例: jdc vod delete-grouped-transcode-templates 
         ''',
     )
-    def delete_category(self):
+    def delete_grouped_transcode_templates(self):
         client_factory = ClientFactory('vod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vod.apis.DeleteCategoryRequest import DeleteCategoryRequest
+            from jdcloud_sdk.services.vod.apis.DeleteGroupedTranscodeTemplatesRequest import DeleteGroupedTranscodeTemplatesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DeleteCategoryRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--sorts'], dict(help="""(array: sort) NA """, dest='sorts',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询域名列表 ''',
-        description='''
-            查询域名列表。
-
-            示例: jdc vod list-domains 
-        ''',
-    )
-    def list_domains(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.ListDomainsRequest import ListDomainsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ListDomainsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--name'], dict(help="""(string) 域名名称 """, dest='name',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 添加域名 ''',
-        description='''
-            添加域名。
-
-            示例: jdc vod create-domain  --name xxx
-        ''',
-    )
-    def create_domain(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.CreateDomainRequest import CreateDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询域名 ''',
-        description='''
-            查询域名。
-
-            示例: jdc vod get-domain  --domain-id 5
-        ''',
-    )
-    def get_domain(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.GetDomainRequest import GetDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除域名。执行该操作，需确保域名已被停用。 ''',
-        description='''
-            删除域名。执行该操作，需确保域名已被停用。。
-
-            示例: jdc vod delete-domain  --domain-id 5
-        ''',
-    )
-    def delete_domain(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.DeleteDomainRequest import DeleteDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 启用域名 ''',
-        description='''
-            启用域名。
-
-            示例: jdc vod enable-domain  --domain-id 5
-        ''',
-    )
-    def enable_domain(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.EnableDomainRequest import EnableDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = EnableDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 停用域名 ''',
-        description='''
-            停用域名。
-
-            示例: jdc vod disable-domain  --domain-id 5
-        ''',
-    )
-    def disable_domain(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.DisableDomainRequest import DisableDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DisableDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 设为默认域名 ''',
-        description='''
-            设为默认域名。
-
-            示例: jdc vod set-default-domain  --domain-id 5
-        ''',
-    )
-    def set_default_domain(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.SetDefaultDomainRequest import SetDefaultDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetDefaultDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--header-name'], dict(help="""(string) 头参数名。当前支持的访问头参数取值范围：;   Content-Disposition;   Content-Language;   Expires;   Access-Control-Allow-Origin;   Access-Control-Allow-Methods;   Access-Control-Max-Age;   Access-Control-Expose-Headers;  """, dest='headerName',  required=True)),
-            (['--header-value'], dict(help="""(string) 头参数值 """, dest='headerValue',  required=True)),
-            (['--header-type'], dict(help="""(string) 头参数类型，取值范围：req、resp """, dest='headerType',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 设置域名访问头参数 ''',
-        description='''
-            设置域名访问头参数。
-
-            示例: jdc vod set-header  --domain-id 5 --header-name xxx --header-value xxx --header-type xxx
-        ''',
-    )
-    def set_header(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.SetHeaderRequest import SetHeaderRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetHeaderRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询域名访问头参数列表 ''',
-        description='''
-            查询域名访问头参数列表。
-
-            示例: jdc vod list-headers  --domain-id 5
-        ''',
-    )
-    def list_headers(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.ListHeadersRequest import ListHeadersRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = ListHeadersRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--header-name'], dict(help="""(string) 头参数名。当前支持的访问头参数取值范围：;   Content-Disposition;   Content-Language;   Expires;   Access-Control-Allow-Origin;   Access-Control-Allow-Methods;   Access-Control-Max-Age;   Access-Control-Expose-Headers;  """, dest='headerName',  required=True)),
-            (['--header-type'], dict(help="""(string) 头参数类型，取值范围：req、resp """, dest='headerType',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除域名访问头参数 ''',
-        description='''
-            删除域名访问头参数。
-
-            示例: jdc vod delete-header  --domain-id 5 --header-name xxx --header-type xxx
-        ''',
-    )
-    def delete_header(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.DeleteHeaderRequest import DeleteHeaderRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteHeaderRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--config'], dict(help="""(refererRuleConfigObject) Referer防盗链规则配置对象 """, dest='config',  required=True)),
-            (['--enabled'], dict(help="""(bool) 是否启用该规则 """, dest='enabled',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 设置CDN域名Referer防盗链规则 ''',
-        description='''
-            设置CDN域名Referer防盗链规则。
-
-            示例: jdc vod set-referer-rule  --domain-id 5 --config '{"":""}' --enabled true
-        ''',
-    )
-    def set_referer_rule(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.SetRefererRuleRequest import SetRefererRuleRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetRefererRuleRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询CDN域名Referer防盗链规则配置 ''',
-        description='''
-            查询CDN域名Referer防盗链规则配置。
-
-            示例: jdc vod get-referer-rule  --domain-id 5
-        ''',
-    )
-    def get_referer_rule(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.GetRefererRuleRequest import GetRefererRuleRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetRefererRuleRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--config'], dict(help="""(uRLRuleConfigObject) URL鉴权规则配置对象 """, dest='config',  required=True)),
-            (['--enabled'], dict(help="""(bool) 是否启用该规则 """, dest='enabled',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 设置CDN域名URL鉴权规则 ''',
-        description='''
-            设置CDN域名URL鉴权规则。
-
-            示例: jdc vod set-urlrule  --domain-id 5 --config '{"":""}' --enabled true
-        ''',
-    )
-    def set_urlrule(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.SetURLRuleRequest import SetURLRuleRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetURLRuleRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询CDN域名URL鉴权规则配置 ''',
-        description='''
-            查询CDN域名URL鉴权规则配置。
-
-            示例: jdc vod get-urlrule  --domain-id 5
-        ''',
-    )
-    def get_urlrule(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.GetURLRuleRequest import GetURLRuleRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetURLRuleRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--config'], dict(help="""(iPRuleConfigObject) IP黑名单规则配置对象 """, dest='config',  required=True)),
-            (['--enabled'], dict(help="""(bool) 是否启用该规则 """, dest='enabled',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 设置CDN域名IP黑名单规则 ''',
-        description='''
-            设置CDN域名IP黑名单规则。
-
-            示例: jdc vod set-iprule  --domain-id 5 --config '{"":""}' --enabled true
-        ''',
-    )
-    def set_iprule(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.SetIPRuleRequest import SetIPRuleRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetIPRuleRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询CDN域名IP黑名单规则配置 ''',
-        description='''
-            查询CDN域名IP黑名单规则配置。
-
-            示例: jdc vod get-iprule  --domain-id 5
-        ''',
-    )
-    def get_iprule(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.GetIPRuleRequest import GetIPRuleRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetIPRuleRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--source'], dict(help="""(string) 证书来源。取值范围：default """, dest='source',  required=False)),
-            (['--title'], dict(help="""(string) 证书标题 """, dest='title',  required=False)),
-            (['--ssl-cert'], dict(help="""(string) 证书内容 """, dest='sslCert',  required=False)),
-            (['--ssl-key'], dict(help="""(string) 证书私钥 """, dest='sslKey',  required=False)),
-            (['--jump-type'], dict(help="""(string) 跳转类型。取值范围：; default - 采用回源域名的默认协议; http - 强制采用http协议回源; https - 强制采用https协议回源;  """, dest='jumpType',  required=False)),
-            (['--enabled'], dict(help="""(bool) SSL配置启用状态 """, dest='enabled',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 设置CDN域名SSL配置 ''',
-        description='''
-            设置CDN域名SSL配置。
-
-            示例: jdc vod set-http-ssl  --domain-id 5
-        ''',
-    )
-    def set_http_ssl(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.SetHttpSslRequest import SetHttpSslRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SetHttpSslRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询CDN域名SSL配置 ''',
-        description='''
-            查询CDN域名SSL配置。
-
-            示例: jdc vod get-http-ssl  --domain-id 5
-        ''',
-    )
-    def get_http_ssl(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.GetHttpSslRequest import GetHttpSslRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetHttpSslRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--title'], dict(help="""(string) 视频标题 """, dest='title',  required=True)),
-            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
-            (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
-            (['--cover-url'], dict(help="""(string) 封面地址 """, dest='coverUrl',  required=False)),
-            (['--description'], dict(help="""(string) 视频描述 """, dest='description',  required=False)),
-            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=False)),
-            (['--tags'], dict(help="""(array: string) 视频标签集合 """, dest='tags',  required=False)),
-            (['--transcode-template-ids'], dict(help="""(array: int) 转码模板ID集合 """, dest='transcodeTemplateIds', type=int, required=False)),
-            (['--watermark-ids'], dict(help="""(array: int) 水印ID集合 """, dest='watermarkIds', type=int, required=False)),
-            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
-            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
-            (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=True)),
-            (['--record-times'], dict(help="""(array: recordTime) 录制时间段集合; - 支持自定义1-10个时间段,拼接成一个文件; - 每个时间段不小于10s; - 总跨度不超过12小时; - 时间段按升序排列且无重叠;  """, dest='recordTimes',  required=True)),
-            (['--record-file-type'], dict(help="""(string) 录制文件类型:; - 取值: ts, flv, mp4; - 不区分大小写;  """, dest='recordFileType',  required=True)),
-            (['--task-external-id'], dict(help="""(string) 直播录制任务外键 """, dest='taskExternalId',  required=False)),
-            (['--priority'], dict(help="""(string) 任务优先级:; - 取值: low, medium, high; - 不区分大小写;  """, dest='priority',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建直播转点播任务 ''',
-        description='''
-            创建直播转点播任务。
-
-            示例: jdc vod create-live-to-vod-task  --title xxx --file-name xxx --publish-domain xxx --app-name xxx --stream-name xxx --record-times ['{"":""}'] --record-file-type xxx
-        ''',
-    )
-    def create_live_to_vod_task(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.CreateLiveToVodTaskRequest import CreateLiveToVodTaskRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateLiveToVodTaskRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--http-method'], dict(help="""(string) HTTP 请求方法，上传只支持 PUT 方法，默认值为 PUT """, dest='httpMethod',  required=False)),
-            (['--title'], dict(help="""(string) 视频标题 """, dest='title',  required=True)),
-            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
-            (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
-            (['--cover-url'], dict(help="""(string) 封面地址 """, dest='coverUrl',  required=False)),
-            (['--description'], dict(help="""(string) 视频描述 """, dest='description',  required=False)),
-            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=False)),
-            (['--tags'], dict(help="""(array: string) 视频标签集合 """, dest='tags',  required=False)),
-            (['--transcode-template-ids'], dict(help="""(array: int) 转码模板ID集合 """, dest='transcodeTemplateIds', type=int, required=False)),
-            (['--watermark-ids'], dict(help="""(array: int) 水印ID集合 """, dest='watermarkIds', type=int, required=False)),
-            (['--user-data'], dict(help="""(string) 自定义数据 """, dest='userData',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 获取视频上传地址和凭证 ''',
-        description='''
-            获取视频上传地址和凭证。
-
-            示例: jdc vod create-video-upload-task  --title xxx --file-name xxx
-        ''',
-    )
-    def create_video_upload_task(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.CreateVideoUploadTaskRequest import CreateVideoUploadTaskRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateVideoUploadTaskRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--video-id'], dict(help="""(string) 视频地址 """, dest='videoId',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 刷新视频上传地址和凭证 ''',
-        description='''
-            刷新视频上传地址和凭证。
-
-            示例: jdc vod refresh-video-upload-task  --video-id xxx
-        ''',
-    )
-    def refresh_video_upload_task(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.RefreshVideoUploadTaskRequest import RefreshVideoUploadTaskRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = RefreshVideoUploadTaskRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--http-method'], dict(help="""(string) HTTP 请求方法，上传只支持 PUT 方法，默认值为 PUT """, dest='httpMethod',  required=False)),
-            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
-            (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 获取图片上传地址和凭证 ''',
-        description='''
-            获取图片上传地址和凭证。
-
-            示例: jdc vod create-image-upload-task  --file-name xxx
-        ''',
-    )
-    def create_image_upload_task(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.CreateImageUploadTaskRequest import CreateImageUploadTaskRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateImageUploadTaskRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--media-id'], dict(help="""(string) 媒资ID """, dest='mediaId',  required=False)),
-            (['--template-ids'], dict(help="""(array: int) 质检模板ID列表 """, dest='templateIds', type=int, required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 提交质检作业 ''',
-        description='''
-            提交质检作业。
-
-            示例: jdc vod submit-quality-detection-job 
-        ''',
-    )
-    def submit_quality_detection_job(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.SubmitQualityDetectionJobRequest import SubmitQualityDetectionJobRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = SubmitQualityDetectionJobRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--bulk-items'], dict(help="""(array: submitQualityDetectionJobRequestObject) NA """, dest='bulkItems',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 批量提交质检作业 ''',
-        description='''
-            批量提交质检作业。
-
-            示例: jdc vod batch-submit-quality-detection-jobs 
-        ''',
-    )
-    def batch_submit_quality_detection_jobs(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.BatchSubmitQualityDetectionJobsRequest import BatchSubmitQualityDetectionJobsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = BatchSubmitQualityDetectionJobsRequest(params_dict, headers)
+            req = DeleteGroupedTranscodeTemplatesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1055,6 +245,7 @@ class VodController(BaseController):
             (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1089,6 +280,7 @@ class VodController(BaseController):
             (['--template-type'], dict(help="""(string) 模板类型，区分该模板的检测内容。目前只支持 video 。 """, dest='templateType',  required=True)),
             (['--detections'], dict(help="""(array: string) 检测项列表。取值范围：;   blackScreen - 黑场;   pureColor - 纯色;   colorCast - 偏色;   frozenFrame - 静帧;   brightness - 亮度;   contrast - 对比度;  """, dest='detections',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1121,6 +313,7 @@ class VodController(BaseController):
         arguments=[
             (['--template-id'], dict(help="""(int) 模板ID """, dest='templateId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1155,6 +348,7 @@ class VodController(BaseController):
             (['--name'], dict(help="""(string) 模板名称。长度不超过128个字符。UTF-8编码。;  """, dest='name',  required=False)),
             (['--detections'], dict(help="""(array: string) 检测项列表。取值范围：;   blackScreen - 黑场;   pureColor - 纯色;   colorCast - 偏色;   frozenFrame - 静帧;   brightness - 亮度;   contrast - 对比度;  """, dest='detections',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1187,6 +381,7 @@ class VodController(BaseController):
         arguments=[
             (['--template-id'], dict(help="""(int) 模板ID """, dest='templateId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1217,31 +412,41 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--video-id'], dict(help="""(string) 视频ID """, dest='videoId',  required=False)),
-            (['--template-ids'], dict(help="""(array: int) 转码模板ID列表 """, dest='templateIds', type=int, required=False)),
-            (['--watermark-ids'], dict(help="""(array: int) 水印ID列表 """, dest='watermarkIds', type=int, required=False)),
+            (['--http-method'], dict(help="""(string) HTTP 请求方法，上传支持 PUT 和 POST 方法，默认值为 PUT 。; 通过该接口获取到上传地址和凭证之后，后续的上传动作，必须使用和该值一致的方法进行文件上传。;  """, dest='httpMethod',  required=False)),
+            (['--title'], dict(help="""(string) 视频标题 """, dest='title',  required=True)),
+            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
+            (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
+            (['--cover-url'], dict(help="""(string) 封面地址 """, dest='coverUrl',  required=False)),
+            (['--description'], dict(help="""(string) 视频描述 """, dest='description',  required=False)),
+            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=False)),
+            (['--tags'], dict(help="""(array: string) 视频标签集合 """, dest='tags',  required=False)),
+            (['--transcode-template-group-id'], dict(help="""(string) 转码模板组ID """, dest='transcodeTemplateGroupId',  required=False)),
+            (['--transcode-template-ids'], dict(help="""(array: int) 转码模板ID集合 """, dest='transcodeTemplateIds', type=int, required=False)),
+            (['--watermark-ids'], dict(help="""(array: int) 水印ID集合 """, dest='watermarkIds', type=int, required=False)),
+            (['--user-data'], dict(help="""(string) 自定义数据 """, dest='userData',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 提交转码作业 ''',
+        help=''' 获取视频上传地址和凭证 ''',
         description='''
-            提交转码作业。
+            获取视频上传地址和凭证。
 
-            示例: jdc vod submit-transcode-job 
+            示例: jdc vod create-video-upload-task  --title xxx --file-name xxx
         ''',
     )
-    def submit_transcode_job(self):
+    def create_video_upload_task(self):
         client_factory = ClientFactory('vod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vod.apis.SubmitTranscodeJobRequest import SubmitTranscodeJobRequest
+            from jdcloud_sdk.services.vod.apis.CreateVideoUploadTaskRequest import CreateVideoUploadTaskRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = SubmitTranscodeJobRequest(params_dict, headers)
+            req = CreateVideoUploadTaskRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1251,29 +456,30 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--bulk-items'], dict(help="""(array: submitTranscodeJobRequestObject) NA """, dest='bulkItems',  required=False)),
+            (['--video-id'], dict(help="""(string) 视频地址 """, dest='videoId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 批量提交转码作业 ''',
+        help=''' 刷新视频上传地址和凭证 ''',
         description='''
-            批量提交转码作业。
+            刷新视频上传地址和凭证。
 
-            示例: jdc vod batch-submit-transcode-jobs 
+            示例: jdc vod refresh-video-upload-task  --video-id xxx
         ''',
     )
-    def batch_submit_transcode_jobs(self):
+    def refresh_video_upload_task(self):
         client_factory = ClientFactory('vod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vod.apis.BatchSubmitTranscodeJobsRequest import BatchSubmitTranscodeJobsRequest
+            from jdcloud_sdk.services.vod.apis.RefreshVideoUploadTaskRequest import RefreshVideoUploadTaskRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = BatchSubmitTranscodeJobsRequest(params_dict, headers)
+            req = RefreshVideoUploadTaskRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1283,31 +489,32 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) NA """, dest='filters',  required=False)),
+            (['--http-method'], dict(help="""(string) HTTP 请求方法，上传支持 PUT 和 POST 方法，默认值为 PUT 。 """, dest='httpMethod',  required=False)),
+            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
+            (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询转码模板列表。; 允许通过条件过滤查询，支持的过滤字段如下：;   - source[eq] 按模板来源精确查询;   - templateType[eq] 按模板类型精确查询;  ''',
+        help=''' 获取图片上传地址和凭证 ''',
         description='''
-            查询转码模板列表。; 允许通过条件过滤查询，支持的过滤字段如下：;   - source[eq] 按模板来源精确查询;   - templateType[eq] 按模板类型精确查询; 。
+            获取图片上传地址和凭证。
 
-            示例: jdc vod list-transcode-templates 
+            示例: jdc vod create-image-upload-task  --file-name xxx
         ''',
     )
-    def list_transcode_templates(self):
+    def create_image_upload_task(self):
         client_factory = ClientFactory('vod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vod.apis.ListTranscodeTemplatesRequest import ListTranscodeTemplatesRequest
+            from jdcloud_sdk.services.vod.apis.CreateImageUploadTaskRequest import CreateImageUploadTaskRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = ListTranscodeTemplatesRequest(params_dict, headers)
+            req = CreateImageUploadTaskRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1317,136 +524,46 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--name'], dict(help="""(string) 模板名称。长度不超过128个字符。UTF-8编码。;  """, dest='name',  required=True)),
-            (['--video'], dict(help="""(video) 视频参数配置 """, dest='video',  required=True)),
-            (['--audio'], dict(help="""(audio) 音频参数配置 """, dest='audio',  required=True)),
-            (['--encapsulation'], dict(help="""(encapsulation) 封装配置 """, dest='encapsulation',  required=True)),
-            (['--definition'], dict(help="""(string) 清晰度规格标记。取值范围：;   SD - 标清;   HD - 高清;   FHD - 超清;   2K;   4K;  """, dest='definition',  required=True)),
-            (['--template-type'], dict(help="""(string) 模板类型。取值范围：;   jdchd - 京享超清;   jdchs - 极速转码;  """, dest='templateType',  required=False)),
+            (['--title'], dict(help="""(string) 视频标题 """, dest='title',  required=True)),
+            (['--file-name'], dict(help="""(string) 文件名称 """, dest='fileName',  required=True)),
+            (['--file-size'], dict(help="""(int) 文件大小 """, dest='fileSize', type=int, required=False)),
+            (['--cover-url'], dict(help="""(string) 封面地址 """, dest='coverUrl',  required=False)),
+            (['--description'], dict(help="""(string) 视频描述 """, dest='description',  required=False)),
+            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=False)),
+            (['--tags'], dict(help="""(array: string) 视频标签集合 """, dest='tags',  required=False)),
+            (['--transcode-template-group-id'], dict(help="""(string) 转码模板组ID。若此字段不为空，则将以模板组方式提交转码作业，transcodeTemplateIds字段将被忽略。 """, dest='transcodeTemplateGroupId',  required=False)),
+            (['--transcode-template-ids'], dict(help="""(array: int) 转码模板ID集合 """, dest='transcodeTemplateIds', type=int, required=False)),
+            (['--watermark-ids'], dict(help="""(array: int) 水印ID集合 """, dest='watermarkIds', type=int, required=False)),
+            (['--publish-domain'], dict(help="""(string) 推流域名 """, dest='publishDomain',  required=True)),
+            (['--app-name'], dict(help="""(string) 应用名称 """, dest='appName',  required=True)),
+            (['--stream-name'], dict(help="""(string) 流名称 """, dest='streamName',  required=True)),
+            (['--record-times'], dict(help="""(array: recordTime) 录制时间段集合; - 支持自定义1-10个时间段,拼接成一个文件; - 每个时间段不小于10s; - 总跨度不超过12小时; - 时间段按升序排列且无重叠;  """, dest='recordTimes',  required=True)),
+            (['--record-file-type'], dict(help="""(string) 录制文件类型:; - 取值: ts, flv, mp4; - 不区分大小写;  """, dest='recordFileType',  required=True)),
+            (['--task-external-id'], dict(help="""(string) 直播录制任务外键 """, dest='taskExternalId',  required=False)),
+            (['--priority'], dict(help="""(string) 任务优先级:; - 取值: low, medium, high; - 不区分大小写;  """, dest='priority',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建转码模板 ''',
+        help=''' 创建直播转点播任务 ''',
         description='''
-            创建转码模板。
+            创建直播转点播任务。
 
-            示例: jdc vod create-transcode-template  --name xxx --video '{"":""}' --audio '{"":""}' --encapsulation '{"":""}' --definition xxx
+            示例: jdc vod create-live-to-vod-task  --title xxx --file-name xxx --publish-domain xxx --app-name xxx --stream-name xxx --record-times ['{"":""}'] --record-file-type xxx
         ''',
     )
-    def create_transcode_template(self):
+    def create_live_to_vod_task(self):
         client_factory = ClientFactory('vod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.vod.apis.CreateTranscodeTemplateRequest import CreateTranscodeTemplateRequest
+            from jdcloud_sdk.services.vod.apis.CreateLiveToVodTaskRequest import CreateLiveToVodTaskRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = CreateTranscodeTemplateRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--template-id'], dict(help="""(int) 模板ID """, dest='templateId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询转码模板 ''',
-        description='''
-            查询转码模板。
-
-            示例: jdc vod get-transcode-template  --template-id 5
-        ''',
-    )
-    def get_transcode_template(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.GetTranscodeTemplateRequest import GetTranscodeTemplateRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetTranscodeTemplateRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--template-id'], dict(help="""(int) 模板ID """, dest='templateId', type=int, required=True)),
-            (['--name'], dict(help="""(string) 模板名称。长度不超过128个字符。UTF-8编码。;  """, dest='name',  required=False)),
-            (['--video'], dict(help="""(video) 视频参数配置 """, dest='video',  required=False)),
-            (['--audio'], dict(help="""(audio) 音频参数配置 """, dest='audio',  required=False)),
-            (['--encapsulation'], dict(help="""(encapsulation) 封装配置 """, dest='encapsulation',  required=False)),
-            (['--definition'], dict(help="""(string) 清晰度规格标记。取值范围：;   SD - 标清;   HD - 高清;   FHD - 超清;   2K;   4K;  """, dest='definition',  required=False)),
-            (['--template-type'], dict(help="""(string) 模板类型。取值范围：;   jdchd - 京享超清;   jdchs - 极速转码;  """, dest='templateType',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改转码模板 ''',
-        description='''
-            修改转码模板。
-
-            示例: jdc vod update-transcode-template  --template-id 5
-        ''',
-    )
-    def update_transcode_template(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.UpdateTranscodeTemplateRequest import UpdateTranscodeTemplateRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateTranscodeTemplateRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--template-id'], dict(help="""(int) 模板ID """, dest='templateId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除转码模板 ''',
-        description='''
-            删除转码模板。
-
-            示例: jdc vod delete-transcode-template  --template-id 5
-        ''',
-    )
-    def delete_transcode_template(self):
-        client_factory = ClientFactory('vod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.vod.apis.DeleteTranscodeTemplateRequest import DeleteTranscodeTemplateRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteTranscodeTemplateRequest(params_dict, headers)
+            req = CreateLiveToVodTaskRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -1461,6 +578,7 @@ class VodController(BaseController):
             (['--filters'], dict(help="""(array: filter) NA """, dest='filters',  required=False)),
             (['--sorts'], dict(help="""(array: sort) NA """, dest='sorts',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1493,6 +611,7 @@ class VodController(BaseController):
         arguments=[
             (['--video-id'], dict(help="""(string) 视频ID """, dest='videoId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1530,6 +649,7 @@ class VodController(BaseController):
             (['--cover-url'], dict(help="""(string) 封面地址 """, dest='coverUrl',  required=False)),
             (['--description'], dict(help="""(string) 视频描述信息 """, dest='description',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1562,6 +682,7 @@ class VodController(BaseController):
         arguments=[
             (['--video-id'], dict(help="""(string) 视频ID """, dest='videoId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1594,6 +715,7 @@ class VodController(BaseController):
         arguments=[
             (['--video-ids'], dict(help="""(array: string) 视频ID集合 """, dest='videoIds',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1626,6 +748,7 @@ class VodController(BaseController):
         arguments=[
             (['--bulk-items'], dict(help="""(array: batchUpdateVideosBulkItem) 批量更新视频的条目集合 """, dest='bulkItems',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1658,6 +781,7 @@ class VodController(BaseController):
         arguments=[
             (['--video-id'], dict(help="""(string) 视频ID """, dest='videoId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1691,6 +815,7 @@ class VodController(BaseController):
             (['--video-id'], dict(help="""(string) 视频ID """, dest='videoId',  required=True)),
             (['--task-ids'], dict(help="""(array: int) NA """, dest='taskIds', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1698,7 +823,7 @@ class VodController(BaseController):
         description='''
             删除视频转码流。
 
-            示例: jdc vod delete-video-streams  --video-id xxx --task-ids [0]
+            示例: jdc vod delete-video-streams  --video-id xxx --task-ids [5]
         ''',
     )
     def delete_video_streams(self):
@@ -1724,6 +849,7 @@ class VodController(BaseController):
             (['--video-id'], dict(help="""(string) 视频ID """, dest='videoId',  required=True)),
             (['--audit-result'], dict(help="""(string) 审核结果，取值范围:;  block(封禁);  unblock(解封);  """, dest='auditResult',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1754,9 +880,1797 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
+            (['--video-id'], dict(help="""(string) 视频ID """, dest='videoId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取视频源文件信息 ''',
+        description='''
+            获取视频源文件信息。
+
+            示例: jdc vod get-video-source-info  --video-id xxx
+        ''',
+    )
+    def get_video_source_info(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetVideoSourceInfoRequest import GetVideoSourceInfoRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetVideoSourceInfoRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--media-id'], dict(help="""(string) 媒资ID """, dest='mediaId',  required=False)),
+            (['--template-ids'], dict(help="""(array: int) 质检模板ID列表 """, dest='templateIds', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 提交质检作业 ''',
+        description='''
+            提交质检作业。
+
+            示例: jdc vod submit-quality-detection-job 
+        ''',
+    )
+    def submit_quality_detection_job(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SubmitQualityDetectionJobRequest import SubmitQualityDetectionJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SubmitQualityDetectionJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--bulk-items'], dict(help="""(array: submitQualityDetectionJobRequestObject) NA """, dest='bulkItems',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 批量提交质检作业 ''',
+        description='''
+            批量提交质检作业。
+
+            示例: jdc vod batch-submit-quality-detection-jobs 
+        ''',
+    )
+    def batch_submit_quality_detection_jobs(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.BatchSubmitQualityDetectionJobsRequest import BatchSubmitQualityDetectionJobsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = BatchSubmitQualityDetectionJobsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--project-name'], dict(help="""(string) 工程名称 """, dest='projectName',  required=True)),
+            (['--description'], dict(help="""(string) 工程描述 """, dest='description',  required=False)),
+            (['--timeline'], dict(help="""(timeline) 时间线信息 """, dest='timeline',  required=True)),
+            (['--media-metadata'], dict(help="""(mediaMetadata) 剪辑合成媒资元数据 """, dest='mediaMetadata',  required=False)),
+            (['--user-data'], dict(help="""(string) 用户数据，JSON格式的字符串。; 在Timeline中的所有MediaClip中，若有2个或以上的不同MediaId，即素材片段来源于2个或以上不同视频，则在提交剪辑作业时，必须在UserData中指明合并后的视频画面的宽高。; 如 {\"extendData\": {\"width\": 720, \"height\": 500}}，其中width和height必须为[16, 4096]之间的偶数; videoMode 支持 normal 普通模式 screen_record 屏幕录制模式 两种模式，默认为 normal。; 如 "{\"extendData\":{\"videoMode\":\"screen_record\"}}";  """, dest='userData',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建视频剪辑作业;  ''',
+        description='''
+            创建视频剪辑作业; 。
+
+            示例: jdc vod create-vedit-job  --project-name xxx --timeline '{"":""}'
+        ''',
+    )
+    def create_vedit_job(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.CreateVeditJobRequest import CreateVeditJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateVeditJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--project-id'], dict(help="""(int) 工程ID """, dest='projectId', type=int, required=True)),
+            (['--media-metadata'], dict(help="""(mediaMetadata) 合成媒资元数据 """, dest='mediaMetadata',  required=False)),
+            (['--user-data'], dict(help="""(string) 用户数据，JSON格式的字符串。; 在Timeline中的所有MediaClip中，若有2个或以上的不同MediaId，即素材片段来源于2个或以上不同视频，则在提交剪辑作业时，必须在UserData中指明合并后的视频画面的宽高。; 如 {\"extendData\": {\"width\": 720, \"height\": 500}}，其中width和height必须为[16, 4096]之间的偶数; videoMode 支持 normal 普通模式 screen_record 屏幕录制模式 两种模式，默认为 normal。; 如 "{\"extendData\":{\"videoMode\":\"screen_record\"}}";  """, dest='userData',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 提交视频剪辑作业 ''',
+        description='''
+            提交视频剪辑作业。
+
+            示例: jdc vod submit-vedit-job  --project-id 5
+        ''',
+    )
+    def submit_vedit_job(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SubmitVeditJobRequest import SubmitVeditJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SubmitVeditJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) NA """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询视频剪辑工程列表。; 允许通过条件过滤查询，支持的过滤字段如下：;   - projectId[eq] 按照工程ID精确查询;  ''',
+        description='''
+            查询视频剪辑工程列表。; 允许通过条件过滤查询，支持的过滤字段如下：;   - projectId[eq] 按照工程ID精确查询; 。
+
+            示例: jdc vod list-vedit-projects 
+        ''',
+    )
+    def list_vedit_projects(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.ListVeditProjectsRequest import ListVeditProjectsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListVeditProjectsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--project-name'], dict(help="""(string) 工程名称 """, dest='projectName',  required=True)),
+            (['--description'], dict(help="""(string) 工程描述 """, dest='description',  required=False)),
+            (['--timeline'], dict(help="""(timeline) 时间线信息 """, dest='timeline',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建视频剪辑工程 ''',
+        description='''
+            创建视频剪辑工程。
+
+            示例: jdc vod create-vedit-project  --project-name xxx --timeline '{"":""}'
+        ''',
+    )
+    def create_vedit_project(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.CreateVeditProjectRequest import CreateVeditProjectRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateVeditProjectRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--project-id'], dict(help="""(int) 视频剪辑工程ID """, dest='projectId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询视频剪辑工程详情 ''',
+        description='''
+            查询视频剪辑工程详情。
+
+            示例: jdc vod get-vedit-project  --project-id 5
+        ''',
+    )
+    def get_vedit_project(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetVeditProjectRequest import GetVeditProjectRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetVeditProjectRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--project-id'], dict(help="""(int) 视频剪辑工程ID """, dest='projectId', type=int, required=True)),
+            (['--project-name'], dict(help="""(string) 工程名称 """, dest='projectName',  required=False)),
+            (['--description'], dict(help="""(string) 工程描述 """, dest='description',  required=False)),
+            (['--timeline'], dict(help="""(timeline) 时间线信息 """, dest='timeline',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改视频剪辑工程信息 ''',
+        description='''
+            修改视频剪辑工程信息。
+
+            示例: jdc vod update-vedit-project  --project-id 5
+        ''',
+    )
+    def update_vedit_project(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.UpdateVeditProjectRequest import UpdateVeditProjectRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateVeditProjectRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--project-id'], dict(help="""(int) 视频剪辑工程ID """, dest='projectId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除视频剪辑工程 ''',
+        description='''
+            删除视频剪辑工程。
+
+            示例: jdc vod delete-vedit-project  --project-id 5
+        ''',
+    )
+    def delete_vedit_project(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.DeleteVeditProjectRequest import DeleteVeditProjectRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteVeditProjectRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--sorts'], dict(help="""(array: sort) NA """, dest='sorts',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询域名列表 ''',
+        description='''
+            查询域名列表。
+
+            示例: jdc vod list-domains 
+        ''',
+    )
+    def list_domains(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.ListDomainsRequest import ListDomainsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListDomainsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--name'], dict(help="""(string) 域名名称 """, dest='name',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加域名 ''',
+        description='''
+            添加域名。
+
+            示例: jdc vod create-domain  --name xxx
+        ''',
+    )
+    def create_domain(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.CreateDomainRequest import CreateDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询域名 ''',
+        description='''
+            查询域名。
+
+            示例: jdc vod get-domain  --domain-id 5
+        ''',
+    )
+    def get_domain(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetDomainRequest import GetDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除域名。执行该操作，需确保域名已被停用。 ''',
+        description='''
+            删除域名。执行该操作，需确保域名已被停用。。
+
+            示例: jdc vod delete-domain  --domain-id 5
+        ''',
+    )
+    def delete_domain(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.DeleteDomainRequest import DeleteDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 启用域名 ''',
+        description='''
+            启用域名。
+
+            示例: jdc vod enable-domain  --domain-id 5
+        ''',
+    )
+    def enable_domain(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.EnableDomainRequest import EnableDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = EnableDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 停用域名 ''',
+        description='''
+            停用域名。
+
+            示例: jdc vod disable-domain  --domain-id 5
+        ''',
+    )
+    def disable_domain(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.DisableDomainRequest import DisableDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DisableDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设为默认域名 ''',
+        description='''
+            设为默认域名。
+
+            示例: jdc vod set-default-domain  --domain-id 5
+        ''',
+    )
+    def set_default_domain(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SetDefaultDomainRequest import SetDefaultDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetDefaultDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--header-name'], dict(help="""(string) 头参数名。当前支持的访问头参数取值范围：;   Content-Disposition;   Content-Language;   Expires;   Access-Control-Allow-Origin;   Access-Control-Allow-Methods;   Access-Control-Max-Age;   Access-Control-Expose-Headers;  """, dest='headerName',  required=True)),
+            (['--header-value'], dict(help="""(string) 头参数值 """, dest='headerValue',  required=True)),
+            (['--header-type'], dict(help="""(string) 头参数类型，取值范围：req、resp """, dest='headerType',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置域名访问头参数 ''',
+        description='''
+            设置域名访问头参数。
+
+            示例: jdc vod set-header  --domain-id 5 --header-name xxx --header-value xxx --header-type xxx
+        ''',
+    )
+    def set_header(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SetHeaderRequest import SetHeaderRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetHeaderRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询域名访问头参数列表 ''',
+        description='''
+            查询域名访问头参数列表。
+
+            示例: jdc vod list-headers  --domain-id 5
+        ''',
+    )
+    def list_headers(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.ListHeadersRequest import ListHeadersRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListHeadersRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--header-name'], dict(help="""(string) 头参数名。当前支持的访问头参数取值范围：;   Content-Disposition;   Content-Language;   Expires;   Access-Control-Allow-Origin;   Access-Control-Allow-Methods;   Access-Control-Max-Age;   Access-Control-Expose-Headers;  """, dest='headerName',  required=True)),
+            (['--header-type'], dict(help="""(string) 头参数类型，取值范围：req、resp """, dest='headerType',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除域名访问头参数 ''',
+        description='''
+            删除域名访问头参数。
+
+            示例: jdc vod delete-header  --domain-id 5 --header-name xxx --header-type xxx
+        ''',
+    )
+    def delete_header(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.DeleteHeaderRequest import DeleteHeaderRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteHeaderRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--config'], dict(help="""(refererRuleConfigObject) Referer防盗链规则配置对象 """, dest='config',  required=True)),
+            (['--enabled'], dict(help="""(bool) 是否启用该规则 """, dest='enabled', type=bool, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置CDN域名Referer防盗链规则 ''',
+        description='''
+            设置CDN域名Referer防盗链规则。
+
+            示例: jdc vod set-referer-rule  --domain-id 5 --config '{"":""}' --enabled true
+        ''',
+    )
+    def set_referer_rule(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SetRefererRuleRequest import SetRefererRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetRefererRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询CDN域名Referer防盗链规则配置 ''',
+        description='''
+            查询CDN域名Referer防盗链规则配置。
+
+            示例: jdc vod get-referer-rule  --domain-id 5
+        ''',
+    )
+    def get_referer_rule(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetRefererRuleRequest import GetRefererRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetRefererRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--config'], dict(help="""(uRLRuleConfigObject) URL鉴权规则配置对象 """, dest='config',  required=True)),
+            (['--enabled'], dict(help="""(bool) 是否启用该规则 """, dest='enabled', type=bool, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置CDN域名URL鉴权规则 ''',
+        description='''
+            设置CDN域名URL鉴权规则。
+
+            示例: jdc vod set-urlrule  --domain-id 5 --config '{"":""}' --enabled true
+        ''',
+    )
+    def set_urlrule(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SetURLRuleRequest import SetURLRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetURLRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询CDN域名URL鉴权规则配置 ''',
+        description='''
+            查询CDN域名URL鉴权规则配置。
+
+            示例: jdc vod get-urlrule  --domain-id 5
+        ''',
+    )
+    def get_urlrule(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetURLRuleRequest import GetURLRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetURLRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--config'], dict(help="""(iPRuleConfigObject) IP黑名单规则配置对象 """, dest='config',  required=True)),
+            (['--enabled'], dict(help="""(bool) 是否启用该规则 """, dest='enabled', type=bool, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置CDN域名IP黑名单规则 ''',
+        description='''
+            设置CDN域名IP黑名单规则。
+
+            示例: jdc vod set-iprule  --domain-id 5 --config '{"":""}' --enabled true
+        ''',
+    )
+    def set_iprule(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SetIPRuleRequest import SetIPRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetIPRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询CDN域名IP黑名单规则配置 ''',
+        description='''
+            查询CDN域名IP黑名单规则配置。
+
+            示例: jdc vod get-iprule  --domain-id 5
+        ''',
+    )
+    def get_iprule(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetIPRuleRequest import GetIPRuleRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetIPRuleRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--source'], dict(help="""(string) 证书来源。取值范围：default """, dest='source',  required=False)),
+            (['--title'], dict(help="""(string) 证书标题 """, dest='title',  required=False)),
+            (['--ssl-cert'], dict(help="""(string) 证书内容 """, dest='sslCert',  required=False)),
+            (['--ssl-key'], dict(help="""(string) 证书私钥 """, dest='sslKey',  required=False)),
+            (['--jump-type'], dict(help="""(string) 跳转类型。取值范围：; default - 采用回源域名的默认协议; http - 强制采用http协议回源; https - 强制采用https协议回源;  """, dest='jumpType',  required=False)),
+            (['--enabled'], dict(help="""(bool) SSL配置启用状态 """, dest='enabled', type=bool, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 设置CDN域名SSL配置 ''',
+        description='''
+            设置CDN域名SSL配置。
+
+            示例: jdc vod set-http-ssl  --domain-id 5
+        ''',
+    )
+    def set_http_ssl(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SetHttpSslRequest import SetHttpSslRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SetHttpSslRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--domain-id'], dict(help="""(int) 域名ID """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询CDN域名SSL配置 ''',
+        description='''
+            查询CDN域名SSL配置。
+
+            示例: jdc vod get-http-ssl  --domain-id 5
+        ''',
+    )
+    def get_http_ssl(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetHttpSslRequest import GetHttpSslRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetHttpSslRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--sorts'], dict(help="""(array: sort) NA """, dest='sorts',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询分类列表。按照分页方式，返回分类列表信息。 ''',
+        description='''
+            查询分类列表。按照分页方式，返回分类列表信息。。
+
+            示例: jdc vod list-categories 
+        ''',
+    )
+    def list_categories(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.ListCategoriesRequest import ListCategoriesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListCategoriesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--name'], dict(help="""(string) 分类名称 """, dest='name',  required=True)),
+            (['--parent-id'], dict(help="""(int) 父分类ID，取值为 0 或 null 时，表示该分类为一级分类;  """, dest='parentId', type=int, required=False)),
+            (['--description'], dict(help="""(string) 分类描述信息 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加分类 ''',
+        description='''
+            添加分类。
+
+            示例: jdc vod create-category  --name xxx
+        ''',
+    )
+    def create_category(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.CreateCategoryRequest import CreateCategoryRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateCategoryRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--flat-mode'], dict(help="""(bool) 是否返回平坦结构结果,默认为false（flatMode和treeMode不能同时为false） """, dest='flatMode', type=bool, required=False)),
+            (['--tree-mode'], dict(help="""(bool) 是否返回树结构结果,默认为false（flatMode和treeMode不能同时为false） """, dest='treeMode', type=bool, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询所有分类 ''',
+        description='''
+            查询所有分类。
+
+            示例: jdc vod list-all-categories 
+        ''',
+    )
+    def list_all_categories(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.ListAllCategoriesRequest import ListAllCategoriesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListAllCategoriesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询分类及其子分类，若指定的分类ID为0，则返回一个根分类及其子分类（即一级分类）. ''',
+        description='''
+            查询分类及其子分类，若指定的分类ID为0，则返回一个根分类及其子分类（即一级分类）.。
+
+            示例: jdc vod get-category-with-children  --category-id 5
+        ''',
+    )
+    def get_category_with_children(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetCategoryWithChildrenRequest import GetCategoryWithChildrenRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetCategoryWithChildrenRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询分类 ''',
+        description='''
+            查询分类。
+
+            示例: jdc vod get-category  --category-id 5
+        ''',
+    )
+    def get_category(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetCategoryRequest import GetCategoryRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetCategoryRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=True)),
+            (['--name'], dict(help="""(string) 分类名称 """, dest='name',  required=False)),
+            (['--parent-id'], dict(help="""(int) 父分类ID，取值为 0 或 null 时，表示该分类为一级分类;  """, dest='parentId', type=int, required=False)),
+            (['--description'], dict(help="""(string) 分类描述信息 """, dest='description',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改分类 ''',
+        description='''
+            修改分类。
+
+            示例: jdc vod update-category  --category-id 5
+        ''',
+    )
+    def update_category(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.UpdateCategoryRequest import UpdateCategoryRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateCategoryRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--category-id'], dict(help="""(int) 分类ID """, dest='categoryId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除分类 ''',
+        description='''
+            删除分类。
+
+            示例: jdc vod delete-category  --category-id 5
+        ''',
+    )
+    def delete_category(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.DeleteCategoryRequest import DeleteCategoryRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteCategoryRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--video-ids'], dict(help="""(array: string) 视频ID列表 """, dest='videoIds',  required=False)),
+            (['--template-ids'], dict(help="""(array: string) 转码模板ID列表 """, dest='templateIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 提交截图作业;  ''',
+        description='''
+            提交截图作业; 。
+
+            示例: jdc vod submit-snapshot-task 
+        ''',
+    )
+    def submit_snapshot_task(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SubmitSnapshotTaskRequest import SubmitSnapshotTaskRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SubmitSnapshotTaskRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) NA """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询视频截图任务列表; 支持过滤查询：;   - createTime,ge 最早任务创建时间;   - createTime,le 最晚任务创建时间;   - status,in 任务状态IN查询;   - taskId,eq 任务ID精确查询;  ''',
+        description='''
+            查询视频截图任务列表; 支持过滤查询：;   - createTime,ge 最早任务创建时间;   - createTime,le 最晚任务创建时间;   - status,in 任务状态IN查询;   - taskId,eq 任务ID精确查询; 。
+
+            示例: jdc vod list-snapshot-tasks 
+        ''',
+    )
+    def list_snapshot_tasks(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.ListSnapshotTasksRequest import ListSnapshotTasksRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListSnapshotTasksRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) NA """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询转码模板列表。; 允许通过条件过滤查询，支持的过滤字段如下：;   - source[eq] 按模板来源精确查询;   - templateType[eq] 按模板类型精确查询;  ''',
+        description='''
+            查询转码模板列表。; 允许通过条件过滤查询，支持的过滤字段如下：;   - source[eq] 按模板来源精确查询;   - templateType[eq] 按模板类型精确查询; 。
+
+            示例: jdc vod list-transcode-templates 
+        ''',
+    )
+    def list_transcode_templates(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.ListTranscodeTemplatesRequest import ListTranscodeTemplatesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListTranscodeTemplatesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--name'], dict(help="""(string) 模板名称。长度不超过128个字符。UTF-8编码。;  """, dest='name',  required=True)),
+            (['--video'], dict(help="""(video) 视频参数配置 """, dest='video',  required=True)),
+            (['--audio'], dict(help="""(audio) 音频参数配置 """, dest='audio',  required=True)),
+            (['--encapsulation'], dict(help="""(encapsulation) 封装配置 """, dest='encapsulation',  required=True)),
+            (['--out-file'], dict(help="""(outFile) 输出文件配置 """, dest='outFile',  required=False)),
+            (['--definition'], dict(help="""(string) 清晰度规格标记。取值范围：;   SD - 标清;   HD - 高清;   FHD - 超清;   2K;   4K;  """, dest='definition',  required=True)),
+            (['--template-type'], dict(help="""(string) 模板类型。取值范围：;   jdchd - 京享超清;   jdchs - 极速转码;  """, dest='templateType',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建转码模板 ''',
+        description='''
+            创建转码模板。
+
+            示例: jdc vod create-transcode-template  --name xxx --video '{"":""}' --audio '{"":""}' --encapsulation '{"":""}' --definition xxx
+        ''',
+    )
+    def create_transcode_template(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.CreateTranscodeTemplateRequest import CreateTranscodeTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateTranscodeTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--template-id'], dict(help="""(int) 模板ID """, dest='templateId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询转码模板 ''',
+        description='''
+            查询转码模板。
+
+            示例: jdc vod get-transcode-template  --template-id 5
+        ''',
+    )
+    def get_transcode_template(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetTranscodeTemplateRequest import GetTranscodeTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTranscodeTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--template-id'], dict(help="""(int) 模板ID """, dest='templateId', type=int, required=True)),
+            (['--name'], dict(help="""(string) 模板名称。长度不超过128个字符。UTF-8编码。;  """, dest='name',  required=False)),
+            (['--video'], dict(help="""(video) 视频参数配置 """, dest='video',  required=False)),
+            (['--audio'], dict(help="""(audio) 音频参数配置 """, dest='audio',  required=False)),
+            (['--encapsulation'], dict(help="""(encapsulation) 封装配置 """, dest='encapsulation',  required=False)),
+            (['--out-file'], dict(help="""(outFile) 输出文件配置 """, dest='outFile',  required=False)),
+            (['--definition'], dict(help="""(string) 清晰度规格标记。取值范围：;   SD - 标清;   HD - 高清;   FHD - 超清;   2K;   4K;  """, dest='definition',  required=False)),
+            (['--template-type'], dict(help="""(string) 模板类型。取值范围：;   jdchd - 京享超清;   jdchs - 极速转码;  """, dest='templateType',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改转码模板 ''',
+        description='''
+            修改转码模板。
+
+            示例: jdc vod update-transcode-template  --template-id 5
+        ''',
+    )
+    def update_transcode_template(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.UpdateTranscodeTemplateRequest import UpdateTranscodeTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateTranscodeTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--template-id'], dict(help="""(int) 模板ID """, dest='templateId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除转码模板 ''',
+        description='''
+            删除转码模板。
+
+            示例: jdc vod delete-transcode-template  --template-id 5
+        ''',
+    )
+    def delete_transcode_template(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.DeleteTranscodeTemplateRequest import DeleteTranscodeTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteTranscodeTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) NA """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询截图模板列表。; 允许通过条件过滤查询，支持的过滤字段如下：;   - snapshotType[eq] 按模板类型精确查询;   - templateId[eq] 按模板ID精确查询;  ''',
+        description='''
+            查询截图模板列表。; 允许通过条件过滤查询，支持的过滤字段如下：;   - snapshotType[eq] 按模板类型精确查询;   - templateId[eq] 按模板ID精确查询; 。
+
+            示例: jdc vod list-snapshot-templates 
+        ''',
+    )
+    def list_snapshot_templates(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.ListSnapshotTemplatesRequest import ListSnapshotTemplatesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = ListSnapshotTemplatesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--template-name'], dict(help="""(string) 模板标题。长度不超过 128 个字节。UTF-8 编码。 """, dest='templateName',  required=True)),
+            (['--snapshot-type'], dict(help="""(string) 模板类型。取值范围：;   sample - 采样截图模板;   sprite - 雪碧图模板;  """, dest='snapshotType',  required=False)),
+            (['--image-sample-config'], dict(help="""(imageSampleConfig) 采样截图模板配置 """, dest='imageSampleConfig',  required=False)),
+            (['--image-sprite-config'], dict(help="""(imageSpriteConfig) 雪碧图模板配置 """, dest='imageSpriteConfig',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建截图模板 ''',
+        description='''
+            创建截图模板。
+
+            示例: jdc vod create-snapshot-template  --template-name xxx
+        ''',
+    )
+    def create_snapshot_template(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.CreateSnapshotTemplateRequest import CreateSnapshotTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateSnapshotTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--template-id'], dict(help="""(string) 模板ID """, dest='templateId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询截图模板 ''',
+        description='''
+            查询截图模板。
+
+            示例: jdc vod get-snapshot-template  --template-id xxx
+        ''',
+    )
+    def get_snapshot_template(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetSnapshotTemplateRequest import GetSnapshotTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetSnapshotTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--template-id'], dict(help="""(string) 模板ID """, dest='templateId',  required=True)),
+            (['--template-name'], dict(help="""(string) 模板标题。长度不超过 128 个字节。UTF-8 编码。 """, dest='templateName',  required=False)),
+            (['--snapshot-type'], dict(help="""(string) 模板类型。取值范围：;   sample - 采样截图模板;   sprite - 雪碧图模板;  """, dest='snapshotType',  required=False)),
+            (['--image-sample-config'], dict(help="""(imageSampleConfig) 采样截图模板配置 """, dest='imageSampleConfig',  required=False)),
+            (['--image-sprite-config'], dict(help="""(imageSpriteConfig) 雪碧图模板配置 """, dest='imageSpriteConfig',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改截图模板 ''',
+        description='''
+            修改截图模板。
+
+            示例: jdc vod update-snapshot-template  --template-id xxx
+        ''',
+    )
+    def update_snapshot_template(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.UpdateSnapshotTemplateRequest import UpdateSnapshotTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateSnapshotTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--template-id'], dict(help="""(string) 模板ID """, dest='templateId',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除截图模板 ''',
+        description='''
+            删除截图模板。
+
+            示例: jdc vod delete-snapshot-template  --template-id xxx
+        ''',
+    )
+    def delete_snapshot_template(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.DeleteSnapshotTemplateRequest import DeleteSnapshotTemplateRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSnapshotTemplateRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--video-id'], dict(help="""(string) 视频ID """, dest='videoId',  required=False)),
+            (['--template-group-id'], dict(help="""(string) 转码模板组ID。若此字段不为空，则以模板组方式提交作业，templateIds字段将被忽略。 """, dest='templateGroupId',  required=False)),
+            (['--template-ids'], dict(help="""(array: int) 转码模板ID列表 """, dest='templateIds', type=int, required=False)),
+            (['--watermark-ids'], dict(help="""(array: int) 水印ID列表 """, dest='watermarkIds', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 提交转码作业 ''',
+        description='''
+            提交转码作业。
+
+            示例: jdc vod submit-transcode-job 
+        ''',
+    )
+    def submit_transcode_job(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SubmitTranscodeJobRequest import SubmitTranscodeJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SubmitTranscodeJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--bulk-items'], dict(help="""(array: submitTranscodeJobRequestObject) NA """, dest='bulkItems',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 批量提交转码作业 ''',
+        description='''
+            批量提交转码作业。
+
+            示例: jdc vod batch-submit-transcode-jobs 
+        ''',
+    )
+    def batch_submit_transcode_jobs(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.BatchSubmitTranscodeJobsRequest import BatchSubmitTranscodeJobsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = BatchSubmitTranscodeJobsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--video-ids'], dict(help="""(array: string) NA """, dest='videoIds',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询视频转码摘要 ''',
+        description='''
+            查询视频转码摘要。
+
+            示例: jdc vod get-transcode-summaries 
+        ''',
+    )
+    def get_transcode_summaries(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetTranscodeSummariesRequest import GetTranscodeSummariesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTranscodeSummariesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--job-ids'], dict(help="""(array: int) NA """, dest='jobIds', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询转码作业摘要 ''',
+        description='''
+            查询转码作业摘要。
+
+            示例: jdc vod get-transcode-job-summaries 
+        ''',
+    )
+    def get_transcode_job_summaries(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetTranscodeJobSummariesRequest import GetTranscodeJobSummariesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTranscodeJobSummariesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--task-ids'], dict(help="""(array: int) NA """, dest='taskIds', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询转码任务摘要 ''',
+        description='''
+            查询转码任务摘要。
+
+            示例: jdc vod get-transcode-task-summaries 
+        ''',
+    )
+    def get_transcode_task_summaries(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.GetTranscodeTaskSummariesRequest import GetTranscodeTaskSummariesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetTranscodeTaskSummariesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--page-number'], dict(help="""(int) 页码；默认值为 1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认值为 10；取值范围 [10, 100] """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1792,11 +2706,14 @@ class VodController(BaseController):
             (['--width'], dict(help="""(string) 水印宽度。; 当 sizeUnit = pixel 时，取值范围为 [8, 4096] 整数; 当 sizeUnit = percent 时，取值范围为 [0, 100] 小数;  """, dest='width',  required=True)),
             (['--height'], dict(help="""(string) 水印高度。; 当 sizeUnit = pixel 时，取值范围为 [8, 4096] 整数; 当 sizeUnit = percent 时，取值范围为 [0, 100] 小数;  """, dest='height',  required=True)),
             (['--size-unit'], dict(help="""(string) 尺寸单位。取值范围：;   pixel - 像素;   percent - 百分比; 默认值为 pixel;  """, dest='sizeUnit',  required=False)),
+            (['--width-ref'], dict(help="""(string) NA """, dest='widthRef',  required=False)),
+            (['--height-ref'], dict(help="""(string) 高度参考，仅当 siteUnit = percent 时生效。; 取值说明：;   w: 输出水印高度 = height * 水印原图高度;   v: 等同于 vh;   vw: 输出水印高度 = height * 输出视频宽度;   vh: 输出水印高度 = height * 输出视频高度;   vls: 输出水印高度 = height * 输出视频长边;   vss: 输出水印高度 = height * 输出视频短边;  """, dest='heightRef',  required=False)),
             (['--position'], dict(help="""(string) 水印位置。取值范围：;   LT - 左上;   RT - 右上;   LB - 左下;   RB - 右下;  """, dest='position',  required=True)),
             (['--offset-x'], dict(help="""(string) 水平偏移。; 当 offsetUnit = pixel 时，取值范围为 [8, 4088] 整数; 当 offsetUnit = percent 时，取值范围为 [0, 100] 小数;  """, dest='offsetX',  required=True)),
             (['--offset-y'], dict(help="""(string) 竖直偏移。; 当 offsetUnit = pixel 时，取值范围为 [8, 4088] 整数; 当 offsetUnit = percent 时，取值范围为 [0, 100] 小数;  """, dest='offsetY',  required=True)),
             (['--offset-unit'], dict(help="""(string) 偏移单位。取值范围：;   pixel - 像素;   percent - 百分比; 默认值为 pixel;  """, dest='offsetUnit',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1829,6 +2746,7 @@ class VodController(BaseController):
         arguments=[
             (['--watermark-id'], dict(help="""(int) 水印ID """, dest='watermarkId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1865,11 +2783,14 @@ class VodController(BaseController):
             (['--width'], dict(help="""(string) 水印宽度。; 当 sizeUnit = pixel 时，取值范围为 [8, 4096] 整数; 当 sizeUnit = percent 时，取值范围为 [0, 100] 小数;  """, dest='width',  required=False)),
             (['--height'], dict(help="""(string) 水印高度。; 当 sizeUnit = pixel 时，取值范围为 [8, 4096] 整数; 当 sizeUnit = percent 时，取值范围为 [0, 100] 小数;  """, dest='height',  required=False)),
             (['--size-unit'], dict(help="""(string) 尺寸单位。取值范围：;   pixel - 像素;   percent - 百分比; 默认值为 pixel;  """, dest='sizeUnit',  required=False)),
+            (['--width-ref'], dict(help="""(string) NA """, dest='widthRef',  required=False)),
+            (['--height-ref'], dict(help="""(string) 高度参考，仅当 siteUnit = percent 时生效。; 取值说明：;   w: 输出水印高度 = height * 水印原图高度;   v: 等同于 vh;   vw: 输出水印高度 = height * 输出视频宽度;   vh: 输出水印高度 = height * 输出视频高度;   vls: 输出水印高度 = height * 输出视频长边;   vss: 输出水印高度 = height * 输出视频短边;  """, dest='heightRef',  required=False)),
             (['--position'], dict(help="""(string) 水印位置。取值范围：;   LT - 左上;   RT - 右上;   LB - 左下;   RB - 右下;  """, dest='position',  required=False)),
             (['--offset-x'], dict(help="""(string) 水平偏移。; 当 offsetUnit = pixel 时，取值范围为 [8, 4088] 整数; 当 offsetUnit = percent 时，取值范围为 [0, 100] 小数;  """, dest='offsetX',  required=False)),
             (['--offset-y'], dict(help="""(string) 竖直偏移。; 当 offsetUnit = pixel 时，取值范围为 [8, 4088] 整数; 当 offsetUnit = percent 时，取值范围为 [0, 100] 小数;  """, dest='offsetY',  required=False)),
             (['--offset-unit'], dict(help="""(string) 偏移单位。取值范围：;   pixel - 像素;   percent - 百分比; 默认值为 pixel;  """, dest='offsetUnit',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1902,6 +2823,7 @@ class VodController(BaseController):
         arguments=[
             (['--watermark-id'], dict(help="""(int) 水印ID """, dest='watermarkId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -1932,7 +2854,75 @@ class VodController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['list-categories','create-category','get-category-with-children','get-category','update-category','delete-category','list-domains','create-domain','get-domain','delete-domain','enable-domain','disable-domain','set-default-domain','set-header','list-headers','delete-header','set-referer-rule','get-referer-rule','set-urlrule','get-urlrule','set-iprule','get-iprule','set-http-ssl','get-http-ssl','create-live-to-vod-task','create-video-upload-task','refresh-video-upload-task','create-image-upload-task','submit-quality-detection-job','batch-submit-quality-detection-jobs','list-quality-detection-templates','create-quality-detection-template','get-quality-detection-template','update-quality-detection-template','delete-quality-detection-template','submit-transcode-job','batch-submit-transcode-jobs','list-transcode-templates','create-transcode-template','get-transcode-template','update-transcode-template','delete-transcode-template','list-videos','get-video','update-video','delete-video','batch-delete-videos','batch-update-videos','get-video-play-info','delete-video-streams','video-audit','list-watermarks','create-watermark','get-watermark','update-watermark','delete-watermark',], required=True)),
+            (['--video-id'], dict(help="""(string) 视频ID """, dest='videoId',  required=False)),
+            (['--template-ids'], dict(help="""(array: int) 转码模板ID列表 """, dest='templateIds', type=int, required=False)),
+            (['--watermark-ids'], dict(help="""(array: int) 水印ID列表 """, dest='watermarkIds', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 提交转码作业 ''',
+        description='''
+            提交转码作业。
+
+            示例: jdc vod submit-transcode-job 
+        ''',
+    )
+    def submit_transcode_job(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.SubmitTranscodeJobRequest import SubmitTranscodeJobRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = SubmitTranscodeJobRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--bulk-items'], dict(help="""(array: submitTranscodeJobRequestObject) NA """, dest='bulkItems',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 批量提交转码作业 ''',
+        description='''
+            批量提交转码作业。
+
+            示例: jdc vod batch-submit-transcode-jobs 
+        ''',
+    )
+    def batch_submit_transcode_jobs(self):
+        client_factory = ClientFactory('vod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.vod.apis.BatchSubmitTranscodeJobsRequest import BatchSubmitTranscodeJobsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = BatchSubmitTranscodeJobsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['list-transcode-template-groups','create-transcode-template-group','get-transcode-template-group','update-transcode-template-group','delete-transcode-template-group','delete-grouped-transcode-templates','list-quality-detection-templates','create-quality-detection-template','get-quality-detection-template','update-quality-detection-template','delete-quality-detection-template','create-video-upload-task','refresh-video-upload-task','create-image-upload-task','create-live-to-vod-task','list-videos','get-video','update-video','delete-video','batch-delete-videos','batch-update-videos','get-video-play-info','delete-video-streams','video-audit','get-video-source-info','submit-quality-detection-job','batch-submit-quality-detection-jobs','create-vedit-job','submit-vedit-job','list-vedit-projects','create-vedit-project','get-vedit-project','update-vedit-project','delete-vedit-project','list-domains','create-domain','get-domain','delete-domain','enable-domain','disable-domain','set-default-domain','set-header','list-headers','delete-header','set-referer-rule','get-referer-rule','set-urlrule','get-urlrule','set-iprule','get-iprule','set-http-ssl','get-http-ssl','list-categories','create-category','list-all-categories','get-category-with-children','get-category','update-category','delete-category','submit-snapshot-task','list-snapshot-tasks','list-transcode-templates','create-transcode-template','get-transcode-template','update-transcode-template','delete-transcode-template','list-snapshot-templates','create-snapshot-template','get-snapshot-template','update-snapshot-template','delete-snapshot-template','submit-transcode-job','batch-submit-transcode-jobs','get-transcode-summaries','get-transcode-job-summaries','get-transcode-task-summaries','list-watermarks','create-watermark','get-watermark','update-watermark','delete-watermark','submit-transcode-job','batch-submit-transcode-jobs',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

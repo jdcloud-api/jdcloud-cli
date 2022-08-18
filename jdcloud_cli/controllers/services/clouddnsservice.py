@@ -38,263 +38,12 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 分页参数，页的序号，默认是1 """, dest='pageNumber', type=int, required=True)),
-            (['--page-size'], dict(help="""(int) 分页参数，每页含有的结果的数目，默认是10 """, dest='pageSize', type=int, required=True)),
-            (['--start-time'], dict(help="""(string) 记录的起始时间，格式：UTC时间例如2017-11-10T23:00:00Z """, dest='startTime',  required=True)),
-            (['--end-time'], dict(help="""(string) 记录的终止时间，格式：UTC时间例如2017-11-10T23:00:00Z """, dest='endTime',  required=True)),
-            (['--key-word'], dict(help="""(string) 日志需要匹配的关键词 """, dest='keyWord',  required=False)),
-            (['--success'], dict(help="""(bool) 日志里面的结果是成功还是失败 """, dest='success',  required=False)),
-            (['--type'], dict(help="""(int) 日志的类型 """, dest='type', type=int, required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查看用户在云解析服务下的操作记录 ''',
-        description='''
-            查看用户在云解析服务下的操作记录。
-
-            示例: jdc clouddnsservice get-action-log  --page-number 0 --page-size 0 --start-time xxx --end-time xxx
-        ''',
-    )
-    def get_action_log(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetActionLogRequest import GetActionLogRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetActionLogRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 分页查询时查询的每页的序号，起始值为1，默认为1 """, dest='pageNumber', type=int, required=True)),
-            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数，默认为10 """, dest='pageSize', type=int, required=True)),
-            (['--domain-name'], dict(help="""(string) 关键字，按照”%domainName%”模式匹配主域名 """, dest='domainName',  required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 获取用户所属的主域名列表。   ; 请在调用域名相关的接口之前，调用此接口获取相关的domainId和domainName。  ; 主域名的相关概念，请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/product-overview">云解析文档</a>;  ''',
-        description='''
-            获取用户所属的主域名列表。   ; 请在调用域名相关的接口之前，调用此接口获取相关的domainId和domainName。  ; 主域名的相关概念，请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/product-overview">云解析文档</a>; 。
-
-            示例: jdc clouddnsservice get-domains  --page-number 0 --page-size 0
-        ''',
-    )
-    def get_domains(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainsRequest import GetDomainsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetDomainsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--pack-id'], dict(help="""(int) 主域名的套餐类型, 0->免费 ,1->企业版, 2->高级版 """, dest='packId', type=int, required=True)),
-            (['--domain-name'], dict(help="""(string) 要添加的主域名 """, dest='domainName',  required=True)),
-            (['--domain-id'], dict(help="""(int) 主域名的ID，升级套餐必填，请使用getDomains获取 """, dest='domainId', type=int, required=False)),
-            (['--buy-type'], dict(help="""(int) 1->新购买、3->升级，收费套餐的域名必填 """, dest='buyType', type=int, required=False)),
-            (['--time-span'], dict(help="""(int) 取值1，2，3 ，含义：时长，收费套餐的域名必填 """, dest='timeSpan', type=int, required=False)),
-            (['--time-unit'], dict(help="""(int) 时间单位，收费套餐的域名必填，1：小时，2：天，3：月，4：年 """, dest='timeUnit', type=int, required=False)),
-            (['--billing-type'], dict(help="""(int) 计费类型，可以不传此参数。 """, dest='billingType', type=int, required=False)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 添加主域名  ; 如何添加免费域名，详细情况请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/domainadd">文档</a>; 添加收费域名，请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/purchase-process">文档</a>，; 添加收费域名前，请确保用户的京东云账户有足够的资金支付，Openapi接口回返回订单号，可以用此订单号向计费系统查阅详情。;  ''',
-        description='''
-            添加主域名  ; 如何添加免费域名，详细情况请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/domainadd">文档</a>; 添加收费域名，请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/purchase-process">文档</a>，; 添加收费域名前，请确保用户的京东云账户有足够的资金支付，Openapi接口回返回订单号，可以用此订单号向计费系统查阅详情。; 。
-
-            示例: jdc clouddnsservice add-domain  --pack-id 0 --domain-name xxx
-        ''',
-    )
-    def add_domain(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.AddDomainRequest import AddDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = AddDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(int) 需要删除的主域名ID，请使用getDomains接口获取 """, dest='domainId', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除主域名 ''',
-        description='''
-            删除主域名。
-
-            示例: jdc clouddnsservice del-domain  --domain-id 0
-        ''',
-    )
-    def del_domain(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.DelDomainRequest import DelDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DelDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-name'], dict(help="""(string) 需要修改的主域名，请使用getDomains接口获取 """, dest='domainName',  required=True)),
-            (['--id'], dict(help="""(int) 需要修改的主域名ID，请使用getDomains接口获取 """, dest='id', type=int, required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 修改主域名 ''',
-        description='''
-            修改主域名。
-
-            示例: jdc clouddnsservice update-domain  --domain-name xxx --id 0
-        ''',
-    )
-    def update_domain(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.UpdateDomainRequest import UpdateDomainRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = UpdateDomainRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--domain-name'], dict(help="""(string) 查询的主域名，，请使用getDomains接口获取 """, dest='domainName',  required=True)),
-            (['--start'], dict(help="""(string) 查询时间段的起始时间, UTC时间，例如2017-11-10T23:00:00Z """, dest='start',  required=True)),
-            (['--end'], dict(help="""(string) 查询时间段的终止时间, UTC时间，例如2017-11-10T23:00:00Z """, dest='end',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查看主域名的解析次数 ''',
-        description='''
-            查看主域名的解析次数。
-
-            示例: jdc clouddnsservice get-domain-query-count  --domain-id xxx --domain-name xxx --start xxx --end xxx
-        ''',
-    )
-    def get_domain_query_count(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainQueryCountRequest import GetDomainQueryCountRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetDomainQueryCountRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
-            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
-            (['--domain-name'], dict(help="""(string) 主域名，请使用getDomains接口获取 """, dest='domainName',  required=True)),
-            (['--start'], dict(help="""(string) 时间段的起始时间, UTC时间，例如2017-11-10T23:00:00Z """, dest='start',  required=True)),
-            (['--end'], dict(help="""(string) 时间段的终止时间, UTC时间，例如2017-11-10T23:00:00Z """, dest='end',  required=True)),
-            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查看域名的查询流量 ''',
-        description='''
-            查看域名的查询流量。
-
-            示例: jdc clouddnsservice get-domain-query-traffic  --domain-id xxx --domain-name xxx --start xxx --end xxx
-        ''',
-    )
-    def get_domain_query_traffic(self):
-        client_factory = ClientFactory('clouddnsservice')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainQueryTrafficRequest import GetDomainQueryTrafficRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = GetDomainQueryTrafficRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
             (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
             (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
             (['--page-number'], dict(help="""(int) 当前页数，起始值为1，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数, 默认为10 """, dest='pageSize', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -331,6 +80,7 @@ class ClouddnsserviceController(BaseController):
             (['--pack-id'], dict(help="""(int) 套餐ID，0->免费版 1->企业版 2->企业高级版 """, dest='packId', type=int, required=True)),
             (['--view-id'], dict(help="""(int) view ID，默认为-1 """, dest='viewId', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -338,7 +88,7 @@ class ClouddnsserviceController(BaseController):
         description='''
             查询云解析所有的基础解析线路。  ; 在使用解析线路的参数之前，请调用此接口获取解析线路的ID。; 。
 
-            示例: jdc clouddnsservice get-view-tree  --domain-id xxx --pack-id 0 --view-id 0
+            示例: jdc clouddnsservice get-view-tree  --domain-id xxx --pack-id 5 --view-id 5
         ''',
     )
     def get_view_tree(self):
@@ -365,6 +115,7 @@ class ClouddnsserviceController(BaseController):
             (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
             (['--req'], dict(help="""(addRR) RR参数 """, dest='req',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -399,6 +150,7 @@ class ClouddnsserviceController(BaseController):
             (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
             (['--req'], dict(help="""(updateRR) updateRR参数 """, dest='req',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -434,6 +186,7 @@ class ClouddnsserviceController(BaseController):
             (['--ids'], dict(help="""(array: int) 需要操作的解析记录ID，请使用searchRR接口获取。 """, dest='ids', type=int, required=True)),
             (['--action'], dict(help="""(string) 操作类型，on->启用 off->停用 del->删除 """, dest='action',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -441,7 +194,7 @@ class ClouddnsserviceController(BaseController):
         description='''
             启用、停用、删除主域名下的解析记录。
 
-            示例: jdc clouddnsservice operate-rr  --domain-id xxx --ids [0] --action xxx
+            示例: jdc clouddnsservice operate-rr  --domain-id xxx --ids [5] --action xxx
         ''',
     )
     def operate_rr(self):
@@ -467,6 +220,7 @@ class ClouddnsserviceController(BaseController):
             (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
             (['--req'], dict(help="""(array: batchSetDNS) 需要设置的解析记录列表 """, dest='req',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -497,9 +251,269 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 分页查询时查询的每页的序号，起始值为1，默认为1 """, dest='pageNumber', type=int, required=True)),
+            (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数，默认为10 """, dest='pageSize', type=int, required=True)),
+            (['--domain-name'], dict(help="""(string) 关键字，按照”%domainName%”模式匹配主域名 """, dest='domainName',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 获取用户所属的主域名列表。   ; 请在调用域名相关的接口之前，调用此接口获取相关的domainId和domainName。  ; 主域名的相关概念，请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/product-overview">云解析文档</a>;  ''',
+        description='''
+            获取用户所属的主域名列表。   ; 请在调用域名相关的接口之前，调用此接口获取相关的domainId和domainName。  ; 主域名的相关概念，请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/product-overview">云解析文档</a>; 。
+
+            示例: jdc clouddnsservice get-domains  --page-number 5 --page-size 5
+        ''',
+    )
+    def get_domains(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainsRequest import GetDomainsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDomainsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
+            (['--pack-id'], dict(help="""(int) 主域名的套餐类型, 0->免费 ,1->企业版, 2->高级版 """, dest='packId', type=int, required=True)),
+            (['--domain-name'], dict(help="""(string) 要添加的主域名 """, dest='domainName',  required=True)),
+            (['--domain-id'], dict(help="""(int) 主域名的ID，升级套餐必填，请使用getDomains获取 """, dest='domainId', type=int, required=False)),
+            (['--buy-type'], dict(help="""(int) 1->新购买、3->升级，收费套餐的域名必填 """, dest='buyType', type=int, required=False)),
+            (['--time-span'], dict(help="""(int) 取值1，2，3 ，含义：时长，收费套餐的域名必填 """, dest='timeSpan', type=int, required=False)),
+            (['--time-unit'], dict(help="""(int) 时间单位，收费套餐的域名必填，1：小时，2：天，3：月，4：年 """, dest='timeUnit', type=int, required=False)),
+            (['--billing-type'], dict(help="""(int) 计费类型，可以不传此参数。 """, dest='billingType', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 添加主域名  ; 如何添加免费域名，详细情况请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/domainadd">文档</a>; 添加收费域名，请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/purchase-process">文档</a>，; 添加收费域名前，请确保用户的京东云账户有足够的资金支付，Openapi接口回返回订单号，可以用此订单号向计费系统查阅详情。;  ''',
+        description='''
+            添加主域名  ; 如何添加免费域名，详细情况请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/domainadd">文档</a>; 添加收费域名，请查阅<a href="https://docs.jdcloud.com/cn/jd-cloud-dns/purchase-process">文档</a>，; 添加收费域名前，请确保用户的京东云账户有足够的资金支付，Openapi接口回返回订单号，可以用此订单号向计费系统查阅详情。; 。
+
+            示例: jdc clouddnsservice add-domain  --pack-id 5 --domain-name xxx
+        ''',
+    )
+    def add_domain(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.AddDomainRequest import AddDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = AddDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
+            (['--domain-id'], dict(help="""(int) 需要删除的主域名ID，请使用getDomains接口获取 """, dest='domainId', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除主域名 ''',
+        description='''
+            删除主域名。
+
+            示例: jdc clouddnsservice del-domain  --domain-id 5
+        ''',
+    )
+    def del_domain(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.DelDomainRequest import DelDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DelDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
+            (['--domain-name'], dict(help="""(string) 需要修改的主域名，请使用getDomains接口获取 """, dest='domainName',  required=True)),
+            (['--id'], dict(help="""(int) 需要修改的主域名ID，请使用getDomains接口获取 """, dest='id', type=int, required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 修改主域名 ''',
+        description='''
+            修改主域名。
+
+            示例: jdc clouddnsservice update-domain  --domain-name xxx --id 5
+        ''',
+    )
+    def update_domain(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.UpdateDomainRequest import UpdateDomainRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateDomainRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
+            (['--domain-name'], dict(help="""(string) 查询的主域名，，请使用getDomains接口获取 """, dest='domainName',  required=True)),
+            (['--start'], dict(help="""(string) 查询时间段的起始时间, UTC时间，例如2017-11-10T23:00:00Z """, dest='start',  required=True)),
+            (['--end'], dict(help="""(string) 查询时间段的终止时间, UTC时间，例如2017-11-10T23:00:00Z """, dest='end',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看主域名的解析次数 ''',
+        description='''
+            查看主域名的解析次数。
+
+            示例: jdc clouddnsservice get-domain-query-count  --domain-id xxx --domain-name xxx --start xxx --end xxx
+        ''',
+    )
+    def get_domain_query_count(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainQueryCountRequest import GetDomainQueryCountRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDomainQueryCountRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 实例所属的地域ID """, dest='regionId',  required=False)),
+            (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
+            (['--domain-name'], dict(help="""(string) 主域名，请使用getDomains接口获取 """, dest='domainName',  required=True)),
+            (['--start'], dict(help="""(string) 时间段的起始时间, UTC时间，例如2017-11-10T23:00:00Z """, dest='start',  required=True)),
+            (['--end'], dict(help="""(string) 时间段的终止时间, UTC时间，例如2017-11-10T23:00:00Z """, dest='end',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看域名的查询流量 ''',
+        description='''
+            查看域名的查询流量。
+
+            示例: jdc clouddnsservice get-domain-query-traffic  --domain-id xxx --domain-name xxx --start xxx --end xxx
+        ''',
+    )
+    def get_domain_query_traffic(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.GetDomainQueryTrafficRequest import GetDomainQueryTrafficRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetDomainQueryTrafficRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 分页参数，页的序号，默认是1 """, dest='pageNumber', type=int, required=True)),
+            (['--page-size'], dict(help="""(int) 分页参数，每页含有的结果的数目，默认是10 """, dest='pageSize', type=int, required=True)),
+            (['--start-time'], dict(help="""(string) 记录的起始时间，格式：UTC时间例如2017-11-10T23:00:00Z """, dest='startTime',  required=True)),
+            (['--end-time'], dict(help="""(string) 记录的终止时间，格式：UTC时间例如2017-11-10T23:00:00Z """, dest='endTime',  required=True)),
+            (['--key-word'], dict(help="""(string) 日志需要匹配的关键词 """, dest='keyWord',  required=False)),
+            (['--success'], dict(help="""(bool) 日志里面的结果是成功还是失败 """, dest='success', type=bool, required=False)),
+            (['--type'], dict(help="""(int) 日志的类型 """, dest='type', type=int, required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查看用户在云解析服务下的操作记录 ''',
+        description='''
+            查看用户在云解析服务下的操作记录。
+
+            示例: jdc clouddnsservice get-action-log  --page-number 5 --page-size 5 --start-time xxx --end-time xxx
+        ''',
+    )
+    def get_action_log(self):
+        client_factory = ClientFactory('clouddnsservice')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.clouddnsservice.apis.GetActionLogRequest import GetActionLogRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = GetActionLogRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--req'], dict(help="""(addView) 添加自定义线路的参数 """, dest='req',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -533,6 +547,7 @@ class ClouddnsserviceController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--req'], dict(help="""(delView) 删除自定义线路的参数 """, dest='req',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -570,6 +585,7 @@ class ClouddnsserviceController(BaseController):
             (['--page-number'], dict(help="""(int) 分页参数，页的序号 """, dest='pageNumber', type=int, required=True)),
             (['--page-size'], dict(help="""(int) 分页参数，每页含有的结果的数目 """, dest='pageSize', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -577,7 +593,7 @@ class ClouddnsserviceController(BaseController):
         description='''
             查询主域名的自定义解析线路。
 
-            示例: jdc clouddnsservice get-user-view  --domain-id 0 --view-id 0 --page-number 0 --page-size 0
+            示例: jdc clouddnsservice get-user-view  --domain-id 5 --view-id 5 --page-number 5 --page-size 5
         ''',
     )
     def get_user_view(self):
@@ -603,6 +619,7 @@ class ClouddnsserviceController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--req'], dict(help="""(addViewIP) 添加域名的自定义解析线路的IP段的参数 """, dest='req',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -636,6 +653,7 @@ class ClouddnsserviceController(BaseController):
             (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
             (['--req'], dict(help="""(delViewIP) 删除域名的自定义解析线路的IP段的参数 """, dest='req',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -673,6 +691,7 @@ class ClouddnsserviceController(BaseController):
             (['--page-number'], dict(help="""(int) 分页参数，页的序号, 默认为1 """, dest='pageNumber', type=int, required=True)),
             (['--page-size'], dict(help="""(int) 分页参数，每页含有的结果的数目，默认为10 """, dest='pageSize', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -680,7 +699,7 @@ class ClouddnsserviceController(BaseController):
         description='''
             查询主域名的自定义解析线路的IP段。
 
-            示例: jdc clouddnsservice get-user-view-ip  --domain-id 0 --view-id 0 --page-number 0 --page-size 0
+            示例: jdc clouddnsservice get-user-view-ip  --domain-id 5 --view-id 5 --page-number 5 --page-size 5
         ''',
     )
     def get_user_view_ip(self):
@@ -709,6 +728,7 @@ class ClouddnsserviceController(BaseController):
             (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', type=int, required=False)),
             (['--search-value'], dict(help="""(string) 查询的值 """, dest='searchValue',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -743,6 +763,7 @@ class ClouddnsserviceController(BaseController):
             (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
             (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -777,6 +798,7 @@ class ClouddnsserviceController(BaseController):
             (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
             (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -812,6 +834,7 @@ class ClouddnsserviceController(BaseController):
             (['--sub-domain-name'], dict(help="""(string) 子域名 """, dest='subDomainName',  required=True)),
             (['--targets'], dict(help="""(array: string) 子域名可用监控对象的数组 """, dest='targets',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -848,6 +871,7 @@ class ClouddnsserviceController(BaseController):
             (['--ids'], dict(help="""(array: int) 监控项ID """, dest='ids', type=int, required=True)),
             (['--switch-target'], dict(help="""(string) 监控项的主机值, 手动切换时必填 """, dest='switchTarget',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -855,7 +879,7 @@ class ClouddnsserviceController(BaseController):
         description='''
             监控项的操作集合，包括：删除，暂停，启动, 手动恢复, 手动切换。
 
-            示例: jdc clouddnsservice operate-monitor  --domain-id xxx --action xxx --ids [0]
+            示例: jdc clouddnsservice operate-monitor  --domain-id xxx --action xxx --ids [5]
         ''',
     )
     def operate_monitor(self):
@@ -882,6 +906,7 @@ class ClouddnsserviceController(BaseController):
             (['--domain-id'], dict(help="""(string) 域名ID，请使用getDomains接口获取。 """, dest='domainId',  required=True)),
             (['--update-monitor'], dict(help="""(updateMonitor) 监控项设置信息 """, dest='updateMonitor',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -918,6 +943,7 @@ class ClouddnsserviceController(BaseController):
             (['--page-size'], dict(help="""(int) 分页查询时设置的每页行数 """, dest='pageSize', type=int, required=False)),
             (['--search-value'], dict(help="""(string) 关键字 """, dest='searchValue',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -948,7 +974,7 @@ class ClouddnsserviceController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['get-action-log','get-domains','add-domain','del-domain','update-domain','get-domain-query-count','get-domain-query-traffic','search-rr','get-view-tree','add-rr','update-rr','operate-rr','batch-set-dns-resolve','add-user-view','del-user-view','get-user-view','add-user-view-ip','del-user-view-ip','get-user-view-ip','get-monitor','add-monitor','get-targets','add-monitor-target','operate-monitor','update-monitor','get-monitor-alarm-info',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['search-rr','get-view-tree','add-rr','update-rr','operate-rr','batch-set-dns-resolve','get-domains','add-domain','del-domain','update-domain','get-domain-query-count','get-domain-query-traffic','get-action-log','add-user-view','del-user-view','get-user-view','add-user-view-ip','del-user-view-ip','get-user-view-ip','get-monitor','add-monitor','get-targets','add-monitor-target','operate-monitor','update-monitor','get-monitor-alarm-info',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

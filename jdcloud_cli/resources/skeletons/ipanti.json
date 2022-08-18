@@ -1,67 +1,13 @@
 {
-    "describe-ddo-sattack-logs":{
-        "pageNumber":"",
-        "pageSize":"",
-        "startTime":"",
-        "endTime":"",
-        "instanceId":[""],
-        "regionId":""
-    },
-    "describe-ccattack-logs":{
-        "pageNumber":"",
-        "pageSize":"",
-        "startTime":"",
-        "endTime":"",
-        "instanceId":[""],
-        "regionId":""
-    },
-    "describe-ccattack-log-details":{
-        "pageNumber":"",
-        "pageSize":"",
-        "startTime":"",
-        "endTime":"",
-        "instanceId":"",
-        "subDomain":[""],
-        "attackId":"",
-        "regionId":""
-    },
-    "describe-attack-statistics":{
-        "startTime":"",
-        "endTime":"",
-        "instanceId":[""],
-        "type":"",
-        "regionId":""
-    },
-    "describe-attack-type-count":{
-        "startTime":"",
-        "endTime":"",
-        "instanceId":[""],
-        "regionId":""
-    },
-    "describe-ddo-sgraph":{
-        "startTime":"",
-        "endTime":"",
-        "instanceId":[""],
-        "regionId":""
-    },
-    "describe-fwd-graph":{
-        "startTime":"",
-        "endTime":"",
-        "instanceId":[""],
-        "regionId":""
-    },
-    "describe-ccgraph":{
-        "startTime":"",
-        "endTime":"",
-        "instanceId":[""],
-        "subDomain":[""],
-        "regionId":""
-    },
     "describe-forward-rules":{
         "pageNumber":"",
         "pageSize":"",
         "searchType":"",
         "searchValue":"",
+        "sorts":[{
+            "name":"",
+            "direction":""
+        }],
         "regionId":"",
         "instanceId":""
     },
@@ -69,6 +15,7 @@
         "forwardRuleSpec":{
             "protocol":"",
             "serviceIp":"",
+            "serviceIps":"",
             "port":"",
             "algorithm":"",
             "originType":"",
@@ -77,6 +24,22 @@
             "originDomain":"",
             "originPort":""
         },
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-forward-rules":{
+        "forwardRuleSpecList":[{
+            "protocol":"",
+            "serviceIp":"",
+            "serviceIps":"",
+            "port":"",
+            "algorithm":"",
+            "originType":"",
+            "originAddr":[""],
+            "onlineAddr":"",
+            "originDomain":"",
+            "originPort":""
+        }],
         "regionId":"",
         "instanceId":""
     },
@@ -89,6 +52,7 @@
         "forwardRuleSpec":{
             "protocol":"",
             "serviceIp":"",
+            "serviceIps":"",
             "port":"",
             "algorithm":"",
             "originType":"",
@@ -189,6 +153,216 @@
         "instanceId":"",
         "forwardRuleId":""
     },
+    "describe-ddo-sgraph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "serviceIp":[""],
+        "regionId":""
+    },
+    "describe-fwd-graph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "regionId":""
+    },
+    "describe-business-graph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "serviceIp":[""],
+        "regionId":""
+    },
+    "describe-ccgraph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "subDomain":[""],
+        "regionId":""
+    },
+    "describe-status-graph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "subDomain":[""],
+        "regionId":""
+    },
+    "describe-conn-stat-graph":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "serviceIp":[""],
+        "regionId":""
+    },
+    "describe-ddo-sattack-logs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "regionId":""
+    },
+    "describe-ddo-sip-attack-logs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "serviceIp":[""],
+        "regionId":""
+    },
+    "describe-ccattack-logs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "regionId":""
+    },
+    "describe-ccattack-log-details":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "instanceId":"",
+        "subDomain":[""],
+        "attackId":"",
+        "regionId":""
+    },
+    "describe-attack-statistics":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "serviceIp":[""],
+        "type":"",
+        "regionId":""
+    },
+    "describe-attack-type-count":{
+        "startTime":"",
+        "endTime":"",
+        "instanceId":[""],
+        "serviceIp":[""],
+        "regionId":""
+    },
+    "describe-dispatch-rules":{
+        "pageNumber":"",
+        "pageSize":"",
+        "name":"",
+        "innerIp":"",
+        "serviceIp":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-dispatch-rule":{
+        "createDispatchRuleSpec":{
+            "name":"",
+            "serviceIp":"",
+            "innerIps":"",
+            "dispatchThresholdMbps":"",
+            "dispatchThresholdPps":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-dispatch-rules":{
+        "dispatchRuleSpecList":[{
+            "name":"",
+            "serviceIp":"",
+            "innerIps":"",
+            "dispatchThresholdMbps":"",
+            "dispatchThresholdPps":""
+        }],
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-dispatch-rule":{
+        "modifyDispatchRuleSpec":{
+            "name":"",
+            "serviceIp":"",
+            "innerIps":"",
+            "dispatchThresholdMbps":"",
+            "dispatchThresholdPps":""
+        },
+        "regionId":"",
+        "instanceId":"",
+        "dispatchRuleId":""
+    },
+    "delete-dispatch-rule":{
+        "regionId":"",
+        "instanceId":"",
+        "dispatchRuleId":""
+    },
+    "switch-dispatch-rule-protect":{
+        "regionId":"",
+        "instanceId":"",
+        "dispatchRuleId":""
+    },
+    "switch-dispatch-rule-origin":{
+        "regionId":"",
+        "instanceId":"",
+        "dispatchRuleId":""
+    },
+    "describe-instance-acl":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-instance-acl":{
+        "instanceAclSpec":{
+            "blackListIds":"",
+            "whiteListIds":"",
+            "geoBlack":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
+    "recover-instance-acl":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-custom-pages":{
+        "status":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-custom-page":{
+        "customPageSpec":{
+            "name":"",
+            "content":""
+        },
+        "regionId":"",
+        "instanceId":""
+    },
+    "modify-custom-page":{
+        "customPageSpec":{
+            "name":"",
+            "content":""
+        },
+        "regionId":"",
+        "instanceId":"",
+        "pageId":""
+    },
+    "delete-custom-page":{
+        "regionId":"",
+        "instanceId":"",
+        "pageId":""
+    },
+    "modify-instance-custom-page":{
+        "regionId":"",
+        "instanceId":"",
+        "pageId":""
+    },
+    "modify-instance-custom-page-default":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "enable-instance-custom-page":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "disable-instance-custom-page":{
+        "regionId":"",
+        "instanceId":""
+    },
     "describe-instances":{
         "pageNumber":"",
         "pageSize":"",
@@ -212,6 +386,12 @@
             "timeUnit":"",
             "returnUrl":""
         },
+        "autoRenewalSpec":{
+            "autoRenewalEnable":"",
+            "timeSpan":"",
+            "timeUnit":""
+        },
+        "autoPay":"",
         "regionId":""
     },
     "describe-instance":{
@@ -245,10 +425,27 @@
             "ddosAlarmSmsStatus":"",
             "ddosAlarmStatus":"",
             "errorCodeAlarmStatus":"",
-            "errorCodeDomain":""
+            "errorCodeDomain":"",
+            "errorCode":"",
+            "errorCodePercent":"",
+            "errorCodeCount":""
         },
         "regionId":"",
         "instanceId":""
+    },
+    "describe-origin-white-ip-list":{
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-service-ip-list":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":""
+    },
+    "describe-instance-id-by-resource-id":{
+        "resourceId":"",
+        "regionId":""
     },
     "describe-name-list":{
         "id":"",
@@ -258,6 +455,9 @@
         "regionId":""
     },
     "describe-protection-statistics":{
+        "regionId":""
+    },
+    "describe-protection-outline":{
         "regionId":""
     },
     "check-name":{
@@ -270,6 +470,11 @@
         "regionId":""
     },
     "describe-cps-ip-list":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "describe-ccs-ip-list":{
         "pageNumber":"",
         "pageSize":"",
         "regionId":""
@@ -313,6 +518,7 @@
     "create-web-rule":{
         "webRuleSpec":{
             "serviceIp":"",
+            "serviceIps":"",
             "domain":"",
             "protocol":{
                 "http":"",
@@ -329,8 +535,49 @@
             "customPortStatus":"",
             "httpOrigin":"",
             "webSocketStatus":"",
-            "geoRsRoute":[""]
+            "geoRsRoute":[""],
+            "enableKeepalive":"",
+            "httpVersion":"",
+            "sslProtocols":"",
+            "suiteLevel":"",
+            "userSuiteLevel":"",
+            "enableHealthCheck":"",
+            "proxyConnectTimeout":"",
+            "enableUnderscores":""
         },
+        "regionId":"",
+        "instanceId":""
+    },
+    "create-web-rules":{
+        "webRuleSpecList":[{
+            "serviceIp":"",
+            "serviceIps":"",
+            "domain":"",
+            "protocol":{
+                "http":"",
+                "https":""
+            },
+            "port":"",
+            "httpsPort":"",
+            "originType":"",
+            "originAddr":[""],
+            "onlineAddr":"",
+            "originDomain":"",
+            "algorithm":"",
+            "forceJump":"",
+            "customPortStatus":"",
+            "httpOrigin":"",
+            "webSocketStatus":"",
+            "geoRsRoute":[""],
+            "enableKeepalive":"",
+            "httpVersion":"",
+            "sslProtocols":"",
+            "suiteLevel":"",
+            "userSuiteLevel":"",
+            "enableHealthCheck":"",
+            "proxyConnectTimeout":"",
+            "enableUnderscores":""
+        }],
         "regionId":"",
         "instanceId":""
     },
@@ -342,6 +589,7 @@
     "modify-web-rule":{
         "webRuleSpec":{
             "serviceIp":"",
+            "serviceIps":"",
             "domain":"",
             "protocol":{
                 "http":"",
@@ -358,7 +606,15 @@
             "customPortStatus":"",
             "httpOrigin":"",
             "webSocketStatus":"",
-            "geoRsRoute":[""]
+            "geoRsRoute":[""],
+            "enableKeepalive":"",
+            "httpVersion":"",
+            "sslProtocols":"",
+            "suiteLevel":"",
+            "userSuiteLevel":"",
+            "enableHealthCheck":"",
+            "proxyConnectTimeout":"",
+            "enableUnderscores":""
         },
         "regionId":"",
         "instanceId":"",
@@ -405,6 +661,64 @@
         "instanceId":"",
         "webRuleId":""
     },
+    "describe-js-pages-of-web-rule":{
+        "pageNumber":"",
+        "pageSize":"",
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "create-js-page-of-web-rule":{
+        "jsPageSpec":{
+            "uri":""
+        },
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "create-js-pages-of-web-rule":{
+        "jsPagesSpec":{
+            "uris":""
+        },
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "modify-js-page-of-web-rule":{
+        "jsPageSpec":{
+            "uri":""
+        },
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":"",
+        "jsPageId":""
+    },
+    "delete-js-page-of-web-rule":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":"",
+        "jsPageId":""
+    },
+    "disable-web-rule-js-page":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "enable-web-rule-js-page":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "modify-web-rule-js-page-to-all":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "modify-web-rule-js-page-to-custom":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
     "describe-ccprotection-rules-of-web-rule":{
         "regionId":"",
         "instanceId":"",
@@ -418,7 +732,9 @@
             "detectPeriod":"",
             "singleIpLimit":"",
             "blockType":"",
-            "blockTime":""
+            "blockTime":"",
+            "pageId":"",
+            "pageName":""
         },
         "regionId":"",
         "instanceId":"",
@@ -438,7 +754,9 @@
             "detectPeriod":"",
             "singleIpLimit":"",
             "blockType":"",
-            "blockTime":""
+            "blockTime":"",
+            "pageId":"",
+            "pageName":""
         },
         "regionId":"",
         "instanceId":"",
@@ -462,6 +780,16 @@
         "instanceId":"",
         "webRuleId":"",
         "ccProtectionRuleId":""
+    },
+    "enable-web-rule-ccprotection-rule":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
+    },
+    "disable-web-rule-ccprotection-rule":{
+        "regionId":"",
+        "instanceId":"",
+        "webRuleId":""
     },
     "describe-ccprotection-config-of-web-rule":{
         "regionId":"",
@@ -517,7 +845,8 @@
             "pattern":"",
             "action":"",
             "actionValue":"",
-            "status":""
+            "status":"",
+            "pageId":""
         },
         "regionId":"",
         "instanceId":"",
@@ -538,7 +867,8 @@
             "pattern":"",
             "action":"",
             "actionValue":"",
-            "status":""
+            "status":"",
+            "pageId":""
         },
         "regionId":"",
         "instanceId":"",

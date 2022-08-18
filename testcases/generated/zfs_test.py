@@ -23,6 +23,42 @@ import json
 
 class ZfsTest(unittest.TestCase):
 
+    def test_describe_mount_targets(self):
+        cmd = """python ../../main.py zfs describe-mount-targets """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_mount_target(self):
+        cmd = """python ../../main.py zfs create-mount-target  --file-system-id 'xxx' --subnet-id 'xxx' --vpc-id 'xxx' --client-token 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_mount_target(self):
+        cmd = """python ../../main.py zfs describe-mount-target  --mount-target-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_mount_target(self):
+        cmd = """python ../../main.py zfs delete-mount-target  --mount-target-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_file_systems(self):
         cmd = """python ../../main.py zfs describe-file-systems """
         with os.popen(cmd) as f:
@@ -61,42 +97,6 @@ class ZfsTest(unittest.TestCase):
 
     def test_delete_file_system(self):
         cmd = """python ../../main.py zfs delete-file-system  --file-system-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_mount_targets(self):
-        cmd = """python ../../main.py zfs describe-mount-targets """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_mount_target(self):
-        cmd = """python ../../main.py zfs create-mount-target  --file-system-id 'xxx' --subnet-id 'xxx' --vpc-id 'xxx' --client-token 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_mount_target(self):
-        cmd = """python ../../main.py zfs describe-mount-target  --mount-target-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_mount_target(self):
-        cmd = """python ../../main.py zfs delete-mount-target  --mount-target-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

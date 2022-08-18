@@ -42,7 +42,7 @@ class IasController(BaseController):
             (['--pin'], dict(help="""(string) pin """, dest='pin',  required=True)),
             (['--app-name'], dict(help="""(string) appName """, dest='appName',  required=True)),
             (['--client-id'], dict(help="""(string) clientId """, dest='clientId',  required=True)),
-            (['--multi-tenant'], dict(help="""(bool) multiTenant """, dest='multiTenant',  required=True)),
+            (['--multi-tenant'], dict(help="""(bool) multiTenant """, dest='multiTenant', type=bool, required=True)),
             (['--state'], dict(help="""(string) state """, dest='state',  required=True)),
             (['--scope'], dict(help="""(string) scope """, dest='scope',  required=True)),
             (['--start-time'], dict(help="""(int) startTime """, dest='startTime', type=int, required=True)),
@@ -52,6 +52,7 @@ class IasController(BaseController):
             (['--page-size'], dict(help="""(int) pageSize """, dest='pageSize', type=int, required=True)),
             (['--offset'], dict(help="""(int) offset """, dest='offset', type=int, required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -59,7 +60,7 @@ class IasController(BaseController):
         description='''
             运营后台查询app。
 
-            示例: jdc ias apps  --pin xxx --app-name xxx --client-id xxx --multi-tenant true --state xxx --scope xxx --start-time 0 --end-time 0 --account-type xxx --page-index 0 --page-size 0 --offset 0
+            示例: jdc ias apps  --pin xxx --app-name xxx --client-id xxx --multi-tenant true --state xxx --scope xxx --start-time 5 --end-time 5 --account-type xxx --page-index 5 --page-size 5 --offset 5
         ''',
     )
     def apps(self):
@@ -85,6 +86,7 @@ class IasController(BaseController):
             (['--region-id'], dict(help="""(string) NA """, dest='regionId',  required=False)),
             (['--client-id'], dict(help="""(string) NA """, dest='clientId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -117,6 +119,7 @@ class IasController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) NA """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -163,10 +166,11 @@ class IasController(BaseController):
             (['--extension'], dict(help="""(string) 应用扩展信息 """, dest='extension',  required=False)),
             (['--access-token-validity-seconds'], dict(help="""(int) 访问令牌有效期，值的范围为 600 秒到 6x3600=21,600 秒，即10分钟-6小时 """, dest='accessTokenValiditySeconds', type=int, required=False)),
             (['--refresh-token-validity-seconds'], dict(help="""(int) 刷新令牌有效期，值的范围为 30x24x3600=2,592,000 秒到 365x24x3600=31,536,000 秒，即30天-365天<br/><br/> 注：当 GrantTypes 包含 refresh_token 时，refreshTokenValiditySeconds 为必传参数 """, dest='refreshTokenValiditySeconds', type=int, required=False)),
-            (['--multi-tenant'], dict(help="""(bool) 是否为多租户应用<br/> "false"：该应用仅支持当前创建应用的租户访问，其他京东云租户无法访问<br/>        "true"：该应用支持其他京东云租户访问，但当前创建应用的租户不能访问 """, dest='multiTenant',  required=False)),
+            (['--multi-tenant'], dict(help="""(bool) 是否为多租户应用<br/> "false"：该应用仅支持当前创建应用的租户访问，其他京东云租户无法访问<br/>        "true"：该应用支持其他京东云租户访问，但当前创建应用的租户不能访问 """, dest='multiTenant', type=bool, required=False)),
             (['--secret'], dict(help="""(string) 应用的密码，支持8-255位长度的ASCII可打印字符，建议使用足够复杂的密码策略<br/><br/>        注：当TokenEndpointAuthMethod不等于none时，secret为必传参数；反之，当指定了secret时，TokenEndpointAuthMethod不能等于none<br/>京东云将不可逆加密secret，因此您无法再次从京东云查看该密码，但您可以随时通过更新应用重新设置secret """, dest='secret',  required=False)),
             (['--user-type'], dict(help="""(string) 能访问应用的账号类型，支持以下值：<br/> （1）root：支持主账号访问，子用户无法访问<br/> （2）sub：子用户账号，使用主账号不能访问<br/><br/> 注：multiTenant和userType的组合指定了应用的用户人群，典型的应用场景如：<br/> （1）应用向当前租户下的子用户开放（2）应用向京东云其他租户主账号开放 """, dest='userType',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -200,6 +204,7 @@ class IasController(BaseController):
             (['--region-id'], dict(help="""(string) 地域编码，参考OpenAPI公共说明 """, dest='regionId',  required=False)),
             (['--client-id'], dict(help="""(string) 应用ID，应用创建时由京东云分配的16位数字ID """, dest='clientId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -247,10 +252,11 @@ class IasController(BaseController):
             (['--extension'], dict(help="""(string) 应用扩展信息 """, dest='extension',  required=False)),
             (['--access-token-validity-seconds'], dict(help="""(int) 访问令牌有效期，值的范围为 600 秒到 6x3600=21,600 秒，即10分钟-6小时 """, dest='accessTokenValiditySeconds', type=int, required=False)),
             (['--refresh-token-validity-seconds'], dict(help="""(int) 刷新令牌有效期，值的范围为 30x24x3600=2,592,000 秒到 365x24x3600=31,536,000 秒，即30天-365天<br/><br/> 注：当 GrantTypes 包含 refresh_token 时，refreshTokenValiditySeconds 为必传参数 """, dest='refreshTokenValiditySeconds', type=int, required=False)),
-            (['--multi-tenant'], dict(help="""(bool) 是否为多租户应用<br/> "false"：该应用仅支持当前创建应用的租户访问，其他京东云租户无法访问<br/>        "true"：该应用支持其他京东云租户访问，但当前创建应用的租户不能访问 """, dest='multiTenant',  required=False)),
+            (['--multi-tenant'], dict(help="""(bool) 是否为多租户应用<br/> "false"：该应用仅支持当前创建应用的租户访问，其他京东云租户无法访问<br/>        "true"：该应用支持其他京东云租户访问，但当前创建应用的租户不能访问 """, dest='multiTenant', type=bool, required=False)),
             (['--secret'], dict(help="""(string) 应用的密码，支持8-255位长度的ASCII可打印字符，建议使用足够复杂的密码策略<br/><br/> 注：当TokenEndpointAuthMethod不等于none时，secret为必传参数；反之，当指定了secret时，TokenEndpointAuthMethod不能等于none<br/> 京东云将不可逆加密secret，因此您无法再次从京东云查看该密码，但您可以随时通过更新应用重新设置secret """, dest='secret',  required=False)),
             (['--user-type'], dict(help="""(string) 能访问应用的账号类型，支持以下值：<br/> （1）root：支持主账号访问，子用户无法访问<br/> （2）sub：子用户账号，使用主账号不能访问<br/><br/> 注：multiTenant和userType的组合指定了应用的用户人群，典型的应用场景如：<br/> （1）应用向当前租户下的子用户开放（2）应用向京东云其他租户主账号开放 """, dest='userType',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -284,6 +290,7 @@ class IasController(BaseController):
             (['--region-id'], dict(help="""(string) 地域编码，参考OpenAPI公共说明 """, dest='regionId',  required=False)),
             (['--client-id'], dict(help="""(string) 应用ID，应用创建时由京东云分配的16位数字ID """, dest='clientId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -316,6 +323,7 @@ class IasController(BaseController):
         arguments=[
             (['--region-id'], dict(help="""(string) 地域编码，参考OpenAPI公共说明 """, dest='regionId',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,

@@ -23,8 +23,8 @@ import json
 
 class ApigatewayTest(unittest.TestCase):
 
-    def test_query_access_auths(self):
-        cmd = """python ../../main.py apigateway query-access-auths """
+    def test_query_user_domains(self):
+        cmd = """python ../../main.py apigateway query-user-domains  --api-group-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -32,8 +32,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_access_auth(self):
-        cmd = """python ../../main.py apigateway create-access-auth """
+    def test_create_user_domain(self):
+        cmd = """python ../../main.py apigateway create-user-domain  --domain 'xxx' --api-group-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -41,8 +41,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_check_auth_exist(self):
-        cmd = """python ../../main.py apigateway check-auth-exist  --access-key 'xxx' --auth-user-type 'xxx'"""
+    def test_delete_user_domain(self):
+        cmd = """python ../../main.py apigateway delete-user-domain  --domain-ids 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -50,8 +50,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_access_auth(self):
-        cmd = """python ../../main.py apigateway query-access-auth  --access-auth-id 'xxx'"""
+    def test_create_backend_config(self):
+        cmd = """python ../../main.py apigateway create-backend-config  --api-group-id 'xxx' --environment 'xxx' --backend-service-type 'xxx' --sort '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -59,8 +59,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_access_auth(self):
-        cmd = """python ../../main.py apigateway update-access-auth  --access-auth-id 'xxx'"""
+    def test_describe_backend_configs(self):
+        cmd = """python ../../main.py apigateway describe-backend-configs  --api-group-id 'xxx' --environment 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -68,8 +68,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_access_auth(self):
-        cmd = """python ../../main.py apigateway delete-access-auth  --access-auth-id 'xxx'"""
+    def test_describe_backend_config(self):
+        cmd = """python ../../main.py apigateway describe-backend-config  --api-group-id 'xxx' --backend-config-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -77,8 +77,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_bind_group_auth(self):
-        cmd = """python ../../main.py apigateway query-bind-group-auth  --access-auth-id 'xxx'"""
+    def test_update_backend_config(self):
+        cmd = """python ../../main.py apigateway update-backend-config  --api-group-id 'xxx' --backend-config-id 'xxx' --environment 'xxx' --backend-service-type 'xxx' --sort '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,8 +86,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_bind_group_auth(self):
-        cmd = """python ../../main.py apigateway bind-group-auth  --access-auth-id 'xxx' --deployment-ids 'xxx'"""
+    def test_delete_backend_config(self):
+        cmd = """python ../../main.py apigateway delete-backend-config  --api-group-id 'xxx' --backend-config-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -95,8 +95,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_auth_group_list(self):
-        cmd = """python ../../main.py apigateway query-auth-group-list  --auth-user-type 'xxx'"""
+    def test_query_uc_access_keys(self):
+        cmd = """python ../../main.py apigateway query-uc-access-keys """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -104,8 +104,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_authorized_api_group_list(self):
-        cmd = """python ../../main.py apigateway authorized-api-group-list """
+    def test_query_keys(self):
+        cmd = """python ../../main.py apigateway query-keys """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -113,8 +113,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_access_keys(self):
-        cmd = """python ../../main.py apigateway query-access-keys """
+    def test_create_key(self):
+        cmd = """python ../../main.py apigateway create-key """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -122,8 +122,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_access_key(self):
-        cmd = """python ../../main.py apigateway create-access-key """
+    def test_reset_key(self):
+        cmd = """python ../../main.py apigateway reset-key  --key-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -131,8 +131,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_check_key_exist(self):
-        cmd = """python ../../main.py apigateway check-key-exist  --access-key 'xxx' --access-key-type 'xxx'"""
+    def test_update_key(self):
+        cmd = """python ../../main.py apigateway update-key  --key-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -140,125 +140,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_access_key(self):
-        cmd = """python ../../main.py apigateway query-access-key  --access-key-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_access_key(self):
-        cmd = """python ../../main.py apigateway update-access-key  --access-key-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_access_key(self):
-        cmd = """python ../../main.py apigateway delete-access-key  --access-key-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_query_bind_group_key(self):
-        cmd = """python ../../main.py apigateway query-bind-group-key  --access-key-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_bind_group_key(self):
-        cmd = """python ../../main.py apigateway bind-group-key  --access-key-id 'xxx' --deployment-ids 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_query_key_group_list(self):
-        cmd = """python ../../main.py apigateway query-key-group-list  --access-key-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_query_apis(self):
-        cmd = """python ../../main.py apigateway query-apis  --api-group-id 'xxx' --revision 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_apis(self):
-        cmd = """python ../../main.py apigateway create-apis  --api-group-id 'xxx' --revision 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_check_api_name_exist(self):
-        cmd = """python ../../main.py apigateway check-api-name-exist  --api-group-id 'xxx' --revision 'xxx' --api-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_query_api(self):
-        cmd = """python ../../main.py apigateway query-api  --api-group-id 'xxx' --revision 'xxx' --api-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_api(self):
-        cmd = """python ../../main.py apigateway update-api  --api-group-id 'xxx' --revision 'xxx' --api-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_api(self):
-        cmd = """python ../../main.py apigateway delete-api  --api-group-id 'xxx' --revision 'xxx' --api-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_api_by_name(self):
-        cmd = """python ../../main.py apigateway update-api-by-name  --api-group-id 'xxx' --revision 'xxx' --api-name 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_api_by_name(self):
-        cmd = """python ../../main.py apigateway delete-api-by-name  --api-group-id 'xxx' --revision 'xxx' --api-name 'xxx'"""
+    def test_query_key_info(self):
+        cmd = """python ../../main.py apigateway query-key-info  --key-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -322,141 +205,6 @@ class ApigatewayTest(unittest.TestCase):
 
     def test_describe_is_deploy_api_groups(self):
         cmd = """python ../../main.py apigateway describe-is-deploy-api-groups """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_backend_config(self):
-        cmd = """python ../../main.py apigateway create-backend-config  --api-group-id 'xxx' --environment 'xxx' --backend-service-type 'xxx' --sort '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_backend_configs(self):
-        cmd = """python ../../main.py apigateway describe-backend-configs  --api-group-id 'xxx' --environment 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_backend_config(self):
-        cmd = """python ../../main.py apigateway describe-backend-config  --api-group-id 'xxx' --backend-config-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_backend_config(self):
-        cmd = """python ../../main.py apigateway update-backend-config  --api-group-id 'xxx' --backend-config-id 'xxx' --environment 'xxx' --backend-service-type 'xxx' --sort '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_backend_config(self):
-        cmd = """python ../../main.py apigateway delete-backend-config  --api-group-id 'xxx' --backend-config-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_deployments(self):
-        cmd = """python ../../main.py apigateway describe-deployments  --api-group-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_deploy(self):
-        cmd = """python ../../main.py apigateway deploy  --api-group-id 'xxx' --revision 'xxx' --environment 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_deployment(self):
-        cmd = """python ../../main.py apigateway describe-deployment  --api-group-id 'xxx' --deployment-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_offline(self):
-        cmd = """python ../../main.py apigateway offline  --api-group-id 'xxx' --deployment-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_batch_offline(self):
-        cmd = """python ../../main.py apigateway batch-offline  --api-group-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_query_keys(self):
-        cmd = """python ../../main.py apigateway query-keys """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_create_key(self):
-        cmd = """python ../../main.py apigateway create-key """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_reset_key(self):
-        cmd = """python ../../main.py apigateway reset-key  --key-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_key(self):
-        cmd = """python ../../main.py apigateway update-key  --key-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_query_key_info(self):
-        cmd = """python ../../main.py apigateway query-key-info  --key-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -545,6 +293,258 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
+    def test_query_subscription_keys(self):
+        cmd = """python ../../main.py apigateway query-subscription-keys """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_subscription_key(self):
+        cmd = """python ../../main.py apigateway create-subscription-key """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_subscription_key(self):
+        cmd = """python ../../main.py apigateway query-subscription-key  --subscription-key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_subscription_key(self):
+        cmd = """python ../../main.py apigateway update-subscription-key  --subscription-key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_subscription_key(self):
+        cmd = """python ../../main.py apigateway delete-subscription-key  --subscription-key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_access_keys(self):
+        cmd = """python ../../main.py apigateway query-access-keys """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_access_key(self):
+        cmd = """python ../../main.py apigateway create-access-key """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_check_key_exist(self):
+        cmd = """python ../../main.py apigateway check-key-exist  --access-key 'xxx' --access-key-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_access_key(self):
+        cmd = """python ../../main.py apigateway query-access-key  --access-key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_access_key(self):
+        cmd = """python ../../main.py apigateway update-access-key  --access-key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_access_key(self):
+        cmd = """python ../../main.py apigateway delete-access-key  --access-key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_bind_group_key(self):
+        cmd = """python ../../main.py apigateway query-bind-group-key  --access-key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_bind_group_key(self):
+        cmd = """python ../../main.py apigateway bind-group-key  --access-key-id 'xxx' --deployment-ids 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_key_group_list(self):
+        cmd = """python ../../main.py apigateway query-key-group-list  --access-key-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_check_pin(self):
+        cmd = """python ../../main.py apigateway check-pin  --pin 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_apis(self):
+        cmd = """python ../../main.py apigateway query-apis  --api-group-id 'xxx' --revision 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_apis(self):
+        cmd = """python ../../main.py apigateway create-apis  --api-group-id 'xxx' --revision 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_check_api_name_exist(self):
+        cmd = """python ../../main.py apigateway check-api-name-exist  --api-group-id 'xxx' --revision 'xxx' --api-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_query_api(self):
+        cmd = """python ../../main.py apigateway query-api  --api-group-id 'xxx' --revision 'xxx' --api-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_api(self):
+        cmd = """python ../../main.py apigateway update-api  --api-group-id 'xxx' --revision 'xxx' --api-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_api(self):
+        cmd = """python ../../main.py apigateway delete-api  --api-group-id 'xxx' --revision 'xxx' --api-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_api_by_name(self):
+        cmd = """python ../../main.py apigateway update-api-by-name  --api-group-id 'xxx' --revision 'xxx' --api-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_api_by_name(self):
+        cmd = """python ../../main.py apigateway delete-api-by-name  --api-group-id 'xxx' --revision 'xxx' --api-name 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_deployments(self):
+        cmd = """python ../../main.py apigateway describe-deployments  --api-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_deploy(self):
+        cmd = """python ../../main.py apigateway deploy  --api-group-id 'xxx' --revision 'xxx' --environment 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_deployment(self):
+        cmd = """python ../../main.py apigateway describe-deployment  --api-group-id 'xxx' --deployment-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_offline(self):
+        cmd = """python ../../main.py apigateway offline  --api-group-id 'xxx' --deployment-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_batch_offline(self):
+        cmd = """python ../../main.py apigateway batch-offline  --api-group-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_describe_revisions(self):
         cmd = """python ../../main.py apigateway describe-revisions  --api-group-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -608,8 +608,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_subscription_keys(self):
-        cmd = """python ../../main.py apigateway query-subscription-keys """
+    def test_query_access_auths(self):
+        cmd = """python ../../main.py apigateway query-access-auths """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -617,8 +617,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_subscription_key(self):
-        cmd = """python ../../main.py apigateway create-subscription-key """
+    def test_create_access_auth(self):
+        cmd = """python ../../main.py apigateway create-access-auth """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -626,8 +626,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_subscription_key(self):
-        cmd = """python ../../main.py apigateway query-subscription-key  --subscription-key-id 'xxx'"""
+    def test_check_auth_exist(self):
+        cmd = """python ../../main.py apigateway check-auth-exist  --access-key 'xxx' --auth-user-type 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -635,8 +635,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_update_subscription_key(self):
-        cmd = """python ../../main.py apigateway update-subscription-key  --subscription-key-id 'xxx'"""
+    def test_query_access_auth(self):
+        cmd = """python ../../main.py apigateway query-access-auth  --access-auth-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -644,8 +644,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_subscription_key(self):
-        cmd = """python ../../main.py apigateway delete-subscription-key  --subscription-key-id 'xxx'"""
+    def test_update_access_auth(self):
+        cmd = """python ../../main.py apigateway update-access-auth  --access-auth-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -653,8 +653,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_uc_access_keys(self):
-        cmd = """python ../../main.py apigateway query-uc-access-keys """
+    def test_delete_access_auth(self):
+        cmd = """python ../../main.py apigateway delete-access-auth  --access-auth-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -662,8 +662,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_check_pin(self):
-        cmd = """python ../../main.py apigateway check-pin  --pin 'xxx'"""
+    def test_query_bind_group_auth(self):
+        cmd = """python ../../main.py apigateway query-bind-group-auth  --access-auth-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -671,8 +671,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_query_user_domains(self):
-        cmd = """python ../../main.py apigateway query-user-domains  --api-group-id 'xxx'"""
+    def test_bind_group_auth(self):
+        cmd = """python ../../main.py apigateway bind-group-auth  --access-auth-id 'xxx' --deployment-ids 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -680,8 +680,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_create_user_domain(self):
-        cmd = """python ../../main.py apigateway create-user-domain  --domain 'xxx' --api-group-id 'xxx'"""
+    def test_query_auth_group_list(self):
+        cmd = """python ../../main.py apigateway query-auth-group-list  --auth-user-type 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -689,8 +689,8 @@ class ApigatewayTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_delete_user_domain(self):
-        cmd = """python ../../main.py apigateway delete-user-domain  --domain-ids 'xxx'"""
+    def test_authorized_api_group_list(self):
+        cmd = """python ../../main.py apigateway authorized-api-group-list """
         with os.popen(cmd) as f:
             content = f.read()
 

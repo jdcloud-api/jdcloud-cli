@@ -23,8 +23,53 @@ import json
 
 class ClouddnsserviceTest(unittest.TestCase):
 
-    def test_get_action_log(self):
-        cmd = """python ../../main.py clouddnsservice get-action-log  --page-number '5' --page-size '5' --start-time 'xxx' --end-time 'xxx'"""
+    def test_search_rr(self):
+        cmd = """python ../../main.py clouddnsservice search-rr  --domain-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_view_tree(self):
+        cmd = """python ../../main.py clouddnsservice get-view-tree  --domain-id 'xxx' --pack-id '5' --view-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_rr(self):
+        cmd = """python ../../main.py clouddnsservice add-rr  --domain-id 'xxx' --req '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_rr(self):
+        cmd = """python ../../main.py clouddnsservice update-rr  --domain-id 'xxx' --req '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_operate_rr(self):
+        cmd = """python ../../main.py clouddnsservice operate-rr  --domain-id 'xxx' --ids '[5]' --action 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_batch_set_dns_resolve(self):
+        cmd = """python ../../main.py clouddnsservice batch-set-dns-resolve  --req '[{"":""}]'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -86,53 +131,8 @@ class ClouddnsserviceTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_search_rr(self):
-        cmd = """python ../../main.py clouddnsservice search-rr  --domain-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_view_tree(self):
-        cmd = """python ../../main.py clouddnsservice get-view-tree  --domain-id 'xxx' --pack-id '5' --view-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_add_rr(self):
-        cmd = """python ../../main.py clouddnsservice add-rr  --domain-id 'xxx' --req '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_update_rr(self):
-        cmd = """python ../../main.py clouddnsservice update-rr  --domain-id 'xxx' --req '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_operate_rr(self):
-        cmd = """python ../../main.py clouddnsservice operate-rr  --domain-id 'xxx' --ids '[5]' --action 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_batch_set_dns_resolve(self):
-        cmd = """python ../../main.py clouddnsservice batch-set-dns-resolve  --req '[{"":""}]'"""
+    def test_get_action_log(self):
+        cmd = """python ../../main.py clouddnsservice get-action-log  --page-number '5' --page-size '5' --start-time 'xxx' --end-time 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

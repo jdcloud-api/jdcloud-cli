@@ -23,6 +23,60 @@ import json
 
 class IotlinkTest(unittest.TestCase):
 
+    def test_card_info(self):
+        cmd = """python ../../main.py iotlink card-info  --iccid 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_real_name_query_iot(self):
+        cmd = """python ../../main.py iotlink real-name-query-iot  --iccid 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_gprs_status_by_imsi(self):
+        cmd = """python ../../main.py iotlink gprs-status-by-imsi  --imsi 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_on_off_status_by_imsi(self):
+        cmd = """python ../../main.py iotlink on-off-status-by-imsi  --imsi 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_life_status_by_imsi(self):
+        cmd = """python ../../main.py iotlink life-status-by-imsi  --imsi 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_gprs_realtime_info_by_imsi(self):
+        cmd = """python ../../main.py iotlink gprs-realtime-info-by-imsi  --imsi 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_gprs_status(self):
         cmd = """python ../../main.py iotlink gprs-status  --iccid 'xxx'"""
         with os.popen(cmd) as f:

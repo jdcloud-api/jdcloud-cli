@@ -42,6 +42,309 @@ class PodController(BaseController):
     @expose(
         arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
+            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
+            (['--filters'], dict(help="""(array: filter) name - secret名称，支持模糊搜索;  """, dest='filters',  required=False)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询 secret 列表。<br> ; 此接口支持分页查询，默认每页20条。;  ''',
+        description='''
+            查询 secret 列表。<br> ; 此接口支持分页查询，默认每页20条。; 
+
+            示例: jdc pod describe-secrets 
+        ''',
+    )
+    def describe_secrets(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.DescribeSecretsRequest import DescribeSecretsRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSecretsRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) 机密数据名称，不能重复;  """, dest='name',  required=True)),
+            (['--secret-type'], dict(help="""(string) 机密数据的类型，目前仅支持：docker-registry 类型，用来和docker registry认证的类型。;  """, dest='secretType',  required=True)),
+            (['--data'], dict(help="""(dockerRegistryData) 机密的数据。<br>; key 的有效字符包括字母、数字、-、_和.； <br>; value 是 Base64 编码的字符串，不能包含换行符（在 linux 下使用 base64 -w 0选项），每个value长度上限为4KB，整个data的长度不能超过256KB; <br>; 必须包含server、username、password 字段，email 字段是可选的。<br>;  """, dest='data',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建一个 secret，用于存放镜像仓库机密相关信息。;  ''',
+        description='''
+            创建一个 secret，用于存放镜像仓库机密相关信息。; 
+
+            示例: jdc pod create-secret  --name xxx --secret-type xxx --data {"":""}
+        ''',
+    )
+    def create_secret(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.CreateSecretRequest import CreateSecretRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateSecretRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) Secret Name """, dest='name',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询单个 secret 详情;  ''',
+        description='''
+            查询单个 secret 详情; 
+
+            示例: jdc pod describe-secret  --name xxx
+        ''',
+    )
+    def describe_secret(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.DescribeSecretRequest import DescribeSecretRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeSecretRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) Secret Name """, dest='name',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除单个 secret;  ''',
+        description='''
+            删除单个 secret; 
+
+            示例: jdc pod delete-secret  --name xxx
+        ''',
+    )
+    def delete_secret(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.DeleteSecretRequest import DeleteSecretRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteSecretRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) ConfigFile 的名字，名称不能重复; 长度不超过63（命名字母小写，数字和-）;  """, dest='name',  required=True)),
+            (['--data'], dict(help="""(array: configFileData) configFile数据，个数不超过32个;  """, dest='data',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 创建一个 configFile，存放文件内容（键值对）。;  ''',
+        description='''
+            创建一个 configFile，存放文件内容（键值对）。; 
+
+            示例: jdc pod create-config-file  --name xxx --data [{"":""}]
+        ''',
+    )
+    def create_config_file(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.CreateConfigFileRequest import CreateConfigFileRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = CreateConfigFileRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) Name """, dest='name',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询单个 configFile 详情;  ''',
+        description='''
+            查询单个 configFile 详情; 
+
+            示例: jdc pod describe-config-file  --name xxx
+        ''',
+    )
+    def describe_config_file(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.DescribeConfigFileRequest import DescribeConfigFileRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeConfigFileRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) Name """, dest='name',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 删除单个 configFile;  ''',
+        description='''
+            删除单个 configFile; 
+
+            示例: jdc pod delete-config-file  --name xxx
+        ''',
+    )
+    def delete_config_file(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.DeleteConfigFileRequest import DeleteConfigFileRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DeleteConfigFileRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--name'], dict(help="""(string) Name """, dest='name',  required=True)),
+            (['--data'], dict(help="""(array: configFileData) configFile数据，个数不超过32个;  """, dest='data',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 更新configFile信息;  ''',
+        description='''
+            更新configFile信息; 
+
+            示例: jdc pod update-config-file  --name xxx --data [{"":""}]
+        ''',
+    )
+    def update_config_file(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.UpdateConfigFileRequest import UpdateConfigFileRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = UpdateConfigFileRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
+            (['--resource-type'], dict(help="""(string) resourceType - 资源类型，支持 [container, pod, secret];  """, dest='resourceType',  required=True)),
+            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询资源的配额，支持：原生容器 pod 和 secret.;  ''',
+        description='''
+            查询资源的配额，支持：原生容器 pod 和 secret.; 
+
+            示例: jdc pod describe-quota  --resource-type xxx
+        ''',
+    )
+    def describe_quota(self):
+        client_factory = ClientFactory('pod')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.pod.apis.DescribeQuotaRequest import DescribeQuotaRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeQuotaRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--pod-id'], dict(help="""(string) Pod ID """, dest='podId',  required=True)),
             (['--container-name'], dict(help="""(string) container name """, dest='containerName',  required=True)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
@@ -160,7 +463,7 @@ class PodController(BaseController):
         description='''
             设置TTY大小
 
-            示例: jdc pod resize-tty  --pod-id xxx --container-name xxx --height 0 --width 0
+            示例: jdc pod resize-tty  --pod-id xxx --container-name xxx --height 5 --width 5
         ''',
     )
     def resize_tty(self):
@@ -183,43 +486,10 @@ class PodController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
-            (['--filters'], dict(help="""(array: filter) instanceTypes - 实例规格，精确匹配，支持多个; az - 可用区，精确匹配，支持多个;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询实例规格信息列表;  ''',
-        description='''
-            查询实例规格信息列表; 
-
-            示例: jdc pod describe-instance-types 
-        ''',
-    )
-    def describe_instance_types(self):
-        client_factory = ClientFactory('pod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.pod.apis.DescribeInstanceTypesRequest import DescribeInstanceTypesRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeInstanceTypesRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
             (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
             (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) podId - pod ID，精确匹配，支持多个; privateIpAddress - 主网卡IP地址，精确匹配，支持单个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; phase - pod 状态，精确匹配，支持多个; name - 实例名称，模糊匹配，支持单个; subnetId - 镜像ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
+            (['--filters'], dict(help="""(array: filter) podId - pod ID，精确匹配，支持多个; privateIpAddress - 主网卡IP地址，模糊匹配，支持单个; az - 可用区，精确匹配，支持多个; vpcId - 私有网络ID，精确匹配，支持多个; phase - pod 状态，精确匹配，支持多个; name - 实例名称，模糊匹配，支持单个; subnetId - 镜像ID，精确匹配，支持多个; agId - 镜像ID，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--tags'], dict(help="""(array: tagFilter) Tag筛选条件 """, dest='tags',  required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
@@ -260,11 +530,11 @@ class PodController(BaseController):
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 创建一台或多台 pod; - 创建pod需要通过实名认证; - hostname规范;     - 支持两种方式：以标签方式书写或以完整主机名方式书写;     - 标签规范;         - 0-9，a-z(不分大小写)和-（减号），其他的都是无效的字符串;         - 不能以减号开始，也不能以减号结尾;         - 最小1个字符，最大63个字符;     - 完整的主机名由一系列标签与点连接组成;         - 标签与标签之间使用“.”(点)进行连接;         - 不能以“.”(点)开始，也不能以“.”(点)结尾;         - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-100]Mbps，步进1Mbps;         - 可以指定网卡的主IP(primaryIpAddress)和辅助IP(secondaryIpAddresses)，此时maxCount只能为1;         - 可以设置网卡的自动删除autoDelete属性，指明是否删除实例时自动删除网卡;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一个 pod 创建时至多指定5个安全组;         - 主网卡deviceIndex设置为1; - 存储;     - volume分为container system disk和pod data volume，container system disk的挂载目录是/，data volume的挂载目录可以随意指定;     - container system disk;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,100]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;     - data volume;         - 当前只能选择cloud类别;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,2000]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;         - 可以从快照创建磁盘; - pod 容器日志;     - default：默认在本地分配10MB的存储空间，自动rotate; - DNS-1123 label规范;     - 支持数字、小写字母、英文中划线“-”，但不支持以“-”作为开始字符和结束字符，1~63字符。;     - 例子: my-name, 123-abc; - DNS-1123 subdomain规范;     - 由一或多个标签组成，标签之间用'.'分隔；标签可由小写字母、数字、英文中划线'-'构成，标签首尾不可为'-'；所有字符总长度为1~253。;     - 例子: example.com, registry.docker-cn.com; - 其他;     - 创建完成后，pod 状态为running;     - maxCount为最大努力，不保证一定能达到maxCount;  ''',
+        help=''' 创建一台或多台 pod; - 创建pod需要通过实名认证; - 可用区;     - Pod所属的可用区;     - 创建Pod，需要使用中心可用区的相关资源：;         - 具有中心可用区属性的子网;         - 公网IP服务商; - hostname规范;     - 支持两种方式：以标签方式书写或以完整主机名方式书写;     - 标签规范;         - 0-9，a-z(不分大小写)和-（减号），其他的都是无效的字符串;         - 不能以减号开始，也不能以减号结尾;         - 最小1个字符，最大63个字符;     - 完整的主机名由一系列标签与点连接组成;         - 标签与标签之间使用“.”(点)进行连接;         - 不能以“.”(点)开始，也不能以“.”(点)结尾;         - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-100]Mbps，步进1Mbps;         - 可以指定网卡的主IP(primaryIpAddress)和辅助IP(secondaryIpAddresses)，此时maxCount只能为1;         - 可以设置网卡的自动删除autoDelete属性，指明是否删除实例时自动删除网卡;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一个 pod 创建时至多指定5个安全组;         - 主网卡deviceIndex设置为1; - 存储;     - volume分为container system disk和pod data volume，container system disk的挂载目录是/，data volume的挂载目录可以随意指定;     - container system disk;         - 支持cloud和local;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,100]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;     - data volume;         -cloudDisk;           - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;           - 磁盘大小;               - 所有类型：范围[20,2000]GB，步长为10G;           - 自动删除;               - 默认自动删除;           - 可以选择已存在的云硬盘;           - 可以从快照创建磁盘;         -CFS;           - 从zbs去获取数据，挂载到当前的volume;         -configFile;           - 提前创建好configFile相关数据，然后挂载到volume; ; ; - pod 容器日志;     - default：默认在本地分配10MB的存储空间，自动rotate; - DNS-1123 label规范;     - 支持数字、小写字母、英文中划线“-”，但不支持以“-”作为开始字符和结束字符，1~63字符。;     - 例子: my-name, 123-abc; - DNS-1123 subdomain规范;     - 由一或多个标签组成，标签之间用'.'分隔；标签可由小写字母、数字、英文中划线'-'构成，标签首尾不可为'-'；所有字符总长度为1~253。;     - 例子: example.com, registry.docker-cn.com; - 其他;     - 创建完成后，pod 状态为running;     - maxCount为最大努力，不保证一定能达到maxCount;  ''',
         description='''
-            创建一台或多台 pod; - 创建pod需要通过实名认证; - hostname规范;     - 支持两种方式：以标签方式书写或以完整主机名方式书写;     - 标签规范;         - 0-9，a-z(不分大小写)和-（减号），其他的都是无效的字符串;         - 不能以减号开始，也不能以减号结尾;         - 最小1个字符，最大63个字符;     - 完整的主机名由一系列标签与点连接组成;         - 标签与标签之间使用“.”(点)进行连接;         - 不能以“.”(点)开始，也不能以“.”(点)结尾;         - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-100]Mbps，步进1Mbps;         - 可以指定网卡的主IP(primaryIpAddress)和辅助IP(secondaryIpAddresses)，此时maxCount只能为1;         - 可以设置网卡的自动删除autoDelete属性，指明是否删除实例时自动删除网卡;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一个 pod 创建时至多指定5个安全组;         - 主网卡deviceIndex设置为1; - 存储;     - volume分为container system disk和pod data volume，container system disk的挂载目录是/，data volume的挂载目录可以随意指定;     - container system disk;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,100]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;     - data volume;         - 当前只能选择cloud类别;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,2000]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;         - 可以从快照创建磁盘; - pod 容器日志;     - default：默认在本地分配10MB的存储空间，自动rotate; - DNS-1123 label规范;     - 支持数字、小写字母、英文中划线“-”，但不支持以“-”作为开始字符和结束字符，1~63字符。;     - 例子: my-name, 123-abc; - DNS-1123 subdomain规范;     - 由一或多个标签组成，标签之间用'.'分隔；标签可由小写字母、数字、英文中划线'-'构成，标签首尾不可为'-'；所有字符总长度为1~253。;     - 例子: example.com, registry.docker-cn.com; - 其他;     - 创建完成后，pod 状态为running;     - maxCount为最大努力，不保证一定能达到maxCount; 
+            创建一台或多台 pod; - 创建pod需要通过实名认证; - 可用区;     - Pod所属的可用区;     - 创建Pod，需要使用中心可用区的相关资源：;         - 具有中心可用区属性的子网;         - 公网IP服务商; - hostname规范;     - 支持两种方式：以标签方式书写或以完整主机名方式书写;     - 标签规范;         - 0-9，a-z(不分大小写)和-（减号），其他的都是无效的字符串;         - 不能以减号开始，也不能以减号结尾;         - 最小1个字符，最大63个字符;     - 完整的主机名由一系列标签与点连接组成;         - 标签与标签之间使用“.”(点)进行连接;         - 不能以“.”(点)开始，也不能以“.”(点)结尾;         - 整个主机名（包括标签以及分隔点“.”）最多有63个ASCII字符; - 网络配置;     - 指定主网卡配置信息;         - 必须指定subnetId;         - 可以指定elasticIp规格来约束创建的弹性IP，带宽取值范围[1-100]Mbps，步进1Mbps;         - 可以指定网卡的主IP(primaryIpAddress)和辅助IP(secondaryIpAddresses)，此时maxCount只能为1;         - 可以设置网卡的自动删除autoDelete属性，指明是否删除实例时自动删除网卡;         - 安全组securityGroup需与子网Subnet在同一个私有网络VPC内;         - 一个 pod 创建时至多指定5个安全组;         - 主网卡deviceIndex设置为1; - 存储;     - volume分为container system disk和pod data volume，container system disk的挂载目录是/，data volume的挂载目录可以随意指定;     - container system disk;         - 支持cloud和local;         - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;         - 磁盘大小;             - 所有类型：范围[20,100]GB，步长为10G;         - 自动删除;             - 默认自动删除;         - 可以选择已存在的云硬盘;     - data volume;         -cloudDisk;           - 云硬盘类型可以选择hdd.std1、ssd.gp1、ssd.io1;           - 磁盘大小;               - 所有类型：范围[20,2000]GB，步长为10G;           - 自动删除;               - 默认自动删除;           - 可以选择已存在的云硬盘;           - 可以从快照创建磁盘;         -CFS;           - 从zbs去获取数据，挂载到当前的volume;         -configFile;           - 提前创建好configFile相关数据，然后挂载到volume; ; ; - pod 容器日志;     - default：默认在本地分配10MB的存储空间，自动rotate; - DNS-1123 label规范;     - 支持数字、小写字母、英文中划线“-”，但不支持以“-”作为开始字符和结束字符，1~63字符。;     - 例子: my-name, 123-abc; - DNS-1123 subdomain规范;     - 由一或多个标签组成，标签之间用'.'分隔；标签可由小写字母、数字、英文中划线'-'构成，标签首尾不可为'-'；所有字符总长度为1~253。;     - 例子: example.com, registry.docker-cn.com; - 其他;     - 创建完成后，pod 状态为running;     - maxCount为最大努力，不保证一定能达到maxCount; 
 
-            示例: jdc pod create-pods  --pod-spec {"":""} --max-count 0
+            示例: jdc pod create-pods  --pod-spec {"":""} --max-count 5
         ''',
     )
     def create_pods(self):
@@ -663,166 +933,30 @@ class PodController(BaseController):
 
     @expose(
         arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--resource-type'], dict(help="""(string) resourceType - 资源类型，支持 [container, pod, secret];  """, dest='resourceType',  required=True)),
+            (['--region-id'], dict(help="""(string) 地域ID """, dest='regionId',  required=False)),
+            (['--filters'], dict(help="""(array: filter) instanceTypes - 实例规格，精确匹配，支持多个; az - 可用区，精确匹配，支持多个;  """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查询资源的配额，支持：原生容器 pod 和 secret.;  ''',
+        help=''' 查询实例规格信息列表;  ''',
         description='''
-            查询资源的配额，支持：原生容器 pod 和 secret.; 
+            查询实例规格信息列表; 
 
-            示例: jdc pod describe-quota  --resource-type xxx
+            示例: jdc pod describe-instance-types 
         ''',
     )
-    def describe_quota(self):
+    def describe_instance_types(self):
         client_factory = ClientFactory('pod')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.pod.apis.DescribeQuotaRequest import DescribeQuotaRequest
+            from jdcloud_sdk.services.pod.apis.DescribeInstanceTypesRequest import DescribeInstanceTypesRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeQuotaRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--page-number'], dict(help="""(int) 页码；默认为1 """, dest='pageNumber', type=int, required=False)),
-            (['--page-size'], dict(help="""(int) 分页大小；默认为20；取值范围[10, 100] """, dest='pageSize', type=int, required=False)),
-            (['--filters'], dict(help="""(array: filter) name - secret名称，支持模糊搜索;  """, dest='filters',  required=False)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询 secret 列表。<br> ; 此接口支持分页查询，默认每页20条。;  ''',
-        description='''
-            查询 secret 列表。<br> ; 此接口支持分页查询，默认每页20条。; 
-
-            示例: jdc pod describe-secrets 
-        ''',
-    )
-    def describe_secrets(self):
-        client_factory = ClientFactory('pod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.pod.apis.DescribeSecretsRequest import DescribeSecretsRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSecretsRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) 机密数据名称，不能重复;  """, dest='name',  required=True)),
-            (['--secret-type'], dict(help="""(string) 机密数据的类型，目前仅支持：docker-registry 类型，用来和docker registry认证的类型。;  """, dest='secretType',  required=True)),
-            (['--data'], dict(help="""(dockerRegistryData) 机密的数据。<br>; key 的有效字符包括字母、数字、-、_和.； <br>; value 是 Base64 编码的字符串，不能包含换行符（在 linux 下使用 base64 -w 0选项），每个value长度上限为4KB，整个data的长度不能超过256KB; <br>; 必须包含server、username、password 字段，email 字段是可选的。<br>;  """, dest='data',  required=True)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 创建一个 secret，用于存放镜像仓库机密相关信息。;  ''',
-        description='''
-            创建一个 secret，用于存放镜像仓库机密相关信息。; 
-
-            示例: jdc pod create-secret  --name xxx --secret-type xxx --data {"":""}
-        ''',
-    )
-    def create_secret(self):
-        client_factory = ClientFactory('pod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.pod.apis.CreateSecretRequest import CreateSecretRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = CreateSecretRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) Secret Name """, dest='name',  required=True)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 查询单个 secret 详情;  ''',
-        description='''
-            查询单个 secret 详情; 
-
-            示例: jdc pod describe-secret  --name xxx
-        ''',
-    )
-    def describe_secret(self):
-        client_factory = ClientFactory('pod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.pod.apis.DescribeSecretRequest import DescribeSecretRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DescribeSecretRequest(params_dict, headers)
-            resp = client.send(req)
-            Printer.print_result(resp)
-        except ImportError:
-            print('{"error":"This api is not supported, please use the newer version"}')
-        except Exception as e:
-            print(e)
-
-    @expose(
-        arguments=[
-            (['--region-id'], dict(help="""(string) Region ID """, dest='regionId',  required=False)),
-            (['--name'], dict(help="""(string) Secret Name """, dest='name',  required=True)),
-            (['--input-json'], dict(help='(json) 以JSON字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式：--input-json file:///xxxx.json', dest='input_json', required=False)),
-            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
-        ],
-        formatter_class=RawTextHelpFormatter,
-        help=''' 删除单个 secret;  ''',
-        description='''
-            删除单个 secret; 
-
-            示例: jdc pod delete-secret  --name xxx
-        ''',
-    )
-    def delete_secret(self):
-        client_factory = ClientFactory('pod')
-        client = client_factory.get(self.app)
-        if client is None:
-            return
-
-        try:
-            from jdcloud_sdk.services.pod.apis.DeleteSecretRequest import DeleteSecretRequest
-            params_dict = collect_user_args(self.app)
-            headers = collect_user_headers(self.app)
-            req = DeleteSecretRequest(params_dict, headers)
+            req = DescribeInstanceTypesRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -878,7 +1012,7 @@ class PodController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-container','exec-create','exec-get-exit-code','resize-tty','describe-instance-types','describe-pods','create-pods','check-pod-name','describe-pod','delete-pod','start-pod','stop-pod','modify-pod-attribute','associate-elastic-ip','disassociate-elastic-ip','get-container-logs','rebuild-pod','resize-pod','describe-quota','describe-secrets','create-secret','describe-secret','delete-secret',], required=True)),
+            (['--api'], dict(help="""(string) api name """, choices=['describe-secrets','create-secret','describe-secret','delete-secret','create-config-file','describe-config-file','delete-config-file','update-config-file','describe-quota','describe-container','exec-create','exec-get-exit-code','resize-tty','describe-pods','create-pods','check-pod-name','describe-pod','delete-pod','start-pod','stop-pod','modify-pod-attribute','associate-elastic-ip','disassociate-elastic-ip','get-container-logs','rebuild-pod','resize-pod','describe-instance-types',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

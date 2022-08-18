@@ -43,6 +43,7 @@ class PortalController(BaseController):
             (['--lang'], dict(help="""(string) 中文cn 英文en """, dest='lang',  required=True)),
             (['--ak'], dict(help="""(string) 外部使用ak； """, dest='ak',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -77,6 +78,7 @@ class PortalController(BaseController):
             (['--id'], dict(help="""(int) 语言类型；中文cn；英文en； """, dest='id', type=int, required=True)),
             (['--ak'], dict(help="""(string) 外部使用ak； """, dest='ak',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -84,7 +86,7 @@ class PortalController(BaseController):
         description='''
             产品页列表查询接口; 。
 
-            示例: jdc portal describe-products-by-id  --id 0 --ak xxx
+            示例: jdc portal describe-products-by-id  --id 5 --ak xxx
         ''',
     )
     def describe_products_by_id(self):

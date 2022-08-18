@@ -1,4 +1,62 @@
 {
+    "describe-secrets":{
+        "pageNumber":"",
+        "pageSize":"",
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-secret":{
+        "name":"",
+        "secretType":"",
+        "data":{
+            "server":"",
+            "username":"",
+            "password":"",
+            "email":""
+        },
+        "regionId":""
+    },
+    "describe-secret":{
+        "regionId":"",
+        "name":""
+    },
+    "delete-secret":{
+        "regionId":"",
+        "name":""
+    },
+    "create-config-file":{
+        "name":"",
+        "data":[{
+            "key":"",
+            "value":""
+        }],
+        "regionId":""
+    },
+    "describe-config-file":{
+        "regionId":"",
+        "name":""
+    },
+    "delete-config-file":{
+        "regionId":"",
+        "name":""
+    },
+    "update-config-file":{
+        "name":"",
+        "data":[{
+            "key":"",
+            "value":""
+        }],
+        "regionId":"",
+        "name":""
+    },
+    "describe-quota":{
+        "resourceType":"",
+        "regionId":""
+    },
     "describe-container":{
         "regionId":"",
         "podId":"",
@@ -25,14 +83,6 @@
         "podId":"",
         "containerName":""
     },
-    "describe-instance-types":{
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
     "describe-pods":{
         "pageNumber":"",
         "pageSize":"",
@@ -56,6 +106,7 @@
             "terminationGracePeriodSeconds":"",
             "instanceType":"",
             "az":"",
+            "agId":"",
             "dnsConfig":{
                 "nameservers":"",
                 "searches":"",
@@ -97,9 +148,11 @@
                     "secondaryIpCount":"",
                     "securityGroups":"",
                     "sanityCheck":"",
-                    "description":""
+                    "description":"",
+                    "ipv6AddressCount":""
                 }
-            }
+            },
+            "userTags":[""]
         },
         "maxCount":"",
         "clientToken":"",
@@ -224,37 +277,12 @@
         "regionId":"",
         "podId":""
     },
-    "describe-quota":{
-        "resourceType":"",
-        "regionId":""
-    },
-    "describe-secrets":{
-        "pageNumber":"",
-        "pageSize":"",
+    "describe-instance-types":{
         "filters":[{
             "name":"",
             "operator":"",
             "values":""
         }],
         "regionId":""
-    },
-    "create-secret":{
-        "name":"",
-        "secretType":"",
-        "data":{
-            "server":"",
-            "username":"",
-            "password":"",
-            "email":""
-        },
-        "regionId":""
-    },
-    "describe-secret":{
-        "regionId":"",
-        "name":""
-    },
-    "delete-secret":{
-        "regionId":"",
-        "name":""
     },
 }

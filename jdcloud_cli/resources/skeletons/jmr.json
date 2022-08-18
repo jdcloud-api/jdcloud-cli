@@ -1,38 +1,86 @@
 {
+    "idata-cluster":{
+        "regionId":"",
+        "dataCenter":""
+    },
+    "get-software-info":{
+        "version":"",
+        "regionId":""
+    },
+    "get-jmr-version-list":{
+        "regionId":""
+    },
+    "monitor-label-list":{
+        "regionId":"",
+        "clusterId":""
+    },
     "describe-cluster":{
         "regionId":"",
         "clusterId":""
     },
-    "delete-cluster":{
+    "describe-clusters":{
+        "dataCenter":"",
+        "status":"",
+        "clusterName":"",
+        "orderBy":"",
+        "pageNum":"",
+        "pageSize":"",
+        "regionId":""
+    },
+    "release-cluster":{
         "regionId":"",
         "clusterId":""
     },
-    "describe-clusters":{
-        "pageNumber":"",
-        "pageSize":"",
+    "cluster-expansion":{
+        "clusterExpansion":{
+            "clusterId":"",
+            "expansionNum":"",
+            "nodeType":""
+        },
+        "clientToken":"",
+        "regionId":""
+    },
+    "cluster-reduction":{
+        "clusterReduction":{
+            "clusterId":"",
+            "reserveNum":"",
+            "nodeType":""
+        },
+        "clientToken":"",
         "regionId":""
     },
     "create-cluster":{
         "clusterSpec":{
-            "clusterName":"",
-            "osUserPassword":"",
-            "clusterVersion":"",
-            "clusterPaymentType":"",
-            "clusterService":"",
-            "clusterOss":"",
-            "clusterHa":"",
-            "clusterVpc":"",
-            "clusterVpcSubnet":"",
-            "clusterBandwidth":"",
-            "clusterMasterNodeModel":"",
-            "clusterMasterNodeDiskType":"",
-            "clusterMasterNodeDiskSize":"",
-            "clusterMasterNodeDiskCount":"",
-            "clusterCoreNodeModel":"",
-            "clusterCoreNodeDiskType":"",
-            "clusterCoreNodeDiskSize":"",
-            "clusterCoreNodeDiskCount":"",
-            "clusterCoreNodeCount":""
+            "name":"",
+            "password":"",
+            "version":"",
+            "payType":"",
+            "masterNodeCount":"",
+            "masterSystemDiskType":"",
+            "masterSystemDiskVolume":"",
+            "masterSystemDiskIops":"",
+            "masterDiskType":"",
+            "masterDiskVolume":"",
+            "masterDiskIops":"",
+            "masterInstanceType":"",
+            "slaveNodeCount":"",
+            "slaveSystemDiskType":"",
+            "slaveSystemDiskVolume":"",
+            "slaveSystemDiskIops":"",
+            "slaveDiskType":"",
+            "slaveDiskVolume":"",
+            "slaveDiskIops":"",
+            "coreInstanceType":"",
+            "jssFlag":"",
+            "dataCenter":"",
+            "softwareList":"",
+            "haFlag":"",
+            "vpcId":"",
+            "vpcSubnetId":"",
+            "az":"",
+            "createOuterIpFlag":"",
+            "createSecurityGroupFlag":"",
+            "securityGroupId":""
         },
         "clientToken":"",
         "regionId":""

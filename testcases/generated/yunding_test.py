@@ -23,6 +23,60 @@ import json
 
 class YundingTest(unittest.TestCase):
 
+    def test_put_product_metric_data(self):
+        cmd = """python ../../main.py yunding put-product-metric-data  --app-code 'xxx' --service-code 'xxx' --region 'xxx' --resource-id 'xxx' --data-points '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_put_product_metric_data(self):
+        cmd = """python ../../main.py yunding put-product-metric-data  --app-code 'xxx' --service-code 'xxx' --region 'xxx' --resource-id 'xxx' --data-points '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_subnets(self):
+        cmd = """python ../../main.py yunding describe-subnets """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_subnet(self):
+        cmd = """python ../../main.py yunding create-subnet  --vpc-id 'xxx' --subnet-name 'xxx' --address-prefix 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_subnet(self):
+        cmd = """python ../../main.py yunding describe-subnet  --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_subnet(self):
+        cmd = """python ../../main.py yunding delete-subnet  --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
     def test_assign_secondary_ips(self):
         cmd = """python ../../main.py yunding assign-secondary-ips  --network-interface-id 'xxx'"""
         with os.popen(cmd) as f:
@@ -34,6 +88,51 @@ class YundingTest(unittest.TestCase):
 
     def test_unassign_secondary_ips(self):
         cmd = """python ../../main.py yunding unassign-secondary-ips  --network-interface-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_network_interface(self):
+        cmd = """python ../../main.py yunding describe-network-interface  --network-interface-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_network_interface(self):
+        cmd = """python ../../main.py yunding delete-network-interface  --network-interface-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_network_interfaces(self):
+        cmd = """python ../../main.py yunding describe-network-interfaces """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_network_interface(self):
+        cmd = """python ../../main.py yunding create-network-interface  --subnet-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_tasks(self):
+        cmd = """python ../../main.py yunding describe-tasks  --instance-id 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -115,6 +214,15 @@ class YundingTest(unittest.TestCase):
 
     def test_grant_rds_privilege(self):
         cmd = """python ../../main.py yunding grant-rds-privilege  --instance-id 'xxx' --account-name 'xxx' --account-privileges '[{"":""}]'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_revoke_privilege(self):
+        cmd = """python ../../main.py yunding revoke-privilege  --instance-id 'xxx' --account-name 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

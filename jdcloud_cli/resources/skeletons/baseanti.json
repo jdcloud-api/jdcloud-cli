@@ -1,26 +1,4 @@
 {
-    "describe-attack-logs":{
-        "pageNumber":"",
-        "pageSize":"",
-        "startTime":"",
-        "endTime":"",
-        "ip":[""]
-    },
-    "describe-attack-statistics":{
-        "startTime":"",
-        "endTime":"",
-        "ip":[""]
-    },
-    "describe-attack-type-count":{
-        "startTime":"",
-        "endTime":"",
-        "ip":[""]
-    },
-    "describe-ip-monitor-flow":{
-        "startTime":"",
-        "endTime":"",
-        "ip":[""]
-    },
     "describe-ip-resources":{
         "ip":"",
         "regionId":""
@@ -28,16 +6,25 @@
     "describe-elastic-ip-resources":{
         "pageNumber":"",
         "pageSize":"",
+        "ip":"",
         "regionId":""
     },
     "describe-cps-ip-resources":{
         "pageNumber":"",
         "pageSize":"",
+        "ip":"",
         "regionId":""
     },
     "describe-ccs-ip-resources":{
         "pageNumber":"",
         "pageSize":"",
+        "ip":"",
+        "regionId":""
+    },
+    "describe-waf-ip-resources":{
+        "pageNumber":"",
+        "pageSize":"",
+        "ip":"",
         "regionId":""
     },
     "describe-ip-resource-info":{
@@ -78,5 +65,27 @@
         "endTime":"",
         "regionId":"",
         "ip":""
+    },
+    "describe-attack-logs":{
+        "pageNumber":"",
+        "pageSize":"",
+        "startTime":"",
+        "endTime":"",
+        "ip":[""]
+    },
+    "describe-attack-statistics":{
+        "startTime":"",
+        "endTime":"",
+        "ip":[""]
+    },
+    "describe-attack-type-count":{
+        "startTime":"",
+        "endTime":"",
+        "ip":[""]
+    },
+    "describe-ip-monitor-flow":{
+        "startTime":"",
+        "endTime":"",
+        "ip":[""]
     },
 }

@@ -23,60 +23,6 @@ import json
 
 class StreamcomputerTest(unittest.TestCase):
 
-    def test_describe_job(self):
-        cmd = """python ../../main.py streamcomputer describe-job  --job-id '5' --namespace-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_add_or_update_job(self):
-        cmd = """python ../../main.py streamcomputer add-or-update-job  --job-str '{"":""}'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_delete_job(self):
-        cmd = """python ../../main.py streamcomputer delete-job  --namespace-id 'xxx' --job-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_get_job_list(self):
-        cmd = """python ../../main.py streamcomputer get-job-list  --namespace-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_start_job(self):
-        cmd = """python ../../main.py streamcomputer start-job  --namespace-id 'xxx' --job-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_stop_job(self):
-        cmd = """python ../../main.py streamcomputer stop-job  --namespace-id 'xxx' --job-id '5'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_query_namespaces(self):
         cmd = """python ../../main.py streamcomputer query-namespaces """
         with os.popen(cmd) as f:
@@ -151,6 +97,60 @@ class StreamcomputerTest(unittest.TestCase):
 
     def test_get_storage_list(self):
         cmd = """python ../../main.py streamcomputer get-storage-list  --storage-type 'xxx' --namespace-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_job(self):
+        cmd = """python ../../main.py streamcomputer describe-job  --job-id '5' --namespace-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_add_or_update_job(self):
+        cmd = """python ../../main.py streamcomputer add-or-update-job  --job-str '{"":""}'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_job(self):
+        cmd = """python ../../main.py streamcomputer delete-job  --namespace-id 'xxx' --job-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_get_job_list(self):
+        cmd = """python ../../main.py streamcomputer get-job-list  --namespace-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_start_job(self):
+        cmd = """python ../../main.py streamcomputer start-job  --namespace-id 'xxx' --job-id '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_stop_job(self):
+        cmd = """python ../../main.py streamcomputer stop-job  --namespace-id 'xxx' --job-id '5'"""
         with os.popen(cmd) as f:
             content = f.read()
 

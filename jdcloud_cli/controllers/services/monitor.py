@@ -40,6 +40,7 @@ class MonitorController(BaseController):
         arguments=[
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
+            (['--data-owner'], dict(help="""(int) 数据所有者，1云监控控制台; 2云鼎。默认为1 """, dest='dataOwner', type=int, required=False)),
             (['--service-code'], dict(help="""(string) 产品线标识，同一个产品线下可能存在多个product，如(redis下有redis2.8cluster、redis4.0) """, dest='serviceCode',  required=False)),
             (['--product'], dict(help="""(string) 产品标识，如redis下分多个产品(redis2.8cluster、redis4.0)。同时指定serviceCode与product时，product优先生效 """, dest='product',  required=False)),
             (['--dimension'], dict(help="""(string) 产品下的维度标识，指定dimension时必须指定product """, dest='dimension',  required=False)),
@@ -49,6 +50,7 @@ class MonitorController(BaseController):
             (['--rule-status'], dict(help="""(int) 资源的规则状态  2：报警、4：数据不足 """, dest='ruleStatus', type=int, required=False)),
             (['--filters'], dict(help="""(array: filter) 服务码或资源Id列表; products - 产品product，精确匹配，支持多个; resourceIds - 资源Id，精确匹配，支持多个（必须指定serviceCode、product或dimension，否则该参数不生效）; alarmIds - 规则id，精确匹配，支持多个 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -82,8 +84,10 @@ class MonitorController(BaseController):
             (['--auto-scaling-policy-id'], dict(help="""(string) 弹性伸缩组Id。注：仅ag\asg产品线内部使用 """, dest='autoScalingPolicyId',  required=False)),
             (['--base-contact'], dict(help="""(array: baseContact) 告警通知联系人 """, dest='baseContact',  required=False)),
             (['--client-token'], dict(help="""(string) 幂等性校验参数,最长36位,若两个请求clientToken相等，则返回第一次创建的规则id，只创建一次规则 """, dest='clientToken',  required=True)),
+            (['--data-owner'], dict(help="""(int) 数据所有者，1云监控控制台; 2云鼎。默认为1 """, dest='dataOwner', type=int, required=False)),
             (['--dimension'], dict(help="""(string) 资源维度，可用的维度请使用 describeProductsForAlarm接口查询 """, dest='dimension',  required=False)),
             (['--enabled'], dict(help="""(int) 是否启用, 1表示启用规则，0表示禁用规则，默认为1 """, dest='enabled', type=int, required=False)),
+            (['--multi-web-hook'], dict(help="""(array: webHookOption) url回调设置数组 """, dest='multiWebHook',  required=False)),
             (['--notice-option'], dict(help="""(array: noticeOption) 通知策略 """, dest='noticeOption',  required=False)),
             (['--product'], dict(help="""(string) 资源类型, 可用的资源类型列表请使用 describeProductsForAlarm接口查询。 """, dest='product',  required=True)),
             (['--resource-option'], dict(help="""(resourceOption) NA """, dest='resourceOption',  required=True)),
@@ -93,6 +97,7 @@ class MonitorController(BaseController):
             (['--tags'], dict(help="""(object) 资源维度，指定监控数据实例的维度标签,如resourceId=id。(请确认资源的监控数据带有该标签，否则规则会报数据不足) """, dest='tags',  required=False)),
             (['--web-hook-option'], dict(help="""(webHookOption) NA """, dest='webHookOption',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -125,6 +130,7 @@ class MonitorController(BaseController):
         arguments=[
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -158,8 +164,10 @@ class MonitorController(BaseController):
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId',  required=True)),
             (['--auto-scaling-policy-id'], dict(help="""(string) 弹性伸缩组Id。注：仅ag\asg产品线内部使用 """, dest='autoScalingPolicyId',  required=False)),
             (['--base-contact'], dict(help="""(array: baseContact) 告警通知联系人 """, dest='baseContact',  required=False)),
+            (['--data-owner'], dict(help="""(int) 数据所有者，1云监控控制台; 2云鼎。默认为1 """, dest='dataOwner', type=int, required=False)),
             (['--dimension'], dict(help="""(string) 资源维度，可用的维度请使用 describeProductsForAlarm接口查询 """, dest='dimension',  required=False)),
             (['--enabled'], dict(help="""(int) 是否启用, 1表示启用规则，0表示禁用规则，默认为1 """, dest='enabled', type=int, required=False)),
+            (['--multi-web-hook'], dict(help="""(array: webHookOption) url回调设置数组 """, dest='multiWebHook',  required=False)),
             (['--notice-option'], dict(help="""(array: noticeOption) 通知策略 """, dest='noticeOption',  required=False)),
             (['--product'], dict(help="""(string) 资源类型, 可用的资源类型列表请使用 describeProductsForAlarm接口查询。 """, dest='product',  required=True)),
             (['--resource-option'], dict(help="""(resourceOption) NA """, dest='resourceOption',  required=True)),
@@ -169,6 +177,7 @@ class MonitorController(BaseController):
             (['--tags'], dict(help="""(object) 资源维度，指定监控数据实例的维度标签,如resourceId=id。(请确认资源的监控数据带有该标签，否则规则会报数据不足) """, dest='tags',  required=False)),
             (['--web-hook-option'], dict(help="""(webHookOption) NA """, dest='webHookOption',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -201,6 +210,7 @@ class MonitorController(BaseController):
         arguments=[
             (['--alarm-id'], dict(help="""(string) 规则id """, dest='alarmId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -236,6 +246,7 @@ class MonitorController(BaseController):
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
             (['--reference-type'], dict(help="""(int) 联系人类型。0,联系人分组; 1,联系人 """, dest='referenceType', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -271,6 +282,7 @@ class MonitorController(BaseController):
             (['--dimension'], dict(help="""(string) 产品维度，必须指定serviceCode或product才生效。 """, dest='dimension',  required=False)),
             (['--metric-type'], dict(help="""(int) metric类型，取值0、1；默认值：0（常规指标，用于控制台创建报警规则）、1（其它） """, dest='metricType', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -304,6 +316,7 @@ class MonitorController(BaseController):
             (['--service-code'], dict(help="""(string) 产品线，从产品线维度筛选 """, dest='serviceCode',  required=False)),
             (['--product'], dict(help="""(string) 产品类型,从产品维度筛选、如redis2.8cluster\redis2.8instance。当serviceCode与product同时指定时，product优先级更高 """, dest='product',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -337,6 +350,7 @@ class MonitorController(BaseController):
             (['--alarm-ids'], dict(help="""(array: string) 告警规则的ID列表 """, dest='alarmIds',  required=False)),
             (['--state'], dict(help="""(int) 启用:1,禁用0, """, dest='state', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -369,6 +383,7 @@ class MonitorController(BaseController):
         arguments=[
             (['--page-number'], dict(help="""(int) 当前所在页，默认为1 """, dest='pageNumber', type=int, required=False)),
             (['--page-size'], dict(help="""(int) 页面大小，默认为20；取值范围[1, 100] """, dest='pageSize', type=int, required=False)),
+            (['--data-owner'], dict(help="""(int) 数据所有者，1云监控控制台; 2云鼎。默认为1 """, dest='dataOwner', type=int, required=False)),
             (['--service-code'], dict(help="""(string) 产品线标识，同一个产品线下可能存在多个product，如(redis下有redis2.8cluster、redis4.0) """, dest='serviceCode',  required=False)),
             (['--product'], dict(help="""(string) 产品标识,默认返回该product下所有dimension的数据。eg:product=redis2.8cluster（redis2.8cluster产品下包含redis2.8-shard与redis2.8-proxy、redis2.8-instance多个维度)。 """, dest='product',  required=False)),
             (['--dimension'], dict(help="""(string) 维度标识、指定该参数时，查询只返回该维度的数据。如redis2.8cluster下存在实例、分片等多个维度 """, dest='dimension',  required=False)),
@@ -381,6 +396,7 @@ class MonitorController(BaseController):
             (['--rule-name'], dict(help="""(string) 规则名称模糊搜索 """, dest='ruleName',  required=False)),
             (['--filters'], dict(help="""(array: filter) serviceCodes - 产品线servicecode，精确匹配，支持多个; resourceIds - 资源Id，精确匹配，支持多个（必须指定serviceCode才会在该serviceCode下根据resourceIds过滤，否则该参数不生效）; alarmIds - 规则Id，精确匹配，支持多个 """, dest='filters',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -415,6 +431,7 @@ class MonitorController(BaseController):
             (['--dimension'], dict(help="""(string) NA """, dest='dimension',  required=False)),
             (['--type'], dict(help="""(int) metric的类型，取值0(控制台展示)、1(内部使用，控制台不展示)、2(所有).默认取0 """, dest='type', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -456,7 +473,9 @@ class MonitorController(BaseController):
             (['--time-interval'], dict(help="""(string) 查询的时间间隔，最大不超过30天，支持分钟级别,小时级别，天级别，例如：1m、1h、1d """, dest='timeInterval',  required=False)),
             (['--aggr-type'], dict(help="""(string) 聚合方式：max avg min等,用于不同维度之间聚合 """, dest='aggrType',  required=False)),
             (['--down-aggr-type'], dict(help="""(string) 聚合方式：max avg min等,用于将维度内一个周期数据聚合为一个点的聚合方式,默认last """, dest='downAggrType',  required=False)),
+            (['--time-offset'], dict(help="""(string) 时间偏移，可传入30s、1m、1h、1d等数字+单位的形式(其中s秒，m分，h时，d天)，当业务侧数据上报存在延迟时，可以传入该参数，该参数会使查询的时间段整体向前偏移.偏移后的开始时间若早于30天前,则开始时间自动设置为30天前;若偏移后结束时间早于30天前，则无效 """, dest='timeOffset',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -464,20 +483,20 @@ class MonitorController(BaseController):
         description='''
             根据不同的聚合方式将metric的数据聚合为一个点。downAggrType：last(最后一个点)、max(最大值)、min(最小值)、avg(平均值)。该接口返回值为上报metric的原始值，没有做单位转换。metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>。
 
-            示例: jdc monitor describe-one-data-point  --metric xxx --service-code xxx --resource-id xxx
+            示例: jdc monitor last-downsample  --metric xxx --service-code xxx --resource-id xxx
         ''',
     )
-    def describe_one_data_point(self):
+    def last_downsample(self):
         client_factory = ClientFactory('monitor')
         client = client_factory.get(self.app)
         if client is None:
             return
 
         try:
-            from jdcloud_sdk.services.monitor.apis.DescribeOneDataPointRequest import DescribeOneDataPointRequest
+            from jdcloud_sdk.services.monitor.apis.LastDownsampleRequest import LastDownsampleRequest
             params_dict = collect_user_args(self.app)
             headers = collect_user_headers(self.app)
-            req = DescribeOneDataPointRequest(params_dict, headers)
+            req = LastDownsampleRequest(params_dict, headers)
             resp = client.send(req)
             Printer.print_result(resp)
         except ImportError:
@@ -491,22 +510,23 @@ class MonitorController(BaseController):
             (['--metric'], dict(help="""(string) 监控项英文标识(id) """, dest='metric',  required=True)),
             (['--aggr-type'], dict(help="""(string) 聚合方式，用于不同时间轴上的聚合。如balance产品同一个resourceId下存在port=80和port=8080等多种维度。可选值参考:sum、avg、min、max """, dest='aggrType',  required=False)),
             (['--down-sample-type'], dict(help="""(string) 采样方式，用于在时间轴维度上将聚合周期内的数据聚合为一个点。可选值参考：sum(聚合周期内的数据求和)、avg(求平均)、last(最新值)、min(最小值)、max(最大值) """, dest='downSampleType',  required=False)),
-            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='startTime',  required=False)),
-            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12-11T00:00:00+0800（为空时，将由startTime与timeInterval计算得出）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800） """, dest='endTime',  required=False)),
-            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval默认为1h，当前时间往 前1h """, dest='timeInterval',  required=False)),
+            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800）; 开始时间不得晚于当前时间,开始时间不得早于 30 天前;  """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间, UTC时间，格式：2016-12-11T00:00:00+0800（为空时，将由startTime与timeInterval计算得出）（注意在url中+要转译为%2B故url中为2016-12-11T00:00:00%2B0800）; 默认为当前时间,结束时间不得晚于当前时间. 如果晚于, 会被默认设成当前时间, 结束时间不得早于 30 天前.;  """, dest='endTime',  required=False)),
+            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval默认为1h，当前时间往 前1h; 如果指定了 startTime 和 endTime,可以不用设置. 默认的,三个参数都不设置查询 1h 内数据.; timeInterval 默认值 1h; endTime 默认值, 当前时间; startTime 默认值,  endTime - timeInterval;  """, dest='timeInterval',  required=False)),
             (['--tags'], dict(help="""(array: tagFilter) 监控指标数据的维度信息,根据tags来筛选指标数据不同的维度 """, dest='tags',  required=False)),
-            (['--group-by'], dict(help="""(bool) 是否对查询的tags分组 """, dest='groupBy',  required=False)),
-            (['--rate'], dict(help="""(bool) 是否求速率 """, dest='rate',  required=False)),
+            (['--group-by'], dict(help="""(bool) 是否对查询的tags分组 """, dest='groupBy', type=bool, required=False)),
+            (['--rate'], dict(help="""(bool) 是否求速率。仅对累积类型指标有意义, 默认 false """, dest='rate', type=bool, required=False)),
             (['--service-code'], dict(help="""(string) 资源的类型，取值vm, lb, ip, database 等,<a href="https://docs.jdcloud.com/cn/monitoring/api/describeservices?content=API&SOP=JDCloud">describeServices</a>：查询己接入云监控的产品线列表 """, dest='serviceCode',  required=False)),
             (['--dimension'], dict(help="""(string) 资源的维度。查询serviceCode下可用的维度请使用describeServices接口 """, dest='dimension',  required=False)),
             (['--resource-id'], dict(help="""(string) 资源的uuid """, dest='resourceId',  required=True)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
-        help=''' 查看某资源单个监控项数据，metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>，可以使用接口<a href="https://docs.jdcloud.com/cn/monitoring/metrics">describeMetrics</a>：查询产品线可用的metric列表。 ''',
+        help=''' 查看某资源单个监控项数据.; metric介绍: <a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>; 可以使用接口:<a href="https://docs.jdcloud.com/cn/monitoring/metrics">describeMetrics</a>:查询产品线可用的metric列表。; 查询起止时间统一向下对齐10s, 举例:开始时间为 08:45:45 会对齐到08:45:40;  ''',
         description='''
-            查看某资源单个监控项数据，metric介绍：<a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>，可以使用接口<a href="https://docs.jdcloud.com/cn/monitoring/metrics">describeMetrics</a>：查询产品线可用的metric列表。。
+            查看某资源单个监控项数据.; metric介绍: <a href="https://docs.jdcloud.com/cn/monitoring/metrics">Metrics</a>; 可以使用接口:<a href="https://docs.jdcloud.com/cn/monitoring/metrics">describeMetrics</a>:查询产品线可用的metric列表。; 查询起止时间统一向下对齐10s, 举例:开始时间为 08:45:45 会对齐到08:45:40; 。
 
             示例: jdc monitor describe-metric-data  --metric xxx --resource-id xxx
         ''',
@@ -531,9 +551,51 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
+            (['--region-id'], dict(help="""(string) region """, dest='regionId',  required=False)),
+            (['--tag-key'], dict(help="""(string) region """, dest='tagKey',  required=True)),
+            (['--service-code'], dict(help="""(string) serviceCode """, dest='serviceCode',  required=True)),
+            (['--resource-id'], dict(help="""(string) 资源标识 """, dest='resourceId',  required=True)),
+            (['--metric'], dict(help="""(string) metric """, dest='metric',  required=False)),
+            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间(如不传,则默认为1时前)， UTC时间，格式：2016-12-11T00:00:00+0800（注意在url中+,:要转译,如2019-10-23T10%3A33%3A31%2B0800）。对于非连续的时序数据，开始时间无法保证准确性 """, dest='startTime',  required=False)),
+            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间(如不传,则默认为当前)， UTC时间，格式：2016-12-11T00:00:00+0800（注意在url中+,:要转译,如2019-10-23T10%3A33%3A31%2B0800）.对于非连续的时序数据，结束时间无法保证准确性 """, dest='endTime',  required=False)),
+            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval默认为1h，当前时间往 前1h """, dest='timeInterval',  required=False)),
+            (['--tags'], dict(help="""(array: tagFilter) 根据tags进行筛选(传入*和不传的效果一致) """, dest='tags',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 查询某资源下指定tag key的tag value ''',
+        description='''
+            查询某资源下指定tag key的tag value。
+
+            示例: jdc monitor describe-tag-values  --tag-key xxx --service-code xxx --resource-id xxx
+        ''',
+    )
+    def describe_tag_values(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.DescribeTagValuesRequest import DescribeTagValuesRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeTagValuesRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--filters'], dict(help="""(array: filter) 服务码列表; filter name 为serviceCodes表示查询多个产品线的规则 """, dest='filters',  required=False)),
             (['--product-type'], dict(help="""(int) 要查询的产品线类型   0：all    1：资源监控   2：其它   默认：1。若指定了查询的serviceCode，则忽略该参数 """, dest='productType', type=int, required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -564,8 +626,83 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
+            (['--app-code'], dict(help="""(string) 目前统一用jcloud """, dest='appCode',  required=True)),
+            (['--service-code'], dict(help="""(string) 资源的类型，取值vm,ip,database,storage,disk,cdn,redis,balance,nat_gw,db_ro,vpn,ddos等,新接入的产品要求与opentapi命名的产品线名称一致 """, dest='serviceCode',  required=True)),
+            (['--region'], dict(help="""(string) 地域信息，如 cn-north-1 等 """, dest='region',  required=True)),
+            (['--resource-id'], dict(help="""(string) 资源的唯一表示，一般为uuid """, dest='resourceId',  required=True)),
+            (['--data-points'], dict(help="""(array: dataPointX) 监控数据点 """, dest='dataPoints',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 监控数据上报。 ''',
+        description='''
+            监控数据上报。。
+
+            示例: jdc monitor put-product-metric-data  --app-code xxx --service-code xxx --region xxx --resource-id xxx --data-points ['{"":""}']
+        ''',
+    )
+    def put_product_metric_data(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.PutRequest import PutRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = PutRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--app-code'], dict(help="""(string) 目前统一用jcloud """, dest='appCode',  required=True)),
+            (['--service-code'], dict(help="""(string) 资源的类型，取值vm,ip,database,storage,disk,cdn,redis,balance,nat_gw,db_ro,vpn,ddos等,新接入的产品要求与opentapi命名的产品线名称一致 """, dest='serviceCode',  required=True)),
+            (['--region'], dict(help="""(string) 地域信息，如 cn-north-1 等 """, dest='region',  required=True)),
+            (['--resource-id'], dict(help="""(string) 资源的唯一表示，一般为uuid """, dest='resourceId',  required=True)),
+            (['--data-points'], dict(help="""(array: dataPointX) 监控数据点 """, dest='dataPoints',  required=True)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 监控数据上报。 ''',
+        description='''
+            监控数据上报。。
+
+            示例: jdc monitor put-product-metric-data  --app-code xxx --service-code xxx --region xxx --resource-id xxx --data-points ['{"":""}']
+        ''',
+    )
+    def put_product_metric_data(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.PutProductMetricDataRequest import PutProductMetricDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = PutProductMetricDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
             (['--metric-data-list'], dict(help="""(array: metricDataCm) 数据参数 """, dest='metricDataList',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -598,6 +735,7 @@ class MonitorController(BaseController):
         arguments=[
             (['--metric-data-list'], dict(help="""(array: metricDataCm) 数据参数 """, dest='metricDataList',  required=False)),
             (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
             (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
         ],
         formatter_class=RawTextHelpFormatter,
@@ -628,7 +766,45 @@ class MonitorController(BaseController):
 
     @expose(
         arguments=[
-            (['--api'], dict(help="""(string) api name """, choices=['describe-alarms','create-alarm','describe-alarm','update-alarm','delete-alarms','describe-alarm-contacts','describe-metrics-for-alarm','describe-products-for-alarm','enable-alarms','describe-alarm-history','describe-metrics','describe-one-data-point','describe-metric-data','describe-services','put-custom-metric-data','put-custom-metric-data',], required=True)),
+            (['--region-id'], dict(help="""(string) region """, dest='regionId',  required=False)),
+            (['--namespace-uid'], dict(help="""(string) namespace """, dest='namespaceUID',  required=True)),
+            (['--end-time'], dict(help="""(string) 查询时间范围的结束时间， UTC时间，格式：2016-12-11T00:00:00+0800（为空时，将由startTime与timeInterval计算得出） """, dest='endTime',  required=False)),
+            (['--query'], dict(help="""(queryOption) NA """, dest='query',  required=True)),
+            (['--start-time'], dict(help="""(string) 查询时间范围的开始时间， UTC时间，格式：2016-12-11T00:00:00+0800 """, dest='startTime',  required=False)),
+            (['--time-interval'], dict(help="""(string) 时间间隔：1h，6h，12h，1d，3d，7d，14d，固定时间间隔，timeInterval默认为1h，当前时间往 前1h """, dest='timeInterval',  required=False)),
+            (['--input-json'], dict(help='(json) 以json字符串或文件绝对路径形式作为输入参数。\n字符串方式举例：--input-json \'{"field":"value"}\';\n文件格式举例：--input-json file:///xxxx.json', dest='input_json', required=False)),
+            (['--jdcloud-header'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='jdcloudHeaders', required=False)),
+            (['--headers'], dict(help="""(json) 用户自定义Header，举例：'{"x-jdcloud-security-token":"abc","test":"123"}'""", dest='headers', required=False)),
+        ],
+        formatter_class=RawTextHelpFormatter,
+        help=''' 通过指定维度查询自定义监控的数据 ''',
+        description='''
+            通过指定维度查询自定义监控的数据。
+
+            示例: jdc monitor describe-custom-metric-data  --namespace-uid xxx --query '{"":""}'
+        ''',
+    )
+    def describe_custom_metric_data(self):
+        client_factory = ClientFactory('monitor')
+        client = client_factory.get(self.app)
+        if client is None:
+            return
+
+        try:
+            from jdcloud_sdk.services.monitor.apis.DescribeCustomMetricDataRequest import DescribeCustomMetricDataRequest
+            params_dict = collect_user_args(self.app)
+            headers = collect_user_headers(self.app)
+            req = DescribeCustomMetricDataRequest(params_dict, headers)
+            resp = client.send(req)
+            Printer.print_result(resp)
+        except ImportError:
+            print('{"error":"This api is not supported, please use the newer version"}')
+        except Exception as e:
+            print(e)
+
+    @expose(
+        arguments=[
+            (['--api'], dict(help="""(string) api name """, choices=['describe-alarms','create-alarm','describe-alarm','update-alarm','delete-alarms','describe-alarm-contacts','describe-metrics-for-alarm','describe-products-for-alarm','enable-alarms','describe-alarm-history','describe-metrics','last-downsample','describe-metric-data','describe-tag-values','describe-services','put-product-metric-data','put-product-metric-data','put-custom-metric-data','put-custom-metric-data','describe-custom-metric-data',], required=True)),
         ],
         formatter_class=RawTextHelpFormatter,
         help=''' 生成单个API接口的json骨架空字符串 ''',

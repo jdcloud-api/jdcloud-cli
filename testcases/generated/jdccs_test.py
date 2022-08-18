@@ -23,33 +23,6 @@ import json
 
 class JdccsTest(unittest.TestCase):
 
-    def test_describe_alarms(self):
-        cmd = """python ../../main.py jdccs describe-alarms """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_alarm(self):
-        cmd = """python ../../main.py jdccs describe-alarm  --alarm-id 'xxx'"""
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_alarm_history(self):
-        cmd = """python ../../main.py jdccs describe-alarm-history """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
     def test_describe_metrics(self):
         cmd = """python ../../main.py jdccs describe-metrics """
         with os.popen(cmd) as f:
@@ -97,6 +70,132 @@ class JdccsTest(unittest.TestCase):
 
     def test_describe_traffic_sampling(self):
         cmd = """python ../../main.py jdccs describe-traffic-sampling  --resource-id 'xxx' --start-time '5' --end-time '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_open_devices(self):
+        cmd = """python ../../main.py jdccs describe-open-devices """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_open_devices_data(self):
+        cmd = """python ../../main.py jdccs describe-open-devices-data  --device-type 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_rangetime_cabinet_current(self):
+        cmd = """python ../../main.py jdccs describe-rangetime-cabinet-current  --idc 'xxx' --resource-id 'xxx' --start-time '5' --end-time '5'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_realtime_cabinet_current(self):
+        cmd = """python ../../main.py jdccs describe-realtime-cabinet-current  --idc 'xxx' --resource-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_alarms(self):
+        cmd = """python ../../main.py jdccs describe-alarms """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_alarm(self):
+        cmd = """python ../../main.py jdccs create-alarm """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_alarm(self):
+        cmd = """python ../../main.py jdccs describe-alarm  --alarm-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_update_alarm(self):
+        cmd = """python ../../main.py jdccs update-alarm  --alarm-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_delete_alarm(self):
+        cmd = """python ../../main.py jdccs delete-alarm  --alarm-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_alarm_history(self):
+        cmd = """python ../../main.py jdccs describe-alarm-history """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_switch_alarm(self):
+        cmd = """python ../../main.py jdccs switch-alarm  --alarm-id 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_tickets(self):
+        cmd = """python ../../main.py jdccs describe-tickets """
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_describe_ticket(self):
+        cmd = """python ../../main.py jdccs describe-ticket  --ticket-no 'xxx'"""
+        with os.popen(cmd) as f:
+            content = f.read()
+
+        print(content)
+        result = json.loads(content)
+        self.assertIsInstance(result, dict)
+
+    def test_create_general_services_ticket(self):
+        cmd = """python ../../main.py jdccs create-general-services-ticket """
         with os.popen(cmd) as f:
             content = f.read()
 
@@ -185,17 +284,8 @@ class JdccsTest(unittest.TestCase):
         result = json.loads(content)
         self.assertIsInstance(result, dict)
 
-    def test_describe_tickets(self):
-        cmd = """python ../../main.py jdccs describe-tickets """
-        with os.popen(cmd) as f:
-            content = f.read()
-
-        print(content)
-        result = json.loads(content)
-        self.assertIsInstance(result, dict)
-
-    def test_describe_ticket(self):
-        cmd = """python ../../main.py jdccs describe-ticket  --ticket-no 'xxx'"""
+    def test_describe_idc_overview(self):
+        cmd = """python ../../main.py jdccs describe-idc-overview  --idc 'xxx'"""
         with os.popen(cmd) as f:
             content = f.read()
 

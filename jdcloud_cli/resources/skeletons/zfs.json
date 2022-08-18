@@ -1,39 +1,4 @@
 {
-    "describe-file-systems":{
-        "pageNumber":"",
-        "pageSize":"",
-        "tags":[{
-            "key":"",
-            "values":""
-        }],
-        "filters":[{
-            "name":"",
-            "operator":"",
-            "values":""
-        }],
-        "regionId":""
-    },
-    "create-file-system":{
-        "name":"",
-        "description":"",
-        "clientToken":"",
-        "fileSystemType":"",
-        "regionId":""
-    },
-    "describe-file-system":{
-        "regionId":"",
-        "fileSystemId":""
-    },
-    "modify-file-system-attribute":{
-        "name":"",
-        "description":"",
-        "regionId":"",
-        "fileSystemId":""
-    },
-    "delete-file-system":{
-        "regionId":"",
-        "fileSystemId":""
-    },
     "describe-mount-targets":{
         "pageNumber":"",
         "pageSize":"",
@@ -59,5 +24,41 @@
     "delete-mount-target":{
         "regionId":"",
         "mountTargetId":""
+    },
+    "describe-file-systems":{
+        "pageNumber":"",
+        "pageSize":"",
+        "tags":[{
+            "key":"",
+            "values":""
+        }],
+        "filters":[{
+            "name":"",
+            "operator":"",
+            "values":""
+        }],
+        "regionId":""
+    },
+    "create-file-system":{
+        "name":"",
+        "description":"",
+        "clientToken":"",
+        "fileSystemType":"",
+        "serviceCode":"",
+        "regionId":""
+    },
+    "describe-file-system":{
+        "regionId":"",
+        "fileSystemId":""
+    },
+    "modify-file-system-attribute":{
+        "name":"",
+        "description":"",
+        "regionId":"",
+        "fileSystemId":""
+    },
+    "delete-file-system":{
+        "regionId":"",
+        "fileSystemId":""
     },
 }

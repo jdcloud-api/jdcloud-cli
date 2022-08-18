@@ -1,48 +1,4 @@
 {
-    "describe-job":{
-        "jobId":"",
-        "namespaceId":"",
-        "regionId":""
-    },
-    "add-or-update-job":{
-        "jobStr":{
-            "namespaceId":"",
-            "name":"",
-            "description":"",
-            "resourceConsume":"",
-            "id":"",
-            "uid":"",
-            "status":"",
-            "duration":"",
-            "appName":"",
-            "deleted":"",
-            "createTime":"",
-            "updateTime":"",
-            "userName":"",
-            "sqlStatement":"",
-            "jobType":""
-        },
-        "regionId":""
-    },
-    "delete-job":{
-        "namespaceId":"",
-        "jobId":"",
-        "regionId":""
-    },
-    "get-job-list":{
-        "namespaceId":"",
-        "regionId":""
-    },
-    "start-job":{
-        "namespaceId":"",
-        "jobId":"",
-        "regionId":""
-    },
-    "stop-job":{
-        "namespaceId":"",
-        "jobId":"",
-        "regionId":""
-    },
     "query-namespaces":{
         "keyword":"",
         "regionId":""
@@ -118,6 +74,50 @@
     "get-storage-list":{
         "storageType":"",
         "namespaceId":"",
+        "regionId":""
+    },
+    "describe-job":{
+        "jobId":"",
+        "namespaceId":"",
+        "regionId":""
+    },
+    "add-or-update-job":{
+        "jobStr":{
+            "namespaceId":"",
+            "name":"",
+            "description":"",
+            "resourceConsume":"",
+            "id":"",
+            "uid":"",
+            "status":"",
+            "duration":"",
+            "appName":"",
+            "deleted":"",
+            "createTime":"",
+            "updateTime":"",
+            "userName":"",
+            "sqlStatement":"",
+            "jobType":""
+        },
+        "regionId":""
+    },
+    "delete-job":{
+        "namespaceId":"",
+        "jobId":"",
+        "regionId":""
+    },
+    "get-job-list":{
+        "namespaceId":"",
+        "regionId":""
+    },
+    "start-job":{
+        "namespaceId":"",
+        "jobId":"",
+        "regionId":""
+    },
+    "stop-job":{
+        "namespaceId":"",
+        "jobId":"",
         "regionId":""
     },
 }
